@@ -92,7 +92,7 @@ void		E3TriangleStripElement_Remove( TQ3Object ioObject );
 	@function	E3SpecularMapElement_Copy
 	@abstract	Retrieve a specular map texture from an object.
 	@param		shader		An object, normally a surface shader.
-	@result		A new reference to a texture, or NULL.
+	@result		A new reference to a texture, or nullptr.
 */
 TQ3TextureObject	E3SpecularMapElement_Copy( TQ3ShaderObject shader );
 
@@ -100,7 +100,7 @@ TQ3TextureObject	E3SpecularMapElement_Copy( TQ3ShaderObject shader );
 	@function	E3SpecularMapElement_Set
 	@abstract	Set or remove a specular map.
 	@param		shader		A surface shader.
-	@param		texture		A texture object, or NULL to remove.
+	@param		texture		A texture object, or nullptr to remove.
 */
 void				E3SpecularMapElement_Set( TQ3ShaderObject shader, TQ3TextureObject texture );
 

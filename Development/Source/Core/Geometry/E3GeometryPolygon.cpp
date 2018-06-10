@@ -81,7 +81,7 @@ e3geom_polygon_gather_vertex_attribute(const void *userData, TQ3Uns32 setIndex)
 
 
 	// Validate our parameters
-	Q3_REQUIRE_OR_RESULT(setIndex < geomData->numVertices, NULL);
+	Q3_REQUIRE_OR_RESULT(setIndex < geomData->numVertices, nullptr);
 
 
 
@@ -158,12 +158,12 @@ e3geom_polygon_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 	qd3dStatus = Q3Polygon_GetData(fromObject, toInstanceData);
 	
 	if ( (qd3dStatus == kQ3Success) &&
-		(toInstanceData->polygonAttributeSet != NULL) )
+		(toInstanceData->polygonAttributeSet != nullptr) )
 	{
 		dupSet = Q3Object_Duplicate( toInstanceData->polygonAttributeSet );
 		Q3Object_Dispose( toInstanceData->polygonAttributeSet );
 		toInstanceData->polygonAttributeSet = dupSet;
-		if (dupSet == NULL)
+		if (dupSet == nullptr)
 		{
 			qd3dStatus = kQ3Failure;
 		}
@@ -205,13 +205,13 @@ e3geom_polygon_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const
 	theTriangles = (TQ3TriMeshTriangleData *) Q3Memory_Allocate(static_cast<TQ3Uns32>(numTriangles * sizeof(TQ3TriMeshTriangleData)));
 	theEdges     = (TQ3TriMeshEdgeData *)     Q3Memory_Allocate(static_cast<TQ3Uns32>(numEdges     * sizeof(TQ3TriMeshEdgeData)));
 
-	if (thePoints == NULL || theTriangles == NULL || theEdges == NULL)
+	if (thePoints == nullptr || theTriangles == nullptr || theEdges == nullptr)
 		{
 		Q3Memory_Free(&thePoints);
 		Q3Memory_Free(&theTriangles);
 		Q3Memory_Free(&theEdges);
 		
-		return(NULL);
+		return(nullptr);
 		}
 
 
@@ -246,13 +246,13 @@ e3geom_polygon_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const
 	triMeshData.numTriangles              = numTriangles;
 	triMeshData.triangles                 = theTriangles;
 	triMeshData.numTriangleAttributeTypes = 0;
-	triMeshData.triangleAttributeTypes    = NULL;
+	triMeshData.triangleAttributeTypes    = nullptr;
 	triMeshData.numEdges                  = numEdges;
 	triMeshData.edges                     = theEdges;
 	triMeshData.numEdgeAttributeTypes     = 0;
-	triMeshData.edgeAttributeTypes        = NULL;
+	triMeshData.edgeAttributeTypes        = nullptr;
 	triMeshData.numVertexAttributeTypes   = 0;
-	triMeshData.vertexAttributeTypes      = NULL;
+	triMeshData.vertexAttributeTypes      = nullptr;
 	triMeshData.triMeshAttributeSet       = geomData->polygonAttributeSet;
 
 	Q3BoundingBox_SetFromPoints3D(&triMeshData.bBox, triMeshData.points, triMeshData.numPoints, sizeof(TQ3Point3D));
@@ -325,7 +325,7 @@ e3geom_polygon_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const
 
 	// Create the TriMesh
 	theTriMesh = Q3TriMesh_New(&triMeshData);
-	if (theTriMesh != NULL)
+	if (theTriMesh != nullptr)
 		{
 		theOrientation = E3View_State_GetStyleOrientation(theView);
 		E3TriMesh_AddTriangleNormals(theTriMesh, theOrientation);
@@ -391,7 +391,7 @@ e3geom_polygon_get_attribute(TQ3GeometryObject theObject)
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3geom_polygon_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -518,7 +518,7 @@ E3Polygon_SetData ( TQ3GeometryObject thePolygon, const TQ3PolygonData *polygonD
 
 	// Allocate some space for the new vertices
 	TQ3Vertex3D* newVertices = (TQ3Vertex3D *) Q3Memory_Allocate(static_cast<TQ3Uns32>(polygonData->numVertices * sizeof(TQ3Vertex3D)));
-	if (newVertices == NULL)
+	if (newVertices == nullptr)
 		return(kQ3Failure);
 
 
@@ -564,7 +564,7 @@ E3Polygon_GetData ( TQ3GeometryObject thePolygon, TQ3PolygonData *polygonData )
 
 	// Allocate some space for the new vertices
 	TQ3Vertex3D* newVertices = (TQ3Vertex3D *) Q3Memory_Allocate ( static_cast<TQ3Uns32>(poly->instanceData.numVertices * sizeof ( TQ3Vertex3D )) ) ;
-	if (newVertices == NULL)
+	if (newVertices == nullptr)
 		return(kQ3Failure);
 
 

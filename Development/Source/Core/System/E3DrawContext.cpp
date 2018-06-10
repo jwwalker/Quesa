@@ -87,8 +87,8 @@ E3DrawContextInfo::E3DrawContextInfo	(
 		updateMethod		( (TQ3XDrawContextUpdateMethod)			Find_Method ( kQ3XMethodTypeDrawContextUpdate ) ) ,		 
 		getDimensionsMethod	( (TQ3XDrawContextGetDimensionsMethod)	Find_Method ( kQ3XMethodTypeDrawContextGetDimensions ) )		 
 	{
-	if ( updateMethod == NULL 
-	|| getDimensionsMethod == NULL )
+	if ( updateMethod == nullptr 
+	|| getDimensionsMethod == nullptr )
 		SetAbstract () ;
 	}
 
@@ -175,7 +175,7 @@ e3drawcontext_pixmap_get_dimensions(TQ3DrawContextObject theDrawContext, TQ3Area
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3drawcontext_pixmap_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -248,7 +248,7 @@ e3drawcontext_metahandler ( TQ3XMethodType methodType )
 			return (TQ3XFunctionPointer) e3drawcontext_get_dimensions;
 		}
 	
-	return NULL ;
+	return nullptr ;
 	}
 
 
@@ -261,7 +261,7 @@ e3drawcontext_metahandler ( TQ3XMethodType methodType )
 static TQ3DrawContextObject
 e3drawcontext_pixmap_newwithpixmap( const TQ3Pixmap* inPixmap )
 {
-	TQ3DrawContextObject theDC = NULL;
+	TQ3DrawContextObject theDC = nullptr;
 	TQ3PixmapDrawContextData dcData;
 	dcData.pixmap = *inPixmap;
 	dcData.drawContextData.clearImageMethod = kQ3ClearMethodNone;
@@ -418,7 +418,7 @@ E3DrawContext_InitialiseData(TQ3DrawContextData *drawContextData)
 TQ3DrawContextObject
 E3DrawContext_New(TQ3ObjectType drawContextType, void *drawContextTarget)
 {
-	TQ3DrawContextObject		drawContext = NULL;
+	TQ3DrawContextObject		drawContext = nullptr;
 
 
 
@@ -877,7 +877,7 @@ E3DrawContext_GetDoubleBufferState(TQ3DrawContextObject drawContext, TQ3Boolean 
 TQ3Boolean
 E3DrawContext_IsOfMyClass ( TQ3Object object )
 	{
-	if ( object == NULL )
+	if ( object == nullptr )
 		return kQ3False ;
 		
 	if ( object->IsObjectValid () )

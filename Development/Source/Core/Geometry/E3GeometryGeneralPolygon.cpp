@@ -133,21 +133,21 @@ e3geom_generalpolygon_copydata( const TQ3GeneralPolygonData* src,
 	// Allocate some space for the new contours
 	dst->contours = (TQ3GeneralPolygonContourData *)
 		Q3Memory_Allocate(static_cast<TQ3Uns32>(src->numContours * sizeof(TQ3GeneralPolygonContourData)));
-	if (dst->contours == NULL)
+	if (dst->contours == nullptr)
 		return (kQ3Failure);
 
 	
 	// Copy non-contour fields
 	dst->numContours = src->numContours;
 	dst->shapeHint = src->shapeHint;
-	if (src->generalPolygonAttributeSet == NULL)
+	if (src->generalPolygonAttributeSet == nullptr)
 	{
-		dst->generalPolygonAttributeSet = NULL;
+		dst->generalPolygonAttributeSet = nullptr;
 	}
 	else if (isDuplicate)
 	{
 		dst->generalPolygonAttributeSet = Q3Object_Duplicate( src->generalPolygonAttributeSet );
-		if (dst->generalPolygonAttributeSet == NULL)
+		if (dst->generalPolygonAttributeSet == nullptr)
 			qd3dStatus = kQ3Failure;
 	}
 	else
@@ -162,7 +162,7 @@ e3geom_generalpolygon_copydata( const TQ3GeneralPolygonData* src,
 		dst->contours[ contourIndex ].numVertices = src->contours[ contourIndex ].numVertices;
 		dst->contours[ contourIndex ].vertices = (TQ3Vertex3D *) Q3Memory_Allocate(
 			static_cast<TQ3Uns32>(src->contours[ contourIndex ].numVertices * sizeof(TQ3Vertex3D)) );
-		if (dst->contours[ contourIndex ].vertices == NULL)
+		if (dst->contours[ contourIndex ].vertices == nullptr)
 		{
 			qd3dStatus = kQ3Failure;
 		}
@@ -175,9 +175,9 @@ e3geom_generalpolygon_copydata( const TQ3GeneralPolygonData* src,
 				dst->contours[ contourIndex ].vertices[vertexIndex].point =
 					src->contours[ contourIndex ].vertices[vertexIndex].point;
 				
-				if (src->contours[ contourIndex ].vertices[vertexIndex].attributeSet == NULL)
+				if (src->contours[ contourIndex ].vertices[vertexIndex].attributeSet == nullptr)
 				{
-					dst->contours[ contourIndex ].vertices[vertexIndex].attributeSet = NULL;
+					dst->contours[ contourIndex ].vertices[vertexIndex].attributeSet = nullptr;
 				}
 				else if (isDuplicate)
 				{
@@ -185,7 +185,7 @@ e3geom_generalpolygon_copydata( const TQ3GeneralPolygonData* src,
 						Q3Object_Duplicate(
 							src->contours[ contourIndex ].vertices[vertexIndex].attributeSet );
 					
-					if (dst->contours[ contourIndex ].vertices[vertexIndex].attributeSet == NULL)
+					if (dst->contours[ contourIndex ].vertices[vertexIndex].attributeSet == nullptr)
 						qd3dStatus = kQ3Failure;
 				}
 				else
@@ -258,14 +258,14 @@ e3geom_generalpolygon_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom
 	//
 	// For now we can simply cast between the two structures, since they are identical - we
 	// assert this to make sure, since TQ3Contour is internal at present and so may change.
-	Q3_REQUIRE_OR_RESULT(sizeof(TQ3Contour) == sizeof(TQ3GeneralPolygonContourData), NULL);
+	Q3_REQUIRE_OR_RESULT(sizeof(TQ3Contour) == sizeof(TQ3GeneralPolygonContourData), nullptr);
 	theContours = (TQ3Contour *) geomData->contours;
 
 
 
 	// Tessellate the polygon
 	theTriMesh = E3Tessellate_Contours(geomData->numContours, theContours, geomData->generalPolygonAttributeSet);	
-	if (theTriMesh != NULL)
+	if (theTriMesh != nullptr)
 		{
 		theOrientation = E3View_State_GetStyleOrientation(theView);
 		E3TriMesh_AddTriangleNormals(theTriMesh, theOrientation);
@@ -325,7 +325,7 @@ e3geom_generalpolygon_get_attribute ( E3GeneralPolygon* generalPolygon )
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3geom_generalpolygon_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 

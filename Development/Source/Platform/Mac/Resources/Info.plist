@@ -2,8 +2,16 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>Quesa</string>
+	<key>CFBundleGetInfoString</key>
+	<string>kQ3UnquotedStringVersion ©2012 Quesa Developers</string>
 	<key>CFBundleIdentifier</key>
-	<string>org.Quesa.Quesa</string>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
 	<key>CFBundleName</key>
 	<string>Quesa</string>
 	<key>CFBundlePackageType</key>
@@ -12,13 +20,5 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>kQ3UnquotedStringVersion</string>
-	<key>CFBundleGetInfoString</key>
-	<string>kQ3UnquotedStringVersion ©2012 Quesa Developers</string>
-	<key>CFBundleDevelopmentRegion</key>
-	<string>English</string>
-	<key>CFBundleInfoDictionaryVersion</key>
-	<string>6.0</string>
-	<key>CFBundleExecutable</key>
-	<string>Quesa</string>
 </dict>
 </plist>

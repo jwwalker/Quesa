@@ -100,13 +100,13 @@ e3ffw_3DMF_filter_in_toc(TE3FFormatW3DMF_Data *fileFormatPrivate,  TQ3Object the
 		
 	// if this is the first time allocate the TOC
 	
-	if(toc == NULL)
+	if(toc == nullptr)
 		{
 		tocSize = sizeof(TE3FFormat3DMF_TOC) + 
 				(sizeof(TE3FFormat3DMF_TOCEntry) * (TOC_GROW_SIZE - 1));
 				
 		toc = fileFormatPrivate->toc = (TE3FFormat3DMF_TOC*) Q3Memory_AllocateClear(tocSize);
-		if(toc == NULL)
+		if(toc == nullptr)
 			return (kQ3Failure);
 			
 		toc->refSeed = 1;
@@ -114,7 +114,7 @@ e3ffw_3DMF_filter_in_toc(TE3FFormatW3DMF_Data *fileFormatPrivate,  TQ3Object the
 		
 		}
 	
-	if (fileFormatPrivate->index == NULL)
+	if (fileFormatPrivate->index == nullptr)
 	{
 		fileFormatPrivate->index = new TE3FFormatW3DMF_Map;
 	}
@@ -200,7 +200,7 @@ E3FFW_3DMF_type_Traverse( TQ3Object object, void *data, TQ3ViewObject view )
 	
 	// Find the class and class name.
 	E3ClassInfoPtr theClass = E3ClassTree::GetClass ( customType ) ;
-	if ( theClass != NULL )
+	if ( theClass != nullptr )
 		{
 		const char* className = theClass->GetName () ;
 		
@@ -208,7 +208,7 @@ E3FFW_3DMF_type_Traverse( TQ3Object object, void *data, TQ3ViewObject view )
 		TQ3Uns32 size = static_cast<TQ3Uns32>(Q3Size_Pad( static_cast<TQ3Uns32>(strlen(className) + 1) ) + sizeof ( TQ3ObjectType ));
 		
 		// Put data on the stack.
-		return Q3XView_SubmitWriteData ( view, size, data, NULL ) ;
+		return Q3XView_SubmitWriteData ( view, size, data, nullptr ) ;
 		}
 	
 	return kQ3Failure ;
@@ -230,7 +230,7 @@ E3FFW_3DMF_type_Write( const void *data, TQ3FileObject file )
 	
 	// Find the class and class name.
 	E3ClassInfoPtr theClass = E3ClassTree::GetClass ( customType ) ;
-	if ( theClass != NULL )
+	if ( theClass != nullptr )
 		{
 		const char* className = theClass->GetName () ;
 		
@@ -257,7 +257,7 @@ e3ffw_3DMF_write_custom_types( TQ3ViewObject				theView,
 	TQ3Status	status = kQ3Success ;
 	
 	
-	Q3_REQUIRE_OR_RESULT( theClass != NULL, kQ3Failure ) ;
+	Q3_REQUIRE_OR_RESULT( theClass != nullptr, kQ3Failure ) ;
 
 
 	// If this is a custom class with instances, we need to write a type object
@@ -265,7 +265,7 @@ e3ffw_3DMF_write_custom_types( TQ3ViewObject				theView,
 	TQ3ObjectType theType = theClass->GetType () ;
 	
 	if ( ( theType < 0 ) && ( theClass->GetNumInstances () > 0 ) )
-		status = E3FFW_3DMF_TraverseObject ( theView, fileFormatPrivate, NULL,
+		status = E3FFW_3DMF_TraverseObject ( theView, fileFormatPrivate, nullptr,
 			kQ3ObjectTypeType, (const void*)&theType ) ;
 	
 	
@@ -298,7 +298,7 @@ E3FFW_3DMF_StartFile(TQ3ViewObject				theView,
 {
 #pragma unused(theDrawContext)
   	TQ3Status status = fileFormatPrivate->baseData.currentStoragePosition > 0 ? kQ3Success :
-  						E3FFW_3DMF_TraverseObject (theView, fileFormatPrivate, NULL, kQ3ObjectType3DMF, fileFormatPrivate);
+  						E3FFW_3DMF_TraverseObject (theView, fileFormatPrivate, nullptr, kQ3ObjectType3DMF, fileFormatPrivate);
 	
 	
 	if (status == kQ3Success)
@@ -329,10 +329,10 @@ E3FFW_3DMF_EndPass(TQ3ViewObject				theView,
 	TQ3Uns64 				pos = {0,0};
 	TQ3FileObject 			theFile = E3View_AccessFile (theView);
 	
-	if(toc != NULL) // write the toc
+	if(toc != nullptr) // write the toc
 		{
 		pos.lo = fileFormatPrivate->baseData.currentStoragePosition;
-		status = E3FFW_3DMF_TraverseObject (theView, fileFormatPrivate, NULL, kQ3ObjectTypeTOC, fileFormatPrivate);
+		status = E3FFW_3DMF_TraverseObject (theView, fileFormatPrivate, nullptr, kQ3ObjectTypeTOC, fileFormatPrivate);
 		
 		if((status == kQ3Success) && (pos.lo != fileFormatPrivate->baseData.currentStoragePosition))// something has been written 
 			{
@@ -386,7 +386,7 @@ E3FFW_3DMF_Group(TQ3ViewObject       theView,
 	
  	// submit the group contents
 	for(Q3Group_GetFirstPosition (theGroup, &position);
-		(position != NULL) && (qd3dStatus == kQ3Success);
+		(position != nullptr) && (qd3dStatus == kQ3Success);
 		Q3Group_GetNextPosition (theGroup, &position))
 		{
 		qd3dStatus = Q3Group_GetPositionObject (theGroup, position, &subObject);
@@ -400,7 +400,7 @@ E3FFW_3DMF_Group(TQ3ViewObject       theView,
  	// submit the group end tag
 	if(qd3dStatus == kQ3Success)
 		qd3dStatus = E3FFW_3DMF_TraverseObject (theView,
-			(TE3FFormatW3DMF_Data*)fileFormatPrivate, NULL, 0x656E6467 /* endg - EndGroup*/, NULL);
+			(TE3FFormatW3DMF_Data*)fileFormatPrivate, nullptr, 0x656E6467 /* endg - EndGroup*/, nullptr);
 
 
     return(qd3dStatus);
@@ -434,11 +434,11 @@ E3FFW_3DMF_Close( TQ3FileFormatObject format, TQ3Boolean abort )
 	TE3FFormat3DMF_TOC		*toc = instanceData->toc;
 	TQ3Uns32				i;
 	
-	if(toc != NULL) // delete the toc
+	if(toc != nullptr) // delete the toc
 		{
 		for(i = 0; i < toc->nEntries; i++)
 			{
-			if(toc->tocEntries[i].object != NULL)
+			if(toc->tocEntries[i].object != nullptr)
 				{
 				Q3Object_Dispose(toc->tocEntries[i].object);
 				}
@@ -446,7 +446,7 @@ E3FFW_3DMF_Close( TQ3FileFormatObject format, TQ3Boolean abort )
 		Q3Memory_Free(&instanceData->toc);
 		}
 	
-	if (instanceData->index != NULL)
+	if (instanceData->index != nullptr)
 	{
 		delete instanceData->index;
 	}
@@ -555,7 +555,7 @@ e3ffw_3DMF_write_objects(TE3FFormatW3DMF_Data *instanceData, TQ3FileObject theFi
 				pos = instanceData->baseData.currentStoragePosition;
 	#endif
 				//call write method
-				if((instanceData->stack[i].writeMethod != NULL) && (qd3dStatus == kQ3Success))
+				if((instanceData->stack[i].writeMethod != nullptr) && (qd3dStatus == kQ3Success))
 					qd3dStatus = instanceData->stack[i].writeMethod(instanceData->stack[i].data,theFile);
 					
 				//assert storage position
@@ -565,12 +565,12 @@ e3ffw_3DMF_write_objects(TE3FFormatW3DMF_Data *instanceData, TQ3FileObject theFi
 				Q3_ASSERT(pos+instanceData->stack[i].size == instanceData->baseData.currentStoragePosition);
 				}
 			//call deletedata if any
-			if (instanceData->stack[i].theObject != NULL && Q3Object_IsType(instanceData->stack[i].theObject, kQ3ObjectTypeShared))
-				E3Shared_Replace(&instanceData->stack[i].theObject,NULL);
+			if (instanceData->stack[i].theObject != nullptr && Q3Object_IsType(instanceData->stack[i].theObject, kQ3ObjectTypeShared))
+				E3Shared_Replace(&instanceData->stack[i].theObject,nullptr);
 			else
-				instanceData->stack[i].theObject = NULL;
+				instanceData->stack[i].theObject = nullptr;
 				
-			if(instanceData->stack[i].deleteData != NULL)
+			if(instanceData->stack[i].deleteData != nullptr)
 				instanceData->stack[i].deleteData(instanceData->stack[i].data);
 			
 		}
@@ -620,7 +620,7 @@ e3ffw_3DMF_TraverseObject_CheckRef(TQ3ViewObject			theView,
 	TQ3ObjectType	old_lastObjectType;
 	TQ3Object		old_lastObject;
 	TQ3Uns32		old_lastTocIndex;
-	E3ClassInfoPtr theClass = NULL;
+	E3ClassInfoPtr theClass = nullptr;
 	TQ3XObjectTraverseMethod traverse;
 	TQ3FileObject theFile = E3View_AccessFile (theView);
 	
@@ -637,7 +637,7 @@ e3ffw_3DMF_TraverseObject_CheckRef(TQ3ViewObject			theView,
 	submittedObject = theObject;
 	
 	//find the object traverse method
-	if(theObject != NULL){
+	if(theObject != nullptr){
 		if(Q3Object_IsType(theObject, kQ3ObjectTypeShared))
 			{
 			if(e3ffw_3DMF_filter_in_toc(fileFormatPrivate, theObject, &submittedObject) != kQ3Success)
@@ -656,13 +656,13 @@ e3ffw_3DMF_TraverseObject_CheckRef(TQ3ViewObject			theView,
 	else
 		theClass = E3ClassTree::GetClass ( objectType ) ;
 	
-	if (theClass == NULL)
+	if (theClass == nullptr)
 		goto exit;
 
 	
 	traverse = (TQ3XObjectTraverseMethod)
 					theClass->GetMethod ( kQ3XMethodTypeObjectTraverse ) ;
-	if (traverse == NULL)
+	if (traverse == nullptr)
 		goto exit;
 
 	// mark our level
@@ -674,7 +674,7 @@ e3ffw_3DMF_TraverseObject_CheckRef(TQ3ViewObject			theView,
 	
 	// If this is a shape, submit any custom elements attached to it.
 	// This saves each shape traversal method from worrying about it.
-	if ( (qd3dStatus == kQ3Success) && (submittedObject != NULL) &&
+	if ( (qd3dStatus == kQ3Success) && (submittedObject != nullptr) &&
 		Q3Object_IsType( submittedObject, kQ3SharedTypeShape ) )
 		{
 		qd3dStatus = E3Shape_SubmitElements( submittedObject, theView );
@@ -698,7 +698,7 @@ exit:
 	fileFormatPrivate->lastObject = old_lastObject;
 	fileFormatPrivate->lastTocIndex = old_lastTocIndex;
 
-	if(submittedObject != NULL && Q3Object_IsType(submittedObject, kQ3ObjectTypeShared))
+	if(submittedObject != nullptr && Q3Object_IsType(submittedObject, kQ3ObjectTypeShared))
 		{
 		// remove the reference made by e3ffw_3DMF_filter_in_toc
 		Q3Object_Dispose(submittedObject);
@@ -717,11 +717,11 @@ TQ3Status
 E3XView_SubmitWriteData(TQ3ViewObject view, TQ3Size size, void *data, TQ3XDataDeleteMethod deleteData)
 {
 	TQ3FileFormatObject		theFormat;
-	E3ClassInfoPtr 			theClass = NULL;
+	E3ClassInfoPtr 			theClass = nullptr;
 	TE3FFormatW3DMF_Data	*instanceData;
 	TQ33DMFWStackItem		*newItem;
 	TQ3Status				qd3dStatus;
-	TQ3XObjectWriteMethod	writeMethod = NULL;
+	TQ3XObjectWriteMethod	writeMethod = nullptr;
 
 	// Validate our parameters
 	Q3_ASSERT_VALID_PTR(view);
@@ -740,7 +740,7 @@ E3XView_SubmitWriteData(TQ3ViewObject view, TQ3Size size, void *data, TQ3XDataDe
 		Q3_ASSERT_VALID_PTR(theClass);
 	
 		writeMethod = (TQ3XObjectWriteMethod) theClass->GetMethod ( kQ3XMethodTypeObjectWrite ) ;
-		if (writeMethod == NULL)
+		if (writeMethod == nullptr)
 			return(kQ3Failure);
 		}
 
@@ -759,7 +759,7 @@ E3XView_SubmitWriteData(TQ3ViewObject view, TQ3Size size, void *data, TQ3XDataDe
 	newItem->level = instanceData->baseData.groupDeepCounter-1;
 	newItem->objectType = instanceData->lastObjectType;
 	// retain objects that could be created and disposed on the fly in a parents' traverse method
-	if (instanceData->lastObject != NULL && Q3Object_IsType(instanceData->lastObject, kQ3ObjectTypeShared))
+	if (instanceData->lastObject != nullptr && Q3Object_IsType(instanceData->lastObject, kQ3ObjectTypeShared))
 		E3Shared_Acquire (&newItem->theObject, instanceData->lastObject);
 	else
 		newItem->theObject = instanceData->lastObject;
@@ -847,7 +847,7 @@ E3FFW_3DMF_Void_Traverse(TQ3Object object,
 	#pragma unused(object)
 	#pragma unused(data)
 	
-	TQ3Status qd3dstatus = Q3XView_SubmitWriteData (view, 0, NULL, NULL);
+	TQ3Status qd3dstatus = Q3XView_SubmitWriteData (view, 0, nullptr, nullptr);
 	
 	return qd3dstatus;
 }
@@ -865,7 +865,7 @@ E3FFW_3DMF_32_Traverse(TQ3Object object,
 {
 	#pragma unused(object)
 	
-	TQ3Status qd3dstatus = Q3XView_SubmitWriteData (view, 4, data, NULL);
+	TQ3Status qd3dstatus = Q3XView_SubmitWriteData (view, 4, data, nullptr);
 	
 	return qd3dstatus;
 }
@@ -912,7 +912,7 @@ E3FFW_3DMF_Traverse(TQ3Object object,
 {
 	#pragma unused(object)
 	
-	TQ3Status qd3dstatus = Q3XView_SubmitWriteData (view, 16, data, NULL);
+	TQ3Status qd3dstatus = Q3XView_SubmitWriteData (view, 16, data, nullptr);
 	
 	return qd3dstatus;
 }
@@ -1001,7 +1001,7 @@ E3FFW_3DMF_TOC_Traverse(TQ3Object object,
 	tocSize *= tocEntrySize;
 	tocSize += 28;
 	
-	return Q3XView_SubmitWriteData (view, tocSize, data, NULL);
+	return Q3XView_SubmitWriteData (view, tocSize, data, nullptr);
 	
 }
 
@@ -1081,12 +1081,12 @@ E3FFW_3DMF_DisplayGroup_Traverse(TQ3Object object,
 				kQ3DisplayGroupStateMaskIsWritten;
 	
 	
-	TQ3Status qd3dStatus = Q3XView_SubmitWriteData (view, 0, NULL, NULL);
+	TQ3Status qd3dStatus = Q3XView_SubmitWriteData (view, 0, nullptr, nullptr);
 	
 	if(qd3dStatus != kQ3Success)
 		return qd3dStatus;
 			
-	if(object != NULL){
+	if(object != nullptr){
 		qd3dStatus = Q3DisplayGroup_GetState(object, &state);
 		
 		if(qd3dStatus != kQ3Success)
@@ -1122,7 +1122,7 @@ E3FFW_3DMF_DisplayGroup_Traverse(TQ3Object object,
 					
 				displayGroupStateClass = Q3XObjectHierarchy_FindClassByType (kQ3ObjectTypeDisplayGroupState);
 				
-				if(displayGroupStateClass != NULL)
+				if(displayGroupStateClass != nullptr)
 					qd3dStatus = Q3XView_SubmitSubObjectData (view, displayGroupStateClass, 4, writeState, E3FFW_3DMF_Default_Delete);
 				}
 			else{
@@ -1143,7 +1143,7 @@ E3FFW_3DMF_DisplayGroup_Traverse(TQ3Object object,
 				
 				// Note that we do not write the bounding box isEmpty flag, hence we do not use
 				// sizeof( TQ3BoundingBox ) as the size.
-				if (displayGroupBoxClass != NULL)
+				if (displayGroupBoxClass != nullptr)
 					qd3dStatus = Q3XView_SubmitSubObjectData( view, displayGroupBoxClass,
 						2 * sizeof(TQ3Point3D), writeBoxData, E3FFW_3DMF_Default_Delete );
 				}
@@ -1173,7 +1173,7 @@ TQ3Status
 E3FFW_3DMF_CString_Traverse(TQ3Object object,  void *data,  TQ3ViewObject view)
 {
 	#pragma unused(data)
-	char*	theString = NULL;
+	char*	theString = nullptr;
 	TQ3Status	theStatus;
 	TQ3Size	size;
 	

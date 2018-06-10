@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
     "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
-<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a[name]:hover {text-decoration: inherit; font-family: inherit; font-size: inherit}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
     <title>QuesaPick.h</title>
 	 <meta name="generator" content="HeaderDoc">
 </head><body bgcolor="#ffffff">
@@ -177,6 +177,25 @@ returns kQ3ObjectTypeInvalid.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Pick_GetFaceTolerance"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Pick_GetFaceTolerance">Q3Pick_GetFaceTolerance</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Pick_GetFaceTolerance (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickObject pick,
+&nbsp;&nbsp;&nbsp;&nbsp;float *faceTolerance
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the face tolerance of a pick object.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>pick</em></tt></dt><dd>The pick object to query.</dd>
+<dt><tt><em>faceTolerance</em></tt></dt><dd>Receives the face tolerance of the pick object.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Pick_GetNumHits"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Pick_GetNumHits">Q3Pick_GetNumHits</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Pick_GetNumHits (
@@ -315,12 +334,41 @@ Returns kQ3ObjectTypeInvalid if the pick type is unknown.
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the edge tolerance of a pick object.
 <br><br>
+The distance between a picking ray and a face is measured in world space
+when using a world ray pick, and measured in 2D window space when using
+a window point pick.  Tolerances are ignored when using a window rect
+pick.
+<br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
 <dl>
 <dt><tt><em>pick</em></tt></dt><dd>The pick object to update.</dd>
 <dt><tt><em>edgeTolerance</em></tt></dt><dd>The new edge tolerance of the pick object.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Pick_SetFaceTolerance"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Pick_SetFaceTolerance">Q3Pick_SetFaceTolerance</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Pick_SetFaceTolerance (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickObject pick,
+&nbsp;&nbsp;&nbsp;&nbsp;float faceTolerance
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the face tolerance of a pick object.
+<br><br>
+The distance between a picking ray and a face is measured in world space
+when using a world ray pick, and measured in 2D window space when using
+a window point pick.  Tolerances are ignored when using a window rect
+pick.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>pick</em></tt></dt><dd>The pick object to update.</dd>
+<dt><tt><em>faceTolerance</em></tt></dt><dd>The new face tolerance of the pick object.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -333,6 +381,11 @@ Returns kQ3ObjectTypeInvalid if the pick type is unknown.
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the vertex tolerance of a pick object.
+<br><br>
+The distance between a picking ray and a line is measured in world space
+when using a world ray pick, and measured in 2D window space when using
+a window point pick.  Tolerances are ignored when using a window rect
+pick.
 <br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
@@ -654,7 +707,8 @@ Returns kQ3ObjectTypeInvalid if the pick type is unknown.
 <blockquote>
 <dl>
 <dt><tt><em>pick</em></tt></dt><dd>The pick object to update.</dd>
-<dt><tt><em>ray</em></tt></dt><dd>The new ray for the pick object.</dd>
+<dt><tt><em>ray</em></tt></dt><dd>The new ray for the pick object.  The direction must
+be normalized.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -806,7 +860,8 @@ typedef struct TQ3WorldRayPickData {
 <blockquote>
 <dl>
 <dt><tt>data</tt></dt><dd>The common state for the pick.</dd>
-<dt><tt>ray</tt></dt><dd>The pick ray in world coordinates.</dd>
+<dt><tt>ray</tt></dt><dd>The pick ray in world coordinates.  The direction
+must be normalized.</dd>
 <dt><tt>vertexTolerance</tt></dt><dd>The vertex tolerance.  Only relevant to picking Point objects.</dd>
 <dt><tt>edgeTolerance</tt></dt><dd>The edge tolerance.  Only relevant to picking one-dimensional
 objects such as Lines and PolyLines.</dd>
@@ -828,9 +883,9 @@ typedef enum TQ3PickDetailMasks {
     kQ3PickDetailMaskShapePart                  = (1 &lt;&lt; 7),
     kQ3PickDetailMaskPickPart                   = (1 &lt;&lt; 8),
     kQ3PickDetailMaskUV                         = (1 &lt;&lt; 9),
-  kQ3PickDetailMaskTriMeshFace        = (1 &lt;&lt; 10),
-   kQ3PickDetailMaskBarycentric        = (1 &lt;&lt; 11),
-   kQ3PickDetailSize32                         = 0x7FFFFFFF
+    kQ3PickDetailMaskTriMeshFace                = (1 &lt;&lt; 10),
+    kQ3PickDetailMaskBarycentric                = (1 &lt;&lt; 11),
+    kQ3PickDetailSize32                         = 0x7FFFFFFF
 } TQ3PickDetailMasks;
 </pre>
 </blockquote>
@@ -879,7 +934,7 @@ typedef enum TQ3PickSort {
     kQ3PickSortNone                             = 0,
     kQ3PickSortNearToFar                        = 1,
     kQ3PickSortFarToNear                        = 2,
-    kQ3PickSortSize32                           = 0xFFFFFFFF
+    kQ3PickSortSize32                           = 0x7FFFFFFF
 } TQ3PickSort;
 </pre>
 </blockquote>
@@ -904,5 +959,5 @@ typedef enum TQ3PickSort {
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>This value can be placed in the <code>numHitsToReturn</code> field of the
 <code>TQ3PickData</code> structure to indicate that we want information
 about all hits.</p>
-<p><p>&#169; 1999-2011 Quesa Developers (Last Updated 3/13/2011)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
 </p></body></html>

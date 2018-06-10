@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
     "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
-<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a[name]:hover {text-decoration: inherit; font-family: inherit; font-size: inherit}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
     <title>Defined Types</title>
 	 <meta name="generator" content="HeaderDoc">
 </head><body bgcolor="#ffffff">
@@ -142,7 +142,7 @@ This method is optional and should only be implemented by asynchronous renderers
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the renderer configuration data.
 <br><br>
-If dataBuffer is NULL, actualDataSize returns the size in bytes of a buffer
+If dataBuffer is nullptr, actualDataSize returns the size in bytes of a buffer
 which could receive the renderer data.
 <br><br>
 This method is optional.
@@ -172,7 +172,7 @@ The "nick name" is the user-visible name for the renderer, and should be
 suitable for display in a menu or window (e.g., it may need to be localised
 for the current language).
 <br><br>
-If dataBuffer is NULL, actualDataSize returns the size in bytes of a buffer
+If dataBuffer is nullptr, actualDataSize returns the size in bytes of a buffer
 which could receive the entire renderer nick name.
 <br><br>
 This method is optional.
@@ -414,7 +414,7 @@ This method is required.
 <blockquote>
 <dl><dt><tt>theView</tt></dt><dd>The view being rendered to.</dd>
 <dt><tt>rendererPrivate</tt></dt><dd>Renderer-specific instance data.</dd>
-<dt><tt>theCamera</tt></dt><dd>The camera object being submitted, or NULL.</dd>
+<dt><tt>theCamera</tt></dt><dd>The camera object being submitted, or nullptr.</dd>
 <dt><tt>publicData</tt></dt><dd>The public data for the camera being submitted.</dd>
 </dl>
 </blockquote>
@@ -429,7 +429,7 @@ This method is required.
 <br><br>
 Renderers should return a TQ3XRendererSubmitGeometryMetaHandlerMethod to
 be invoked when a geometry of the supplied type is submitted for rendering.
-If a particular geometry type is not supported, return NULL.
+If a particular geometry type is not supported, return nullptr.
 <br><br>
 Geometries which do not have their own submit method will be decomposed to
 more primitive geometry types, which will then be submitted as one of the
@@ -465,7 +465,7 @@ If a geometry object is submitted in retained mode, theGeometry will be
 a valid geometry object and publicData will point to the public data
 structure describing that object.
 <br><br>
-If a geometry is submitted in immediate mode, theGeometry will be NULL
+If a geometry is submitted in immediate mode, theGeometry will be nullptr
 and publicData will point to the data structure submitted for rendering.
 <br><br>
 Renderers should therefore try and render from the data contained in the
@@ -480,7 +480,7 @@ This method is required.
 <blockquote>
 <dl><dt><tt>theView</tt></dt><dd>The view being rendered to.</dd>
 <dt><tt>rendererPrivate</tt></dt><dd>Renderer-specific instance data.</dd>
-<dt><tt>theGeometry</tt></dt><dd>The geometry object being submitted, or NULL.</dd>
+<dt><tt>theGeometry</tt></dt><dd>The geometry object being submitted, or nullptr.</dd>
 <dt><tt>publicData</tt></dt><dd>The public data for the geometry being submitted.</dd>
 </dl>
 </blockquote>
@@ -501,7 +501,7 @@ This method is optional.
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<dl><dt><tt>cameraType</tt></dt><dd>The camera type whose submit method is requested.</dd>
+<dl><dt><tt>lightType</tt></dt><dd>The camera type whose submit method is requested.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>The submit method for cameras of type cameraType.
@@ -526,7 +526,7 @@ This method is required.
 <blockquote>
 <dl><dt><tt>theView</tt></dt><dd>The view being rendered to.</dd>
 <dt><tt>rendererPrivate</tt></dt><dd>Renderer-specific instance data.</dd>
-<dt><tt>theLight</tt></dt><dd>The light object being submitted, or NULL.</dd>
+<dt><tt>theLight</tt></dt><dd>The light object being submitted, or nullptr.</dd>
 <dt><tt>publicData</tt></dt><dd>The public data for the light being submitted.</dd>
 </dl>
 </blockquote>
@@ -609,7 +609,7 @@ This method is optional.
 <blockquote>
 <dl><dt><tt>theView</tt></dt><dd>The view being rendered to.</dd>
 <dt><tt>rendererPrivate</tt></dt><dd>Renderer-specific instance data.</dd>
-<dt><tt>publicData</tt></dt><dd>The public data for the matrix being submitted.</dd>
+<dt><tt>theMatrix</tt></dt><dd>The public data for the matrix being submitted.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the callback.
@@ -650,7 +650,7 @@ This method is optional.
 <blockquote>
 <dl><dt><tt>theView</tt></dt><dd>The view being rendered to.</dd>
 <dt><tt>rendererPrivate</tt></dt><dd>Renderer-specific instance data.</dd>
-<dt><tt>publicData</tt></dt><dd>The public data for the shader being submitted.</dd>
+<dt><tt>theShader</tt></dt><dd>The public data for the shader being submitted.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the callback.
@@ -696,5 +696,5 @@ This method is optional.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the callback.
  </dd></dl>
-<p><p>&#169; 1999-2011 Quesa Developers (Last Updated 3/13/2011)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
 </p></body></html>

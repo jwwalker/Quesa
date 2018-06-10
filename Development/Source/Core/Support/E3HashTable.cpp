@@ -98,7 +98,7 @@ typedef struct E3HashTable {
 //				which allows a mathematical simplification of the hash function.
 //
 //				Returns the address of a node pointer, rather than the node
-//				pointer itself, since the node pointer may be NULL if the node
+//				pointer itself, since the node pointer may be nullptr if the node
 //				hasn't been allocated yet.
 //-----------------------------------------------------------------------------
 static E3HashTableNodePtr *
@@ -192,7 +192,7 @@ e3hash_update_stats(E3HashTablePtr theTable)
 	for (n = 0; n < theTable->tableSize; n++)
 		{
 		theNode = theTable->theTable[n];
-		if (theNode != NULL)
+		if (theNode != nullptr)
 			{
 			if (theNode->numItems > theTable->collisionMax)
 				theTable->collisionMax = theNode->numItems;
@@ -229,7 +229,7 @@ E3HashTable_Create(TQ3Uns32 tableSize)
 
 	// Create the table
 	theTable = (E3HashTablePtr) Q3Memory_Allocate(sizeof(E3HashTable));
-	if (theTable != NULL)
+	if (theTable != nullptr)
 		{
 		// Initialise the table
 		theTable->collisionMax     = 0;
@@ -242,10 +242,10 @@ E3HashTable_Create(TQ3Uns32 tableSize)
 
 
 		// Handle failure
-		if (theTable->theTable == NULL)
+		if (theTable->theTable == nullptr)
 			{
 			Q3Memory_Free(&theTable);
-			theTable = NULL;
+			theTable = nullptr;
 			}
 		}
 
@@ -278,7 +278,7 @@ E3HashTable_Destroy(E3HashTablePtr *theTable)
 	for (n = 0; n < tablePtr->tableSize; n++)
 		{
 		theNode = tablePtr->theTable[n];
-		if (theNode != NULL)
+		if (theNode != nullptr)
 			{
 			Q3Memory_Free(&theNode->theItems);
 			Q3Memory_Free(&tablePtr->theTable[n]);
@@ -300,7 +300,7 @@ E3HashTable_Destroy(E3HashTablePtr *theTable)
 //      E3HashTable_Add : Add an item to a hash table.
 //-----------------------------------------------------------------------------
 //		Note :	The item indicated by theKey must not be present in the table,
-//				and theItem must not be NULL.
+//				and theItem must not be nullptr.
 //-----------------------------------------------------------------------------
 TQ3Status
 E3HashTable_Add(E3HashTablePtr theTable, TQ3ObjectType theKey, void *theItem)
@@ -311,12 +311,12 @@ E3HashTable_Add(E3HashTablePtr theTable, TQ3ObjectType theKey, void *theItem)
 
 	// Validate our parameters
 	Q3_ASSERT_VALID_PTR(theTable);
-	Q3_ASSERT(theItem != NULL);
+	Q3_ASSERT(theItem != nullptr);
 
 
 
 	// Make sure the item isn't already present
-	Q3_ASSERT(E3HashTable_Find(theTable, theKey) == NULL);
+	Q3_ASSERT(E3HashTable_Find(theTable, theKey) == nullptr);
 
 
 
@@ -327,10 +327,10 @@ E3HashTable_Add(E3HashTablePtr theTable, TQ3ObjectType theKey, void *theItem)
 
 
 	// If the node doesn't exist, create it
-	if (*theNode == NULL)
+	if (*theNode == nullptr)
 		{
 		*theNode = (E3HashTableNodePtr) Q3Memory_AllocateClear(sizeof(E3HashTableNode));
-		if (*theNode == NULL)
+		if (*theNode == nullptr)
 			return(kQ3Failure);
 		}
 
@@ -420,7 +420,7 @@ void E3HashTable_Remove(E3HashTablePtr theTable, TQ3ObjectType theKey)
 //=============================================================================
 //      E3HashTable_Find : Find an item within a hash table.
 //-----------------------------------------------------------------------------
-//		Note :	If the item can not be found, we will return NULL.
+//		Note :	If the item can not be found, we will return nullptr.
 //-----------------------------------------------------------------------------
 void *
 E3HashTable_Find(E3HashTablePtr theTable, TQ3ObjectType theKey)
@@ -441,8 +441,8 @@ E3HashTable_Find(E3HashTablePtr theTable, TQ3ObjectType theKey)
 
 
 	// If the node is empty, we're done
-	if (*nodePtr == NULL)
-		return(NULL);
+	if (*nodePtr == nullptr)
+		return(nullptr);
 
 	theNode = *nodePtr;
 	Q3_ASSERT_VALID_PTR(theNode);
@@ -460,7 +460,7 @@ E3HashTable_Find(E3HashTablePtr theTable, TQ3ObjectType theKey)
 		++theItem;
 		}
 
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -491,7 +491,7 @@ E3HashTable_Iterate(E3HashTablePtr theTable, TQ3HashTableIterator theIterator, v
 	{
 		theNode = theTable->theTable[n];
 		
-		if ( theNode != NULL )
+		if ( theNode != nullptr )
 		{
 			// Iterate backwards in case the iterator function removes any items
 			for (m = theNode->numItems - 1; m >= 0; --m)

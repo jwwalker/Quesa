@@ -173,7 +173,7 @@ Q3Vector2D_Set(TQ3Vector2D *vector2D, float x, float y)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector2D), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector2D), nullptr);
 
 
 
@@ -203,7 +203,7 @@ Q3Vector3D_Set(TQ3Vector3D *vector3D, float x, float y, float z)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector3D), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector3D), nullptr);
 
 
 
@@ -233,7 +233,7 @@ Q3Point2D_Set(TQ3Point2D *point2D, float x, float y)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point2D), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point2D), nullptr);
 
 
 
@@ -263,7 +263,7 @@ Q3Param2D_Set(TQ3Param2D *param2D, float u, float v)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(param2D), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(param2D), nullptr);
 
 
 
@@ -293,7 +293,7 @@ Q3RationalPoint3D_Set(TQ3RationalPoint3D *rationalPoint3D, float x, float y, flo
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(rationalPoint3D), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(rationalPoint3D), nullptr);
 
 
 
@@ -323,7 +323,7 @@ Q3Point3D_Set(TQ3Point3D *point3D, float x, float y, float z)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point3D), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point3D), nullptr);
 
 
 
@@ -353,7 +353,7 @@ Q3RationalPoint4D_Set(TQ3RationalPoint4D *rationalPoint4D, float x, float y, flo
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(rationalPoint4D), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(rationalPoint4D), nullptr);
 
 
 
@@ -383,7 +383,7 @@ Q3PolarPoint_Set(TQ3PolarPoint *polarPoint, float r, float theta)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(polarPoint), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(polarPoint), nullptr);
 
 
 
@@ -413,7 +413,7 @@ Q3SphericalPoint_Set(TQ3SphericalPoint *sphericalPoint, float rho, float theta, 
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(sphericalPoint), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(sphericalPoint), nullptr);
 
 
 
@@ -444,8 +444,8 @@ Q3Vector2D_To3D(const TQ3Vector2D *vector2D, TQ3Vector3D *result)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector2D), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector2D), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -475,8 +475,8 @@ Q3Vector2D_ToRationalPoint3D(const TQ3Vector2D *vector2D, TQ3RationalPoint3D *re
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector2D), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector2D), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -506,8 +506,8 @@ Q3Vector3D_To2D(const TQ3Vector3D *vector3D, TQ3Vector2D *result)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector3D), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector3D), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -537,8 +537,8 @@ Q3RationalPoint3D_ToVector2D(const TQ3RationalPoint3D *rationalPoint3D, TQ3Vecto
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(rationalPoint3D), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(rationalPoint3D), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -568,8 +568,8 @@ Q3Vector3D_ToRationalPoint4D(const TQ3Vector3D *vector3D, TQ3RationalPoint4D *re
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector3D), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector3D), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -599,8 +599,8 @@ Q3RationalPoint4D_ToVector3D(const TQ3RationalPoint4D *rationalPoint4D, TQ3Vecto
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(rationalPoint4D), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(rationalPoint4D), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -630,8 +630,8 @@ Q3Point2D_To3D(const TQ3Point2D *point2D, TQ3RationalPoint3D *result)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point2D), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point2D), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -661,8 +661,8 @@ Q3RationalPoint3D_To2D(const TQ3RationalPoint3D *rationalPoint3D, TQ3Point2D *re
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(rationalPoint3D), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(rationalPoint3D), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -671,7 +671,7 @@ Q3RationalPoint3D_To2D(const TQ3RationalPoint3D *rationalPoint3D, TQ3Point2D *re
 	if (rationalPoint3D->w == 0.0f)
 		{
 		E3ErrorManager_PostError( kQ3ErrorInfiniteRationalPoint, kQ3False );
-		return(NULL);
+		return(nullptr);
 		}
 #endif
 
@@ -699,8 +699,8 @@ Q3Point3D_To4D(const TQ3Point3D *point3D, TQ3RationalPoint4D *result)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point3D), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point3D), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -730,8 +730,8 @@ Q3RationalPoint4D_To3D(const TQ3RationalPoint4D *rationalPoint4D, TQ3Point3D *re
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(rationalPoint4D), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(rationalPoint4D), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -740,7 +740,7 @@ Q3RationalPoint4D_To3D(const TQ3RationalPoint4D *rationalPoint4D, TQ3Point3D *re
 	if (rationalPoint4D->w == 0.0f)
 		{
 		E3ErrorManager_PostError( kQ3ErrorInfiniteRationalPoint, kQ3False );
-		return(NULL);
+		return(nullptr);
 		}
 #endif
 
@@ -769,8 +769,8 @@ Q3Point2D_ToPolar(const TQ3Point2D *point2D, TQ3PolarPoint *result)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point2D), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point2D), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -800,8 +800,8 @@ Q3PolarPoint_ToPoint2D(const TQ3PolarPoint *polarPoint, TQ3Point2D *result)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(polarPoint), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(polarPoint), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -831,8 +831,8 @@ Q3Point3D_ToSpherical(const TQ3Point3D *point3D, TQ3SphericalPoint *result)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point3D), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point3D), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -862,8 +862,8 @@ Q3SphericalPoint_ToPoint3D(const TQ3SphericalPoint *sphericalPoint, TQ3Point3D *
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(sphericalPoint), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(sphericalPoint), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -966,12 +966,12 @@ Q3Vector3D_DotArray(
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(inFirstVectors3D),    kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(inSecondVectors3D),   kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(outDotProducts != NULL || outDotLessThanZeros != NULL, kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(outDotProducts == NULL || Q3_VALID_PTR(outDotProducts), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(outDotLessThanZeros == NULL || Q3_VALID_PTR(outDotLessThanZeros), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(outDotProducts != nullptr || outDotLessThanZeros != nullptr, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(outDotProducts == nullptr || Q3_VALID_PTR(outDotProducts), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(outDotLessThanZeros == nullptr || Q3_VALID_PTR(outDotLessThanZeros), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(inStructSize >= sizeof(TQ3Vector3D), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(outDotProducts == NULL || outDotProductStructSize >= sizeof(float), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(outDotLessThanZeros == NULL || outDotLessThanZeroStructSize >= sizeof(TQ3Boolean), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(outDotProducts == nullptr || outDotProductStructSize >= sizeof(float), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(outDotLessThanZeros == nullptr || outDotLessThanZeroStructSize >= sizeof(TQ3Boolean), kQ3Failure);
 
 
 
@@ -1065,9 +1065,9 @@ Q3Vector3D_Cross(const TQ3Vector3D *v1, const TQ3Vector3D *v2, TQ3Vector3D *resu
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(v1), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(v2), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(v1), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(v2), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -1097,10 +1097,10 @@ Q3Point3D_CrossProductTri(const TQ3Point3D *p1, const TQ3Point3D *p2, const TQ3P
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p1), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p2), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p3), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p1), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p2), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p3), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -1600,8 +1600,8 @@ Q3Vector2D_Negate(const TQ3Vector2D *vector2D, TQ3Vector2D *result)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector2D), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector2D), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -1631,8 +1631,8 @@ Q3Vector3D_Negate(const TQ3Vector3D *vector3D, TQ3Vector3D *result)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector3D), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector3D), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -1663,8 +1663,8 @@ Q3Vector2D_Scale(const TQ3Vector2D *vector2D, float scalar, TQ3Vector2D *result)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector2D), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector2D), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -1694,8 +1694,8 @@ Q3Vector3D_Scale(const TQ3Vector3D *vector3D, float scalar, TQ3Vector3D *result)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector3D), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector3D), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -1726,8 +1726,8 @@ Q3Vector2D_Normalize(const TQ3Vector2D *vector2D, TQ3Vector2D *result)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector2D), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector2D), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -1757,8 +1757,8 @@ Q3Vector3D_Normalize(const TQ3Vector3D *vector3D, TQ3Vector3D *result)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector3D), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector3D), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -1789,9 +1789,9 @@ Q3Vector2D_Add(const TQ3Vector2D *v1, const TQ3Vector2D *v2, TQ3Vector2D *result
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(v1), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(v2), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(v1), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(v2), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -1821,9 +1821,9 @@ Q3Vector3D_Add(const TQ3Vector3D *v1, const TQ3Vector3D *v2, TQ3Vector3D *result
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(v1), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(v2), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(v1), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(v2), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -1853,9 +1853,9 @@ Q3Vector2D_Subtract(const TQ3Vector2D *v1, const TQ3Vector2D *v2, TQ3Vector2D *r
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(v1), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(v2), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(v1), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(v2), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -1885,9 +1885,9 @@ Q3Vector3D_Subtract(const TQ3Vector3D *v1, const TQ3Vector3D *v2, TQ3Vector3D *r
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(v1), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(v2), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(v1), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(v2), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -1918,9 +1918,9 @@ Q3Point2D_Vector2D_Add(const TQ3Point2D *point2D, const TQ3Vector2D *vector2D, T
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point2D), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector2D), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point2D), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector2D), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -1950,9 +1950,9 @@ Q3Param2D_Vector2D_Add(const TQ3Param2D *param2D, const TQ3Vector2D *vector2D, T
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(param2D), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector2D), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(param2D), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector2D), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -1982,9 +1982,9 @@ Q3Point3D_Vector3D_Add(const TQ3Point3D *point3D, const TQ3Vector3D *vector3D, T
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point3D), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector3D), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point3D), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector3D), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -2014,9 +2014,9 @@ Q3Point2D_Vector2D_Subtract(const TQ3Point2D *point2D, const TQ3Vector2D *vector
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point2D), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector2D), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point2D), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector2D), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -2046,9 +2046,9 @@ Q3Param2D_Vector2D_Subtract(const TQ3Param2D *param2D, const TQ3Vector2D *vector
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(param2D), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector2D), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(param2D), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector2D), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -2078,9 +2078,9 @@ Q3Point3D_Vector3D_Subtract(const TQ3Point3D *point3D, const TQ3Vector3D *vector
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point3D), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector3D), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point3D), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector3D), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -2111,9 +2111,9 @@ Q3Point2D_Subtract(const TQ3Point2D *p1, const TQ3Point2D *p2, TQ3Vector2D *resu
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p1), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p2), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p1), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p2), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -2143,9 +2143,9 @@ Q3Param2D_Subtract(const TQ3Param2D *p1, const TQ3Param2D *p2, TQ3Vector2D *resu
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p1), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p2), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p1), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p2), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -2175,9 +2175,9 @@ Q3Point3D_Subtract(const TQ3Point3D *p1, const TQ3Point3D *p2, TQ3Vector3D *resu
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p1), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p2), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p1), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p2), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -2208,16 +2208,16 @@ Q3Point2D_RRatio(const TQ3Point2D *p1, const TQ3Point2D *p2, float r1, float r2,
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p1), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p2), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p1), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p2), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
 	// Debug build checks
 #if Q3_DEBUG
 	if ((r1 + r2) == 0.0f)
-		return(NULL);
+		return(nullptr);
 #endif
 
 
@@ -2244,9 +2244,9 @@ Q3Param2D_RRatio(const TQ3Param2D *p1, const TQ3Param2D *p2, float r1, float r2,
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p1), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p2), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p1), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p2), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -2276,16 +2276,16 @@ Q3Point3D_RRatio(const TQ3Point3D *p1, const TQ3Point3D *p2, float r1, float r2,
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p1), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p2), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p1), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p2), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
 	// Debug build checks
 #if Q3_DEBUG
 	if ((r1 + r2) == 0.0f)
-		return(NULL);
+		return(nullptr);
 #endif
 
 
@@ -2312,16 +2312,16 @@ Q3RationalPoint4D_RRatio(const TQ3RationalPoint4D *p1, const TQ3RationalPoint4D 
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p1), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p2), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p1), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(p2), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
 	// Debug build checks
 #if Q3_DEBUG
 	if ((r1 + r2) == 0.0f)
-		return(NULL);
+		return(nullptr);
 #endif
 
 
@@ -2349,9 +2349,9 @@ Q3Point2D_AffineComb(const TQ3Point2D *points2D, const float *weights, TQ3Uns32 
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(points2D), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(weights), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(points2D), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(weights), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -2381,9 +2381,9 @@ Q3Param2D_AffineComb(const TQ3Param2D *params2D, const float *weights, TQ3Uns32 
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(params2D), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(weights), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(params2D), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(weights), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -2413,9 +2413,9 @@ Q3RationalPoint3D_AffineComb(const TQ3RationalPoint3D *rationalPoints3D, const f
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(rationalPoints3D), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(weights), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(rationalPoints3D), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(weights), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -2445,9 +2445,9 @@ Q3Point3D_AffineComb(const TQ3Point3D *points3D, const float *weights, TQ3Uns32 
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(points3D), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(weights), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(points3D), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(weights), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -2477,9 +2477,9 @@ Q3RationalPoint4D_AffineComb(const TQ3RationalPoint4D *rationalPoints4D, const f
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(rationalPoints4D), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(weights), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(rationalPoints4D), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(weights), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -2510,9 +2510,9 @@ Q3Vector2D_Transform(const TQ3Vector2D *vector2D, const TQ3Matrix3x3 *matrix3x3,
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector2D), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix3x3), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector2D), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix3x3), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -2542,9 +2542,9 @@ Q3Vector3D_Transform(const TQ3Vector3D *vector3D, const TQ3Matrix4x4 *matrix4x4,
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector3D), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector3D), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -2574,9 +2574,9 @@ Q3Point2D_Transform(const TQ3Point2D *point2D, const TQ3Matrix3x3 *matrix3x3, TQ
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point2D), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix3x3), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point2D), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix3x3), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -2606,9 +2606,9 @@ Q3Param2D_Transform(const TQ3Param2D *param2D, const TQ3Matrix3x3 *matrix3x3, TQ
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(param2D), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix3x3), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(param2D), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix3x3), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -2638,9 +2638,9 @@ Q3RationalPoint3D_Transform(const TQ3RationalPoint3D *rationalPoint3D, const TQ3
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(rationalPoint3D), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix3x3), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(rationalPoint3D), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix3x3), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -2670,9 +2670,9 @@ Q3Point3D_Transform(const TQ3Point3D *point3D, const TQ3Matrix4x4 *matrix4x4, TQ
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point3D), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point3D), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -2702,9 +2702,9 @@ Q3RationalPoint4D_Transform(const TQ3RationalPoint4D *rationalPoint4D, const TQ3
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(rationalPoint4D), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(rationalPoint4D), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -3007,7 +3007,7 @@ Q3Matrix3x3_SetIdentity(TQ3Matrix3x3 *matrix3x3)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix3x3), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix3x3), nullptr);
 
 
 
@@ -3037,7 +3037,7 @@ Q3Matrix4x4_SetIdentity(TQ3Matrix4x4 *matrix4x4)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4), nullptr);
 
 
 
@@ -3067,7 +3067,7 @@ Q3Matrix3x3_SetTranslate(TQ3Matrix3x3 *matrix3x3, float xTrans, float yTrans)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix3x3), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix3x3), nullptr);
 
 
 
@@ -3097,7 +3097,7 @@ Q3Matrix4x4_SetTranslate(TQ3Matrix4x4 *matrix4x4, float xTrans, float yTrans, fl
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4), nullptr);
 
 
 
@@ -3127,7 +3127,7 @@ Q3Matrix3x3_SetScale(TQ3Matrix3x3 *matrix3x3, float xScale, float yScale)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix3x3), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix3x3), nullptr);
 
 
 
@@ -3157,7 +3157,7 @@ Q3Matrix4x4_SetScale(TQ3Matrix4x4 *matrix4x4, float xScale, float yScale, float 
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4), nullptr);
 
 
 
@@ -3187,7 +3187,7 @@ Q3Matrix3x3_SetRotate(TQ3Matrix3x3 *matrix3x3, float angle)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix3x3), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix3x3), nullptr);
 
 
 
@@ -3217,7 +3217,7 @@ Q3Matrix4x4_SetRotate_X(TQ3Matrix4x4 *matrix4x4, float angle)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4), nullptr);
 
 
 
@@ -3247,7 +3247,7 @@ Q3Matrix4x4_SetRotate_Y(TQ3Matrix4x4 *matrix4x4, float angle)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4), nullptr);
 
 
 
@@ -3277,7 +3277,7 @@ Q3Matrix4x4_SetRotate_Z(TQ3Matrix4x4 *matrix4x4, float angle)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4), nullptr);
 
 
 
@@ -3307,7 +3307,7 @@ Q3Matrix4x4_SetRotate_XYZ(TQ3Matrix4x4 *matrix4x4, float xAngle, float yAngle, f
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4), nullptr);
 
 
 
@@ -3337,8 +3337,8 @@ Q3Matrix3x3_SetRotateAboutPoint(TQ3Matrix3x3 *matrix3x3, const TQ3Point2D *origi
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix3x3), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(origin), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix3x3), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(origin), nullptr);
 
 
 
@@ -3368,8 +3368,8 @@ Q3Matrix4x4_SetRotateAboutPoint(TQ3Matrix4x4 *matrix4x4, const TQ3Point3D *origi
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(origin), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(origin), nullptr);
 
 
 
@@ -3399,9 +3399,9 @@ Q3Matrix4x4_SetRotateAboutAxis(TQ3Matrix4x4 *matrix4x4, const TQ3Point3D *origin
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(origin), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(axis), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(origin), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(axis), nullptr);
 
 
 
@@ -3438,9 +3438,9 @@ Q3Matrix4x4_SetRotateVectorToVector(TQ3Matrix4x4 *matrix4x4, const TQ3Vector3D *
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(v1), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(v2), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(v1), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(v2), nullptr);
 
 
 
@@ -3483,8 +3483,8 @@ Q3Matrix4x4_SetQuaternion(TQ3Matrix4x4 *matrix4x4, const TQ3Quaternion *quaterni
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(quaternion), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(quaternion), nullptr);
 
 
 
@@ -3514,8 +3514,8 @@ Q3Matrix3x3_Copy(const TQ3Matrix3x3 *matrix3x3, TQ3Matrix3x3 *result)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix3x3), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix3x3), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -3545,8 +3545,8 @@ Q3Matrix4x4_Copy(const TQ3Matrix4x4 *matrix4x4, TQ3Matrix4x4 *result)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -3576,8 +3576,8 @@ Q3Matrix3x3_Transpose(const TQ3Matrix3x3 *matrix3x3, TQ3Matrix3x3 *result)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix3x3), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix3x3), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -3607,8 +3607,8 @@ Q3Matrix4x4_Transpose(const TQ3Matrix4x4 *matrix4x4, TQ3Matrix4x4 *result)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -3698,8 +3698,8 @@ Q3Matrix3x3_Adjoint(const TQ3Matrix3x3 *matrix3x3, TQ3Matrix3x3 *result)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix3x3), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix3x3), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -3729,8 +3729,8 @@ Q3Matrix3x3_Invert(const TQ3Matrix3x3 *matrix3x3, TQ3Matrix3x3 *result)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix3x3), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix3x3), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -3760,8 +3760,8 @@ Q3Matrix4x4_Invert(const TQ3Matrix4x4 *matrix4x4, TQ3Matrix4x4 *result)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -3791,9 +3791,9 @@ Q3Matrix3x3_Multiply(const TQ3Matrix3x3 *m1, const TQ3Matrix3x3 *m2, TQ3Matrix3x
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(m1), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(m2), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(m1), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(m2), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -3823,9 +3823,9 @@ Q3Matrix4x4_Multiply(const TQ3Matrix4x4 *m1, const TQ3Matrix4x4 *m2, TQ3Matrix4x
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(m1), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(m2), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(m1), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(m2), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -3856,7 +3856,7 @@ Q3Quaternion_Set(TQ3Quaternion *quaternion, float w, float x, float y, float z)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(quaternion), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(quaternion), nullptr);
 
 
 
@@ -3886,7 +3886,7 @@ Q3Quaternion_SetIdentity(TQ3Quaternion *quaternion)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(quaternion), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(quaternion), nullptr);
 
 
 
@@ -3916,7 +3916,7 @@ Q3Quaternion_SetRotate_X(TQ3Quaternion *quaternion, float angle)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(quaternion), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(quaternion), nullptr);
 
 
 
@@ -3946,7 +3946,7 @@ Q3Quaternion_SetRotate_Y(TQ3Quaternion *quaternion, float angle)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(quaternion), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(quaternion), nullptr);
 
 
 
@@ -3976,7 +3976,7 @@ Q3Quaternion_SetRotate_Z(TQ3Quaternion *quaternion, float angle)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(quaternion), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(quaternion), nullptr);
 
 
 
@@ -4006,7 +4006,7 @@ Q3Quaternion_SetRotate_XYZ(TQ3Quaternion *quaternion, float xAngle, float yAngle
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(quaternion), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(quaternion), nullptr);
 
 
 
@@ -4036,8 +4036,8 @@ Q3Quaternion_SetRotateAboutAxis(TQ3Quaternion *quaternion, const TQ3Vector3D *ax
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(quaternion), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(axis), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(quaternion), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(axis), nullptr);
 
 
 
@@ -4074,9 +4074,9 @@ Q3Quaternion_SetRotateVectorToVector(TQ3Quaternion *quaternion, const TQ3Vector3
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(quaternion), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(v1), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(v2), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(quaternion), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(v1), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(v2), nullptr);
 
 
 
@@ -4119,8 +4119,8 @@ Q3Quaternion_SetMatrix(TQ3Quaternion *quaternion, const TQ3Matrix4x4 *matrix4x4)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(quaternion), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(quaternion), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix4x4), nullptr);
 
 
 
@@ -4150,8 +4150,8 @@ Q3Quaternion_Copy(const TQ3Quaternion *quaternion, TQ3Quaternion *result)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(quaternion), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(quaternion), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -4249,8 +4249,8 @@ Q3Quaternion_Normalize(const TQ3Quaternion *quaternion, TQ3Quaternion *result)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(quaternion), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(quaternion), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -4280,8 +4280,8 @@ Q3Quaternion_Invert(const TQ3Quaternion *quaternion, TQ3Quaternion *result)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(quaternion), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(quaternion), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -4318,9 +4318,9 @@ Q3Quaternion_Multiply(const TQ3Quaternion *q1, const TQ3Quaternion *q2, TQ3Quate
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(q1), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(q2), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(q1), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(q2), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -4350,9 +4350,9 @@ Q3Quaternion_MatchReflection(const TQ3Quaternion *q1, const TQ3Quaternion *q2, T
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(q1), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(q2), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(q1), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(q2), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -4382,9 +4382,9 @@ Q3Quaternion_InterpolateFast(const TQ3Quaternion *q1, const TQ3Quaternion *q2, f
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(q1), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(q2), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(q1), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(q2), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -4414,9 +4414,9 @@ Q3Quaternion_InterpolateLinear(const TQ3Quaternion *q1, const TQ3Quaternion *q2,
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(q1), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(q2), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(q1), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(q2), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -4443,7 +4443,7 @@ Q3Quaternion_GetAxisAndAngle(const TQ3Quaternion *quaternion, TQ3Vector3D *outAx
 {
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(quaternion), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(quaternion), nullptr);
 
 
 
@@ -4477,9 +4477,9 @@ Q3Vector3D_TransformQuaternion(const TQ3Vector3D *vector3D, const TQ3Quaternion 
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector3D), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(quaternion), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vector3D), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(quaternion), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -4516,9 +4516,9 @@ Q3Point3D_TransformQuaternion(const TQ3Point3D *point3D, const TQ3Quaternion *qu
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point3D), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(quaternion), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point3D), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(quaternion), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -4556,7 +4556,7 @@ Q3BoundingBox_Reset(TQ3BoundingBox *bBox)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(bBox), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(bBox), nullptr);
 
 
 
@@ -4586,9 +4586,9 @@ Q3BoundingBox_Set(TQ3BoundingBox *bBox, const TQ3Point3D *min, const TQ3Point3D 
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(bBox), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(min), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(max), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(bBox), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(min), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(max), nullptr);
 
 
 
@@ -4598,7 +4598,7 @@ Q3BoundingBox_Set(TQ3BoundingBox *bBox, const TQ3Point3D *min, const TQ3Point3D 
 	if (min->x > max->x ||
 		min->y > max->y ||
 		min->z > max->z)
-		return(NULL);
+		return(nullptr);
 #endif
 
 
@@ -4625,8 +4625,8 @@ Q3BoundingBox_SetFromPoints3D(TQ3BoundingBox *bBox, const TQ3Point3D *points3D, 
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(bBox),     NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(points3D), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(bBox),     nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(points3D), nullptr);
 
 
 
@@ -4656,8 +4656,8 @@ Q3BoundingBox_SetFromRationalPoints4D(TQ3BoundingBox *bBox, const TQ3RationalPoi
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(bBox),     NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(rationalPoints4D), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(bBox),     nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(rationalPoints4D), nullptr);
 
 
 
@@ -4687,8 +4687,8 @@ Q3BoundingBox_Copy(const TQ3BoundingBox *bBox, TQ3BoundingBox *result)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(bBox), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(bBox), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -4718,9 +4718,9 @@ Q3BoundingBox_Union(const TQ3BoundingBox *b1, const TQ3BoundingBox *b2, TQ3Bound
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(b1), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(b2), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(b1), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(b2), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -4750,9 +4750,9 @@ Q3BoundingBox_UnionPoint3D(const TQ3BoundingBox *bBox, const TQ3Point3D *point3D
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(bBox), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point3D), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(bBox), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point3D), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -4782,9 +4782,9 @@ Q3BoundingBox_UnionRationalPoint4D(const TQ3BoundingBox *bBox, const TQ3Rational
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(bBox), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(rationalPoint4D), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(bBox), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(rationalPoint4D), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -4815,7 +4815,7 @@ Q3BoundingSphere_Reset(TQ3BoundingSphere *bSphere)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(bSphere), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(bSphere), nullptr);
 
 
 
@@ -4845,8 +4845,8 @@ Q3BoundingSphere_Set(TQ3BoundingSphere *bSphere, const TQ3Point3D *origin, float
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(bSphere), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(origin), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(bSphere), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(origin), nullptr);
 
 
 
@@ -4876,8 +4876,8 @@ Q3BoundingSphere_SetFromPoints3D(TQ3BoundingSphere *bSphere, const TQ3Point3D *p
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(bSphere),  NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(points3D), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(bSphere),  nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(points3D), nullptr);
 
 
 
@@ -4907,8 +4907,8 @@ Q3BoundingSphere_SetFromRationalPoints4D(TQ3BoundingSphere *bSphere, const TQ3Ra
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(bSphere),  NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(rationalPoints4D), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(bSphere),  nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(rationalPoints4D), nullptr);
 
 
 
@@ -4938,8 +4938,8 @@ Q3BoundingSphere_Copy(const TQ3BoundingSphere *bSphere, TQ3BoundingSphere *resul
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(bSphere), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(bSphere), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -4969,9 +4969,9 @@ Q3BoundingSphere_Union(const TQ3BoundingSphere *s1, const TQ3BoundingSphere *s2,
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(s1), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(s2), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(s1), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(s2), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -5001,9 +5001,9 @@ Q3BoundingSphere_UnionPoint3D(const TQ3BoundingSphere *bSphere, const TQ3Point3D
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(bSphere), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point3D), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(bSphere), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(point3D), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -5033,9 +5033,9 @@ Q3BoundingSphere_UnionRationalPoint4D(const TQ3BoundingSphere *bSphere, const TQ
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(bSphere), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(rationalPoint4D), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(bSphere), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(rationalPoint4D), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 

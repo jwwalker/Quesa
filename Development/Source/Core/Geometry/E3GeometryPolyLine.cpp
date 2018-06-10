@@ -134,18 +134,18 @@ e3geom_polyline_copydata( const TQ3PolyLineData* src, TQ3PolyLineData* dst,
 		(TQ3Vertex3D *) Q3Memory_Allocate( static_cast<TQ3Uns32>(src->numVertices * sizeof( TQ3Vertex3D )) ) ;
 		
 	// handle vertex allocation failure
-	if ( dst->vertices == NULL )
+	if ( dst->vertices == nullptr )
 		return (kQ3Failure);
 	
 	// allocate memory for segment attributes, if present
-	if (src->segmentAttributeSet != NULL)
+	if (src->segmentAttributeSet != nullptr)
 	{
 		dst->segmentAttributeSet = 
 			(TQ3AttributeSet *) Q3Memory_Allocate( static_cast<TQ3Uns32>((dst->numVertices - 1) 
 													* sizeof(TQ3AttributeSet)) ) ;
 			
 		//handle segment allocation failure
-		if( dst->segmentAttributeSet == NULL )
+		if( dst->segmentAttributeSet == nullptr )
 		{
 			Q3Memory_Free( &dst->vertices ) ;
 			return(kQ3Failure) ;
@@ -153,7 +153,7 @@ e3geom_polyline_copydata( const TQ3PolyLineData* src, TQ3PolyLineData* dst,
 	}
 	else
 	{
-		dst->segmentAttributeSet = NULL;
+		dst->segmentAttributeSet = nullptr;
 	}
 	
 	
@@ -162,14 +162,14 @@ e3geom_polyline_copydata( const TQ3PolyLineData* src, TQ3PolyLineData* dst,
 	{
 		dst->vertices[n].point = src->vertices[n].point;
 		
-		if (src->vertices[n].attributeSet == NULL)
+		if (src->vertices[n].attributeSet == nullptr)
 		{
-			dst->vertices[n].attributeSet = NULL;
+			dst->vertices[n].attributeSet = nullptr;
 		}
 		else if (isDuplicate)
 		{
 			dst->vertices[n].attributeSet = Q3Object_Duplicate( src->vertices[n].attributeSet );
-			if (dst->vertices[n].attributeSet == NULL)
+			if (dst->vertices[n].attributeSet == nullptr)
 				q3Status = kQ3Failure;
 		}
 		else
@@ -180,18 +180,18 @@ e3geom_polyline_copydata( const TQ3PolyLineData* src, TQ3PolyLineData* dst,
 	
 	
 	// Copy segment attributes, if present
-	if (src->segmentAttributeSet != NULL)
+	if (src->segmentAttributeSet != nullptr)
 	{
 		for (n = 0; n < dst->numVertices - 1; ++n)
 		{
-			if (src->segmentAttributeSet[n] == NULL)
+			if (src->segmentAttributeSet[n] == nullptr)
 			{
-				dst->segmentAttributeSet[n] = NULL;
+				dst->segmentAttributeSet[n] = nullptr;
 			}
 			else if (isDuplicate)
 			{
 				dst->segmentAttributeSet[n] = Q3Object_Duplicate( src->segmentAttributeSet[n] );
-				if (dst->segmentAttributeSet[n] == NULL)
+				if (dst->segmentAttributeSet[n] == nullptr)
 					q3Status = kQ3Failure;
 			}
 			else
@@ -203,14 +203,14 @@ e3geom_polyline_copydata( const TQ3PolyLineData* src, TQ3PolyLineData* dst,
 	
 	
 	// Copy overall attributes
-	if (src->polyLineAttributeSet == NULL)
+	if (src->polyLineAttributeSet == nullptr)
 	{
-		dst->polyLineAttributeSet = NULL;
+		dst->polyLineAttributeSet = nullptr;
 	}
 	else if (isDuplicate)
 	{
 		dst->polyLineAttributeSet = Q3Object_Duplicate( src->polyLineAttributeSet );
-		if (dst->polyLineAttributeSet == NULL)
+		if (dst->polyLineAttributeSet == nullptr)
 			q3Status = kQ3Failure;
 	}
 	else
@@ -278,8 +278,8 @@ e3geom_polyline_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, cons
 
 	// Create a group to hold the cached geometry
 	theGroup = Q3DisplayGroup_New();
-	if (theGroup == NULL)
-		return(NULL);
+	if (theGroup == nullptr)
+		return(nullptr);
 
 
 
@@ -290,7 +290,7 @@ e3geom_polyline_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, cons
 		lineData.vertices[0] = geomData->vertices[n];
 		lineData.vertices[1] = geomData->vertices[n + 1];
 			
-		if (geomData->segmentAttributeSet != NULL && geomData->segmentAttributeSet[n] != NULL)
+		if (geomData->segmentAttributeSet != nullptr && geomData->segmentAttributeSet[n] != nullptr)
 			lineData.lineAttributeSet = geomData->segmentAttributeSet[n];
 		else
 			lineData.lineAttributeSet = geomData->polyLineAttributeSet;
@@ -299,7 +299,7 @@ e3geom_polyline_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, cons
 
 		// Create the line
 		theLine = Q3Line_New(&lineData);
-		if (theLine != NULL)
+		if (theLine != nullptr)
 			{
 			Q3Group_AddObject(theGroup, theLine);
 			Q3Object_Dispose(theLine);
@@ -361,7 +361,7 @@ e3geom_polyline_get_attribute ( E3PolyLine* polyLine )
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3geom_polyline_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -527,7 +527,7 @@ E3PolyLine_EmptyData(TQ3PolyLineData *polyLineData)
 	Q3Memory_Free( &polyLineData->vertices ) ;
 	
 	//if there is a segment attribute set, delete the individual items
-	if( polyLineData->segmentAttributeSet != NULL )
+	if( polyLineData->segmentAttributeSet != nullptr )
 	{
 		for(n = 0; n < polyLineData->numVertices - 1; n++)
 		{

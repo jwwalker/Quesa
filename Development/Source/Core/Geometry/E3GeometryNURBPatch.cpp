@@ -154,17 +154,17 @@ e3geom_patch_copydata(const TQ3NURBPatchData *src, TQ3NURBPatchData *dst, TQ3Boo
 				}
 			}
 		}
-	} else dst->trimLoops = NULL;
+	} else dst->trimLoops = nullptr;
     
         
 	// copy or shared-replace the attributes
 	if (isDuplicate)
 	{
-		if (src->patchAttributeSet != NULL)
+		if (src->patchAttributeSet != nullptr)
 		{
 			dst->patchAttributeSet = Q3Object_Duplicate(src->patchAttributeSet);
-			if (dst->patchAttributeSet == NULL) qd3dStatus = kQ3Failure;
-		} else dst->patchAttributeSet = NULL;
+			if (dst->patchAttributeSet == nullptr) qd3dStatus = kQ3Failure;
+		} else dst->patchAttributeSet = nullptr;
 
 	}
 	else {
@@ -672,7 +672,7 @@ e3geom_nurbpatch_recursive_quad_world_subdivide( TQ3Uns32 depth, float subdiv, f
 //														   parametrically square
 //														   sections.
 //-----------------------------------------------------------------------------
-//		Note : If *points == NULL, an error has occurred (memory).
+//		Note : If *points == nullptr, an error has occurred (memory).
 //-----------------------------------------------------------------------------
 static TQ3Uns32
 e3geom_nurbpatch_recursive_quad_screen_subdivide( TQ3Uns32 depth, float subdiv, float fu, float lu, float fv, float lv,
@@ -799,8 +799,8 @@ e3geom_nurbpatch_recursive_quad_screen_subdivide( TQ3Uns32 depth, float subdiv, 
 //											  guaranteed at knots.
 //-----------------------------------------------------------------------------
 //		Note :	Calls through to e3geom_nurbcurve_constant_subdiv.
-//				If the points array is non-NULL on return, be sure to free it
-//				with Q3Memory_Free(). If it is NULL, then an error has occurred.
+//				If the points array is non-nullptr on return, be sure to free it
+//				with Q3Memory_Free(). If it is nullptr, then an error has occurred.
 //-----------------------------------------------------------------------------
 // I need the function declaration for constant subdivision since I call through to it
 static void
@@ -828,25 +828,25 @@ e3geom_nurbpatch_worldscreen_subdiv( TQ3Point3D** thePoints, TQ3Uns32* numPoints
 	TQ3Matrix4x4	localToWorld, worldToFrustum, frustumToWindow, localToWindow ;
 	
 #if Q3_DEBUG
-	Q3_ASSERT( thePoints != NULL && numPoints != NULL && theUVs != NULL && theNormals != NULL
-			   && theTriangles != NULL && numTriangles != NULL ) ;
+	Q3_ASSERT( thePoints != nullptr && numPoints != nullptr && theUVs != nullptr && theNormals != nullptr
+			   && theTriangles != nullptr && numTriangles != nullptr ) ;
 #endif
 	
 	// For the error handler
-	interestingU = interestingV = NULL ;
+	interestingU = interestingV = nullptr ;
 	
 	// First some sanity checking on subdivisionData
 	subdiv = E3Num_Max(subdiv, 0.001f) ;
 	
 	// Find the interesting knots (ie skip the repeated knots)
 	interestingU = (float *) Q3Memory_Allocate(static_cast<TQ3Uns32>((geomData->numColumns - geomData->uOrder + 2) * sizeof(float)));
-	if (interestingU == NULL) {
+	if (interestingU == nullptr) {
 		goto nurbpatch_world_subdiv_error_handler ;
 	}
 	numIntU = e3geom_nurbpatch_interesting_knots( geomData->uKnots, geomData->numColumns, geomData->uOrder, interestingU );
 	
 	interestingV = (float *) Q3Memory_Allocate(static_cast<TQ3Uns32>((geomData->numRows - geomData->vOrder + 2) * sizeof(float)));
-	if (interestingV == NULL) {
+	if (interestingV == nullptr) {
 		goto nurbpatch_world_subdiv_error_handler ;
 	}
 	numIntV = e3geom_nurbpatch_interesting_knots( geomData->vKnots, geomData->numRows, geomData->vOrder, interestingV );
@@ -957,9 +957,9 @@ e3geom_nurbpatch_worldscreen_subdiv( TQ3Point3D** thePoints, TQ3Uns32* numPoints
 	Q3Memory_Free( &interestingU ) ;
 	Q3Memory_Free( &interestingV ) ;
 	
-	if (thePoints != NULL)
+	if (thePoints != nullptr)
 	{
-		*thePoints = NULL ;
+		*thePoints = nullptr ;
 	}
 }
 
@@ -971,8 +971,8 @@ e3geom_nurbpatch_worldscreen_subdiv( TQ3Point3D** thePoints, TQ3Uns32* numPoints
 //      e3geom_nurbpatch_constant_subdiv : Subdivide the given NURB curve into
 //										   the some number of segments.
 //-----------------------------------------------------------------------------
-//		Note :	If the points array is non-NULL on return, be sure to free it
-//				with Q3Memory_Free(). If it is NULL, then an error has occured.
+//		Note :	If the points array is non-nullptr on return, be sure to free it
+//				with Q3Memory_Free(). If it is nullptr, then an error has occured.
 //-----------------------------------------------------------------------------
 static void
 e3geom_nurbpatch_constant_subdiv( TQ3Point3D** thePoints, TQ3Uns32* numPoints,
@@ -987,8 +987,8 @@ e3geom_nurbpatch_constant_subdiv( TQ3Point3D** thePoints, TQ3Uns32* numPoints,
 				numIntU, numIntV, numrows, numcolumns, numpts, numtris ;
 
 #if Q3_DEBUG
-	Q3_ASSERT( thePoints != NULL && numPoints != NULL && theUVs != NULL && theNormals != NULL
-			   && theTriangles != NULL && numTriangles != NULL ) ;
+	Q3_ASSERT( thePoints != nullptr && numPoints != nullptr && theUVs != nullptr && theNormals != nullptr
+			   && theTriangles != nullptr && numTriangles != nullptr ) ;
 #endif
 	
 	// First some sanity checking on subdivisionData
@@ -997,18 +997,18 @@ e3geom_nurbpatch_constant_subdiv( TQ3Point3D** thePoints, TQ3Uns32* numPoints,
 	
 	// Find the interesting knots (ie skip the repeated knots)
 	interestingU = (float *) Q3Memory_Allocate(static_cast<TQ3Uns32>((geomData->numColumns - geomData->uOrder + 2) * sizeof(float)));
-	if (interestingU == NULL) {
-		*thePoints = NULL ;
+	if (interestingU == nullptr) {
+		*thePoints = nullptr ;
 		return ;
 	}
 	numIntU = e3geom_nurbpatch_interesting_knots( geomData->uKnots, geomData->numColumns, geomData->uOrder, interestingU );
 	numcolumns = (numIntU-1)*((TQ3Uns32)subdivU) + 1;
 	
 	interestingV = (float *) Q3Memory_Allocate(static_cast<TQ3Uns32>((geomData->numRows - geomData->vOrder + 2) * sizeof(float)));
-	if (interestingV == NULL) {
+	if (interestingV == nullptr) {
 		Q3Memory_Free( &interestingU ) ;
 		
-		*thePoints = NULL ;
+		*thePoints = nullptr ;
 		return ;
 	}
 	numIntV = e3geom_nurbpatch_interesting_knots( geomData->vKnots, geomData->numRows, geomData->vOrder, interestingV );
@@ -1024,11 +1024,11 @@ e3geom_nurbpatch_constant_subdiv( TQ3Point3D** thePoints, TQ3Uns32* numPoints,
 	*theUVs       = (TQ3Param2D  *)            Q3Memory_Allocate(static_cast<TQ3Uns32>(numpts    * sizeof(TQ3Param2D)));
 	*theTriangles = (TQ3TriMeshTriangleData *) Q3Memory_Allocate(static_cast<TQ3Uns32>(numtris * sizeof(TQ3TriMeshTriangleData)));
 
-	if (*thePoints == NULL || *theNormals == NULL || *theUVs == NULL || *theTriangles == NULL) {
+	if (*thePoints == nullptr || *theNormals == nullptr || *theUVs == nullptr || *theTriangles == nullptr) {
 		Q3Memory_Free( &interestingU ) ;
 		Q3Memory_Free( &interestingV ) ;
 		
-		*thePoints = NULL ;
+		*thePoints = nullptr ;
 		return ;
 	}
 	// Outer V loop
@@ -1168,29 +1168,29 @@ e3geom_nurbpatch_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 	TQ3Uns32				numpoints = 0, numtriangles = 0;
 	float					*uBasisValues, *vBasisValues, *uBasisDerivValues, *vBasisDerivValues ;
 	
-	theGroup = NULL;
-	points = NULL ;
-	normals = NULL ;
-	uvs = NULL ;
-	triangles = NULL ;
-	uBasisValues = vBasisValues = uBasisDerivValues = vBasisDerivValues = NULL ;
+	theGroup = nullptr;
+	points = nullptr ;
+	normals = nullptr ;
+	uvs = nullptr ;
+	triangles = nullptr ;
+	uBasisValues = vBasisValues = uBasisDerivValues = vBasisDerivValues = nullptr ;
 	
-	// Set NULL initially so that return value is NULL if we goto the error label
+	// Set nullptr initially so that return value is nullptr if we goto the error label
 	Q3Memory_Clear(&triMeshData, sizeof(triMeshData));
-	theTriMesh = NULL;
+	theTriMesh = nullptr;
 	
 	uBasisValues = (float*) Q3Memory_Allocate( static_cast<TQ3Uns32>(geomData->numColumns * sizeof(float)) ) ;
-	if( uBasisValues == NULL )
+	if( uBasisValues == nullptr )
 		goto surface_cache_new_error_cleanup ;
 	vBasisValues = (float*) Q3Memory_Allocate( static_cast<TQ3Uns32>(geomData->numRows * sizeof(float)) ) ;
-	if( vBasisValues == NULL )
+	if( vBasisValues == nullptr )
 		goto surface_cache_new_error_cleanup ;
 	
 	uBasisDerivValues = (float*) Q3Memory_Allocate( static_cast<TQ3Uns32>(geomData->numColumns * sizeof(float)) ) ;
-	if( uBasisDerivValues == NULL )
+	if( uBasisDerivValues == nullptr )
 		goto surface_cache_new_error_cleanup ;
 	vBasisDerivValues = (float*) Q3Memory_Allocate( static_cast<TQ3Uns32>(geomData->numRows * sizeof(float)) ) ;
-	if( vBasisDerivValues == NULL )
+	if( vBasisDerivValues == nullptr )
 		goto surface_cache_new_error_cleanup ;
 	
 	// Get the subdivision style, figure out how to tessellate.
@@ -1206,7 +1206,7 @@ e3geom_nurbpatch_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 												  	 geomData, theView, kQ3True,
 												  	 uBasisValues, vBasisValues, uBasisDerivValues, vBasisDerivValues ) ;
 
-				if( points == NULL )
+				if( points == nullptr )
 					goto surface_cache_new_error_cleanup ;
 				
 				break;
@@ -1218,7 +1218,7 @@ e3geom_nurbpatch_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 												  	 geomData, theView, kQ3False,
 												  	 uBasisValues, vBasisValues, uBasisDerivValues, vBasisDerivValues ) ;
 
-				if( points == NULL )
+				if( points == nullptr )
 					goto surface_cache_new_error_cleanup ;
 				
 				break;
@@ -1230,7 +1230,7 @@ e3geom_nurbpatch_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 												  geomData,
 												  uBasisValues, vBasisValues, uBasisDerivValues, vBasisDerivValues ) ;
 				
-				if( points == NULL )
+				if( points == nullptr )
 					goto surface_cache_new_error_cleanup ;
 				
 				break;
@@ -1244,29 +1244,29 @@ e3geom_nurbpatch_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 	
 	
 	// set up the attributes
-	E3AttributeSet_Combine(geomData->patchAttributeSet, NULL, &triMeshData.triMeshAttributeSet);
+	E3AttributeSet_Combine(geomData->patchAttributeSet, nullptr, &triMeshData.triMeshAttributeSet);
 
 
 
 	// set up remaining trimesh data
 	vertexAttributes[0].attributeType     = kQ3AttributeTypeNormal;
 	vertexAttributes[0].data              = normals;
-	vertexAttributes[0].attributeUseArray = NULL;
+	vertexAttributes[0].attributeUseArray = nullptr;
 	
 	vertexAttributes[1].attributeType     = kQ3AttributeTypeSurfaceUV;
 	vertexAttributes[1].data              = uvs;
-	vertexAttributes[1].attributeUseArray = NULL;
+	vertexAttributes[1].attributeUseArray = nullptr;
 	
 	triMeshData.numPoints                 = numpoints;
 	triMeshData.points                    = points;
 	triMeshData.numTriangles              = numtriangles;
 	triMeshData.triangles                 = triangles;
 	triMeshData.numTriangleAttributeTypes = 0;
-	triMeshData.triangleAttributeTypes    = NULL;
+	triMeshData.triangleAttributeTypes    = nullptr;
 	triMeshData.numEdges                  = 0;
-	triMeshData.edges                     = NULL;
+	triMeshData.edges                     = nullptr;
 	triMeshData.numEdgeAttributeTypes     = 0;
-	triMeshData.edgeAttributeTypes        = NULL;
+	triMeshData.edgeAttributeTypes        = nullptr;
 	triMeshData.numVertexAttributeTypes   = 2;
 	triMeshData.vertexAttributeTypes      = vertexAttributes;
 	
@@ -1349,7 +1349,7 @@ e3geom_nurbpatch_get_attribute ( E3NURBPatch* nurbPatch )
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3geom_nurbpatch_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -1501,7 +1501,7 @@ E3NURBPatch_GetData(TQ3GeometryObject theNurbPatch, TQ3NURBPatchData *nurbPatchD
 	E3NURBPatch* nurbPatch = (E3NURBPatch*) theNurbPatch ;
 
 	// Copy the data out of the NURBPatch
-	nurbPatchData->patchAttributeSet = NULL;
+	nurbPatchData->patchAttributeSet = nullptr;
 	
 	return e3geom_patch_copydata ( & nurbPatch->instanceData, nurbPatchData, kQ3False ) ;
 	}

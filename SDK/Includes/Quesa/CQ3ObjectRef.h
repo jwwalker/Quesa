@@ -71,7 +71,7 @@
 				
 				Due to a HeaderDoc bug, it is not possible to automatically
 				document more than one constructor.  Besides the constructor from
-				a TQ3Object, there is a default constructor (which holds NULL)
+				a TQ3Object, there is a default constructor (which holds nullptr)
 				and a copy constructor.
 				
 				This wrapper is not fully functional with objects that are not
@@ -87,7 +87,7 @@ public:
 								@abstract	Default constructor.
 							*/
 							CQ3ObjectRef()
-									: mObject( NULL ) {}
+									: mObject( nullptr ) {}
 
 							/*
 								@function	CQ3ObjectRef
@@ -102,7 +102,7 @@ public:
 								@discussion	It is assumed that you pass a new reference
 											to this constructor.
 								@param		inObject	A new reference to a Quesa object,
-														or NULL.
+														or nullptr.
 							*/
 	explicit				CQ3ObjectRef( TQ3SharedObject inObject )
 									: mObject( inObject ) {}
@@ -110,7 +110,7 @@ public:
 							/*!
 								@function	~CQ3ObjectRef
 								@abstract	Destructor.
-								@discussion	Disposes the object if it is not NULL.
+								@discussion	Disposes the object if it is not nullptr.
 							*/
 							~CQ3ObjectRef();
 	
@@ -134,14 +134,14 @@ public:
 							/*!
 								@function	isvalid
 								@abstract	Test whether this object holds a Quesa object.
-								@result		True if it holds a non-NULL Quesa object.
+								@result		True if it holds a non-nullptr Quesa object.
 							*/
-	bool					isvalid() const { return mObject != NULL; }
+	bool					isvalid() const { return mObject != nullptr; }
 	
 							/*!
 								@function	get
 								@abstract	Get the value held by the wrapper.
-								@result		A TQ3Object, or NULL.
+								@result		A TQ3Object, or nullptr.
 							*/
 	TQ3SharedObject			get() const { return mObject; }
 	
@@ -161,7 +161,7 @@ private:
 //      Inline method definitions
 //-----------------------------------------------------------------------------
 inline CQ3ObjectRef::CQ3ObjectRef( const CQ3ObjectRef& inOther )
-	: mObject( NULL )
+	: mObject( nullptr )
 {
 	if (inOther.isvalid())
 	{

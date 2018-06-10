@@ -518,7 +518,7 @@ Q3WindowPointPick_New(const TQ3WindowPointPickData *data)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), nullptr);
 
 
 
@@ -672,7 +672,7 @@ Q3WindowRectPick_New(const TQ3WindowRectPickData *data)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), nullptr);
 
 
 
@@ -826,7 +826,7 @@ Q3WorldRayPick_New(const TQ3WorldRayPickData *data)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), nullptr);
 
 
 

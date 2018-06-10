@@ -238,14 +238,14 @@ e3geom_line_copydata( const TQ3LineData* src, TQ3LineData* dst, TQ3Boolean isDup
 		dst->vertices[n].point = src->vertices[n].point;
 		
 		
-		if (src->vertices[n].attributeSet == NULL)
+		if (src->vertices[n].attributeSet == nullptr)
 		{
-			dst->vertices[n].attributeSet = NULL;
+			dst->vertices[n].attributeSet = nullptr;
 		}
 		else if (isDuplicate)
 		{
 			dst->vertices[n].attributeSet = Q3Object_Duplicate( src->vertices[n].attributeSet );
-			if (dst->vertices[n].attributeSet == NULL)
+			if (dst->vertices[n].attributeSet == nullptr)
 				q3status = kQ3Failure;
 		}
 		else
@@ -254,14 +254,14 @@ e3geom_line_copydata( const TQ3LineData* src, TQ3LineData* dst, TQ3Boolean isDup
 		}
 	}
 	
-	if (src->lineAttributeSet == NULL)
+	if (src->lineAttributeSet == nullptr)
 	{
-		dst->lineAttributeSet = NULL;
+		dst->lineAttributeSet = nullptr;
 	}
 	else if (isDuplicate)
 	{
 		dst->lineAttributeSet = Q3Object_Duplicate( src->lineAttributeSet );
-		if (dst->lineAttributeSet == NULL)
+		if (dst->lineAttributeSet == nullptr)
 			q3status = kQ3Failure;
 	}
 	else
@@ -429,7 +429,7 @@ e3geom_line_pick_window_point(TQ3ViewObject theView, TQ3PickObject thePick, TQ3O
 
 
 		// Record the hit
-		qd3dStatus = E3Pick_RecordHit(thePick, theView, &hitXYZ, NULL, NULL, NULL);
+		qd3dStatus = E3Pick_RecordHit(thePick, theView, &hitXYZ, nullptr, nullptr, nullptr);
 		}
 
 	return(qd3dStatus);
@@ -469,7 +469,7 @@ e3geom_line_pick_window_rect(TQ3ViewObject theView, TQ3PickObject thePick, TQ3Ob
 		Q3Point3D_Transform( &instanceData->vertices[0].point,
 			E3View_State_GetMatrixLocalToWorld( theView ),
 			&worldHit );
-		qd3dStatus = E3Pick_RecordHit(thePick, theView, &worldHit, NULL, NULL, NULL);
+		qd3dStatus = E3Pick_RecordHit(thePick, theView, &worldHit, nullptr, nullptr, nullptr);
 	}
 
 	return(qd3dStatus);
@@ -519,7 +519,7 @@ e3geom_line_pick_world_ray(TQ3ViewObject theView, TQ3PickObject thePick, TQ3Obje
 
 	// See if we fall within the pick
 	if (d <= pickData.edgeTolerance)
-		qd3dStatus = E3Pick_RecordHit(thePick, theView, &worldSegment[0], NULL, NULL, NULL);
+		qd3dStatus = E3Pick_RecordHit(thePick, theView, &worldSegment[0], nullptr, nullptr, nullptr);
 
 	return(qd3dStatus);
 }
@@ -606,7 +606,7 @@ e3geom_line_get_attribute ( E3Line* line )
 static TQ3XFunctionPointer
 e3geom_line_metahandler(TQ3XMethodType methodType)
 {	
-	TQ3XFunctionPointer		theMethod = NULL;
+	TQ3XFunctionPointer		theMethod = nullptr;
 
 	// Return our methods
 	switch (methodType) {

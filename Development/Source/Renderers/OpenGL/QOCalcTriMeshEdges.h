@@ -109,7 +109,7 @@ typedef E3FastArray< TQ3TriangleEdges >		TQ3TriangleToEdgeVec;
 							fields are used.
 	@param		outEdges			Receives array of edges.
 	@param		outFacesToEdges		Receives array mapping faces to edges.
-									You may pass NULL if you do not need this
+									You may pass nullptr if you do not need this
 									information.
 */
 void QOCalcTriMeshEdges( 	const TQ3TriMeshData& inData,

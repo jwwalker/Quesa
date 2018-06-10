@@ -103,7 +103,7 @@ Q3Memory_Allocate(TQ3Uns32 theSize)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theSize != 0, NULL);
+	Q3_REQUIRE_OR_RESULT(theSize != 0, nullptr);
 
 
 
@@ -133,7 +133,7 @@ Q3Memory_AllocateClear(TQ3Uns32 theSize)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(theSize != 0, NULL);
+	Q3_REQUIRE_OR_RESULT(theSize != 0, nullptr);
 
 
 
@@ -450,7 +450,7 @@ Q3Memory_NextRecordedObject( TQ3Object inObject )
 	
 	#else
 		#pragma unused( inObject )
-		return NULL;
+		return nullptr;
 	#endif
 }
 
@@ -538,7 +538,7 @@ Q3SlabMemory_New(TQ3Uns32 itemSize, TQ3Uns32 numItems, const void *itemData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(itemSize != 0, NULL);
+	Q3_REQUIRE_OR_RESULT(itemSize != 0, nullptr);
 
 
 
@@ -568,8 +568,8 @@ Q3SlabMemory_GetData(TQ3SlabObject theSlab, TQ3Uns32 itemIndex)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theSlab, kQ3ObjectTypeSlab), NULL);
-	Q3_REQUIRE_OR_RESULT(itemIndex < Q3SlabMemory_GetCount(theSlab), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theSlab, kQ3ObjectTypeSlab), nullptr);
+	Q3_REQUIRE_OR_RESULT(itemIndex < Q3SlabMemory_GetCount(theSlab), nullptr);
 	
 
 
@@ -599,7 +599,7 @@ Q3SlabMemory_AppendData(TQ3SlabObject theSlab, TQ3Uns32 numItems, const void *it
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theSlab, kQ3ObjectTypeSlab), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theSlab, kQ3ObjectTypeSlab), nullptr);
 	
 
 

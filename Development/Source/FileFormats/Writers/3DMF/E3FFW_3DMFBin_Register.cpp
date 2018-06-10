@@ -189,7 +189,7 @@ public :
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3ffw_3dmf_geom(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -323,7 +323,7 @@ e3ffw_3dmf_formatname(unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3Uns32 *
 
 
 	// If we have a buffer, return the nick name
-	if (dataBuffer != NULL)
+	if (dataBuffer != nullptr)
 		{
 		// Clamp the buffer size
 		if (bufferSize < *actualDataSize)
@@ -455,7 +455,7 @@ e3ffw_3dmfbin_DSW_formatname(unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3ffw_3dmf_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -510,7 +510,7 @@ e3ffw_3dmf_metahandler(TQ3XMethodType methodType)
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3ffw_3dmfbin_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -566,7 +566,7 @@ e3ffw_3dmfbin_metahandler(TQ3XMethodType methodType)
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3ffw_3dmfbin_N_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 	// Return our methods
@@ -594,7 +594,7 @@ e3ffw_3dmfbin_N_metahandler(TQ3XMethodType methodType)
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3ffw_3dmfbin_S_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 	// Return our methods
@@ -622,7 +622,7 @@ e3ffw_3dmfbin_S_metahandler(TQ3XMethodType methodType)
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3ffw_3dmfbin_D_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 	// Return our methods
@@ -650,7 +650,7 @@ e3ffw_3dmfbin_D_metahandler(TQ3XMethodType methodType)
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3ffw_3dmfbin_DS_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 	// Return our methods
@@ -677,7 +677,7 @@ e3ffw_3dmfbin_DS_metahandler(TQ3XMethodType methodType)
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3ffw_3dmfbin_swap_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -721,7 +721,7 @@ e3ffw_3dmfbin_swap_metahandler(TQ3XMethodType methodType)
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3ffw_3dmfbin_NW_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 	// Return our methods
@@ -749,7 +749,7 @@ e3ffw_3dmfbin_NW_metahandler(TQ3XMethodType methodType)
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3ffw_3dmfbin_SW_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 	// Return our methods
@@ -777,7 +777,7 @@ e3ffw_3dmfbin_SW_metahandler(TQ3XMethodType methodType)
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3ffw_3dmfbin_DW_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 	// Return our methods
@@ -805,7 +805,7 @@ e3ffw_3dmfbin_DW_metahandler(TQ3XMethodType methodType)
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3ffw_3dmfbin_DSW_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 	// Return our methods

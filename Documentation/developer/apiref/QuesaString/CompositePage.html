@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
     "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
-<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a[name]:hover {text-decoration: inherit; font-family: inherit; font-size: inherit}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
     <title>QuesaString.h</title>
 	 <meta name="generator" content="HeaderDoc">
 </head><body bgcolor="#ffffff">
@@ -18,7 +18,7 @@ Declares the Quesa string objects.
 Q3CString_GetString.
 <br><br>
 After the string data has been freed, the str parameter
-will be reset to NULL.
+will be reset to nullptr.
 <br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
@@ -40,7 +40,7 @@ will be reset to NULL.
 <br><br>
 Returns the number of bytes required to store the character
 data in the string object. The length returned does not
-include the terminating NULL byte.
+include the terminating nullptr byte.
 <br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
@@ -62,11 +62,11 @@ include the terminating NULL byte.
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Return the character data of a string object.
 <br><br>
 The data returned must be released with a subsequent call to
-Q3CString_EmptyData. The data returned will be NULL terminated.
+Q3CString_EmptyData. The data returned will be nullptr terminated.
 <br><br>
 The str parameter is overwritten, and so must not point to an
 existing string or a memory leak will occur. If the value of
-the str parameter is not NULL, a warning will be posted.
+the str parameter is not nullptr, a warning will be posted.
 <br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
@@ -86,7 +86,7 @@ the str parameter is not NULL, a warning will be posted.
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new C string object.
 <br><br>
-Creates a string object based on a NULL terminated string. The
+Creates a string object based on a nullptr terminated string. The
 string data is copied, and so str can be disposed of after
 creating the object.
 <br><br>
@@ -141,5 +141,5 @@ object type is unknown.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>The type of the object.
  </dd></dl>
-<p><p>&#169; 1999-2011 Quesa Developers (Last Updated 3/13/2011)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
 </p></body></html>

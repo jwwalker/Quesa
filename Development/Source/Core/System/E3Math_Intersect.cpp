@@ -1268,7 +1268,7 @@ E3Ray3D_IntersectBoundingBox(const TQ3Ray3D *theRay, const TQ3BoundingBox *theBo
 					coord[whichPlane] = candidatePlane[whichPlane];
 			}
 			
-			if ( isInside && (hitPoint != NULL) )
+			if ( isInside && (hitPoint != nullptr) )
 			{
 				hitPoint->x = coord[0];
 				hitPoint->y = coord[1];

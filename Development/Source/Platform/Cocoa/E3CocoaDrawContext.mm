@@ -254,7 +254,7 @@ e3drawcontext_cocoa_get_dimensions(TQ3DrawContextObject theDrawContext, TQ3Area 
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3drawcontext_cocoa_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -353,7 +353,7 @@ E3CocoaDrawContext_NewWithWindow(TQ3ObjectType drawContextType, void *drawContex
 
 	// Check we have a suitable target for the draw context
 	if (drawContextType != kQ3DrawContextTypeCocoa)
-		return(NULL);
+		return(nullptr);
 
 
 
@@ -368,7 +368,7 @@ E3CocoaDrawContext_NewWithWindow(TQ3ObjectType drawContextType, void *drawContex
 	drawContextData.pane.min.y        = 0.0f;
 	drawContextData.pane.max.x        = 0.0f;
 	drawContextData.pane.max.y        = 0.0f;
-	drawContextData.mask.image        = NULL;
+	drawContextData.mask.image        = nullptr;
 	drawContextData.mask.width        = 0;
 	drawContextData.mask.height       = 0;
 	drawContextData.mask.rowBytes     = 0;

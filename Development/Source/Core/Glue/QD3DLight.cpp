@@ -366,14 +366,14 @@ Q3AmbientLight_New(const TQ3LightData *lightData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(lightData), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(lightData), nullptr);
 
 
 
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on lightData
-		return(NULL);
+		return(nullptr);
 #endif
 
 
@@ -461,14 +461,14 @@ Q3DirectionalLight_New(const TQ3DirectionalLightData *directionalLightData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(directionalLightData), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(directionalLightData), nullptr);
 
 
 
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on directionalLightData
-		return(NULL);
+		return(nullptr);
 #endif
 
 
@@ -680,14 +680,14 @@ Q3PointLight_New(const TQ3PointLightData *pointLightData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(pointLightData), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(pointLightData), nullptr);
 
 
 
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on pointLightData
-		return(NULL);
+		return(nullptr);
 #endif
 
 
@@ -1021,14 +1021,14 @@ Q3SpotLight_New(const TQ3SpotLightData *spotLightData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(spotLightData), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(spotLightData), nullptr);
 
 
 
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on spotLightData
-		return(NULL);
+		return(nullptr);
 #endif
 
 

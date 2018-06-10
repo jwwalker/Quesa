@@ -109,11 +109,11 @@ namespace
 	@function	GetPixmapTextureStorage
 	@abstract	Get the data from a pixmap texture object.
 	@param		inTexture		A pixmap texture object.
-	@result		A reference to image storage, or NULL on failure.
+	@result		A reference to image storage, or nullptr on failure.
 */
 static TQ3Object GetPixmapTextureStorage( TQ3TextureObject inTexture )
 {
-	TQ3Object	imageStorage = NULL;
+	TQ3Object	imageStorage = nullptr;
 	TQ3StoragePixmap	dataRec;
 	if (kQ3Success == E3PixmapTexture_GetPixmap( inTexture, &dataRec ))
 	{
@@ -126,11 +126,11 @@ static TQ3Object GetPixmapTextureStorage( TQ3TextureObject inTexture )
 	@function	GetMipmapTextureStorage
 	@abstract	Get the data from a mipmap texture object.
 	@param		inTexture		A mipmap texture object.
-	@result		Holds a reference to image storage, or NULL on failure.
+	@result		Holds a reference to image storage, or nullptr on failure.
 */
 static TQ3Object GetMipmapTextureStorage( TQ3TextureObject inTexture )
 {
-	TQ3Object	imageStorage = NULL;
+	TQ3Object	imageStorage = nullptr;
 	TQ3Mipmap		dataRec;
 	
 	if (kQ3Success == E3MipmapTexture_GetMipmap( inTexture, &dataRec ))
@@ -144,11 +144,11 @@ static TQ3Object GetMipmapTextureStorage( TQ3TextureObject inTexture )
 	@function	GetTextureStorage
 	@abstract	Get the image storage from a texture object.
 	@param		inTexture		A texture object.
-	@result		A reference to image storage, or NULL on failure.
+	@result		A reference to image storage, or nullptr on failure.
 */
 static TQ3Object	GetTextureStorage( TQ3TextureObject inTexture )
 {
-	TQ3Object	imageStorage = NULL;
+	TQ3Object	imageStorage = nullptr;
 	
 	switch (Q3Texture_GetType( inTexture ))
 	{
@@ -318,11 +318,11 @@ TQ3TextureCachePtr	GLTextureMgr_GetTextureCache( TQ3GLContext glContext )
 	TQ3TextureCachePtr	theCache = static_cast<TQ3TextureCachePtr>(
 		GLGPUSharing_GetCache( glContext, kTextureCacheKey ) );
 	
-	if (theCache == NULL)
+	if (theCache == nullptr)
 	{
 		TQ3TextureCache*	newCache = new(std::nothrow) TQ3TextureCache;
 		
-		if (newCache != NULL)
+		if (newCache != nullptr)
 		{
 			GLGPUSharing_AddCache( glContext, kTextureCacheKey, newCache );
 			
@@ -346,12 +346,12 @@ TQ3TextureCachePtr	GLTextureMgr_GetTextureCache( TQ3GLContext glContext )
 					so speed is important.
 	@param			txCache			A texture cache.
 	@param			texture			Reference to a texture object.
-	@result			Pointer to a cached texture record, or NULL if not found.
+	@result			Pointer to a cached texture record, or nullptr if not found.
 */
 TQ3CachedTexturePtr	GLTextureMgr_FindCachedTexture( TQ3TextureCachePtr txCache,
 								TQ3TextureObject texture )
 {
-	TQ3CachedTexturePtr	theRecord = NULL;
+	TQ3CachedTexturePtr	theRecord = nullptr;
 	
 	TRY
 	{
@@ -366,14 +366,14 @@ TQ3CachedTexturePtr	GLTextureMgr_FindCachedTexture( TQ3TextureCachePtr txCache,
 		}
 
 		// if we found a record, but it is stale, delete it.
-		if (theRecord != NULL)
+		if (theRecord != nullptr)
 		{
 			if ( (Q3Shared_GetEditIndex( texture ) != theRecord->editIndexTexture)
 			||
 				(GetStorageEditIndex( texture ) != theRecord->editIndexStorage) )
 			{
 				RemoveCachedTexture( txCache, foundIt );
-				theRecord = NULL;
+				theRecord = nullptr;
 			}
 		}
 	}
@@ -399,7 +399,7 @@ TQ3CachedTexturePtr		GLTextureMgr_CacheTexture(
 								TQ3TextureObject inTexture,
 								GLuint inGLTextureName )
 {
-	TQ3CachedTexturePtr theResult = NULL;
+	TQ3CachedTexturePtr theResult = nullptr;
 	
 	TRY
 	{

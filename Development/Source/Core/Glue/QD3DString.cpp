@@ -120,7 +120,7 @@ Q3CString_New(const char *str)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(str), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(str), nullptr);
 
 
 

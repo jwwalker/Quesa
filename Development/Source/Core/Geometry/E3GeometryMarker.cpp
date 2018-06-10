@@ -189,12 +189,12 @@ e3geom_marker_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 	qd3dStatus = Q3Marker_GetData(fromObject, toInstanceData);
 	
 	if ( (qd3dStatus == kQ3Success) &&
-		(toInstanceData->markerAttributeSet != NULL) )
+		(toInstanceData->markerAttributeSet != nullptr) )
 	{
 		dupSet = Q3Object_Duplicate( toInstanceData->markerAttributeSet );
 		Q3Object_Dispose( toInstanceData->markerAttributeSet );
 		toInstanceData->markerAttributeSet = dupSet;
-		if (dupSet == NULL)
+		if (dupSet == nullptr)
 		{
 			qd3dStatus = kQ3Failure;
 		}
@@ -237,7 +237,7 @@ e3geom_marker_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const 
 	// behaviour was the same for both geometries (or only for bitmaps).
 	Q3ColorRGB_Set(&theColour, 1.0f, 1.0f, 1.0f);
 	
-	if (geomData->markerAttributeSet != NULL)
+	if (geomData->markerAttributeSet != nullptr)
 		Q3AttributeSet_Get(geomData->markerAttributeSet, kQ3AttributeTypeDiffuseColor, &theColour);
 	
 	thePixel = (                         0x0001 << 15) |
@@ -252,8 +252,8 @@ e3geom_marker_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const 
 	theSize   = rowBytes * geomData->bitmap.height;
 
 	theBuffer = (TQ3Uns16*) Q3Memory_AllocateClear(theSize);
-	if (theBuffer == NULL)
-		return(NULL);
+	if (theBuffer == nullptr)
+		return(nullptr);
 
 	for (y = 0; y < geomData->bitmap.height; y++)
 		{
@@ -271,10 +271,10 @@ e3geom_marker_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const 
 
 	// Create the storage object for the image
 	theStorage = Q3MemoryStorage_New((unsigned char*)theBuffer, theSize);
-	if (theStorage == NULL)
+	if (theStorage == nullptr)
 		{
 		Q3Memory_Free(&theBuffer);
-		return(NULL);
+		return(nullptr);
 		}
 
 
@@ -341,7 +341,7 @@ e3geom_marker_pick_window_point(TQ3ViewObject theView, TQ3PickObject thePick, TQ
 
 	// See if we fall within the pick
 	if (e3geom_marker_pixel_is_set(instanceData, (TQ3Int32) markerPixel.x, (TQ3Int32) markerPixel.y))
-		qd3dStatus = E3Pick_RecordHit(thePick, theView, NULL, NULL, NULL, NULL);
+		qd3dStatus = E3Pick_RecordHit(thePick, theView, nullptr, nullptr, nullptr, nullptr);
 
 	return(qd3dStatus);
 }
@@ -391,7 +391,7 @@ e3geom_marker_pick_window_rect(TQ3ViewObject theView, TQ3PickObject thePick, TQ3
 				{
 				if (e3geom_marker_pixel_is_set(instanceData, (TQ3Int32) x, (TQ3Int32) y))
 					{
-					qd3dStatus = E3Pick_RecordHit(thePick, theView, NULL, NULL, NULL, NULL);
+					qd3dStatus = E3Pick_RecordHit(thePick, theView, nullptr, nullptr, nullptr, nullptr);
 					return(qd3dStatus);
 					}
 				}
@@ -483,7 +483,7 @@ e3geom_marker_get_attribute ( E3Marker* marker )
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3geom_marker_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -640,7 +640,7 @@ E3Marker_GetData(TQ3GeometryObject theMarker, TQ3MarkerData *markerData)
 	markerData->yOffset		= marker->instanceData.yOffset ;
 	
 	//copy the attributes
-	markerData->markerAttributeSet = NULL ;
+	markerData->markerAttributeSet = nullptr ;
 	
 	E3Geometry_GetAttributeSet ( theMarker, &markerData->markerAttributeSet ) ;
 	

@@ -142,7 +142,7 @@ E3System_LoadPlugins(void)
 	// Register any shared libraries contained in the plug-ins
 	for (n = 0; n < theGlobals->sharedLibraryCount; n++)
 		{
-		if (theGlobals->sharedLibraryInfo[n].registerFunction != NULL)
+		if (theGlobals->sharedLibraryInfo[n].registerFunction != nullptr)
 			theGlobals->sharedLibraryInfo[n].registerFunction();
 		}
 

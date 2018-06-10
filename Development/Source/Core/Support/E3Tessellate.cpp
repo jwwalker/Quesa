@@ -448,7 +448,7 @@ e3tessellate_gather_vertex_attribute(const void *userData, TQ3Uns32 setIndex)
 
 
 	// Validate our parameters
-	Q3_REQUIRE_OR_RESULT(setIndex < theState->numTriMeshVertices, NULL);
+	Q3_REQUIRE_OR_RESULT(setIndex < theState->numTriMeshVertices, nullptr);
 
 
 
@@ -611,7 +611,7 @@ e3tessellate_callback_combine(const GLdouble		pointIn[3],
 
 
 	// Initialise the result
-	*dataOut = NULL;
+	*dataOut = nullptr;
 
 
 
@@ -624,7 +624,7 @@ e3tessellate_callback_combine(const GLdouble		pointIn[3],
 	for (n = 0; n < 4; n++)
 		{
 		theVertex = (const TQ3Vertex3D *) dataIn[n];
-		if (theVertex != NULL && theVertex->attributeSet != NULL)
+		if (theVertex != nullptr && theVertex->attributeSet != nullptr)
 			{
 			e3tessellate_attribute_get(theVertex, &vertexState[n], kQ3AttributeTypeSurfaceUV);
 			e3tessellate_attribute_get(theVertex, &vertexState[n], kQ3AttributeTypeShadingUV);
@@ -663,7 +663,7 @@ e3tessellate_callback_combine(const GLdouble		pointIn[3],
 
 	// Allocate another vertex
 	newVertex = (TQ3Vertex3D *) Q3Memory_Allocate(sizeof(TQ3Vertex3D));
-	if (newVertex == NULL)
+	if (newVertex == nullptr)
 		return;
 
 
@@ -684,9 +684,9 @@ e3tessellate_callback_combine(const GLdouble		pointIn[3],
 
 	// Set up the vertex, and return it
 	newVertex->point        = combinedPoint;
-	newVertex->attributeSet = (combinedState.attributeMask == 0 ? NULL : Q3AttributeSet_New());
+	newVertex->attributeSet = (combinedState.attributeMask == 0 ? nullptr : Q3AttributeSet_New());
 
-	if (newVertex->attributeSet != NULL)
+	if (newVertex->attributeSet != nullptr)
 		{
 		e3tessellate_attribute_set(newVertex, &combinedState, kQ3AttributeTypeSurfaceUV);
 		e3tessellate_attribute_set(newVertex, &combinedState, kQ3AttributeTypeShadingUV);
@@ -721,15 +721,15 @@ e3tessellate_create_trimesh(E3TessellateState *theState, TQ3AttributeSet triMesh
 	// Allocate the vertex points and attributes arrays
 	thePoints     = (TQ3Point3D              *) Q3Memory_Allocate(static_cast<TQ3Uns32>(theState->numTriMeshVertices * sizeof(TQ3Point3D)));
 	
-	if (thePoints == NULL)
-		return NULL;
+	if (thePoints == nullptr)
+		return nullptr;
 	
 	theAttributes = (TQ3TriMeshAttributeData *) Q3Memory_Allocate(kQ3AttributeTypeNumTypes     * sizeof(TQ3TriMeshAttributeData));
 	
-	if (theAttributes == NULL)
+	if (theAttributes == nullptr)
 		{
 		Q3Memory_Free( &thePoints );
-		return(NULL);
+		return(nullptr);
 		}
 
 
@@ -845,7 +845,7 @@ e3tessellate_dispose_state(E3TessellateState *theState)
 	// Dispose of the tessellator state
 	for (n = 0; n < theState->numTempVertices; n++)
 		{
-		if (theState->tempVertexList[n]->attributeSet != NULL)
+		if (theState->tempVertexList[n]->attributeSet != nullptr)
 			Q3Object_Dispose(theState->tempVertexList[n]->attributeSet);
 		
 		Q3Memory_Free(&theState->tempVertexList[n]);
@@ -883,17 +883,17 @@ E3Tessellate_Contours(TQ3Uns32 numContours, const TQ3Contour *theContours, TQ3At
 
 
 	// Validate our parameters
-	Q3_REQUIRE_OR_RESULT(numContours >= 1,          NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theContours), NULL);
+	Q3_REQUIRE_OR_RESULT(numContours >= 1,          nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theContours), nullptr);
 
 
 
 	// Create the tessellator
 	theTess = gluNewTess();
-	if (theTess == NULL)
+	if (theTess == nullptr)
 		{
 		E3ErrorManager_PostError(kQ3ErrorOutOfMemory, kQ3False);
-		return(NULL);
+		return(nullptr);
 		}
 
 	// Set it up
@@ -909,7 +909,7 @@ E3Tessellate_Contours(TQ3Uns32 numContours, const TQ3Contour *theContours, TQ3At
 
 	// Set up our state
 	Q3Memory_Clear(&theState, sizeof(theState));
-	theTriMesh = NULL;
+	theTriMesh = nullptr;
 
 
 

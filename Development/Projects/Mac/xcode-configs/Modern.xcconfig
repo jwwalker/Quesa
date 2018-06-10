@@ -14,7 +14,7 @@ ARCHS = i386 x86_64
 
 // Minimum OS version supported:
 // -----------------------------
-MACOSX_DEPLOYMENT_TARGET = 10.5
+MACOSX_DEPLOYMENT_TARGET = 10.7
 
 
 // Mac OS SDK version:
@@ -27,6 +27,15 @@ SDKROOT = macosx
 // -----------------
 // Latest should be OK.
 GCC_VERSION =
+
+
+// Compiler Language:
+// -----------------
+GCC_C_LANGUAGE_STANDARD = gnu11
+GCC_ENABLE_PASCAL_STRINGS = NO
+CLANG_CXX_LANGUAGE_STANDARD = gnu++11
+CLANG_CXX_LIBRARY = libc++
+
 
 
 // Preprocessor settings relating to legacy code:

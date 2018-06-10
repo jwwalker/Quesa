@@ -151,8 +151,8 @@ typedef struct TQ3VertexArray {
 	TQ3Point3D					*vertexPoints;					// Always geomData->points
 	TQ3ColorRGB					*vertexDiffuse;					// May be geomVertexDiffuseData,      may be scratch
 	TQ3ColorRGB					*vertexTransparency;			// May be geomVertexTransparencyData, may be scratch
-	TQ3Vector3D					*vertexNormals;					// May be geomVertexNormalsData,      may be scratch or NULL
-	TQ3Param2D					*vertexUVs;						// Always geomVertexUVsData,          may be NULL
+	TQ3Vector3D					*vertexNormals;					// May be geomVertexNormalsData,      may be scratch or nullptr
+	TQ3Param2D					*vertexUVs;						// Always geomVertexUVsData,          may be nullptr
 	TQ3Uns32					*vertexParents;					// Always scratch
 } TQ3VertexArray;
 
@@ -164,11 +164,11 @@ typedef struct TQ3VertexArray {
 class CLockTriMeshData
 {
 public:
-			CLockTriMeshData() : mTriMeshObject( NULL ) {}
+			CLockTriMeshData() : mTriMeshObject( nullptr ) {}
 			
 			~CLockTriMeshData()
 					{
-						if (mTriMeshObject != NULL)
+						if (mTriMeshObject != nullptr)
 						{
 							Q3TriMesh_UnlockData( mTriMeshObject );
 						}
@@ -176,7 +176,7 @@ public:
 	
 	void	LockData( TQ3GeometryObject inTriMesh, TQ3TriMeshData** outData )
 					{
-						Q3_ASSERT( mTriMeshObject == NULL );
+						Q3_ASSERT( mTriMeshObject == nullptr );
 						mTriMeshObject = inTriMesh;
 						Q3TriMesh_LockData( mTriMeshObject, kQ3True, outData );
 					}
@@ -224,13 +224,13 @@ ir_geom_trimesh_calc_edge_colour(TQ3VertexArray *vertexArray, TQ3Uns32 edgeIndex
 		//
 		// If the triangle colour's have a usage array, we also need to test that the
 		// edge's triangle reference is valid before checking that usage array slot.
-		if (vertexArray->currentTriColourData != NULL &&
-		   (vertexArray->currentTriColourFlag == NULL ||
+		if (vertexArray->currentTriColourData != nullptr &&
+		   (vertexArray->currentTriColourFlag == nullptr ||
 			(i0 != kQ3ArrayIndexNULL && vertexArray->currentTriColourFlag[i0]) ||
 			(i1 != kQ3ArrayIndexNULL && vertexArray->currentTriColourFlag[i1])))
 			{
 			// If both triangles have colours, use the first one
-			if (vertexArray->currentTriColourFlag == NULL)
+			if (vertexArray->currentTriColourFlag == nullptr)
 				*theColour = vertexArray->currentTriColourData[i0];
 
 
@@ -339,8 +339,8 @@ ir_geom_trimesh_calc_vertex_colour(TQ3VertexArray			*vertexArray,
 		parentHilightFlag = vertexArray->geomTriHighlightFlag;
 		}
 
-	parentHilighted = (TQ3Boolean) (parentHilightData != NULL && parentHilightData[parentIndex] &&
-					  (parentHilightFlag == NULL || parentHilightFlag[parentIndex]));
+	parentHilighted = (TQ3Boolean) (parentHilightData != nullptr && parentHilightData[parentIndex] &&
+					  (parentHilightFlag == nullptr || parentHilightFlag[parentIndex]));
 
 
 
@@ -351,8 +351,8 @@ ir_geom_trimesh_calc_vertex_colour(TQ3VertexArray			*vertexArray,
 	else
 		{
 		// Check to see if the vertex hilight is present, on, and used
-		vertexHilighted = (TQ3Boolean) (vertexHilightData != NULL && vertexHilightData[vertIndex] &&
-						  (vertexHilightFlag == NULL || vertexHilightFlag[vertIndex]));
+		vertexHilighted = (TQ3Boolean) (vertexHilightData != nullptr && vertexHilightData[vertIndex] &&
+						  (vertexHilightFlag == nullptr || vertexHilightFlag[vertIndex]));
 
 
 		// If the vertex is hilighted, use the hilight colour
@@ -366,8 +366,8 @@ ir_geom_trimesh_calc_vertex_colour(TQ3VertexArray			*vertexArray,
 			TQ3ColorRGB		parentColour = { 0.0f, 0.0f, 0.0f };
 
 			// Use the vertex colour if present and used
-			if (vertexArray->currentVertexColourData != NULL &&
-			   (vertexArray->currentVertexColourFlag == NULL || vertexArray->currentVertexColourFlag[vertIndex]))
+			if (vertexArray->currentVertexColourData != nullptr &&
+			   (vertexArray->currentVertexColourFlag == nullptr || vertexArray->currentVertexColourFlag[vertIndex]))
 				*theColour = vertexArray->currentVertexColourData[vertIndex];
 			
 			
@@ -375,8 +375,8 @@ ir_geom_trimesh_calc_vertex_colour(TQ3VertexArray			*vertexArray,
 			else
 				{
 				// Use the parent colour if present and used
-				if (vertexArray->currentParentColourData != NULL &&
-				   (vertexArray->currentParentColourFlag == NULL || vertexArray->currentParentColourFlag[parentIndex]))
+				if (vertexArray->currentParentColourData != nullptr &&
+				   (vertexArray->currentParentColourFlag == nullptr || vertexArray->currentParentColourFlag[parentIndex]))
 					parentColour = vertexArray->currentParentColourData[parentIndex];
 					
 					
@@ -416,8 +416,8 @@ ir_geom_trimesh_vertex_colours_all_supplied(TQ3VertexArray *vertexArray)
 
 
 	// Check for per-vertex colours without a usage array
-	if (vertexArray->currentVertexColourData != NULL &&
-		vertexArray->currentVertexColourFlag == NULL)
+	if (vertexArray->currentVertexColourData != nullptr &&
+		vertexArray->currentVertexColourFlag == nullptr)
 		{
 		*vertexArray->currentVertexColourPtr = vertexArray->currentVertexColourData;
 		return(kQ3True);
@@ -442,10 +442,10 @@ ir_geom_trimesh_vertex_colours_single_colour(TQ3VertexArray *vertexArray)
 
 
 	// Check for a single per-geometry colour (i.e., no triangle or vertex colours)
-	if (vertexArray->currentTriColourData    == NULL &&
-		vertexArray->currentVertexColourData == NULL)
+	if (vertexArray->currentTriColourData    == nullptr &&
+		vertexArray->currentVertexColourData == nullptr)
 		{
-		*vertexArray->currentVertexColourPtr = NULL;
+		*vertexArray->currentVertexColourPtr = nullptr;
 		return(kQ3True);
 		}
 	
@@ -500,23 +500,23 @@ ir_geom_trimesh_add_transparent(TQ3VertexArray *vertexArray, TQ3Uns32 numVerts, 
 		theVertices[n].theFlags = kQ3FVertexHaveDiffuse | kQ3FVertexHaveTransparency;
 		theVertices[n].thePoint = vertexArray->geomData->points[theIndices[n]];
 
-		if (vertexArray->vertexDiffuse != NULL)
+		if (vertexArray->vertexDiffuse != nullptr)
 			theVertices[n].colourDiffuse = vertexArray->vertexDiffuse[theIndices[n]];
 		else
 			theVertices[n].colourDiffuse = vertexArray->geomFinalDiffuse;
 
-		if (vertexArray->vertexTransparency != NULL)
+		if (vertexArray->vertexTransparency != nullptr)
 			theVertices[n].colourTransparency = vertexArray->vertexTransparency[theIndices[n]];
 		else
 			theVertices[n].colourTransparency = vertexArray->geomFinalTransparency;
 
-		if (vertexArray->vertexNormals != NULL)
+		if (vertexArray->vertexNormals != nullptr)
 			{
 			theVertices[n].theFlags |= kQ3FVertexHaveNormal;
 			theVertices[n].theNormal = vertexArray->vertexNormals[theIndices[n]];
 			}
 
-		if (vertexArray->vertexUVs != NULL)
+		if (vertexArray->vertexUVs != nullptr)
 			{
 			theVertices[n].theFlags |= kQ3FVertexHaveUV;
 			theVertices[n].theUV     = vertexArray->vertexUVs[theIndices[n]];
@@ -555,7 +555,7 @@ ir_geom_trimesh_add_transparent(TQ3VertexArray *vertexArray, TQ3Uns32 numVerts, 
 //					1. vertexArray->vertexDiffuse will point to an array of
 //					individual vertex colours to pass to OpenGL.
 //
-//					2. vertexArray->vertexDiffuse will be NULL, and all
+//					2. vertexArray->vertexDiffuse will be nullptr, and all
 //					vertices will be drawn in vertexArray->geomDiffuse.
 //
 //				If calcDiffuse is false, the equivalent transparency colours
@@ -652,21 +652,21 @@ ir_geom_trimesh_build_vertex_normals(TQ3VertexArray *vertexArray)
 	// Decide if we need vertex normals
 	if (vertexArray->renderEdges || vertexArray->instanceData->stateInterpolation == kQ3InterpolationStyleNone)
 		{
-		vertexArray->vertexNormals = NULL;
+		vertexArray->vertexNormals = nullptr;
 		return;
 		}
 
 
 
 	// If normals have been supplied, ensure we have them all
-	if (vertexArray->geomVertexNormalsData != NULL)
+	if (vertexArray->geomVertexNormalsData != nullptr)
 		{
 		// Adjust our pointer to use the supplied data
 		vertexArray->vertexNormals = vertexArray->geomVertexNormalsData;
 
 
 		// Fill in any missing values
-		if (vertexArray->geomVertexNormalsFlag != NULL)
+		if (vertexArray->geomVertexNormalsFlag != nullptr)
 			{
 			for (n = 0; n < vertexArray->geomData->numPoints; n++)
 				{
@@ -723,21 +723,21 @@ ir_geom_trimesh_build_vertex_uvs(TQ3VertexArray *vertexArray)
 	// Decide if we need vertex UVs
 	if (!vertexArray->geomNeedsUVs)
 		{
-		vertexArray->vertexUVs = NULL;
+		vertexArray->vertexUVs = nullptr;
 		return;
 		}
 
 
 
 	// If UVs have been supplied, ensure we have them all	
-	if (vertexArray->geomVertexUVsData != NULL)
+	if (vertexArray->geomVertexUVsData != nullptr)
 		{
 		// Adjust our pointer to use the supplied data
 		vertexArray->vertexUVs = vertexArray->geomVertexUVsData;
 
 
 		// Fill in any missing values
-		if (vertexArray->geomVertexUVsFlag != NULL)
+		if (vertexArray->geomVertexUVsFlag != nullptr)
 			{
 			for (n = 0; n < vertexArray->geomData->numPoints; n++)
 				{
@@ -769,14 +769,14 @@ ir_geom_trimesh_build_triangles(TQ3VertexArray *vertexArray)
 	// Initialise the triangle normals
 	//
 	// If normals have been supplied, ensure we have them all
-	if (vertexArray->geomTriNormalsData != NULL)
+	if (vertexArray->geomTriNormalsData != nullptr)
 		{
 		// Adjust our pointer to use the supplied data
 		vertexArray->triNormals = vertexArray->geomTriNormalsData;
 
 
 		// Fill in any missing values
-		if (vertexArray->geomTriNormalsFlag != NULL)
+		if (vertexArray->geomTriNormalsFlag != nullptr)
 			IRGeometry_Generate_Triangle_Normals(vertexArray->instanceData,
 												 vertexArray->geomData->numTriangles,
 												 vertexArray->geomTriNormalsFlag,
@@ -790,7 +790,7 @@ ir_geom_trimesh_build_triangles(TQ3VertexArray *vertexArray)
 	else
 		IRGeometry_Generate_Triangle_Normals(vertexArray->instanceData,
 											 vertexArray->geomData->numTriangles,
-											 NULL,
+											 nullptr,
 											 (TQ3Uns32 *) vertexArray->geomData->triangles,
 											 vertexArray->geomData->points,
 											 vertexArray->triNormals);
@@ -878,14 +878,14 @@ ir_geom_trimesh_build_transparent(TQ3VertexArray *vertexArray)
 	// Check for transparent triangles
 	if (!allTransparent)
 		{
-		if (vertexArray->geomTriTransparencyData != NULL)
+		if (vertexArray->geomTriTransparencyData != nullptr)
 			{
 			isTransparent  = kQ3True;
-			allTransparent = (TQ3Boolean) (vertexArray->geomTriTransparencyFlag == NULL);
+			allTransparent = (TQ3Boolean) (vertexArray->geomTriTransparencyFlag == nullptr);
 			
 			for (n = 0; n < vertexArray->geomData->numTriangles; n++)
 				{
-				if (vertexArray->geomTriTransparencyFlag == NULL || vertexArray->geomTriTransparencyFlag[n])
+				if (vertexArray->geomTriTransparencyFlag == nullptr || vertexArray->geomTriTransparencyFlag[n])
 					E3Bit_Set(vertexArray->triFlags[n], kQ3TriFlagTransparent);
 				}
 			}
@@ -901,14 +901,14 @@ ir_geom_trimesh_build_transparent(TQ3VertexArray *vertexArray)
 	// than keeping a separate set of flags for each edge.
 	if (!allTransparent && vertexArray->renderEdges)
 		{
-		if (vertexArray->geomEdgeTransparencyData != NULL)
+		if (vertexArray->geomEdgeTransparencyData != nullptr)
 			{
 			isTransparent  = kQ3True;
-			allTransparent = (TQ3Boolean) (vertexArray->geomEdgeTransparencyFlag == NULL);
+			allTransparent = (TQ3Boolean) (vertexArray->geomEdgeTransparencyFlag == nullptr);
 			
 			for (n = 0; n < vertexArray->geomData->numEdges; n++)
 				{
-				if (vertexArray->geomEdgeTransparencyFlag == NULL || vertexArray->geomEdgeTransparencyFlag[n])
+				if (vertexArray->geomEdgeTransparencyFlag == nullptr || vertexArray->geomEdgeTransparencyFlag[n])
 					{
 					theIndices = vertexArray->geomData->edges[n].triangleIndices;
 					E3Bit_Set(vertexArray->triFlags[theIndices[0]], kQ3TriFlagTransparent);
@@ -923,13 +923,13 @@ ir_geom_trimesh_build_transparent(TQ3VertexArray *vertexArray)
 	// Check for transparent vertices
 	if (!allTransparent)
 		{
-		if (vertexArray->geomVertexTransparencyData != NULL)
+		if (vertexArray->geomVertexTransparencyData != nullptr)
 			{
 			isTransparent  = kQ3True;
 			
 			for (n = 0; n < vertexArray->geomData->numPoints; n++)
 				{
-				if (vertexArray->geomVertexTransparencyFlag == NULL || vertexArray->geomVertexTransparencyFlag[n])
+				if (vertexArray->geomVertexTransparencyFlag == nullptr || vertexArray->geomVertexTransparencyFlag[n])
 					{
 					m = vertexArray->vertexParents[n];
 					E3Bit_Set(vertexArray->triFlags[m], kQ3TriFlagTransparent);
@@ -1110,11 +1110,11 @@ ir_geom_trimesh_initialise(TQ3ViewObject				theView,
 
 	// Set up the misc/geometry state
 	tmpVertex.attributeSet = geomAttributes;
-	IRGeometry_Generate_Vertex_State(instanceData, NULL, &tmpVertex, &tmpFVertex);
+	IRGeometry_Generate_Vertex_State(instanceData, nullptr, &tmpVertex, &tmpFVertex);
 	if (!E3Bit_IsSet(tmpFVertex.theFlags, kQ3FVertexHaveTransparency))
 		Q3ColorRGB_Set(&tmpFVertex.colourTransparency, 1.0f, 1.0f, 1.0f);
 	
-	// If there is an active texture, and the illumination is not NULL, and the TriMesh has UVs,
+	// If there is an active texture, and the illumination is not nullptr, and the TriMesh has UVs,
 	// then we want to set tmpFVertex.colourDiffuse to white.  This special case is handled for some
 	// geometries in IRGeometry_Generate_Vertex_State, but a TriMesh is different because the UV is
 	// not in an attribute set.
@@ -1132,7 +1132,7 @@ ir_geom_trimesh_initialise(TQ3ViewObject				theView,
 		}
 
 	vertexArray->renderEdges           = renderEdges;
-	vertexArray->geomIsHilighted       = (TQ3Boolean) (instanceData->stateGeomHilightState == kQ3On && instanceData->stateHilight != NULL);
+	vertexArray->geomIsHilighted       = (TQ3Boolean) (instanceData->stateGeomHilightState == kQ3On && instanceData->stateHilight != nullptr);
 	vertexArray->geomNeedsUVs          = (TQ3Boolean) (instanceData->stateTextureActive             && !vertexArray->renderEdges);
 	vertexArray->geomDiffuse           = tmpFVertex.colourDiffuse;
 	vertexArray->geomTransparency      = tmpFVertex.colourTransparency;
@@ -1244,7 +1244,7 @@ ir_geom_trimesh_initialise(TQ3ViewObject				theView,
 	//
 	// Our pointers are set up to point to the scratch space in case we need to copy
 	// the TriMesh data, and may be overwritten to point to the TriMesh data (if no
-	// copying is required) or set to NULL (if the data is not used).
+	// copying is required) or set to nullptr (if the data is not used).
 	//
 	// Note that vertexPoints is always just set to the supplied point data for now,
 	// since we don't support inserting new vertices to handle shared inheritence
@@ -1304,10 +1304,10 @@ ir_geom_trimesh_render(TQ3InteractiveData *instanceData,TQ3VertexArray *vertexAr
 	// Prepare to render
 	glVertexPointer(3, GL_FLOAT, sizeof(TQ3Point3D), vertexArray->vertexPoints);
 
-	GLUtils_UpdateClientState( (TQ3Boolean)(vertexArray->vertexDiffuse != NULL),
+	GLUtils_UpdateClientState( (TQ3Boolean)(vertexArray->vertexDiffuse != nullptr),
 		&instanceData->glClientStateColor, GL_COLOR_ARRAY );
 	
-	if (vertexArray->vertexDiffuse != NULL)
+	if (vertexArray->vertexDiffuse != nullptr)
 		{
 		glColorPointer(3, GL_FLOAT, sizeof(TQ3ColorRGB), vertexArray->vertexDiffuse);
 		}
@@ -1315,18 +1315,18 @@ ir_geom_trimesh_render(TQ3InteractiveData *instanceData,TQ3VertexArray *vertexAr
 		glColor3fv(&vertexArray->geomFinalDiffuse.r);
 
 
-	GLUtils_UpdateClientState( (TQ3Boolean)(vertexArray->vertexNormals != NULL),
+	GLUtils_UpdateClientState( (TQ3Boolean)(vertexArray->vertexNormals != nullptr),
 		&instanceData->glClientStateNormal, GL_NORMAL_ARRAY );
 
-	if (vertexArray->vertexNormals != NULL)
+	if (vertexArray->vertexNormals != nullptr)
 		{
 		glNormalPointer(GL_FLOAT, sizeof(TQ3Vector3D), vertexArray->vertexNormals);
 		}
 
-	GLUtils_UpdateClientState( (TQ3Boolean)(vertexArray->vertexUVs != NULL),
+	GLUtils_UpdateClientState( (TQ3Boolean)(vertexArray->vertexUVs != nullptr),
 		&instanceData->glClientStateUV, GL_TEXTURE_COORD_ARRAY );
 
-	if (vertexArray->vertexUVs != NULL)
+	if (vertexArray->vertexUVs != nullptr)
 		{
 		glTexCoordPointer(2, GL_FLOAT, sizeof(TQ3Param2D), vertexArray->vertexUVs);
 		}
@@ -1445,7 +1445,7 @@ IRGeometry_Submit_TriMesh(TQ3ViewObject				theView,
 	CLockTriMeshData	locker;
 	bool				wasValid;
 
-	if (theGeom != NULL) // the non retained case
+	if (theGeom != nullptr) // the non retained case
 	{	
 		// Look for a cached optimized geometry.
 		cachedGeom = GetCachedOptimizedTriMesh( theGeom, wasValid );
@@ -1495,7 +1495,7 @@ IRGeometry_Submit_TriMesh(TQ3ViewObject				theView,
 
 
 	// Clean up
-	IRRenderer_Texture_Postamble(theView, instanceData, hadAttributeTexture, (TQ3Boolean) (vertexArray.vertexUVs != NULL) );
+	IRRenderer_Texture_Postamble(theView, instanceData, hadAttributeTexture, (TQ3Boolean) (vertexArray.vertexUVs != nullptr) );
 
 	
 

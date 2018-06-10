@@ -655,8 +655,8 @@ Q3XElementClass_Register(TQ3ElementType *elementType, const char *name, TQ3Uns32
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(elementType), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(name), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(elementType), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(name), nullptr);
 
 
 
@@ -717,8 +717,8 @@ Q3XAttributeClass_Register(TQ3AttributeType *attributeType, const char *creatorN
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(attributeType), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(creatorName), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(attributeType), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(creatorName), nullptr);
 
 
 
@@ -777,7 +777,7 @@ Q3XAttributeSet_GetMask(TQ3AttributeSet attributeSet)
 
 
 	// Release build checks
-	if(attributeSet == NULL)
+	if(attributeSet == nullptr)
 		return(kQ3XAttributeMaskNone);
 
 

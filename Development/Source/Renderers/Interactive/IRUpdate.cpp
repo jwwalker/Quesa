@@ -86,7 +86,7 @@ ir_state_reset(TQ3InteractiveData *instanceData)
 
     // Reset our state
     instanceData->stateFill          = kQ3FillStyleFilled;
-    instanceData->stateHilight       = NULL;
+    instanceData->stateHilight       = nullptr;
     instanceData->stateInterpolation = kQ3InterpolationStyleVertex;
     instanceData->stateBackfacing    = kQ3BackfacingStyleBoth;
     instanceData->stateOrientation   = kQ3OrientationStyleCounterClockwise;
@@ -215,7 +215,7 @@ IRRenderer_State_EndPass(TQ3InteractiveData *instanceData)
 
 
 	// Dispose of our state
-	if (instanceData->stateHilight != NULL)
+	if (instanceData->stateHilight != nullptr)
 		Q3Object_Dispose(instanceData->stateHilight);
 
 
@@ -943,7 +943,7 @@ IRRenderer_Update_Shader_Illumination(TQ3ViewObject			theView,
 
 
 	// Update our state
-    if (shaderData != NULL && *shaderData != NULL)
+    if (shaderData != nullptr && *shaderData != nullptr)
         instanceData->stateViewIllumination = Q3IlluminationShader_GetType(*shaderData);
     else
         instanceData->stateViewIllumination = kQ3ObjectTypeInvalid;
@@ -1006,10 +1006,10 @@ IRRenderer_Update_Shader_Surface(TQ3ViewObject			theView,
 
 
 	// Get the texture from the shader
-	theShader  = (shaderData != NULL ? *shaderData : NULL);
-	theTexture = NULL;
+	theShader  = (shaderData != nullptr ? *shaderData : nullptr);
+	theTexture = nullptr;
 
-	if (theShader != NULL)
+	if (theShader != nullptr)
 		{
 		theType = Q3SurfaceShader_GetType(theShader);
 		if (theType == kQ3SurfaceShaderTypeTexture)
@@ -1024,7 +1024,7 @@ IRRenderer_Update_Shader_Surface(TQ3ViewObject			theView,
 
 
 	// Clean up
-	if (theTexture != NULL)
+	if (theTexture != nullptr)
 		Q3Object_Dispose(theTexture);
 
     return(kQ3Success);

@@ -81,8 +81,8 @@ E3XObjectHierarchy_RegisterClass(TQ3ObjectType parentType, TQ3ObjectType *object
 
 
 	// Make sure this class hasn't been registered
-	if ( E3ClassTree::GetClass ( objectName ) != NULL )
-		return(NULL);
+	if ( E3ClassTree::GetClass ( objectName ) != nullptr )
+		return(nullptr);
 
 
 
@@ -104,7 +104,7 @@ E3XObjectHierarchy_RegisterClass(TQ3ObjectType parentType, TQ3ObjectType *object
 											metaHandler,
 											instanceSize);
 	if (qd3dStatus != kQ3Success)
-		return(NULL);
+		return(nullptr);
 
 
 
@@ -181,7 +181,7 @@ E3XObjectHierarchy_GetClassVersion(TQ3ObjectType objectClassType, TQ3XObjectClas
 
 	// Find the class
 	E3ClassInfoPtr theClass = E3ClassTree::GetClass ( objectClassType ) ;
-	if ( theClass == NULL )
+	if ( theClass == nullptr )
 		return kQ3Failure ;
 
 

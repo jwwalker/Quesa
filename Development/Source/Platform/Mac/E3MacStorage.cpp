@@ -201,7 +201,7 @@ e3storage_mac_fillbuffer ( E3MacintoshStorage* storage, TQ3Uns32 offset )
 	
 	
 	Q3_REQUIRE_OR_RESULT( storage->macStorageData.fsRefNum != -1, kQ3Failure ) ;
-	Q3_REQUIRE_OR_RESULT( storage->macStorageData.buffer != NULL, kQ3Failure ) ;
+	Q3_REQUIRE_OR_RESULT( storage->macStorageData.buffer != nullptr, kQ3Failure ) ;
 	
 
 	err = ::FSSetForkPosition ( storage->macStorageData.fsRefNum, fsFromStart, (TQ3Int32) offset ) ;
@@ -249,7 +249,7 @@ e3storage_mac_flushbuffer ( E3MacintoshStorage* storage )
 		}
 		
 	Q3_REQUIRE_OR_RESULT( storage->macStorageData.fsRefNum != -1, kQ3Failure ) ;
-	Q3_REQUIRE_OR_RESULT( storage->macStorageData.buffer != NULL, kQ3Failure ) ;
+	Q3_REQUIRE_OR_RESULT( storage->macStorageData.buffer != nullptr, kQ3Failure ) ;
 	
 	SInt64 theLength ;
 	OSErr err = ::FSGetForkSize ( storage->macStorageData.fsRefNum, &theLength ) ;
@@ -391,7 +391,7 @@ e3storage_mac_write ( E3MacintoshStorage* storage, TQ3Uns32 offset, TQ3Uns32 dat
 	OSErr err = noErr ;
 	
 	Q3_REQUIRE_OR_RESULT( ( storage->macStorageData.fsRefNum != -1 ), kQ3Failure ) ;
-	Q3_REQUIRE_OR_RESULT( storage->macStorageData.buffer != NULL, kQ3Failure ) ;
+	Q3_REQUIRE_OR_RESULT( storage->macStorageData.buffer != nullptr, kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT( ! e3storage_mac_hasFlag( storage, kQ3MacStorage_ReadOnlyFlag ), kQ3Failure ) ;
 
 
@@ -491,7 +491,7 @@ e3storage_mac_new(TQ3Object theObject, void *privateData, const void *paramData)
 	const TQ3Int16	*fsRefNumPtr  = (const TQ3Int16 *) paramData ;
 
 	instanceData->buffer = (TQ3Uns8*) Q3Memory_Allocate ( kQ3MacStorage_BufferSize ) ;		// Allocate buffer
-	if ( instanceData->buffer == NULL )
+	if ( instanceData->buffer == nullptr )
 		return kQ3Failure ;
 		
 	instanceData->bufferStart = kQ3MacStorage_BufferInvalid ;		// this will force the refill of the buffer at first read
@@ -501,7 +501,7 @@ e3storage_mac_new(TQ3Object theObject, void *privateData, const void *paramData)
 	
 	instanceData->flags = 0 ;		// initialize flags
 	
-	if ( fsRefNumPtr != NULL )
+	if ( fsRefNumPtr != nullptr )
 		{ 		// I'm the leaf type
 		Q3_ASSERT ( Q3Object_GetLeafType ( theObject ) == kQ3StorageTypeMacintosh ) ;
 		
@@ -542,7 +542,7 @@ e3storage_mac_delete(TQ3Object storage, void *privateData)
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3storage_mac_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -594,7 +594,7 @@ e3storage_mac_fsspec_open ( E3FSSpecStorage* theStorage, TQ3Boolean forWriting )
 	
 	// Open the file
 	TQ3Int16 filePerm = forWriting ? fsRdWrPerm : fsRdPerm ;
-	OSStatus	theErr   = ::FSOpenFork( &theStorage->theFSRef, 0, NULL, filePerm,
+	OSStatus	theErr   = ::FSOpenFork( &theStorage->theFSRef, 0, nullptr, filePerm,
 			& theStorage->macStorageData.fsRefNum );
 
 
@@ -672,7 +672,7 @@ e3storage_mac_fsspec_delete ( E3FSSpecStorage* storage, void *privateData )
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3storage_mac_fsspec_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -721,10 +721,10 @@ e3storage_mac_handle_new(TQ3Object theObject, void *privateData, const void *par
 
 
 	// If we're expected to create our own handle, do so	
-	if (instanceData->theHnd == NULL)
+	if (instanceData->theHnd == nullptr)
 		{
 		instanceData->theHnd = TempNewHandle((SInt32) instanceData->theSize, &theErr);
-		if (instanceData->theHnd == NULL || theErr != noErr)
+		if (instanceData->theHnd == nullptr || theErr != noErr)
 			return(kQ3Failure);
 
 		instanceData->ownHandle = kQ3True;
@@ -748,7 +748,7 @@ e3storage_mac_handle_delete(TQ3Object storage, void *privateData)
 
 
 	// Dispose of our instance data
-	if (instanceData->ownHandle && instanceData->theHnd != NULL)
+	if (instanceData->ownHandle && instanceData->theHnd != nullptr)
 		DisposeHandle(instanceData->theHnd);
 }
 
@@ -776,7 +776,7 @@ e3storage_mac_handle_duplicate(	TQ3Object fromObject, const void *fromPrivateDat
 	{
 		OSErr						theErr;
 		toInstanceData->theHnd = TempNewHandle( toInstanceData->theSize, &theErr );
-		if (toInstanceData->theHnd == NULL)
+		if (toInstanceData->theHnd == nullptr)
 		{
 			theStatus = kQ3Failure;
 		}
@@ -891,7 +891,7 @@ e3storage_mac_handle_write ( E3HandleStorage* storage, TQ3Uns32 offset, TQ3Uns32
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3storage_mac_handle_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -1027,11 +1027,11 @@ E3HandleStorage_Set(TQ3StorageObject storage, Handle handle, TQ3Uns32 validSize)
 
 
 	// If we're expected to create a new handle, create one
-	if ( handle == NULL )
+	if ( handle == nullptr )
 		{
 		OSErr theErr ;
 		( (E3HandleStorage*) storage )->instanceData.theHnd = ::TempNewHandle ( (SInt32) validSize, &theErr ) ;
-		if ( ( (E3HandleStorage*) storage )->instanceData.theHnd == NULL || theErr != noErr )
+		if ( ( (E3HandleStorage*) storage )->instanceData.theHnd == nullptr || theErr != noErr )
 			return kQ3Failure ;
 
 		( (E3HandleStorage*) storage )->instanceData.ownHandle = kQ3True ;
@@ -1202,7 +1202,7 @@ E3FSSpecStorage_Get(TQ3StorageObject theStorage, FSSpec *theFSSpec)
 	{
 	// Get the data
 	FSGetCatalogInfo( & ( (E3FSSpecStorage*) theStorage )->theFSRef,
-		kFSCatInfoNone, NULL, NULL, theFSSpec, NULL );
+		kFSCatInfoNone, nullptr, nullptr, theFSSpec, nullptr );
 	
 	return kQ3Success ;
 	}

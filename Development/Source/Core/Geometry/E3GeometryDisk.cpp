@@ -138,12 +138,12 @@ e3geom_disk_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 	qd3dStatus = Q3Disk_GetData(fromObject, toInstanceData);
 	
 	if ( (qd3dStatus == kQ3Success) &&
-		(toInstanceData->diskAttributeSet != NULL) )
+		(toInstanceData->diskAttributeSet != nullptr) )
 	{
 		dupSet = Q3Object_Duplicate( toInstanceData->diskAttributeSet );
 		Q3Object_Dispose( toInstanceData->diskAttributeSet );
 		toInstanceData->diskAttributeSet = dupSet;
-		if (dupSet == NULL)
+		if (dupSet == nullptr)
 		{
 			qd3dStatus = kQ3Failure;
 		}
@@ -301,14 +301,14 @@ e3geom_disk_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ
 	theUVs       = (TQ3Param2D  *)            Q3Memory_Allocate(static_cast<TQ3Uns32>(numPoints * sizeof(TQ3Param2D)));
 	theTriangles = (TQ3TriMeshTriangleData *) Q3Memory_Allocate(static_cast<TQ3Uns32>(numTriangles * sizeof(TQ3TriMeshTriangleData)));
 
-	if (thePoints == NULL || theNormals == NULL || theUVs == NULL || theTriangles == NULL)
+	if (thePoints == nullptr || theNormals == nullptr || theUVs == nullptr || theTriangles == nullptr)
 		{
 		Q3Memory_Free(&thePoints);
 		Q3Memory_Free(&theNormals);
 		Q3Memory_Free(&theUVs);
 		Q3Memory_Free(&theTriangles);
 		
-		return(NULL);
+		return(nullptr);
 		}
 
 
@@ -452,11 +452,11 @@ e3geom_disk_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ
 	// Initialise the vertex attributes
 	vertexAttributes[0].attributeType     = kQ3AttributeTypeNormal;
 	vertexAttributes[0].data              = theNormals;
-	vertexAttributes[0].attributeUseArray = NULL;
+	vertexAttributes[0].attributeUseArray = nullptr;
 
 	vertexAttributes[1].attributeType     = kQ3AttributeTypeSurfaceUV;
 	vertexAttributes[1].data              = theUVs;
-	vertexAttributes[1].attributeUseArray = NULL;
+	vertexAttributes[1].attributeUseArray = nullptr;
 
 
 
@@ -466,11 +466,11 @@ e3geom_disk_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ
 	triMeshData.numTriangles              = numTriangles;
 	triMeshData.triangles                 = theTriangles;
 	triMeshData.numTriangleAttributeTypes = 0;
-	triMeshData.triangleAttributeTypes    = NULL;
+	triMeshData.triangleAttributeTypes    = nullptr;
 	triMeshData.numEdges                  = 0;
-	triMeshData.edges                     = NULL;
+	triMeshData.edges                     = nullptr;
 	triMeshData.numEdgeAttributeTypes     = 0;
-	triMeshData.edgeAttributeTypes        = NULL;
+	triMeshData.edgeAttributeTypes        = nullptr;
 	triMeshData.numVertexAttributeTypes   = 2;
 	triMeshData.vertexAttributeTypes      = vertexAttributes;
 	triMeshData.triMeshAttributeSet       = geomData->diskAttributeSet;
@@ -521,7 +521,7 @@ e3geom_disk_get_attribute ( E3Disk* disk )
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3geom_disk_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -607,14 +607,14 @@ E3Disk_New(const TQ3DiskData *diskData)
 	TQ3Object		theObject;
 	
 	
-	if (diskData == NULL)
+	if (diskData == nullptr)
 	{
 		TQ3DiskData		defaultDiskData = {
 			{ 0.0f, 0.0f, 0.0f },
 			{ 1.0f, 0.0f, 0.0f },
 			{ 0.0f, 1.0f, 0.0f },
 			0.0f, 1.0f, 0.0f, 1.0f,
-			NULL
+			nullptr
 		};
 		theObject = E3ClassTree::CreateInstance ( kQ3GeometryTypeDisk, kQ3False, &defaultDiskData ) ;
 	}

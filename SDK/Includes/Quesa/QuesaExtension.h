@@ -287,7 +287,7 @@ typedef struct TQ3XSharedLibraryInfo {
  *      Register a new object class in the class tree.
  *
  *      Quesa does not support the virtualMetaHandler or methodsSize parameters,
- *      and these should be set to NULL and 0 respectively.
+ *      and these should be set to nullptr and 0 respectively.
  *
  *      Virtual methods are inherited from the parent class metahandler in the
  *      Quesa class tree, and the QD3D docs are unclear on the purpose of
@@ -305,7 +305,7 @@ typedef struct TQ3XSharedLibraryInfo {
  *                               for the new class. This value is used as the class
  *                               identifier in text 3DMF files.
  *  @param metaHandler           The metahandler for the class.
- *  @param virtualMetaHandler    The virtual metahandler for the class (should be NULL).
+ *  @param virtualMetaHandler    The virtual metahandler for the class (should be nullptr).
  *  @param methodsSize           The size of the private class data (shoudld be 0).
  *  @param instanceSize          The size of the instance data for the class, if any.
  *  @result                      The new class reference.
@@ -442,7 +442,7 @@ Q3XObjectClass_GetType (
  *      Locate a class within the class tree.
  *
  *  @param theType          The class type.
- *  @result                 The class registered under theType, or NULL.
+ *  @result                 The class registered under theType, or nullptr.
  */
 Q3_EXTERN_API_C ( TQ3XObjectClass  )
 Q3XObjectHierarchy_FindClassByType (
@@ -457,7 +457,7 @@ Q3XObjectHierarchy_FindClassByType (
  *  @discussion
  *      Get the private instance data of an object.
  *
- *      If no instance data space was reserved for the object, a NULL
+ *      If no instance data space was reserved for the object, a nullptr
  *      pointer will be returned.
  *
  *  @param objectClass      The class of the object.

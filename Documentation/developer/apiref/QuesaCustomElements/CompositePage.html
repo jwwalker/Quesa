@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
     "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
-<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a[name]:hover {text-decoration: inherit; font-family: inherit; font-size: inherit}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
     <title>QuesaCustomElements.h</title>
 	 <meta name="generator" content="HeaderDoc">
 </head><body bgcolor="#ffffff">
@@ -34,8 +34,8 @@ Declares the standard Quesa custom elements, most inherited from QD3D.
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the name element for an object.
 <br><br>
-The name parameter will receive a C string, or NULL if no name has
-been associated with the object. If a non-NULL pointer is returned,
+The name parameter will receive a C string, or nullptr if no name has
+been associated with the object. If a non-nullptr pointer is returned,
 it must be disposed of with CENameElement_EmptyData.
 <br><br>
 </p>
@@ -59,8 +59,8 @@ it must be disposed of with CENameElement_EmptyData.
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the name element for an object.
 <br><br>
-The name parameter will receive a C string, or NULL if no name has
-been associated with the object. If a non-NULL pointer is returned,
+The name parameter will receive a C string, or nullptr if no name has
+been associated with the object. If a non-nullptr pointer is returned,
 it should be considered read-only and temporary.  Unlike
 CENameElement_GetData, this function returns the actual string within
 the element, not a copy.
@@ -97,6 +97,51 @@ by CENameElement_SetData.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
+<hr><a name="//Quesa/c/func/CESpecularMapElement_Copy"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CESpecularMapElement_Copy">CESpecularMapElement_Copy</a></h2>
+</td></tr></table><hr>Retrieve a shininess map texture from an object.
+
+<blockquote><pre><tt>( TQ3TextureObject ) CESpecularMapElement_Copy (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShaderObject inShader
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>inShader</em></tt></dt><dd>A surface shader.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>A new reference to a texture, or nullptr.
+</dd></dl>
+<hr><a name="//Quesa/c/func/CESpecularMapElement_Set"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CESpecularMapElement_Set">CESpecularMapElement_Set</a></h2>
+</td></tr></table><hr>Set or remove a shininess map.
+
+<blockquote><pre><tt>( void ) CESpecularMapElement_Set (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShaderObject ioShader,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TextureObject inTexture
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>The specular map texture must be an RGBA texture.
+The RGB part is the specular color, while the alpha
+channel serves as specular control.  The alpha is not
+the same as Quesa's usual specular control, since
+specular control is an unbounded floating-point number,
+while the alpha value is bounded. To be exact,
+an alpha value in the range [0.0, 1.0] is multiplied
+by 128.0 and used as the OpenGL specular exponent.
+<br><br>
+A specular map may only be used with the OpenGL
+renderer, and requires that per-pixel lighting be
+enabled.
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>ioShader</em></tt></dt><dd>A surface shader.</dd>
+<dt><tt><em>inTexture</em></tt></dt><dd>A texture object, or nullptr to remove.</dd>
+</dl>
+</blockquote>
 <hr><a name="//Quesa/c/func/CETriangleStripElement_GetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CETriangleStripElement_GetData">CETriangleStripElement_GetData</a></h2>
 </td></tr></table><hr>Get a triangle strip for the object.
@@ -162,7 +207,7 @@ will compute one, but this can take a little time.
 When you assign a triangle strip, the element also records the
 current edit index of the object.
 <br><br>
-You can pass 0 for inNumIndices and NULL for inIndices to
+You can pass 0 for inNumIndices and nullptr for inIndices to
 indicate that you want to avoid using a triangle strip, perhaps
 because there is no efficient strip for this geometry.
 <br><br>
@@ -204,8 +249,8 @@ because there is no efficient strip for this geometry.
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the URL element for an object.
 <br><br>
-The urlData parameter will receive a pointer to the URL data, or NULL
-if no URL element has been associated with the object. If a non-NULL
+The urlData parameter will receive a pointer to the URL data, or nullptr
+if no URL element has been associated with the object. If a non-nullptr
 pointer is returned, it must be disposed of with CEUrlElement_EmptyData.
 <br><br>
 </p>
@@ -265,8 +310,8 @@ The URL element data will be copied by CEUrlElement_SetData.
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the QuickTime wired element for an object.
 <br><br>
-The wireData parameter will receive a QTAtomContainer, or NULL if no
-wired element has been associated with the object. If a non-NULL pointer
+The wireData parameter will receive a QTAtomContainer, or nullptr if no
+wired element has been associated with the object. If a non-nullptr pointer
 is returned, it must be disposed of with CEWireElement_EmptyData.
 <br><br>
 </p>
@@ -329,6 +374,15 @@ can manipulate name elements using the functions
 CEWireElement_SetData, CEWireElement_GetData, and
 CEWireElement_EmptyData.
 </p>
+<hr><a name="//Quesa/c/data/kQ3ClassNameCustomElementSpecularMap"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="kQ3ClassNameCustomElementSpecularMap">kQ3ClassNameCustomElementSpecularMap</a></h2>
+</td></tr></table><hr>Class name of the specular map custom element.
+<br>
+<blockquote></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Ordinarily you will not need to use the class name, because you
+can get, set, and clear specular maps using the functions
+CESpecularMapElement_CopyData, CESpecularMapElement_SetData.
+</p>
 <hr><a name="//Quesa/c/data/kQ3ClassNameCustomElementTriangleStrip"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="kQ3ClassNameCustomElementTriangleStrip">kQ3ClassNameCustomElementTriangleStrip</a></h2>
 </td></tr></table><hr>Class name of the triangle strip custom element.
@@ -381,5 +435,5 @@ typedef enum {
 <dt><a name="//Quesa/c/econst/kCEUrlOptionUseMap"><tt>kCEUrlOptionUseMap</tt></a></dt><dd>Map option set (meaning unknown).</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2011 Quesa Developers (Last Updated 3/13/2011)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
 </p></body></html>

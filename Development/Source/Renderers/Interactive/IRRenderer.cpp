@@ -108,7 +108,7 @@ IRRenderer_StartFrame(TQ3ViewObject				theView,
 	if (qd3dStatus == kQ3Success && drawContextFlags != kQ3XDrawContextValidationClearFlags)
 		{
 		// If we don't have a draw context, rebuild everything
-		if (instanceData->glContext == NULL)
+		if (instanceData->glContext == nullptr)
 			drawContextFlags = kQ3XDrawContextValidationAll;
 
 
@@ -162,14 +162,14 @@ IRRenderer_StartFrame(TQ3ViewObject				theView,
 		if (drawContextFlags != kQ3XDrawContextValidationClearFlags)
 			{
 			// Dispose of the old GL context
-			if (instanceData->glContext != NULL)
+			if (instanceData->glContext != nullptr)
 				GLDrawContext_Destroy(&instanceData->glContext);
 
 
 			// And try and build a new one
 			instanceData->glContext = GLDrawContext_New(theView, theDrawContext,
 				&instanceData->glClearFlags);
-			if (instanceData->glContext == NULL)
+			if (instanceData->glContext == nullptr)
 				return(kQ3Failure);
 			
 			instanceData->textureCache = GLTextureMgr_GetTextureCache( instanceData->glContext );
@@ -298,7 +298,7 @@ IRRenderer_EndPass(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
 	// Swap the back buffer
 	Q3View_GetDrawContext( theView, &theDrawContext );
 	if ( (kQ3Failure == Q3Object_GetProperty( theDrawContext,
-		kQ3DrawContextPropertySwapBufferInEndPass, sizeof(swapFlag), NULL,
+		kQ3DrawContextPropertySwapBufferInEndPass, sizeof(swapFlag), nullptr,
 		&swapFlag )) ||
 		(swapFlag == kQ3True) )
 	{

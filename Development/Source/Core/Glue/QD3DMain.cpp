@@ -409,7 +409,7 @@ Q3Object_Dispose(TQ3Object object)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( object != NULL, kQ3Failure );
+	Q3_REQUIRE_OR_RESULT( object != nullptr, kQ3Failure );
 	Q3_REQUIRE_OR_RESULT( object->IsObjectValid () , kQ3Failure ) ;
 
 
@@ -440,7 +440,7 @@ Q3Object_CleanDispose(TQ3Object *object)
 
 
 	// Release build checks
-	if (object != NULL && *object != NULL)
+	if (object != nullptr && *object != nullptr)
 		Q3_REQUIRE_OR_RESULT( (*object)->IsObjectValid () , kQ3Failure ) ;
 
 
@@ -485,8 +485,8 @@ void
 Q3Object_GetWeakReference( TQ3Object* theRefAddress )
 {
 	// Release build checks
-	Q3_REQUIRE( theRefAddress != NULL ) ;
-	Q3_REQUIRE( *theRefAddress != NULL ) ;
+	Q3_REQUIRE( theRefAddress != nullptr ) ;
+	Q3_REQUIRE( *theRefAddress != nullptr ) ;
 	Q3_REQUIRE( (*theRefAddress)->IsObjectValid() ) ;
 	
 
@@ -514,8 +514,8 @@ void
 Q3Object_ReleaseWeakReference( TQ3Object* theRefAddress )
 {
 	// Release build checks
-	Q3_REQUIRE( theRefAddress != NULL ) ;
-	Q3_REQUIRE( *theRefAddress != NULL ) ;
+	Q3_REQUIRE( theRefAddress != nullptr ) ;
+	Q3_REQUIRE( *theRefAddress != nullptr ) ;
 	Q3_REQUIRE( (*theRefAddress)->IsObjectValid() ) ;
 	
 	
@@ -539,8 +539,8 @@ Q3Object_Duplicate(TQ3Object object)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( object != NULL, NULL ) ;
-	Q3_REQUIRE_OR_RESULT( object->IsObjectValid () , NULL ) ;
+	Q3_REQUIRE_OR_RESULT( object != nullptr, nullptr ) ;
+	Q3_REQUIRE_OR_RESULT( object->IsObjectValid () , nullptr ) ;
 
 
 
@@ -722,7 +722,7 @@ Q3Object_IsType(TQ3Object object, TQ3ObjectType theType)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(object != NULL, kQ3False);
+	Q3_REQUIRE_OR_RESULT(object != nullptr, kQ3False);
 	Q3_REQUIRE_OR_RESULT( object->IsObjectValid () , kQ3False ) ;
 
 
@@ -1020,7 +1020,7 @@ Q3Object_SetProperty(
 	@param		object			A Quesa object.
 	@param		userIterator	A callback function.
 	@param		userData		A pointer to be passed back to the callback
-								(use NULL if none is needed).
+								(use nullptr if none is needed).
 	@result		Success or failure of the operation.
 */
 TQ3Status
@@ -1030,7 +1030,7 @@ Q3Object_IterateProperties(
 	void*					userData )
 {
 	Q3_REQUIRE_OR_RESULT( object->IsObjectValid (), kQ3Failure ) ;
-	Q3_REQUIRE_OR_RESULT( userIterator != NULL, kQ3Failure ) ;
+	Q3_REQUIRE_OR_RESULT( userIterator != nullptr, kQ3Failure ) ;
 
 	
 	// Call the bottleneck
@@ -1085,7 +1085,7 @@ Q3Object_SetSet ( TQ3Object object, TQ3SetObject set )
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT( object->IsObjectValid (), kQ3Failure ) ;
-	Q3_REQUIRE_OR_RESULT( ( set == NULL ) || ( set->IsObjectValid () && Q3_OBJECT_IS_CLASS ( set, E3Set ) ), kQ3Failure ) ;
+	Q3_REQUIRE_OR_RESULT( ( set == nullptr ) || ( set->IsObjectValid () && Q3_OBJECT_IS_CLASS ( set, E3Set ) ), kQ3Failure ) ;
 
 
 
@@ -1146,7 +1146,7 @@ Q3Shared_GetReference(TQ3SharedObject sharedObject)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( E3Shared_IsOfMyClass ( sharedObject ), NULL);
+	Q3_REQUIRE_OR_RESULT( E3Shared_IsOfMyClass ( sharedObject ), nullptr);
 
 
 
@@ -1533,7 +1533,7 @@ Q3Shape_SetSet(TQ3ShapeObject shape, TQ3SetObject theSet)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT( E3Shape_IsOfMyClass ( shape ), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(((theSet == NULL) || ( theSet->IsObjectValid () && Q3_OBJECT_IS_CLASS ( theSet, E3Set ) ) ), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(((theSet == nullptr) || ( theSet->IsObjectValid () && Q3_OBJECT_IS_CLASS ( theSet, E3Set ) ) ), kQ3Failure);
 
 
 
@@ -1563,7 +1563,7 @@ Q3Shape_AddElement(TQ3ShapeObject shape, TQ3ElementType theType, const void *dat
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( shape != NULL, kQ3Failure ) ;
+	Q3_REQUIRE_OR_RESULT( shape != nullptr, kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT( shape->IsObjectValid () , kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT( Q3_OBJECT_IS_CLASS ( shape, E3Shape ) || Q3_OBJECT_IS_CLASS ( shape, E3Set ), kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
@@ -1596,7 +1596,7 @@ Q3Shape_GetElement(TQ3ShapeObject shape, TQ3ElementType theType, void *data)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( shape != NULL, kQ3Failure ) ;
+	Q3_REQUIRE_OR_RESULT( shape != nullptr, kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT( shape->IsObjectValid () , kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT( Q3_OBJECT_IS_CLASS ( shape, E3Shape ) || Q3_OBJECT_IS_CLASS ( shape, E3Set ), kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
@@ -1629,7 +1629,7 @@ Q3Shape_ContainsElement(TQ3ShapeObject shape, TQ3ElementType theType)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( shape != NULL, kQ3False ) ;
+	Q3_REQUIRE_OR_RESULT( shape != nullptr, kQ3False ) ;
 	Q3_REQUIRE_OR_RESULT( shape->IsObjectValid () , kQ3False ) ;
 	Q3_REQUIRE_OR_RESULT( Q3_OBJECT_IS_CLASS ( shape, E3Shape ) || Q3_OBJECT_IS_CLASS ( shape, E3Set ), kQ3False ) ;
 
@@ -1661,7 +1661,7 @@ Q3Shape_GetNextElementType(TQ3ShapeObject shape, TQ3ElementType *theType)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( shape != NULL, kQ3Failure ) ;
+	Q3_REQUIRE_OR_RESULT( shape != nullptr, kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT( shape->IsObjectValid () , kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT( Q3_OBJECT_IS_CLASS ( shape, E3Shape ) || Q3_OBJECT_IS_CLASS ( shape, E3Set ), kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theType), kQ3Failure);
@@ -1694,7 +1694,7 @@ Q3Shape_EmptyElements(TQ3ShapeObject shape)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( shape != NULL, kQ3Failure ) ;
+	Q3_REQUIRE_OR_RESULT( shape != nullptr, kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT( shape->IsObjectValid () , kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT( Q3_OBJECT_IS_CLASS ( shape, E3Shape ) || Q3_OBJECT_IS_CLASS ( shape, E3Set ), kQ3Failure ) ;
 
@@ -1726,7 +1726,7 @@ Q3Shape_ClearElement(TQ3ShapeObject shape, TQ3ElementType theType)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( shape != NULL, kQ3Failure ) ;
+	Q3_REQUIRE_OR_RESULT( shape != nullptr, kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT( shape->IsObjectValid () , kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT( Q3_OBJECT_IS_CLASS ( shape, E3Shape ) || Q3_OBJECT_IS_CLASS ( shape, E3Set ), kQ3Failure ) ;
 

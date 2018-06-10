@@ -416,7 +416,7 @@ CEWireElement_EmptyData(QTAtomContainer *wireData)
 				When you assign a triangle strip, the element also records the
 				current edit index of the object.
 				
-				You can pass 0 for inNumIndices and NULL for inIndices to
+				You can pass 0 for inNumIndices and nullptr for inIndices to
 				indicate that you want to avoid using a triangle strip, perhaps
 				because there is no efficient strip for this geometry.
 				
@@ -532,13 +532,13 @@ CETriangleStripElement_Remove(
 	@function	CESpecularMapElement_Copy
 	@abstract	Retrieve a specular map texture from an object.
 	@param		inShader		An object, normally a surface shader.
-	@result		A new reference to a texture, or NULL.
+	@result		A new reference to a texture, or nullptr.
 */
 TQ3TextureObject
 CESpecularMapElement_Copy( TQ3ShaderObject inShader )
 {
-	Q3_REQUIRE_OR_RESULT( Q3_VALID_PTR(inShader), NULL );
-	Q3_REQUIRE_OR_RESULT( inShader->IsObjectValid(), NULL );
+	Q3_REQUIRE_OR_RESULT( Q3_VALID_PTR(inShader), nullptr );
+	Q3_REQUIRE_OR_RESULT( inShader->IsObjectValid(), nullptr );
 	
 	// Call the bottleneck
 	E3System_Bottleneck();
@@ -565,14 +565,14 @@ CESpecularMapElement_Copy( TQ3ShaderObject inShader )
 				renderer, and requires that per-pixel lighting be
 				enabled.
 	@param		ioShader	A surface shader.
-	@param		inTexture	A texture object, or NULL to remove.
+	@param		inTexture	A texture object, or nullptr to remove.
 */
 void
 CESpecularMapElement_Set( TQ3ShaderObject ioShader, TQ3TextureObject inTexture )
 {
 	Q3_REQUIRE(Q3_VALID_PTR(ioShader));
 	Q3_REQUIRE( ioShader->IsObjectValid () );
-	Q3_REQUIRE( (inTexture == NULL) || inTexture->IsObjectValid () );
+	Q3_REQUIRE( (inTexture == nullptr) || inTexture->IsObjectValid () );
 	
 	// Call the bottleneck
 	E3System_Bottleneck();

@@ -72,7 +72,7 @@ E3CameraInfo::E3CameraInfo	(
 		: E3ShapeInfo ( newClassMetaHandler, newParent ) ,
 		frustumMatrixMethod		( (TQ3XCameraFrustumMatrixMethod)		Find_Method ( kQ3XMethodTypeCameraFrustumMatrix ) )		 
 	{
-	if ( frustumMatrixMethod == NULL )
+	if ( frustumMatrixMethod == nullptr )
 		SetAbstract () ;
 	}
 
@@ -147,10 +147,10 @@ e3camera_orthographic_read ( TQ3FileObject theFile )
 	Q3Float32_Read ( &cameraData.bottom, theFile ) ;
 		
 	// Read in the attributes
-	while ( Q3File_IsEndOfContainer ( theFile, NULL ) == kQ3False )
+	while ( Q3File_IsEndOfContainer ( theFile, nullptr ) == kQ3False )
 		{
 		TQ3Object childObject = Q3File_ReadObject ( theFile ) ;
-		if ( childObject != NULL )
+		if ( childObject != nullptr )
 			{
 			switch ( childObject->GetLeafType () )
 				{
@@ -197,11 +197,11 @@ e3camera_orthographic_read ( TQ3FileObject theFile )
 static TQ3Status
 e3camera_orthographic_traverse ( TQ3SharedObject theObject, void *data, TQ3ViewObject theView )
 	{
-	TQ3Uns32 result = Q3XView_SubmitWriteData ( theView, sizeof ( TQ3Float32 ) * 4, theObject, NULL ) ;
+	TQ3Uns32 result = Q3XView_SubmitWriteData ( theView, sizeof ( TQ3Float32 ) * 4, theObject, nullptr ) ;
 
-	result &= Q3XView_SubmitSubObjectData ( theView, (TQ3XObjectClass) E3ClassTree::GetClass ( kQ3CameraPlacment ), sizeof ( TQ3CameraPlacement ), theObject, NULL ) ;
-	result &= Q3XView_SubmitSubObjectData ( theView, (TQ3XObjectClass) E3ClassTree::GetClass ( kQ3CameraRange ), sizeof ( TQ3CameraRange ), theObject, NULL ) ;
-	result &= Q3XView_SubmitSubObjectData ( theView, (TQ3XObjectClass) E3ClassTree::GetClass ( kQ3CameraViewPort ), sizeof ( TQ3CameraViewPort ), theObject, NULL ) ;
+	result &= Q3XView_SubmitSubObjectData ( theView, (TQ3XObjectClass) E3ClassTree::GetClass ( kQ3CameraPlacment ), sizeof ( TQ3CameraPlacement ), theObject, nullptr ) ;
+	result &= Q3XView_SubmitSubObjectData ( theView, (TQ3XObjectClass) E3ClassTree::GetClass ( kQ3CameraRange ), sizeof ( TQ3CameraRange ), theObject, nullptr ) ;
+	result &= Q3XView_SubmitSubObjectData ( theView, (TQ3XObjectClass) E3ClassTree::GetClass ( kQ3CameraViewPort ), sizeof ( TQ3CameraViewPort ), theObject, nullptr ) ;
 
 	return (TQ3Status) result ;
 	}
@@ -251,7 +251,7 @@ e3camera_orthographic_metahandler ( TQ3XMethodType methodType )
 			return (TQ3XFunctionPointer) e3camera_orthographic_write ;
 		}
 	
-	return NULL ;
+	return nullptr ;
 	}
 
 
@@ -314,10 +314,10 @@ e3camera_viewplane_read ( TQ3FileObject theFile )
 	Q3Float32_Read ( &cameraData.centerYOnViewPlane, theFile ) ;
 		
 	// Read in the attributes
-	while ( Q3File_IsEndOfContainer ( theFile, NULL ) == kQ3False )
+	while ( Q3File_IsEndOfContainer ( theFile, nullptr ) == kQ3False )
 		{
 		TQ3Object childObject = Q3File_ReadObject ( theFile ) ;
-		if ( childObject != NULL )
+		if ( childObject != nullptr )
 			{
 			switch ( childObject->GetLeafType () )
 				{
@@ -369,11 +369,11 @@ e3camera_viewplane_read ( TQ3FileObject theFile )
 static TQ3Status
 e3camera_viewplane_traverse ( TQ3SharedObject theObject, void *data, TQ3ViewObject theView )
 	{
-	TQ3Uns32 result = Q3XView_SubmitWriteData ( theView, sizeof ( TQ3Float32 ) * 5, theObject, NULL ) ;
+	TQ3Uns32 result = Q3XView_SubmitWriteData ( theView, sizeof ( TQ3Float32 ) * 5, theObject, nullptr ) ;
 
-	result &= Q3XView_SubmitSubObjectData ( theView, (TQ3XObjectClass) E3ClassTree::GetClass ( kQ3CameraPlacment ), sizeof ( TQ3CameraPlacement ), theObject, NULL ) ;
-	result &= Q3XView_SubmitSubObjectData ( theView, (TQ3XObjectClass) E3ClassTree::GetClass ( kQ3CameraRange ), sizeof ( TQ3CameraRange ), theObject, NULL ) ;
-	result &= Q3XView_SubmitSubObjectData ( theView, (TQ3XObjectClass) E3ClassTree::GetClass ( kQ3CameraViewPort ), sizeof ( TQ3CameraViewPort ), theObject, NULL ) ;
+	result &= Q3XView_SubmitSubObjectData ( theView, (TQ3XObjectClass) E3ClassTree::GetClass ( kQ3CameraPlacment ), sizeof ( TQ3CameraPlacement ), theObject, nullptr ) ;
+	result &= Q3XView_SubmitSubObjectData ( theView, (TQ3XObjectClass) E3ClassTree::GetClass ( kQ3CameraRange ), sizeof ( TQ3CameraRange ), theObject, nullptr ) ;
+	result &= Q3XView_SubmitSubObjectData ( theView, (TQ3XObjectClass) E3ClassTree::GetClass ( kQ3CameraViewPort ), sizeof ( TQ3CameraViewPort ), theObject, nullptr ) ;
 
 	return (TQ3Status) result ;
 	}
@@ -425,7 +425,7 @@ e3camera_viewplane_metahandler ( TQ3XMethodType methodType )
 			return (TQ3XFunctionPointer) e3camera_viewplane_write ;
 		}
 	
-	return NULL ;
+	return nullptr ;
 	}
 
 
@@ -466,10 +466,10 @@ e3camera_viewangle_read ( TQ3FileObject theFile )
 		cameraData.aspectRatioXToY = 1.0f ;
 
 	// Read in the attributes
-	while ( Q3File_IsEndOfContainer ( theFile, NULL ) == kQ3False )
+	while ( Q3File_IsEndOfContainer ( theFile, nullptr ) == kQ3False )
 		{
 		TQ3Object childObject = Q3File_ReadObject ( theFile ) ;
-		if ( childObject != NULL )
+		if ( childObject != nullptr )
 			{
 			switch ( childObject->GetLeafType () )
 				{
@@ -536,11 +536,11 @@ e3camera_viewangle_new(TQ3Object theObject, void *privateData, const void *param
 static TQ3Status
 e3camera_viewangle_traverse ( TQ3SharedObject theObject, void *data, TQ3ViewObject theView )
 	{
-	TQ3Uns32 result = Q3XView_SubmitWriteData ( theView, sizeof ( TQ3Float32 ) * 2, theObject, NULL ) ;
+	TQ3Uns32 result = Q3XView_SubmitWriteData ( theView, sizeof ( TQ3Float32 ) * 2, theObject, nullptr ) ;
 
-	result &= Q3XView_SubmitSubObjectData ( theView, (TQ3XObjectClass) E3ClassTree::GetClass ( kQ3CameraPlacment ), sizeof ( TQ3CameraPlacement ), theObject, NULL ) ;
-	result &= Q3XView_SubmitSubObjectData ( theView, (TQ3XObjectClass) E3ClassTree::GetClass ( kQ3CameraRange ), sizeof ( TQ3CameraRange ), theObject, NULL ) ;
-	result &= Q3XView_SubmitSubObjectData ( theView, (TQ3XObjectClass) E3ClassTree::GetClass ( kQ3CameraViewPort ), sizeof ( TQ3CameraViewPort ), theObject, NULL ) ;
+	result &= Q3XView_SubmitSubObjectData ( theView, (TQ3XObjectClass) E3ClassTree::GetClass ( kQ3CameraPlacment ), sizeof ( TQ3CameraPlacement ), theObject, nullptr ) ;
+	result &= Q3XView_SubmitSubObjectData ( theView, (TQ3XObjectClass) E3ClassTree::GetClass ( kQ3CameraRange ), sizeof ( TQ3CameraRange ), theObject, nullptr ) ;
+	result &= Q3XView_SubmitSubObjectData ( theView, (TQ3XObjectClass) E3ClassTree::GetClass ( kQ3CameraViewPort ), sizeof ( TQ3CameraViewPort ), theObject, nullptr ) ;
 
 	return (TQ3Status) result ;
 	}
@@ -589,7 +589,7 @@ e3camera_viewangle_metahandler(TQ3XMethodType methodType)
 			return (TQ3XFunctionPointer) e3camera_viewangle_write ;
 		}
 	
-	return NULL ;
+	return nullptr ;
 	}
 
 
@@ -609,7 +609,7 @@ e3camera_metahandler ( TQ3XMethodType methodType )
 			return (TQ3XFunctionPointer) e3camera_new_class_info ;
 		}
 	
-	return NULL ;
+	return nullptr ;
 	}
 
 
@@ -685,7 +685,7 @@ E3Camera::UnregisterClass(void)
 TQ3Boolean
 E3Camera::IsOfMyClass ( TQ3Object object )
 	{
-	if ( object == NULL )
+	if ( object == nullptr )
 		return kQ3False ;
 		
 	if ( object->IsObjectValid () )

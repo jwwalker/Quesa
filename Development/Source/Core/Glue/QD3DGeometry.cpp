@@ -247,8 +247,8 @@ Q3Geometry_GetDecomposed(TQ3GeometryObject geometry, TQ3ViewObject view)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( geometry ), NULL);
-	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), NULL);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( geometry ), nullptr);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), nullptr);
 
 
 
@@ -278,7 +278,7 @@ Q3Box_New(const TQ3BoxData *boxData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( Q3_VALID_PTR(boxData) || (boxData == NULL), NULL);
+	Q3_REQUIRE_OR_RESULT( Q3_VALID_PTR(boxData) || (boxData == nullptr), nullptr);
 
 
 
@@ -740,7 +740,7 @@ Q3Cone_New(const TQ3ConeData *coneData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(coneData) || (coneData == NULL), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(coneData) || (coneData == nullptr), nullptr);
 
 
 
@@ -1385,7 +1385,7 @@ Q3Cylinder_New(const TQ3CylinderData *cylinderData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(cylinderData) || (cylinderData == NULL), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(cylinderData) || (cylinderData == nullptr), nullptr);
 
 
 
@@ -2091,7 +2091,7 @@ Q3Disk_New(const TQ3DiskData *diskData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( (diskData == NULL) || Q3_VALID_PTR(diskData), NULL);
+	Q3_REQUIRE_OR_RESULT( (diskData == nullptr) || Q3_VALID_PTR(diskData), nullptr);
 
 
 
@@ -2430,7 +2430,7 @@ Q3Ellipse_New(const TQ3EllipseData *ellipseData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(ellipseData) || (ellipseData == NULL), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(ellipseData) || (ellipseData == nullptr), nullptr);
 
 
 
@@ -2769,7 +2769,7 @@ Q3Ellipsoid_New(const TQ3EllipsoidData *ellipsoidData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(ellipsoidData) || (ellipsoidData == NULL), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(ellipsoidData) || (ellipsoidData == nullptr), nullptr);
 
 
 
@@ -3170,7 +3170,7 @@ Q3GeneralPolygon_New(const TQ3GeneralPolygonData *generalPolygonData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(generalPolygonData), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(generalPolygonData), nullptr);
 
 
 
@@ -3558,7 +3558,7 @@ Q3Line_New(const TQ3LineData *lineData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(lineData), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(lineData), nullptr);
 
 
 
@@ -3834,7 +3834,7 @@ Q3Marker_New(const TQ3MarkerData *markerData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(markerData), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(markerData), nullptr);
 
 
 
@@ -4346,8 +4346,8 @@ Q3Mesh_VertexNew(TQ3GeometryObject mesh, const TQ3Vertex3D *vertex)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vertex), NULL);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vertex), nullptr);
 
 
 
@@ -4377,8 +4377,8 @@ Q3Mesh_FaceNew(TQ3GeometryObject mesh, TQ3Uns32 numVertices, const TQ3MeshVertex
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vertices), NULL);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vertices), nullptr);
 
 
 
@@ -4528,7 +4528,7 @@ Q3Mesh_FaceToContour(TQ3GeometryObject mesh, TQ3MeshFace containerFace, TQ3MeshF
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), NULL);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), nullptr);
 
 
 
@@ -4558,7 +4558,7 @@ Q3Mesh_ContourToFace(TQ3GeometryObject mesh, TQ3MeshContour contour)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), NULL);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), nullptr);
 
 
 
@@ -5640,8 +5640,8 @@ Q3Mesh_FirstMeshComponent(TQ3GeometryObject mesh, TQ3MeshIterator *iterator)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), NULL);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), nullptr);
 
 
 
@@ -5671,7 +5671,7 @@ Q3Mesh_NextMeshComponent(TQ3MeshIterator *iterator)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), nullptr);
 
 
 
@@ -5701,7 +5701,7 @@ Q3Mesh_FirstComponentVertex(TQ3MeshComponent component, TQ3MeshIterator *iterato
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), nullptr);
 
 
 
@@ -5731,7 +5731,7 @@ Q3Mesh_NextComponentVertex(TQ3MeshIterator *iterator)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), nullptr);
 
 
 
@@ -5761,7 +5761,7 @@ Q3Mesh_FirstComponentEdge(TQ3MeshComponent component, TQ3MeshIterator *iterator)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), nullptr);
 
 
 
@@ -5791,7 +5791,7 @@ Q3Mesh_NextComponentEdge(TQ3MeshIterator *iterator)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), nullptr);
 
 
 
@@ -5821,8 +5821,8 @@ Q3Mesh_FirstMeshVertex(TQ3GeometryObject mesh, TQ3MeshIterator *iterator)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), NULL);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), nullptr);
 
 
 
@@ -5852,7 +5852,7 @@ Q3Mesh_NextMeshVertex(TQ3MeshIterator *iterator)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), nullptr);
 
 
 
@@ -5882,8 +5882,8 @@ Q3Mesh_FirstMeshFace(TQ3GeometryObject mesh, TQ3MeshIterator *iterator)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), NULL);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), nullptr);
 
 
 
@@ -5913,7 +5913,7 @@ Q3Mesh_NextMeshFace(TQ3MeshIterator *iterator)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), nullptr);
 
 
 
@@ -5943,8 +5943,8 @@ Q3Mesh_FirstMeshEdge(TQ3GeometryObject mesh, TQ3MeshIterator *iterator)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), NULL);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( mesh ), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), nullptr);
 
 
 
@@ -5974,7 +5974,7 @@ Q3Mesh_NextMeshEdge(TQ3MeshIterator *iterator)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), nullptr);
 
 
 
@@ -6004,7 +6004,7 @@ Q3Mesh_FirstVertexEdge(TQ3MeshVertex vertex, TQ3MeshIterator *iterator)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), nullptr);
 
 
 
@@ -6034,7 +6034,7 @@ Q3Mesh_NextVertexEdge(TQ3MeshIterator *iterator)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), nullptr);
 
 
 
@@ -6064,7 +6064,7 @@ Q3Mesh_FirstVertexVertex(TQ3MeshVertex vertex, TQ3MeshIterator *iterator)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), nullptr);
 
 
 
@@ -6094,7 +6094,7 @@ Q3Mesh_NextVertexVertex(TQ3MeshIterator *iterator)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), nullptr);
 
 
 
@@ -6124,7 +6124,7 @@ Q3Mesh_FirstVertexFace(TQ3MeshVertex vertex, TQ3MeshIterator *iterator)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), nullptr);
 
 
 
@@ -6154,7 +6154,7 @@ Q3Mesh_NextVertexFace(TQ3MeshIterator *iterator)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), nullptr);
 
 
 
@@ -6184,7 +6184,7 @@ Q3Mesh_FirstFaceEdge(TQ3MeshFace face, TQ3MeshIterator *iterator)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), nullptr);
 
 
 
@@ -6214,7 +6214,7 @@ Q3Mesh_NextFaceEdge(TQ3MeshIterator *iterator)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), nullptr);
 
 
 
@@ -6244,7 +6244,7 @@ Q3Mesh_FirstFaceVertex(TQ3MeshFace face, TQ3MeshIterator *iterator)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), nullptr);
 
 
 
@@ -6274,7 +6274,7 @@ Q3Mesh_NextFaceVertex(TQ3MeshIterator *iterator)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), nullptr);
 
 
 
@@ -6304,7 +6304,7 @@ Q3Mesh_FirstFaceFace(TQ3MeshFace face, TQ3MeshIterator *iterator)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), nullptr);
 
 
 
@@ -6334,7 +6334,7 @@ Q3Mesh_NextFaceFace(TQ3MeshIterator *iterator)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), nullptr);
 
 
 
@@ -6364,7 +6364,7 @@ Q3Mesh_FirstFaceContour(TQ3MeshFace face, TQ3MeshIterator *iterator)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), nullptr);
 
 
 
@@ -6394,7 +6394,7 @@ Q3Mesh_NextFaceContour(TQ3MeshIterator *iterator)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), nullptr);
 
 
 
@@ -6424,7 +6424,7 @@ Q3Mesh_FirstContourEdge(TQ3MeshContour contour, TQ3MeshIterator *iterator)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), nullptr);
 
 
 
@@ -6454,7 +6454,7 @@ Q3Mesh_NextContourEdge(TQ3MeshIterator *iterator)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), nullptr);
 
 
 
@@ -6484,7 +6484,7 @@ Q3Mesh_FirstContourVertex(TQ3MeshContour contour, TQ3MeshIterator *iterator)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), nullptr);
 
 
 
@@ -6514,7 +6514,7 @@ Q3Mesh_NextContourVertex(TQ3MeshIterator *iterator)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), nullptr);
 
 
 
@@ -6544,7 +6544,7 @@ Q3Mesh_FirstContourFace(TQ3MeshContour contour, TQ3MeshIterator *iterator)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), nullptr);
 
 
 
@@ -6574,7 +6574,7 @@ Q3Mesh_NextContourFace(TQ3MeshIterator *iterator)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(iterator), nullptr);
 
 
 
@@ -6604,7 +6604,7 @@ Q3NURBCurve_New(const TQ3NURBCurveData *curveData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(curveData), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(curveData), nullptr);
 
 
 
@@ -6612,7 +6612,7 @@ Q3NURBCurve_New(const TQ3NURBCurveData *curveData)
 #if Q3_DEBUG
 	// Further checks on curveData
 	if (curveData->order > kQ3NURBCurveMaxOrder)
-		return(NULL);
+		return(nullptr);
 #endif
 
 
@@ -6931,7 +6931,7 @@ Q3NURBPatch_New(const TQ3NURBPatchData *nurbPatchData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(nurbPatchData), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(nurbPatchData), nullptr);
 
 
 
@@ -6939,7 +6939,7 @@ Q3NURBPatch_New(const TQ3NURBPatchData *nurbPatchData)
 #if Q3_DEBUG
 	// Further checks on nurbPatchData
 	if (nurbPatchData->uOrder > kQ3NURBPatchMaxOrder || nurbPatchData->vOrder > kQ3NURBPatchMaxOrder)
-		return(NULL);
+		return(nullptr);
 #endif
 
 
@@ -7341,7 +7341,7 @@ Q3PixmapMarker_New(const TQ3PixmapMarkerData *pixmapMarkerData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(pixmapMarkerData), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(pixmapMarkerData), nullptr);
 
 
 
@@ -7740,7 +7740,7 @@ Q3Point_New(const TQ3PointData *pointData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(pointData) || (pointData == NULL), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(pointData) || (pointData == nullptr), nullptr);
 
 
 
@@ -7955,15 +7955,15 @@ Q3Polygon_New(const TQ3PolygonData *polygonData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(polygonData),           NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(polygonData->vertices), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(polygonData),           nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(polygonData->vertices), nullptr);
 
 
 
 	// Debug build checks
 #if Q3_DEBUG
 	if (polygonData->numVertices < 3)
-		return(NULL);
+		return(nullptr);
 #endif
 
 
@@ -8236,7 +8236,7 @@ Q3Polyhedron_New(const TQ3PolyhedronData *polyhedronData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(polyhedronData), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(polyhedronData), nullptr);
 
 
 
@@ -8636,7 +8636,7 @@ Q3PolyLine_New(const TQ3PolyLineData *polylineData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(polylineData), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(polylineData), nullptr);
 
 
 
@@ -8646,7 +8646,7 @@ Q3PolyLine_New(const TQ3PolyLineData *polylineData)
 	if (polylineData->numVertices < 2)
 		{
 		E3ErrorManager_PostError(kQ3ErrorGeometryInsufficientNumberOfPoints, kQ3False);
-		return(NULL);
+		return(nullptr);
 		}
 #endif
 
@@ -8989,7 +8989,7 @@ Q3Torus_New(const TQ3TorusData *torusData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(torusData) || (torusData == NULL), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(torusData) || (torusData == nullptr), nullptr);
 
 
 
@@ -9451,7 +9451,7 @@ Q3Triangle_New(const TQ3TriangleData *triangleData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(triangleData), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(triangleData), nullptr);
 
 
 
@@ -9759,7 +9759,7 @@ Q3TriGrid_New(const TQ3TriGridData *triGridData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(triGridData), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(triGridData), nullptr);
 
 
 
@@ -10096,7 +10096,7 @@ Q3TriMesh_New(const TQ3TriMeshData *triMeshData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(triMeshData), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(triMeshData), nullptr);
 
 
 
@@ -10126,7 +10126,7 @@ Q3TriMesh_New_NoCopy(const TQ3TriMeshData *triMeshData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(triMeshData), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(triMeshData), nullptr);
 
 
 
@@ -10365,7 +10365,7 @@ TQ3Status Q3TriMesh_OptimizeData( const TQ3TriMeshData* inData,
 //-----------------------------------------------------------------------------
 TQ3GeometryObject Q3TriMesh_Optimize( TQ3GeometryObject inTriMesh )
 {
-	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( inTriMesh ), NULL);
+	Q3_REQUIRE_OR_RESULT( E3Geometry_IsOfMyClass ( inTriMesh ), nullptr);
 	
 	
 	
@@ -10433,7 +10433,7 @@ Q3TriMesh_MakeTriangleStrip(
 
 	// Call our implementation
 	TQ3Status	theStatus = kQ3Success;
-	*outStrip = NULL;
+	*outStrip = nullptr;
 	try
 	{
 		std::vector<TQ3Uns32>	theStrip;
@@ -10441,7 +10441,7 @@ Q3TriMesh_MakeTriangleStrip(
 		*outStripLength = static_cast<TQ3Uns32>(theStrip.size());
 		*outStrip = reinterpret_cast<TQ3Uns32*>(
 			Q3Memory_Allocate( static_cast<TQ3Uns32>(*outStripLength * sizeof(TQ3Uns32) )) );
-		if (*outStrip == NULL)
+		if (*outStrip == nullptr)
 		{
 			theStatus = kQ3Failure;
 		}

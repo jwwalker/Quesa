@@ -89,7 +89,7 @@ typedef struct TQ3StackCrawlRec*	TQ3StackCrawl;
 /*!
 	@function	E3StackCrawl_New
 	@abstract	Create a new stack crawl for the caller of this routine.
-	@result		A stack crawl pointer, or NULL if there is an error or if
+	@result		A stack crawl pointer, or nullptr if there is an error or if
 				stack crawls are not implemented on the current platform.
 */
 TQ3StackCrawl	E3StackCrawl_New(void);
@@ -100,7 +100,7 @@ TQ3StackCrawl	E3StackCrawl_New(void);
 	@abstract	Count the names recorded in a stack crawl.
 	@param		inCrawl		A stack crawl created by <code>E3StackCrawl_New</code>.
 	@result		Number of routine names recorded in the stack crawl.
-				If inCrawl is NULL, the return value should be 0.
+				If inCrawl is nullptr, the return value should be 0.
 */
 TQ3Uns32		E3StackCrawl_Count( TQ3StackCrawl inCrawl );
 
@@ -116,7 +116,7 @@ TQ3Uns32		E3StackCrawl_Count( TQ3StackCrawl inCrawl );
 							Index 0 should be the name of the function that called
 							<code>E3StackCrawl_New</code>, which in the case of leak
 							detection will always be <code>e3root_new</code>.
-	@result		A NUL-terminated string, or NULL.
+	@result		A NUL-terminated string, or nullptr.
 */
 const char*		E3StackCrawl_Get( TQ3StackCrawl inCrawl, TQ3Uns32 inIndex );
 

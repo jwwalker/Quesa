@@ -166,7 +166,7 @@ Q3Memory_AllocateClear (
  *      Takes a pointer to a pointer, which points to a block of previously
  *      allocated memory.
  *
- *      After freeing the memory, the supplied pointer will be reset to NULL
+ *      After freeing the memory, the supplied pointer will be reset to nullptr
  *      to prevent future dereferences.
  *
  *      Note that you <em>must</em> pass a pointer to a pointer, and not
@@ -205,10 +205,10 @@ Q3Memory_Free (
  *      be allocated, freed, or resized with a single call. See the
  *      documentation for realloc for the exact specification.
  *		Unlike some implementations of realloc, passing a size of zero
- *		frees the memory and returns NULL.
+ *		frees the memory and returns nullptr.
  *
  *      Note that like Q3Memory_Free, a pointer to the pointer is
- *		passed to allow it to be set to NULL after disposal, and to
+ *		passed to allow it to be set to nullptr after disposal, and to
  *		allow it to be changed when resized.
  *
  *      <em>This function is not available in QD3D.</em>
@@ -435,25 +435,25 @@ Q3Memory_CountRecords(
  *	@discussion
  *      This function can be used to iterate through the list
  *      of Quesa objects that were created while recording was
- *      turned on.  Pass NULL to get the first object in the list.
- *      When it returns NULL, you have reached the end.
+ *      turned on.  Pass nullptr to get the first object in the list.
+ *      When it returns nullptr, you have reached the end.
  *
  *      Example:
  *
  *          <blockquote><pre><code>
- *          TQ3Object	leaked = NULL;
- *          while (NULL != (leaked = Q3Memory_NextRecordedObject( leaked )))
+ *          TQ3Object	leaked = nullptr;
+ *          while (nullptr != (leaked = Q3Memory_NextRecordedObject( leaked )))
  *          {
  *          &nbsp;&nbsp;	// do something nondestructive to the object
  *          }
  *          </code></pre></blockquote>
  *
- *      In non-debug builds, this function always returns NULL.
+ *      In non-debug builds, this function always returns nullptr.
  *
  *      <em>This function is not available in QD3D.</em>
  *
- *	@param inObject         NULL or a recorded object.
- *  @result                 Next recorded object, or NULL.
+ *	@param inObject         nullptr or a recorded object.
+ *  @result                 Next recorded object, or nullptr.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -483,7 +483,7 @@ Q3Memory_NextRecordedObject(
  *      <em>This function is not available in QD3D.</em>
  *
  *	@param fileName         Name of memory dump file.
- *	@param memo             Text written at start of dump for identification. May be NULL.
+ *	@param memo             Text written at start of dump for identification. May be nullptr.
  *  @result                 Success or failure of the operation.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
@@ -552,8 +552,8 @@ Q3Memory_GetObjectCount();
  *      A slab may be created with an initial number of allocated items, which can
  *      be optionally initialised with supplied data.
  *
- *      Either numItems or itemData may be 0 (or NULL, respectively), however if
- *      itemData is non-NULL then numItems should be non-zero.
+ *      Either numItems or itemData may be 0 (or nullptr, respectively), however if
+ *      itemData is non-nullptr then numItems should be non-zero.
  *
  *      The itemSize parameter must be non-zero.
  *
@@ -561,7 +561,7 @@ Q3Memory_GetObjectCount();
  *
  *  @param	itemSize               The size of each item within the slab.
  *  @param	numitems               The initial number of items in the slab.
- *  @param	itemData               The data to initialise the new items, or NULL.
+ *  @param	itemData               The data to initialise the new items, or nullptr.
  *  @result                 The new slab object.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
@@ -613,13 +613,13 @@ Q3SlabMemory_GetData(
  *
  *      The slab will be grown as required, and the specified number of items
  *      will be appended to the end of the slab. A pointer to the newly-added
- *      items within the slab will be returned, or NULL on failure.
+ *      items within the slab will be returned, or nullptr on failure.
  *
  *      The slab may move in memory when it is grown, and any existing pointers
  *      into the slab should be invalidated.
  *
  *
- *      If itemData is non-NULL, it is assumed to point to a contiguous block
+ *      If itemData is non-nullptr, it is assumed to point to a contiguous block
  *      of item data. This data is copied into the slab to initialise the new
  *      items.
  *
@@ -631,7 +631,7 @@ Q3SlabMemory_GetData(
  *
  *  @param	theSlab                The slab to update.
  *  @param	numItems               The number of items to append.
- *  @param	itemData               The data to initialise the new items, or NULL.
+ *  @param	itemData               The data to initialise the new items, or nullptr.
  *  @result                 A pointer to the first newly-added item within the slab.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS

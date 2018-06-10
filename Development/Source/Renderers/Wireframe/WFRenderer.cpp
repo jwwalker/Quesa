@@ -65,16 +65,16 @@
 
 static TQ3XFunctionPointer GetParentRendererMethod(TQ3XMethodType methodType)
 {
-	static TQ3XObjectClass	s_ParentRendererClass = NULL;
+	static TQ3XObjectClass	s_ParentRendererClass = nullptr;
 	
-	if (NULL == s_ParentRendererClass)
+	if (nullptr == s_ParentRendererClass)
 	{
 		s_ParentRendererClass = Q3XObjectHierarchy_FindClassByType(kQ3RendererTypeOpenGL);	
 	}
 
-	if (NULL == s_ParentRendererClass)
+	if (nullptr == s_ParentRendererClass)
 	{
-		return 0;
+		return nullptr;
 	}
 
 	return Q3XObjectClass_GetMethod( s_ParentRendererClass, methodType );
@@ -156,10 +156,10 @@ void CWireFrameRendererQuesa::StartPassWireFrame(
 	TQ3Float32 lineW = 1.0f;
 	TQ3Float32 factor = 1.0f;
 	Q3Object_GetProperty( mRendererObject, kQ3RendererPropertyLineWidth,
-			sizeof(lineW), NULL, &lineW );
+			sizeof(lineW), nullptr, &lineW );
 			
 	Q3Object_GetProperty( mRendererObject, kQ3RendererPropertyUseColor,
-			sizeof(useColor), NULL, &useColor );
+			sizeof(useColor), nullptr, &useColor );
 	
 	CQ3ObjectRef	theDrawContext( CQ3View_GetDrawContext( inView ) );
 			
@@ -185,7 +185,7 @@ void CWireFrameRendererQuesa::StartPassWireFrame(
 		}
 		
 	mStyleState.mFill = kQ3FillStyleEdges;
-	UpdateIlluminationShader(NULL);
+	UpdateIlluminationShader(nullptr);
 //	mStyleState.mExplicitEdges = true;
 	mUpdateShader = false;
 }
@@ -243,7 +243,7 @@ static TQ3Status	wireframe_update_illumination_shader(
 	CWireFrameRendererQuesa*	me = *(CWireFrameRendererQuesa**)privateData;
 	try
 	{
-		if (inShader != NULL)
+		if (inShader != nullptr)
 		{
 			me->UpdateIlluminationShaderWireFrame( *inShader );
 		}
@@ -280,7 +280,7 @@ wireframe_nickname(unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3Uns32 *act
     *actualDataSize = (TQ3Uns32)strlen(kRendererNickName) + 1;
 
 	// If we have a buffer, return the nick name
-	if (dataBuffer != NULL)
+	if (dataBuffer != nullptr)
 		{
 		// Clamp the buffer size
 		if (bufferSize < *actualDataSize)
@@ -307,19 +307,19 @@ wireframe_new_object( TQ3Object theObject, void *privateData, void *paramData )
 	// methods have been cached.  This happens the first time such a renderer
 	// is instantiated.
 	E3ClassInfoPtr	qoClass = E3ClassTree::GetClass( kQ3RendererTypeOpenGL );
-	Q3_ASSERT( qoClass != NULL );
-	if ( (qoClass != NULL) &&
-		(qoClass->GetMethod ( kQ3XMethodTypeRendererMethodsCached ) == NULL) )
+	Q3_ASSERT( qoClass != nullptr );
+	if ( (qoClass != nullptr) &&
+		(qoClass->GetMethod ( kQ3XMethodTypeRendererMethodsCached ) == nullptr) )
 	{
 		TQ3Object	dummyRenderer = Q3Renderer_NewFromType( kQ3RendererTypeOpenGL );
 		Q3Object_CleanDispose( &dummyRenderer );
-		Q3_ASSERT( qoClass->GetMethod ( kQ3XMethodTypeRendererMethodsCached ) != NULL );
+		Q3_ASSERT( qoClass->GetMethod ( kQ3XMethodTypeRendererMethodsCached ) != nullptr );
 	}
 
 
 	TQ3Status	theStatus;
 	CWireFrameRendererQuesa*	newHidden = new(std::nothrow) CWireFrameRendererQuesa( theObject );
-	if (newHidden == NULL)
+	if (newHidden == nullptr)
 	{
 		theStatus = kQ3Failure;
 	}
@@ -359,7 +359,7 @@ wireframe_delete_object( TQ3Object theObject, void *privateData )
 static TQ3XRendererUpdateStyleMethod wireframe_style_metahandler (
 									TQ3ObjectType inStyleType )
 {
-	TQ3XRendererUpdateStyleMethod	theMethod = NULL;
+	TQ3XRendererUpdateStyleMethod	theMethod = nullptr;
 	
 	switch (inStyleType)
 	{
@@ -384,7 +384,7 @@ static TQ3XRendererUpdateStyleMethod wireframe_style_metahandler (
 static TQ3XRendererUpdateShaderMethod wireframe_shader_metahandler (
 									TQ3ObjectType inShaderType )
 {
-	TQ3XRendererUpdateShaderMethod	theMethod = NULL;
+	TQ3XRendererUpdateShaderMethod	theMethod = nullptr;
 	
 	switch (inShaderType)
 	{
@@ -409,7 +409,7 @@ static TQ3XRendererUpdateShaderMethod wireframe_shader_metahandler (
 static TQ3XFunctionPointer
 wireframe_metahandler(TQ3XMethodType methodType)
 {	
-	TQ3XFunctionPointer		theMethod = NULL;	
+	TQ3XFunctionPointer		theMethod = nullptr;	
 
 	switch(methodType)
 	{
@@ -430,7 +430,7 @@ wireframe_metahandler(TQ3XMethodType methodType)
 			break;
 			
 		case kQ3XMethodTypeRendererMethodsCached:
-			// Deliberately return NULL here, so we do not inherit from parent
+			// Deliberately return nullptr here, so we do not inherit from parent
 			break;
 		
 		case kQ3XMethodTypeRendererUpdateStyleMetaHandler:
@@ -470,12 +470,12 @@ TQ3Status WireFrameRenderer_Register()
 														kQ3RendererTypeWireFrame,
 														kQ3ClassNameRendererWireFrame,
 														wireframe_metahandler,
-														NULL,
+														nullptr,
 														0,
 														sizeof(CWireFrameRendererQuesa*));
 
 
-	return(theClass == NULL ? kQ3Failure : kQ3Success);
+	return(theClass == nullptr ? kQ3Failure : kQ3Success);
 }
 
 //____________________________________________________________________________________
@@ -486,7 +486,7 @@ void WireFrameRenderer_Unregister()
 
 	// Find the renderer class
 	theClass = Q3XObjectHierarchy_FindClassByType( kQ3RendererTypeWireFrame );
-	if (theClass == NULL)
+	if (theClass == nullptr)
 		return;
 
 	// Unregister the class

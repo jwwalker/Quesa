@@ -92,12 +92,12 @@ extern "C" {
 //-----------------------------------------------------------------------------
 //		Note :	A TE3Pool consists of zero or more TE3PoolBlock's arranged in a
 //				(singly) linked-list. The TE3Pool itself has a pointer to the
-//				most recently added TE3PoolBlock (or NULL).
+//				most recently added TE3PoolBlock (or nullptr).
 //
 //				Each TE3PoolBlock has a preset number of TE3PoolItem's. Each
 //				TE3PoolItem is either free or allocated. The free TE3PoolItem's
 //				are arranged in a (singly) linked-list. The TE3Pool itself has
-//				a pointer to the most recently freed TE3PoolItem (or NULL).
+//				a pointer to the most recently freed TE3PoolItem (or nullptr).
 //				Thus E3Pool_Free and E3Pool_Allocate work like "push" and
 //				"pop": last-freed, first-allocated.
 //
@@ -159,8 +159,8 @@ E3Pool_Create(																\
 	/* validate our parameters */											\
 	Q3_ASSERT_VALID_PTR(poolPtr),											\
 																			\
-	(poolPtr)->headBlockPtr_private = NULL,						    		\
-	(poolPtr)->headFreeItemPtr_private = NULL,								\
+	(poolPtr)->headBlockPtr_private = nullptr,						    		\
+	(poolPtr)->headFreeItemPtr_private = nullptr,								\
 																			\
 	kQ3Success																\
 )
@@ -319,7 +319,7 @@ FUNC##Pool_Allocate(														\
 		offsetof(TYPE##PoolBlock_Private, items_private),					\
 		sizeof(TYPE##PoolItem_Private),										\
 		BLOCK_LENGTH,														\
-		NULL)));															\
+		nullptr)));															\
 }																			\
 																			\
 PREFIX																		\

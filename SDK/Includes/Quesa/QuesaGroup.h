@@ -271,9 +271,9 @@ typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XGroupEndReadMethod)(
  *      Create a new generic group.
  *
  *      This function returns a newly created, empty Group object.  If
- *		some error occurs during creation, this returns NULL.
+ *		some error occurs during creation, this returns nullptr.
  *
- *  @result                 Newly created group, or NULL.
+ *  @result                 Newly created group, or nullptr.
  */
 Q3_EXTERN_API_C ( TQ3GroupObject  )
 Q3Group_New (
@@ -317,7 +317,7 @@ Q3Group_GetType (
  *		dispose of your own reference if you no longer need it.
  *
  *		If for some reason the object cannot be appended, this function
- *		returns NULL.
+ *		returns nullptr.
  *
  *  @param group            Group to add an object to.
  *  @param object           Object to be added.
@@ -337,23 +337,23 @@ Q3Group_AddObject (
  *  @discussion
  *      Add an object to a group, and then dispose of it.
  *
- *      If theObject is not NULL, invokes Q3Group_AddObject to add the object to
+ *      If theObject is not nullptr, invokes Q3Group_AddObject to add the object to
  *      the group, disposes of the object, then clears the supplied pointer to
  *      prevent stale references.
  *
  *      Equivalent to:
  *
- *          if (theObject != NULL)
+ *          if (theObject != nullptr)
  *              {
  *              Q3Group_AddObject(theGroup, theObject);
  *              Q3Object_Dispose(theObject);
- *              theObject = NULL;
+ *              theObject = nullptr;
  *              }
  *
  *      <em>This function is not available in QD3D.</em>
  *
  *  @param theGroup         The group to add the object to.
- *  @param theObject        The object to add (may be NULL).
+ *  @param theObject        The object to add (may be nullptr).
  *  @result                 Success or failure of the operation.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
@@ -381,7 +381,7 @@ Q3Group_AddObjectAndDispose (
  *		dispose of your own reference if you no longer need it.
  *
  *		If for some reason the object cannot be appended, this function
- *		returns NULL.
+ *		returns nullptr.
  *
  *  @param group            Group to add an object to.
  *  @param position         Position before which to add the object.
@@ -410,7 +410,7 @@ Q3Group_AddObjectBefore (
  *		dispose of your own reference if you no longer need it.
  *
  *		If for some reason the object cannot be appended, this function
- *		returns NULL.
+ *		returns nullptr.
  *
  *  @param group            Group to add an object to.
  *  @param position         Position after which to add the object.
@@ -437,7 +437,7 @@ Q3Group_AddObjectAfter (
  *		object is incremented, so you must dispose of this reference
  *		when you no longer need it.
  *
- *      Sets *object to NULL if there is no object at the given position.
+ *      Sets *object to nullptr if there is no object at the given position.
  *
  *  @param group            Group to inspect.
  *  @param position         Position of desired object.
@@ -555,7 +555,7 @@ Q3Group_GetLastPosition (
  *
  *      This function updates <code>position</code> to refer to the
  *		next position in the group.  If there are no further objects
- *		in the group, <code>*position</code> is set to NULL.
+ *		in the group, <code>*position</code> is set to nullptr.
  *
  *  @param group            Group of interest.
  *  @param position         Address of position to advance.
@@ -578,7 +578,7 @@ Q3Group_GetNextPosition (
  *      This function updates <code>position</code> to refer to the
  *		previous position in the group.  If the given position was
  *		already on the first object in the group, <code>*position</code>
- *		is set to NULL.
+ *		is set to nullptr.
  *
  *  @param group            Group of interest.
  *  @param position         Address of position to step back.
@@ -688,7 +688,7 @@ Q3Group_GetLastPositionOfType (
  *      This function updates <code>position</code> to refer to the
  *		next position in the group of an object of the given type.
  *		If there are no further objects of that type
- *		in the group, <code>*position</code> is set to NULL.
+ *		in the group, <code>*position</code> is set to nullptr.
  *
  *  @param group            Group of interest.
  *  @param isType           Desired object type.
@@ -713,7 +713,7 @@ Q3Group_GetNextPositionOfType (
  *      This function updates <code>position</code> to refer to the
  *		previous position in the group of an object of the given type.
  *		If there are no previous objects of that type
- *		in the group, <code>*position</code> is set to NULL.
+ *		in the group, <code>*position</code> is set to nullptr.
  *
  *  @param group            Group of interest.
  *  @param isType           Desired object type.
@@ -787,7 +787,7 @@ Q3Group_EmptyObjectsOfType (
  *		iterate over all other references to the same object.
  *
  *		Note: unless you pass invalid parameters, the function result will be
- *		kQ3Success.  You must test whether the returned position is NULL to know
+ *		kQ3Success.  You must test whether the returned position is nullptr to know
  *		whether you found a valid object position.
  *
  *  @param group            Group to inspect.
@@ -816,7 +816,7 @@ Q3Group_GetFirstObjectPosition (
  *		iterate backwards over all other references to the same object.
  *
  *		Note: unless you pass invalid parameters, the function result will be
- *		kQ3Success.  You must test whether the returned position is NULL to know
+ *		kQ3Success.  You must test whether the returned position is nullptr to know
  *		whether you found a valid object position.
  *
  *  @param group            Group to inspect.
@@ -839,7 +839,7 @@ Q3Group_GetLastObjectPosition (
  *  @discussion
  *      Advance to the position of the next reference to a given object
  *		within a group.  If the given object does not occur again within
- *		the group, <code>*position</code> is set to NULL.
+ *		the group, <code>*position</code> is set to nullptr.
  *
  *      Use this in conjunction with <code>Q3Group_GetFirstObjectPosition</code>
  *		to iterate over all occurrences of an object within a group.
@@ -864,7 +864,7 @@ Q3Group_GetNextObjectPosition (
  *  @discussion
  *      Step back to the position of the previous reference to a given object
  *		within a group.  If there is no previous reference to that object within
- *		the group, <code>*position</code> is set to NULL.
+ *		the group, <code>*position</code> is set to nullptr.
  *
  *      Use this in conjunction with <code>Q3Group_GetLastObjectPosition</code>
  *		to iterate in reverse over all occurrences of an object within a group.
@@ -900,11 +900,11 @@ Q3Group_GetPreviousObjectPosition (
  *		within the rendering loop.
  *
  *      This function returns a newly created, empty display group object.
- *		If some error occurs during creation, this returns NULL.
+ *		If some error occurs during creation, this returns nullptr.
  *
  *		See also <code>Q3OrderedDisplayGroup_New</code> and <code>Q3IOProxyDisplayGroup_New</code>.
  *
- *  @result                 Newly created group, or NULL.
+ *  @result                 Newly created group, or nullptr.
  */
 Q3_EXTERN_API_C ( TQ3GroupObject  )
 Q3DisplayGroup_New (
@@ -1162,9 +1162,9 @@ Q3DisplayGroup_CalcAndUseBoundingBox (
  *		and unknown objects in the group.
  *
  *      This function returns a newly created, empty ordered display group.
- *		If some error occurs during creation, this returns NULL.
+ *		If some error occurs during creation, this returns nullptr.
  *
- *  @result                 Newly created ordered display group, or NULL.
+ *  @result                 Newly created ordered display group, or nullptr.
  */
 Q3_EXTERN_API_C ( TQ3GroupObject  )
 Q3OrderedDisplayGroup_New (
@@ -1189,9 +1189,9 @@ Q3OrderedDisplayGroup_New (
  *		in the group which they can understand.
  *
  *      This function returns a newly created, empty Group object.  If
- *		some error occurs during creation, this returns NULL.
+ *		some error occurs during creation, this returns nullptr.
  *
- *  @result                 Newly created proxy display group, or NULL.
+ *  @result                 Newly created proxy display group, or nullptr.
  */
 Q3_EXTERN_API_C ( TQ3GroupObject  )
 Q3IOProxyDisplayGroup_New (
@@ -1210,9 +1210,9 @@ Q3IOProxyDisplayGroup_New (
  *		be attached to a view by <code>Q3View_SetLightGroup</code>.
  *
  *      This function returns a newly created, empty light group object.  If
- *		some error occurs during creation, this returns NULL.
+ *		some error occurs during creation, this returns nullptr.
  *
- *  @result                 Newly created light group, or NULL.
+ *  @result                 Newly created light group, or nullptr.
  */
 Q3_EXTERN_API_C ( TQ3GroupObject  )
 Q3LightGroup_New (
@@ -1228,9 +1228,9 @@ Q3LightGroup_New (
  *      Create a new information group.
  *
  *      This function returns a newly created, empty information group
- *		object.  If some error occurs during creation, this returns NULL.
+ *		object.  If some error occurs during creation, this returns nullptr.
  *
- *  @result                 Newly created information group, or NULL.
+ *  @result                 Newly created information group, or nullptr.
  */
 Q3_EXTERN_API_C ( TQ3GroupObject  )
 Q3InfoGroup_New (
@@ -1257,7 +1257,7 @@ Q3InfoGroup_New (
  *
  *  @param group            Group to inspect.
  *  @param position         Position of desired data.
- *  @result                 Pointer to private data, or NULL.
+ *  @result                 Pointer to private data, or nullptr.
  */
 Q3_EXTERN_API_C ( void * )
 Q3XGroup_GetPositionPrivate (

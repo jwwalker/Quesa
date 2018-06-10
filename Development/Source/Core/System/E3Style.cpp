@@ -248,7 +248,7 @@ public :
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3style_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 	// Return our methods
@@ -292,7 +292,7 @@ e3style_subdivision_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3O
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3style_subdivision_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -339,7 +339,7 @@ e3style_pickid_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3style_pickid_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -386,7 +386,7 @@ e3style_pickparts_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Obj
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3style_pickparts_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -433,7 +433,7 @@ e3style_castshadows_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3O
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3style_castshadows_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -480,7 +480,7 @@ e3style_receiveshadows_submit(TQ3ViewObject theView, TQ3ObjectType objectType, T
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3style_receiveshadows_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -527,7 +527,7 @@ e3style_fill_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object t
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3style_fill_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -574,7 +574,7 @@ e3style_backfacing_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Ob
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3style_backfacing_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -621,7 +621,7 @@ e3style_interpolation_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3style_interpolation_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -654,7 +654,7 @@ e3style_hilight_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Objec
 
 
 	// Submit the style
-	if (*instanceData != NULL)
+	if (*instanceData != nullptr)
 		E3View_State_SetStyleHighlight(theView, *instanceData);
 
 	return(kQ3Success);
@@ -674,7 +674,7 @@ e3style_hilight_delete(TQ3Object theObject, void *privateData)
 
 
 	// Release our data
-	if (theAttSet != NULL)
+	if (theAttSet != nullptr)
 	{
 		Q3_ASSERT( Q3Object_IsType( theAttSet, kQ3SetTypeAttribute ) );
 		Q3Object_Dispose( theAttSet );
@@ -706,8 +706,8 @@ e3style_hilight_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 	
 	
 	// Duplicate the attribute set
-	if (*fromInstanceData == NULL)
-		*toInstanceData = NULL;
+	if (*fromInstanceData == nullptr)
+		*toInstanceData = nullptr;
 	else
 		*toInstanceData = Q3Object_Duplicate( *fromInstanceData );
 
@@ -724,7 +724,7 @@ e3style_hilight_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3style_hilight_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -779,7 +779,7 @@ e3style_orientation_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3O
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3style_orientation_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -826,7 +826,7 @@ e3style_antialias_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Obj
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3style_antialias_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -873,7 +873,7 @@ e3style_fog_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object th
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3style_fog_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -922,7 +922,7 @@ e3style_linewidth_submit(TQ3ViewObject theView, TQ3ObjectType objectType,
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3style_linewidth_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -1071,7 +1071,7 @@ E3Style_UnregisterClass(void)
 TQ3Boolean
 E3Style_IsOfMyClass ( TQ3Object object )
 	{
-	if ( object == NULL )
+	if ( object == nullptr )
 		return kQ3False ;
 		
 	if ( object->IsObjectValid () )
@@ -1708,7 +1708,7 @@ E3HighlightStyle_New(TQ3AttributeSet highlightAttribute)
 	if ( highlightAttribute )
 		ref = Q3Shared_GetReference ( highlightAttribute ) ;
 	else
-		ref = NULL ;
+		ref = nullptr ;
 
 	theObject = E3ClassTree::CreateInstance ( kQ3StyleTypeHighlight, kQ3False, &ref);
 
@@ -1749,14 +1749,14 @@ E3HighlightStyle_Get(TQ3StyleObject theStyle, TQ3AttributeSet *highlightAttribut
 	
 	
 	// Get the data
-	if ( style->instanceData != NULL && highlightAttribute != NULL )
+	if ( style->instanceData != nullptr && highlightAttribute != nullptr )
 		{
 		*highlightAttribute = Q3Shared_GetReference ( style->instanceData ) ;
 		return kQ3Success ;
 		}
 	
-	if ( highlightAttribute != NULL )
-		*highlightAttribute = NULL ;
+	if ( highlightAttribute != nullptr )
+		*highlightAttribute = nullptr ;
 
 	return kQ3Failure ;
 	}
@@ -1782,7 +1782,7 @@ E3HighlightStyle_Set(TQ3StyleObject theStyle, TQ3AttributeSet highlightAttribute
 	if ( highlightAttribute )
 		style->instanceData = Q3Shared_GetReference ( highlightAttribute ) ;
 	else
-		style->instanceData = NULL ;
+		style->instanceData = nullptr ;
 
 	Q3Shared_Edited ( style ) ;
 	
@@ -1876,7 +1876,7 @@ E3AntiAliasStyle_New(const TQ3AntiAliasStyleData *data)
 
 
 	// Validate our parameters
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), nullptr);
 
 
 

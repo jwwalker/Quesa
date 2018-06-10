@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
     "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
-<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a[name]:hover {text-decoration: inherit; font-family: inherit; font-size: inherit}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
     <title>QuesaGroup.h</title>
 	 <meta name="generator" content="HeaderDoc">
 </head><body bgcolor="#ffffff">
@@ -138,12 +138,12 @@ A display group can be rendered by calling <code>Q3DisplayGroup_Submit</code>
 within the rendering loop.
 <br><br>
 This function returns a newly created, empty display group object.
-If some error occurs during creation, this returns NULL.
+If some error occurs during creation, this returns nullptr.
 <br><br>
 See also <code>Q3OrderedDisplayGroup_New</code> and <code>Q3IOProxyDisplayGroup_New</code>.
 <br><br>
 </p>
-<dl><dt><i>function result</i></dt><dd>Newly created group, or NULL.
+<dl><dt><i>function result</i></dt><dd>Newly created group, or nullptr.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3DisplayGroup_RemoveBoundingBox"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DisplayGroup_RemoveBoundingBox">Q3DisplayGroup_RemoveBoundingBox</a></h2>
@@ -275,7 +275,7 @@ The group increments the object's reference count, so you can safely
 dispose of your own reference if you no longer need it.
 <br><br>
 If for some reason the object cannot be appended, this function
-returns NULL.
+returns nullptr.
 <br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
@@ -304,7 +304,7 @@ The group increments the object's reference count, so you can safely
 dispose of your own reference if you no longer need it.
 <br><br>
 If for some reason the object cannot be appended, this function
-returns NULL.
+returns nullptr.
 <br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
@@ -326,17 +326,17 @@ returns NULL.
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Add an object to a group, and then dispose of it.
 <br><br>
-If theObject is not NULL, invokes Q3Group_AddObject to add the object to
+If theObject is not nullptr, invokes Q3Group_AddObject to add the object to
 the group, disposes of the object, then clears the supplied pointer to
 prevent stale references.
 <br><br>
 Equivalent to:
 <br><br>
-if (theObject != NULL)
+if (theObject != nullptr)
 {
 Q3Group_AddObject(theGroup, theObject);
 Q3Object_Dispose(theObject);
-theObject = NULL;
+theObject = nullptr;
 }
 <br><br>
 <em>This function is not available in QD3D.</em>
@@ -346,7 +346,7 @@ theObject = NULL;
 <blockquote>
 <dl>
 <dt><tt><em>theGroup</em></tt></dt><dd>The group to add the object to.</dd>
-<dt><tt><em>theObject</em></tt></dt><dd>The object to add (may be NULL).</dd>
+<dt><tt><em>theObject</em></tt></dt><dd>The object to add (may be nullptr).</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -368,7 +368,7 @@ The group increments the object's reference count, so you can safely
 dispose of your own reference if you no longer need it.
 <br><br>
 If for some reason the object cannot be appended, this function
-returns NULL.
+returns nullptr.
 <br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
@@ -487,6 +487,10 @@ to find the first position of the first reference to the given object.
 You could then use <code>Q3Group_GetNextObjectPosition</code> to 
 iterate over all other references to the same object.
 <br><br>
+Note: unless you pass invalid parameters, the function result will be
+kQ3Success.  You must test whether the returned position is nullptr to know
+whether you found a valid object position.
+<br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
@@ -559,6 +563,10 @@ to find the last position of the first reference to the given object.
 You could then use <code>Q3Group_GetPreviousObjectPosition</code> to 
 iterate backwards over all other references to the same object.
 <br><br>
+Note: unless you pass invalid parameters, the function result will be
+kQ3Success.  You must test whether the returned position is nullptr to know
+whether you found a valid object position.
+<br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
@@ -626,7 +634,7 @@ to iterate backwards over all group members of a certain type.
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Advance to the position of the next reference to a given object
 within a group.  If the given object does not occur again within
-the group, <code>*position</code> is set to NULL.
+the group, <code>*position</code> is set to nullptr.
 <br><br>
 Use this in conjunction with <code>Q3Group_GetFirstObjectPosition</code>
 to iterate over all occurrences of an object within a group.
@@ -653,7 +661,7 @@ to iterate over all occurrences of an object within a group.
 <br><br>
 This function updates <code>position</code> to refer to the
 next position in the group.  If there are no further objects
-in the group, <code>*position</code> is set to NULL.
+in the group, <code>*position</code> is set to nullptr.
 <br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
@@ -678,7 +686,7 @@ in the group, <code>*position</code> is set to NULL.
 This function updates <code>position</code> to refer to the
 next position in the group of an object of the given type.
 If there are no further objects of that type
-in the group, <code>*position</code> is set to NULL.
+in the group, <code>*position</code> is set to nullptr.
 <br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
@@ -706,7 +714,7 @@ specified position.  Note that the reference count of the
 object is incremented, so you must dispose of this reference
 when you no longer need it.
 <br><br>
-Sets *object to NULL if there is no object at the given position.
+Sets *object to nullptr if there is no object at the given position.
 <br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
@@ -729,7 +737,7 @@ Sets *object to NULL if there is no object at the given position.
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Step back to the position of the previous reference to a given object
 within a group.  If there is no previous reference to that object within
-the group, <code>*position</code> is set to NULL.
+the group, <code>*position</code> is set to nullptr.
 <br><br>
 Use this in conjunction with <code>Q3Group_GetLastObjectPosition</code>
 to iterate in reverse over all occurrences of an object within a group.
@@ -757,7 +765,7 @@ to iterate in reverse over all occurrences of an object within a group.
 This function updates <code>position</code> to refer to the
 previous position in the group.  If the given position was
 already on the first object in the group, <code>*position</code>
-is set to NULL.
+is set to nullptr.
 <br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
@@ -782,7 +790,7 @@ is set to NULL.
 This function updates <code>position</code> to refer to the
 previous position in the group of an object of the given type.
 If there are no previous objects of that type
-in the group, <code>*position</code> is set to NULL.
+in the group, <code>*position</code> is set to nullptr.
 <br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
@@ -823,10 +831,10 @@ kQ3GroupTypeDisplay, kQ3GroupTypeInfo, or kQ3GroupTypeLight.
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new generic group.
 <br><br>
 This function returns a newly created, empty Group object.  If
-some error occurs during creation, this returns NULL.
+some error occurs during creation, this returns nullptr.
 <br><br>
 </p>
-<dl><dt><i>function result</i></dt><dd>Newly created group, or NULL.
+<dl><dt><i>function result</i></dt><dd>Newly created group, or nullptr.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Group_RemovePosition"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Group_RemovePosition">Q3Group_RemovePosition</a></h2>
@@ -871,9 +879,6 @@ and a reference to the given object is stored in its place.
 The group increments the object's reference count, so you can safely
 dispose of your own reference if you no longer need it.
 <br><br>
-If for some reason the object cannot be appended, this function
-returns NULL.
-<br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
@@ -901,10 +906,10 @@ in order of preference; client applications will use the first entry
 in the group which they can understand.
 <br><br>
 This function returns a newly created, empty Group object.  If
-some error occurs during creation, this returns NULL.
+some error occurs during creation, this returns nullptr.
 <br><br>
 </p>
-<dl><dt><i>function result</i></dt><dd>Newly created proxy display group, or NULL.
+<dl><dt><i>function result</i></dt><dd>Newly created proxy display group, or nullptr.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3InfoGroup_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3InfoGroup_New">Q3InfoGroup_New</a></h2>
@@ -913,10 +918,10 @@ some error occurs during creation, this returns NULL.
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new information group.
 <br><br>
 This function returns a newly created, empty information group
-object.  If some error occurs during creation, this returns NULL.
+object.  If some error occurs during creation, this returns nullptr.
 <br><br>
 </p>
-<dl><dt><i>function result</i></dt><dd>Newly created information group, or NULL.
+<dl><dt><i>function result</i></dt><dd>Newly created information group, or nullptr.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3LightGroup_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3LightGroup_New">Q3LightGroup_New</a></h2>
@@ -928,10 +933,10 @@ A light group is a group that contains only lights.  These can then
 be attached to a view by <code>Q3View_SetLightGroup</code>.
 <br><br>
 This function returns a newly created, empty light group object.  If
-some error occurs during creation, this returns NULL.
+some error occurs during creation, this returns nullptr.
 <br><br>
 </p>
-<dl><dt><i>function result</i></dt><dd>Newly created light group, or NULL.
+<dl><dt><i>function result</i></dt><dd>Newly created light group, or nullptr.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3OrderedDisplayGroup_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3OrderedDisplayGroup_New">Q3OrderedDisplayGroup_New</a></h2>
@@ -956,10 +961,10 @@ shaders are applied to all of the geometric objects, groups,
 and unknown objects in the group.
 <br><br>
 This function returns a newly created, empty ordered display group.
-If some error occurs during creation, this returns NULL.
+If some error occurs during creation, this returns nullptr.
 <br><br>
 </p>
-<dl><dt><i>function result</i></dt><dd>Newly created ordered display group, or NULL.
+<dl><dt><i>function result</i></dt><dd>Newly created ordered display group, or nullptr.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3XGroup_GetPositionPrivate"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XGroup_GetPositionPrivate">Q3XGroup_GetPositionPrivate</a></h2>
@@ -981,7 +986,7 @@ pointer, which is stored in a group at the given position.
 <dt><tt><em>position</em></tt></dt><dd>Position of desired data.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>Pointer to private data, or NULL.
+<dl><dt><i>function result</i></dt><dd>Pointer to private data, or nullptr.
  </dd></dl>
 <h2>Enumerations</h2>
 <hr><a name="//Quesa/c/tag/TQ3DisplayGroupStateMasks"></a>
@@ -1025,5 +1030,5 @@ view state stack around the group contents.</dd>
 (Not in QD3D.)</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2011 Quesa Developers (Last Updated 3/13/2011)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
 </p></body></html>

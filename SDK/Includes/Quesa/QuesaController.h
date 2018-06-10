@@ -166,10 +166,10 @@ typedef Q3_CALLBACK_API_C(void, TQ3CursorTrackerNotifyFunc)(void);
  *  @field channelCount     The number of channels supported by the controller.
  *  @field channelGetMethod The channel-getting method for the controller. This
  *                          field is only valid if channelCount is non-zero, and
- *                          may be NULL if the controller can not support this.
+ *                          may be nullptr if the controller can not support this.
  *  @field channelSetMethod The channel-setting method for the controller. This
  *                          field is only valid if channelCount is non-zero, and
- *                          may be NULL if the controller can not support this.
+ *                          may be nullptr if the controller can not support this.
  */
 typedef struct TQ3ControllerData {
     char                                        *signature;
@@ -220,14 +220,14 @@ Q3Controller_GetListChanged (
  *  @discussion
  *      Iterate through the list of available controllers.
  *
- *      To retrieve the first controller in the list, set controllerRef to NULL.
+ *      To retrieve the first controller in the list, set controllerRef to nullptr.
  *      After retrieving the last controller in the list, nextControllerRef will
- *      be set to NULL.
+ *      be set to nullptr.
  *
  *      <em>This function is available, but not implemented, in Quesa.</em>
  *
- *  @param controllerRef        The current controller, or NULL.
- *  @param nextControllerRef    Receives the next controller in the list, or NULL.
+ *  @param controllerRef        The current controller, or nullptr.
+ *  @param nextControllerRef    Receives the next controller in the list, or nullptr.
  *  @result                     Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -250,7 +250,7 @@ Q3Controller_Next (
  *      <em>This function is available, but not implemented, in Quesa.</em>
  *
  *  @param controllerData   The data for the new controller.
- *  @result                 The new controller object, or NULL.
+ *  @result                 The new controller object, or nullptr.
  */
 Q3_EXTERN_API_C ( TQ3ControllerRef  )
 Q3Controller_New (
@@ -333,7 +333,7 @@ Q3Controller_GetActivation (
  *      Get the signature of a controller.
  *
  *      At most numChars characters will be written to signature (including the
- *      NULL byte - signature will always be set to a valid C string). If there
+ *      nullptr byte - signature will always be set to a valid C string). If there
  *      is not enough space to return the entire signature, it will be truncated.
  *
  *      <em>This function is available, but not implemented, in Quesa.</em>
@@ -362,7 +362,7 @@ Q3Controller_GetSignature (
  *
  *  @param controllerRef    The controller to update.
  *  @param channel          An index into the list of channels, from 0.
- *  @param data             A pointer to the data for the channel. Pass NULL
+ *  @param data             A pointer to the data for the channel. Pass nullptr
  *                          to reset the channel to a default or inactive value.
  *  @param dataSize         The number of bytes pointed to by data.
  *  @result                 Success or failure of the operation.
@@ -429,7 +429,7 @@ Q3Controller_GetValueCount (
  *  @discussion
  *      Set the tracker associated with a controller.
  *
- *      If the tracker is NULL, the controller is attached to the system cursor
+ *      If the tracker is nullptr, the controller is attached to the system cursor
  *      tracker. Both the previous and new tracker's notify functions make be
  *      called.
  *
@@ -713,7 +713,7 @@ Q3Controller_MoveTrackerOrientation (
  *  @param valueCount       The number of elements in the values array.
  *  @param values           A pointer to an array of values to update.
  *  @param changed          Receives true or false as the array of values was changed.
- *  @param serialNumber     A controller serial number, or NULL.
+ *  @param serialNumber     A controller serial number, or nullptr.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -810,11 +810,11 @@ Q3ControllerState_Restore (
  *      Create a new tracker object.
  *
  *      The new tracker is activate, and has its orientation threshold set to 0.
- *      If no notify callback is required, notifyFunc may be set to NULL.
+ *      If no notify callback is required, notifyFunc may be set to nullptr.
  *
  *      <em>This function is available, but not implemented, in Quesa.</em>
  *
- *  @param notifyFunc       The notification callback for the tracker, or NULL.
+ *  @param notifyFunc       The notification callback for the tracker, or nullptr.
  *  @result                 The new tracker object.
  */
 Q3_EXTERN_API_C ( TQ3TrackerObject  )
@@ -958,18 +958,18 @@ Q3Tracker_ChangeButtons (
  *  @discussion
  *      Get the position of a tracker.
  *
- *      If serialNumber is not NULL, changed will only be set to true if a
+ *      If serialNumber is not nullptr, changed will only be set to true if a
  *      change has occurred since the specified serial number was generated.
  *
  *      <em>This function is available, but not implemented, in Quesa.</em>
  *
  *  @param trackerObject    The tracker to query.
  *  @param position         Receives the current position of the tracker.
- *  @param delta            If non-NULL, receives the change in position since
+ *  @param delta            If non-nullptr, receives the change in position since
  *                          the previous call to Q3Tracker_GetPosition.
  *  @param changed          Receives true or false as either position or delta
  *                          have been updated.
- *  @param serialNumber     If non-NULL, receives the current serial number.
+ *  @param serialNumber     If non-nullptr, receives the current serial number.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -1037,18 +1037,18 @@ Q3Tracker_MovePosition (
  *  @discussion
  *      Get the orientation of a tracker.
  *
- *      If serialNumber is not NULL, changed will only be set to true if a
+ *      If serialNumber is not nullptr, changed will only be set to true if a
  *      change has occurred since the specified serial number was generated.
  *
  *      <em>This function is available, but not implemented, in Quesa.</em>
  *
  *  @param trackerObject    The tracker to query.
  *  @param orientation      Receives the current orientation of the tracker.
- *  @param delta            If non-NULL, receives the change in orientation since
+ *  @param delta            If non-nullptr, receives the change in orientation since
  *                          the previous call to Q3Tracker_GetOrientation.
  *  @param changed          Receives true or false as either orientation or delta
  *                          have been updated.
- *  @param serialNumber     If non-NULL, receives the current serial number.
+ *  @param serialNumber     If non-nullptr, receives the current serial number.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -1123,8 +1123,8 @@ Q3Tracker_MoveOrientation (
  *  @param trackerObject    The tracker to update.
  *  @param timeStamp        The time stamp.
  *  @param buttons          The button state of the tracker.
- *  @param position         The position state of the tracker, or NULL.
- *  @param orientation      The orientation state of the tracker, or NULL.
+ *  @param position         The position state of the tracker, or nullptr.
+ *  @param orientation      The orientation state of the tracker, or nullptr.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -1150,9 +1150,9 @@ Q3Tracker_SetEventCoordinates (
  *
  *  @param trackerObject    The tracker to query.
  *  @param timeStamp        The time stamp.
- *  @param buttons          If non-NULL, receives the button state of the tracker.
- *  @param position         If non-NULL, receives the position of the tracker.
- *  @param orientation      If non-NULL, receives the orientation of the tracker.
+ *  @param buttons          If non-nullptr, receives the button state of the tracker.
+ *  @param position         If non-nullptr, receives the position of the tracker.
+ *  @param orientation      If non-nullptr, receives the orientation of the tracker.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )

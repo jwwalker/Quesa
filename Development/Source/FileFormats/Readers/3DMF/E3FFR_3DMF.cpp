@@ -441,9 +441,9 @@ e3fformat_3dmf_read_next_element(TQ3AttributeSet parent, E3File* theFile )
 	TQ3XFFormat_3DMF_ReadNextElementMethod readNextElement =
 		(TQ3XFFormat_3DMF_ReadNextElementMethod) format->GetMethod ( kE3XMethodType_3DMF_ReadNextElement ) ;
 
-	Q3_ASSERT( readNextElement != NULL ) ;
+	Q3_ASSERT( readNextElement != nullptr ) ;
 	
-	if ( readNextElement != NULL )
+	if ( readNextElement != nullptr )
 		readNextElement ( parent, theFile ) ;
 	}
 
@@ -474,14 +474,14 @@ static TQ3Object
 e3fformat_3dmf_attribute_set_read ( E3File* theFile )
 	{
 	// Create the attribute set
-	TQ3AttributeSet theSet = E3ClassTree::CreateInstance ( kQ3SetTypeAttribute, kQ3False, NULL);
-	if (theSet == NULL)
-		return(NULL);
+	TQ3AttributeSet theSet = E3ClassTree::CreateInstance ( kQ3SetTypeAttribute, kQ3False, nullptr);
+	if (theSet == nullptr)
+		return(nullptr);
 
 
 
 	// Read the elements in to the set
-	while (!Q3File_IsEndOfContainer(theFile, NULL))
+	while (!Q3File_IsEndOfContainer(theFile, nullptr))
 	{
 		if (e3fformat_3dmf_is_next_element(theFile))
 		{
@@ -514,14 +514,14 @@ e3fformat_3dmf_set_read ( E3File* theFile )
 
 
 	// Create the attribute set
-	theSet = E3ClassTree::CreateInstance ( kQ3SharedTypeSet, kQ3False, NULL);
-	if (theSet == NULL)
-		return(NULL);
+	theSet = E3ClassTree::CreateInstance ( kQ3SharedTypeSet, kQ3False, nullptr);
+	if (theSet == nullptr)
+		return(nullptr);
 
 
 
 	// Read the elements in to the set
-	while (!Q3File_IsEndOfContainer(theFile, NULL))
+	while (!Q3File_IsEndOfContainer(theFile, nullptr))
 	{
 		if (e3fformat_3dmf_is_next_element(theFile))
 		{
@@ -551,17 +551,17 @@ e3fformat_3dmf_set_read ( E3File* theFile )
 //-----------------------------------------------------------------------------
 static TQ3Object
 e3fformat_3dmf_attribute_caps_read_core(TQ3FileObject theFile, TQ3ObjectType	classType)
-{ TQ3Object theSet = NULL;
+{ TQ3Object theSet = nullptr;
 	TQ3Object childObject;
 
-	while (!Q3File_IsEndOfContainer(theFile, NULL)){
+	while (!Q3File_IsEndOfContainer(theFile, nullptr)){
 
 		childObject = Q3File_ReadObject(theFile);
-		if ((childObject != NULL) && (!Q3Object_IsType (childObject, kQ3SetTypeAttribute))){
+		if ((childObject != nullptr) && (!Q3Object_IsType (childObject, kQ3SetTypeAttribute))){
 			Q3Object_Dispose(childObject);
-			childObject = NULL;
+			childObject = nullptr;
 			}
-		if(childObject != NULL){
+		if(childObject != nullptr){
 			// create the object;
 			theSet = E3ClassTree::CreateInstance ( classType, kQ3False, &childObject);
 			break;
@@ -635,7 +635,7 @@ e3fformat_3dmf_interiorcapsset_read(TQ3FileObject theFile)
 static TQ3Status
 e3fformat_3dmf_capsset_traverse( TQ3Object object, void *data, TQ3ViewObject view )
 {
-	TQ3Status	status = Q3XView_SubmitWriteData( view, 0, object, NULL );
+	TQ3Status	status = Q3XView_SubmitWriteData( view, 0, object, nullptr );
 
 	// submit the attribute set packaged in the end cap attribute set
 	if (status == kQ3Success)
@@ -657,12 +657,12 @@ delete_attributeset_list(TE3FFormat3DMF_AttributeSetList_Data *theList)
 
 
 	// Delete the list
-	if (theList->attributeSetArray != NULL)
+	if (theList->attributeSetArray != nullptr)
 		{
 		// Dispose of the items in the list
 		for (n = 0; n < theList->attributeSetCounter; n++)
 			{
-			if (theList->attributeSetArray[n] != NULL)
+			if (theList->attributeSetArray[n] != nullptr)
 				Q3Object_Dispose(theList->attributeSetArray[n]);
 			}
 
@@ -687,7 +687,7 @@ e3fformat_3dmf_meshcorners_read(TQ3FileObject theFile)
 	TQ3Status	status = kQ3Failure;
 
 	// Create the object
-	TQ3Object theObject = E3ClassTree::CreateInstance ( kQ3ObjectTypeMeshCorners, kQ3False, NULL);
+	TQ3Object theObject = E3ClassTree::CreateInstance ( kQ3ObjectTypeMeshCorners, kQ3False, nullptr);
 	
 	if(theObject){
 	
@@ -702,7 +702,7 @@ e3fformat_3dmf_meshcorners_read(TQ3FileObject theFile)
 		// allocate the array of corners
 		instanceData->corners = (TE3FFormat3DMF_MeshCorner_Data*) Q3Memory_AllocateClear (i * sizeof(TE3FFormat3DMF_MeshCorner_Data));
 		
-		if(instanceData->corners == NULL)
+		if(instanceData->corners == nullptr)
 			goto fail;
 			
 		instanceData->nCorners = i;
@@ -723,7 +723,7 @@ e3fformat_3dmf_meshcorners_read(TQ3FileObject theFile)
 			
 			// allocate the faces array
 			instanceData->corners[i].faces = (TQ3Uns32*) Q3Memory_AllocateClear(k * sizeof(TQ3Uns32));
-			if(instanceData->corners[i].faces == NULL)
+			if(instanceData->corners[i].faces == nullptr)
 				goto fail;
 			
 			instanceData->corners[i].nFaces = k;
@@ -739,11 +739,11 @@ e3fformat_3dmf_meshcorners_read(TQ3FileObject theFile)
 		
 		// Read in the attributes
 		i=0;
-		while ((Q3File_IsEndOfContainer(theFile, NULL) == kQ3False) && (i< instanceData->nCorners))
+		while ((Q3File_IsEndOfContainer(theFile, nullptr) == kQ3False) && (i< instanceData->nCorners))
 			{
 			TQ3Object childObject = Q3File_ReadObject(theFile);
 			k = Q3Shared_GetReferenceCount(childObject);
-			if (childObject != NULL)
+			if (childObject != nullptr)
 				{
 				Q3_ASSERT (Q3Object_IsType (childObject, kQ3SetTypeAttribute));
 				E3Shared_Replace(&instanceData->corners[i].attributeSet,childObject);
@@ -762,7 +762,7 @@ fail:
 	if(theObject)
 		Q3Object_Dispose(theObject);
 	
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -778,14 +778,14 @@ e3fformat_3dmf_meshcorners_delete(TQ3Object theObject, void *privateData)
 	TQ3Uns32						i;
 
 
-	if(instanceData->corners != NULL)
+	if(instanceData->corners != nullptr)
 		{
 		for (i = 0 ; i < instanceData->nCorners; i++)
 			{
-				if(instanceData->corners[i].faces != NULL)
+				if(instanceData->corners[i].faces != nullptr)
 					Q3Memory_Free(&instanceData->corners[i].faces);
 					
-				if(instanceData->corners[i].attributeSet != NULL)
+				if(instanceData->corners[i].attributeSet != nullptr)
 					Q3Object_CleanDispose(&instanceData->corners[i].attributeSet);
 			}
 			
@@ -809,7 +809,7 @@ e3ffw_3DMF_meshcorner_traverse(TQ3Object object,
 	TQ3Uns32		i,meshCornersSize;
 	TQ3Status 		status = kQ3Success;
 	
-	if(data->corners != NULL && data->nCorners != 0)
+	if(data->corners != nullptr && data->nCorners != 0)
 		{
 		
 		meshCornersSize = 4; // nCorners
@@ -819,7 +819,7 @@ e3ffw_3DMF_meshcorner_traverse(TQ3Object object,
 			meshCornersSize += 4/* vertexIndex */ + 4 /* nFaces */ + (4 * data->corners[i].nFaces)/* faces */;
 			}
 			
-		status = Q3XView_SubmitWriteData (view, meshCornersSize, (void*)data, NULL);
+		status = Q3XView_SubmitWriteData (view, meshCornersSize, (void*)data, nullptr);
 		
 		for (i = 0 ; i < data->nCorners && status == kQ3Success; i++)
 			{
@@ -876,7 +876,7 @@ e3ffw_3DMF_meshcorner_write(const TE3FFormat3DMF_MeshCorners_Data *data,
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3fformat_3dmf_meshcorners_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -913,7 +913,7 @@ e3fformat_3dmf_meshedges_read(TQ3FileObject theFile)
 	TQ3Status	status = kQ3Failure;
 
 	// Create the object
-	TQ3Object theObject = E3ClassTree::CreateInstance ( kQ3ObjectTypeMeshEdges, kQ3False, NULL);
+	TQ3Object theObject = E3ClassTree::CreateInstance ( kQ3ObjectTypeMeshEdges, kQ3False, nullptr);
 	
 	if(theObject){
 	
@@ -928,7 +928,7 @@ e3fformat_3dmf_meshedges_read(TQ3FileObject theFile)
 		// allocate the array of edges
 		instanceData->edges = (TE3FFormat3DMF_MeshEdge_Data*) Q3Memory_AllocateClear (i * sizeof(TE3FFormat3DMF_MeshEdge_Data));
 		
-		if(instanceData->edges == NULL)
+		if(instanceData->edges == nullptr)
 			goto fail;
 			
 		instanceData->nEdges = i;
@@ -952,10 +952,10 @@ e3fformat_3dmf_meshedges_read(TQ3FileObject theFile)
 		
 		// Read in the attributes
 		i=0;
-		while ((Q3File_IsEndOfContainer(theFile, NULL) == kQ3False) && (i< instanceData->nEdges))
+		while ((Q3File_IsEndOfContainer(theFile, nullptr) == kQ3False) && (i< instanceData->nEdges))
 			{
 			TQ3Object childObject = Q3File_ReadObject(theFile);
-			if (childObject != NULL)
+			if (childObject != nullptr)
 				{
 				Q3_ASSERT (Q3Object_IsType (childObject, kQ3SetTypeAttribute));
 				E3Shared_Replace(&instanceData->edges[i].attributeSet,childObject);
@@ -973,7 +973,7 @@ fail:
 	if(theObject)
 		Q3Object_Dispose(theObject);
 	
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -989,11 +989,11 @@ e3fformat_3dmf_meshedges_delete(TQ3Object theObject, void *privateData)
 	TQ3Uns32						i;
 
 
-	if(instanceData->edges != NULL)
+	if(instanceData->edges != nullptr)
 		{
 		for (i = 0 ; i < instanceData->nEdges; i++)
 			{
-				if(instanceData->edges[i].attributeSet != NULL)
+				if(instanceData->edges[i].attributeSet != nullptr)
 					Q3Object_CleanDispose(&instanceData->edges[i].attributeSet);
 			}
 			
@@ -1011,7 +1011,7 @@ e3fformat_3dmf_meshedges_delete(TQ3Object theObject, void *privateData)
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3fformat_3dmf_meshedges_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -1042,7 +1042,7 @@ e3fformat_3dmf_generalpolygonhint_read(TQ3FileObject theFile)
 	TQ3Uns32	hint = 0;
 	
 	if(E3FFormat_3DMF_ReadFlag (&hint, theFile, kQ3ObjectTypeGeneralPolygonHint)!= kQ3Success)
-		return (NULL);
+		return (nullptr);
 
 	// Create the object
 	theObject = E3ClassTree::CreateInstance ( kQ3ObjectTypeGeneralPolygonHint, kQ3False, &hint);
@@ -1059,7 +1059,7 @@ e3fformat_3dmf_generalpolygonhint_read(TQ3FileObject theFile)
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3fformat_3dmf_generalpolygonhint_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -1091,7 +1091,7 @@ e3fformat_3dmf_geometry_caps_read(TQ3FileObject theFile)
 	TQ3Uns32	capsMask = 0;
 	
 	if(E3FFormat_3DMF_ReadFlag (&capsMask, theFile, kQ3ObjectTypeGeometryCaps)!= kQ3Success)
-		return (NULL);
+		return (nullptr);
 
 	// Create the object
 	theObject = E3ClassTree::CreateInstance ( kQ3ObjectTypeGeometryCaps, kQ3False, &capsMask);
@@ -1111,7 +1111,7 @@ e3fformat_3dmf_geometry_caps_read(TQ3FileObject theFile)
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3fformat_3dmf_geometry_caps_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -1160,7 +1160,7 @@ e3fformat_3dmf_displaygroupstate_read(TQ3FileObject theFile)
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3fformat_3dmf_displaygroupstate_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -1190,7 +1190,7 @@ e3fformat_3dmf_displaygroupstate_metahandler(TQ3XMethodType methodType)
 static TQ3Object
 e3fformat_3dmf_displaygroupbbox_read(TQ3FileObject theFile)
 {
-	TQ3Object	theObject = NULL;
+	TQ3Object	theObject = nullptr;
 	TQ3BoundingBox	theBox;
 	
 	if ( (kQ3Success == Q3Point3D_Read( &theBox.min, theFile )) &&
@@ -1235,7 +1235,7 @@ e3fformat_3dmf_displaygroupbbox_write( TQ3BoundingBox *object, TQ3FileObject the
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3fformat_3dmf_displaygroupbbox_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -1269,7 +1269,7 @@ e3fformat_3dmf_shaderuvtransform_read(TQ3FileObject theFile)
 	TQ3Uns32						i,j;
 
 	// Create the object
-	TQ3Object theObject = E3ClassTree::CreateInstance ( kQ3ObjectTypeShaderUVTransform, kQ3False, NULL);
+	TQ3Object theObject = E3ClassTree::CreateInstance ( kQ3ObjectTypeShaderUVTransform, kQ3False, nullptr);
 	
 	if(theObject){
 	
@@ -1280,7 +1280,7 @@ e3fformat_3dmf_shaderuvtransform_read(TQ3FileObject theFile)
 		if(result != kQ3Success)
 			{
 			Q3Object_Dispose(theObject);
-			theObject = NULL;
+			theObject = nullptr;
 			}
 		}
 	
@@ -1323,7 +1323,7 @@ e3fformat_3dmf_shader_read(TQ3FileObject theFile)
 	TQ3ShaderUVBoundary			vBoundary = kQ3ShaderUVBoundaryWrap;
 
 	// Create the object
-	theObject = E3ClassTree::CreateInstance ( kQ3ShapeTypeShader, kQ3False, NULL);
+	theObject = E3ClassTree::CreateInstance ( kQ3ShapeTypeShader, kQ3False, nullptr);
 	
 	if(theObject){
 				
@@ -1334,7 +1334,7 @@ e3fformat_3dmf_shader_read(TQ3FileObject theFile)
 		if(result != kQ3Success)
 			{
 			Q3Object_Dispose(theObject);
-			theObject = NULL;
+			theObject = nullptr;
 			}
 		else{
 			Q3Shader_SetUBoundary (theObject, uBoundary);
@@ -1354,7 +1354,7 @@ e3fformat_3dmf_shader_read(TQ3FileObject theFile)
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3fformat_3dmf_shaderuvtransform_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -1404,16 +1404,16 @@ e3fformat_3dmf_attributesetlist_delete(TQ3Object theObject, void *privateData)
 static TQ3Status
 e3fformat_3DMF_attributesetlist_allocate(TE3FFormat3DMF_AttributeSetList_Data* theASLD, TQ3Size size)
 {
-	Q3_REQUIRE_OR_RESULT(theASLD != NULL,kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(theASLD != nullptr,kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(theASLD->attributeSetCounter == 0,kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(theASLD->attributeSetArray == NULL,kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(theASLD->attributeSetArray == nullptr,kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(size != 0,kQ3Failure);
 	
 	
 	theASLD->attributeSetCounter = size;
 	theASLD->attributeSetArray = (TQ3AttributeSet *) Q3Memory_AllocateClear(sizeof(TQ3AttributeSet)*size);
 	
-	if(theASLD->attributeSetArray == NULL)
+	if(theASLD->attributeSetArray == nullptr)
 		return kQ3Failure;
 	else
 		return kQ3Success;
@@ -1441,7 +1441,7 @@ e3fformat_3dmf_attributesetlist_fillFromFile(TQ3FileObject theFile, TE3FFormat3D
 	
 	TQ3Object	childObject;
 	
-	Q3_REQUIRE_OR_RESULT(theASLD != NULL,kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(theASLD != nullptr,kQ3Failure);
 	
 
 	// read the total number of elements
@@ -1470,13 +1470,13 @@ e3fformat_3dmf_attributesetlist_fillFromFile(TQ3FileObject theFile, TE3FFormat3D
 		 ((packing == 0x00000001 /*exclude*/) && (nIndices == 0U)))
 		 {// nothing to read, fill all slots
 		 nIndices = 0;
-		 indices = NULL;
+		 indices = nullptr;
 		 }
 	else
 		{
 		Q3_ASSERT(nIndices > 0);
 		indices = (TQ3Uns32 *) Q3Memory_Allocate(sizeof(TQ3Uns32)*nIndices);
-		if(indices == NULL)
+		if(indices == nullptr)
 			return (kQ3Failure);
 		index = indices;
 
@@ -1488,16 +1488,16 @@ e3fformat_3dmf_attributesetlist_fillFromFile(TQ3FileObject theFile, TE3FFormat3D
 			}
 		}
 		
-	if(indices != NULL)
+	if(indices != nullptr)
 		{
 		if(packing == 0x00000000 /*include*/)
 			{
 			// Read in the attributes
 			i=0;
-			while ((Q3File_IsEndOfContainer(theFile, NULL) == kQ3False) && (i< nIndices))
+			while ((Q3File_IsEndOfContainer(theFile, nullptr) == kQ3False) && (i< nIndices))
 				{
 				childObject = Q3File_ReadObject(theFile);
-				if (childObject != NULL)
+				if (childObject != nullptr)
 					{
 					Q3_ASSERT (Q3Object_IsType (childObject, kQ3SetTypeAttribute));
 					E3Shared_Replace(&theASLD->attributeSetArray[indices[i]],childObject);
@@ -1512,7 +1512,7 @@ e3fformat_3dmf_attributesetlist_fillFromFile(TQ3FileObject theFile, TE3FFormat3D
 			// Read in the attributes
 			i=0;
 			j=0;
-			while ((Q3File_IsEndOfContainer(theFile, NULL) == kQ3False) && (i< theASLD->attributeSetCounter))
+			while ((Q3File_IsEndOfContainer(theFile, nullptr) == kQ3False) && (i< theASLD->attributeSetCounter))
 				{
 				while((i == indices[j]) && (i< theASLD->attributeSetCounter)){
 					i++;
@@ -1521,7 +1521,7 @@ e3fformat_3dmf_attributesetlist_fillFromFile(TQ3FileObject theFile, TE3FFormat3D
 					
 				if(i< theASLD->attributeSetCounter){
 					childObject = Q3File_ReadObject(theFile);
-					if (childObject != NULL)
+					if (childObject != nullptr)
 						{
 						Q3_ASSERT (Q3Object_IsType (childObject, kQ3SetTypeAttribute));
 						E3Shared_Replace(&theASLD->attributeSetArray[i],childObject);
@@ -1538,10 +1538,10 @@ e3fformat_3dmf_attributesetlist_fillFromFile(TQ3FileObject theFile, TE3FFormat3D
 		{
 		// Read in the attributes
 		i=0;
-		while ((Q3File_IsEndOfContainer(theFile, NULL) == kQ3False) && (i< theASLD->attributeSetCounter))
+		while ((Q3File_IsEndOfContainer(theFile, nullptr) == kQ3False) && (i< theASLD->attributeSetCounter))
 			{
 			childObject = Q3File_ReadObject(theFile);
-			if (childObject != NULL)
+			if (childObject != nullptr)
 				{
 				Q3_ASSERT (Q3Object_IsType (childObject, kQ3SetTypeAttribute));
 				E3Shared_Replace(&theASLD->attributeSetArray[i],childObject);
@@ -1577,7 +1577,7 @@ e3fformat_3dmf_attributesetlist_traverse(TQ3Object object,
 	TQ3Uns32 packing;
 	TQ3Status writeStatus = kQ3Failure;
 	
-	Q3_REQUIRE_OR_RESULT(instanceData != NULL,kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(instanceData != nullptr,kQ3Failure);
 	
 	
 	//compute size and indices
@@ -1586,7 +1586,7 @@ e3fformat_3dmf_attributesetlist_traverse(TQ3Object object,
 	size += 4; // # of indices
 	
 	for(i=0;i<instanceData->attributeSetCounter;i++){
-		if(instanceData->attributeSetArray[i] != NULL)
+		if(instanceData->attributeSetArray[i] != nullptr)
 			nIndices++;
 		}
 		
@@ -1609,7 +1609,7 @@ e3fformat_3dmf_attributesetlist_traverse(TQ3Object object,
 	
 	dataToWrite = (TQ3Uns32*) Q3Memory_Allocate (size);
 	
-	if(dataToWrite == NULL)
+	if(dataToWrite == nullptr)
 		return kQ3Failure;
 		
 	dataToWrite[0] = instanceData->attributeSetCounter;
@@ -1624,7 +1624,7 @@ e3fformat_3dmf_attributesetlist_traverse(TQ3Object object,
 	
 	j = 0;
 	for(i=0;i<instanceData->attributeSetCounter && writeStatus == kQ3Success;i++){
-		if(instanceData->attributeSetArray[i] != NULL){
+		if(instanceData->attributeSetArray[i] != nullptr){
 			writeStatus = Q3Object_Submit(instanceData->attributeSetArray[i],view);
 			if(packing == 0x00000000 /*include*/){
 				Q3_ASSERT(j < nIndices);
@@ -1687,7 +1687,7 @@ e3fformat_3dmf_attributesetlist_write(const TQ3Uns32 *data,
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3fformat_3dmf_attributesetlist_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -1718,14 +1718,14 @@ static TQ3Object
 e3fformat_3dmf_geomattributesetlist_read(TQ3FileObject theFile)
 {
 	// Create the object
-	TQ3Object theObject = E3ClassTree::CreateInstance ( kQ3ObjectTypeAttributeSetListGeometry, kQ3False, NULL);
+	TQ3Object theObject = E3ClassTree::CreateInstance ( kQ3ObjectTypeAttributeSetListGeometry, kQ3False, nullptr);
 	
 	if(theObject){
 	
 		if(e3fformat_3dmf_attributesetlist_fillFromFile (theFile, & ( (E3AttributeSetList*) theObject )->instanceData ) != kQ3Success)
 			{
 			Q3Object_Dispose(theObject);
-			theObject = NULL;
+			theObject = nullptr;
 			}
 		}
 	
@@ -1741,7 +1741,7 @@ e3fformat_3dmf_geomattributesetlist_read(TQ3FileObject theFile)
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3fformat_3dmf_geomattributesetlist_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -1766,14 +1766,14 @@ static TQ3Object
 e3fformat_3dmf_faceattributesetlist_read(TQ3FileObject theFile)
 {
 	// Create the object
-	TQ3Object theObject = E3ClassTree::CreateInstance ( kQ3ObjectTypeAttributeSetListFace, kQ3False, NULL);
+	TQ3Object theObject = E3ClassTree::CreateInstance ( kQ3ObjectTypeAttributeSetListFace, kQ3False, nullptr);
 	
 	if(theObject){
 	
 		if(e3fformat_3dmf_attributesetlist_fillFromFile (theFile, & ( (E3AttributeSetList*) theObject )->instanceData ) != kQ3Success)
 			{
 			Q3Object_Dispose(theObject);
-			theObject = NULL;
+			theObject = nullptr;
 			}
 		}
 	
@@ -1789,7 +1789,7 @@ e3fformat_3dmf_faceattributesetlist_read(TQ3FileObject theFile)
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3fformat_3dmf_faceattributesetlist_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -1814,14 +1814,14 @@ static TQ3Object
 e3fformat_3dmf_vertexattributesetlist_read(TQ3FileObject theFile)
 {
 	// Create the object
-	TQ3Object theObject = E3ClassTree::CreateInstance ( kQ3ObjectTypeAttributeSetListVertex, kQ3False, NULL);
+	TQ3Object theObject = E3ClassTree::CreateInstance ( kQ3ObjectTypeAttributeSetListVertex, kQ3False, nullptr);
 	
 	if(theObject){
 	
 		if(e3fformat_3dmf_attributesetlist_fillFromFile (theFile, & ( (E3AttributeSetList*) theObject )->instanceData ) != kQ3Success)
 			{
 			Q3Object_Dispose(theObject);
-			theObject = NULL;
+			theObject = nullptr;
 			}
 		}
 	
@@ -1837,7 +1837,7 @@ e3fformat_3dmf_vertexattributesetlist_read(TQ3FileObject theFile)
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3fformat_3dmf_vertexattributesetlist_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -1921,7 +1921,7 @@ e3fformat_3dmf_attributearray_read ( E3File* theFile )
 	TQ3Uns32				attributeUseArrayFlag;
 		
 	TQ3Uns32				i, numElems = 0;
-	TQ3TriMeshAttributeData *theAttribute = NULL;
+	TQ3TriMeshAttributeData *theAttribute = nullptr;
 	
 	TQ3Int8*				useArray;
 	
@@ -1931,7 +1931,7 @@ e3fformat_3dmf_attributearray_read ( E3File* theFile )
 	TQ3FileFormatObject format = theFile->GetFileFormat () ;
 	TQ3TriMeshData* geomData = ( (TE3FFormat3DMF_Data*) format->FindLeafInstanceData () )->currentTriMesh;
 	
-	Q3_REQUIRE_OR_RESULT(geomData != NULL, NULL);
+	Q3_REQUIRE_OR_RESULT(geomData != nullptr, nullptr);
 	
 	// =========== read the header
 	Q3Int32_Read(&attributeType, theFile);
@@ -1964,15 +1964,15 @@ e3fformat_3dmf_attributearray_read ( E3File* theFile )
 		
 		default:
 			Q3_MESSAGE("Invalid positionOfArray");
-			return NULL;
+			return nullptr;
 		}
 	
 	// ============ Read in eventually the attributeUseArray
 	
 	if (attributeUseArrayFlag != 0L) {
 		theAttribute->attributeUseArray = (char *) Q3Memory_Allocate(numElems);
-		if(theAttribute->attributeUseArray == NULL)
-			return NULL;
+		if(theAttribute->attributeUseArray == nullptr)
+			return nullptr;
 		useArray = (TQ3Int8*)theAttribute->attributeUseArray;
 				// why for CWP 5, signed char != char ???
 		
@@ -1989,23 +1989,23 @@ e3fformat_3dmf_attributearray_read ( E3File* theFile )
 		case kQ3AttributeTypeSurfaceUV: 		// TQ3Param2D
 		case kQ3AttributeTypeShadingUV:
 			theAttribute->data = Q3Memory_Allocate(sizeof(TQ3Param2D) * numElems);
-			if(theAttribute->data == NULL)
-				return NULL;
+			if(theAttribute->data == nullptr)
+				return nullptr;
 			if (Q3Float32_ReadArray( numElems * 2, (TQ3Float32*)theAttribute->data, theFile ) == kQ3Failure)
 				{
 				Q3Memory_Free( &theAttribute->data );
-				return NULL;
+				return nullptr;
 				}
 			break;
 			
 		case kQ3AttributeTypeNormal:			// TQ3Vector3D
 			theAttribute->data = Q3Memory_Allocate(sizeof(TQ3Vector3D) * numElems);
-			if(theAttribute->data == NULL)
-				return NULL;
+			if(theAttribute->data == nullptr)
+				return nullptr;
 			if (Q3Float32_ReadArray( numElems * 3, (TQ3Float32*)theAttribute->data, theFile ) == kQ3Failure)
 				{
 				Q3Memory_Free( &theAttribute->data );
-				return NULL;
+				return nullptr;
 				}
 			e3fformat_3dmf_normalarray_validate( numElems, (TQ3Vector3D*)theAttribute->data );
 			break;
@@ -2013,12 +2013,12 @@ e3fformat_3dmf_attributearray_read ( E3File* theFile )
 		case kQ3AttributeTypeAmbientCoefficient:// float
 		case kQ3AttributeTypeSpecularControl:
 			theAttribute->data = Q3Memory_Allocate(sizeof(float) * numElems);
-			if(theAttribute->data == NULL)
-				return NULL;
+			if(theAttribute->data == nullptr)
+				return nullptr;
 			if (Q3Float32_ReadArray( numElems, (TQ3Float32*)theAttribute->data, theFile ) == kQ3Failure)
 				{
 				Q3Memory_Free( &theAttribute->data );
-				return NULL;
+				return nullptr;
 				}
 			break;
 			
@@ -2026,30 +2026,30 @@ e3fformat_3dmf_attributearray_read ( E3File* theFile )
 		case kQ3AttributeTypeSpecularColor:
 		case kQ3AttributeTypeTransparencyColor:
 			theAttribute->data = Q3Memory_Allocate(sizeof(TQ3ColorRGB) * numElems);
-			if(theAttribute->data == NULL)
-				return NULL;
+			if(theAttribute->data == nullptr)
+				return nullptr;
 			if (Q3Float32_ReadArray( numElems * 3, (TQ3Float32*)theAttribute->data, theFile ) == kQ3Failure)
 				{
 				Q3Memory_Free( &theAttribute->data );
-				return NULL;
+				return nullptr;
 				}
 			break;
 			
 		case kQ3AttributeTypeSurfaceTangent:	//	TQ3Tangent2D
 			theAttribute->data = Q3Memory_Allocate(sizeof(TQ3Tangent2D) * numElems);
-			if(theAttribute->data == NULL)
-				return NULL;
+			if(theAttribute->data == nullptr)
+				return nullptr;
 			if (Q3Float32_ReadArray( numElems * 6, (TQ3Float32*)theAttribute->data, theFile ) == kQ3Failure)
 				{
 				Q3Memory_Free( &theAttribute->data );
-				return NULL;
+				return nullptr;
 				}
 			break;
 			
 		case kQ3AttributeTypeHighlightState:	//	TQ3Switch
 			theAttribute->data = Q3Memory_Allocate(sizeof(TQ3Tangent2D) * numElems);
-			if(theAttribute->data == NULL)
-				return NULL;
+			if(theAttribute->data == nullptr)
+				return nullptr;
 			elemSwitch = (TQ3Int32 *)theAttribute->data;
 			for(i = 0; i< numElems;i++){
 				Q3Int32_Read(elemSwitch,theFile);
@@ -2062,7 +2062,7 @@ e3fformat_3dmf_attributearray_read ( E3File* theFile )
 			// Read in the objects
 			elemObject = (TQ3AttributeSet *)theAttribute->data;
 			i = 0;
-			while (Q3File_IsEndOfContainer(theFile, NULL) == kQ3False && i < numElems)
+			while (Q3File_IsEndOfContainer(theFile, nullptr) == kQ3False && i < numElems)
 				{
 				*elemObject = Q3File_ReadObject(theFile);
 				elemObject++;
@@ -2075,7 +2075,7 @@ e3fformat_3dmf_attributearray_read ( E3File* theFile )
 			// Read in the objects
 			elemObject = (TQ3AttributeSet *)theAttribute->data;
 			i = 0;
-			while (Q3File_IsEndOfContainer(theFile, NULL) == kQ3False && i < numElems)
+			while (Q3File_IsEndOfContainer(theFile, nullptr) == kQ3False && i < numElems)
 				{
 				*elemObject = Q3File_ReadObject(theFile);
 				elemObject++;
@@ -2084,7 +2084,7 @@ e3fformat_3dmf_attributearray_read ( E3File* theFile )
 			break;
 		}
 	
-	return NULL; // never created
+	return nullptr; // never created
 }
 
 
@@ -2114,7 +2114,7 @@ e3fformat_3dmf_attributearray_write(const TE3FFormat3DMF_AttributeArray_Data *da
 		status = Q3Uns32_Write( data->whichAttr, theFile );
 	
 	if ( status == kQ3Success )
-		status = Q3Uns32_Write( data->attributeData->attributeUseArray != NULL, theFile );
+		status = Q3Uns32_Write( data->attributeData->attributeUseArray != nullptr, theFile );
 
 	if ( status == kQ3Success )
 	{
@@ -2123,11 +2123,11 @@ e3fformat_3dmf_attributearray_write(const TE3FFormat3DMF_AttributeArray_Data *da
 			TQ3ObjectType attClassType = E3Attribute_AttributeToClassType( attType );
 			// retrieve the write method
 			E3ClassInfoPtr theClass = E3ClassTree::GetClass ( attClassType ) ;
-			Q3_REQUIRE_OR_RESULT( theClass != NULL, kQ3Failure );
+			Q3_REQUIRE_OR_RESULT( theClass != nullptr, kQ3Failure );
 		
 			TQ3XObjectWriteMethod writeMethod = (TQ3XObjectWriteMethod)
 									theClass->GetMethod ( kQ3XMethodTypeObjectWrite ) ;
-			Q3_REQUIRE_OR_RESULT( writeMethod != NULL, kQ3Failure );
+			Q3_REQUIRE_OR_RESULT( writeMethod != nullptr, kQ3Failure );
 			
 			TQ3Uns8* attData = (TQ3Uns8*) data->attributeData->data ;
 			
@@ -2138,7 +2138,7 @@ e3fformat_3dmf_attributearray_write(const TE3FFormat3DMF_AttributeArray_Data *da
 				attData += data->attributeSize;
 			}
 		}
-		else if ( (attType < 0) && (data->attributeData->attributeUseArray != NULL) )
+		else if ( (attType < 0) && (data->attributeData->attributeUseArray != nullptr) )
 		{
 			for (i = 0; (status == kQ3Success) && (i < data->arraySize); ++i)
 			{
@@ -2160,7 +2160,7 @@ e3fformat_3dmf_attributearray_write(const TE3FFormat3DMF_AttributeArray_Data *da
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3fformat_3dmf_attributearray_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -2239,7 +2239,7 @@ e3fformat_3dmf_cameraplacement_metahandler ( TQ3XMethodType methodType )
 			return (TQ3XFunctionPointer) e3fformat_3dmf_cameraplacement_write ;
 		}
 
-	return NULL ;
+	return nullptr ;
 	}
 
 
@@ -2297,7 +2297,7 @@ e3fformat_3dmf_camerarange_metahandler ( TQ3XMethodType methodType )
 			return (TQ3XFunctionPointer) e3fformat_3dmf_camerarange_write ;
 		}
 
-	return NULL ;
+	return nullptr ;
 	}
 
 
@@ -2357,7 +2357,7 @@ e3fformat_3dmf_cameraviewport_metahandler ( TQ3XMethodType methodType )
 			return (TQ3XFunctionPointer) e3fformat_3dmf_cameraviewport_write ;
 		}
 
-	return NULL ;
+	return nullptr ;
 	}
 
 
@@ -2419,7 +2419,7 @@ e3fformat_3dmf_imageclearcolour_metahandler ( TQ3XMethodType methodType )
 			return (TQ3XFunctionPointer) e3fformat_3dmf_imageclearcolour_write ;
 		}
 
-	return NULL ;
+	return nullptr ;
 	}
 
 
@@ -2484,7 +2484,7 @@ e3fformat_3dmf_imagedimensions_metahandler ( TQ3XMethodType methodType )
 			return (TQ3XFunctionPointer) e3fformat_3dmf_imagedimensions_write ;
 		}
 
-	return NULL ;
+	return nullptr ;
 	}
 
 
@@ -2548,7 +2548,7 @@ e3fformat_3dmf_lightdata_metahandler ( TQ3XMethodType methodType )
 			return (TQ3XFunctionPointer) e3fformat_3dmf_lightdata_write ;
 		}
 
-	return NULL ;
+	return nullptr ;
 	}
 
 
@@ -2566,7 +2566,7 @@ e3fformat_3dmf_endgroup_read(TQ3FileObject theFile)
 
 
 	// Create the object
-	theObject = E3ClassTree::CreateInstance ( kQ3SharedTypeEndGroup, kQ3False, NULL);
+	theObject = E3ClassTree::CreateInstance ( kQ3SharedTypeEndGroup, kQ3False, nullptr);
 	return(theObject);
 }
 
@@ -2582,7 +2582,7 @@ e3fformat_3dmf_endgroup_read(TQ3FileObject theFile)
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3fformat_3dmf_endgroup_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -2661,22 +2661,22 @@ E3FFormat_3DMF_Reader_RegisterClass(void)
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameTopCapAttributeSet,
-											NULL,
+											nullptr,
 											E3TopCapSet ) ;
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameBottomCapAttributeSet,
-											NULL,
+											nullptr,
 											E3BottomCapSet ) ;
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameFaceCapAttributeSet,
-											NULL,
+											nullptr,
 											E3FaceCapSet ) ;
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameInteriorCapAttributeSet,
-											NULL,
+											nullptr,
 											E3InteriorCapSet ) ;
 
 
@@ -2896,7 +2896,7 @@ E3FFW_3DMF_Register(void)
 	// the Support objects
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = Q3_REGISTER_CLASS_NO_DATA	(	kQ3ClassName3DMF,
-											NULL,
+											nullptr,
 											E33DMF ) ;
 
 	E3ClassTree::AddMethod(kQ3ObjectType3DMF,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_Traverse);
@@ -2904,7 +2904,7 @@ E3FFW_3DMF_Register(void)
 	
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = Q3_REGISTER_CLASS_NO_DATA	(	kQ3ClassNameTOC,
-											NULL,
+											nullptr,
 											E3TableOfContents ) ;
 
 	E3ClassTree::AddMethod(kQ3ObjectTypeTOC,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_TOC_Traverse);
@@ -2912,7 +2912,7 @@ E3FFW_3DMF_Register(void)
 	
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = Q3_REGISTER_CLASS_NO_DATA	(	kQ3ClassNameType,
-											NULL,
+											nullptr,
 											E3Type ) ;
 
 	E3ClassTree::AddMethod(kQ3ObjectTypeType,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_type_Traverse);
@@ -2920,7 +2920,7 @@ E3FFW_3DMF_Register(void)
 
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = Q3_REGISTER_CLASS	(	kQ3ClassNameReference,
-											NULL,
+											nullptr,
 											E3Reference ) ;
 
 	E3ClassTree::AddMethod(kQ3ShapeTypeReference,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)E3FFW_3DMF_32_Traverse);
@@ -3092,7 +3092,7 @@ E3FFormat_3DMF_CapsAttributes_Get(TQ3Object theObject)
 TQ3Object
 E3FFormat_3DMF_MeshCorners_New(TQ3MeshData* meshData)
 {	
-	TQ3Object	theObject = NULL;
+	TQ3Object	theObject = nullptr;
 	TQ3Uns32	i,j,k;
 	TQ3Uns32	numCorners = 0;
 	
@@ -3106,7 +3106,7 @@ E3FFormat_3DMF_MeshCorners_New(TQ3MeshData* meshData)
 		return (theObject);
 
 	// Create the object
-	theObject = E3ClassTree::CreateInstance ( kQ3ObjectTypeMeshCorners, kQ3False, NULL);
+	theObject = E3ClassTree::CreateInstance ( kQ3ObjectTypeMeshCorners, kQ3False, nullptr);
 	
 	if(theObject){
 	
@@ -3116,7 +3116,7 @@ E3FFormat_3DMF_MeshCorners_New(TQ3MeshData* meshData)
 		// allocate the array of corners
 		instanceData->corners = (TE3FFormat3DMF_MeshCorner_Data*) Q3Memory_AllocateClear (numCorners * sizeof(TE3FFormat3DMF_MeshCorner_Data));
 		
-		if(instanceData->corners == NULL)
+		if(instanceData->corners == nullptr)
 			goto fail;
 			
 		instanceData->nCorners = numCorners;
@@ -3131,13 +3131,13 @@ E3FFormat_3DMF_MeshCorners_New(TQ3MeshData* meshData)
 				
 				for(j = 0; j < meshData->vertices[i].numCorners; j++)
 					{
-					if(meshData->vertices[i].corners[j].cornerAttributeSet != NULL)
+					if(meshData->vertices[i].corners[j].cornerAttributeSet != nullptr)
 						{
 					
 						instanceData->corners[numCorners].vertexIndex = i;
 						instanceData->corners[numCorners].faces = (TQ3Uns32*)
 									Q3Memory_AllocateClear(meshData->vertices[i].corners[j].numFaces * sizeof(TQ3Uns32));
-						if(instanceData->corners[numCorners].faces == NULL)
+						if(instanceData->corners[numCorners].faces == nullptr)
 							goto fail;
 							
 						instanceData->corners[numCorners].nFaces = meshData->vertices[i].corners[j].numFaces;
@@ -3170,7 +3170,7 @@ fail:
 	if(theObject)
 		Q3Object_Dispose(theObject);
 	
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -3234,9 +3234,9 @@ E3FFormat_3DMF_AttributeSetList_Get(TQ3Object theAttributeSetList, TQ3Uns32 inde
 {
 	TE3FFormat3DMF_AttributeSetList_Data* instanceData = & ( (E3AttributeSetList*) theAttributeSetList )->instanceData ;
 	
-	TQ3AttributeSet result = NULL;
+	TQ3AttributeSet result = nullptr;
 	
-	if(instanceData->attributeSetCounter > index && instanceData->attributeSetArray[index] != NULL)
+	if(instanceData->attributeSetCounter > index && instanceData->attributeSetArray[index] != nullptr)
 		result = Q3Shared_GetReference(instanceData->attributeSetArray[index]);
 		
 	return result;
@@ -3257,7 +3257,7 @@ E3FFormat_3DMF_AttributeSetList_Set(TQ3Object theAttributeSetList,
 										TQ3Uns32 index, TQ3AttributeSet theAttributeSet)
 {
 	TE3FFormat3DMF_AttributeSetList_Data* instanceData = & ( (E3AttributeSetList*) theAttributeSetList )->instanceData ;
-	Q3_REQUIRE_OR_RESULT(instanceData != NULL,kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(instanceData != nullptr,kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(instanceData->attributeSetCounter != 0,kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(instanceData->attributeSetCounter > index,kQ3Failure);
 	
@@ -3280,14 +3280,14 @@ TQ3Object
 E3FFormat_3DMF_FaceAttributeSetList_New(TQ3Size size)
 {
 	// Create the object
-	TQ3Object theObject = E3ClassTree::CreateInstance ( kQ3ObjectTypeAttributeSetListFace, kQ3False, NULL);
+	TQ3Object theObject = E3ClassTree::CreateInstance ( kQ3ObjectTypeAttributeSetListFace, kQ3False, nullptr);
 	
 	if(theObject){
 	
 		if(e3fformat_3DMF_attributesetlist_allocate ( & ( (E3AttributeSetList*) theObject )->instanceData, size ) != kQ3Success)
 			{
 			Q3Object_Dispose(theObject);
-			theObject = NULL;
+			theObject = nullptr;
 			}
 		}
 	
@@ -3306,14 +3306,14 @@ TQ3Object
 E3FFormat_3DMF_VertexAttributeSetList_New(TQ3Size size)
 {
 	// Create the object
-	TQ3Object theObject = E3ClassTree::CreateInstance ( kQ3ObjectTypeAttributeSetListVertex, kQ3False, NULL);
+	TQ3Object theObject = E3ClassTree::CreateInstance ( kQ3ObjectTypeAttributeSetListVertex, kQ3False, nullptr);
 	
 	if(theObject){
 	
 		if(e3fformat_3DMF_attributesetlist_allocate ( & ( (E3AttributeSetList*) theObject )->instanceData, size ) != kQ3Success)
 			{
 			Q3Object_Dispose(theObject);
-			theObject = NULL;
+			theObject = nullptr;
 			}
 		}
 	
@@ -3332,14 +3332,14 @@ TQ3Object
 E3FFormat_3DMF_GeomAttributeSetList_New(TQ3Size size)
 {
 	// Create the object
-	TQ3Object theObject = E3ClassTree::CreateInstance ( kQ3ObjectTypeAttributeSetListGeometry, kQ3False, NULL);
+	TQ3Object theObject = E3ClassTree::CreateInstance ( kQ3ObjectTypeAttributeSetListGeometry, kQ3False, nullptr);
 	
 	if(theObject){
 	
 		if(e3fformat_3DMF_attributesetlist_allocate ( & ( (E3AttributeSetList*) theObject )->instanceData, size ) != kQ3Success)
 			{
 			Q3Object_Dispose(theObject);
-			theObject = NULL;
+			theObject = nullptr;
 			}
 		}
 	
@@ -3429,9 +3429,9 @@ E3FFormat_3DMF_ReadFlag(TQ3Uns32* flag, TQ3FileObject theFile, TQ3ObjectType hin
 	TQ3XFFormat_3DMF_ReadFlagMethod readFlag = 
 		(TQ3XFFormat_3DMF_ReadFlagMethod) format->GetMethod ( kE3XMethodType_3DMF_ReadFlag ) ;
 
-	Q3_ASSERT(readFlag != NULL);
+	Q3_ASSERT(readFlag != nullptr);
 	
-	if(readFlag != NULL)
+	if(readFlag != nullptr)
 		return (readFlag(flag,theFile,hint));
 		
 	return (kQ3Failure);

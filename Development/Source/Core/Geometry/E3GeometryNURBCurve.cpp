@@ -102,11 +102,11 @@ e3geom_curve_copydata(const TQ3NURBCurveData *src, TQ3NURBCurveData *dst, TQ3Boo
 	// copy or shared-replace the attributes
 	if (isDuplicate)
 	{
-		if (src->curveAttributeSet != NULL)
+		if (src->curveAttributeSet != nullptr)
 		{
 			dst->curveAttributeSet = Q3Object_Duplicate(src->curveAttributeSet);
-			if (dst->curveAttributeSet == NULL) qd3dStatus = kQ3Failure;
-		} else dst->curveAttributeSet = NULL;
+			if (dst->curveAttributeSet == nullptr) qd3dStatus = kQ3Failure;
+		} else dst->curveAttributeSet = nullptr;
 
 	}
 	else {
@@ -355,8 +355,8 @@ e3geom_nurbcurve_interesting_knots( const float * inKnots, TQ3Uns32 numPoints, T
 //      e3geom_nurbcurve_constant_subdiv : Subdivide the given NURB curve into
 //										   the some number of segments.
 //-----------------------------------------------------------------------------
-//		Note :	If the vertex array is non-NULL on return, be sure to free it
-//				with Q3Memory_Free(). If it is NULL, then an error has occured.
+//		Note :	If the vertex array is non-nullptr on return, be sure to free it
+//				with Q3Memory_Free(). If it is nullptr, then an error has occured.
 //-----------------------------------------------------------------------------
 static void
 e3geom_nurbcurve_constant_subdiv( TQ3Vertex3D** theVertices, TQ3Uns32* numPoints, float subdivU, const TQ3NURBCurveData *geomData )
@@ -368,8 +368,8 @@ e3geom_nurbcurve_constant_subdiv( TQ3Vertex3D** theVertices, TQ3Uns32* numPoints
 	
 	// Find the interesting knots (ie skip the repeated knots)
 	interestingU = (float *) Q3Memory_Allocate(static_cast<TQ3Uns32>((geomData->numPoints - geomData->order + 2) * sizeof(float)));
-	if (interestingU == NULL) {
-		*theVertices = NULL ;
+	if (interestingU == nullptr) {
+		*theVertices = nullptr ;
 		return ;
 	}
 	numInt = e3geom_nurbcurve_interesting_knots( geomData->knots, geomData->numPoints, geomData->order, interestingU );
@@ -387,7 +387,7 @@ e3geom_nurbcurve_constant_subdiv( TQ3Vertex3D** theVertices, TQ3Uns32* numPoints
 	
 	// Allocate the memory we need (zeroed since we don't need the attribute set field, and want it cleared)
 	*theVertices = (TQ3Vertex3D *) Q3Memory_AllocateClear(static_cast<TQ3Uns32>(*numPoints * sizeof(TQ3Vertex3D)));
-	if (*theVertices == NULL)
+	if (*theVertices == nullptr)
 		return ;
 	
 	// Now calculate the vertices of the polyLine
@@ -420,8 +420,8 @@ e3geom_nurbcurve_constant_subdiv( TQ3Vertex3D** theVertices, TQ3Uns32* numPoints
 //      e3geom_nurbcurve_world_subdiv : Subdivide the given NURB curve into
 //										segments of a fixed world-space length.
 //-----------------------------------------------------------------------------
-//		Note :	If the vertex array is non-NULL on return, be sure to free it
-//				with Q3Memory_Free(). If it is NULL, then an error has occured.
+//		Note :	If the vertex array is non-nullptr on return, be sure to free it
+//				with Q3Memory_Free(). If it is nullptr, then an error has occured.
 //-----------------------------------------------------------------------------
 #define REALLOC_VERTS 5
 static void
@@ -433,7 +433,7 @@ e3geom_nurbcurve_world_subdiv( TQ3Vertex3D** theVertices, TQ3Uns32* numPoints, f
 	// To cache the local -> world matrix
 	TQ3Matrix4x4	localToWorld ;
 
-	*theVertices = NULL ;
+	*theVertices = nullptr ;
 	*numPoints = 0 ;
 	
 	// Sanity check subdivU
@@ -448,8 +448,8 @@ e3geom_nurbcurve_world_subdiv( TQ3Vertex3D** theVertices, TQ3Uns32* numPoints, f
 	
 	// Find the interesting knots (ie skip the repeated knots)
 	interestingU = (float *) Q3Memory_Allocate(static_cast<TQ3Uns32>((geomData->numPoints - geomData->order + 2) * sizeof(float)));
-	if (interestingU == NULL) {
-		*theVertices = NULL ;
+	if (interestingU == nullptr) {
+		*theVertices = nullptr ;
 		return ;
 	}
 	numInt = e3geom_nurbcurve_interesting_knots( geomData->knots, geomData->numPoints, geomData->order, interestingU );
@@ -457,13 +457,13 @@ e3geom_nurbcurve_world_subdiv( TQ3Vertex3D** theVertices, TQ3Uns32* numPoints, f
 	last = interestingU[numInt - 1] ;
 	
 	// Allocate the memory we need for the PolyLine (zeroed since we don't
-	// need the attribute set field, and want it cleared to NULL).
+	// need the attribute set field, and want it cleared to nullptr).
 	// Because we don't know how many points we will have in our subdivision, we
 	// will allocate a projected number of vertices and reallocate in chunks as we need more.
 	maxVerts = (TQ3Uns32)( numInt + ( last - a ) / subdivU )  + REALLOC_VERTS;
 	if( maxVerts > 1000 ) maxVerts = 1000 ;
 	*theVertices = (TQ3Vertex3D *) Q3Memory_AllocateClear( static_cast<TQ3Uns32>(maxVerts * sizeof(TQ3Vertex3D)) );
-	if (*theVertices == NULL) {
+	if (*theVertices == nullptr) {
 		return ;
 	}
 	
@@ -490,7 +490,7 @@ e3geom_nurbcurve_world_subdiv( TQ3Vertex3D** theVertices, TQ3Uns32* numPoints, f
 			if( numVerts > maxVerts -2 ) {
 				maxVerts += REALLOC_VERTS ;
 				if( kQ3Failure == Q3Memory_Reallocate( theVertices, static_cast<TQ3Uns32>(maxVerts * sizeof(TQ3Vertex3D)) ) ) {
-					*theVertices = NULL ;
+					*theVertices = nullptr ;
 					Q3Memory_Free(&interestingU);
 					return ;
 				}
@@ -573,8 +573,8 @@ e3geom_nurbcurve_world_subdiv( TQ3Vertex3D** theVertices, TQ3Uns32* numPoints, f
 //      e3geom_nurbcurve_screen_subdiv : Subdivide the given NURB curve into
 //										 segments of a fixed screen length.
 //-----------------------------------------------------------------------------
-//		Note :	If the vertex array is non-NULL on return, be sure to free it
-//				with Q3Memory_Free(). If it is NULL, then an error has occured.
+//		Note :	If the vertex array is non-nullptr on return, be sure to free it
+//				with Q3Memory_Free(). If it is nullptr, then an error has occured.
 //-----------------------------------------------------------------------------
 #define REALLOC_VERTS 5
 static void
@@ -587,7 +587,7 @@ e3geom_nurbcurve_screen_subdiv( TQ3Vertex3D** theVertices, TQ3Uns32* numPoints, 
 	// To cache the local -> screen matrix
 	TQ3Matrix4x4	localToWorld, worldToFrustum, frustumToWindow, localToWindow ;
 	
-	*theVertices = NULL ;
+	*theVertices = nullptr ;
 	*numPoints = 0 ;
 	
 	// Sanity check subdivU
@@ -611,8 +611,8 @@ e3geom_nurbcurve_screen_subdiv( TQ3Vertex3D** theVertices, TQ3Uns32* numPoints, 
 	
 	// Find the interesting knots (ie skip the repeated knots)
 	interestingU = (float *) Q3Memory_Allocate(static_cast<TQ3Uns32>((geomData->numPoints - geomData->order + 2) * sizeof(float)));
-	if (interestingU == NULL) {
-		*theVertices = NULL ;
+	if (interestingU == nullptr) {
+		*theVertices = nullptr ;
 		return ;
 	}
 	numInt = e3geom_nurbcurve_interesting_knots( geomData->knots, geomData->numPoints, geomData->order, interestingU );
@@ -620,13 +620,13 @@ e3geom_nurbcurve_screen_subdiv( TQ3Vertex3D** theVertices, TQ3Uns32* numPoints, 
 	last = interestingU[numInt - 1] ;
 	
 	// Allocate the memory we need for the PolyLine (zeroed since we don't
-	// need the attribute set field, and want it cleared to NULL).
+	// need the attribute set field, and want it cleared to nullptr).
 	// Because we don't know how many points we will have in our subdivision, we
 	// will allocate a projected number of vertices and reallocate in chunks as we need more.
 	maxVerts = (TQ3Uns32)( numInt + ( last - a ) / subdivU )  + REALLOC_VERTS ;
 	if( maxVerts > 1000 ) maxVerts = 1000 ;
 	*theVertices = (TQ3Vertex3D *) Q3Memory_AllocateClear( static_cast<TQ3Uns32>(maxVerts * sizeof(TQ3Vertex3D)) );
-	if (*theVertices == NULL) {
+	if (*theVertices == nullptr) {
 		return ;
 	}
 	
@@ -656,7 +656,7 @@ e3geom_nurbcurve_screen_subdiv( TQ3Vertex3D** theVertices, TQ3Uns32* numPoints, 
 			if( numVerts > maxVerts -2 ) {
 				maxVerts += REALLOC_VERTS ;
 				if( kQ3Failure == Q3Memory_Reallocate( theVertices, static_cast<TQ3Uns32>(maxVerts * sizeof(TQ3Vertex3D)) ) ) {
-					*theVertices = NULL ;
+					*theVertices = nullptr ;
 					Q3Memory_Free(&interestingU);
 					return ;
 				}
@@ -744,7 +744,7 @@ static TQ3Object
 e3geom_nurbcurve_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ3NURBCurveData *geomData)
 {	TQ3SubdivisionStyleData			subdivisionData;
 	float							subdivU = 10.0f;
-	TQ3Vertex3D						*theVertices = NULL;
+	TQ3Vertex3D						*theVertices = nullptr;
 	TQ3PolyLineData					polyLineData;
 	TQ3GeometryObject				thePolyLine;
 	TQ3Status						theStatus;
@@ -760,20 +760,20 @@ e3geom_nurbcurve_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 		switch( subdivisionData.method ) {
 			case kQ3SubdivisionMethodScreenSpace:
 				e3geom_nurbcurve_screen_subdiv( &theVertices, &numPoints, subdivU, geomData, theView ) ;
-				if( theVertices == NULL )
-					return(NULL);
+				if( theVertices == nullptr )
+					return(nullptr);
 				break ;
 			
 			case kQ3SubdivisionMethodWorldSpace:
 				e3geom_nurbcurve_world_subdiv( &theVertices, &numPoints, subdivU, geomData, theView ) ;
-				if( theVertices == NULL )
-					return(NULL);
+				if( theVertices == nullptr )
+					return(nullptr);
 				break ;
 			
 			case kQ3SubdivisionMethodConstant:
 				e3geom_nurbcurve_constant_subdiv( &theVertices, &numPoints, subdivU, geomData ) ;
-				if( theVertices == NULL )
-					return(NULL);
+				if( theVertices == nullptr )
+					return(nullptr);
 				break ;
 			
 			default:
@@ -787,7 +787,7 @@ e3geom_nurbcurve_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 	// Create the PolyLine
 	polyLineData.numVertices          = numPoints;
 	polyLineData.vertices             = theVertices;
-	polyLineData.segmentAttributeSet  = NULL;
+	polyLineData.segmentAttributeSet  = nullptr;
 	polyLineData.polyLineAttributeSet = geomData->curveAttributeSet;
 
 	thePolyLine = Q3PolyLine_New(&polyLineData);
@@ -852,7 +852,7 @@ e3geom_nurbcurve_get_attribute ( E3NURBCurve* nurbCurve )
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3geom_nurbcurve_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -1005,7 +1005,7 @@ E3NURBCurve_GetData(TQ3GeometryObject theNurbCurve, TQ3NURBCurveData *curveData)
 	E3NURBCurve* nurbCurve = (E3NURBCurve*) theNurbCurve ;
 
 	// Copy the data out of the NURBCurve
-	curveData->curveAttributeSet = NULL ;
+	curveData->curveAttributeSet = nullptr ;
 	return e3geom_curve_copydata ( & nurbCurve->instanceData, curveData, kQ3False ) ;
 	}	
 
@@ -1143,7 +1143,7 @@ E3NURBCurve_GetNumPoints ( TQ3GeometryObject theNurbCurve, TQ3Uns32* numPoints )
 TQ3Boolean
 E3NURBCurve_IsOfMyClass ( TQ3Object object )
 	{
-	if ( object == NULL )
+	if ( object == nullptr )
 		return kQ3False ;
 		
 	if ( object->IsObjectValid () )

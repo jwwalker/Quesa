@@ -92,9 +92,9 @@ ir_geom_adjust_state(TQ3InteractiveData *instanceData, TQ3AttributeSet theAttrib
 													Q3XAttributeSet_GetPointer(theAttributes,
 													kQ3AttributeTypeHighlightState));
 
-	Q3_ASSERT(instanceData->stateGeomDiffuseColour      != NULL);
-	Q3_ASSERT(instanceData->stateGeomSpecularColour     != NULL);
-	Q3_ASSERT(instanceData->stateGeomTransparencyColour != NULL);
+	Q3_ASSERT(instanceData->stateGeomDiffuseColour      != nullptr);
+	Q3_ASSERT(instanceData->stateGeomSpecularColour     != nullptr);
+	Q3_ASSERT(instanceData->stateGeomTransparencyColour != nullptr);
 }
 
 
@@ -105,11 +105,11 @@ static bool HasSegmentAtts( const TQ3PolyLineData* inGeomData )
 {
 	bool	hasSegAtts = false;
 	
-	if (inGeomData->segmentAttributeSet != NULL)
+	if (inGeomData->segmentAttributeSet != nullptr)
 	{
 		for (TQ3Uns32 i = 0; i < inGeomData->numVertices - 1; ++i)
 		{
-			if (inGeomData->segmentAttributeSet[i] != NULL)
+			if (inGeomData->segmentAttributeSet[i] != nullptr)
 			{
 				hasSegAtts = true;
 				break;
@@ -135,14 +135,14 @@ static void	PassBuckOnPolyLine(
 									const TQ3PolyLineData* inGeomData )
 {
 	CQ3ObjectRef	tempGeom;
-	if (inPolyLine == NULL)
+	if (inPolyLine == nullptr)
 	{
 		// Immediate mode.
 		inPolyLine = Q3PolyLine_New( inGeomData );
 		tempGeom = CQ3ObjectRef( inPolyLine );
 	}
 	
-	if (inPolyLine != NULL)
+	if (inPolyLine != nullptr)
 	{
 		CQ3ObjectRef	decomposed( Q3Geometry_GetDecomposed( inPolyLine,
 			inView ) );
@@ -170,8 +170,8 @@ IRGeometry_Initialize(TQ3InteractiveData *instanceData)
 
 
 	// Initialise our state
-	instanceData->geomScratchSlab = Q3SlabMemory_New(1, 0, NULL);
-	if (instanceData->geomScratchSlab == NULL)
+	instanceData->geomScratchSlab = Q3SlabMemory_New(1, 0, nullptr);
+	if (instanceData->geomScratchSlab == nullptr)
 		return(kQ3Failure);
 	
 	return(kQ3Success);
@@ -231,7 +231,7 @@ IRGeometry_StartPass(TQ3InteractiveData *instanceData, TQ3CameraObject theCamera
 TQ3Boolean
 IRGeometry_Attribute_Handler(TQ3ViewObject theView, TQ3AttributeSet geomAttributes,
 							 TQ3InteractiveData *instanceData, TQ3XAttributeMask needAttributesMask)
-{   TQ3AttributeSet     viewAttributes = NULL;
+{   TQ3AttributeSet     viewAttributes = nullptr;
 	TQ3ShaderObject 	*theShader;
 	TQ3XAttributeMask	theMask, hiliteMask;
 	TQ3Boolean			hadAttributeTexture;
@@ -247,12 +247,12 @@ IRGeometry_Attribute_Handler(TQ3ViewObject theView, TQ3AttributeSet geomAttribut
 	hadAttributeTexture = kQ3False;
 
 
-	if(geomAttributes != NULL)
+	if(geomAttributes != nullptr)
 		{
         theMask = Q3XAttributeSet_GetMask(geomAttributes);
 		ir_geom_adjust_state(instanceData, geomAttributes, (TQ3XAttributeMask)(needAttributesMask & theMask));
 		
-	    if (instanceData->stateGeomHilightState == kQ3On && instanceData->stateHilight != NULL)
+	    if (instanceData->stateGeomHilightState == kQ3On && instanceData->stateHilight != nullptr)
 	    	{
 	    	hiliteMask = Q3XAttributeSet_GetMask(instanceData->stateHilight);
 	    	
@@ -266,7 +266,7 @@ IRGeometry_Attribute_Handler(TQ3ViewObject theView, TQ3AttributeSet geomAttribut
 			{
 			// Get the texture
 			theShader = (TQ3ShaderObject *) Q3XAttributeSet_GetPointer(geomAttributes, kQ3AttributeTypeSurfaceShader);
-			if (theShader != NULL && *theShader != NULL)
+			if (theShader != nullptr && *theShader != nullptr)
 				{
 				// Set our flag, apply it, and update the GL state
 				hadAttributeTexture = kQ3True;
@@ -281,7 +281,7 @@ IRGeometry_Attribute_Handler(TQ3ViewObject theView, TQ3AttributeSet geomAttribut
 //	is this really neccessary? the view attributes are already updated in instanceData->stateView
 //	
 /*	qd3dStatus = Q3View_GetAttributeSetState(theView, &viewAttributes);
-	if ((qd3dStatus == kQ3Success) && (viewAttributes != NULL))
+	if ((qd3dStatus == kQ3Success) && (viewAttributes != nullptr))
 	{
 		theMask = (Q3XAttributeSet_GetMask(viewAttributes) & ~theMask) & needAttributesMask;
 		ir_geom_adjust_state(instanceData, viewAttributes, theMask);
@@ -290,7 +290,7 @@ IRGeometry_Attribute_Handler(TQ3ViewObject theView, TQ3AttributeSet geomAttribut
 			{
 			// Get the texture
 			theShader = (TQ3ShaderObject *) Q3XAttributeSet_GetPointer(viewAttributes, kQ3AttributeTypeSurfaceShader);
-			if (theShader != NULL && *theShader != NULL)
+			if (theShader != nullptr && *theShader != nullptr)
 				{
 				// Set our flag, apply it, and update the GL state
 				hadAttributeTexture = kQ3True;
@@ -328,12 +328,12 @@ IRGeometry_Generate_Vertex_State(TQ3InteractiveData		*instanceData,
 
 
 	// Get the attribute points
-	theNormal          = NULL;
-	theUV              = NULL;
-	colourDiffuse      = NULL;
-	colourTransparency = NULL;
+	theNormal          = nullptr;
+	theUV              = nullptr;
+	colourDiffuse      = nullptr;
+	colourTransparency = nullptr;
 
-	if (srcVertex->attributeSet != NULL)
+	if (srcVertex->attributeSet != nullptr)
 		{
 		theMask = Q3XAttributeSet_GetMask(srcVertex->attributeSet);
 	
@@ -343,7 +343,7 @@ IRGeometry_Generate_Vertex_State(TQ3InteractiveData		*instanceData,
 		if (E3Bit_IsSet(theMask, kQ3XAttributeMaskSurfaceUV))
 			theUV     = (TQ3Param2D  *) Q3XAttributeSet_GetPointer(srcVertex->attributeSet, kQ3AttributeTypeSurfaceUV);
 	
-		if (E3Bit_IsSet(theMask, kQ3XAttributeMaskShadingUV) && theUV == NULL)
+		if (E3Bit_IsSet(theMask, kQ3XAttributeMaskShadingUV) && theUV == nullptr)
 			theUV     = (TQ3Param2D  *) Q3XAttributeSet_GetPointer(srcVertex->attributeSet, kQ3AttributeTypeShadingUV);
 	
 		if (E3Bit_IsSet(theMask, kQ3XAttributeMaskDiffuseColor))
@@ -356,19 +356,19 @@ IRGeometry_Generate_Vertex_State(TQ3InteractiveData		*instanceData,
 
 
 	// Fall back to the defaults
-	if (theNormal == NULL && defaultNormal != NULL)
+	if (theNormal == nullptr && defaultNormal != nullptr)
 		theNormal = defaultNormal;
 
 	if (instanceData->stateTextureActive && instanceData->stateViewIllumination != kQ3IlluminationTypeNULL &&
-		(theUV != NULL) )
+		(theUV != nullptr) )
 		colourDiffuse = &white;
 	else
 		{
-		if (colourDiffuse == NULL || instanceData->stateGeomHilightState == kQ3On)
+		if (colourDiffuse == nullptr || instanceData->stateGeomHilightState == kQ3On)
 			colourDiffuse = instanceData->stateGeomDiffuseColour;
 		}
 		
-	if (colourTransparency == NULL &&
+	if (colourTransparency == nullptr &&
 		(instanceData->stateGeomTransparencyColour->r != 1.0f ||
 		 instanceData->stateGeomTransparencyColour->g != 1.0f ||
 		 instanceData->stateGeomTransparencyColour->b != 1.0f))
@@ -382,7 +382,7 @@ IRGeometry_Generate_Vertex_State(TQ3InteractiveData		*instanceData,
 	dstVertex->theFlags = kQ3FVertexFlagNone;
 	dstVertex->thePoint = srcVertex->point;
 
-	if (theNormal != NULL)
+	if (theNormal != nullptr)
 		{
 		dstVertex->theFlags |= kQ3FVertexHaveNormal;
 		if (theNormal == defaultNormal)
@@ -391,19 +391,19 @@ IRGeometry_Generate_Vertex_State(TQ3InteractiveData		*instanceData,
 			Q3Vector3D_Normalize(theNormal, &dstVertex->theNormal);
 		}
 
-	if (theUV != NULL)
+	if (theUV != nullptr)
 		{
 		dstVertex->theFlags |= kQ3FVertexHaveUV;
 		dstVertex->theUV     = *theUV;
 		}
 
-	if (colourDiffuse != NULL)
+	if (colourDiffuse != nullptr)
 		{
 		dstVertex->theFlags     |= kQ3FVertexHaveDiffuse;
 		dstVertex->colourDiffuse = *colourDiffuse;
 		}
 
-	if (colourTransparency != NULL)
+	if (colourTransparency != nullptr)
 		{
 		dstVertex->theFlags          |= kQ3FVertexHaveTransparency;
 		dstVertex->colourTransparency = *colourTransparency;
@@ -476,7 +476,7 @@ IRGeometry_Generate_Triangle_Flags(TQ3InteractiveData	*instanceData,
 //      IRGeometry_Generate_Triangle_Normals : Generate triangle normals.
 //-----------------------------------------------------------------------------
 //		Note :	The usageFlags array indicates which values are required. If
-//				this array is NULL, all values are returned. If it is not NULL,
+//				this array is nullptr, all values are returned. If it is not nullptr,
 //				entries which are zero indicate the normal is required.
 //-----------------------------------------------------------------------------
 void
@@ -515,7 +515,7 @@ IRGeometry_Generate_Triangle_Normals(TQ3InteractiveData		*instanceData,
 	if (instanceData->stateOrientation == kQ3OrientationStyleClockwise)
 		{
 		// Reverse them all if we have no usage flags
-		if (usageFlags == NULL)
+		if (usageFlags == nullptr)
 			{
 			for (n = 0; n < numTriangles; n++)
 				Q3Vector3D_Negate(&theNormals[n], &theNormals[n]);
@@ -608,7 +608,7 @@ IRGeometry_Validate_Triangles(TQ3InteractiveData		*instanceData,
 			{
 			// Calculate the geometric normal
 			triIndices = theIndices + (n * 3);
-			IRGeometry_Generate_Triangle_Normals(instanceData, 1, NULL, triIndices, thePoints, &geomNormal);
+			IRGeometry_Generate_Triangle_Normals(instanceData, 1, nullptr, triIndices, thePoints, &geomNormal);
 
 
 
@@ -734,15 +734,15 @@ IRGeometry_Submit_Triangle(TQ3ViewObject			theView,
 	//
 	// If a normal is supplied we ensure it's normalized, and if it
 	// wasn't supplied we need to calculate it.
-	normalPtr = NULL;
+	normalPtr = nullptr;
 
-	if (geomData->triangleAttributeSet != NULL)
+	if (geomData->triangleAttributeSet != nullptr)
 		normalPtr = (TQ3Vector3D *) Q3XAttributeSet_GetPointer(geomData->triangleAttributeSet, kQ3AttributeTypeNormal);
 
-	if (normalPtr != NULL)
+	if (normalPtr != nullptr)
 		Q3Vector3D_Normalize(normalPtr, &triNormal);
 	else
-		IRGeometry_Generate_Triangle_Normals(instanceData, 1, NULL, theIndices, thePoints, &triNormal);
+		IRGeometry_Generate_Triangle_Normals(instanceData, 1, nullptr, theIndices, thePoints, &triNormal);
 
 
 
@@ -816,7 +816,7 @@ IRGeometry_Submit_Line(TQ3ViewObject			theView,
 
 	for (n = 0; n < 2; n++)
 		{
-		IRGeometry_Generate_Vertex_State(instanceData, NULL, &geomData->vertices[n], &theVertices[n]);
+		IRGeometry_Generate_Vertex_State(instanceData, nullptr, &geomData->vertices[n], &theVertices[n]);
 		vertexFlags |= theVertices[n].theFlags;
 		}
 
@@ -880,7 +880,7 @@ IRGeometry_Submit_Point(TQ3ViewObject				theView,
 	srcVertex.point        = geomData->point;
 	srcVertex.attributeSet = geomData->pointAttributeSet;
 
-	IRGeometry_Generate_Vertex_State(instanceData, NULL, &srcVertex, &theVertex);
+	IRGeometry_Generate_Vertex_State(instanceData, nullptr, &srcVertex, &theVertex);
 
 
 
@@ -955,7 +955,7 @@ IRGeometry_Submit_PolyLine(TQ3ViewObject			theView,
 
 		for (m = 0; m < 2; m++)
 			{
-			IRGeometry_Generate_Vertex_State(instanceData, NULL, &geomData->vertices[n + m], &theVertices[m]);
+			IRGeometry_Generate_Vertex_State(instanceData, nullptr, &geomData->vertices[n + m], &theVertices[m]);
 			vertexFlags |= theVertices[m].theFlags;
 			}
 

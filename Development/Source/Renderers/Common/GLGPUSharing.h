@@ -83,9 +83,9 @@ public:
 					The texture manager maintains a list of existing GL contexts
 					grouped by sharing.  This function can be used to find one
 					context in each sharing group.
-	@param			glBase			NULL to begin iteration, or a value returned
+	@param			glBase			nullptr to begin iteration, or a value returned
 									by a previous call to this function.
-	@result			Next GL sharing context, or NULL when there are no more.
+	@result			Next GL sharing context, or nullptr when there are no more.
 */
 
 TQ3GLContext		GLGPUSharing_GetNextSharingBase( TQ3GLContext glBase );
@@ -97,7 +97,7 @@ TQ3GLContext		GLGPUSharing_GetNextSharingBase( TQ3GLContext glBase );
 					to inform the GPU sharing manager.
 	@param			newGLContext		The newly created context.
 	@param			sharingBase			The existing context with which the new one
-										shares data, or NULL.
+										shares data, or nullptr.
 */
 void				GLGPUSharing_AddContext( TQ3GLContext newGLContext,
 											TQ3GLContext sharingBase );
@@ -127,7 +127,7 @@ bool				GLGPUSharing_IsContextKnown( TQ3GLContext inGLContext );
 	@abstract		Locate a cache within a sharing group.
 	@param			glContext			A GL context.
 	@param			inCacheType			key code for type of cache.
-	@result			A cache pointer, or NULL.
+	@result			A cache pointer, or nullptr.
 */
 CQ3GPSharedCache*	GLGPUSharing_GetCache( TQ3GLContext glContext,
 											TQ3Uns32 inCacheType );
@@ -136,7 +136,7 @@ CQ3GPSharedCache*	GLGPUSharing_GetCache( TQ3GLContext glContext,
 	@function		GLGPUSharing_AddCache
 	@abstract		Add a cache to a sharing group.
 	@discussion		This should only be called if GLGPUSharing_GetCache has
-					returned NULL.  After this call, the sharing group takes
+					returned nullptr.  After this call, the sharing group takes
 					ownership of the cache, so do not delete the cache. it will
 					be deleted when the sharing group is deleted.
 	@param			glContext			A GL context.

@@ -776,7 +776,7 @@ void	QORenderer::Lights::StartFrame( TQ3ViewObject inView,
 		
 		if (kQ3Failure == Q3Object_GetProperty( theRenderer.get(),
 			kQ3RendererPropertyAttenuationThreshold,
-			sizeof(mAttenuatedLightThreshold), NULL,
+			sizeof(mAttenuatedLightThreshold), nullptr,
 			&mAttenuatedLightThreshold ))
 		{
 			// We need to know the minimum color that is distinguishable from
@@ -844,7 +844,7 @@ void	QORenderer::Lights::StartPass(
 	}
 	else	// non-shadowing phase
 	{
-		passInfo.light = NULL;
+		passInfo.light = nullptr;
 		passInfo.passType = kQ3RendererPassNonShadow;
 		
 		mPerPixelLighting.ClearLights();
@@ -914,7 +914,7 @@ bool	QORenderer::Lights::IsShadowPhase() const
 				vectors.  Therefore, when we are about to render geometries of
 				dimension 0 or 1, we replace each non-ambient light by ambient
 				light of the same brightness.  Note that this is not the same
-				as using NULL illumination, where brightness is ignored.
+				as using nullptr illumination, where brightness is ignored.
 				Of course, when we are ready to render 2-dimensional geometry,
 				we must make sure that the non-ambient lights are restored.
 */
@@ -1011,7 +1011,7 @@ bool	QORenderer::Lights::IsLit( const TQ3BoundingBox& inBounds ) const
 			mGLLightPosition[0], mGLLightPosition[1], mGLLightPosition[2]
 		};
 		float	theDistanceSq = E3Point3D_BoundingBox_DistanceSquared(
-			&lightPos, &cameraBounds, NULL );
+			&lightPos, &cameraBounds, nullptr );
 		
 		if (theDistanceSq > kQ3RealZero)
 		{

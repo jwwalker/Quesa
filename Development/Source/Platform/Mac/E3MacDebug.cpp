@@ -65,10 +65,10 @@ E3Assert(const char *srcFile, TQ3Uns32 lineNum, const char *theAssertion)
 
 
     // Check our parameters
-    if (srcFile == NULL)
+    if (srcFile == nullptr)
     	srcFile = "Unknown";
 
-    if (theAssertion == NULL)
+    if (theAssertion == nullptr)
     	theAssertion = "Unknown";
 
 
@@ -88,7 +88,7 @@ E3Assert(const char *srcFile, TQ3Uns32 lineNum, const char *theAssertion)
 	
 	// Add the message to crash reports
 	char** reportStr = (char**) dlsym(RTLD_DEFAULT, "__crashreporter_info__");
-	if (reportStr != NULL)
+	if (reportStr != nullptr)
 	{
 		*reportStr = strdup( (char *) &theStr[1] );
 	}
@@ -109,7 +109,7 @@ E3IsValidPtr(void *thePtr)
 
 
 	// Check the pointer
-	if (thePtr == NULL)
+	if (thePtr == nullptr)
 		return(kQ3False);
 
 

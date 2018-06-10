@@ -390,7 +390,7 @@ E3Kernal_AddLength(
 //-----------------------------------------------------------------------------
 //		e3arraySequence_NextItem : Return next item in array.
 //-----------------------------------------------------------------------------
-//		Note : If no next item, return NULL.
+//		Note : If no next item, return nullptr.
 //-----------------------------------------------------------------------------
 //		Precondition: Item is valid.
 //-----------------------------------------------------------------------------
@@ -420,7 +420,7 @@ e3arraySequence_NextItem(
 	
 failure:
 
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -430,7 +430,7 @@ failure:
 //=============================================================================
 //		e3arraySequence_PreviousItem : Return previous item in array.
 //-----------------------------------------------------------------------------
-//		Note : If no previous item, return NULL.
+//		Note : If no previous item, return nullptr.
 //-----------------------------------------------------------------------------
 //		Precondition: Item is valid.
 //-----------------------------------------------------------------------------
@@ -459,7 +459,7 @@ e3arraySequence_PreviousItem(
 	
 failure:
 
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -582,7 +582,7 @@ e3arraySequence_OrForEach(
 //=============================================================================
 //		e3arraySequence_Find : Return item in array satisfying condition.
 //-----------------------------------------------------------------------------
-//		Note : If no item found, return NULL.
+//		Note : If no item found, return nullptr.
 //-----------------------------------------------------------------------------
 static
 TE3GenericItem*
@@ -609,7 +609,7 @@ e3arraySequence_Find(
 			return(itemPtr);
 	}
 
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -658,7 +658,7 @@ e3arraySequence_Destroy(
 //-----------------------------------------------------------------------------
 //		e3ptrArraySequence_FindPtr : Return item in pointer array matching pointer.
 //-----------------------------------------------------------------------------
-//		Note : If no item found, return NULL.
+//		Note : If no item found, return nullptr.
 //-----------------------------------------------------------------------------
 #pragma mark -
 static
@@ -683,7 +683,7 @@ e3ptrArraySequence_FindPtr(
 			return(itemPtr);
 	}
 
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -734,7 +734,7 @@ E3Array_Length(
 //=============================================================================
 //		E3Array_HeadItem : Return head (first) item in array.
 //-----------------------------------------------------------------------------
-//		Note :  If the array is empty, return NULL.
+//		Note :  If the array is empty, return nullptr.
 //				Defined as macro in E3ArrayOrList.h.
 //-----------------------------------------------------------------------------
 /*
@@ -753,7 +753,7 @@ E3Array_HeadItem(
 //=============================================================================
 //		E3Array_TailItem : Return tail (item after last) item in array.
 //-----------------------------------------------------------------------------
-//		Note : If the array is empty, return NULL.
+//		Note : If the array is empty, return nullptr.
 //-----------------------------------------------------------------------------
 TE3GenericItem*
 E3Array_TailItem(
@@ -766,7 +766,7 @@ E3Array_TailItem(
 	Q3_ASSERT_VALID_PTR(arrayPtr);
 	Q3_ASSERT_VALID_PTR(arrayInfoPtr);
 
-	// N.B.: If head item pointer is NULL, then length is 0, producing NULL result.
+	// N.B.: If head item pointer is nullptr, then length is 0, producing nullptr result.
 	tailItemPtr = E3Array_HeadItem(arrayPtr, arrayInfoPtr);
 	((char*&) tailItemPtr) += E3Array_Length(arrayPtr, arrayInfoPtr) * E3ArrayInfo_ItemSize(arrayInfoPtr);
 	
@@ -780,7 +780,7 @@ E3Array_TailItem(
 //=============================================================================
 //		E3Array_GetSequence : Get array sequence, i.e., head and tail.
 //-----------------------------------------------------------------------------
-//		Note : If the array is empty, get NULL.
+//		Note : If the array is empty, get nullptr.
 //-----------------------------------------------------------------------------
 void
 E3Array_GetSequence(
@@ -793,7 +793,7 @@ E3Array_GetSequence(
 	Q3_ASSERT_VALID_PTR(arrayPtr);
 	Q3_ASSERT_VALID_PTR(arrayInfoPtr);
 
-	// N.B.: If head item pointer is NULL, then length is 0, producing NULL result.
+	// N.B.: If head item pointer is nullptr, then length is 0, producing nullptr result.
 	(*headItemHdl) = 
 	(*tailItemHdl) = E3Array_HeadItem(arrayPtr, arrayInfoPtr);
 	((char*&) (*tailItemHdl)) += E3Array_Length(arrayPtr, arrayInfoPtr) * E3ArrayInfo_ItemSize(arrayInfoPtr);
@@ -806,7 +806,7 @@ E3Array_GetSequence(
 //=============================================================================
 //		E3Array_LastItem : Return last item in array.
 //-----------------------------------------------------------------------------
-//		Note : If the array is empty, return NULL.
+//		Note : If the array is empty, return nullptr.
 //-----------------------------------------------------------------------------
 TE3GenericItem*
 E3Array_LastItem(
@@ -822,7 +822,7 @@ E3Array_LastItem(
 	lastItemPtr = E3Array_HeadItem(arrayPtr, arrayInfoPtr);
 
 	// N.B.: If an array is empty, its head pointer is null
-	if (lastItemPtr == NULL)
+	if (lastItemPtr == nullptr)
 		goto failure;
 
 	((char*&) lastItemPtr) += (E3Array_Length(arrayPtr, arrayInfoPtr) - 1) * E3ArrayInfo_ItemSize(arrayInfoPtr);
@@ -831,7 +831,7 @@ E3Array_LastItem(
 	
 failure:
 
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -841,7 +841,7 @@ failure:
 //=============================================================================
 //		E3Array_NextItem : Return next item in array.
 //-----------------------------------------------------------------------------
-//		Note : If no item or no next item, return NULL.
+//		Note : If no item or no next item, return nullptr.
 //-----------------------------------------------------------------------------
 TE3GenericItem*
 E3Array_NextItem(
@@ -856,7 +856,7 @@ E3Array_NextItem(
 	Q3_ASSERT_VALID_PTR(arrayPtr);
 	Q3_ASSERT_VALID_PTR(arrayInfoPtr);
 
-	if (itemPtr == NULL)
+	if (itemPtr == nullptr)
 		goto failure;
 
 	E3Array_GetSequence(arrayPtr, arrayInfoPtr, &headItemPtr, &tailItemPtr);
@@ -868,7 +868,7 @@ E3Array_NextItem(
 	
 failure:
 
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -878,7 +878,7 @@ failure:
 //=============================================================================
 //		E3Array_PreviousItem : Return previous item in array.
 //-----------------------------------------------------------------------------
-//		Note : If no item or no previous item, return NULL.
+//		Note : If no item or no previous item, return nullptr.
 //-----------------------------------------------------------------------------
 TE3GenericItem*
 E3Array_PreviousItem(
@@ -893,7 +893,7 @@ E3Array_PreviousItem(
 	Q3_ASSERT_VALID_PTR(arrayPtr);
 	Q3_ASSERT_VALID_PTR(arrayInfoPtr);
 
-	if (itemPtr == NULL)
+	if (itemPtr == nullptr)
 		goto failure;
 
 	E3Array_GetSequence(arrayPtr, arrayInfoPtr, &headItemPtr, &tailItemPtr);
@@ -905,7 +905,7 @@ E3Array_PreviousItem(
 	
 failure:
 
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -1011,7 +1011,7 @@ E3Array_OrForEach(
 //=============================================================================
 //		E3Array_Find : Return item in array satisfying condition.
 //-----------------------------------------------------------------------------
-//		Note : If no item found, return NULL.
+//		Note : If no item found, return nullptr.
 //-----------------------------------------------------------------------------
 TE3GenericItem*
 E3Array_Find(
@@ -1068,15 +1068,15 @@ E3Array_Create(
 		TQ3Uns32 itemSize = E3ArrayInfo_ItemSize(arrayInfoPtr);
 	
 		// Allocate new items
-		if ((arrayPtr->headItemPtr_private = (TE3GenericItem*) Q3Memory_Allocate(length * itemSize)) == NULL)
+		if ((arrayPtr->headItemPtr_private = (TE3GenericItem*) Q3Memory_Allocate(length * itemSize)) == nullptr)
 			goto failure_2;
 
 		// Initialize new items
-		if (thoseItemsPtr != NULL)
+		if (thoseItemsPtr != nullptr)
 			Q3Memory_Copy(thoseItemsPtr, arrayPtr->headItemPtr_private, length * itemSize);
 	}
 	else
-		arrayPtr->headItemPtr_private = NULL;
+		arrayPtr->headItemPtr_private = nullptr;
 
 	return(kQ3Success);
 	
@@ -1110,7 +1110,7 @@ E3Array_Destroy(
 	Q3_ASSERT_VALID_PTR(arrayInfoPtr);
 
 	// Destroy all items in array (in reverse order)
-	if (destroyItemFunc != NULL)
+	if (destroyItemFunc != nullptr)
 	{
 		E3Array_GetSequence(arrayPtr, arrayInfoPtr, &headItemPtr, &tailItemPtr);
 		e3arraySequence_Destroy(
@@ -1136,7 +1136,7 @@ E3Array_Destroy(
 //-----------------------------------------------------------------------------
 //		E3PtrArray_FindPtr : Return item in pointer array matching pointer.
 //-----------------------------------------------------------------------------
-//		Note : If no item found, return NULL.
+//		Note : If no item found, return nullptr.
 //-----------------------------------------------------------------------------
 #pragma mark -
 TE3GenericItem*
@@ -1209,7 +1209,7 @@ e3listSequence_IsEmpty(
 //=============================================================================
 //		e3listSequence_HeadItem : Return head (first) item in list.
 //-----------------------------------------------------------------------------
-//		Note : If list empty, return NULL.
+//		Note : If list empty, return nullptr.
 //-----------------------------------------------------------------------------
 static
 TE3GenericItem*
@@ -1232,7 +1232,7 @@ e3listSequence_HeadItem(
 	
 failure:
 
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -1241,7 +1241,7 @@ failure:
 //=============================================================================
 //		e3listSequence_LastItem : Return last item in list.
 //-----------------------------------------------------------------------------
-//		Note : If list empty, return NULL.
+//		Note : If list empty, return nullptr.
 //-----------------------------------------------------------------------------
 static
 TE3GenericItem*
@@ -1264,7 +1264,7 @@ e3listSequence_LastItem(
 	
 failure:
 
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -1274,7 +1274,7 @@ failure:
 //=============================================================================
 //		e3listSequence_NextItem : Return next item in list.
 //-----------------------------------------------------------------------------
-//		Note : If no item or no next item, return NULL.
+//		Note : If no item or no next item, return nullptr.
 //-----------------------------------------------------------------------------
 //		Precondition: Item is valid.
 //-----------------------------------------------------------------------------
@@ -1301,7 +1301,7 @@ e3listSequence_NextItem(
 	
 failure:
 
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -1312,7 +1312,7 @@ failure:
 //=============================================================================
 //		e3listSequence_PreviousItem : Return previous item in list.
 //-----------------------------------------------------------------------------
-//		Note : If no item or no previous item, return NULL.
+//		Note : If no item or no previous item, return nullptr.
 //-----------------------------------------------------------------------------
 //		Precondition: Item is valid.
 //-----------------------------------------------------------------------------
@@ -1339,7 +1339,7 @@ e3listSequence_PreviousItem(
 	
 failure:
 
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -1462,7 +1462,7 @@ e3listSequence_OrForEach(
 //=============================================================================
 //		e3listSequence_Find : Return item in list satisfying condition.
 //-----------------------------------------------------------------------------
-//		Note : If no item found, return NULL.
+//		Note : If no item found, return nullptr.
 //-----------------------------------------------------------------------------
 static
 TE3GenericItem*
@@ -1491,7 +1491,7 @@ e3listSequence_Find(
 			return(itemPtr);
 	}
 
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -1613,7 +1613,7 @@ e3listSequence_SpliceBeforeNodeNode(
 //=============================================================================
 //		e3listSequence_InsertBeforeNodeItem : Insert new item in list before node.
 //-----------------------------------------------------------------------------
-//		Note : If unable to insert (out of memory), return NULL.
+//		Note : If unable to insert (out of memory), return nullptr.
 //-----------------------------------------------------------------------------
 static
 TE3GenericItem*
@@ -1633,7 +1633,7 @@ e3listSequence_InsertBeforeNodeItem(
 	Q3_ASSERT_VALID_PTR(nextNodePtr);
 
 	// Allocate new node (including item)
-	if ((currNodePtr = (TE3ListNode*) Q3Memory_Allocate(E3ListInfo_NodeSize(listInfoPtr))) == NULL)
+	if ((currNodePtr = (TE3ListNode*) Q3Memory_Allocate(E3ListInfo_NodeSize(listInfoPtr))) == nullptr)
 		goto failure;
 
 	// Insert after previous node in list
@@ -1649,14 +1649,14 @@ e3listSequence_InsertBeforeNodeItem(
 	itemPtr = E3ListNode_Item(currNodePtr, listInfoPtr);
 
 	// Initialize new item
-	if (thatItemPtr != NULL)
+	if (thatItemPtr != nullptr)
 		Q3Memory_Copy(thatItemPtr, itemPtr, E3ListInfo_ItemSize(listInfoPtr));
 
 	return(itemPtr);
 	
 failure:
 
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -1683,7 +1683,7 @@ e3listSequence_EraseNode(
 	Q3_ASSERT_VALID_PTR(nodePtr);
 
 	// Destroy item
-	if (destroyItemFunc != NULL)
+	if (destroyItemFunc != nullptr)
 		(*destroyItemFunc)(E3ListNode_Item(nodePtr, listInfoPtr));
 
 	prevNodePtr = nodePtr->prevNodePtr_private;
@@ -1776,10 +1776,10 @@ e3listSequence_Create(
 		TE3GenericItem* itemPtr;
 
 		// Push back new node (and initialize new item)
-		if ((itemPtr = e3listSequence_InsertBeforeNodeItem(kernalPtr, listInfoPtr, tailNodePtr, thoseItemsPtr)) == NULL)
+		if ((itemPtr = e3listSequence_InsertBeforeNodeItem(kernalPtr, listInfoPtr, tailNodePtr, thoseItemsPtr)) == nullptr)
 			goto failure_2;
 
-		if (thoseItemsPtr != NULL)
+		if (thoseItemsPtr != nullptr)
 			((const char*&) thoseItemsPtr) += itemSize;
 	}
 
@@ -1826,7 +1826,7 @@ e3listSequence_Destroy(
 		nodePtr = nodePtr->prevNodePtr_private;
 
 		// Destroy item
-		if (destroyItemFunc != NULL)
+		if (destroyItemFunc != nullptr)
 			(*destroyItemFunc)(E3ListNode_Item(currNodePtr, listInfoPtr));
 
 		// Free memory for node (including item)
@@ -1869,7 +1869,7 @@ e3listSequence_Clear(
 		nodePtr = nodePtr->prevNodePtr_private;
 
 		// Destroy item
-		if (destroyItemFunc != NULL)
+		if (destroyItemFunc != nullptr)
 			(*destroyItemFunc)(E3ListNode_Item(currNodePtr, listInfoPtr));
 
 		// Free memory for node (including item)
@@ -1893,7 +1893,7 @@ e3listSequence_Clear(
 //-----------------------------------------------------------------------------
 //		e3ptrListSequence_FindPtr : Return item in pointer list matching pointer.
 //-----------------------------------------------------------------------------
-//		Note : If no item found, return NULL.
+//		Note : If no item found, return nullptr.
 //-----------------------------------------------------------------------------
 #pragma mark -
 static
@@ -1920,7 +1920,7 @@ e3ptrListSequence_FindPtr(
 			return(itemPtr);
 	}
 
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -1931,7 +1931,7 @@ e3ptrListSequence_FindPtr(
 //		e3ptrListSequence_InsertBeforeNodePtr :	Insert new pointer in pointer list
 //										before node.
 //-----------------------------------------------------------------------------
-//		Note : If unable to insert (out of memory), return NULL.
+//		Note : If unable to insert (out of memory), return nullptr.
 //-----------------------------------------------------------------------------
 static
 TE3GenericItem*
@@ -1951,7 +1951,7 @@ e3ptrListSequence_InsertBeforeNodePtr(
 	Q3_ASSERT_VALID_PTR(nextNodePtr);
 
 	// Allocate new node (including item)
-	if ((currNodePtr = (TE3ListNode*) Q3Memory_Allocate(E3ListInfo_NodeSize(listInfoPtr))) == NULL)
+	if ((currNodePtr = (TE3ListNode*) Q3Memory_Allocate(E3ListInfo_NodeSize(listInfoPtr))) == nullptr)
 		goto failure;
 
 	// Insert after previous node in list
@@ -1973,7 +1973,7 @@ e3ptrListSequence_InsertBeforeNodePtr(
 	
 failure:
 
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -2007,7 +2007,7 @@ e3ptrListSequence_ErasePtr(
 	{
 		if (E3ListNode_Item(nodePtr, listInfoPtr) == item)
 		{
-			e3listSequence_EraseNode(kernalPtr, listInfoPtr, NULL, nodePtr);
+			e3listSequence_EraseNode(kernalPtr, listInfoPtr, nullptr, nodePtr);
 			return(kQ3Success);
 		}
 	}
@@ -2137,7 +2137,7 @@ E3List_IsEmpty(
 //=============================================================================
 //		E3List_HeadItem : Return first item in list.
 //-----------------------------------------------------------------------------
-//		Note : If list empty, return NULL.
+//		Note : If list empty, return nullptr.
 //-----------------------------------------------------------------------------
 TE3GenericItem*
 E3List_HeadItem(
@@ -2159,7 +2159,7 @@ E3List_HeadItem(
 //=============================================================================
 //		E3List_LastItem : Return last item in list.
 //-----------------------------------------------------------------------------
-//		Note : If list empty, return NULL.
+//		Note : If list empty, return nullptr.
 //-----------------------------------------------------------------------------
 TE3GenericItem*
 E3List_LastItem(
@@ -2182,7 +2182,7 @@ E3List_LastItem(
 //=============================================================================
 //		E3List_NextItem : Return next item in list.
 //-----------------------------------------------------------------------------
-//		Note : If no item or no next item, return NULL.
+//		Note : If no item or no next item, return nullptr.
 //-----------------------------------------------------------------------------
 TE3GenericItem*
 E3List_NextItem(
@@ -2194,7 +2194,7 @@ E3List_NextItem(
 	Q3_ASSERT_VALID_PTR(listPtr);
 	Q3_ASSERT_VALID_PTR(listInfoPtr);
 
-	if (itemPtr == NULL)
+	if (itemPtr == nullptr)
 		goto failure;
 
 	return(e3listSequence_NextItem(
@@ -2204,7 +2204,7 @@ E3List_NextItem(
 	
 failure:
 
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -2215,7 +2215,7 @@ failure:
 //=============================================================================
 //		E3List_PreviousItem : Return previous item in list.
 //-----------------------------------------------------------------------------
-//		Note : If no item or no previous item, return NULL.
+//		Note : If no item or no previous item, return nullptr.
 //-----------------------------------------------------------------------------
 TE3GenericItem*
 E3List_PreviousItem(
@@ -2227,7 +2227,7 @@ E3List_PreviousItem(
 	Q3_ASSERT_VALID_PTR(listPtr);
 	Q3_ASSERT_VALID_PTR(listInfoPtr);
 
-	if (itemPtr == NULL)
+	if (itemPtr == nullptr)
 		goto failure;
 
 	return(e3listSequence_PreviousItem(
@@ -2237,7 +2237,7 @@ E3List_PreviousItem(
 	
 failure:
 
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -2328,7 +2328,7 @@ E3List_OrForEach(
 //=============================================================================
 //		E3List_Find : Return item in list satisfying condition.
 //-----------------------------------------------------------------------------
-//		Note : If no item found, return NULL.
+//		Note : If no item found, return nullptr.
 //-----------------------------------------------------------------------------
 TE3GenericItem*
 E3List_Find(
@@ -2457,7 +2457,7 @@ E3List_SpliceBackNode(
 //=============================================================================
 //		E3List_InsertBeforeNodeItem : Insert new item in list before node.
 //-----------------------------------------------------------------------------
-//		Note : If unable to insert (out of memory), return NULL.
+//		Note : If unable to insert (out of memory), return nullptr.
 //-----------------------------------------------------------------------------
 TE3GenericItem*
 E3List_InsertBeforeNodeItem(
@@ -2485,7 +2485,7 @@ E3List_InsertBeforeNodeItem(
 //=============================================================================
 //		E3List_PushBackItem : Insert new item in list before tail of list.
 //-----------------------------------------------------------------------------
-//		Note :	If unable to insert (out of memory), return NULL.
+//		Note :	If unable to insert (out of memory), return nullptr.
 //				Defined as macro in E3ArrayOrList.h.
 //-----------------------------------------------------------------------------
 /*
@@ -2581,7 +2581,7 @@ E3List_Create(
 		goto failure_1;
 
 	// Allocate tail pseudo-node
-	if ((tailNodePtr = listPtr->tailNodePtr_private = (TE3ListNode*) Q3Memory_Allocate(sizeof(TE3ListNode))) == NULL)
+	if ((tailNodePtr = listPtr->tailNodePtr_private = (TE3ListNode*) Q3Memory_Allocate(sizeof(TE3ListNode))) == nullptr)
 		goto failure_2;
 
 	// Initialize tail pseudo-node
@@ -2666,7 +2666,7 @@ E3List_Clear(
 //-----------------------------------------------------------------------------
 //		E3PtrList_FindPtr : Return item in pointer list matching pointer.
 //-----------------------------------------------------------------------------
-//		Note : If no item found, return NULL.
+//		Note : If no item found, return nullptr.
 //-----------------------------------------------------------------------------
 #pragma mark -
 TE3GenericItem*
@@ -2712,7 +2712,7 @@ E3PtrList_HasPtr(
 //		E3PtrList_InsertBeforeNodePtr :	Insert new pointer in pointer list
 //										before node.
 //-----------------------------------------------------------------------------
-//		Note : If unable to insert (out of memory), return NULL.
+//		Note : If unable to insert (out of memory), return nullptr.
 //-----------------------------------------------------------------------------
 TE3GenericItem*
 E3PtrList_InsertBeforeNodePtr(
@@ -2742,7 +2742,7 @@ E3PtrList_InsertBeforeNodePtr(
 //		E3PtrList_PushBackPtr :	Insert new pointer in pointer list before tail
 //								of list.
 //-----------------------------------------------------------------------------
-//		Note :	If unable to insert (out of memory), return NULL.
+//		Note :	If unable to insert (out of memory), return nullptr.
 //				Defined as macro in E3ArrayOrList.h.
 //-----------------------------------------------------------------------------
 /*
@@ -2899,7 +2899,7 @@ E3ArrayOrList_IsList(
 //=============================================================================
 //		E3ArrayOrList_HeadItem : Return head (first) item in array or list.
 //-----------------------------------------------------------------------------
-//		Note : If array or list empty, return NULL.
+//		Note : If array or list empty, return nullptr.
 //-----------------------------------------------------------------------------
 TE3GenericItem*
 E3ArrayOrList_HeadItem(
@@ -2919,7 +2919,7 @@ E3ArrayOrList_HeadItem(
 //=============================================================================
 //		E3ArrayOrList_LastItem : Return last item in array or list.
 //-----------------------------------------------------------------------------
-//		Note : If array or list empty, return NULL.
+//		Note : If array or list empty, return nullptr.
 //-----------------------------------------------------------------------------
 TE3GenericItem*
 E3ArrayOrList_LastItem(
@@ -2939,7 +2939,7 @@ E3ArrayOrList_LastItem(
 //=============================================================================
 //		E3ArrayOrList_NextItem : Return next item in array or list.
 //-----------------------------------------------------------------------------
-//		Note : If no item or no next item, return NULL.
+//		Note : If no item or no next item, return nullptr.
 //-----------------------------------------------------------------------------
 TE3GenericItem*
 E3ArrayOrList_NextItem(
@@ -2960,7 +2960,7 @@ E3ArrayOrList_NextItem(
 //=============================================================================
 //		E3ArrayOrList_PreviousItem : Return previous item in array or list.
 //-----------------------------------------------------------------------------
-//		Note : If no item or no previous item, return NULL.
+//		Note : If no item or no previous item, return nullptr.
 //-----------------------------------------------------------------------------
 TE3GenericItem*
 E3ArrayOrList_PreviousItem(
@@ -3068,7 +3068,7 @@ E3ArrayOrList_OrForEach(
 //=============================================================================
 //		E3ArrayOrList_Find : Return item in array or list satisfying condition.
 //-----------------------------------------------------------------------------
-//		Note : If no item found, return NULL.
+//		Note : If no item found, return nullptr.
 //-----------------------------------------------------------------------------
 TE3GenericItem*
 E3ArrayOrList_Find(
@@ -3158,7 +3158,7 @@ E3ArrayOrList_UseArray(
 	length = E3ArrayOrList_Length(arrayOrListPtr, arrayOrListInfoPtr);
 
 	// Create temporary array structure
-	if (E3Array_Create(&array, arrayInfoPtr, length, NULL) == kQ3Failure)
+	if (E3Array_Create(&array, arrayInfoPtr, length, nullptr) == kQ3Failure)
 		goto failure;
 
 	// Move items to array from list
@@ -3177,16 +3177,16 @@ E3ArrayOrList_UseArray(
 		Q3Memory_Copy(listItemPtr, arrayItemPtr, itemSize);
 
 		// Relocate new and old item
-		if (relocateItemFunc != NULL)
+		if (relocateItemFunc != nullptr)
 			(*relocateItemFunc)(arrayItemPtr, listItemPtr);
 	}
 
 	// Relink
-	if (relinkParameterFunc != NULL)
+	if (relinkParameterFunc != nullptr)
 		(*relinkParameterFunc)(parameterPtr);
 
 	// Destroy list structure
-	E3List_Destroy(E3ArrayOrList_List(arrayOrListPtr), E3ArrayOrListInfo_ListInfo(arrayOrListInfoPtr), NULL);
+	E3List_Destroy(E3ArrayOrList_List(arrayOrListPtr), E3ArrayOrListInfo_ListInfo(arrayOrListInfoPtr), nullptr);
 
 	// Use array
 	*E3ArrayOrList_Array(arrayOrListPtr) = array;
@@ -3241,7 +3241,7 @@ E3ArrayOrList_UseList(
 	length = E3ArrayOrList_Length(arrayOrListPtr, arrayOrListInfoPtr);
 
 	// Create temporary list structure
-	if (E3List_Create(&list, listInfoPtr, length, NULL) == kQ3Failure)
+	if (E3List_Create(&list, listInfoPtr, length, nullptr) == kQ3Failure)
 		goto failure;
 
 	// Move items to list from array
@@ -3260,16 +3260,16 @@ E3ArrayOrList_UseList(
 		Q3Memory_Copy(arrayItemPtr, listItemPtr, itemSize);
 
 		// Relocate new and old item
-		if (relocateItemFunc != NULL)
+		if (relocateItemFunc != nullptr)
 			(*relocateItemFunc)(listItemPtr, arrayItemPtr);
 	}
 
 	// Relink
-	if (relinkParameterFunc != NULL)
+	if (relinkParameterFunc != nullptr)
 		(*relinkParameterFunc)(parameterPtr);
 
 	// Destroy array structure
-	E3Array_Destroy(E3ArrayOrList_Array(arrayOrListPtr), arrayInfoPtr, NULL);
+	E3Array_Destroy(E3ArrayOrList_Array(arrayOrListPtr), arrayInfoPtr, nullptr);
 
 	// Use list
 	*E3ArrayOrList_List(arrayOrListPtr) = list;
@@ -3293,7 +3293,7 @@ failure:
 //		E3PtrArrayOrList_FindPtr :	Return item in pointer array or list
 //									matching pointer.
 //-----------------------------------------------------------------------------
-//		Note : If no item found, return NULL.
+//		Note : If no item found, return nullptr.
 //-----------------------------------------------------------------------------
 #pragma mark -
 TE3GenericItem*

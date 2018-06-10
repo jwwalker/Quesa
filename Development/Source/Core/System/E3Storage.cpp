@@ -78,9 +78,9 @@ E3StorageInfo::E3StorageInfo	(
 		getEOF_Method		( (TQ3XStorageGetSizeMethod)		Find_Method ( kQ3XMethodTypeStorageGetSize ) )	
 		 	 
 	{
-	if ( getData_Method == NULL
-	|| setData_Method == NULL
-	|| getEOF_Method == NULL )
+	if ( getData_Method == nullptr
+	|| setData_Method == nullptr
+	|| getEOF_Method == nullptr )
 		SetAbstract () ;
 	}
 
@@ -228,12 +228,12 @@ e3storage_memory_new(TQ3Object theObject, void *privateData, const void *paramDa
 {	TE3_MemoryStorageData	*instanceData  = (TE3_MemoryStorageData *) privateData;
 	TQ3Uns8					*passedBuffer;
 	
-	// The only case in which we will be called with NULL for paramData is when
+	// The only case in which we will be called with nullptr for paramData is when
 	// an object of type kQ3MemoryStorageTypeHandle is being constructed.
 	// Handle storage is a subclass of memory storage only superfically, i.e.,
 	// it has a completely separate implementation.  Therefore we may as well
 	// leave the initial zero values in the memory storage instance data.
-	if (paramData == NULL)
+	if (paramData == nullptr)
 		return kQ3Success;
 	
 	*instanceData = *((const TE3_MemoryStorageData *)paramData);
@@ -241,7 +241,7 @@ e3storage_memory_new(TQ3Object theObject, void *privateData, const void *paramDa
 	if (instanceData->ownBuffer == kQ3True)
 	{
 		// called from _New
-		if ( instanceData->buffer != NULL )
+		if ( instanceData->buffer != nullptr )
 		{
 			Q3_ASSERT(instanceData->bufferSize != 0);
 			if (instanceData->noCopy == kQ3False)
@@ -250,7 +250,7 @@ e3storage_memory_new(TQ3Object theObject, void *privateData, const void *paramDa
 				passedBuffer = instanceData->buffer;
 				instanceData->buffer = (TQ3Uns8*)Q3Memory_Allocate( instanceData->bufferSize ) ;
 
-				if (instanceData->buffer == NULL)
+				if (instanceData->buffer == nullptr)
 				{
 					return(kQ3Failure);						
 				}
@@ -261,7 +261,7 @@ e3storage_memory_new(TQ3Object theObject, void *privateData, const void *paramDa
 		}
 		else
 		{
-			// called with buffer == NULL, allocate our own
+			// called with buffer == nullptr, allocate our own
 			// check validSize parameter
 			if(instanceData->validSize < kE3MemoryStorageMinimumGrowSize){
 				instanceData->growSize = kE3MemoryStorageDefaultGrowSize;
@@ -274,7 +274,7 @@ e3storage_memory_new(TQ3Object theObject, void *privateData, const void *paramDa
 				
 			instanceData->buffer = (TQ3Uns8*)Q3Memory_Allocate( instanceData->growSize ) ;
 
-			if (instanceData->buffer == NULL){
+			if (instanceData->buffer == nullptr){
 				instanceData->bufferSize = 0L;
 				return(kQ3Failure);						
 				}
@@ -284,7 +284,7 @@ e3storage_memory_new(TQ3Object theObject, void *privateData, const void *paramDa
 	else
 	{
 		// called from _NewBuffer
-		if ( instanceData->buffer == NULL ){
+		if ( instanceData->buffer == nullptr ){
 			// allocate our own
 			// check validSize parameter
 			instanceData->ownBuffer = kQ3True;
@@ -300,7 +300,7 @@ e3storage_memory_new(TQ3Object theObject, void *privateData, const void *paramDa
 				
 			instanceData->buffer = (TQ3Uns8*)Q3Memory_Allocate( instanceData->growSize ) ;
 
-			if (instanceData->buffer == NULL){
+			if (instanceData->buffer == nullptr){
 				return(kQ3Failure);						
 				}
 			instanceData->bufferSize = instanceData->growSize;
@@ -355,7 +355,7 @@ e3storage_memory_duplicate(	TQ3Object fromObject, const void *fromPrivateData,
 	if (toInstanceData->ownBuffer)
 	{
 		toInstanceData->buffer = (TQ3Uns8*) Q3Memory_Allocate( toInstanceData->bufferSize );
-		if (toInstanceData->buffer == NULL)
+		if (toInstanceData->buffer == nullptr)
 		{
 			theStatus = kQ3Failure;
 		}
@@ -381,7 +381,7 @@ e3storage_memory_duplicate(	TQ3Object fromObject, const void *fromPrivateData,
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3storage_memory_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -434,7 +434,7 @@ e3storage_path_new(TQ3Object theObject, void *privateData, const void *paramData
 	// Initialise our instance data
 	pathLen = static_cast<TQ3Uns32>(strlen(thePath));
 	instanceData->thePath = (char *) Q3Memory_Allocate(pathLen + 1);
-	if (instanceData->thePath == NULL)
+	if (instanceData->thePath == nullptr)
 		return(kQ3Failure);
 
 	strcpy(instanceData->thePath, thePath);
@@ -457,13 +457,13 @@ e3storage_path_delete(TQ3Object storage, void *privateData)
 
 
 	// Make sure the file isn't open
-	if (instanceData->theFile != NULL)
+	if (instanceData->theFile != nullptr)
 		E3ErrorManager_PostError(kQ3ErrorFileIsOpen, kQ3False);
 
 
 
 	// Dispose of our instance data
-	if (instanceData->thePath != NULL)
+	if (instanceData->thePath != nullptr)
 		Q3Memory_Free(&instanceData->thePath);
 }
 
@@ -478,7 +478,7 @@ TQ3Status
 e3storage_path_open ( E3PathStorage* storage, TQ3Boolean forWriting )
 	{
 	// Make sure the file isn't already open
-	if ( storage->pathDetails.theFile != NULL )
+	if ( storage->pathDetails.theFile != nullptr )
 		{
 		E3ErrorManager_PostError ( kQ3ErrorFileAlreadyOpen, kQ3False ) ;
 		return kQ3Failure ;
@@ -488,7 +488,7 @@ e3storage_path_open ( E3PathStorage* storage, TQ3Boolean forWriting )
 
 	// Open the file		
 	storage->pathDetails.theFile = fopen ( storage->pathDetails.thePath, forWriting ? "wb+" : "rb" ) ;
-	if ( storage->pathDetails.theFile == NULL )
+	if ( storage->pathDetails.theFile == nullptr )
 		return kQ3Failure ;
 	
 	return kQ3Success ;
@@ -505,7 +505,7 @@ TQ3Status
 e3storage_path_close ( E3PathStorage* storage )
 	{
 	// Make sure the file is open
-	if ( storage->pathDetails.theFile == NULL )
+	if ( storage->pathDetails.theFile == nullptr )
 		{
 		E3ErrorManager_PostError ( kQ3ErrorFileNotOpen, kQ3False ) ;
 		return kQ3Failure ;
@@ -515,7 +515,7 @@ e3storage_path_close ( E3PathStorage* storage )
 
 	// Close the file		
 	fclose ( storage->pathDetails.theFile ) ;
-	storage->pathDetails.theFile = NULL ;
+	storage->pathDetails.theFile = nullptr ;
 
 	return kQ3Success ;
 	}
@@ -535,7 +535,7 @@ e3storage_path_getsize ( E3PathStorage* storage, TQ3Uns32 *size )
 
 
 	// Make sure the file is open
-	if ( storage->pathDetails.theFile == NULL )
+	if ( storage->pathDetails.theFile == nullptr )
 		{
 		E3ErrorManager_PostError ( kQ3ErrorFileNotOpen, kQ3False ) ;
 		return kQ3Failure ;
@@ -582,7 +582,7 @@ TQ3Status
 e3storage_path_read ( E3PathStorage* storage, TQ3Uns32 offset, TQ3Uns32 dataSize, unsigned char *data, TQ3Uns32 *sizeRead )
 	{
 	// Make sure the file is open
-	if ( storage->pathDetails.theFile == NULL )
+	if ( storage->pathDetails.theFile == nullptr )
 		{
 		E3ErrorManager_PostError ( kQ3ErrorFileNotOpen, kQ3False ) ;
 		return kQ3Failure ;
@@ -617,7 +617,7 @@ TQ3Status
 e3storage_path_write ( E3PathStorage* storage, TQ3Uns32 offset, TQ3Uns32 dataSize, const unsigned char *data, TQ3Uns32 *sizeWritten )
 	{
 	// Make sure the file is open
-	if ( storage->pathDetails.theFile == NULL )
+	if ( storage->pathDetails.theFile == nullptr )
 		{
 		E3ErrorManager_PostError ( kQ3ErrorFileNotOpen, kQ3False ) ;
 		return kQ3Failure ;
@@ -643,7 +643,7 @@ e3storage_path_write ( E3PathStorage* storage, TQ3Uns32 offset, TQ3Uns32 dataSiz
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3storage_path_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -715,7 +715,7 @@ e3storage_stream_getsize ( E3FileStreamStorage* storage, TQ3Uns32 *size )
 
 
 	// Make sure the file is open
-	if ( storage->mStream == NULL )
+	if ( storage->mStream == nullptr )
 	{
 		E3ErrorManager_PostError( kQ3ErrorFileNotOpen, kQ3False );
 		return kQ3Failure;
@@ -763,7 +763,7 @@ e3storage_stream_read( E3FileStreamStorage* storage, TQ3Uns32 offset,
 						TQ3Uns32 dataSize, unsigned char *data, TQ3Uns32 *sizeRead )
 {
 	// Make sure the file is open
-	if ( storage->mStream == NULL )
+	if ( storage->mStream == nullptr )
 	{
 		E3ErrorManager_PostError( kQ3ErrorFileNotOpen, kQ3False );
 		return kQ3Failure;
@@ -800,7 +800,7 @@ e3storage_stream_write( E3FileStreamStorage* storage, TQ3Uns32 offset,
 						TQ3Uns32 *sizeWritten )
 {
 	// Make sure the file is open
-	if ( storage->mStream == NULL )
+	if ( storage->mStream == nullptr )
 	{
 		E3ErrorManager_PostError( kQ3ErrorFileNotOpen, kQ3False );
 		return kQ3Failure;
@@ -827,7 +827,7 @@ e3storage_stream_write( E3FileStreamStorage* storage, TQ3Uns32 offset,
 static TQ3XFunctionPointer
 e3storage_stream_metahandler(TQ3XMethodType methodType)
 {
-	TQ3XFunctionPointer		theMethod = NULL;
+	TQ3XFunctionPointer		theMethod = nullptr;
 	
 	switch (methodType)
 	{
@@ -867,7 +867,7 @@ e3storage_metahandler(TQ3XMethodType methodType)
 
 		}
 	
-	return NULL ;
+	return nullptr ;
 	}
 
 
@@ -971,7 +971,7 @@ E3Storage_UnregisterClass(void)
 TQ3Boolean
 E3Storage::IsOfMyClass ( TQ3Object object )
 	{
-	if ( object == NULL )
+	if ( object == nullptr )
 		return kQ3False ;
 		
 	if ( object->IsObjectValid () )
@@ -1139,7 +1139,7 @@ E3MemoryStorage::Set ( const unsigned char *buffer, TQ3Uns32 validSize )
 
 
 	// Copy the data into the buffer
-	if ( buffer != NULL) 
+	if ( buffer != nullptr) 
 		Q3Memory_Copy ( buffer, memoryDetails.buffer, validSize ); 
 
 	memoryDetails.validSize = validSize ;
@@ -1190,7 +1190,7 @@ E3MemoryStorage::SetBuffer ( unsigned char *buffer, TQ3Uns32 validSize, TQ3Uns32
 
 
 	// If no buffer has been supplied, use our own
-	if ( buffer == NULL )
+	if ( buffer == nullptr )
 		qd3dStatus = Q3MemoryStorage_Set ( this, buffer, validSize ) ;
 
 
@@ -1244,17 +1244,17 @@ E3MemoryStorage::SetBuffer ( unsigned char *buffer, TQ3Uns32 validSize, TQ3Uns32
 //=============================================================================
 //      E3MemoryStorage_GetBuffer : Return info about the buffer.
 //-----------------------------------------------------------------------------
-//		Note :	We need to handle NULL parameters, since the QD3D Interactive
-//				Renderer calls us with some parameters as NULL.
+//		Note :	We need to handle nullptr parameters, since the QD3D Interactive
+//				Renderer calls us with some parameters as nullptr.
 //-----------------------------------------------------------------------------
 TQ3Status
 E3MemoryStorage::GetBuffer ( unsigned char **buffer, TQ3Uns32 *validSize, TQ3Uns32 *bufferSize )
 	{
-	if ( buffer != NULL )
+	if ( buffer != nullptr )
 		*buffer = (unsigned char *) memoryDetails.buffer ;
-	if ( validSize != NULL )
+	if ( validSize != nullptr )
 		*validSize = memoryDetails.validSize ;
-	if ( bufferSize != NULL )
+	if ( bufferSize != nullptr )
 		*bufferSize = memoryDetails.bufferSize ;
 	
 	return kQ3Success ;
@@ -1287,23 +1287,23 @@ E3PathStorage:: Set( const char *pathName )
 	// Take a copy of the new path
 	TQ3Uns32 pathLen = static_cast<TQ3Uns32>( strlen( pathName) );
 	char* newPath = (char*) Q3Memory_Allocate ( pathLen + 1 ) ;
-	if ( newPath == NULL )
+	if ( newPath == nullptr )
 		return kQ3Failure ;
 
 
 
 	// Clean up the instance data
-	if ( pathDetails.thePath != NULL )
+	if ( pathDetails.thePath != nullptr )
 		Q3Memory_Free( & pathDetails.thePath ) ;
 
-	if ( pathDetails.theFile != NULL )
+	if ( pathDetails.theFile != nullptr )
 		fclose ( pathDetails.theFile ) ;
 
 
 
 	// Update the instance data
 	pathDetails.thePath = newPath ;
-	pathDetails.theFile = NULL ;
+	pathDetails.theFile = nullptr ;
 
 	return kQ3Success ;	
 	}

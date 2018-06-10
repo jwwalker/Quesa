@@ -131,7 +131,7 @@ ir_interactive_delete(TQ3Object theObject, void *privateData)
 
 
 	// Dispose of our instance data
-	if (instanceData->glContext != NULL)
+	if (instanceData->glContext != nullptr)
 		GLDrawContext_Destroy(&instanceData->glContext);
 }
 
@@ -144,7 +144,7 @@ ir_interactive_delete(TQ3Object theObject, void *privateData)
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 ir_interactive_geom(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -186,7 +186,7 @@ ir_interactive_geom(TQ3XMethodType methodType)
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 ir_interactive_attribute(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -223,7 +223,7 @@ ir_interactive_attribute(TQ3XMethodType methodType)
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 ir_interactive_matrix(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -250,7 +250,7 @@ ir_interactive_matrix(TQ3XMethodType methodType)
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 ir_interactive_shader(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -277,7 +277,7 @@ ir_interactive_shader(TQ3XMethodType methodType)
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 ir_interactive_style(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -333,7 +333,7 @@ ir_interactive_nickname(unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3Uns32
 
 
 	// If we have a buffer, return the nick name
-	if (dataBuffer != NULL)
+	if (dataBuffer != nullptr)
 		{
 		// Clamp the buffer size
 		if (bufferSize < *actualDataSize)
@@ -374,7 +374,7 @@ ir_is_bounding_box_visible( TQ3ViewObject           theView,
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 ir_interactive_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -495,11 +495,11 @@ IRRenderer_Register(void)
 														theType,
 														className,
 														ir_interactive_metahandler,
-														NULL,
+														nullptr,
 														0,
 														sizeof(TQ3InteractiveData));
 
-	return(theClass == NULL ? kQ3Failure : kQ3Success);
+	return(theClass == nullptr ? kQ3Failure : kQ3Success);
 }
 
 
@@ -518,7 +518,7 @@ IRRenderer_Unregister(void)
 
 	// Find the renderer class
 	theClass = Q3XObjectHierarchy_FindClassByType(kQ3RendererTypeInteractive);
-	if (theClass == NULL)
+	if (theClass == nullptr)
 		return;
 
 

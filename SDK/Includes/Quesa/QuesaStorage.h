@@ -221,11 +221,11 @@ Q3MemoryStorage_GetType (
  *		internally by Quesa.  If you pass a buffer of data, that data will be
  *		copied to the storage object's private memory
  *
- *  @param buffer           Pointer to a buffer in memory, or NULL.
+ *  @param buffer           Pointer to a buffer in memory, or nullptr.
  *  @param validSize        Number of bytes of data in the buffer.
- *							If you passed NULL for the buffer, this number serves
+ *							If you passed nullptr for the buffer, this number serves
  *							as the initial size and grow size of the internally
- *							allocated buffer.  If you passed NULL for buffer and
+ *							allocated buffer.  If you passed nullptr for buffer and
  *							0 for validSize, then Quesa uses a default grow size.
  *  @result                 The new storage object.
  */
@@ -276,9 +276,9 @@ Q3MemoryStorage_NewNoCopy(
  *		or Q3MemoryStorage_NewBuffer), it will own its own memory afterward.
  *
  *  @param storage          The storage object.
- *  @param buffer           Pointer to a buffer of data, or NULL.
+ *  @param buffer           Pointer to a buffer of data, or nullptr.
  *  @param validSize        Number of bytes to be copied from the buffer to the
- *							storage, or initial memory size if buffer was NULL.
+ *							storage, or initial memory size if buffer was nullptr.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -299,9 +299,9 @@ Q3MemoryStorage_Set (
  *      Creates a memory storage object using a given buffer rather than by
  *		allocating Quesa memory.
  *
- *  @param buffer           Pointer to a buffer of data, or NULL.
+ *  @param buffer           Pointer to a buffer of data, or nullptr.
  *  @param validSize        Number of bytes of valid data in the provided buffer,
- *							or if buffer was NULL, the initial size and grow
+ *							or if buffer was nullptr, the initial size and grow
  *							size of an internally-allocated buffer.
  *  @param bufferSize       Size in bytes of the buffer.
  *  @result                 The new storage object.
@@ -325,9 +325,9 @@ Q3MemoryStorage_NewBuffer (
  *		given buffer.
  *
  *  @param storage          The storage object.
- *  @param buffer           Pointer to a buffer of data, or NULL.
+ *  @param buffer           Pointer to a buffer of data, or nullptr.
  *  @param validSize        Number of valid bytes in the buffer, or
- *							if the buffer is NULL, the initial and grow size
+ *							if the buffer is nullptr, the initial and grow size
  *							of an internally allocated buffer.
  *  @param bufferSize       Size in bytes of the buffer.
  *  @result                 Success or failure of the operation.
@@ -352,7 +352,7 @@ Q3MemoryStorage_SetBuffer (
  *      The pointer may become invalid if later storage operations cause the
  *		buffer to be reallocated.
  *
- *		Each of the output parameters may be NULL if you don't need that information.
+ *		Each of the output parameters may be nullptr if you don't need that information.
  *
  *  @param storage          The storage object.
  *  @param buffer           On output, receives a pointer to the actual data
@@ -389,7 +389,7 @@ Q3MemoryStorage_GetBuffer (
  *
  *      <em>This function is not available in QD3D.</em>
  *
- *  @param pathName         A NULL-terminated pathname, as might be passed to fopen.
+ *  @param pathName         A NUL-terminated pathname, as might be passed to fopen.
  *  @result                 The new storage object.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
@@ -412,7 +412,7 @@ Q3PathStorage_New (
  *      <em>This function is not available in QD3D.</em>
  *
  *  @param theStorage       A path storage object.
- *  @param pathName         A NULL-terminated pathname.
+ *  @param pathName         A NUL-terminated pathname.
  *  @result                 Success or failure of the operation.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
@@ -439,7 +439,7 @@ Q3PathStorage_Set (
  *      <em>This function is not available in QD3D.</em>
  *
  *  @param theStorage       A path storage object.
- *  @param pathName         On output, the path as a NULL-terminated string.
+ *  @param pathName         On output, the path as a NUL-terminated string.
  *  @result                 Success or failure of the operation.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
@@ -535,14 +535,14 @@ Q3FileStreamStorage_Set (
  *      Create a Handle storage object.
  *
  *      Create a storage object that stores data in a Macintosh memory Handle.
- *		If you pass NULL for the Handle, Quesa internally allocates a
+ *		If you pass nullptr for the Handle, Quesa internally allocates a
  *		Handle of the given size, and disposes the Handle when the storage
  *		object is disposed.
  *
- *  @param handle           An existing Handle, or NULL.
+ *  @param handle           An existing Handle, or nullptr.
  *  @param validSize        The size of the valid date in the given Handle,
- *							or the desired size if the Handle is NULL.
- *  @result                 The new storage object, or NULL on failure.
+ *							or the desired size if the Handle is nullptr.
+ *  @result                 The new storage object, or nullptr on failure.
  */
 Q3_EXTERN_API_C ( TQ3StorageObject  )
 Q3HandleStorage_New (
@@ -559,12 +559,12 @@ Q3HandleStorage_New (
  *      Set information about a Handle storage object.
  *
  *      Sets the buffer location and size of a Handle storage object.
- *		If you pass NULL for the Handle, Quesa internally allocates a
+ *		If you pass nullptr for the Handle, Quesa internally allocates a
  *		Handle of the given size, and disposes the Handle when the storage
  *		object is disposed.
  *
  *  @param storage          The storage object.
- *  @param handle           A Mac Handle to be associated with the storage, or NULL.
+ *  @param handle           A Mac Handle to be associated with the storage, or nullptr.
  *  @param validSize        Size in bytes of the specified buffer.
  *  @result                 Success or failure of the operation.
  */
@@ -901,7 +901,7 @@ Q3Win32Storage_Get (
  *
  *      The Quesa extension Q3PathStorage_New may be used in place of this.
  *
- *  @param pathName        A NULL-terminated file system path.
+ *  @param pathName        A NUL-terminated file system path.
  *  @result                The new storage object.
  */
 Q3_EXTERN_API_C ( TQ3StorageObject  )
@@ -918,7 +918,7 @@ Q3UnixPathStorage_New (
  *      Change the path associated with a Unix path storage object.
  *
  *  @param storage          A Unix path storage object.
- *  @param pathName         A NULL-terminated file system path.
+ *  @param pathName         A NUL-terminated file system path.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -939,7 +939,7 @@ Q3UnixPathStorage_Set (
  *		Be sure to allocate enough space for it.
  *
  *  @param storage          A Unix path storage object.
- *  @param pathName         On output, a NULL-terminated path.
+ *  @param pathName         On output, a NUL-terminated path.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )

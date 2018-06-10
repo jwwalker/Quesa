@@ -139,12 +139,12 @@ e3geom_point_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 	qd3dStatus = Q3Point_GetData(fromObject, toInstanceData);
 	
 	if ( (qd3dStatus == kQ3Success) &&
-		(toInstanceData->pointAttributeSet != NULL) )
+		(toInstanceData->pointAttributeSet != nullptr) )
 	{
 		dupSet = Q3Object_Duplicate( toInstanceData->pointAttributeSet );
 		Q3Object_Dispose( toInstanceData->pointAttributeSet );
 		toInstanceData->pointAttributeSet = dupSet;
-		if (dupSet == NULL)
+		if (dupSet == nullptr)
 		{
 			qd3dStatus = kQ3Failure;
 		}
@@ -187,7 +187,7 @@ e3geom_point_pick_window_point(TQ3ViewObject theView, TQ3PickObject thePick, TQ3
 		(windowPoint.y <= (pickData.point.y + pickData.vertexTolerance)))
 		{
 		Q3View_TransformLocalToWorld(theView, &instanceData->point, &hitXYZ);
-		qd3dStatus = E3Pick_RecordHit(thePick, theView, &hitXYZ, NULL, NULL, NULL);
+		qd3dStatus = E3Pick_RecordHit(thePick, theView, &hitXYZ, nullptr, nullptr, nullptr);
 		}
 
 	return(qd3dStatus);
@@ -225,7 +225,7 @@ e3geom_point_pick_window_rect(TQ3ViewObject theView, TQ3PickObject thePick, TQ3O
 		(windowPoint.y >= pickData.rect.min.y) && (windowPoint.y <= pickData.rect.max.y))
 		{
 		Q3View_TransformLocalToWorld(theView, &instanceData->point, &hitXYZ);
-		qd3dStatus = E3Pick_RecordHit(thePick, theView, &hitXYZ, NULL, NULL, NULL);
+		qd3dStatus = E3Pick_RecordHit(thePick, theView, &hitXYZ, nullptr, nullptr, nullptr);
 		}
 
 	return(qd3dStatus);
@@ -261,7 +261,7 @@ e3geom_point_pick_world_ray(TQ3ViewObject theView, TQ3PickObject thePick, TQ3Obj
 
 	// See if we fall within the pick
 	if (Q3Ray3D_IntersectSphere(&pickData.ray, &theSphere, &hitHYZ))
-		qd3dStatus = E3Pick_RecordHit(thePick, theView, &hitHYZ, NULL, NULL, NULL);
+		qd3dStatus = E3Pick_RecordHit(thePick, theView, &hitHYZ, nullptr, nullptr, nullptr);
 
 	return(qd3dStatus);
 }
@@ -348,7 +348,7 @@ e3geom_point_get_attribute ( E3Point* point )
 static TQ3XFunctionPointer
 e3geom_point_metahandler(TQ3XMethodType methodType)
 {	
-	TQ3XFunctionPointer		theMethod = NULL;
+	TQ3XFunctionPointer		theMethod = nullptr;
 
 	// Return our methods
 	switch (methodType) {
@@ -430,10 +430,10 @@ E3Point_New(const TQ3PointData *pointData)
 {	TQ3Object		theObject;
 
 	
-	if (pointData == NULL)
+	if (pointData == nullptr)
 	{
 		TQ3PointData defaultPt = {
-			{ 0.0f, 0.0f, 0.0f }, NULL
+			{ 0.0f, 0.0f, 0.0f }, nullptr
 		};
 		theObject = E3ClassTree::CreateInstance (  kQ3GeometryTypePoint, kQ3False, &defaultPt );
 	}

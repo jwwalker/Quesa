@@ -116,7 +116,7 @@ static TQ3StringIdentifier gEnglishStringTable_Error[] = {
 	{ kQ3ErrorX11Error,								"Quesa Error: " "X11 error" },
 	{ kQ3ErrorMemoryLeak,							"Quesa Error: " "Memory leak" },
 	{ kQ3ErrorOutOfMemory,							"Quesa Error: " "Out of memory" },
-	{ kQ3ErrorNULLParameter,						"Quesa Error: " "NULL parameter" },
+	{ kQ3ErrorNULLParameter,						"Quesa Error: " "nullptr parameter" },
 	{ kQ3ErrorParameterOutOfRange,					"Quesa Error: " "Parameter out of range" },
 	{ kQ3ErrorInvalidParameter,						"Quesa Error: " "Invalid parameter" },
 	{ kQ3ErrorInvalidData,							"Quesa Error: " "Invalid data" },
@@ -223,7 +223,7 @@ static TQ3StringIdentifier gEnglishStringTable_Error[] = {
 	{ kQ3ErrorPlatformError,						"Quesa Error: " "Platform-specific error" },
 	{ kQ3ErrorInfiniteRationalPoint,				"Quesa Error: " "Infinite rational point" },
 	{ kQ3ErrorTriMeshPointIndexOutOfRange,			"Quesa Error: " "TriMesh face or edge data contains an invalid point index" },
-	{ kQ3ErrorNone, NULL } };
+	{ kQ3ErrorNone, nullptr } };
 
 
 static TQ3StringIdentifier gEnglishStringTable_Warning[] = {
@@ -288,7 +288,7 @@ static TQ3StringIdentifier gEnglishStringTable_Warning[] = {
 		"hardware-accelerated pixmap draw context." },
 	{ kQ3WarningTriMeshTriangleIndexOutOfBounds,	"Quesa Warning: "
 		"TriMesh edge data contains an invalid triangle index" },
-	{ kQ3WarningNone, NULL } };
+	{ kQ3WarningNone, nullptr } };
 
 
 static TQ3StringIdentifier gEnglishStringTable_Notice[] = {
@@ -310,7 +310,7 @@ static TQ3StringIdentifier gEnglishStringTable_Notice[] = {
 	{ kQ3NoticeViewSyncCalledAgain,					"Quesa Notice: " "View sync called again" },
 	{ kQ3NoticeFileCancelled,						"Quesa Notice: " "File cancelled" },
 	{ kQ3NoticeBrightnessLessThanZero,				"Quesa Notice: " "Brightness less than 0.0" },
-	{ kQ3NoticeNone, NULL } };
+	{ kQ3NoticeNone, nullptr } };
 
 
 
@@ -344,7 +344,7 @@ e3errors_find_string(TQ3StringIdentifier *stringTable, TQ3Int32 theEnum)
 
 	// Walk through the table to find the string
 	theItem = stringTable;
-	while (theItem->theString != NULL)
+	while (theItem->theString != nullptr)
 		{
 		if (theItem->theEnum == theEnum)
 			return(theItem->theString);
@@ -352,7 +352,7 @@ e3errors_find_string(TQ3StringIdentifier *stringTable, TQ3Int32 theEnum)
 		theItem++;
 		}
 
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -537,7 +537,7 @@ E3Error_ToString(TQ3Language theLanguage, TQ3Error theError)
 		case kQ3LanguageDefault:
 		default:
 			theString = e3errors_find_string(gEnglishStringTable_Error, theError);
-			if (theString == NULL)
+			if (theString == nullptr)
 				theString = kEnglishUnknownEnum;
 			break;
 		}
@@ -564,7 +564,7 @@ E3Warning_ToString(TQ3Language theLanguage, TQ3Warning theWarning)
 		case kQ3LanguageDefault:
 		default:
 			theString = e3errors_find_string(gEnglishStringTable_Warning, theWarning);
-			if (theString == NULL)
+			if (theString == nullptr)
 				theString = kEnglishUnknownEnum;
 			break;
 		}
@@ -591,7 +591,7 @@ E3Notice_ToString(TQ3Language theLanguage, TQ3Notice theNotice)
 		case kQ3LanguageDefault:
 		default:
 			theString = e3errors_find_string(gEnglishStringTable_Notice, theNotice);
-			if (theString == NULL)
+			if (theString == nullptr)
 				theString = kEnglishUnknownEnum;
 			break;
 		}

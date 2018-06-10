@@ -628,24 +628,24 @@ QORenderer::GLSLFuncs::GLSLFuncs()
 
 void	QORenderer::GLSLFuncs::SetNULL()
 {
-	glCreateShader = NULL;
-	glShaderSource = NULL;
-	glCompileShader = NULL;
-	glGetShaderiv = NULL;
-	glCreateProgram = NULL;
-	glAttachShader = NULL;
-	glDetachShader = NULL;
-	glLinkProgram = NULL;
-	glGetProgramiv = NULL;
-	glUseProgram = NULL;
-	glGetUniformLocation = NULL;
-	glUniform1i = NULL;
-	glUniform1f = NULL;
-	glUniform1fv = NULL;
-	glDeleteShader = NULL;
-	glDeleteProgram = NULL;
-	glGetProgramInfoLog = NULL;
-	glGetShaderInfoLog = NULL;
+	glCreateShader = nullptr;
+	glShaderSource = nullptr;
+	glCompileShader = nullptr;
+	glGetShaderiv = nullptr;
+	glCreateProgram = nullptr;
+	glAttachShader = nullptr;
+	glDetachShader = nullptr;
+	glLinkProgram = nullptr;
+	glGetProgramiv = nullptr;
+	glUseProgram = nullptr;
+	glGetUniformLocation = nullptr;
+	glUniform1i = nullptr;
+	glUniform1f = nullptr;
+	glUniform1fv = nullptr;
+	glDeleteShader = nullptr;
+	glDeleteProgram = nullptr;
+	glGetProgramInfoLog = nullptr;
+	glGetShaderInfoLog = nullptr;
 }
 
 void	QORenderer::GLSLFuncs::Initialize( const TQ3GLExtensions& inExts )
@@ -670,24 +670,24 @@ void	QORenderer::GLSLFuncs::Initialize( const TQ3GLExtensions& inExts )
 		GLGetProcAddress( glDeleteProgram, "glDeleteProgram", "glDeleteObjectARB" );
 		GLGetProcAddress( glGetProgramInfoLog, "glGetProgramInfoLog", "glGetInfoLogARB" );
 		GLGetProcAddress( glGetShaderInfoLog, "glGetShaderInfoLog", "glGetInfoLogARB" );
-		if ( (glCreateShader == NULL) ||
-			(glShaderSource == NULL) ||
-			(glCompileShader == NULL) ||
-			(glGetShaderiv == NULL) ||
-			(glCreateProgram == NULL) ||
-			(glAttachShader == NULL) ||
-			(glDetachShader == NULL) ||
-			(glLinkProgram == NULL) ||
-			(glGetProgramiv == NULL) ||
-			(glUseProgram == NULL) ||
-			(glGetUniformLocation == NULL) ||
-			(glUniform1i == NULL) ||
-			(glUniform1f == NULL) ||
-			(glUniform1fv == NULL) ||
-			(glDeleteShader == NULL) ||
-			(glDeleteProgram == NULL) ||
-			(glGetProgramInfoLog == NULL) ||
-			(glGetShaderInfoLog == NULL) )
+		if ( (glCreateShader == nullptr) ||
+			(glShaderSource == nullptr) ||
+			(glCompileShader == nullptr) ||
+			(glGetShaderiv == nullptr) ||
+			(glCreateProgram == nullptr) ||
+			(glAttachShader == nullptr) ||
+			(glDetachShader == nullptr) ||
+			(glLinkProgram == nullptr) ||
+			(glGetProgramiv == nullptr) ||
+			(glUseProgram == nullptr) ||
+			(glGetUniformLocation == nullptr) ||
+			(glUniform1i == nullptr) ||
+			(glUniform1f == nullptr) ||
+			(glUniform1fv == nullptr) ||
+			(glDeleteShader == nullptr) ||
+			(glDeleteProgram == nullptr) ||
+			(glGetProgramInfoLog == nullptr) ||
+			(glGetShaderInfoLog == nullptr) )
 		{
 			Q3_MESSAGE( "Shading functions NOT all present.\n" );
 			SetNULL();
@@ -716,7 +716,7 @@ QORenderer::PerPixelLighting::PerPixelLighting(
 	, mIsFlippingNormals( true )
 	, mQuantization( 0.0f )
 	, mLightNearEdge( 1.0f )
-	, mCurrentProgram( NULL )
+	, mCurrentProgram( nullptr )
 {
 }
 
@@ -793,9 +793,9 @@ static void LogShaderCompileError( GLint inShaderID, const QORenderer::GLSLFuncs
 	if (logSize > 0)
 	{
 		GLbyte*	theLog = (GLbyte*) Q3Memory_Allocate( logSize );
-		if (theLog != NULL)
+		if (theLog != nullptr)
 		{
-			inFuncs.glGetShaderInfoLog( inShaderID, logSize, NULL, theLog );
+			inFuncs.glGetShaderInfoLog( inShaderID, logSize, nullptr, theLog );
 			Q3_MESSAGE( (char*)theLog );
 			Q3_MESSAGE( "\n" );
 			Q3Memory_Free( &theLog );
@@ -1071,7 +1071,7 @@ void	QORenderer::PerPixelLighting::StartPass()
 	{
 		mProgramCharacteristic.mIlluminationType = kQ3IlluminationTypeNULL;
 		mProgramCharacteristic.mIsTextured = false;
-		mCurrentProgram = NULL;
+		mCurrentProgram = nullptr;
 		mMayNeedProgramChange = true;
 		mProgramCharacteristic.mIsCartoonish = (mQuantization > 0.0f);
 		
@@ -1101,7 +1101,7 @@ void	QORenderer::PerPixelLighting::ChooseProgram()
 		const ProgramRec* theProgram = ProgCache()->FindProgram( mProgramCharacteristic );
 		
 		// If there is none, create it.
-		if (theProgram == NULL)
+		if (theProgram == nullptr)
 		{
 			InitProgram();
 			
@@ -1109,7 +1109,7 @@ void	QORenderer::PerPixelLighting::ChooseProgram()
 		}
 		
 		// Activate it.
-		if (theProgram != NULL)
+		if (theProgram != nullptr)
 		{
 			if (theProgram != mCurrentProgram)
 			{
@@ -1180,7 +1180,7 @@ void	QORenderer::PerPixelLighting::EndPass()
 	if ( mIsShading )
 	{
 		mFuncs.glUseProgram( 0 );
-		mCurrentProgram = NULL;
+		mCurrentProgram = nullptr;
 	}
 	mIsShading = false;
 }
@@ -1222,10 +1222,10 @@ void	QORenderer::PerPixelLighting::CheckIfShading()
 {
 	TQ3Boolean	propValue;
 	TQ3Status	propStatus = Q3Object_GetProperty( mRendererObject,
-		kQ3RendererPropertyPerPixelLighting, sizeof(propValue), NULL,
+		kQ3RendererPropertyPerPixelLighting, sizeof(propValue), nullptr,
 		&propValue );
 	
-	mIsShading = (mFuncs.glCreateShader != NULL) &&
+	mIsShading = (mFuncs.glCreateShader != nullptr) &&
 		(propStatus == kQ3Success) &&
 		(propValue == kQ3True);
 	
@@ -1233,12 +1233,12 @@ void	QORenderer::PerPixelLighting::CheckIfShading()
 	{
 		mQuantization = 0.0f;	// default of no quantization
 		Q3Object_GetProperty( mRendererObject,
-			kQ3RendererPropertyQuantizePerPixelLight, sizeof(mQuantization), NULL,
+			kQ3RendererPropertyQuantizePerPixelLight, sizeof(mQuantization), nullptr,
 			&mQuantization );
 		
 		mLightNearEdge = 1.0f;	// default, no darkening of edges
 		Q3Object_GetProperty( mRendererObject,
-			kQ3RendererPropertyCartoonLightNearEdge, sizeof(TQ3Float32), NULL,
+			kQ3RendererPropertyCartoonLightNearEdge, sizeof(TQ3Float32), nullptr,
 			&mLightNearEdge );
 	}
 }
@@ -1427,10 +1427,10 @@ void	QORenderer::PerPixelLighting::InitProgram()
 				if (logSize > 0)
 				{
 					GLbyte*	theLog = (GLbyte*) Q3Memory_Allocate( logSize );
-					if (theLog != NULL)
+					if (theLog != nullptr)
 					{
 						mFuncs.glGetProgramInfoLog( newProgram.mProgram,
-							logSize, NULL, theLog );
+							logSize, nullptr, theLog );
 						Q3_MESSAGE( "Failed to link program.  Error log:\n" );
 						Q3_MESSAGE( (char*)theLog );
 						Q3_MESSAGE( "\n" );
@@ -1609,7 +1609,7 @@ void	QORenderer::PerPixelLighting::UpdateSpecularMapping( bool inSpecularMapped 
 				update the fragment shader program if necessary.  The
 				geometry is passed, if available, so that cartoon parameters
 				may be updated.
-	@param		inGeom		Geometry being rendered.  May be NULL.
+	@param		inGeom		Geometry being rendered.  May be nullptr.
 */
 void	QORenderer::PerPixelLighting::PreGeomSubmit( TQ3GeometryObject inGeom )
 {
@@ -1617,12 +1617,12 @@ void	QORenderer::PerPixelLighting::PreGeomSubmit( TQ3GeometryObject inGeom )
 	{
 		bool cartoonUpdate = false;
 		
-		if ( (inGeom != NULL) && (mQuantization > 0.0f) )
+		if ( (inGeom != nullptr) && (mQuantization > 0.0f) )
 		{
 			TQ3Boolean	isNonCartoon = kQ3False;
 			
 			Q3Object_GetProperty( inGeom, kQ3GeometryPropertyNonCartoon,
-				sizeof(TQ3Boolean), NULL, &isNonCartoon );
+				sizeof(TQ3Boolean), nullptr, &isNonCartoon );
 			
 			bool	isCartoonish = (isNonCartoon == kQ3False);
 			
@@ -1636,7 +1636,7 @@ void	QORenderer::PerPixelLighting::PreGeomSubmit( TQ3GeometryObject inGeom )
 		
 		ChooseProgram();
 		
-		if (cartoonUpdate && (mCurrentProgram != NULL))
+		if (cartoonUpdate && (mCurrentProgram != nullptr))
 		{
 			mFuncs.glUniform1f( mCurrentProgram->mQuantizationUniformLoc,
 				mProgramCharacteristic.mIsCartoonish? mQuantization : 0.0f );

@@ -589,7 +589,7 @@ typedef Q3_CALLBACK_API_C(void,                TQ3RaveDestroyCallback)(
  *      suitable for display in a menu or window (e.g., it may need to be localised
  *      for the current language).
  *
- *      If dataBuffer is NULL, actualDataSize returns the size in bytes of a buffer
+ *      If dataBuffer is nullptr, actualDataSize returns the size in bytes of a buffer
  *      which could receive the entire renderer nick name.
  *
  *      This method is optional.
@@ -611,7 +611,7 @@ typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererGetNickNameStringMeth
  *  @discussion
  *      Get the renderer configuration data.
  *
- *      If dataBuffer is NULL, actualDataSize returns the size in bytes of a buffer
+ *      If dataBuffer is nullptr, actualDataSize returns the size in bytes of a buffer
  *      which could receive the renderer data.
  *
  *      This method is optional.
@@ -869,7 +869,7 @@ typedef Q3_CALLBACK_API_C(TQ3Boolean,          TQ3XRendererIsBoundingBoxVisibleM
  *
  *      Renderers should return a TQ3XRendererSubmitGeometryMetaHandlerMethod to
  *      be invoked when a geometry of the supplied type is submitted for rendering.
- *      If a particular geometry type is not supported, return NULL.
+ *      If a particular geometry type is not supported, return nullptr.
  *
  *      Geometries which do not have their own submit method will be decomposed to
  *      more primitive geometry types, which will then be submitted as one of the
@@ -900,7 +900,7 @@ typedef Q3_CALLBACK_API_C(TQ3XFunctionPointer, TQ3XRendererSubmitGeometryMetaHan
  *      a valid geometry object and publicData will point to the public data
  *      structure describing that object.
  *
- *      If a geometry is submitted in immediate mode, theGeometry will be NULL
+ *      If a geometry is submitted in immediate mode, theGeometry will be nullptr
  *      and publicData will point to the data structure submitted for rendering.
  *
  *      Renderers should therefore try and render from the data contained in the
@@ -912,7 +912,7 @@ typedef Q3_CALLBACK_API_C(TQ3XFunctionPointer, TQ3XRendererSubmitGeometryMetaHan
  *
  *  @param theView          The view being rendered to.
  *  @param rendererPrivate  Renderer-specific instance data.
- *  @param theGeometry      The geometry object being submitted, or NULL.
+ *  @param theGeometry      The geometry object being submitted, or nullptr.
  *  @param publicData       The public data for the geometry being submitted.
  *  @result                 Success or failure of the callback.
  */
@@ -954,7 +954,7 @@ typedef Q3_CALLBACK_API_C(TQ3XFunctionPointer, TQ3XRendererSubmitCameraMetaHandl
  *
  *  @param theView          The view being rendered to.
  *  @param rendererPrivate  Renderer-specific instance data.
- *  @param theCamera        The camera object being submitted, or NULL.
+ *  @param theCamera        The camera object being submitted, or nullptr.
  *  @param publicData       The public data for the camera being submitted.
  *  @result                 Success or failure of the callback.
  */
@@ -996,7 +996,7 @@ typedef Q3_CALLBACK_API_C(TQ3XFunctionPointer, TQ3XRendererSubmitLightMetaHandle
  *
  *  @param theView          The view being rendered to.
  *  @param rendererPrivate  Renderer-specific instance data.
- *  @param theLight         The light object being submitted, or NULL.
+ *  @param theLight         The light object being submitted, or nullptr.
  *  @param publicData       The public data for the light being submitted.
  *  @result                 Success or failure of the callback.
  */
@@ -1167,7 +1167,7 @@ typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererUpdateMatrixMethod)(
 				the light, so do not dispose it.
 	
 	@field		passType	Type of the current pass.
-	@field		light		Current shadowing light, or NULL if this is a pass
+	@field		light		Current shadowing light, or nullptr if this is a pass
 							of type kQ3RendererPassNonShadow.
 */
 struct TQ3RendererPassInfo
@@ -1487,7 +1487,7 @@ Q3RendererClass_GetNickNameString (
  *      for the current platform (e.g., the Registry on Windows or a .plist file on
  *      the Mac), tagging it with the renderer's type for later identification.
  *
- *      If dataBuffer is NULL, the size of data required to store the configuration
+ *      If dataBuffer is nullptr, the size of data required to store the configuration
  *      data will be returned in actualDataSize.
  *
  *      Otherwise bufferSize should be set to the number of bytes pointed to by
@@ -1495,7 +1495,7 @@ Q3RendererClass_GetNickNameString (
  *      dataBuffer.
  *
  *  @param renderer         The renderer to query.
- *  @param dataBuffer       Receives the renderer configuration data. May be NULL.
+ *  @param dataBuffer       Receives the renderer configuration data. May be nullptr.
  *  @param bufferSize       The number of bytes pointed to by dataBuffer. May be 0.
  *  @param actualDataSize   Receives the number of bytes required for, or written to, dataBuffer.
  *  @result                 Success or failure of the operation.

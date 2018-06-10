@@ -142,8 +142,8 @@ Q3Group_AddObject(TQ3GroupObject group, TQ3Object object)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( E3Group::IsOfMyClass ( group ), NULL);
-	Q3_REQUIRE_OR_RESULT(object && object->IsObjectValid (), NULL);
+	Q3_REQUIRE_OR_RESULT( E3Group::IsOfMyClass ( group ), nullptr);
+	Q3_REQUIRE_OR_RESULT(object && object->IsObjectValid (), nullptr);
 
 
 
@@ -173,10 +173,10 @@ Q3Group_AddObjectAndDispose(TQ3GroupObject group, TQ3Object *theObject)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( E3Group::IsOfMyClass ( group ), NULL);
+	Q3_REQUIRE_OR_RESULT( E3Group::IsOfMyClass ( group ), nullptr);
 	
-	if (theObject != NULL && *theObject != NULL)
-		Q3_REQUIRE_OR_RESULT((*theObject)->IsObjectValid (), NULL);
+	if (theObject != nullptr && *theObject != nullptr)
+		Q3_REQUIRE_OR_RESULT((*theObject)->IsObjectValid (), nullptr);
 
 
 
@@ -206,8 +206,8 @@ Q3Group_AddObjectBefore(TQ3GroupObject group, TQ3GroupPosition position, TQ3Obje
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( E3Group::IsOfMyClass ( group ), NULL);
-	Q3_REQUIRE_OR_RESULT(object->IsObjectValid (), NULL);
+	Q3_REQUIRE_OR_RESULT( E3Group::IsOfMyClass ( group ), nullptr);
+	Q3_REQUIRE_OR_RESULT(object->IsObjectValid (), nullptr);
 
 
 
@@ -237,8 +237,8 @@ Q3Group_AddObjectAfter(TQ3GroupObject group, TQ3GroupPosition position, TQ3Objec
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( E3Group::IsOfMyClass ( group ), NULL);
-	Q3_REQUIRE_OR_RESULT(object->IsObjectValid (), NULL);
+	Q3_REQUIRE_OR_RESULT( E3Group::IsOfMyClass ( group ), nullptr);
+	Q3_REQUIRE_OR_RESULT(object->IsObjectValid (), nullptr);
 
 
 
@@ -330,7 +330,7 @@ Q3Group_RemovePosition(TQ3GroupObject group, TQ3GroupPosition position)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( E3Group::IsOfMyClass ( group ), NULL);
+	Q3_REQUIRE_OR_RESULT( E3Group::IsOfMyClass ( group ), nullptr);
 
 
 
@@ -1208,7 +1208,7 @@ Q3XGroup_GetPositionPrivate(TQ3GroupObject group, TQ3GroupPosition position)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( E3Group::IsOfMyClass ( group ), NULL);
+	Q3_REQUIRE_OR_RESULT( E3Group::IsOfMyClass ( group ), nullptr);
 
 
 

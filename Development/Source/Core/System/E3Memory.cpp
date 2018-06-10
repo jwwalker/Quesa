@@ -160,7 +160,7 @@ e3slab_new(TQ3Object theObject, void *privateData, const void *paramData)
 	if (instanceData->numItems != 0)
 		{
 		theData    = Q3SlabMemory_AppendData(theObject, instanceData->numItems, params->itemData);
-		qd3dStatus = (theData != NULL ? kQ3Success : kQ3Failure);
+		qd3dStatus = (theData != nullptr ? kQ3Success : kQ3Failure);
 		}
 	
 	return(qd3dStatus);
@@ -193,7 +193,7 @@ e3slab_delete(TQ3Object theObject, void *privateData)
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3slab_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -246,7 +246,7 @@ e3Int64_Max( const TQ3Int64& a, const TQ3Int64& b )
 static TQ3Uns32 e3memGetSize( const void* inMemBlock )
 {
 	TQ3Uns32 theSize = 0;
-	if (inMemBlock != NULL)
+	if (inMemBlock != nullptr)
 	{
 #if QUESA_OS_MACINTOSH
 		theSize = (TQ3Uns32) malloc_size( inMemBlock );
@@ -276,12 +276,12 @@ static void SetDirectoryForDump( const char* inFileName )
 			kCreateFolder, &dirRef );
 		if (err == noErr)
 		{
-			CFURLRef	dirURL = CFURLCreateFromFSRef( NULL, &dirRef );
-			if (dirURL != NULL)
+			CFURLRef	dirURL = CFURLCreateFromFSRef( nullptr, &dirRef );
+			if (dirURL != nullptr)
 			{
 				CFStringRef	pathCF = CFURLCopyFileSystemPath( dirURL,
 					kCFURLPOSIXPathStyle );
-				if (pathCF != NULL)
+				if (pathCF != nullptr)
 				{
 					char	thePath[ PATH_MAX ];
 					if (CFStringGetCString( pathCF, thePath, PATH_MAX,
@@ -299,11 +299,11 @@ static void SetDirectoryForDump( const char* inFileName )
 	}
 #endif
 #if QUESA_OS_WIN32
-	if ( (strchr( inFileName, '\\' ) == NULL) && (strchr( inFileName, '/' ) == NULL) )
+	if ( (strchr( inFileName, '\\' ) == nullptr) && (strchr( inFileName, '/' ) == nullptr) )
 	{
 		char thePath[MAX_PATH];
 		
-		HRESULT	res = SHGetFolderPathA( NULL, CSIDL_PERSONAL, NULL,
+		HRESULT	res = SHGetFolderPathA( nullptr, CSIDL_PERSONAL, nullptr,
 			0, thePath );
 		
 		if (res == S_OK)
@@ -367,7 +367,7 @@ E3Memory_UnregisterClass(void)
 //-----------------------------------------------------------------------------
 void *
 E3Memory_Allocate(TQ3Uns32 theSize)
-{	void	*thePtr = NULL;
+{	void	*thePtr = nullptr;
 
 
 	Q3_ASSERT( theSize > 0 );
@@ -380,14 +380,14 @@ E3Memory_Allocate(TQ3Uns32 theSize)
 	{
 		// Allocate the memory and a header to hold the size
 		thePtr = malloc( theSize );
-		if (thePtr == NULL)
+		if (thePtr == nullptr)
 			E3ErrorManager_PostError(kQ3ErrorOutOfMemory, kQ3False);
 	}
 
 
 	// If memory debugging is active, save the size and scrub the block
 #if Q3_MEMORY_DEBUG
-	if (thePtr != NULL)
+	if (thePtr != nullptr)
 	{
 		// Update statistics
 		sActiveAllocCount += 1;
@@ -429,14 +429,14 @@ E3Memory_AllocateClear(TQ3Uns32 theSize)
 	// These platforms can allocate pages in an uninitialised state, and only
 	// clear them to 0 if an application attempts to read before writing.
 	thePtr = calloc( 1, theSize );
-	if (thePtr == NULL)
+	if (thePtr == nullptr)
 		E3ErrorManager_PostError(kQ3ErrorOutOfMemory, kQ3False);
 
 
 
 	// If memory debugging is active, save the size
 #if Q3_MEMORY_DEBUG
-	if (thePtr != NULL)
+	if (thePtr != nullptr)
 		{
 		// Update statistics
 		sActiveAllocCount += 1;
@@ -471,7 +471,7 @@ E3Memory_Free(void **thePtr)
 
 	// Fetch the pointer, and release it
 	realPtr = *thePtr;
-	if (realPtr != NULL)
+	if (realPtr != nullptr)
 	{
 		// Check it looks OK
 		Q3_ASSERT_VALID_PTR(realPtr);
@@ -494,7 +494,7 @@ E3Memory_Free(void **thePtr)
 
 		// Free the pointer
 		free(realPtr);
-		*thePtr = NULL;
+		*thePtr = nullptr;
 	}
 }
 
@@ -518,7 +518,7 @@ E3Memory_Reallocate(void **thePtr, TQ3Uns32 newSize)
 
 
 	// If we have a pointer, we're either going to resize or free it
-	if (realPtr != NULL)
+	if (realPtr != nullptr)
 		{
 		// Check it looks OK
 		Q3_ASSERT_VALID_PTR(realPtr);
@@ -529,7 +529,7 @@ E3Memory_Reallocate(void **thePtr, TQ3Uns32 newSize)
 
 	if (newSize == 0)
 	{
-		if (realPtr != NULL)
+		if (realPtr != nullptr)
 			{
 			// Not every implementation of realloc frees when called as
 			// realloc( p, 0 ).  Let's not leave it up to chance.
@@ -550,7 +550,7 @@ E3Memory_Reallocate(void **thePtr, TQ3Uns32 newSize)
 
 
 		// Handle failure
-		qd3dStatus = (newPtr != NULL) ? kQ3Success : kQ3Failure;
+		qd3dStatus = (newPtr != nullptr) ? kQ3Success : kQ3Failure;
 		if (qd3dStatus == kQ3Success)
 		{
 			*thePtr = newPtr;
@@ -746,7 +746,7 @@ TQ3Status
 E3Memory_StartRecording(void)
 {
 	E3GlobalsPtr	theGlobals = E3Globals_Get();
-	Q3_REQUIRE_OR_RESULT( theGlobals != NULL, kQ3Failure );
+	Q3_REQUIRE_OR_RESULT( theGlobals != nullptr, kQ3Failure );
 
 	theGlobals->isLeakChecking = kQ3True;
 	
@@ -766,7 +766,7 @@ TQ3Status
 E3Memory_StopRecording(void)
 {
 	E3GlobalsPtr	theGlobals = E3Globals_Get();
-	Q3_REQUIRE_OR_RESULT( theGlobals != NULL, kQ3Failure );
+	Q3_REQUIRE_OR_RESULT( theGlobals != nullptr, kQ3Failure );
 
 	theGlobals->isLeakChecking = kQ3False;
 	
@@ -787,7 +787,7 @@ E3Memory_IsRecording(void)
 {
 	E3GlobalsPtr	theGlobals = E3Globals_Get();
 
-	return (TQ3Boolean)((theGlobals != NULL) && (theGlobals->isLeakChecking));
+	return (TQ3Boolean)((theGlobals != nullptr) && (theGlobals->isLeakChecking));
 }
 #endif
 
@@ -804,7 +804,7 @@ E3Memory_ForgetRecording(void)
 	{
 	TQ3Object		anObject, nextObject;
 	E3GlobalsPtr	theGlobals = E3Globals_Get();
-	Q3_REQUIRE_OR_RESULT( theGlobals != NULL, kQ3Failure );
+	Q3_REQUIRE_OR_RESULT( theGlobals != nullptr, kQ3Failure );
 	
 	if (theGlobals->listHead)	// true if anything was ever recorded
 		{
@@ -813,13 +813,13 @@ E3Memory_ForgetRecording(void)
 		while (anObject != theGlobals->listHead)
 			{
 			nextObject = NEXTLINK( anObject );
-			NEXTLINK( anObject ) = NULL;
-			PREVLINK( anObject ) = NULL;
+			NEXTLINK( anObject ) = nullptr;
+			PREVLINK( anObject ) = nullptr;
 			
-			if ( anObject->stackCrawl != NULL )
+			if ( anObject->stackCrawl != nullptr )
 				{
 				E3StackCrawl_Dispose( anObject->stackCrawl );
-				anObject->stackCrawl = NULL;
+				anObject->stackCrawl = nullptr;
 				}
 			
 			anObject = nextObject;
@@ -846,9 +846,9 @@ E3Memory_CountRecords(void)
 	TQ3Uns32 numRecords = 0 ;
 	E3GlobalsPtr theGlobals = E3Globals_Get () ;
 	
-	Q3_REQUIRE_OR_RESULT( theGlobals != NULL, 0 ) ;
+	Q3_REQUIRE_OR_RESULT( theGlobals != nullptr, 0 ) ;
 	
-	if ( theGlobals->listHead != NULL )	// true if anything was ever recorded
+	if ( theGlobals->listHead != nullptr )	// true if anything was ever recorded
 		{
 		TQ3Object anObject = NEXTLINK( theGlobals->listHead ) ;
 		
@@ -875,24 +875,24 @@ E3Memory_CountRecords(void)
 TQ3Object
 E3Memory_NextRecordedObject( TQ3Object inObject )
 	{
-	TQ3Object theNext = NULL ;
+	TQ3Object theNext = nullptr ;
 	E3GlobalsPtr theGlobals = E3Globals_Get () ;
 	
-	Q3_REQUIRE_OR_RESULT( theGlobals != NULL, NULL ) ;
+	Q3_REQUIRE_OR_RESULT( theGlobals != nullptr, nullptr ) ;
 	
-	if ( inObject == NULL )
+	if ( inObject == nullptr )
 		{
 		// Return the first thing in the list, if any.
-		if (theGlobals->listHead != NULL)
+		if (theGlobals->listHead != nullptr)
 			theNext = NEXTLINK( theGlobals->listHead ) ;
 		}
 	else
 		theNext = inObject->next ;
 
 	if ( theNext == theGlobals->listHead )
-		theNext = NULL ;
+		theNext = nullptr ;
 	
-	if ( theNext != NULL )
+	if ( theNext != nullptr )
 		theNext = theNext->GetLeafObject () ;
 	
 	return theNext ;
@@ -921,20 +921,20 @@ E3Memory_DumpRecording( const char* fileName, const char* memo )
 	size_t			timeStrLen;
 	
 	Q3_REQUIRE_OR_RESULT( Q3_VALID_PTR( fileName ), kQ3Failure );
-	Q3_REQUIRE_OR_RESULT( theGlobals != NULL, kQ3Failure );
+	Q3_REQUIRE_OR_RESULT( theGlobals != nullptr, kQ3Failure );
 	
 	if (theGlobals->listHead)	// true if anything was ever recorded
 	{
 		SetDirectoryForDump( fileName );
 		dumpFile = fopen( fileName, "a" );
-		if (dumpFile == NULL)
+		if (dumpFile == nullptr)
 		{
 			E3ErrorManager_PostError( kQ3ErrorFileNotOpen, kQ3False );
 			return kQ3Failure;
 		}
 		
 		// Get a time stamp, and get rid of the line feed at the end.
-		theTime = time( NULL );
+		theTime = time( nullptr );
 		timeStr = ctime( &theTime );
 		timeStrLen = strlen( timeStr );
 		if ( (timeStr[timeStrLen - 1] == '\n') && (timeStrLen < sizeof(timeStrCopy)) )
@@ -944,7 +944,7 @@ E3Memory_DumpRecording( const char* fileName, const char* memo )
 			timeStr = timeStrCopy;
 		}
 		
-		if (memo == NULL)
+		if (memo == nullptr)
 			fprintf( dumpFile, "\n\n========== START DUMP %s ==========\n", timeStr );
 		else
 			fprintf( dumpFile, "\n\n========== START DUMP %s %s ==========\n",
@@ -981,7 +981,7 @@ E3Memory_DumpRecording( const char* fileName, const char* memo )
 			}
 			
 			// If possible, show a stack crawl
-			if (anObject->stackCrawl != NULL)
+			if (anObject->stackCrawl != nullptr)
 			{
 				TQ3Uns32	numNames = E3StackCrawl_Count( anObject->stackCrawl );
 				TQ3Uns32	i;
@@ -989,7 +989,7 @@ E3Memory_DumpRecording( const char* fileName, const char* memo )
 				for (i = 0; i < numNames; ++i)
 				{
 					const char*	name = E3StackCrawl_Get( anObject->stackCrawl, i );
-					if (name != NULL)
+					if (name != nullptr)
 					{
 						fprintf( dumpFile, "    %s\n", name );
 					}
@@ -1094,13 +1094,13 @@ E3SlabMemory_AppendData(TQ3SlabObject theSlab, TQ3Uns32 numItems, const void *it
 	TQ3Uns32 oldCount = Q3SlabMemory_GetCount ( theSlab ) ;
 	TQ3Status qd3dStatus = Q3SlabMemory_SetCount ( theSlab, oldCount + numItems ) ;
 	if ( qd3dStatus == kQ3Failure )
-		return NULL ;
+		return nullptr ;
 
 
 
 	// Initialise the items
 	void* theData = Q3SlabMemory_GetData ( theSlab, oldCount ) ;
-	if ( itemData != NULL )
+	if ( itemData != nullptr )
 		Q3Memory_Copy ( itemData, theData, numItems * ( (E3SlabMemory*) theSlab )->instanceData.itemSize ) ;
 
 	return theData ;

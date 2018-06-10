@@ -200,27 +200,27 @@ e3geom_box_duplicate (	E3Box* fromBox, const void *fromPrivateData,
 	toBox->instanceData.orientation      = fromBox->instanceData.orientation ;
 	toBox->instanceData.majorAxis        = fromBox->instanceData.majorAxis ;
 	toBox->instanceData.minorAxis        = fromBox->instanceData.minorAxis ;
-	toBox->instanceData.faceAttributeSet = NULL ;
-	toBox->instanceData.boxAttributeSet  = NULL ;
+	toBox->instanceData.faceAttributeSet = nullptr ;
+	toBox->instanceData.boxAttributeSet  = nullptr ;
 
 
 	// Duplicate the attribute sets
-	if ( fromBox->instanceData.boxAttributeSet != NULL )
+	if ( fromBox->instanceData.boxAttributeSet != nullptr )
 		toBox->instanceData.boxAttributeSet = Q3Object_Duplicate ( fromBox->instanceData.boxAttributeSet ) ;
 
-	if ( fromBox->instanceData.faceAttributeSet != NULL )
+	if ( fromBox->instanceData.faceAttributeSet != nullptr )
 		{
 		// duplicate the faces attribute array
 		toBox->instanceData.faceAttributeSet = (TQ3AttributeSet*) Q3Memory_Allocate ( 6 * sizeof ( TQ3AttributeSet ) ) ;
 
-		if ( toBox->instanceData.faceAttributeSet != NULL )
+		if ( toBox->instanceData.faceAttributeSet != nullptr )
 			{
 			// duplicate the face attributes
 			for ( TQ3Uns32 n = 0 ; n < 6 ; ++n )
-				if ( fromBox->instanceData.faceAttributeSet [ n ] != NULL )
+				if ( fromBox->instanceData.faceAttributeSet [ n ] != nullptr )
 					toBox->instanceData.faceAttributeSet [ n ] = Q3Object_Duplicate ( fromBox->instanceData.faceAttributeSet [ n ] ) ;
 				else
-					toBox->instanceData.faceAttributeSet [ n ] = NULL ;
+					toBox->instanceData.faceAttributeSet [ n ] = nullptr ;
 			}
 		}
 		
@@ -293,7 +293,7 @@ e3geom_box_create_face( TQ3ViewObject theView,
 	// Set up vertex attributes
 	vertexAtts[0].attributeType     = kQ3AttributeTypeNormal;
 	vertexAtts[0].data              = vertexNormals;
-	vertexAtts[0].attributeUseArray = NULL;
+	vertexAtts[0].attributeUseArray = nullptr;
 	vertexNormals[0] = majCrossMin;
 	vertexNormals[1] = majCrossMin;
 	vertexNormals[2] = majCrossMin;
@@ -301,7 +301,7 @@ e3geom_box_create_face( TQ3ViewObject theView,
 
 	vertexAtts[1].attributeType     = kQ3AttributeTypeSurfaceUV;
 	vertexAtts[1].data              = vertexUVs;
-	vertexAtts[1].attributeUseArray = NULL;
+	vertexAtts[1].attributeUseArray = nullptr;
 
 
 
@@ -310,11 +310,11 @@ e3geom_box_create_face( TQ3ViewObject theView,
 	theTriMeshData.numTriangles              = 2;
 	theTriMeshData.triangles                 = triangles;
 	theTriMeshData.numTriangleAttributeTypes = 0;
-	theTriMeshData.triangleAttributeTypes    = NULL;
+	theTriMeshData.triangleAttributeTypes    = nullptr;
 	theTriMeshData.numEdges                  = 4;
 	theTriMeshData.edges                     = edges;
 	theTriMeshData.numEdgeAttributeTypes     = 0;
-	theTriMeshData.edgeAttributeTypes        = NULL;
+	theTriMeshData.edgeAttributeTypes        = nullptr;
 	theTriMeshData.numPoints                 = 4;
 	theTriMeshData.points                    = points;
 	theTriMeshData.numVertexAttributeTypes   = 2;
@@ -327,7 +327,7 @@ e3geom_box_create_face( TQ3ViewObject theView,
 	theStatus  = kQ3Failure;
 	theTriMesh = Q3TriMesh_New( &theTriMeshData );
 	
-	if (theTriMesh != NULL)
+	if (theTriMesh != nullptr)
 	{
 		E3TriMesh_AddTriangleNormals(theTriMesh, kQ3OrientationStyleCounterClockwise);
 		Q3Group_AddObjectAndDispose( inGroup, &theTriMesh );
@@ -349,10 +349,10 @@ e3geom_box_create_face( TQ3ViewObject theView,
 static TQ3AttributeSet
 e3geom_box_get_face_att_set( const TQ3BoxData* inBoxData, TQ3Int16 inIndex )
 {
-	TQ3AttributeSet	faceSet = NULL;
+	TQ3AttributeSet	faceSet = nullptr;
 	Q3_ASSERT( (inIndex >= 0) && (inIndex <= 5) );
 	
-	if (inBoxData->faceAttributeSet != NULL)
+	if (inBoxData->faceAttributeSet != nullptr)
 	{
 		faceSet = inBoxData->faceAttributeSet[ inIndex ];
 	}
@@ -379,23 +379,23 @@ e3geom_box_merge_faces( TQ3GroupObject ioGroup )
 	
 	theVertAtts[0].attributeType = kQ3AttributeTypeNormal;
 	theVertAtts[0].data = thePointNormals;
-	theVertAtts[0].attributeUseArray = NULL;
+	theVertAtts[0].attributeUseArray = nullptr;
 	
 	theVertAtts[1].attributeType = kQ3AttributeTypeSurfaceUV;
 	theVertAtts[1].data = thePointUVs;
-	theVertAtts[1].attributeUseArray = NULL;
+	theVertAtts[1].attributeUseArray = nullptr;
 	
 	TQ3TriMeshData tmData =
 	{
-		NULL,
+		nullptr,
 		12,
 		theFaces,
 		0,
-		NULL,
+		nullptr,
 		24,
 		theEdges,
 		0,
-		NULL,
+		nullptr,
 		24,
 		thePoints,
 		2,
@@ -452,7 +452,7 @@ e3geom_box_merge_faces( TQ3GroupObject ioGroup )
 	
 	TQ3GeometryObject theTriMesh = Q3TriMesh_New( &tmData );
 	
-	if (theTriMesh != NULL)
+	if (theTriMesh != nullptr)
 	{
 		E3TriMesh_AddTriangleNormals(theTriMesh, kQ3OrientationStyleCounterClockwise);
 		Q3Group_EmptyObjectsOfType( ioGroup, kQ3GeometryTypeTriMesh );
@@ -482,10 +482,10 @@ e3geom_box_cache_new( TQ3ViewObject theView, TQ3GeometryObject theGeom,
 
 	// Create a group to hold the cached representation
 	theGroup = Q3DisplayGroup_New();	
-	if (theGroup == NULL)
+	if (theGroup == nullptr)
 		{
 		E3ErrorManager_PostError( kQ3ErrorOutOfMemory, kQ3False );
-		return(NULL);
+		return(nullptr);
 		}
 
 
@@ -515,7 +515,7 @@ e3geom_box_cache_new( TQ3ViewObject theView, TQ3GeometryObject theGeom,
 
 
 	// Add the box attributes	
-	if (inBoxData->boxAttributeSet != NULL)
+	if (inBoxData->boxAttributeSet != nullptr)
 		Q3Group_AddObject( theGroup, inBoxData->boxAttributeSet );
 
 
@@ -578,7 +578,7 @@ e3geom_box_cache_new( TQ3ViewObject theView, TQ3GeometryObject theGeom,
 
 	// If there are no separate face attributes, the cached representation can be
 	// a single TriMesh, and that will render faster.
-	if ( (status == kQ3Success) && (inBoxData->faceAttributeSet == NULL) )
+	if ( (status == kQ3Success) && (inBoxData->faceAttributeSet == nullptr) )
 	{
 		e3geom_box_merge_faces( theGroup );
 	}
@@ -637,7 +637,7 @@ e3geom_box_get_attribute ( E3Box* theObject )
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3geom_box_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -726,14 +726,14 @@ E3Box_New(const TQ3BoxData *boxData)
 {	TQ3Object			theObject;
 
 
-	if (boxData == NULL)
+	if (boxData == nullptr)
 	{
 		TQ3BoxData	defaultBox = {
 			{ 0.0f, 0.0f, 0.0f },
 			{ 1.0f, 0.0f, 0.0f },
 			{ 0.0f, 1.0f, 0.0f },
 			{ 0.0f, 0.0f, 1.0f },
-			NULL, NULL
+			nullptr, nullptr
 		};
 		theObject = E3ClassTree::CreateInstance ( kQ3GeometryTypeBox, kQ3False, &defaultBox ) ;
 	}
@@ -784,13 +784,13 @@ E3Box_SetData ( TQ3GeometryObject theBox, const TQ3BoxData* boxData )
 	box->instanceData.majorAxis   = boxData->majorAxis ;
 	box->instanceData.minorAxis   = boxData->minorAxis ;
 
-	if ( boxData->faceAttributeSet != NULL )
+	if ( boxData->faceAttributeSet != nullptr )
 		{
 		// If we don't have an attribute array, create one
-		if ( box->instanceData.faceAttributeSet == NULL )
+		if ( box->instanceData.faceAttributeSet == nullptr )
 			box->instanceData.faceAttributeSet = (TQ3AttributeSet*) Q3Memory_AllocateClear ( 6 * sizeof ( TQ3AttributeSet ) ) ;
 
-		if ( box->instanceData.faceAttributeSet == NULL )
+		if ( box->instanceData.faceAttributeSet == nullptr )
 			return kQ3Failure ;
 
 
@@ -801,7 +801,7 @@ E3Box_SetData ( TQ3GeometryObject theBox, const TQ3BoxData* boxData )
 	else
 		{
 		// Dispose of any attributes we currently have
-		if ( box->instanceData.faceAttributeSet != NULL )
+		if ( box->instanceData.faceAttributeSet != nullptr )
 			{
 			for ( n = 0 ; n < 6 ; ++n )
 				Q3Object_CleanDispose ( &box->instanceData.faceAttributeSet [ n ] ) ;
@@ -835,12 +835,12 @@ E3Box_GetData ( TQ3GeometryObject theBox, TQ3BoxData* boxData )
 	boxData->majorAxis   = box->instanceData.majorAxis ;
 	boxData->minorAxis   = box->instanceData.minorAxis ;
 
-	if ( box->instanceData.faceAttributeSet != NULL )
+	if ( box->instanceData.faceAttributeSet != nullptr )
 		{
 		// Create an attribute array
 		boxData->faceAttributeSet = (TQ3AttributeSet*) Q3Memory_Allocate ( 6 * sizeof ( TQ3AttributeSet ) ) ;
 
-		if ( boxData->faceAttributeSet == NULL )
+		if ( boxData->faceAttributeSet == nullptr )
 			return kQ3Failure ;
 
 
@@ -849,7 +849,7 @@ E3Box_GetData ( TQ3GeometryObject theBox, TQ3BoxData* boxData )
 			E3Shared_Acquire ( &boxData->faceAttributeSet [ n ], box->instanceData.faceAttributeSet [ n ] ) ;
 		}
 	else
-		boxData->faceAttributeSet = NULL ;
+		boxData->faceAttributeSet = nullptr ;
 	
 	E3Shared_Acquire ( &boxData->boxAttributeSet, box->instanceData.boxAttributeSet ) ;
 
@@ -870,7 +870,7 @@ E3Box_EmptyData(TQ3BoxData *boxData)
 
 
 	// Release the data
-	if (boxData->faceAttributeSet != NULL)
+	if (boxData->faceAttributeSet != nullptr)
 		{
 		for (n = 0; n < 6; n++)
 			Q3Object_CleanDispose(&boxData->faceAttributeSet[n]);
@@ -1048,10 +1048,10 @@ E3Box_GetFaceAttributeSet(TQ3GeometryObject theBox, TQ3Uns32 faceIndex, TQ3Attri
 	E3Box* box = (E3Box*) theBox ;
 
 	// Get the attribute set
-	if ( box->instanceData.faceAttributeSet != NULL )
+	if ( box->instanceData.faceAttributeSet != nullptr )
 		E3Shared_Acquire ( faceAttributeSet, box->instanceData.faceAttributeSet [ faceIndex ] ) ;
 	else
-		*faceAttributeSet = NULL ;
+		*faceAttributeSet = nullptr ;
 	
 	return kQ3Success ;
 	}
@@ -1069,10 +1069,10 @@ E3Box_SetFaceAttributeSet(TQ3GeometryObject theBox, TQ3Uns32 faceIndex, TQ3Attri
 	E3Box* box = (E3Box*) theBox ;
 
 	// If we don't have an attribute array, allocate one now
-	if ( box->instanceData.faceAttributeSet == NULL )
+	if ( box->instanceData.faceAttributeSet == nullptr )
 		{
 		box->instanceData.faceAttributeSet = (TQ3AttributeSet*) Q3Memory_AllocateClear ( 6 * sizeof ( TQ3AttributeSet ) ) ;
-		if ( box->instanceData.faceAttributeSet == NULL )
+		if ( box->instanceData.faceAttributeSet == nullptr )
 			return kQ3Failure ;
 		}
 

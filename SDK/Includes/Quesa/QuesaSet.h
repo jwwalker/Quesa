@@ -367,7 +367,7 @@ typedef Q3_CALLBACK_API_C(TQ3Boolean,          TQ3XAttributeIsDefaultMethod)(
  *
  *      Plain sets are less commonly used than attribute sets.
  *
- *  @result                 The new set object, or NULL on failure.
+ *  @result                 The new set object, or nullptr on failure.
  */
 Q3_EXTERN_API_C ( TQ3SetObject  )
 Q3Set_New (
@@ -589,7 +589,7 @@ Q3Attribute_Submit (
  *  @discussion
  *      Create an attribute set object.
  *
- *  @result                 A new empty attribute set, or NULL on failure.
+ *  @result                 A new empty attribute set, or nullptr on failure.
  */
 Q3_EXTERN_API_C ( TQ3AttributeSet  )
 Q3AttributeSet_New (
@@ -800,7 +800,7 @@ Q3AttributeSet_Inherit (
  *  @param name             The unique name of the new class.
  *  @param sizeOfElement    Size of the data for the element.
  *  @param metaHandler      Your metahandler function that returns element methods.
- *							You may return NULL for some methods.
+ *							You may return nullptr for some methods.
  *  @result                 Opaque pointer to the new object class.
  */
 Q3_EXTERN_API_C ( TQ3XObjectClass  )
@@ -844,7 +844,7 @@ Q3XElementType_GetElementSize (
  *  @param className      	Unique name for the new attribute.
  *  @param sizeOfElement    Size in bytes of the attribute data.
  *  @param metaHandler      Your metahandler, providing appropriate methods.
- *							It may return NULL in some cases.
+ *							It may return nullptr in some cases.
  *  @result                 Pointer to the new class.
  */
 Q3_EXTERN_API_C ( TQ3XObjectClass  )
@@ -870,7 +870,7 @@ Q3XAttributeClass_Register (
  *
  *  @param attributeSet     The attribute set to query.
  *  @param attributeType    The attribute type to locate.
- *  @result                 A pointer to the internal attribute data if present, or NULL.
+ *  @result                 A pointer to the internal attribute data if present, or nullptr.
  */
 Q3_EXTERN_API_C ( void * )
 Q3XAttributeSet_GetPointer (

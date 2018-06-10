@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
     "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
-<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a[name]:hover {text-decoration: inherit; font-family: inherit; font-size: inherit}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
     <title>Functions</title>
 	 <meta name="generator" content="HeaderDoc">
 </head><body bgcolor="#ffffff">
@@ -193,7 +193,7 @@ successive calls.</dd>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the signature of a controller.
 <br><br>
 At most numChars characters will be written to signature (including the
-NULL byte - signature will always be set to a valid C string). If there
+nullptr byte - signature will always be set to a valid C string). If there
 is not enough space to return the entire signature, it will be truncated.
 <br><br>
 <em>This function is available, but not implemented, in Quesa.</em>
@@ -300,7 +300,7 @@ set to the position of the system cursor tracker.
 <dt><tt><em>valueCount</em></tt></dt><dd>The number of elements in the values array.</dd>
 <dt><tt><em>values</em></tt></dt><dd>A pointer to an array of values to update.</dd>
 <dt><tt><em>changed</em></tt></dt><dd>Receives true or false as the array of values was changed.</dd>
-<dt><tt><em>serialNumber</em></tt></dt><dd>A controller serial number, or NULL.</dd>
+<dt><tt><em>serialNumber</em></tt></dt><dd>A controller serial number, or nullptr.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -347,7 +347,7 @@ effect if controllerRef is an inactive controller.
 <blockquote>
 <dl>
 <dt><tt><em>controllerRef</em></tt></dt><dd>The controller to update.</dd>
-<dt><tt><em>orientation</em></tt></dt><dd>The delta to be added to the tracker orientation.</dd>
+<dt><tt><em>delta</em></tt></dt><dd>The delta to be added to the tracker orientation.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -397,7 +397,7 @@ tracker. Its serial number will be initialised to 1.
 <dt><tt><em>controllerData</em></tt></dt><dd>The data for the new controller.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>The new controller object, or NULL.
+<dl><dt><i>function result</i></dt><dd>The new controller object, or nullptr.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Controller_Next"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Controller_Next">Q3Controller_Next</a></h2>
@@ -408,9 +408,9 @@ tracker. Its serial number will be initialised to 1.
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Iterate through the list of available controllers.
 <br><br>
-To retrieve the first controller in the list, set controllerRef to NULL.
+To retrieve the first controller in the list, set controllerRef to nullptr.
 After retrieving the last controller in the list, nextControllerRef will
-be set to NULL.
+be set to nullptr.
 <br><br>
 <em>This function is available, but not implemented, in Quesa.</em>
 <br><br>
@@ -418,8 +418,8 @@ be set to NULL.
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
 <dl>
-<dt><tt><em>controllerRef</em></tt></dt><dd>The current controller, or NULL.</dd>
-<dt><tt><em>nextControllerRef</em></tt></dt><dd>Receives the next controller in the list, or NULL.</dd>
+<dt><tt><em>controllerRef</em></tt></dt><dd>The current controller, or nullptr.</dd>
+<dt><tt><em>nextControllerRef</em></tt></dt><dd>Receives the next controller in the list, or nullptr.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -495,7 +495,7 @@ invoked.
 <dl>
 <dt><tt><em>controllerRef</em></tt></dt><dd>The controller to update.</dd>
 <dt><tt><em>channel</em></tt></dt><dd>An index into the list of channels, from 0.</dd>
-<dt><tt><em>data</em></tt></dt><dd>A pointer to the data for the channel. Pass NULL
+<dt><tt><em>data</em></tt></dt><dd>A pointer to the data for the channel. Pass nullptr
 to reset the channel to a default or inactive value.</dd>
 <dt><tt><em>dataSize</em></tt></dt><dd>The number of bytes pointed to by data.</dd>
 </dl>
@@ -511,7 +511,7 @@ to reset the channel to a default or inactive value.</dd>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the tracker associated with a controller.
 <br><br>
-If the tracker is NULL, the controller is attached to the system cursor
+If the tracker is nullptr, the controller is attached to the system cursor
 tracker. Both the previous and new tracker's notify functions make be
 called.
 <br><br>
@@ -642,7 +642,7 @@ tracker, track2DCursor will be set to false.
 <blockquote>
 <dl>
 <dt><tt><em>controllerRef</em></tt></dt><dd>The controller reference.</dd>
-<dt><tt><em>tracksDCursor</em></tt></dt><dd>Receives true or false as the controller is affecting
+<dt><tt><em>track3DCursor</em></tt></dt><dd>Receives true or false as the controller is affecting
 both the 2D system cursor and the z-axis values/orientation
 of the system cursor.</dd>
 </dl>
@@ -849,9 +849,9 @@ Time units are unknown.
 <dl>
 <dt><tt><em>trackerObject</em></tt></dt><dd>The tracker to query.</dd>
 <dt><tt><em>timeStamp</em></tt></dt><dd>The time stamp.</dd>
-<dt><tt><em>buttons</em></tt></dt><dd>If non-NULL, receives the button state of the tracker.</dd>
-<dt><tt><em>position</em></tt></dt><dd>If non-NULL, receives the position of the tracker.</dd>
-<dt><tt><em>orientation</em></tt></dt><dd>If non-NULL, receives the orientation of the tracker.</dd>
+<dt><tt><em>buttons</em></tt></dt><dd>If non-nullptr, receives the button state of the tracker.</dd>
+<dt><tt><em>position</em></tt></dt><dd>If non-nullptr, receives the position of the tracker.</dd>
+<dt><tt><em>orientation</em></tt></dt><dd>If non-nullptr, receives the orientation of the tracker.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -891,7 +891,7 @@ Time units are unknown.
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the orientation of a tracker.
 <br><br>
-If serialNumber is not NULL, changed will only be set to true if a
+If serialNumber is not nullptr, changed will only be set to true if a
 change has occurred since the specified serial number was generated.
 <br><br>
 <em>This function is available, but not implemented, in Quesa.</em>
@@ -902,11 +902,11 @@ change has occurred since the specified serial number was generated.
 <dl>
 <dt><tt><em>trackerObject</em></tt></dt><dd>The tracker to query.</dd>
 <dt><tt><em>orientation</em></tt></dt><dd>Receives the current orientation of the tracker.</dd>
-<dt><tt><em>delta</em></tt></dt><dd>If non-NULL, receives the change in orientation since
+<dt><tt><em>delta</em></tt></dt><dd>If non-nullptr, receives the change in orientation since
 the previous call to Q3Tracker_GetOrientation.</dd>
 <dt><tt><em>changed</em></tt></dt><dd>Receives true or false as either orientation or delta
 have been updated.</dd>
-<dt><tt><em>serialNumber</em></tt></dt><dd>If non-NULL, receives the current serial number.</dd>
+<dt><tt><em>serialNumber</em></tt></dt><dd>If non-nullptr, receives the current serial number.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -923,7 +923,7 @@ have been updated.</dd>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the position of a tracker.
 <br><br>
-If serialNumber is not NULL, changed will only be set to true if a
+If serialNumber is not nullptr, changed will only be set to true if a
 change has occurred since the specified serial number was generated.
 <br><br>
 <em>This function is available, but not implemented, in Quesa.</em>
@@ -934,11 +934,11 @@ change has occurred since the specified serial number was generated.
 <dl>
 <dt><tt><em>trackerObject</em></tt></dt><dd>The tracker to query.</dd>
 <dt><tt><em>position</em></tt></dt><dd>Receives the current position of the tracker.</dd>
-<dt><tt><em>delta</em></tt></dt><dd>If non-NULL, receives the change in position since
+<dt><tt><em>delta</em></tt></dt><dd>If non-nullptr, receives the change in position since
 the previous call to Q3Tracker_GetPosition.</dd>
 <dt><tt><em>changed</em></tt></dt><dd>Receives true or false as either position or delta
 have been updated.</dd>
-<dt><tt><em>serialNumber</em></tt></dt><dd>If non-NULL, receives the current serial number.</dd>
+<dt><tt><em>serialNumber</em></tt></dt><dd>If non-nullptr, receives the current serial number.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -1002,7 +1002,7 @@ Has no effect if the tracker is inactive.
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new tracker object.
 <br><br>
 The new tracker is activate, and has its orientation threshold set to 0.
-If no notify callback is required, notifyFunc may be set to NULL.
+If no notify callback is required, notifyFunc may be set to nullptr.
 <br><br>
 <em>This function is available, but not implemented, in Quesa.</em>
 <br><br>
@@ -1010,7 +1010,7 @@ If no notify callback is required, notifyFunc may be set to NULL.
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
 <dl>
-<dt><tt><em>notifyFunc</em></tt></dt><dd>The notification callback for the tracker, or NULL.</dd>
+<dt><tt><em>notifyFunc</em></tt></dt><dd>The notification callback for the tracker, or nullptr.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>The new tracker object.
@@ -1059,8 +1059,8 @@ Time units are unknown.
 <dt><tt><em>trackerObject</em></tt></dt><dd>The tracker to update.</dd>
 <dt><tt><em>timeStamp</em></tt></dt><dd>The time stamp.</dd>
 <dt><tt><em>buttons</em></tt></dt><dd>The button state of the tracker.</dd>
-<dt><tt><em>position</em></tt></dt><dd>The position state of the tracker, or NULL.</dd>
-<dt><tt><em>orientation</em></tt></dt><dd>The orientation state of the tracker, or NULL.</dd>
+<dt><tt><em>position</em></tt></dt><dd>The position state of the tracker, or nullptr.</dd>
+<dt><tt><em>orientation</em></tt></dt><dd>The orientation state of the tracker, or nullptr.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -1138,5 +1138,5 @@ Has no effect if the tracker is inactive.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
-<p><p>&#169; 1999-2011 Quesa Developers (Last Updated 3/13/2011)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
 </p></body></html>

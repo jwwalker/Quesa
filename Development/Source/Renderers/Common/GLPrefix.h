@@ -86,7 +86,7 @@
 //-----------------------------------------------------------------------------
 // For Mac specific weak linking
 #if QUESA_OS_MACINTOSH && QUESA_SUPPORT_HITOOLBOX
-	#define QUESA_FOUND_OPENGL		(aglGetVersion != NULL)
+	#define QUESA_FOUND_OPENGL		(aglGetVersion != nullptr)
 #else
 	#define QUESA_FOUND_OPENGL		(1)
 #endif
@@ -137,7 +137,7 @@ public:
 							: quesaDrawContext( inDC )
 							, currentFrameBufferID( 0 )
 							, currentFrameBufferTarget( 0 )
-							, bindFrameBufferFunc( NULL ) {}
+							, bindFrameBufferFunc( nullptr ) {}
 				
 	virtual				~CQ3GLContext() {}
 	

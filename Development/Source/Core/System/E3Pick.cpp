@@ -299,7 +299,7 @@ e3pick_hit_duplicate_path(TQ3HitPath *pickedPath, TQ3HitPath *newPath)
 	// a memory leak if this is ever changed.
 	theSize            = static_cast<TQ3Uns32>(pickedPath->depth * sizeof(TQ3GroupPosition));
 	newPath->positions = (TQ3GroupPosition *) Q3Memory_Allocate(theSize);
-	if (newPath->positions == NULL)
+	if (newPath->positions == nullptr)
 		return(kQ3Failure);
 
 	Q3Memory_Copy(pickedPath->positions, newPath->positions, theSize);
@@ -397,7 +397,7 @@ e3pick_hit_initialise(TQ3PickHit				*theHit,
 
 
 	// Save the world coordinates of the hit point
-	if (E3Bit_IsSet(pickData.mask, kQ3PickDetailMaskXYZ) && hitXYZ != NULL)
+	if (E3Bit_IsSet(pickData.mask, kQ3PickDetailMaskXYZ) && hitXYZ != nullptr)
 		{
 		theHit->hitXYZ     = *hitXYZ;
 		theHit->validMask |= kQ3PickDetailMaskXYZ;
@@ -406,7 +406,7 @@ e3pick_hit_initialise(TQ3PickHit				*theHit,
 
 
 	// Save the distance to the viewer
-	if (E3Bit_IsSet(pickData.mask, kQ3PickDetailMaskDistance) && hitXYZ != NULL)
+	if (E3Bit_IsSet(pickData.mask, kQ3PickDetailMaskDistance) && hitXYZ != nullptr)
 		{
 		if (Q3Pick_GetType( thePick ) == kQ3PickTypeWorldRay)
 			{
@@ -431,7 +431,7 @@ e3pick_hit_initialise(TQ3PickHit				*theHit,
 
 
 	// Save the normal at the hit point
-	if (E3Bit_IsSet(pickData.mask, kQ3PickDetailMaskNormal) && hitNormal != NULL)
+	if (E3Bit_IsSet(pickData.mask, kQ3PickDetailMaskNormal) && hitNormal != nullptr)
 		{
 		Q3Vector3D_Normalize(hitNormal, &theHit->hitNormal);
 		theHit->validMask |= kQ3PickDetailMaskNormal;
@@ -440,7 +440,7 @@ e3pick_hit_initialise(TQ3PickHit				*theHit,
 
 
 	// Save the shape part
-	if (E3Bit_IsSet(pickData.mask, kQ3PickDetailMaskShapePart) && (hitShape != NULL))
+	if (E3Bit_IsSet(pickData.mask, kQ3PickDetailMaskShapePart) && (hitShape != nullptr))
 		{
 		theHit->pickedShape = CQ3ObjectRef( Q3Shared_GetReference(hitShape) );
 		theHit->validMask  |= kQ3PickDetailMaskShapePart;
@@ -469,7 +469,7 @@ e3pick_hit_initialise(TQ3PickHit				*theHit,
 		
 		
 		// If we have a shape part, indicate what type
-		if (hitShape != NULL)
+		if (hitShape != nullptr)
 			{
 			theType = Q3Object_GetLeafType(hitShape);
 			switch (theType) {
@@ -494,7 +494,7 @@ e3pick_hit_initialise(TQ3PickHit				*theHit,
 
 
 	// Save the UV at the hit point
-	if (E3Bit_IsSet(pickData.mask, kQ3PickDetailMaskUV) && hitUV != NULL)
+	if (E3Bit_IsSet(pickData.mask, kQ3PickDetailMaskUV) && hitUV != nullptr)
 		{
 		theHit->hitUV      = *hitUV;
 		theHit->validMask |= kQ3PickDetailMaskUV;
@@ -514,7 +514,7 @@ e3pick_hit_initialise(TQ3PickHit				*theHit,
 	
 	// Save the barycentric coordinates
 	if ( E3Bit_IsSet(pickData.mask, kQ3PickDetailMaskBarycentric) &&
-		(hitBarycentric != NULL) )
+		(hitBarycentric != nullptr) )
 	{
 		// We actually may have been passed the result of E3Ray3D_IntersectTriangle,
 		// where the u and v components are barycentric coordinates of vertices
@@ -540,12 +540,12 @@ e3pick_hit_find(TQ3PickBaseData *pickInstanceData, TQ3Uns32 n)
 {
 	// Check we're not out of range
 	if (n >= pickInstanceData->pickHits->size())
-		return(NULL);
+		return(nullptr);
 	
 	if (pickInstanceData->commonData.numHitsToReturn != kQ3ReturnAllHits)
 		{
 		if (n >= pickInstanceData->commonData.numHitsToReturn)
-			return(NULL);
+			return(nullptr);
 		}
 
 
@@ -639,7 +639,7 @@ e3pick_delete(TQ3Object theObject, void *privateData)
 	// Free data held by the instance data
 	TQ3PickBaseData* instanceData = (TQ3PickBaseData*) privateData;
 	delete instanceData->pickHits;
-	instanceData->pickHits = NULL;
+	instanceData->pickHits = nullptr;
 }
 
 
@@ -651,7 +651,7 @@ e3pick_delete(TQ3Object theObject, void *privateData)
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3pick_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -714,7 +714,7 @@ e3pick_windowpoint_delete(TQ3Object theObject, void *privateData)
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3pick_windowpoint_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -775,7 +775,7 @@ e3pick_windowrect_delete(TQ3Object theObject, void *privateData)
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3pick_windowrect_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -838,7 +838,7 @@ e3pick_worldray_delete(TQ3Object theObject, void *privateData)
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3pick_worldray_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -876,7 +876,7 @@ e3shapepart_new(TQ3Object theObject, void *privateData, const void *paramData)
 	if (*shape)
 		*instanceData = Q3Shared_GetReference(*shape);
 	else
-		*instanceData = NULL;
+		*instanceData = nullptr;
 
 	return(kQ3Success);
 }
@@ -909,7 +909,7 @@ e3shapepart_delete(TQ3Object theObject, void *privateData)
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3shapepart_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -956,7 +956,7 @@ e3meshpart__new(TQ3Object theObject, void *privateData, const void *paramData)
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3meshpart_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -999,7 +999,7 @@ e3meshpart_face__new(TQ3Object theObject, void *privateData, const void *paramDa
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3meshpart_face_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -1042,7 +1042,7 @@ e3meshpart_edge_new(TQ3Object theObject, void *privateData, const void *paramDat
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3meshpart_edge_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -1085,7 +1085,7 @@ e3meshpart_vertex_new(TQ3Object theObject, void *privateData, const void *paramD
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3meshpart_vertex_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -1217,7 +1217,7 @@ E3Pick_UnregisterClass(void)
 TQ3Boolean
 E3Pick_IsOfMyClass ( TQ3Object object )
 	{
-	if ( object == NULL )
+	if ( object == nullptr )
 		return kQ3False ;
 		
 	if ( object->IsObjectValid () )
@@ -1462,7 +1462,7 @@ E3Pick_GetPickDetailValidMask( TQ3PickObject inPick, TQ3Uns32 index,
 
 	// Find the item
 	theHit = e3pick_hit_find(instanceData, index);
-	if (theHit == NULL)
+	if (theHit == nullptr)
 		{
 		*pickDetailValidMask = kQ3PickDetailNone;
 		return(kQ3Failure);
@@ -1496,7 +1496,7 @@ E3Pick_GetPickDetailData(TQ3PickObject inPick, TQ3Uns32 index, TQ3PickDetail pic
 
 	// Find the item
 	theHit = e3pick_hit_find(instanceData, index);
-	if (theHit == NULL)
+	if (theHit == nullptr)
 		return(kQ3Failure);
 
 
@@ -1593,9 +1593,9 @@ E3Pick_RecordHit(TQ3PickObject				inPick,
 	
 	// If it is a window-point pick and we have an XYZ, then reject it if it is
 	// nearer than the hither plane.
-	if ( (hitXYZ != NULL) and (E3Pick_GetType(thePick) == kQ3PickTypeWindowPoint) )
+	if ( (hitXYZ != nullptr) and (E3Pick_GetType(thePick) == kQ3PickTypeWindowPoint) )
 	{
-		TQ3CameraObject theCamera = NULL;
+		TQ3CameraObject theCamera = nullptr;
 		E3View_GetCamera( theView, &theCamera );
 		CQ3ObjectRef disposeCamera( theCamera );
 		TQ3CameraRange theRange;

@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
     "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
-<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a[name]:hover {text-decoration: inherit; font-family: inherit; font-size: inherit}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
     <title>CQ3ObjectRef_Gets.h</title>
 	 <meta name="generator" content="HeaderDoc">
 </head><body bgcolor="#ffffff">
@@ -9,7 +9,7 @@
 <br><br>
 This header provides C++ wrappers for Quesa functions that return an object
 reference in an output parameter, as a convenience.  In failure conditions,
-the CQ3ObjectRef may contain NULL.  The name of the wrapper is the name of
+the CQ3ObjectRef may contain nullptr.  The name of the wrapper is the name of
 the original function with a C prepended.
 <hr><br><h2>Functions</h2>
 <hr><a name="//Quesa/c/func/CQ3AttributeSet_GetSurfaceShader"></a>
@@ -27,7 +27,7 @@ the original function with a C prepended.
 <dt><tt><em>inSet</em></tt></dt><dd>An attribute set.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>A surface shader or NULL.
+<dl><dt><i>function result</i></dt><dd>A surface shader or nullptr.
 </dd></dl>
 <hr><a name="//Quesa/c/func/CQ3Box_GetFaceAttributeSet"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CQ3Box_GetFaceAttributeSet">CQ3Box_GetFaceAttributeSet</a></h2>
@@ -48,7 +48,7 @@ between 0 and 5 (inclusive).</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>The attribute set of the box face, or
-NULL if the face does not have an attribute set.
+nullptr if the face does not have an attribute set.
  </dd></dl>
 <hr><a name="//Quesa/c/func/CQ3Cone_GetBottomAttributeSet"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CQ3Cone_GetBottomAttributeSet">CQ3Cone_GetBottomAttributeSet</a></h2>
@@ -65,7 +65,7 @@ NULL if the face does not have an attribute set.
 <dt><tt><em>cone</em></tt></dt><dd>The cone object.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>The bottom attribute set, or NULL.
+<dl><dt><i>function result</i></dt><dd>The bottom attribute set, or nullptr.
  </dd></dl>
 <hr><a name="//Quesa/c/func/CQ3Cone_GetFaceAttributeSet"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CQ3Cone_GetFaceAttributeSet">CQ3Cone_GetFaceAttributeSet</a></h2>
@@ -83,7 +83,7 @@ cap) of a cone.
 <dt><tt><em>cone</em></tt></dt><dd>The cone object.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>The face attribute set, or NULL.
+<dl><dt><i>function result</i></dt><dd>The face attribute set, or nullptr.
  </dd></dl>
 <hr><a name="//Quesa/c/func/CQ3Cone_GetInteriorAttributeSet"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CQ3Cone_GetInteriorAttributeSet">CQ3Cone_GetInteriorAttributeSet</a></h2>
@@ -97,10 +97,10 @@ cap) of a cone.
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
 <dl>
-<dt><tt><em>cylinder</em></tt></dt><dd>A cone object.</dd>
+<dt><tt><em>cone</em></tt></dt><dd>A cone object.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>The attribute set for the interior, or NULL.
+<dl><dt><i>function result</i></dt><dd>The attribute set for the interior, or nullptr.
  </dd></dl>
 <hr><a name="//Quesa/c/func/CQ3Cylinder_GetBottomAttributeSet"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CQ3Cylinder_GetBottomAttributeSet">CQ3Cylinder_GetBottomAttributeSet</a></h2>
@@ -117,7 +117,7 @@ cap) of a cone.
 <dt><tt><em>cylinder</em></tt></dt><dd>A cylinder object.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>The attribute set for the bottom cap, or NULL.
+<dl><dt><i>function result</i></dt><dd>The attribute set for the bottom cap, or nullptr.
  </dd></dl>
 <hr><a name="//Quesa/c/func/CQ3Cylinder_GetFaceAttributeSet"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CQ3Cylinder_GetFaceAttributeSet">CQ3Cylinder_GetFaceAttributeSet</a></h2>
@@ -134,7 +134,7 @@ cap) of a cone.
 <dt><tt><em>cylinder</em></tt></dt><dd>A cylinder object.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>The attribute set for the face, or NULL.
+<dl><dt><i>function result</i></dt><dd>The attribute set for the face, or nullptr.
  </dd></dl>
 <hr><a name="//Quesa/c/func/CQ3Cylinder_GetInteriorAttributeSet"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CQ3Cylinder_GetInteriorAttributeSet">CQ3Cylinder_GetInteriorAttributeSet</a></h2>
@@ -150,7 +150,7 @@ cap) of a cone.
 <dt><tt><em>cylinder</em></tt></dt><dd>A cylinder object.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>The attribute set for the interior, or NULL.
+<dl><dt><i>function result</i></dt><dd>The attribute set for the interior, or nullptr.
  </dd></dl>
 <hr><a name="//Quesa/c/func/CQ3Cylinder_GetTopAttributeSet"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CQ3Cylinder_GetTopAttributeSet">CQ3Cylinder_GetTopAttributeSet</a></h2>
@@ -167,7 +167,7 @@ cap) of a cone.
 <dt><tt><em>cylinder</em></tt></dt><dd>A cylinder object.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>The attribute set for the top cap, or NULL.
+<dl><dt><i>function result</i></dt><dd>The attribute set for the top cap, or nullptr.
  </dd></dl>
 <hr><a name="//Quesa/c/func/CQ3File_GetStorage"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CQ3File_GetStorage">CQ3File_GetStorage</a></h2>
@@ -205,7 +205,7 @@ cap) of a cone.
 <dt><tt><em>pointIndex</em></tt></dt><dd>A 0-based index into the array of vertices of a contour.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>The vertex attribute set, or NULL.
+<dl><dt><i>function result</i></dt><dd>The vertex attribute set, or nullptr.
  </dd></dl>
 <hr><a name="//Quesa/c/func/CQ3Geometry_GetAttributeSet"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CQ3Geometry_GetAttributeSet">CQ3Geometry_GetAttributeSet</a></h2>
@@ -236,7 +236,7 @@ cap) of a cone.
 This function obtains a reference to the group member at a 
 specified position.
 <br><br>
-Returns NULL if there is no object at the given position.
+Returns nullptr if there is no object at the given position.
 <br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
@@ -282,7 +282,7 @@ Returns NULL if there is no object at the given position.
 <dt><tt><em>index</em></tt></dt><dd>An index, 0 or 1, specifying an end of the line.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>The attribute set, or NULL.
+<dl><dt><i>function result</i></dt><dd>The attribute set, or nullptr.
  </dd></dl>
 <hr><a name="//Quesa/c/func/CQ3Mesh_GetCornerAttributeSet"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CQ3Mesh_GetCornerAttributeSet">CQ3Mesh_GetCornerAttributeSet</a></h2>
@@ -319,7 +319,7 @@ Returns NULL if there is no object at the given position.
 <blockquote>
 <dl>
 <dt><tt><em>mesh</em></tt></dt><dd>The mesh to query.</dd>
-<dt><tt><em>face</em></tt></dt><dd>The face to query.</dd>
+<dt><tt><em>edge</em></tt></dt><dd>The face to query.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>The attribute set of the mesh face.
@@ -381,7 +381,7 @@ Most applications will not need it.
 <dt><tt><em>inObject</em></tt></dt><dd>The object.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>A set object, or NULL.
+<dl><dt><i>function result</i></dt><dd>A set object, or nullptr.
  </dd></dl>
 <hr><a name="//Quesa/c/func/CQ3PolyLine_GetSegmentAttributeSet"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CQ3PolyLine_GetSegmentAttributeSet">CQ3PolyLine_GetSegmentAttributeSet</a></h2>
@@ -438,7 +438,7 @@ Most applications will not need it.
 <dt><tt><em>index</em></tt></dt><dd>A 0-based index into the array of vertices of the polygon.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>The attribute set, or NULL.
+<dl><dt><i>function result</i></dt><dd>The attribute set, or nullptr.
  </dd></dl>
 <hr><a name="//Quesa/c/func/CQ3Polyhedron_GetVertexAttributeSet"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CQ3Polyhedron_GetVertexAttributeSet">CQ3Polyhedron_GetVertexAttributeSet</a></h2>
@@ -472,14 +472,13 @@ The function call <code>Q3Shape_GetSet( o, &s )</code> is equivalent to
 Note that this is not the same as the attribute set of a geometry object,
 nor is in the internal set which holds elements on an object.  That is,
 after adding elements or attributes to an object, this function may still
-return the NULL set.
+return the nullptr set.
 <br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
 <dl>
-<dt><tt><em>shape</em></tt></dt><dd>The object to query.</dd>
-<dt><tt><em>theSet</em></tt></dt><dd>Receives the set of the object, or NULL.</dd>
+<dt><tt><em>inObject</em></tt></dt><dd>The object to query.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -690,5 +689,5 @@ return the NULL set.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>The renderer associated with the view.
  </dd></dl>
-<p><p>&#169; 1999-2011 Quesa Developers (Last Updated 3/13/2011)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
 </p></body></html>

@@ -151,7 +151,7 @@ Q3Controller_New(const TQ3ControllerData *controllerData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(controllerData), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(controllerData), nullptr);
 
 
 

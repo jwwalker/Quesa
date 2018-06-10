@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
     "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
-<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a[name]:hover {text-decoration: inherit; font-family: inherit; font-size: inherit}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
     <title>QuesaDrawContext.h</title>
 	 <meta name="generator" content="HeaderDoc">
 </head><body bgcolor="#ffffff">
@@ -529,7 +529,7 @@ draw context (e.g., the bounds of the window).
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MacDrawContext_GetWindow">Q3MacDrawContext_GetWindow</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3MacDrawContext_GetWindow (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject drawContext,
-&nbsp;&nbsp;&nbsp;&nbsp;CWindowPtr *window
+&nbsp;&nbsp;&nbsp;&nbsp;WindowRef *window
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the window of a Mac draw context.
@@ -622,7 +622,7 @@ draw context (e.g., the bounds of the window).
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MacDrawContext_SetWindow">Q3MacDrawContext_SetWindow</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3MacDrawContext_SetWindow (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject drawContext,
-&nbsp;&nbsp;&nbsp;&nbsp;CWindowPtr window
+&nbsp;&nbsp;&nbsp;&nbsp;WindowRef window
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the window for a Mac draw context.
@@ -1189,7 +1189,7 @@ renderers.
 </td></tr></table><hr><blockquote><pre>
 typedef struct TQ3MacDrawContextData {
     TQ3DrawContextData                          drawContextData;
-    CWindowPtr                                  window;
+    WindowRef                                   window;
     TQ3MacDrawContext2DLibrary                  library;
     gxViewPort                                  viewPort;
     CGrafPtr                                    grafPort;
@@ -1205,9 +1205,9 @@ valid. Rendering to an off-screen buffer (e.g., a GWorld) should be
 achieved by rendering to a suitably constructed Pixmap draw context.
 <br><br>
 If a window is supplied, its port will be obtained internally by Quesa
-and the grafPort field should be NULL. When rendering to a port which
+and the grafPort field should be nullptr. When rendering to a port which
 does not correspond to a valid WindowRef (e.g., a QD port constructed
-from a CoreGraphics context), the window field should be NULL and the
+from a CoreGraphics context), the window field should be nullptr and the
 port to render to supplied in the grafPort field.
 <br><br>
 </p>
@@ -1217,7 +1217,7 @@ port to render to supplied in the grafPort field.
 <dt><tt>drawContextData</tt></dt><dd>The common state for the draw context.</dd>
 <dt><tt>window</tt></dt><dd>The window to render to.</dd>
 <dt><tt>library</tt></dt><dd>The library to use for rendering. Should be kQ3Mac2DLibraryNone.</dd>
-<dt><tt>viewPort</tt></dt><dd>The QuickDraw GX port to render to. Should be NULL.</dd>
+<dt><tt>viewPort</tt></dt><dd>The QuickDraw GX port to render to. Should be nullptr.</dd>
 <dt><tt>grafPort</tt></dt><dd>The QuickDraw port to render to.</dd>
 </dl>
 </blockquote>
@@ -1337,6 +1337,7 @@ enum {
   kQ3DrawContextPropertySurfaceBehindWindow    = Q3_METHOD_TYPE('s', 'u', 'b', 'w'),
   kQ3DrawContextPropertyGLContextBuildCount    = Q3_METHOD_TYPE('g', 'l', 'b', 'c'),
   kQ3DrawContextPropertyAcceleratedOffscreen    = Q3_OBJECT_TYPE('g', 'l', 'a', 'o'),
+  kQ3DrawContextPropertyAccelOffscreenSamples    = Q3_OBJECT_TYPE('g', 'l', 'o', 's'),
   kQ3DrawContextPropertyGLPixelFormat        = Q3_OBJECT_TYPE('g', 'l', 'p', 'f'),
   kQ3DrawContextPropertyGLDestroyCallback      = Q3_OBJECT_TYPE('g', 'l', 'd', 'c'),
   kQ3DrawContextPropertyTypeSize32        = 0xFFFFFFFF
@@ -1402,6 +1403,11 @@ Data type: TQ3Uns32.</dd>
 a pixmap draw context, requests that the
 context use hardware acceleration if possible.
 Data type: TQ3AcceleratedOffscreenPropertyData.</dd>
+<dt><a name="//Quesa/c/econst/kQ3DrawContextPropertyAccelOffscreenSamples"><tt>kQ3DrawContextPropertyAccelOffscreenSamples</tt></a></dt><dd>Request that a hardware-accelerated pixmap draw context
+(see kQ3DrawContextPropertyAcceleratedOffscreen) render multisampled with a
+specified number of samples, hardware and driver permitting.
+Set this to 0 for  ordinary non-multisampled rendering.
+Data type: TQ3Uns32.  Default: 0.</dd>
 <dt><a name="//Quesa/c/econst/kQ3DrawContextPropertyGLPixelFormat"><tt>kQ3DrawContextPropertyGLPixelFormat</tt></a></dt><dd>Request a specific OpenGL pixel format.
 The data type is platform-specific.
 Mac Carbon: AGLPixelFormat.  Windows: int.
@@ -1494,5 +1500,5 @@ the library field should be set to kQ3Mac2DLibraryNone.
 <dt><a name="//Quesa/c/econst/kQ3Mac2DLibraryQuickDrawGX"><tt>kQ3Mac2DLibraryQuickDrawGX</tt></a></dt><dd>Renderers should use QuickDraw GX in the final stage of rendering.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2011 Quesa Developers (Last Updated 3/13/2011)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
 </p></body></html>

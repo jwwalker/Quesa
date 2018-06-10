@@ -112,7 +112,7 @@ e3geom_polyhedron_gather_vertex_attribute(const void *userData, TQ3Uns32 setInde
 
 
 	// Validate our parameters
-	Q3_REQUIRE_OR_RESULT(setIndex < geomData->numVertices, NULL);
+	Q3_REQUIRE_OR_RESULT(setIndex < geomData->numVertices, nullptr);
 
 
 
@@ -134,7 +134,7 @@ e3geom_polyhedron_gather_triangle_attribute(const void *userData, TQ3Uns32 setIn
 
 
 	// Validate our parameters
-	Q3_REQUIRE_OR_RESULT(setIndex < geomData->numTriangles, NULL);
+	Q3_REQUIRE_OR_RESULT(setIndex < geomData->numTriangles, nullptr);
 
 
 
@@ -156,7 +156,7 @@ e3geom_polyhedron_gather_edge_attribute(const void *userData, TQ3Uns32 setIndex)
 
 
 	// Validate our parameters
-	Q3_REQUIRE_OR_RESULT(setIndex < geomData->numEdges, NULL);
+	Q3_REQUIRE_OR_RESULT(setIndex < geomData->numEdges, nullptr);
 
 
 
@@ -225,7 +225,7 @@ e3geom_polyhedron_copydata( const TQ3PolyhedronData* src,
 	
 	
 	// Sanity check
-	if ( (src->edges == NULL) && (src->numEdges > 0) )
+	if ( (src->edges == nullptr) && (src->numEdges > 0) )
 	{
 		return kQ3Failure;
 	}
@@ -243,14 +243,14 @@ e3geom_polyhedron_copydata( const TQ3PolyhedronData* src,
 	}
 	else
 	{
-		dst->edges = NULL;
+		dst->edges = nullptr;
 	}
 	
 	
 	
 	// Check for memory failure
-	if ( (dst->vertices == NULL) || (dst->triangles == NULL) ||
-		( (dst->edges == NULL) && (src->edges != NULL) ) )
+	if ( (dst->vertices == nullptr) || (dst->triangles == nullptr) ||
+		( (dst->edges == nullptr) && (src->edges != nullptr) ) )
 	{
 		Q3Memory_Free( &dst->vertices );
 		Q3Memory_Free( &dst->triangles );
@@ -265,14 +265,14 @@ e3geom_polyhedron_copydata( const TQ3PolyhedronData* src,
 	dst->numVertices = src->numVertices;
 	dst->numEdges = src->numEdges;
 	dst->numTriangles = src->numTriangles;
-	if (src->polyhedronAttributeSet == NULL)
+	if (src->polyhedronAttributeSet == nullptr)
 	{
-		dst->polyhedronAttributeSet = NULL;
+		dst->polyhedronAttributeSet = nullptr;
 	}
 	else if (isDuplicate)
 	{
 		dst->polyhedronAttributeSet = Q3Object_Duplicate( src->polyhedronAttributeSet );
-		if (dst->polyhedronAttributeSet == NULL)
+		if (dst->polyhedronAttributeSet == nullptr)
 			q3status = kQ3Failure;
 	}
 	else
@@ -286,14 +286,14 @@ e3geom_polyhedron_copydata( const TQ3PolyhedronData* src,
 	for (n = 0; n < dst->numVertices; ++n)
 	{
 		dst->vertices[n].point = src->vertices[n].point;
-		if (src->vertices[n].attributeSet == NULL)
+		if (src->vertices[n].attributeSet == nullptr)
 		{
-			dst->vertices[n].attributeSet = NULL;
+			dst->vertices[n].attributeSet = nullptr;
 		}
 		else if (isDuplicate)
 		{
 			dst->vertices[n].attributeSet = Q3Object_Duplicate( src->vertices[n].attributeSet );
-			if (dst->vertices[n].attributeSet == NULL)
+			if (dst->vertices[n].attributeSet == nullptr)
 				q3status = kQ3Failure;
 		}
 		else
@@ -305,7 +305,7 @@ e3geom_polyhedron_copydata( const TQ3PolyhedronData* src,
 	
 	
 	// Copy edges
-	if (dst->edges != NULL)
+	if (dst->edges != nullptr)
 	{
 		for (n = 0; n < dst->numEdges; ++n)
 		{
@@ -313,14 +313,14 @@ e3geom_polyhedron_copydata( const TQ3PolyhedronData* src,
 			dst->edges[n].vertexIndices[1] = src->edges[n].vertexIndices[1];
 			dst->edges[n].triangleIndices[0] = src->edges[n].triangleIndices[0];
 			dst->edges[n].triangleIndices[1] = src->edges[n].triangleIndices[1];
-			if (src->edges[n].edgeAttributeSet == NULL)
+			if (src->edges[n].edgeAttributeSet == nullptr)
 			{
-				dst->edges[n].edgeAttributeSet = NULL;
+				dst->edges[n].edgeAttributeSet = nullptr;
 			}
 			else if (isDuplicate)
 			{
 				dst->edges[n].edgeAttributeSet = Q3Object_Duplicate( src->edges[n].edgeAttributeSet );
-				if (dst->edges[n].edgeAttributeSet == NULL)
+				if (dst->edges[n].edgeAttributeSet == nullptr)
 					q3status = kQ3Failure;
 			}
 			else
@@ -339,15 +339,15 @@ e3geom_polyhedron_copydata( const TQ3PolyhedronData* src,
 		dst->triangles[n].vertexIndices[1] = src->triangles[n].vertexIndices[1];
 		dst->triangles[n].vertexIndices[2] = src->triangles[n].vertexIndices[2];
 		dst->triangles[n].edgeFlag = src->triangles[n].edgeFlag;
-		if (src->triangles[n].triangleAttributeSet == NULL)
+		if (src->triangles[n].triangleAttributeSet == nullptr)
 		{
-			dst->triangles[n].triangleAttributeSet = NULL;
+			dst->triangles[n].triangleAttributeSet = nullptr;
 		}
 		else if (isDuplicate)
 		{
 			dst->triangles[n].triangleAttributeSet = Q3Object_Duplicate(
 				src->triangles[n].triangleAttributeSet );
-			if (dst->triangles[n].triangleAttributeSet == NULL)
+			if (dst->triangles[n].triangleAttributeSet == nullptr)
 				q3status = kQ3Failure;
 		}
 		else
@@ -447,18 +447,18 @@ e3geom_polyhedron_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, co
 	// Allocate the memory we need for the TriMesh data
 	thePoints    = (TQ3Point3D *)             Q3Memory_Allocate(static_cast<TQ3Uns32>(geomData->numVertices  * sizeof(TQ3Point3D)));
 	theTriangles = (TQ3TriMeshTriangleData *) Q3Memory_Allocate(static_cast<TQ3Uns32>(geomData->numTriangles * sizeof(TQ3TriMeshTriangleData)));
-	theEdges     = NULL;
+	theEdges     = nullptr;
 	
 	if (numEdges != 0)
 		theEdges = (TQ3TriMeshEdgeData *) Q3Memory_Allocate(static_cast<TQ3Uns32>(numEdges * sizeof(TQ3TriMeshEdgeData)));
 
-	if (thePoints == NULL || theTriangles == NULL || (theEdges == NULL && numEdges != 0))
+	if (thePoints == nullptr || theTriangles == nullptr || (theEdges == nullptr && numEdges != 0))
 		{
 		Q3Memory_Free(&thePoints);
 		Q3Memory_Free(&theTriangles);
 		Q3Memory_Free(&theEdges);
 		
-		return(NULL);
+		return(nullptr);
 		}
 
 
@@ -522,13 +522,13 @@ e3geom_polyhedron_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, co
 	triMeshData.numTriangles              = geomData->numTriangles;
 	triMeshData.triangles                 = theTriangles;
 	triMeshData.numTriangleAttributeTypes = 0;
-	triMeshData.triangleAttributeTypes    = NULL;
+	triMeshData.triangleAttributeTypes    = nullptr;
 	triMeshData.numEdges                  = numEdges;
 	triMeshData.edges                     = theEdges;
 	triMeshData.numEdgeAttributeTypes     = 0;
-	triMeshData.edgeAttributeTypes        = NULL;
+	triMeshData.edgeAttributeTypes        = nullptr;
 	triMeshData.numVertexAttributeTypes   = 0;
-	triMeshData.vertexAttributeTypes      = NULL;
+	triMeshData.vertexAttributeTypes      = nullptr;
 	triMeshData.triMeshAttributeSet       = geomData->polyhedronAttributeSet;
 
 	Q3BoundingBox_SetFromPoints3D(&triMeshData.bBox, triMeshData.points, triMeshData.numPoints, sizeof(TQ3Point3D));
@@ -681,7 +681,7 @@ e3geom_polyhedron_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, co
 
 	// Create the TriMesh
 	theTriMesh = Q3TriMesh_New(&triMeshData);
-	if (theTriMesh != NULL)
+	if (theTriMesh != nullptr)
 		{
 		theOrientation = E3View_State_GetStyleOrientation(theView);
 		E3TriMesh_AddTriangleNormals(theTriMesh, theOrientation);
@@ -762,7 +762,7 @@ e3geom_polyhedron_get_attribute ( E3Polyhedron* polyhedron )
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3geom_polyhedron_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 

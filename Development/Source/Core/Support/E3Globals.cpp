@@ -60,11 +60,11 @@ E3Globals gE3Globals = {
 	kQ3False,				// systemInitialised
 	kQ3False,				// systemDoBottleneck
 	0,						// systemRefCount
-	0,						// classTree
-	0,						// classTreeRoot
+	nullptr,				// classTree
+	nullptr,				// classTreeRoot
 	0,						// classNextType
 	0,						// sharedLibraryCount
-	0,						// sharedLibraryInfo
+	nullptr,						// sharedLibraryInfo
 	kQ3False,				// errMgrClearError
 	kQ3False,				// errMgrClearWarning
 	kQ3False,				// errMgrClearNotice
@@ -78,10 +78,10 @@ E3Globals gE3Globals = {
 	kQ3WarningNone,			// errMgrLatestWarning
 	kQ3NoticeNone,			// errMgrLatestNotice
 	0,						// errMgrLatestPlatform
-	0,						// errMgrHandlerFuncError
-	0,						// errMgrHandlerFuncWarning
-	0,						// errMgrHandlerFuncNotice
-	0,						// errMgrHandlerFuncPlatform
+	nullptr,				// errMgrHandlerFuncError
+	nullptr,				// errMgrHandlerFuncWarning
+	nullptr,				// errMgrHandlerFuncNotice
+	nullptr,				// errMgrHandlerFuncPlatform
 	0,						// errMgrHandlerDataError
 	0,						// errMgrHandlerDataWarning
 	0,						// errMgrHandlerDataNotice
@@ -97,7 +97,7 @@ E3Globals gE3Globals = {
 #endif
 
 #if Q3_DEBUG
-	NULL,					// listHead
+	nullptr,					// listHead
 	kQ3False				// isLeakChecking
 #endif
 };

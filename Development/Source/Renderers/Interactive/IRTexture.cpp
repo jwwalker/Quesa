@@ -199,7 +199,7 @@ ir_texture_convert_rave_filter(TQ3ViewObject theView)
 	// Grab the RAVE filter value
 	raveFilter = kQATextureFilter_Mid;
 	Q3View_GetRenderer(theView, &theRenderer);
-	if (theRenderer != NULL)
+	if (theRenderer != nullptr)
 		{
 		Q3InteractiveRenderer_GetRAVETextureFilter(theRenderer, &raveFilter);
 		Q3Object_Dispose(theRenderer);
@@ -337,13 +337,13 @@ ir_texture_cache_add(
 							TQ3TextureObject		theTexture,
 							TQ3ViewObject			theView )
 {
-	TQ3CachedTexturePtr	cacheRec = NULL;
+	TQ3CachedTexturePtr	cacheRec = nullptr;
 	
 	TQ3Boolean	convertAlpha = kQ3False;
 	CQ3ObjectRef	theRenderer( CQ3View_GetRenderer( theView ) );
 	Q3Object_GetProperty( theRenderer.get(),
 		kQ3RendererPropertyConvertToPremultipliedAlpha,
-		sizeof(convertAlpha), NULL, &convertAlpha );
+		sizeof(convertAlpha), nullptr, &convertAlpha );
 	
 	GLuint				textureName = GLTextureLoader( theTexture, convertAlpha );
 
@@ -367,7 +367,7 @@ ir_texture_cache_add(
 static void
 ir_texture_flush_cache(TQ3InteractiveData *instanceData )
 {
-	if (instanceData->glContext != NULL)
+	if (instanceData->glContext != nullptr)
 		{
 		GLDrawContext_SetCurrent(instanceData->glContext, kQ3False);
 	
@@ -437,7 +437,7 @@ IRRenderer_Texture_Set(TQ3ViewObject					theView,
 
 
 	// If we don't have a texture, disable texture mapping
-	instanceData->stateTextureActive = (TQ3Boolean) (theTexture != NULL);
+	instanceData->stateTextureActive = (TQ3Boolean) (theTexture != nullptr);
 	if (!instanceData->stateTextureActive)
 		{
 		// Reset our state
@@ -462,7 +462,7 @@ IRRenderer_Texture_Set(TQ3ViewObject					theView,
 		qd3dStatus = kQ3Success;
 		cachedTexture = GLTextureMgr_FindCachedTexture( instanceData->textureCache,
 				theTexture );
-		if (cachedTexture == NULL)
+		if (cachedTexture == nullptr)
 			{
 			cachedTexture = ir_texture_cache_add(instanceData, theTexture, theView);
 			}
@@ -526,6 +526,6 @@ IRRenderer_Texture_Postamble(TQ3ViewObject			theView,
 	if (couldTexture)
 		{
 		if (hadAttributeTexture)
-			IRRenderer_Update_Shader_Surface(theView, instanceData, NULL);
+			IRRenderer_Update_Shader_Surface(theView, instanceData, nullptr);
 		}
 }

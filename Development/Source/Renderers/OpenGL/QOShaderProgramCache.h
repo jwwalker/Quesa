@@ -180,7 +180,7 @@ public:
 	/*!
 		@function			FindProgram
 		@abstract			Look for a previously cached program by characteristic.
-							(The result may be NULL.)
+							(The result may be nullptr.)
 	*/
 	const ProgramRec*		FindProgram( const ProgramCharacteristic& inChar ) const;
 

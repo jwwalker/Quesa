@@ -88,7 +88,7 @@ void		E3CloseLog();
 #if Q3_DEBUG
 	#define Q3_VALID_PTR(_thePtr)				E3IsValidPtr((void *) (_thePtr))
 #else
-	#define Q3_VALID_PTR(_thePtr)				(_thePtr != NULL)
+	#define Q3_VALID_PTR(_thePtr)				(_thePtr != nullptr)
 #endif
 
 

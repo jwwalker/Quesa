@@ -97,17 +97,17 @@ e3geom_ellipsoid_copydata(const TQ3EllipsoidData *src, TQ3EllipsoidData *dst, TQ
 	// copy or shared-replace the attributes
 	if (isDuplicate)
 	{
-		if (src->interiorAttributeSet != NULL)
+		if (src->interiorAttributeSet != nullptr)
 		{
 			dst->interiorAttributeSet = Q3Object_Duplicate(src->interiorAttributeSet);
-			if (dst->interiorAttributeSet == NULL) qd3dStatus = kQ3Failure;
-		} else dst->interiorAttributeSet = NULL;
+			if (dst->interiorAttributeSet == nullptr) qd3dStatus = kQ3Failure;
+		} else dst->interiorAttributeSet = nullptr;
 
-		if (src->ellipsoidAttributeSet != NULL)
+		if (src->ellipsoidAttributeSet != nullptr)
 		{
 			dst->ellipsoidAttributeSet = Q3Object_Duplicate(src->ellipsoidAttributeSet);
-			if (dst->ellipsoidAttributeSet == NULL) qd3dStatus = kQ3Failure;
-		} else dst->ellipsoidAttributeSet = NULL;
+			if (dst->ellipsoidAttributeSet == nullptr) qd3dStatus = kQ3Failure;
+		} else dst->ellipsoidAttributeSet = nullptr;
 	}
 	else {
 		E3Shared_Replace(&dst->interiorAttributeSet, src->interiorAttributeSet);
@@ -566,12 +566,12 @@ e3geom_ellipsoid_create_caps(
 	
 	TQ3TriMeshAttributeData	vertAtts[] =
 	{
-		{ kQ3AttributeTypeNormal, &vertNormals[0], NULL },
-		{ kQ3AttributeTypeSurfaceUV, &uvs[0], NULL }
+		{ kQ3AttributeTypeNormal, &vertNormals[0], nullptr },
+		{ kQ3AttributeTypeSurfaceUV, &uvs[0], nullptr }
 	};
 	TQ3TriMeshAttributeData faceAtts[] =
 	{
-		{ kQ3AttributeTypeNormal, &faceNormals[0], NULL },
+		{ kQ3AttributeTypeNormal, &faceNormals[0], nullptr },
 	};
 	TQ3TriMeshData	tmData =
 	{
@@ -581,9 +581,9 @@ e3geom_ellipsoid_create_caps(
 		sizeof(faceAtts)/sizeof(faceAtts[0]),	// numTriangleAttributeTypes
 		faceAtts,								// triangleAttributeTypes
 		0,										// numEdges
-		NULL,									// edges
+		nullptr,									// edges
 		0,										// numEdgeAttributeTypes,
-		NULL,									// edgeAttributeTypes
+		nullptr,									// edgeAttributeTypes
 		static_cast<TQ3Uns32>(points.size()),	// numPoints
 		&points[0],								// points
 		sizeof(vertAtts)/sizeof(vertAtts[0]),	// numVertexAttributeTypes
@@ -810,7 +810,7 @@ e3geom_ellipsoid_create_face( const TQ3EllipsoidData& geomData,
 	
 	
 	// Compute face normals
-	Q3Triangle_CrossProductArray( numTriangles, NULL,
+	Q3Triangle_CrossProductArray( numTriangles, nullptr,
 		&triangles[0].pointIndices[0], &points[0], &faceNormals[0] );
 
 
@@ -818,15 +818,15 @@ e3geom_ellipsoid_create_face( const TQ3EllipsoidData& geomData,
 	// set up remaining trimesh data
 	TQ3TriMeshAttributeData vertexAttributes[2] =
 	{
-		{ kQ3AttributeTypeNormal, &normals[0], NULL },
-		{ kQ3AttributeTypeSurfaceUV, &uvs[0], NULL }
+		{ kQ3AttributeTypeNormal, &normals[0], nullptr },
+		{ kQ3AttributeTypeSurfaceUV, &uvs[0], nullptr }
 	};
 	TQ3TriMeshAttributeData	faceAttributes[1] =
 	{
-		{ kQ3AttributeTypeNormal, &faceNormals[0], NULL },
+		{ kQ3AttributeTypeNormal, &faceNormals[0], nullptr },
 	};
 
-	triMeshData.triMeshAttributeSet		= NULL;
+	triMeshData.triMeshAttributeSet		= nullptr;
 	triMeshData.numPoints                 = numPoints;
 	triMeshData.points                    = &points[0];
 	triMeshData.numTriangles              = numTriangles;
@@ -834,9 +834,9 @@ e3geom_ellipsoid_create_face( const TQ3EllipsoidData& geomData,
 	triMeshData.numTriangleAttributeTypes = 1;
 	triMeshData.triangleAttributeTypes    = faceAttributes;
 	triMeshData.numEdges                  = 0;
-	triMeshData.edges                     = NULL;
+	triMeshData.edges                     = nullptr;
 	triMeshData.numEdgeAttributeTypes     = 0;
-	triMeshData.edgeAttributeTypes        = NULL;
+	triMeshData.edgeAttributeTypes        = nullptr;
 	triMeshData.numVertexAttributeTypes   = 2;
 	triMeshData.vertexAttributeTypes      = vertexAttributes;
 
@@ -865,7 +865,7 @@ e3geom_ellipsoid_cache_new( TQ3ViewObject theView, TQ3GeometryObject theGeom,
 		&geomData->minorRadius ))
 	{
 		E3ErrorManager_PostError( kQ3ErrorDegenerateGeometry, kQ3False );
-		return NULL;
+		return nullptr;
 	}
 	
 	
@@ -882,7 +882,7 @@ e3geom_ellipsoid_cache_new( TQ3ViewObject theView, TQ3GeometryObject theGeom,
 		(E3Float_Abs( vMin - vMax ) <= kQ3RealZero) )
 	{
 		E3ErrorManager_PostError( kQ3ErrorDegenerateGeometry, kQ3False );
-		return NULL;
+		return nullptr;
 	}
 	//   Do not allow vMin to be greater than vMax.
 	if (vMin > vMax)
@@ -917,7 +917,7 @@ e3geom_ellipsoid_cache_new( TQ3ViewObject theView, TQ3GeometryObject theGeom,
 	// necessary to do this, instead of putting it in the main TriMesh, so
 	// that these attributes can be inherited by caps even if there is also
 	// an interiorAttributeSet.
-	if (geomData->ellipsoidAttributeSet != NULL)
+	if (geomData->ellipsoidAttributeSet != nullptr)
 	{
 		Q3Group_AddObject( resultGroup.get(), geomData->ellipsoidAttributeSet );
 	}
@@ -1033,7 +1033,7 @@ e3geom_ellipsoid_get_attribute ( E3Ellipsoid* ellipsoid )
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3geom_ellipsoid_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -1118,7 +1118,7 @@ E3Ellipsoid_New(const TQ3EllipsoidData *ellipsoidData)
 {	TQ3Object		theObject;
 
 
-	if (ellipsoidData == NULL)
+	if (ellipsoidData == nullptr)
 	{
 		TQ3EllipsoidData	defaultData = {
 			{ 0.0f, 0.0f, 0.0f },
@@ -1127,7 +1127,7 @@ E3Ellipsoid_New(const TQ3EllipsoidData *ellipsoidData)
 			{ 0.0f, 0.0f, 1.0f },
 			0.0f, 1.0f, 0.0f, 1.0f,
 			kQ3EndCapNone,
-			NULL, NULL
+			nullptr, nullptr
 		};
 		theObject = E3ClassTree::CreateInstance ( kQ3GeometryTypeEllipsoid, kQ3False, &defaultData ) ;
 	}
@@ -1198,8 +1198,8 @@ E3Ellipsoid_GetData(TQ3GeometryObject theEllipsoid, TQ3EllipsoidData *ellipsoidD
 	E3Ellipsoid* ellipsoid = (E3Ellipsoid*) theEllipsoid ;
 
 	// Copy the data out of the Ellipsoid
-	ellipsoidData->interiorAttributeSet = NULL ;
-	ellipsoidData->ellipsoidAttributeSet = NULL ;
+	ellipsoidData->interiorAttributeSet = nullptr ;
+	ellipsoidData->ellipsoidAttributeSet = nullptr ;
 	return e3geom_ellipsoid_copydata ( & ellipsoid->instanceData, ellipsoidData, kQ3False ) ;
 	}
 

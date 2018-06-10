@@ -205,7 +205,7 @@ e3renderer_add_methods(TQ3RendererObject theRenderer)
 	// Add the matrix methods
 	TQ3XRendererUpdateMatrixMetaHandlerMethod matrixMeta = (TQ3XRendererUpdateMatrixMetaHandlerMethod)
 					theClass->GetMethod ( kQ3XMethodTypeRendererUpdateMatrixMetaHandler ) ;
-	if ( matrixMeta != NULL )
+	if ( matrixMeta != nullptr )
 		{
 		numMethods = sizeof ( matrixMethods ) / sizeof ( TQ3ObjectType ) ;
 		for ( n = 0 ; n < numMethods ; ++n )
@@ -220,7 +220,7 @@ e3renderer_add_methods(TQ3RendererObject theRenderer)
 	// Add the geometry methods
 	TQ3XRendererSubmitGeometryMetaHandlerMethod geomMeta = (TQ3XRendererSubmitGeometryMetaHandlerMethod)
 					theClass->GetMethod ( kQ3XMethodTypeRendererSubmitGeometryMetaHandler ) ;
-	if ( geomMeta != NULL )
+	if ( geomMeta != nullptr )
 		{
 		numMethods = sizeof ( geomMethods ) / sizeof ( TQ3ObjectType ) ;
 		for ( n = 0 ; n < numMethods ; ++n )
@@ -235,7 +235,7 @@ e3renderer_add_methods(TQ3RendererObject theRenderer)
 	// Add the attribute methods
 	TQ3XRendererUpdateAttributeMetaHandlerMethod attributeMeta = (TQ3XRendererUpdateAttributeMetaHandlerMethod)
 					theClass->GetMethod ( kQ3XMethodTypeRendererUpdateAttributeMetaHandler ) ;
-	if ( attributeMeta != NULL )
+	if ( attributeMeta != nullptr )
 		{
 		numMethods = sizeof ( attributeMethods ) / sizeof ( TQ3ObjectType ) ;
 		for ( n = 0 ; n < numMethods ; ++n )
@@ -250,7 +250,7 @@ e3renderer_add_methods(TQ3RendererObject theRenderer)
 	// Add the shader methods
 	TQ3XRendererUpdateShaderMetaHandlerMethod shaderMeta = (TQ3XRendererUpdateShaderMetaHandlerMethod)
 					theClass->GetMethod ( kQ3XMethodTypeRendererUpdateShaderMetaHandler ) ;
-	if ( shaderMeta != NULL )
+	if ( shaderMeta != nullptr )
 		{
 		numMethods = sizeof ( shaderMethods ) / sizeof ( TQ3ObjectType ) ;
 		for ( n = 0 ; n < numMethods ; ++n )
@@ -265,7 +265,7 @@ e3renderer_add_methods(TQ3RendererObject theRenderer)
 	// Add the style methods
 	TQ3XRendererUpdateStyleMetaHandlerMethod styleMeta = (TQ3XRendererUpdateStyleMetaHandlerMethod)
 					theClass->GetMethod ( kQ3XMethodTypeRendererUpdateStyleMetaHandler ) ;
-	if ( styleMeta != NULL )
+	if ( styleMeta != nullptr )
 		{
 		numMethods = sizeof ( styleMethods ) / sizeof ( TQ3ObjectType ) ;
 		for ( n = 0 ; n < numMethods ; ++n )
@@ -291,12 +291,12 @@ E3Renderer_RegisterClass(void)
 	{
 	// Register the renderer classes
 	TQ3Status qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameRenderer,
-												NULL,
+												nullptr,
 												E3Renderer ) ;
 
 	if ( qd3dStatus != kQ3Failure )
 		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameAttributeCSGID,
-											NULL,
+											nullptr,
 											E3CSGAttribute ) ;
 
 	return qd3dStatus ;
@@ -333,7 +333,7 @@ E3Renderer_UnregisterClass(void)
 TQ3Boolean
 E3Renderer_IsOfMyClass ( TQ3Object object )
 	{
-	if ( object == NULL )
+	if ( object == nullptr )
 		return kQ3False ;
 		
 	if ( object->IsObjectValid () )
@@ -355,14 +355,14 @@ E3Renderer_Method_StartFrame(TQ3ViewObject theView, TQ3DrawContextObject theDraw
 	E3Renderer* theRenderer = (E3Renderer*) E3View_AccessRenderer ( theView ) ;
 
 	// No-op if no renderer set
-	if ( theRenderer == NULL )
+	if ( theRenderer == nullptr )
 		return kQ3Success ;
 
 
 
 	// Find the method, if implemented
 	TQ3XRendererStartFrameMethod startFrame = (TQ3XRendererStartFrameMethod) theRenderer->GetMethod ( kQ3XMethodTypeRendererStartFrame ) ;
-	if ( startFrame == NULL )
+	if ( startFrame == nullptr )
 		return kQ3Success ;
 
 
@@ -411,14 +411,14 @@ E3Renderer_Method_StartPass(TQ3ViewObject theView, TQ3CameraObject theCamera, TQ
 	E3Renderer* theRenderer = (E3Renderer*) E3View_AccessRenderer ( theView ) ;
 
 	// No-op if no renderer set
-	if ( theRenderer == NULL )
+	if ( theRenderer == nullptr )
 		return kQ3Success ;
 
 
 
 	// Find the method, if implemented
 	TQ3XRendererStartPassMethod startPass = (TQ3XRendererStartPassMethod) theRenderer->GetMethod ( kQ3XMethodTypeRendererStartPass ) ;
-	if ( startPass == NULL )
+	if ( startPass == nullptr )
 		return kQ3Success ;
 
 
@@ -440,14 +440,14 @@ E3Renderer_Method_EndPass(TQ3ViewObject theView)
 	E3Renderer* theRenderer = (E3Renderer*) E3View_AccessRenderer ( theView ) ;
 
 	// No-op if no renderer set
-	if ( theRenderer == NULL )
+	if ( theRenderer == nullptr )
 		return kQ3ViewStatusDone ;
 
 
 
 	// Find the method, if implemented
 	TQ3XRendererEndPassMethod endPass = (TQ3XRendererEndPassMethod) theRenderer->GetMethod ( kQ3XMethodTypeRendererEndPass ) ;
-	if ( endPass == NULL )
+	if ( endPass == nullptr )
 		return kQ3ViewStatusDone ;
 
 
@@ -469,14 +469,14 @@ E3Renderer_Method_FlushFrame(TQ3ViewObject theView, TQ3DrawContextObject theDraw
 	TQ3RendererObject theRenderer = E3View_AccessRenderer ( theView ) ;
 
 	// No-op if no renderer set
-	if ( theRenderer == NULL )
+	if ( theRenderer == nullptr )
 		return kQ3Success ;
 
 
 
 	// Find the method, if implemented
 	TQ3XRendererFlushFrameMethod flushFrame = (TQ3XRendererFlushFrameMethod) theRenderer->GetMethod ( kQ3XMethodTypeRendererFlushFrame ) ;
-	if ( flushFrame == NULL )
+	if ( flushFrame == nullptr )
 		return kQ3Failure ;
 
 
@@ -497,14 +497,14 @@ E3Renderer_Method_EndFrame(TQ3ViewObject theView, TQ3DrawContextObject theDrawCo
 	TQ3RendererObject theRenderer = E3View_AccessRenderer ( theView ) ;
 
 	// No-op if no renderer set
-	if ( theRenderer == NULL )
+	if ( theRenderer == nullptr )
 		return kQ3Success ;
 
 
 
 	// Find the method, if implemented
 	TQ3XRendererEndFrameMethod endFrame = (TQ3XRendererEndFrameMethod) theRenderer->GetMethod ( kQ3XMethodTypeRendererEndFrame ) ;
-	if ( endFrame == NULL )
+	if ( endFrame == nullptr )
 		return kQ3Success ;
 
 
@@ -526,7 +526,7 @@ E3Renderer_Method_IsBBoxVisible(TQ3ViewObject theView, const TQ3BoundingBox *the
 	TQ3RendererObject theRenderer = E3View_AccessRenderer ( theView ) ;
 
 	// No-op if no renderer set
-	if (theRenderer == NULL)
+	if (theRenderer == nullptr)
 		return(kQ3True);
 
 
@@ -534,7 +534,7 @@ E3Renderer_Method_IsBBoxVisible(TQ3ViewObject theView, const TQ3BoundingBox *the
 	// Find the method, if implemented
 	TQ3XRendererIsBoundingBoxVisibleMethod isBoundingBoxVisible = (TQ3XRendererIsBoundingBoxVisibleMethod)
 						theRenderer->GetMethod ( kQ3XMethodTypeRendererIsBoundingBoxVisible ) ;
-	if ( isBoundingBoxVisible == NULL )
+	if ( isBoundingBoxVisible == nullptr )
 		return kQ3True ;
 
 
@@ -564,7 +564,7 @@ E3Renderer_Method_UpdateMatrix(TQ3ViewObject			theView,
 
 	TQ3RendererObject theRenderer = E3View_AccessRenderer ( theView ) ;
 	// No-op if no renderer set
-	if ( theRenderer == NULL )
+	if ( theRenderer == nullptr )
 		return kQ3Success ;
 
 
@@ -586,16 +586,16 @@ E3Renderer_Method_UpdateMatrix(TQ3ViewObject			theView,
 		TQ3XRendererUpdateMatrixMethod updateLocalToWorldInvT =
 			E3View_AccessUpdateLocalToWorldInverseTranspose( theView );
 
-		if ((updateLocalToWorldInv != NULL) || (updateLocalToWorldInvT != NULL) )
+		if ((updateLocalToWorldInv != nullptr) || (updateLocalToWorldInvT != nullptr) )
 			Q3Matrix4x4_Invert(localToWorld, &worldToLocal);
 
-		if ( (qd3dStatus == kQ3Success) && (updateLocalToWorld != NULL) )
+		if ( (qd3dStatus == kQ3Success) && (updateLocalToWorld != nullptr) )
 			qd3dStatus = updateLocalToWorld(theView, instanceData, localToWorld);
 
-		if ( (qd3dStatus == kQ3Success) && (updateLocalToWorldInv != NULL) )
+		if ( (qd3dStatus == kQ3Success) && (updateLocalToWorldInv != nullptr) )
 			qd3dStatus = updateLocalToWorldInv(theView, instanceData, &worldToLocal);
 
-		if ( (qd3dStatus == kQ3Success) && (updateLocalToWorldInvT != NULL) )
+		if ( (qd3dStatus == kQ3Success) && (updateLocalToWorldInvT != nullptr) )
 		{
 			Q3Matrix4x4_Transpose(&worldToLocal, &tmpMatrix);
 			qd3dStatus = updateLocalToWorldInvT(theView, instanceData, &tmpMatrix);
@@ -609,7 +609,7 @@ E3Renderer_Method_UpdateMatrix(TQ3ViewObject			theView,
 		TQ3XRendererUpdateMatrixMethod updateWorldToCamera    =
 			(TQ3XRendererUpdateMatrixMethod) theClass->GetMethod( kQ3XMethodTypeRendererUpdateMatrixWorldToCamera ) ;
 
-		if ( (qd3dStatus == kQ3Success) && (updateWorldToCamera != NULL) )
+		if ( (qd3dStatus == kQ3Success) && (updateWorldToCamera != nullptr) )
 		{
 			qd3dStatus = updateWorldToCamera(theView, instanceData, worldToCamera);
 		}
@@ -622,7 +622,7 @@ E3Renderer_Method_UpdateMatrix(TQ3ViewObject			theView,
 		TQ3XRendererUpdateMatrixMethod updateCameraToFrustum  =
 			(TQ3XRendererUpdateMatrixMethod) theClass->GetMethod( kQ3XMethodTypeRendererUpdateMatrixCameraToFrustum ) ;
 
-		if ( (qd3dStatus == kQ3Success) && (updateCameraToFrustum != NULL) )
+		if ( (qd3dStatus == kQ3Success) && (updateCameraToFrustum != nullptr) )
 		{
 			qd3dStatus = updateCameraToFrustum( theView, instanceData, cameraToFrustum );
 		}
@@ -635,7 +635,7 @@ E3Renderer_Method_UpdateMatrix(TQ3ViewObject			theView,
 		TQ3XRendererUpdateMatrixMethod updateLocalToCamera    =
 			E3View_AccessUpdateLocalToCamera( theView );
 
-		if ( (qd3dStatus == kQ3Success) && (updateLocalToCamera != NULL) )
+		if ( (qd3dStatus == kQ3Success) && (updateLocalToCamera != nullptr) )
 		{
 			qd3dStatus = updateLocalToCamera( theView, instanceData, localToCamera );
 		}
@@ -649,7 +649,7 @@ E3Renderer_Method_UpdateMatrix(TQ3ViewObject			theView,
 		TQ3XRendererUpdateMatrixMethod updateLocalToFrustum   =
 			E3View_AccessUpdateLocalToFrustum( theView );
 
-		if ( (qd3dStatus == kQ3Success) && (updateLocalToFrustum != NULL) )
+		if ( (qd3dStatus == kQ3Success) && (updateLocalToFrustum != nullptr) )
 		{
 			Q3Matrix4x4_Multiply( localToCamera, cameraToFrustum, &tmpMatrix );
 			qd3dStatus = updateLocalToFrustum( theView, instanceData, &tmpMatrix );
@@ -663,7 +663,7 @@ E3Renderer_Method_UpdateMatrix(TQ3ViewObject			theView,
 		TQ3XRendererUpdateMatrixMethod updateWorldToFrustum   =
 			(TQ3XRendererUpdateMatrixMethod) theClass->GetMethod( kQ3XMethodTypeRendererUpdateMatrixWorldToFrustum ) ;
 
-		if ( (qd3dStatus == kQ3Success) && (updateWorldToFrustum != NULL) )
+		if ( (qd3dStatus == kQ3Success) && (updateWorldToFrustum != nullptr) )
 		{
 			Q3Matrix4x4_Multiply( worldToCamera, cameraToFrustum, &tmpMatrix );
 			qd3dStatus = updateWorldToFrustum( theView, instanceData, &tmpMatrix );
@@ -688,14 +688,14 @@ E3Renderer_Method_UpdateShader(TQ3ViewObject theView, TQ3ObjectType shaderType, 
 	TQ3RendererObject theRenderer = E3View_AccessRenderer ( theView ) ;
 
 	// No-op if no renderer set
-	if ( theRenderer == NULL )
+	if ( theRenderer == nullptr )
 		return kQ3Success ;
 
 
 
 	// Find the method, if implemented
 	TQ3XRendererUpdateShaderMethod updateMethod = (TQ3XRendererUpdateShaderMethod) theRenderer->GetMethod ( shaderType ) ;
-	if ( updateMethod == NULL )
+	if ( updateMethod == nullptr )
 		return kQ3Success ;
 
 
@@ -717,14 +717,14 @@ E3Renderer_Method_UpdateStyle(TQ3ViewObject theView, TQ3ObjectType styleType, co
 	TQ3RendererObject theRenderer = E3View_AccessRenderer ( theView ) ;
 
 	// No-op if no renderer set
-	if ( theRenderer == NULL )
+	if ( theRenderer == nullptr )
 		return kQ3Success ;
 
 
 
 	// Find the method, if implemented
 	TQ3XRendererUpdateStyleMethod updateMethod = (TQ3XRendererUpdateStyleMethod) theRenderer->GetMethod ( styleType ) ;
-	if ( updateMethod == NULL )
+	if ( updateMethod == nullptr )
 		return kQ3Success ;
 
 
@@ -746,14 +746,14 @@ E3Renderer_Method_UpdateAttribute(TQ3ViewObject theView, TQ3AttributeType attrib
 	TQ3RendererObject theRenderer = E3View_AccessRenderer ( theView ) ;
 
 	// No-op if no renderer set
-	if ( theRenderer == NULL )
+	if ( theRenderer == nullptr )
 		return kQ3Success ;
 
 
 
 	// Find the method, if implemented
 	TQ3XRendererUpdateAttributeMethod updateMethod = (TQ3XRendererUpdateAttributeMethod) theRenderer->GetMethod ( attributeType ) ;
-	if ( updateMethod == NULL )
+	if ( updateMethod == nullptr )
 		return kQ3Success ;
 
 
@@ -785,13 +785,13 @@ E3Renderer_Method_SubmitGeometry(TQ3ViewObject		theView,
 	TQ3RendererObject theRenderer = E3View_AccessRenderer ( theView ) ;
 
 	// No-op if no renderer set
-	if ( theRenderer == NULL )
+	if ( theRenderer == nullptr )
 		return kQ3Success ;
 
 
 
 	// Find the method
-	TQ3XRendererSubmitGeometryMethod submitGeom = NULL;
+	TQ3XRendererSubmitGeometryMethod submitGeom = nullptr;
 	if (geomType == kQ3GeometryTypeTriMesh)
 	{
 		submitGeom = E3View_AccessSubmitTriMeshMethod( theView );
@@ -800,7 +800,7 @@ E3Renderer_Method_SubmitGeometry(TQ3ViewObject		theView,
 	{
 		submitGeom = (TQ3XRendererSubmitGeometryMethod) theRenderer->GetMethod( geomType );
 	}
-	*geomSupported = (TQ3Boolean) ( submitGeom != NULL ) ;
+	*geomSupported = (TQ3Boolean) ( submitGeom != nullptr ) ;
 
 
 
@@ -810,7 +810,7 @@ E3Renderer_Method_SubmitGeometry(TQ3ViewObject		theView,
 		// (How do we do this in immediate mode?)
 		TQ3Boolean	hasSurfaceShader = kQ3False;
 		
-		if (theGeom != NULL)
+		if (theGeom != nullptr)
 		{
 			CQ3ObjectRef	attSet( CQ3Geometry_GetAttributeSet( theGeom ) );
 			if (attSet.isvalid())
@@ -849,17 +849,17 @@ TQ3RendererObject
 E3Renderer_NewFromType(TQ3ObjectType rendererObjectType)
 	{
 	// Create the object
-	TQ3Object theObject = E3ClassTree::CreateInstance ( rendererObjectType, kQ3False, NULL ) ;
+	TQ3Object theObject = E3ClassTree::CreateInstance ( rendererObjectType, kQ3False, nullptr ) ;
 
 
 
 	// If we've not yet cached this renderer's methods, do so now
-	if ( theObject != NULL )
+	if ( theObject != nullptr )
 		{
 		E3ClassInfoPtr theClass = theObject->GetClass () ;
-		if ( theClass != NULL )
+		if ( theClass != nullptr )
 			{
-			if ( theClass->GetMethod ( kQ3XMethodTypeRendererMethodsCached ) == NULL )
+			if ( theClass->GetMethod ( kQ3XMethodTypeRendererMethodsCached ) == nullptr )
 				e3renderer_add_methods ( theObject ) ;
 			}
 		}
@@ -892,7 +892,7 @@ TQ3Boolean
 E3Renderer_IsInteractive(TQ3RendererObject theRenderer)
 	{
 	// Return as the method is defined or not
-	return (TQ3Boolean) ( theRenderer->GetMethod ( kQ3XMethodTypeRendererIsInteractive ) != NULL ) ;
+	return (TQ3Boolean) ( theRenderer->GetMethod ( kQ3XMethodTypeRendererIsInteractive ) != nullptr ) ;
 	}
 
 
@@ -906,7 +906,7 @@ TQ3Boolean
 E3Renderer_HasModalConfigure(TQ3RendererObject theRenderer)
 	{
 	// Return as the method is defined or not
-	return (TQ3Boolean) ( theRenderer->GetMethod ( kQ3XMethodTypeRendererModalConfigure ) != NULL ) ;
+	return (TQ3Boolean) ( theRenderer->GetMethod ( kQ3XMethodTypeRendererModalConfigure ) != nullptr ) ;
 	}
 
 
@@ -922,7 +922,7 @@ E3Renderer_ModalConfigure(TQ3RendererObject theRenderer, TQ3DialogAnchor dialogA
 	// Find the method
 	TQ3XRendererModalConfigureMethod modalConfigure = (TQ3XRendererModalConfigureMethod)
 						theRenderer->GetMethod ( kQ3XMethodTypeRendererModalConfigure ) ;
-	if ( modalConfigure == NULL )
+	if ( modalConfigure == nullptr )
 		return kQ3Failure ;
 
 
@@ -948,12 +948,12 @@ E3RendererClass_GetNickNameString(TQ3ObjectType rendererClassType, TQ3ObjectClas
 
 	// Find the renderer class, and get the method
 	E3ClassInfoPtr rendererClass = E3ClassTree::GetClass ( rendererClassType ) ;
-	if ( rendererClass == NULL )
+	if ( rendererClass == nullptr )
 		return kQ3Failure ;
 
 	TQ3XRendererGetNickNameStringMethod nickNameMethod = (TQ3XRendererGetNickNameStringMethod)
 								rendererClass->GetMethod ( kQ3XMethodTypeRendererGetNickNameString ) ;
-	if ( nickNameMethod == NULL )
+	if ( nickNameMethod == nullptr )
 		return kQ3Failure ;
 
 
@@ -983,7 +983,7 @@ E3Renderer_GetConfigurationData(TQ3RendererObject theRenderer, unsigned char *da
 	// Find the method
 	TQ3XRendererGetConfigurationDataMethod getConfigData = (TQ3XRendererGetConfigurationDataMethod)
 						theRenderer->GetMethod ( kQ3XMethodTypeRendererGetConfigurationData ) ;
-	if ( getConfigData == NULL )
+	if ( getConfigData == nullptr )
 		return kQ3Failure ;
 
 
@@ -1009,7 +1009,7 @@ E3Renderer_SetConfigurationData(TQ3RendererObject theRenderer, unsigned char *da
 	// Find the method
 	TQ3XRendererSetConfigurationDataMethod setConfigData = (TQ3XRendererSetConfigurationDataMethod)
 						theRenderer->GetMethod ( kQ3XMethodTypeRendererSetConfigurationData ) ;
-	if ( setConfigData == NULL )
+	if ( setConfigData == nullptr )
 		return kQ3Failure ;
 
 
@@ -1229,7 +1229,7 @@ E3InteractiveRenderer_CountRAVEDrawContexts(TQ3RendererObject theRenderer, TQ3Un
 //=============================================================================
 //      E3InteractiveRenderer_GetRAVEDrawContexts : Get RAVE contexts.
 //-----------------------------------------------------------------------------
-//		Note : Quesa does not support RAVE, so we return NULL.
+//		Note : Quesa does not support RAVE, so we return nullptr.
 //-----------------------------------------------------------------------------
 TQ3Status
 E3InteractiveRenderer_GetRAVEDrawContexts(TQ3RendererObject theRenderer, TQADrawContext **raveDrawContextList, TQAEngine **raveDrawingEnginesList, TQ3Uns32 *numRAVEContexts, TQ3RaveDestroyCallback raveDestroyCallback)
@@ -1240,8 +1240,8 @@ E3InteractiveRenderer_GetRAVEDrawContexts(TQ3RendererObject theRenderer, TQADraw
 
 
 	// RAVE is not required for Quesa
-	*raveDrawContextList    = NULL ;
-	*raveDrawingEnginesList = NULL ;
+	*raveDrawContextList    = nullptr ;
+	*raveDrawingEnginesList = nullptr ;
 	*numRAVEContexts        = 0 ;
 
 	return kQ3Success ;

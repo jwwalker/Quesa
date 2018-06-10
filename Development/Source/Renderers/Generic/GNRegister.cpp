@@ -81,7 +81,7 @@
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 gngeneric_geom(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -195,7 +195,7 @@ gngeneric_nickname(unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3Uns32 *act
 
 
 	// If we have a buffer, return the nick name
-	if (dataBuffer != NULL)
+	if (dataBuffer != nullptr)
 		{
 		// Clamp the buffer size
 		if (bufferSize < *actualDataSize)
@@ -220,7 +220,7 @@ gngeneric_nickname(unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3Uns32 *act
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 gngeneric_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -287,11 +287,11 @@ GNRenderer_Register(void)
 														kQ3RendererTypeGeneric,
 														kRendererClassName,
 														gngeneric_metahandler,
-														NULL,
+														nullptr,
 														0,
 														0);
 
-	return(theClass == NULL ? kQ3Failure : kQ3Success);
+	return(theClass == nullptr ? kQ3Failure : kQ3Success);
 }
 
 
@@ -310,7 +310,7 @@ GNRenderer_Unregister(void)
 
 	// Find the renderer class
 	theClass = Q3XObjectHierarchy_FindClassByType(kQ3RendererTypeGeneric);
-	if (theClass == NULL)
+	if (theClass == nullptr)
 		return;
 
 

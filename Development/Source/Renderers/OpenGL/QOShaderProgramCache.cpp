@@ -132,7 +132,7 @@ QORenderer::ProgramCache*	QORenderer::ProgramCache::GetProgramCache(
 	QORenderer::ProgramCache* theCache = dynamic_cast<QORenderer::ProgramCache*>(
 		GLGPUSharing_GetCache( glContext, kGLSLProgramCache ) );
 	
-	if (theCache == NULL)
+	if (theCache == nullptr)
 	{
 		theCache = new QORenderer::ProgramCache;
 		
@@ -178,12 +178,12 @@ void	QORenderer::ProgramCache::SetVertexShaderID( GLuint inShaderID )
 /*!
 	@function			FindProgram
 	@abstract			Look for a previously cached program by characteristic.
-						(The result may be NULL.)
+						(The result may be nullptr.)
 */
 const QORenderer::ProgramRec*		QORenderer::ProgramCache::FindProgram(
 						const ProgramCharacteristic& inChar ) const
 {
-	const QORenderer::ProgramRec* foundProg = NULL;
+	const QORenderer::ProgramRec* foundProg = nullptr;
 	MatchProgram	matcher( inChar );
 	ProgramVec::const_iterator	foundIt = std::find_if( mPrograms.begin(),
 			mPrograms.end(), matcher );

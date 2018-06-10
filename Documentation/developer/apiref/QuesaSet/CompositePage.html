@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
     "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
-<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a[name]:hover {text-decoration: inherit; font-family: inherit; font-size: inherit}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
     <title>QuesaSet.h</title>
 	 <meta name="generator" content="HeaderDoc">
 </head><body bgcolor="#ffffff">
@@ -176,7 +176,7 @@ but any existing attributes in it will be removed.
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create an attribute set object.
 <br><br>
 </p>
-<dl><dt><i>function result</i></dt><dd>A new empty attribute set, or NULL on failure.
+<dl><dt><i>function result</i></dt><dd>A new empty attribute set, or nullptr on failure.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3AttributeSet_Submit"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3AttributeSet_Submit">Q3AttributeSet_Submit</a></h2>
@@ -418,7 +418,7 @@ Returns kQ3SetTypeAttribute or kQ3ObjectTypeInvalid.
 Plain sets are less commonly used than attribute sets.
 <br><br>
 </p>
-<dl><dt><i>function result</i></dt><dd>The new set object, or NULL on failure.
+<dl><dt><i>function result</i></dt><dd>The new set object, or nullptr on failure.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3XAttributeClass_Register"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XAttributeClass_Register">Q3XAttributeClass_Register</a></h2>
@@ -439,7 +439,7 @@ Plain sets are less commonly used than attribute sets.
 <dt><tt><em>className</em></tt></dt><dd>Unique name for the new attribute.</dd>
 <dt><tt><em>sizeOfElement</em></tt></dt><dd>Size in bytes of the attribute data.</dd>
 <dt><tt><em>metaHandler</em></tt></dt><dd>Your metahandler, providing appropriate methods.
-It may return NULL in some cases.</dd>
+It may return nullptr in some cases.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Pointer to the new class.
@@ -485,7 +485,7 @@ This function should only be called from renderer plug-ins.
 <dt><tt><em>attributeType</em></tt></dt><dd>The attribute type to locate.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>A pointer to the internal attribute data if present, or NULL.
+<dl><dt><i>function result</i></dt><dd>A pointer to the internal attribute data if present, or nullptr.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3XElementClass_Register"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XElementClass_Register">Q3XElementClass_Register</a></h2>
@@ -521,7 +521,7 @@ as <code>Q3XObjectHierarchy_UnregisterClass</code>.
 <dt><tt><em>name</em></tt></dt><dd>The unique name of the new class.</dd>
 <dt><tt><em>sizeOfElement</em></tt></dt><dd>Size of the data for the element.</dd>
 <dt><tt><em>metaHandler</em></tt></dt><dd>Your metahandler function that returns element methods.
-You may return NULL for some methods.</dd>
+You may return nullptr for some methods.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Opaque pointer to the new object class.
@@ -761,7 +761,7 @@ typedef enum TQ3AttributeTypes {
     kQ3AttributeTypeSurfaceShader               = 11,           // TQ3SurfaceShaderObject
     kQ3AttributeTypeEmissiveColor               = 12,           // TQ3ColorRGB
     kQ3AttributeTypeNumTypes                    = 13,           // N/A
-    kQ3AttributeTypeSize32                      = 0xFFFFFFFF
+    kQ3AttributeTypeSize32                      = 0x7FFFFFFF
 } TQ3AttributeTypes;
 </pre>
 </blockquote>
@@ -827,7 +827,7 @@ enum {
                                                   kQ3XAttributeMaskTransparencyColor  |
                                                   kQ3XAttributeMaskEmissiveColor      |
                                                   kQ3XAttributeMaskSurfaceTangent,
-    kQ3XAttributeMaskSize32                     = 0xFFFFFFFF
+    kQ3XAttributeMaskSize32                     = 0x7FFFFFFF
 };
 </pre>
 </blockquote>
@@ -856,5 +856,5 @@ enum {
 <dt><a name="//Quesa/c/econst/kQ3XAttributeMaskInterpolated"><tt>kQ3XAttributeMaskInterpolated</tt></a></dt><dd>Interpolated attributes mask.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2011 Quesa Developers (Last Updated 3/13/2011)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
 </p></body></html>

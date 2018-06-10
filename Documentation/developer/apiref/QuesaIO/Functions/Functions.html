@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
     "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
-<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a[name]:hover {text-decoration: inherit; font-family: inherit; font-size: inherit}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
     <title>Functions</title>
 	 <meta name="generator" content="HeaderDoc">
 </head><body bgcolor="#ffffff">
@@ -500,7 +500,7 @@ Configuration data should be saved by the application in a manner appropriate
 for the current platform (e.g., the Registry on Windows or a .plist file on
 the Mac), tagging it with the file format's type for later identification.
 <br><br>
-If dataBuffer is NULL, the size of data required to store the configuration
+If dataBuffer is nullptr, the size of data required to store the configuration
 data will be returned in actualDataSize.
 <br><br>
 Otherwise bufferSize should be set to the number of bytes pointed to by
@@ -514,7 +514,7 @@ dataBuffer.
 <blockquote>
 <dl>
 <dt><tt><em>format</em></tt></dt><dd>The file format to query.</dd>
-<dt><tt><em>dataBuffer</em></tt></dt><dd>Receives the file format configuration data. May be NULL.</dd>
+<dt><tt><em>dataBuffer</em></tt></dt><dd>Receives the file format configuration data. May be nullptr.</dd>
 <dt><tt><em>bufferSize</em></tt></dt><dd>The number of bytes pointed to by dataBuffer. May be 0.</dd>
 <dt><tt><em>actualDataSize</em></tt></dt><dd>Receives the number of bytes required for, or written to, dataBuffer.</dd>
 </dl>
@@ -942,7 +942,7 @@ with it, and must not already be open.
 <dt><tt><em>theFile</em></tt></dt><dd>The file object.</dd>
 <dt><tt><em>mode</em></tt></dt><dd>Receives a combination of TQ3FileModeMasks values if the file is a 3DMF file,
 otherway it receives the choosed file format signature.
-Pass NULL if you don't need this information.</dd>
+Pass nullptr if you don't need this information.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -959,7 +959,13 @@ Pass NULL if you don't need this information.</dd>
 The file object must have a storage object associated with it,
 and must not already be open.
 <br><br>
-Currently, Quesa ignores the mode parameter and writes in binary stream mode.
+Currently, Quesa cannot actually write in text, database, or stream
+format.  The only implemented file modes are kQ3FileModeNormal and
+kQ3FileModeNormal + kQ3FileModeSwap.  The non-swapped mode may be
+slightly more efficient.  However, if you are running on little-endian
+hardware and want your 3DMF output to be compatible with programs that
+do not use Quesa, it would be advisable to write big-endian 3DMF by
+using the mode kQ3FileModeNormal + kQ3FileModeSwap.
 <br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
@@ -989,7 +995,7 @@ the typical usage of this function and any special requirements.
 <dt><tt><em>theFile</em></tt></dt><dd>The file object.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>The new object, or NULL on failure.
+<dl><dt><i>function result</i></dt><dd>The new object, or nullptr on failure.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3File_SetIdleMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3File_SetIdleMethod">Q3File_SetIdleMethod</a></h2>
@@ -1625,12 +1631,12 @@ Note that the length parameter is an output-only parameter.  That is,
 this function does not know the size of your buffer, it simply
 assumes that you have allocated <code>kQ3StringMaximumLength</code> bytes.
 <br><br>
-If you pass NULL for the buffer, <code>Q3String_Read</code> will still
+If you pass nullptr for the buffer, <code>Q3String_Read</code> will still
 find the length of the string, but will leave the file object's position
 at the beginning of the string.
 <br><br>
 If it reads a string of length at least <code>kQ3StringMaximumLength</code>,
-and you have passed a non-NULL buffer, then Quesa will post the warning
+and you have passed a non-nullptr buffer, then Quesa will post the warning
 <code>kQ3WarningStringExceedsMaximumLength</code>.
 <br><br>
 </p>
@@ -1638,7 +1644,7 @@ and you have passed a non-NULL buffer, then Quesa will post the warning
 <blockquote>
 <dl>
 <dt><tt><em>data</em></tt></dt><dd>Buffer to receive string data, of size
-<code>kQ3StringMaximumLength</code>, or NULL.</dd>
+<code>kQ3StringMaximumLength</code>, or nullptr.</dd>
 <dt><tt><em>length</em></tt></dt><dd>Receives length in bytes of string data that was read,
 not including the terminating NUL character.</dd>
 <dt><tt><em>theFile</em></tt></dt><dd>A file object.</dd>
@@ -1660,19 +1666,19 @@ Unlike the QD3D function <code>Q3String_Read</code>, this function is not
 limited to reading at most <code>kQ3StringMaximumLength</code> bytes. Note that
 the length parameter is an input-output parameter.
 <br><br>
-If you pass NULL for the buffer, <code>Q3String_ReadUnlimited</code> will still
+If you pass nullptr for the buffer, <code>Q3String_ReadUnlimited</code> will still
 find the length of the string, but will leave the file object's position
 at the beginning of the string.  Therefore, you can read a string of
 unknown size as follows:
 <br><br>
 <blockquote><pre><code>
-Q3String_Read( NULL, &stringSize, theFile );
+Q3String_Read( nullptr, &stringSize, theFile );
 stringSize += 1;	// make room for terminal NUL byte
 buffer = Q3Memory_Allocate( stringSize );
 Q3String_Read( buffer, &stringSize, theFile );
 </code></pre></blockquote>
 <br><br>
-If you passed a non-NULL buffer that was not big enough for the whole string,
+If you passed a non-nullptr buffer that was not big enough for the whole string,
 Quesa posts <code>kQ3WarningStringExceedsMaximumLength</code>.
 <br><br>
 <em>This function is not available in QD3D.</em>
@@ -1681,7 +1687,7 @@ Quesa posts <code>kQ3WarningStringExceedsMaximumLength</code>.
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
 <dl>
-<dt><tt><em>data</em></tt></dt><dd>Buffer to receive string data, or NULL.</dd>
+<dt><tt><em>data</em></tt></dt><dd>Buffer to receive string data, or nullptr.</dd>
 <dt><tt><em>ioLength</em></tt></dt><dd>Pass the size of your buffer.  Receives the number of
 bytes of string data found in the file, not including
 the terminal NUL byte, even if it did not all fit in the
@@ -2763,5 +2769,5 @@ Note that the result is a TQ3ViewStatus, not a TQ3Status.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
-<p><p>&#169; 1999-2011 Quesa Developers (Last Updated 3/13/2011)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
 </p></body></html>

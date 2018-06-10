@@ -75,7 +75,7 @@ E3ErrorManager_PostError(TQ3Error theError, TQ3Boolean isFatal)
 
 
 	// Call the handler
-	if (theGlobals->errMgrHandlerFuncError != NULL)
+	if (theGlobals->errMgrHandlerFuncError != nullptr)
 		theGlobals->errMgrHandlerFuncError(theGlobals->errMgrOldestError,
 										   theGlobals->errMgrLatestError,
 										   theGlobals->errMgrHandlerDataError);
@@ -103,7 +103,7 @@ E3ErrorManager_PostWarning(TQ3Warning theWarning)
 
 
 	// Call the handler
-	if (theGlobals->errMgrHandlerFuncWarning != NULL)
+	if (theGlobals->errMgrHandlerFuncWarning != nullptr)
 		theGlobals->errMgrHandlerFuncWarning(theGlobals->errMgrOldestWarning,
 											 theGlobals->errMgrLatestWarning,
 											 theGlobals->errMgrHandlerDataWarning);
@@ -132,7 +132,7 @@ E3ErrorManager_PostNotice(TQ3Notice theNotice)
 
 	// Call the handler in debug builds (notices are not posted in release builds)
 	#if Q3_DEBUG
-	if (theGlobals->errMgrHandlerFuncNotice != NULL)
+	if (theGlobals->errMgrHandlerFuncNotice != nullptr)
 		theGlobals->errMgrHandlerFuncNotice(theGlobals->errMgrOldestNotice,
 											theGlobals->errMgrLatestNotice,
 											theGlobals->errMgrHandlerDataNotice);
@@ -170,7 +170,7 @@ E3ErrorManager_PostPlatformError(TQ3Uns32 theError)
 	// we post the error directly to a platform handler if it's registered.
 	// When this API is made public, apps will be able to listen directly
 	// to platform specific errors.
-	if (theGlobals->errMgrHandlerFuncPlatform != NULL)
+	if (theGlobals->errMgrHandlerFuncPlatform != nullptr)
 		theGlobals->errMgrHandlerFuncPlatform((TQ3Error) theGlobals->errMgrOldestPlatform,
 											  (TQ3Error) theGlobals->errMgrLatestPlatform,
 											  theGlobals->errMgrHandlerDataPlatform);
@@ -231,10 +231,10 @@ E3ErrorManager_GetError(TQ3Error *oldestError, TQ3Error *latestError)
 
 
 	// Return the requested state
-	if (oldestError != NULL)
+	if (oldestError != nullptr)
 		*oldestError = theGlobals->errMgrOldestError;
 
-	if (latestError != NULL)
+	if (latestError != nullptr)
 		*latestError = theGlobals->errMgrLatestError;
 
 
@@ -260,10 +260,10 @@ E3ErrorManager_GetWarning(TQ3Warning *oldestWarning, TQ3Warning *latestWarning)
 
 
 	// Return the requested state
-	if (oldestWarning != NULL)
+	if (oldestWarning != nullptr)
 		*oldestWarning = theGlobals->errMgrOldestWarning;
 
-	if (latestWarning != NULL)
+	if (latestWarning != nullptr)
 		*latestWarning = theGlobals->errMgrLatestWarning;
 
 
@@ -289,10 +289,10 @@ E3ErrorManager_GetNotice(TQ3Notice *oldestNotice, TQ3Notice *latestNotice)
 
 
 	// Return the requested state
-	if (oldestNotice != NULL)
+	if (oldestNotice != nullptr)
 		*oldestNotice = theGlobals->errMgrOldestNotice;
 
-	if (latestNotice != NULL)
+	if (latestNotice != nullptr)
 		*latestNotice = theGlobals->errMgrLatestNotice;
 
 
@@ -318,10 +318,10 @@ E3ErrorManager_GetPlatformError(TQ3Uns32 *oldestPlatform, TQ3Uns32 *latestPlatfo
 
 
 	// Return the requested state
-	if (oldestPlatform != NULL)
+	if (oldestPlatform != nullptr)
 		*oldestPlatform = theGlobals->errMgrOldestPlatform;
 
-	if (latestPlatform != NULL)
+	if (latestPlatform != nullptr)
 		*latestPlatform = theGlobals->errMgrLatestPlatform;
 
 

@@ -111,7 +111,7 @@ private :
 								_Name,														\
 								_metaHandler,												\
 								sizeof ( _instanceClass ),									\
-								sizeof ( ((_instanceClass*)0)->instanceData ),				\
+								sizeof ( ((_instanceClass*)nullptr)->instanceData ),				\
 								Q3_OFFSETOF( _instanceClass, instanceData )					\
 								)
 
@@ -124,7 +124,7 @@ private :
 								_Name,														\
 								_metaHandler,												\
 								sizeof ( _instanceClass ),									\
-								sizeof ( ((_instanceClass*)0)->_memberName ),				\
+								sizeof ( ((_instanceClass*)nullptr)->_memberName ),				\
 								Q3_OFFSETOF( _instanceClass, _memberName )					\
 								)
 
@@ -277,7 +277,7 @@ public :
 	// Locate a class
 	inline E3ClassInfoPtr		GetClass ( void ) const
 											{
-												Q3_ASSERT( this != NULL );
+												Q3_ASSERT( this != nullptr );
 												return theClass;
 											}
 								

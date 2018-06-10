@@ -373,8 +373,8 @@ ir_geom_transparent_add(TQ3ViewObject				theView,
 
 
 	// Allocate another primitive
-	thePrim = (TQ3TransparentPrim *) Q3SlabMemory_AppendData(instanceData->transBufferSlab, 1, NULL);
-	if (thePrim == NULL)
+	thePrim = (TQ3TransparentPrim *) Q3SlabMemory_AppendData(instanceData->transBufferSlab, 1, nullptr);
+	if (thePrim == nullptr)
 		return(kQ3Failure);
 
 
@@ -539,10 +539,10 @@ IRTransBuffer_Initialize(TQ3InteractiveData *instanceData)
 
 
 	// Initialise our state
-	instanceData->transBufferSlab   = Q3SlabMemory_New(sizeof(TQ3TransparentPrim ), 0, NULL);
-	instanceData->transPtrSlab      = Q3SlabMemory_New(sizeof(TQ3TransparentPrim*), 0, NULL);
+	instanceData->transBufferSlab   = Q3SlabMemory_New(sizeof(TQ3TransparentPrim ), 0, nullptr);
+	instanceData->transPtrSlab      = Q3SlabMemory_New(sizeof(TQ3TransparentPrim*), 0, nullptr);
 
-	if (instanceData->transBufferSlab == NULL || instanceData->transPtrSlab == NULL)
+	if (instanceData->transBufferSlab == nullptr || instanceData->transPtrSlab == nullptr)
 		{
 		Q3Object_CleanDispose(&instanceData->transBufferSlab);
 		Q3Object_CleanDispose(&instanceData->transPtrSlab);
@@ -750,7 +750,7 @@ IRTransBuffer_Draw(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
 				// Add, not alpha-blend, but use max rather than addition if possible
 				// so that color components do not get too big.
 				glBlendFunc( GL_ONE, GL_ONE );
-				if (instanceData->glBlendEqProc != NULL)
+				if (instanceData->glBlendEqProc != nullptr)
 					(*instanceData->glBlendEqProc)( GL_MAX_EXT );
 				
 				// black ambient and diffuse so we get only specular
@@ -763,7 +763,7 @@ IRTransBuffer_Draw(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
 				
 				glEnable( GL_COLOR_MATERIAL );
 				
-				if (instanceData->glBlendEqProc != NULL)
+				if (instanceData->glBlendEqProc != nullptr)
 					(*instanceData->glBlendEqProc)( GL_FUNC_ADD_EXT );
 				}
 			}

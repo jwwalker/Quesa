@@ -119,8 +119,8 @@ Q3View_NewWithDefaults(TQ3ObjectType drawContextType, void *drawContextTarget)
 	Q3_REQUIRE_OR_RESULT(drawContextType == kQ3DrawContextTypePixmap    ||
 						 drawContextType == kQ3DrawContextTypeMacintosh ||
 						 drawContextType == kQ3DrawContextTypeCocoa     ||
-						 drawContextType == kQ3DrawContextTypeWin32DC, NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(drawContextTarget), NULL);
+						 drawContextType == kQ3DrawContextTypeWin32DC, nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(drawContextTarget), nullptr);
 
 
 
@@ -211,7 +211,7 @@ Q3View_SetRenderer(TQ3ViewObject view, TQ3RendererObject renderer)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT((renderer == NULL) || E3Renderer_IsOfMyClass ( renderer ), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT((renderer == nullptr) || E3Renderer_IsOfMyClass ( renderer ), kQ3Failure);
 
 
 
@@ -639,7 +639,7 @@ Q3View_SetLightGroup(TQ3ViewObject view, TQ3GroupObject lightGroup)
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
 	
-	if (lightGroup != NULL)
+	if (lightGroup != nullptr)
 		Q3_REQUIRE_OR_RESULT( E3Group::IsOfMyClass (lightGroup ), kQ3Failure);
 
 

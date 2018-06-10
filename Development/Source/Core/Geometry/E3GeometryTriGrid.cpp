@@ -90,8 +90,8 @@ e3geom_trigrid_copydata(const TQ3TriGridData *src, TQ3TriGridData *dst, TQ3Boole
 		
 	qtyVerts = src->numRows * src->numColumns;
 	qtyFacets = 2 * (src->numRows-1) * (src->numColumns-1);
-	dst->facetAttributeSet = NULL;
-	dst->triGridAttributeSet = NULL;
+	dst->facetAttributeSet = nullptr;
+	dst->triGridAttributeSet = nullptr;
 	
 	// copy raw data
 	theSize = sizeof(TQ3Uns32)			// numRows
@@ -100,7 +100,7 @@ e3geom_trigrid_copydata(const TQ3TriGridData *src, TQ3TriGridData *dst, TQ3Boole
 
 	// copy the vertices
 	dst->vertices = (TQ3Vertex3D *) Q3Memory_AllocateClear( static_cast<TQ3Uns32>(sizeof(TQ3Vertex3D) * qtyVerts) );
-	if (dst->vertices == NULL) {
+	if (dst->vertices == nullptr) {
 		dst->numRows = dst->numColumns = 0;
 		return kQ3Failure;
 	}
@@ -114,19 +114,19 @@ e3geom_trigrid_copydata(const TQ3TriGridData *src, TQ3TriGridData *dst, TQ3Boole
 	{
 	
 		for(i=0; i< qtyVerts; i++){
-			if(src->vertices[i].attributeSet != NULL)
+			if(src->vertices[i].attributeSet != nullptr)
 				dst->vertices[i].attributeSet = Q3Object_Duplicate(src->vertices[i].attributeSet);
 			}
 			
-		if (src->facetAttributeSet != NULL)
+		if (src->facetAttributeSet != nullptr)
 		{
 			// facetAttributeSet is actually an array of attribute sets
 			dst->facetAttributeSet = (TQ3AttributeSet *) Q3Memory_AllocateClear( static_cast<TQ3Uns32>(sizeof(TQ3AttributeSet) * qtyFacets) );
-			if (dst->facetAttributeSet != NULL) {
+			if (dst->facetAttributeSet != nullptr) {
 				for (i=0; i<qtyFacets; i++) {
-					if(src->facetAttributeSet[i] != NULL){
+					if(src->facetAttributeSet[i] != nullptr){
 						dst->facetAttributeSet[i] = Q3Object_Duplicate(src->facetAttributeSet[i]);
-						if (dst->facetAttributeSet[i] == NULL){
+						if (dst->facetAttributeSet[i] == nullptr){
 							qd3dStatus = kQ3Failure;
 							break;
 							}
@@ -135,23 +135,23 @@ e3geom_trigrid_copydata(const TQ3TriGridData *src, TQ3TriGridData *dst, TQ3Boole
 			}
 		}
 
-		if (src->triGridAttributeSet != NULL)
+		if (src->triGridAttributeSet != nullptr)
 		{
 			dst->triGridAttributeSet = Q3Object_Duplicate(src->triGridAttributeSet);
-			if (dst->triGridAttributeSet == NULL) qd3dStatus = kQ3Failure;
+			if (dst->triGridAttributeSet == nullptr) qd3dStatus = kQ3Failure;
 		}
 	}
 	else {
 		for(i=0; i< qtyVerts; i++){
-			if(src->vertices[i].attributeSet != NULL)
+			if(src->vertices[i].attributeSet != nullptr)
 				E3Shared_Replace(&dst->vertices[i].attributeSet, src->vertices[i].attributeSet);
 			}
 			
-		if (src->facetAttributeSet != NULL)
+		if (src->facetAttributeSet != nullptr)
 		{
 			// facetAttributeSet is actually an array of attribute sets
 			dst->facetAttributeSet = (TQ3AttributeSet *) Q3Memory_AllocateClear( static_cast<TQ3Uns32>(sizeof(TQ3AttributeSet) * qtyFacets) );
-			if (dst->facetAttributeSet != NULL) {
+			if (dst->facetAttributeSet != nullptr) {
 				for (i=0; i<qtyFacets; i++) {
 					E3Shared_Replace(&dst->facetAttributeSet[i], src->facetAttributeSet[i]);
 				}
@@ -178,7 +178,7 @@ e3geom_trigrid_disposedata(TQ3TriGridData *theTriGrid)
 	TQ3Uns32	i;
 	TQ3Uns32	qtyVertices;
 
-	if (theTriGrid->facetAttributeSet != NULL) {
+	if (theTriGrid->facetAttributeSet != nullptr) {
 		qtyFacets = 2 * (theTriGrid->numRows-1) * (theTriGrid->numColumns-1);
 		for (i=0; i<qtyFacets; i++) {
 			Q3Object_CleanDispose(&theTriGrid->facetAttributeSet[i] );
@@ -306,12 +306,12 @@ e3geom_trigrid_addtriangle(TQ3GroupObject			group,
 	//
 	// We ensure there is a triangle normal for each face, to allow efficient
 	// culling even if no normal has been defined.
-	if (geomData->facetAttributeSet != NULL && geomData->facetAttributeSet[tnum] != NULL)
+	if (geomData->facetAttributeSet != nullptr && geomData->facetAttributeSet[tnum] != nullptr)
 		triangleData.triangleAttributeSet = Q3Shared_GetReference( geomData->facetAttributeSet[tnum] );
 	else
 		triangleData.triangleAttributeSet = Q3AttributeSet_New();
 
-	if (triangleData.triangleAttributeSet != NULL)
+	if (triangleData.triangleAttributeSet != nullptr)
 		{
 		if (!Q3AttributeSet_Contains(triangleData.triangleAttributeSet, kQ3AttributeTypeNormal))
 			{
@@ -350,7 +350,7 @@ e3geom_trigrid_addtriangle(TQ3GroupObject			group,
 
 	// Create the triangle
 	theTriangle = Q3Triangle_New(&triangleData);
-	if (theTriangle != NULL)
+	if (theTriangle != nullptr)
 		Q3Group_AddObjectAndDispose(group, &theTriangle);	
 
 
@@ -394,9 +394,9 @@ e3geom_trigrid_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const
 	numpoints = geomData->numRows * geomData->numColumns;
 	numtriangles = 2 * (geomData->numRows-1) * (geomData->numColumns-1);
 
-	if (geomData->facetAttributeSet != NULL) cacheAsTriangles = kQ3True;
+	if (geomData->facetAttributeSet != nullptr) cacheAsTriangles = kQ3True;
 	for (i=0; i<numpoints && cacheAsTriangles==kQ3False; i++) {
-		if (geomData->vertices[i].attributeSet != NULL) cacheAsTriangles = kQ3True;
+		if (geomData->vertices[i].attributeSet != nullptr) cacheAsTriangles = kQ3True;
 	}
 
 
@@ -405,10 +405,10 @@ e3geom_trigrid_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const
 	if (cacheAsTriangles) {
 		// Create a group to hold the cached geometry
 		theGroup = Q3DisplayGroup_New();
-		if (theGroup == NULL)
-			return(NULL);
+		if (theGroup == nullptr)
+			return(nullptr);
 		
-		if (geomData->triGridAttributeSet != NULL)
+		if (geomData->triGridAttributeSet != nullptr)
 			Q3Group_AddObject( theGroup, geomData->triGridAttributeSet );
 
 		// Add a bunch of triangles to the group
@@ -434,7 +434,7 @@ e3geom_trigrid_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const
 		gpState = kQ3DisplayGroupStateMaskIsDrawn   |
 				  kQ3DisplayGroupStateMaskIsWritten |
 				  kQ3DisplayGroupStateMaskIsPicked;
-		if (geomData->triGridAttributeSet == NULL)
+		if (geomData->triGridAttributeSet == nullptr)
 		{
 			gpState |= kQ3DisplayGroupStateMaskIsInline;
 		}
@@ -447,11 +447,11 @@ e3geom_trigrid_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const
 
 	// Create a TriMesh
 	triangles = (TQ3TriMeshTriangleData *) Q3Memory_Allocate( static_cast<TQ3Uns32>(numtriangles*sizeof(TQ3TriMeshTriangleData)) );
-	if (triangles == NULL) return NULL;
+	if (triangles == nullptr) return nullptr;
 	points = (TQ3Point3D *) Q3Memory_Allocate( static_cast<TQ3Uns32>(numpoints*sizeof(TQ3Point3D)) );
-	if (points == NULL) {
+	if (points == nullptr) {
 		Q3Memory_Free(&triangles);
-		return NULL;
+		return nullptr;
 	}
 	
 	for (i=0; i<numpoints; i++) {
@@ -478,13 +478,13 @@ e3geom_trigrid_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const
 	triMeshData.numTriangles              = tnum;
 	triMeshData.triangles                 = triangles;
 	triMeshData.numTriangleAttributeTypes = 0;
-	triMeshData.triangleAttributeTypes    = NULL;
+	triMeshData.triangleAttributeTypes    = nullptr;
 	triMeshData.numEdges                  = 0;
-	triMeshData.edges                     = NULL;
+	triMeshData.edges                     = nullptr;
 	triMeshData.numEdgeAttributeTypes     = 0;
-	triMeshData.edgeAttributeTypes        = NULL;
+	triMeshData.edgeAttributeTypes        = nullptr;
 	triMeshData.numVertexAttributeTypes   = 0;
-	triMeshData.vertexAttributeTypes      = NULL;
+	triMeshData.vertexAttributeTypes      = nullptr;
 	triMeshData.triMeshAttributeSet       = geomData->triGridAttributeSet;
 
 	Q3BoundingBox_SetFromPoints3D(&triMeshData.bBox, triMeshData.points, numpoints, sizeof(TQ3Point3D));
@@ -493,7 +493,7 @@ e3geom_trigrid_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const
 
 	// Create the TriMesh
 	theTriMesh = Q3TriMesh_New(&triMeshData);
-	if (theTriMesh != NULL)
+	if (theTriMesh != nullptr)
 		E3TriMesh_AddTriangleNormals(theTriMesh, theOrientation);
 
 
@@ -550,7 +550,7 @@ e3geom_trigrid_get_attribute ( E3TriGrid* triGrid )
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3geom_trigrid_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -702,8 +702,8 @@ E3TriGrid_GetData(TQ3GeometryObject theTriGrid, TQ3TriGridData *triGridData)
 	E3TriGrid* triGrid = (E3TriGrid*) theTriGrid ;
 
 	// Copy the data out of the TriGrid
-	triGridData->facetAttributeSet   = NULL ;
-	triGridData->triGridAttributeSet = NULL ;
+	triGridData->facetAttributeSet   = nullptr ;
+	triGridData->triGridAttributeSet = nullptr ;
 
 	return e3geom_trigrid_copydata ( & triGrid->instanceData, triGridData, kQ3False ) ;
 	}
@@ -827,7 +827,7 @@ E3TriGrid_GetFacetAttributeSet(TQ3GeometryObject theTriGrid, TQ3Uns32 faceIndex,
 	if  (triGrid->instanceData.facetAttributeSet )
 		E3Shared_Acquire ( facetAttributeSet, triGrid->instanceData.facetAttributeSet [ faceIndex ] ) ;
 	else
-		*facetAttributeSet = NULL ;
+		*facetAttributeSet = nullptr ;
 	
 	return kQ3Success ;
 	}
@@ -846,7 +846,7 @@ E3TriGrid_SetFacetAttributeSet(TQ3GeometryObject theTriGrid, TQ3Uns32 faceIndex,
 			TQ3AttributeSet facetAttributeSet)
 	{
 	E3TriGrid* triGrid = (E3TriGrid*) theTriGrid ;
-	if ( triGrid->instanceData.facetAttributeSet == NULL )
+	if ( triGrid->instanceData.facetAttributeSet == nullptr )
 		return kQ3Failure ;	
 	
 	E3Shared_Replace ( & triGrid->instanceData.facetAttributeSet [ faceIndex ], facetAttributeSet ) ;

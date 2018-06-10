@@ -612,7 +612,7 @@ Q3PixmapDrawContext_New(const TQ3PixmapDrawContextData *contextData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(contextData), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(contextData), nullptr);
 
 
 
@@ -706,7 +706,7 @@ Q3MacDrawContext_New(const TQ3MacDrawContextData *drawContextData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(drawContextData), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(drawContextData), nullptr);
 
 
 
@@ -983,7 +983,7 @@ Q3XBuffers_New(Display *dpy, TQ3Uns32 numBuffers, Window window)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(dpy), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(dpy), nullptr);
 
 
 
@@ -1043,8 +1043,8 @@ Q3X_GetVisualInfo(Display *dpy, Screen *screen)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(dpy), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(screen), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(dpy), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(screen), nullptr);
 
 
 
@@ -1074,7 +1074,7 @@ Q3XDrawContext_New(const TQ3XDrawContextData *drawContextData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(drawContextData), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(drawContextData), nullptr);
 
 
 
@@ -1415,7 +1415,7 @@ Q3Win32DCDrawContext_New(const TQ3Win32DCDrawContextData *drawContextData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(drawContextData), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(drawContextData), nullptr);
 
 
 
@@ -1507,7 +1507,7 @@ Q3DDSurfaceDrawContext_New(const TQ3DDSurfaceDrawContextData *drawContextData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(drawContextData), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(drawContextData), nullptr);
 
 
 
@@ -1603,7 +1603,7 @@ Q3CocoaDrawContext_New(const TQ3CocoaDrawContextData *drawContextData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(drawContextData), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(drawContextData), nullptr);
 
 
 

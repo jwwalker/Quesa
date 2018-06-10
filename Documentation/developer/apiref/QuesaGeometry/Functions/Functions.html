@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
     "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
-<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a[name]:hover {text-decoration: inherit; font-family: inherit; font-size: inherit}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
     <title>Functions</title>
 	 <meta name="generator" content="HeaderDoc">
 </head><body bgcolor="#ffffff">
@@ -67,7 +67,7 @@ The reference count of the returned <code>TQ3AttributeSet</code> is incremented.
 <dt><tt><em>box</em></tt></dt><dd>A reference to a box geometry object.</dd>
 <dt><tt><em>faceIndex</em></tt></dt><dd>The index of the face of the box.</dd>
 <dt><tt><em>faceAttributeSet</em></tt></dt><dd>Receives a reference to the attribute set of the box face, or
-NULL if the face does not have an attribute set.</dd>
+nullptr if the face does not have an attribute set.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -156,7 +156,7 @@ NULL if the face does not have an attribute set.</dd>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Constructs a new Box geometry object.
 <br><br>
-If you pass NULL, you will get a default box with orientation (1, 0, 0), major axis
+If you pass nullptr, you will get a default box with orientation (1, 0, 0), major axis
 (0, 1, 0), minor axis (0, 0, 1), and origin (0, 0, 0).  <em>This behavior was
 not present in QuickDraw 3D.</em>
 <br><br>
@@ -165,10 +165,10 @@ not present in QuickDraw 3D.</em>
 <blockquote>
 <dl>
 <dt><tt><em>boxData</em></tt></dt><dd>Instance data passed in specifying the parameters of the new box object,
-or NULL.</dd>
+or nullptr.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>A reference to the new geometry object, or NULL on failure.
+<dl><dt><i>function result</i></dt><dd>A reference to the new geometry object, or nullptr on failure.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Box_SetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Box_SetData">Q3Box_SetData</a></h2>
@@ -344,7 +344,7 @@ to be drawn.</dd>
 <blockquote>
 <dl>
 <dt><tt><em>cone</em></tt></dt><dd>The cone object.</dd>
-<dt><tt><em>bottomAttributeSet</em></tt></dt><dd>Receives a reference to the bottom attribute set, or NULL.</dd>
+<dt><tt><em>bottomAttributeSet</em></tt></dt><dd>Receives a reference to the bottom attribute set, or nullptr.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -404,7 +404,7 @@ This may allocate memory, which should be freed using <code>Q3Cone_EmptyData</co
 <blockquote>
 <dl>
 <dt><tt><em>cone</em></tt></dt><dd>The cone object.</dd>
-<dt><tt><em>faceAttributeSet</em></tt></dt><dd>Receives the attribute set for the face, or NULL.</dd>
+<dt><tt><em>faceAttributeSet</em></tt></dt><dd>Receives the attribute set for the face, or nullptr.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -425,7 +425,7 @@ This may allocate memory, which should be freed using <code>Q3Cone_EmptyData</co
 <blockquote>
 <dl>
 <dt><tt><em>cylinder</em></tt></dt><dd>A cone object.</dd>
-<dt><tt><em>faceAttributeSet</em></tt></dt><dd>Receives the attribute set for the interior, or NULL.</dd>
+<dt><tt><em>faceAttributeSet</em></tt></dt><dd>Receives the attribute set for the interior, or nullptr.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -514,7 +514,7 @@ This may allocate memory, which should be freed using <code>Q3Cone_EmptyData</co
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a cone geometry object.
 <br><br>
-If you pass NULL, you will get a default cone with orientation (1, 0, 0), major axis
+If you pass nullptr, you will get a default cone with orientation (1, 0, 0), major axis
 (0, 1, 0), minor axis (0, 0, 1), and origin (0, 0, 0).  <em>This behavior was
 not present in QuickDraw 3D.</em>
 <br><br>
@@ -522,10 +522,10 @@ not present in QuickDraw 3D.</em>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
 <dl>
-<dt><tt><em>coneData</em></tt></dt><dd>Pointer to data describing the cone, or NULL.</dd>
+<dt><tt><em>coneData</em></tt></dt><dd>Pointer to data describing the cone, or nullptr.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>The new cone object, or NULL on failure.
+<dl><dt><i>function result</i></dt><dd>The new cone object, or nullptr on failure.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Cone_SetBottomAttributeSet"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Cone_SetBottomAttributeSet">Q3Cone_SetBottomAttributeSet</a></h2>
@@ -543,7 +543,7 @@ Naturally, this only makes sense if the cone has a bottom end cap.
 <blockquote>
 <dl>
 <dt><tt><em>cone</em></tt></dt><dd>The cone object.</dd>
-<dt><tt><em>bottomAttributeSet</em></tt></dt><dd>New bottom attribute set.  May be NULL.</dd>
+<dt><tt><em>bottomAttributeSet</em></tt></dt><dd>New bottom attribute set.  May be nullptr.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -602,7 +602,7 @@ Currently, this simply determines whether the cone will have a bottom cap.
 <blockquote>
 <dl>
 <dt><tt><em>cone</em></tt></dt><dd>The cone object.</dd>
-<dt><tt><em>faceAttributeSet</em></tt></dt><dd>New face attribute set.  May be NULL.</dd>
+<dt><tt><em>faceAttributeSet</em></tt></dt><dd>New face attribute set.  May be nullptr.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -756,7 +756,7 @@ This function should only be called in a submitting loop.
 <blockquote>
 <dl>
 <dt><tt><em>cylinder</em></tt></dt><dd>A cylinder object.</dd>
-<dt><tt><em>bottomAttributeSet</em></tt></dt><dd>Receives the attribute set for the bottom cap, or NULL.</dd>
+<dt><tt><em>bottomAttributeSet</em></tt></dt><dd>Receives the attribute set for the bottom cap, or nullptr.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -817,7 +817,7 @@ This operation may allocate memory, which should be freed using
 <blockquote>
 <dl>
 <dt><tt><em>cylinder</em></tt></dt><dd>A cylinder object.</dd>
-<dt><tt><em>faceAttributeSet</em></tt></dt><dd>Receives the attribute set for the face, or NULL.</dd>
+<dt><tt><em>faceAttributeSet</em></tt></dt><dd>Receives the attribute set for the face, or nullptr.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -838,7 +838,7 @@ This operation may allocate memory, which should be freed using
 <blockquote>
 <dl>
 <dt><tt><em>cylinder</em></tt></dt><dd>A cylinder object.</dd>
-<dt><tt><em>faceAttributeSet</em></tt></dt><dd>Receives the attribute set for the interior, or NULL.</dd>
+<dt><tt><em>faceAttributeSet</em></tt></dt><dd>Receives the attribute set for the interior, or nullptr.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -933,7 +933,7 @@ This operation may allocate memory, which should be freed using
 <blockquote>
 <dl>
 <dt><tt><em>cylinder</em></tt></dt><dd>A cylinder object.</dd>
-<dt><tt><em>topAttributeSet</em></tt></dt><dd>Receives the attribute set for the top cap, or NULL.</dd>
+<dt><tt><em>topAttributeSet</em></tt></dt><dd>Receives the attribute set for the top cap, or nullptr.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -946,7 +946,7 @@ This operation may allocate memory, which should be freed using
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new Cylinder object.
 <br><br>
-If you pass NULL, you will get a default cylinder with orientation (1, 0, 0), major axis
+If you pass nullptr, you will get a default cylinder with orientation (1, 0, 0), major axis
 (0, 1, 0), minor axis (0, 0, 1), origin (0, 0, 0), and no end caps.  <em>This behavior was
 not present in QuickDraw 3D.</em>
 <br><br>
@@ -954,10 +954,10 @@ not present in QuickDraw 3D.</em>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
 <dl>
-<dt><tt><em>cylinderData</em></tt></dt><dd>Data describing a cylinder, or NULL.</dd>
+<dt><tt><em>cylinderData</em></tt></dt><dd>Data describing a cylinder, or nullptr.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>Reference to a new Cylinder geometry object, or NULL on failure.
+<dl><dt><i>function result</i></dt><dd>Reference to a new Cylinder geometry object, or nullptr on failure.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Cylinder_SetBottomAttributeSet"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Cylinder_SetBottomAttributeSet">Q3Cylinder_SetBottomAttributeSet</a></h2>
@@ -1280,7 +1280,7 @@ This may allocate memory, which should be freed using <code>Q3Disk_EmptyData</co
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new disk object.
 <br><br>
-If you pass NULL instead of a data pointer, you will get a default disk, with origin
+If you pass nullptr instead of a data pointer, you will get a default disk, with origin
 (0, 0, 0), major radius (1, 0, 0), and minor radius (0, 1, 0).  <em>This behavior was
 not present in QuickDraw 3D.</em>
 <br><br>
@@ -1288,10 +1288,10 @@ not present in QuickDraw 3D.</em>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
 <dl>
-<dt><tt><em>diskData</em></tt></dt><dd>Data describing a disk object, or NULL.</dd>
+<dt><tt><em>diskData</em></tt></dt><dd>Data describing a disk object, or nullptr.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>Reference to a new Disk geometry object, or NULL on failure.
+<dl><dt><i>function result</i></dt><dd>Reference to a new Disk geometry object, or nullptr on failure.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Disk_SetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Disk_SetData">Q3Disk_SetData</a></h2>
@@ -1495,7 +1495,7 @@ This function may allocate memory, which should be freed using
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new ellipse geometry object.
 <br><br>
-If you pass NULL, you will get a default ellipse with major axis (0, 1, 0),
+If you pass nullptr, you will get a default ellipse with major axis (0, 1, 0),
 minor axis (0, 0, 1), and origin (0, 0, 0).  <em>This behavior was
 not present in QuickDraw 3D.</em>
 <br><br>
@@ -1503,10 +1503,10 @@ not present in QuickDraw 3D.</em>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
 <dl>
-<dt><tt><em>ellipseData</em></tt></dt><dd>Data describing an ellipse, or NULL.</dd>
+<dt><tt><em>ellipseData</em></tt></dt><dd>Data describing an ellipse, or nullptr.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>Reference to a new Ellipse geometry object, or NULL on failure.
+<dl><dt><i>function result</i></dt><dd>Reference to a new Ellipse geometry object, or nullptr on failure.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Ellipse_SetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Ellipse_SetData">Q3Ellipse_SetData</a></h2>
@@ -1729,7 +1729,7 @@ This function may allocate memory, which should be freed using
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new ellipsoid geometry object.
 <br><br>
-If you pass NULL, you will get a default ellipsoid with orientation (1, 0, 0), major axis
+If you pass nullptr, you will get a default ellipsoid with orientation (1, 0, 0), major axis
 (0, 1, 0), minor axis (0, 0, 1), and origin (0, 0, 0).  <em>This behavior was
 not present in QuickDraw 3D.</em>
 <br><br>
@@ -1737,10 +1737,10 @@ not present in QuickDraw 3D.</em>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
 <dl>
-<dt><tt><em>ellipsoidData</em></tt></dt><dd>Data describing an ellipsoid, or NULL.</dd>
+<dt><tt><em>ellipsoidData</em></tt></dt><dd>Data describing an ellipsoid, or nullptr.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>Reference to a new Ellipsoid geometry object, or NULL on failure.
+<dl><dt><i>function result</i></dt><dd>Reference to a new Ellipsoid geometry object, or nullptr on failure.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Ellipsoid_SetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Ellipsoid_SetData">Q3Ellipsoid_SetData</a></h2>
@@ -1860,7 +1860,7 @@ This function should only be called in a submitting loop.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3ForEachComponentEdge"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ForEachComponentEdge">Q3ForEachComponentEdge</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>#define Q3ForEachComponentEdge(_c, _e, _i)                  \<br>&nbsp;        for ((_e) = Q3Mesh_FirstComponentEdge((_c), (_i));  \<br>&nbsp;             (_e) != NULL;                                  \<br>&nbsp;             (_e) = Q3Mesh_NextComponentEdge((_i)))
+</td></tr></table><hr><blockquote><pre><tt>#define Q3ForEachComponentEdge(_c, _e, _i)                  \<br>&nbsp;        for ((_e) = Q3Mesh_FirstComponentEdge((_c), (_i));  \<br>&nbsp;             (_e) != nullptr;                                  \<br>&nbsp;             (_e) = Q3Mesh_NextComponentEdge((_i)))
 </tt><br></pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Macro to aid in iterating over edges of a component of a Mesh object.
 </p>
@@ -1874,7 +1874,7 @@ This function should only be called in a submitting loop.
 </blockquote>
 <hr><a name="//Quesa/c/func/Q3ForEachComponentVertex"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ForEachComponentVertex">Q3ForEachComponentVertex</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>#define Q3ForEachComponentVertex(_c, _v, _i)                \<br>&nbsp;        for ((_v) = Q3Mesh_FirstComponentVertex((_c), (_i));\<br>&nbsp;             (_v) != NULL;                                  \<br>&nbsp;             (_v) = Q3Mesh_NextComponentVertex((_i)))
+</td></tr></table><hr><blockquote><pre><tt>#define Q3ForEachComponentVertex(_c, _v, _i)                \<br>&nbsp;        for ((_v) = Q3Mesh_FirstComponentVertex((_c), (_i));\<br>&nbsp;             (_v) != nullptr;                                  \<br>&nbsp;             (_v) = Q3Mesh_NextComponentVertex((_i)))
 </tt><br></pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Macro to aid in iterating over vertices of a component of a Mesh object.
 </p>
@@ -1888,7 +1888,7 @@ This function should only be called in a submitting loop.
 </blockquote>
 <hr><a name="//Quesa/c/func/Q3ForEachContourEdge"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ForEachContourEdge">Q3ForEachContourEdge</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>#define Q3ForEachContourEdge(_h, _e, _i)                    \<br>&nbsp;        for ((_e) = Q3Mesh_FirstContourEdge((_h), (_i));    \<br>&nbsp;             (_e) != NULL;                                  \<br>&nbsp;             (_e) = Q3Mesh_NextContourEdge((_i)))
+</td></tr></table><hr><blockquote><pre><tt>#define Q3ForEachContourEdge(_h, _e, _i)                    \<br>&nbsp;        for ((_e) = Q3Mesh_FirstContourEdge((_h), (_i));    \<br>&nbsp;             (_e) != nullptr;                                  \<br>&nbsp;             (_e) = Q3Mesh_NextContourEdge((_i)))
 </tt><br></pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Macro to aid in iterating over edges of a contour of a Mesh object.
 </p>
@@ -1902,7 +1902,7 @@ This function should only be called in a submitting loop.
 </blockquote>
 <hr><a name="//Quesa/c/func/Q3ForEachContourFace"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ForEachContourFace">Q3ForEachContourFace</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>#define Q3ForEachContourFace(_h, _f, _i)                    \<br>&nbsp;        for ((_f) = Q3Mesh_FirstContourFace((_h), (_i));    \<br>&nbsp;             (_f) != NULL;                                  \<br>&nbsp;             (_f) = Q3Mesh_NextContourFace((_i)))
+</td></tr></table><hr><blockquote><pre><tt>#define Q3ForEachContourFace(_h, _f, _i)                    \<br>&nbsp;        for ((_f) = Q3Mesh_FirstContourFace((_h), (_i));    \<br>&nbsp;             (_f) != nullptr;                                  \<br>&nbsp;             (_f) = Q3Mesh_NextContourFace((_i)))
 </tt><br></pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Macro to aid in iterating over edges of a contour of a Mesh object.
 </p>
@@ -1916,7 +1916,7 @@ This function should only be called in a submitting loop.
 </blockquote>
 <hr><a name="//Quesa/c/func/Q3ForEachContourVertex"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ForEachContourVertex">Q3ForEachContourVertex</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>#define Q3ForEachContourVertex(_h, _v, _i)                  \<br>&nbsp;        for ((_v) = Q3Mesh_FirstContourVertex((_h), (_i));  \<br>&nbsp;             (_v) != NULL;                                  \<br>&nbsp;             (_v) = Q3Mesh_NextContourVertex((_i)))
+</td></tr></table><hr><blockquote><pre><tt>#define Q3ForEachContourVertex(_h, _v, _i)                  \<br>&nbsp;        for ((_v) = Q3Mesh_FirstContourVertex((_h), (_i));  \<br>&nbsp;             (_v) != nullptr;                                  \<br>&nbsp;             (_v) = Q3Mesh_NextContourVertex((_i)))
 </tt><br></pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Macro to aid in iterating over vertices of a contour of a Mesh object.
 </p>
@@ -1930,7 +1930,7 @@ This function should only be called in a submitting loop.
 </blockquote>
 <hr><a name="//Quesa/c/func/Q3ForEachFaceContour"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ForEachFaceContour">Q3ForEachFaceContour</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>#define Q3ForEachFaceContour(_f, _h, _i)                    \<br>&nbsp;        for ((_h) = Q3Mesh_FirstFaceContour((_f), (_i));    \<br>&nbsp;             (_h) != NULL;                                  \<br>&nbsp;             (_h) = Q3Mesh_NextFaceContour((_i)))
+</td></tr></table><hr><blockquote><pre><tt>#define Q3ForEachFaceContour(_f, _h, _i)                    \<br>&nbsp;        for ((_h) = Q3Mesh_FirstFaceContour((_f), (_i));    \<br>&nbsp;             (_h) != nullptr;                                  \<br>&nbsp;             (_h) = Q3Mesh_NextFaceContour((_i)))
 </tt><br></pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Macro to aid in iterating over contours of a face of a Mesh object.
 </p>
@@ -1944,7 +1944,7 @@ This function should only be called in a submitting loop.
 </blockquote>
 <hr><a name="//Quesa/c/func/Q3ForEachFaceEdge"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ForEachFaceEdge">Q3ForEachFaceEdge</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>#define Q3ForEachFaceEdge(_f, _e, _i)                       \<br>&nbsp;        for ((_e) = Q3Mesh_FirstFaceEdge((_f), (_i));       \<br>&nbsp;             (_e) != NULL;                                  \<br>&nbsp;             (_e) = Q3Mesh_NextFaceEdge((_i)))
+</td></tr></table><hr><blockquote><pre><tt>#define Q3ForEachFaceEdge(_f, _e, _i)                       \<br>&nbsp;        for ((_e) = Q3Mesh_FirstFaceEdge((_f), (_i));       \<br>&nbsp;             (_e) != nullptr;                                  \<br>&nbsp;             (_e) = Q3Mesh_NextFaceEdge((_i)))
 </tt><br></pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Macro to aid in iterating over edges incident to a face of a Mesh object.
 </p>
@@ -1958,7 +1958,7 @@ This function should only be called in a submitting loop.
 </blockquote>
 <hr><a name="//Quesa/c/func/Q3ForEachFaceFace"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ForEachFaceFace">Q3ForEachFaceFace</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>#define Q3ForEachFaceFace(_f, _n, _i)                       \<br>&nbsp;        for ((_n) = Q3Mesh_FirstFaceFace((_f), (_i));       \<br>&nbsp;             (_n) != NULL;                                  \<br>&nbsp;             (_n) = Q3Mesh_NextFaceFace((_i)))
+</td></tr></table><hr><blockquote><pre><tt>#define Q3ForEachFaceFace(_f, _n, _i)                       \<br>&nbsp;        for ((_n) = Q3Mesh_FirstFaceFace((_f), (_i));       \<br>&nbsp;             (_n) != nullptr;                                  \<br>&nbsp;             (_n) = Q3Mesh_NextFaceFace((_i)))
 </tt><br></pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Macro to aid in iterating over faces adjacent to a face of a Mesh object.
 </p>
@@ -1972,7 +1972,7 @@ This function should only be called in a submitting loop.
 </blockquote>
 <hr><a name="//Quesa/c/func/Q3ForEachFaceVertex"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ForEachFaceVertex">Q3ForEachFaceVertex</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>#define Q3ForEachFaceVertex(_f, _v, _i)                     \<br>&nbsp;        for ((_v) = Q3Mesh_FirstFaceVertex((_f), (_i));     \<br>&nbsp;             (_v) != NULL;                                  \<br>&nbsp;             (_v) = Q3Mesh_NextFaceVertex((_i)))
+</td></tr></table><hr><blockquote><pre><tt>#define Q3ForEachFaceVertex(_f, _v, _i)                     \<br>&nbsp;        for ((_v) = Q3Mesh_FirstFaceVertex((_f), (_i));     \<br>&nbsp;             (_v) != nullptr;                                  \<br>&nbsp;             (_v) = Q3Mesh_NextFaceVertex((_i)))
 </tt><br></pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Macro to aid in iterating over vertices incident to a face of a Mesh object.
 </p>
@@ -1986,7 +1986,7 @@ This function should only be called in a submitting loop.
 </blockquote>
 <hr><a name="//Quesa/c/func/Q3ForEachMeshComponent"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ForEachMeshComponent">Q3ForEachMeshComponent</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>#define Q3ForEachMeshComponent(_m, _c, _i)                  \<br>&nbsp;        for ((_c) = Q3Mesh_FirstMeshComponent((_m), (_i));  \<br>&nbsp;             (_c) != NULL;                                  \<br>&nbsp;             (_c) = Q3Mesh_NextMeshComponent((_i)))
+</td></tr></table><hr><blockquote><pre><tt>#define Q3ForEachMeshComponent(_m, _c, _i)                  \<br>&nbsp;        for ((_c) = Q3Mesh_FirstMeshComponent((_m), (_i));  \<br>&nbsp;             (_c) != nullptr;                                  \<br>&nbsp;             (_c) = Q3Mesh_NextMeshComponent((_i)))
 </tt><br></pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Macro to aid in iterating over components of a Mesh object.  Example:
 <br><br>
@@ -2009,7 +2009,7 @@ Q3ForEachMeshComponent( myMesh, comp, &amp;iter )
 </blockquote>
 <hr><a name="//Quesa/c/func/Q3ForEachMeshEdge"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ForEachMeshEdge">Q3ForEachMeshEdge</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>#define Q3ForEachMeshEdge(_m, _e, _i)                       \<br>&nbsp;        for ((_e) = Q3Mesh_FirstMeshEdge((_m), (_i));       \<br>&nbsp;             (_e) != NULL;                                  \<br>&nbsp;             (_e) = Q3Mesh_NextMeshEdge((_i)))
+</td></tr></table><hr><blockquote><pre><tt>#define Q3ForEachMeshEdge(_m, _e, _i)                       \<br>&nbsp;        for ((_e) = Q3Mesh_FirstMeshEdge((_m), (_i));       \<br>&nbsp;             (_e) != nullptr;                                  \<br>&nbsp;             (_e) = Q3Mesh_NextMeshEdge((_i)))
 </tt><br></pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Macro to aid in iterating over edges of a Mesh object.
 </p>
@@ -2023,7 +2023,7 @@ Q3ForEachMeshComponent( myMesh, comp, &amp;iter )
 </blockquote>
 <hr><a name="//Quesa/c/func/Q3ForEachMeshFace"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ForEachMeshFace">Q3ForEachMeshFace</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>#define Q3ForEachMeshFace(_m, _f, _i)                       \<br>&nbsp;        for ((_f) = Q3Mesh_FirstMeshFace((_m), (_i));       \<br>&nbsp;             (_f) != NULL;                                  \<br>&nbsp;             (_f) = Q3Mesh_NextMeshFace((_i)))
+</td></tr></table><hr><blockquote><pre><tt>#define Q3ForEachMeshFace(_m, _f, _i)                       \<br>&nbsp;        for ((_f) = Q3Mesh_FirstMeshFace((_m), (_i));       \<br>&nbsp;             (_f) != nullptr;                                  \<br>&nbsp;             (_f) = Q3Mesh_NextMeshFace((_i)))
 </tt><br></pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Macro to aid in iterating over faces of a Mesh object.
 </p>
@@ -2037,7 +2037,7 @@ Q3ForEachMeshComponent( myMesh, comp, &amp;iter )
 </blockquote>
 <hr><a name="//Quesa/c/func/Q3ForEachMeshVertex"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ForEachMeshVertex">Q3ForEachMeshVertex</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>#define Q3ForEachMeshVertex(_m, _v, _i)                     \<br>&nbsp;        for ((_v) = Q3Mesh_FirstMeshVertex((_m), (_i));     \<br>&nbsp;             (_v) != NULL;                                  \<br>&nbsp;             (_v) = Q3Mesh_NextMeshVertex((_i)))
+</td></tr></table><hr><blockquote><pre><tt>#define Q3ForEachMeshVertex(_m, _v, _i)                     \<br>&nbsp;        for ((_v) = Q3Mesh_FirstMeshVertex((_m), (_i));     \<br>&nbsp;             (_v) != nullptr;                                  \<br>&nbsp;             (_v) = Q3Mesh_NextMeshVertex((_i)))
 </tt><br></pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Macro to aid in iterating over vertices of a Mesh object.
 </p>
@@ -2051,7 +2051,7 @@ Q3ForEachMeshComponent( myMesh, comp, &amp;iter )
 </blockquote>
 <hr><a name="//Quesa/c/func/Q3ForEachVertexEdge"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ForEachVertexEdge">Q3ForEachVertexEdge</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>#define Q3ForEachVertexEdge(_v, _e, _i)                     \<br>&nbsp;        for ((_e) = Q3Mesh_FirstVertexEdge((_v), (_i));     \<br>&nbsp;             (_e) != NULL;                                  \<br>&nbsp;             (_e) = Q3Mesh_NextVertexEdge((_i)))
+</td></tr></table><hr><blockquote><pre><tt>#define Q3ForEachVertexEdge(_v, _e, _i)                     \<br>&nbsp;        for ((_e) = Q3Mesh_FirstVertexEdge((_v), (_i));     \<br>&nbsp;             (_e) != nullptr;                                  \<br>&nbsp;             (_e) = Q3Mesh_NextVertexEdge((_i)))
 </tt><br></pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Macro to aid in iterating over edges incident to a vertex of a Mesh object.
 </p>
@@ -2065,7 +2065,7 @@ Q3ForEachMeshComponent( myMesh, comp, &amp;iter )
 </blockquote>
 <hr><a name="//Quesa/c/func/Q3ForEachVertexFace"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ForEachVertexFace">Q3ForEachVertexFace</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>#define Q3ForEachVertexFace(_v, _f, _i)                     \<br>&nbsp;        for ((_f) = Q3Mesh_FirstVertexFace((_v), (_i));     \<br>&nbsp;             (_f) != NULL;                                  \<br>&nbsp;             (_f) = Q3Mesh_NextVertexFace((_i)))
+</td></tr></table><hr><blockquote><pre><tt>#define Q3ForEachVertexFace(_v, _f, _i)                     \<br>&nbsp;        for ((_f) = Q3Mesh_FirstVertexFace((_v), (_i));     \<br>&nbsp;             (_f) != nullptr;                                  \<br>&nbsp;             (_f) = Q3Mesh_NextVertexFace((_i)))
 </tt><br></pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Macro to aid in iterating over faces incident to a vertex of a Mesh object.
 </p>
@@ -2079,7 +2079,7 @@ Q3ForEachMeshComponent( myMesh, comp, &amp;iter )
 </blockquote>
 <hr><a name="//Quesa/c/func/Q3ForEachVertexVertex"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ForEachVertexVertex">Q3ForEachVertexVertex</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>#define Q3ForEachVertexVertex(_v, _n, _i)                   \<br>&nbsp;        for ((_n) = Q3Mesh_FirstVertexVertex((_v), (_i));   \<br>&nbsp;             (_n) != NULL;                                  \<br>&nbsp;             (_n) = Q3Mesh_NextVertexVertex((_i)))
+</td></tr></table><hr><blockquote><pre><tt>#define Q3ForEachVertexVertex(_v, _n, _i)                   \<br>&nbsp;        for ((_n) = Q3Mesh_FirstVertexVertex((_v), (_i));   \<br>&nbsp;             (_n) != nullptr;                                  \<br>&nbsp;             (_n) = Q3Mesh_NextVertexVertex((_i)))
 </tt><br></pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Macro to aid in iterating over vertices adjacent to a vertex of a Mesh object.
 </p>
@@ -2131,6 +2131,42 @@ This function may allocate memory, which should be freed using
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
+<hr><a name="//Quesa/c/func/Q3GeneralPolygon_GetNumContours"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3GeneralPolygon_GetNumContours">Q3GeneralPolygon_GetNumContours</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Uns32 ) Q3GeneralPolygon_GetNumContours (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GeometryObject generalPolygon
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the number of contours in a general polygon.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>generalPolygon</em></tt></dt><dd>A general polygon object.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>Number of contours in the general polygon. Zero if invalid parameter.
+ </dd></dl>
+<hr><a name="//Quesa/c/func/Q3GeneralPolygon_GetNumVertices"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3GeneralPolygon_GetNumVertices">Q3GeneralPolygon_GetNumVertices</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Uns32 ) Q3GeneralPolygon_GetNumVertices (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GeometryObject generalPolygon,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 contourIndex
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the number of vertices in a specific contour in a general polygon.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>generalPolygon</em></tt></dt><dd>A general polygon object.</dd>
+<dt><tt><em>contourIndex</em></tt></dt><dd>A 0-based index into the array of contours.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>Number of vertices in the specified contour in the general polygon. Zero if invalid parameters.
+ </dd></dl>
 <hr><a name="//Quesa/c/func/Q3GeneralPolygon_GetShapeHint"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3GeneralPolygon_GetShapeHint">Q3GeneralPolygon_GetShapeHint</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3GeneralPolygon_GetShapeHint (
@@ -2168,7 +2204,7 @@ This function may allocate memory, which should be freed using
 <dt><tt><em>generalPolygon</em></tt></dt><dd>A general polygon object.</dd>
 <dt><tt><em>contourIndex</em></tt></dt><dd>A 0-based index into the array of contours.</dd>
 <dt><tt><em>pointIndex</em></tt></dt><dd>A 0-based index into the array of vertices of a contour.</dd>
-<dt><tt><em>attributeSet</em></tt></dt><dd>Receives a new reference to the vertex attribute set, or NULL.</dd>
+<dt><tt><em>attributeSet</em></tt></dt><dd>Receives a new reference to the vertex attribute set, or nullptr.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -2211,7 +2247,7 @@ This function may allocate memory, which should be freed using
 <dt><tt><em>generalPolygonData</em></tt></dt><dd>Data describing a general polygon.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>Reference to a new General Polygon geometry object, or NULL on failure.
+<dl><dt><i>function result</i></dt><dd>Reference to a new General Polygon geometry object, or nullptr on failure.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3GeneralPolygon_SetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3GeneralPolygon_SetData">Q3GeneralPolygon_SetData</a></h2>
@@ -2359,7 +2395,7 @@ To decrease the reference count when finished with the attribute set, use
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Creates the decomposed form of the geometry, if any.
 <br><br>
 The result may be a geometry or a group.  If the geometry cannot be decomposed
-further, NULL is returned.
+further, nullptr is returned.
 <br><br>
 The decomposition of a given geometry is not documented and is subject to change.
 Geometries may be decomposed to multiple objects; for example, the decomposition
@@ -2383,7 +2419,7 @@ subdivision or orientation.
 <dt><tt><em>view</em></tt></dt><dd>A view object</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>A new reference to a group or geometry object, or NULL.
+<dl><dt><i>function result</i></dt><dd>A new reference to a group or geometry object, or nullptr.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Geometry_GetType"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Geometry_GetType">Q3Geometry_GetType</a></h2>
@@ -2508,7 +2544,7 @@ This function may allocate memory, which should be freed using
 <dl>
 <dt><tt><em>line</em></tt></dt><dd>A line object.</dd>
 <dt><tt><em>index</em></tt></dt><dd>An index, 0 or 1, specifying an end of the line.</dd>
-<dt><tt><em>attributeSet</em></tt></dt><dd>Receives a new reference to the attribute set, or NULL.</dd>
+<dt><tt><em>attributeSet</em></tt></dt><dd>Receives a new reference to the attribute set, or nullptr.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -2549,7 +2585,7 @@ This function may allocate memory, which should be freed using
 <dt><tt><em>lineData</em></tt></dt><dd>Data describing a line.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>Reference to a new Line geometry object, or NULL on failure.
+<dl><dt><i>function result</i></dt><dd>Reference to a new Line geometry object, or nullptr on failure.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Line_SetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Line_SetData">Q3Line_SetData</a></h2>
@@ -2775,7 +2811,7 @@ upper left corner of the marker bitmap.
 <dt><tt><em>markerData</em></tt></dt><dd>Data describing a marker.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>Reference to a new Marker geometry object, or NULL on failure.
+<dl><dt><i>function result</i></dt><dd>Reference to a new Marker geometry object, or nullptr on failure.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Marker_SetBitmap"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Marker_SetBitmap">Q3Marker_SetBitmap</a></h2>
@@ -3961,7 +3997,7 @@ must be called to dispose of this memory.
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new empty Mesh geometry object.
 <br><br>
 </p>
-<dl><dt><i>function result</i></dt><dd>Reference to a new Mesh geometry object, or NULL on failure.
+<dl><dt><i>function result</i></dt><dd>Reference to a new Mesh geometry object, or nullptr on failure.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Mesh_NextComponentEdge"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Mesh_NextComponentEdge">Q3Mesh_NextComponentEdge</a></h2>
@@ -4524,7 +4560,7 @@ This function may allocate memory, which should be freed using
 <dt><tt><em>curveData</em></tt></dt><dd>Data describing a NURB curve.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>Reference to a new NURB curve geometry object, or NULL on failure.
+<dl><dt><i>function result</i></dt><dd>Reference to a new NURB curve geometry object, or nullptr on failure.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3NURBCurve_SetControlPoint"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3NURBCurve_SetControlPoint">Q3NURBCurve_SetControlPoint</a></h2>
@@ -4728,7 +4764,7 @@ This function may allocate memory, which should be freed using
 <dt><tt><em>nurbPatchData</em></tt></dt><dd>Data describing a NURB patch.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>Reference to a new NURB patch geometry object, or NULL on failure.
+<dl><dt><i>function result</i></dt><dd>Reference to a new NURB patch geometry object, or nullptr on failure.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3NURBPatch_SetControlPoint"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3NURBPatch_SetControlPoint">Q3NURBPatch_SetControlPoint</a></h2>
@@ -4969,7 +5005,7 @@ the upper left corner of the marker image.
 <dt><tt><em>pixmapMarkerData</em></tt></dt><dd>Data describing a pixmap marker.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>Reference to a new pixmap marker geometry object, or NULL on failure.
+<dl><dt><i>function result</i></dt><dd>Reference to a new pixmap marker geometry object, or nullptr on failure.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3PixmapMarker_SetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PixmapMarker_SetData">Q3PixmapMarker_SetData</a></h2>
@@ -5157,17 +5193,17 @@ This function may allocate memory, which should be freed using
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new point geometry object.
 <br><br>
-If you pass NULL instead of a data pointer, you will get a point disk, at (0, 0, 0).
+If you pass nullptr instead of a data pointer, you will get a point disk, at (0, 0, 0).
 <em>This behavior was not present in QuickDraw 3D.</em>
 <br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
 <dl>
-<dt><tt><em>pointData</em></tt></dt><dd>Data describing a point, or NULL.</dd>
+<dt><tt><em>pointData</em></tt></dt><dd>Data describing a point, or nullptr.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>Reference to a new Point geometry object, or NULL on failure.
+<dl><dt><i>function result</i></dt><dd>Reference to a new Point geometry object, or nullptr on failure.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Point_SetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Point_SetData">Q3Point_SetData</a></h2>
@@ -5346,7 +5382,7 @@ This function may allocate memory, which should be freed using
 <dt><tt><em>polylineData</em></tt></dt><dd>Data describing a polyline.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>Reference to a new Polyline geometry object, or NULL on failure.
+<dl><dt><i>function result</i></dt><dd>Reference to a new Polyline geometry object, or nullptr on failure.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3PolyLine_SetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PolyLine_SetData">Q3PolyLine_SetData</a></h2>
@@ -5507,7 +5543,7 @@ This function may allocate memory, which should be freed using
 <dl>
 <dt><tt><em>polygon</em></tt></dt><dd>A polygon object.</dd>
 <dt><tt><em>index</em></tt></dt><dd>A 0-based index into the array of vertices of the polygon.</dd>
-<dt><tt><em>attributeSet</em></tt></dt><dd>Receives a new reference to the attribute set, or NULL.</dd>
+<dt><tt><em>attributeSet</em></tt></dt><dd>Receives a new reference to the attribute set, or nullptr.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -5548,7 +5584,7 @@ This function may allocate memory, which should be freed using
 <dt><tt><em>polygonData</em></tt></dt><dd>Data describing a polygon.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>Reference to a new Polygon geometry object, or NULL on failure.
+<dl><dt><i>function result</i></dt><dd>Reference to a new Polygon geometry object, or nullptr on failure.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Polygon_SetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Polygon_SetData">Q3Polygon_SetData</a></h2>
@@ -5771,7 +5807,7 @@ This function may allocate memory, which should be freed using
 <dt><tt><em>polyhedronData</em></tt></dt><dd>Data describing a polyhedron.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>Reference to a new Polyhedron geometry object, or NULL on failure.
+<dl><dt><i>function result</i></dt><dd>Reference to a new Polyhedron geometry object, or nullptr on failure.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Polyhedron_SetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Polyhedron_SetData">Q3Polyhedron_SetData</a></h2>
@@ -6040,7 +6076,7 @@ This function may allocate memory, which should be freed using
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new torus geometry object.
 <br><br>
-If you pass NULL, you will get a default torus with orientation (1, 0, 0), major axis
+If you pass nullptr, you will get a default torus with orientation (1, 0, 0), major axis
 (0, 1, 0), minor axis (0, 0, 1), origin (0, 0, 0), and ratio 1.  <em>This behavior was
 not present in QuickDraw 3D.</em>
 <br><br>
@@ -6048,10 +6084,10 @@ not present in QuickDraw 3D.</em>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
 <dl>
-<dt><tt><em>torusData</em></tt></dt><dd>Data describing a torus, or NULL.</dd>
+<dt><tt><em>torusData</em></tt></dt><dd>Data describing a torus, or nullptr.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>Reference to a new Torus geometry object, or NULL on failure.
+<dl><dt><i>function result</i></dt><dd>Reference to a new Torus geometry object, or nullptr on failure.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Torus_SetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Torus_SetData">Q3Torus_SetData</a></h2>
@@ -6310,7 +6346,7 @@ This function may allocate memory, which should be freed using
 <dt><tt><em>triGridData</em></tt></dt><dd>Data describing a TriGrid.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>Reference to a new TriGrid geometry object, or NULL on failure.
+<dl><dt><i>function result</i></dt><dd>Reference to a new TriGrid geometry object, or nullptr on failure.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3TriGrid_SetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3TriGrid_SetData">Q3TriGrid_SetData</a></h2>
@@ -6557,7 +6593,7 @@ normal vectors will be normalized.
 <dt><tt><em>triMeshData</em></tt></dt><dd>Data describing a TriMesh.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>Reference to a new TriMesh geometry object, or NULL on failure.
+<dl><dt><i>function result</i></dt><dd>Reference to a new TriMesh geometry object, or nullptr on failure.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3TriMesh_New_NoCopy"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3TriMesh_New_NoCopy">Q3TriMesh_New_NoCopy</a></h2>
@@ -6573,7 +6609,7 @@ where TriMeshes are being created at runtime and performance is
 critical.  It assumes that each of the 6 array pointers within
 the <code>TQ3TriMeshData</code> structure, and each array
 pointer within the <code>TQ3TriMeshAttributeData</code>
-structures, is either NULL or has been allocated with one of the
+structures, is either nullptr or has been allocated with one of the
 Quesa memory allocation functions.  Ownership of these pointers
 is transferred to the TriMesh object.
 <br><br>
@@ -6592,7 +6628,7 @@ If you wish, you can set the <code>isEmpty</code> flag in the
 <dt><tt><em>triMeshData</em></tt></dt><dd>Data describing a TriMesh.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>Reference to a new TriMesh geometry object, or NULL on failure.
+<dl><dt><i>function result</i></dt><dd>Reference to a new TriMesh geometry object, or nullptr on failure.
 </dd></dl>
 <hr><a name="//Quesa/c/func/Q3TriMesh_Optimize"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3TriMesh_Optimize">Q3TriMesh_Optimize</a></h2>
@@ -6604,7 +6640,7 @@ If you wish, you can set the <code>isEmpty</code> flag in the
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>See discussion of Q3TriMesh_OptimizeData for the optimizations
-that are performed.  If no optimizations are needed, NULL is returned.
+that are performed.  If no optimizations are needed, nullptr is returned.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
@@ -6615,7 +6651,7 @@ that are performed.  If no optimizations are needed, NULL is returned.
 <dt><tt><em>inTriMesh</em></tt></dt><dd>A TriMesh geometry.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>A TriMesh or NULL.
+<dl><dt><i>function result</i></dt><dd>A TriMesh or nullptr.
 </dd></dl>
 <hr><a name="//Quesa/c/func/Q3TriMesh_OptimizeData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3TriMesh_OptimizeData">Q3TriMesh_OptimizeData</a></h2>
@@ -6831,7 +6867,7 @@ This function may allocate memory, which should be freed using
 <dt><tt><em>triangleData</em></tt></dt><dd>Data describing a triangle.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>Reference to a new Triangle geometry object, or NULL on failure.
+<dl><dt><i>function result</i></dt><dd>Reference to a new Triangle geometry object, or nullptr on failure.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Triangle_SetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Triangle_SetData">Q3Triangle_SetData</a></h2>
@@ -6915,5 +6951,5 @@ This function should only be called in a submitting loop.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
-<p><p>&#169; 1999-2011 Quesa Developers (Last Updated 3/13/2011)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
 </p></body></html>

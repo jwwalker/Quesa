@@ -129,7 +129,7 @@ typedef std::map< TQ3Object, WeakRefSet > ObToWeakRefs;
 //      Internal variables
 //-----------------------------------------------------------------------------
 
-static ObToWeakRefs* sObToWeakRefs = NULL;
+static ObToWeakRefs* sObToWeakRefs = nullptr;
 
 
 //=============================================================================
@@ -171,7 +171,7 @@ e3shape_new_class_info (
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3shape_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -258,7 +258,7 @@ void
 E3Shared_Dispose ( E3Shared* theObject )
 	{
 	// Find the instance data
-	if ( theObject == NULL )
+	if ( theObject == nullptr )
 		return ;
 
 
@@ -339,7 +339,7 @@ e3shared_write ( TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theO
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3shared_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -393,7 +393,7 @@ E3Root::E3Root	(
 	submitBoundsMethod	( (TQ3XObjectSubmitMethod)		Find_Method ( kQ3XMethodTypeObjectSubmitBounds , kQ3True ) ) ,
 	submitWriteMethod	( (TQ3XObjectSubmitMethod)		Find_Method ( kQ3XMethodTypeObjectSubmitWrite , kQ3True ) )
 	{
-	if ( disposeMethod == NULL )
+	if ( disposeMethod == nullptr )
 		SetAbstract () ;
 	}
 
@@ -433,9 +433,9 @@ propertyTable_disposeOne( E3HashTablePtr srcTable,
 static void
 propertyTable_disposeItems( E3HashTablePtr ioTable )
 {
-	if (ioTable != NULL)
+	if (ioTable != nullptr)
 	{
-		E3HashTable_Iterate( ioTable, propertyTable_disposeOne, NULL );
+		E3HashTable_Iterate( ioTable, propertyTable_disposeOne, nullptr );
 	}
 }
 
@@ -454,7 +454,7 @@ propertyTable_duplicateOne( E3HashTablePtr srcTable,
 	TQ3Uns32 dataSize;
 	Q3Memory_Copy( theItem, &dataSize, sizeof(dataSize) );
 	void* newItem = Q3Memory_Allocate( static_cast<TQ3Uns32>(dataSize + sizeof(dataSize)) );
-	if (newItem == NULL)
+	if (newItem == nullptr)
 	{
 		status = kQ3Failure;
 	}
@@ -475,7 +475,7 @@ propertyTable_duplicate( E3HashTablePtr inSrcTable )
 {
 	TQ3Uns32	tableSize = E3HashTable_GetTableSize( inSrcTable );
 	E3HashTablePtr	dstTable = E3HashTable_Create( tableSize );
-	if (dstTable != NULL)
+	if (dstTable != nullptr)
 	{
 		if (kQ3Failure == E3HashTable_Iterate( inSrcTable,
 			propertyTable_duplicateOne, dstTable ))
@@ -531,7 +531,7 @@ e3root_new( TQ3Object theObject, void *privateData, void *paramData )
 	{
 		theObject->next = theObject;
 		theObject->prev = theObject;
-		theObject->stackCrawl = NULL;
+		theObject->stackCrawl = nullptr;
 	}
 	else
 	{
@@ -539,13 +539,13 @@ e3root_new( TQ3Object theObject, void *privateData, void *paramData )
 		if (theGlobals->isLeakChecking == kQ3True)
 		{
 			// make sure the list has a header
-			if (theGlobals->listHead == NULL)
+			if (theGlobals->listHead == nullptr)
 			{
 				sIsMakingListHead = kQ3True;	// prevent infinite recursion
 				theGlobals->listHead = E3ClassTree::CreateInstance ( kQ3ObjectTypeRoot,
-					kQ3False, NULL ) ;
+					kQ3False, nullptr ) ;
 				sIsMakingListHead = kQ3False;
-				Q3_REQUIRE_OR_RESULT( theGlobals->listHead != NULL, kQ3Failure );
+				Q3_REQUIRE_OR_RESULT( theGlobals->listHead != nullptr, kQ3Failure );
 			}
 			Q3_ASSERT( theGlobals->listHead->GetClass ()->GetType () == kQ3ObjectTypeRoot ) ;
 			
@@ -560,15 +560,15 @@ e3root_new( TQ3Object theObject, void *privateData, void *paramData )
 		}
 		else
 		{
-			theObject->next = NULL;
-			theObject->prev = NULL;
-			theObject->stackCrawl = NULL;
+			theObject->next = nullptr;
+			theObject->prev = nullptr;
+			theObject->stackCrawl = nullptr;
 		}
 	}
 #endif
 	
-	theObject->theSet = NULL;
-	theObject->propertyTable = NULL;
+	theObject->theSet = nullptr;
+	theObject->propertyTable = nullptr;
 	
 	// Update the global object count.
 #if QUESA_OS_MACINTOSH
@@ -594,7 +594,7 @@ e3root_duplicate(TQ3Object fromObject,     const void *fromPrivateData,
 #pragma unused( fromObject )
 	TQ3Status	q3status;
 	
-	q3status = e3root_new( toObject, toPrivateData, NULL );
+	q3status = e3root_new( toObject, toPrivateData, nullptr );
 	
 	if (q3status == kQ3Success)
 	{
@@ -602,22 +602,22 @@ e3root_duplicate(TQ3Object fromObject,     const void *fromPrivateData,
 		OpaqueTQ3Object*	toInstanceData = (OpaqueTQ3Object*) toPrivateData;
 		
 		
-		if (fromInstanceData->theSet != NULL)
+		if (fromInstanceData->theSet != nullptr)
 		{
 			toInstanceData->theSet = Q3Object_Duplicate( fromInstanceData->theSet );
-			if (toInstanceData->theSet == NULL)
+			if (toInstanceData->theSet == nullptr)
 			{
 				q3status = kQ3Failure;
 			}
 		}
 		
 		
-		if ( (q3status == kQ3Success) && (fromInstanceData->propertyTable != NULL) )
+		if ( (q3status == kQ3Success) && (fromInstanceData->propertyTable != nullptr) )
 		{
 			toInstanceData->propertyTable = propertyTable_duplicate(
 				fromInstanceData->propertyTable );
 			
-			if (toInstanceData->propertyTable == NULL)
+			if (toInstanceData->propertyTable == nullptr)
 			{
 				q3status = kQ3Failure;
 			}
@@ -643,7 +643,7 @@ e3root_delete( TQ3Object theObject, void *privateData )
 //	Q3_ASSERT(privateData == theObject->FindLeafInstanceData () ) ;
 	
 	Q3Object_CleanDispose( &instanceData->theSet );
-	if (instanceData->propertyTable != NULL)
+	if (instanceData->propertyTable != nullptr)
 	{
 		propertyTable_disposeItems( instanceData->propertyTable );
 		E3HashTable_Destroy( &instanceData->propertyTable );
@@ -659,14 +659,14 @@ e3root_delete( TQ3Object theObject, void *privateData )
 
 
 #if Q3_DEBUG
-	if ( instanceData->prev != NULL )
+	if ( instanceData->prev != nullptr )
 	{
 		NEXTLINK( instanceData->prev ) = instanceData->next;
 		PREVLINK( instanceData->next ) = instanceData->prev;
 	}
 
-	instanceData->prev = NULL;
-	instanceData->next = NULL;
+	instanceData->prev = nullptr;
+	instanceData->next = nullptr;
 	
 	E3StackCrawl_Dispose( instanceData->stackCrawl );
 #endif
@@ -695,7 +695,7 @@ e3root_dispose(TQ3Object theObject)
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3root_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -1083,7 +1083,7 @@ E3ObjectHierarchy_GetTypeFromString(const TQ3ObjectClassNameString objectClassSt
 
 	// Find the class
 	E3ClassInfoPtr theClass = E3ClassTree::GetClass ( objectClassString ) ;
-	if ( theClass == NULL )
+	if ( theClass == nullptr )
 		return kQ3Failure ;
 
 
@@ -1112,7 +1112,7 @@ E3ObjectHierarchy_GetStringFromType(TQ3ObjectType objectClassType, TQ3ObjectClas
 
 	// Find the class
 	E3ClassInfoPtr theClass = E3ClassTree::GetClass ( objectClassType ) ;
-	if ( theClass == NULL )
+	if ( theClass == nullptr )
 		return kQ3Failure ;
 
 
@@ -1135,7 +1135,7 @@ E3ObjectHierarchy_IsTypeRegistered(TQ3ObjectType objectClassType)
 	// Find the class
 	E3ClassInfoPtr theClass = E3ClassTree::GetClass ( objectClassType ) ;
 
-	return theClass != NULL ? kQ3True : kQ3False ;
+	return theClass != nullptr ? kQ3True : kQ3False ;
 	}
 
 
@@ -1151,7 +1151,7 @@ E3ObjectHierarchy_IsNameRegistered(const char *objectClassName)
 	// Find the class
 	E3ClassInfoPtr theClass = E3ClassTree::GetClass ( objectClassName ) ;
 
-	return theClass != NULL ? kQ3True : kQ3False ;
+	return theClass != nullptr ? kQ3True : kQ3False ;
 	}
 
 
@@ -1169,13 +1169,13 @@ E3ObjectHierarchy_GetSubClassData(TQ3ObjectType objectClassType, TQ3SubClassData
 	{
 	// Initialise a return value
 	subClassData->numClasses = 0;
-	subClassData->classTypes = NULL;
+	subClassData->classTypes = nullptr;
 
 
 
 	// Find the class
 	E3ClassInfoPtr theClass = E3ClassTree::GetClass ( objectClassType ) ;
-	if ( theClass == NULL )
+	if ( theClass == nullptr )
 		return kQ3Failure ;
 
 
@@ -1187,7 +1187,7 @@ E3ObjectHierarchy_GetSubClassData(TQ3ObjectType objectClassType, TQ3SubClassData
 	if (numChildren != 0)
 		{
 		subClassData->classTypes = (TQ3ObjectType *) Q3Memory_Allocate(static_cast<TQ3Uns32>(sizeof(TQ3ObjectType) * numChildren));
-		if (subClassData->classTypes == NULL)
+		if (subClassData->classTypes == nullptr)
 			return(kQ3Failure);
 
 		subClassData->numClasses = numChildren;
@@ -1229,7 +1229,7 @@ E3ObjectHierarchy_EmptySubClassData(TQ3SubClassData *subClassData)
 
 	// Reset the structure
 	subClassData->numClasses = 0;
-	subClassData->classTypes = NULL;
+	subClassData->classTypes = nullptr;
 
 	return(kQ3Success);
 }
@@ -1266,10 +1266,10 @@ E3Object_CleanDispose(TQ3Object *theObject)
 
 
 	// If we have an object, dispose of it and clear the pointer
-	if (theObject != NULL && *theObject != NULL)
+	if (theObject != nullptr && *theObject != nullptr)
 		{
 		qd3dStatus = (*theObject)->Dispose();
-		*theObject = NULL;
+		*theObject = nullptr;
 		}
 	else
 		qd3dStatus = kQ3Success;
@@ -1287,7 +1287,7 @@ E3Object_CleanDispose(TQ3Object *theObject)
 //-----------------------------------------------------------------------------
 void	E3Object_GetWeakReference( TQ3Object* theRefAddress )
 {
-	if (sObToWeakRefs == NULL)
+	if (sObToWeakRefs == nullptr)
 	{
 		sObToWeakRefs = new ObToWeakRefs;
 	}
@@ -1305,7 +1305,7 @@ void	E3Object_GetWeakReference( TQ3Object* theRefAddress )
 //-----------------------------------------------------------------------------
 void	E3Object_ReleaseWeakReference( TQ3Object* theRefAddress )
 {
-	if (sObToWeakRefs != NULL)
+	if (sObToWeakRefs != nullptr)
 	{
 		//Q3_MESSAGE_FMT("- weak ref %p -> %p", theRefAddress, *theRefAddress );
 		(*sObToWeakRefs)[ *theRefAddress ].erase( theRefAddress );
@@ -1323,7 +1323,7 @@ void	E3Object_ReleaseWeakReference( TQ3Object* theRefAddress )
 //-----------------------------------------------------------------------------
 void	E3Object_ZeroWeakReferences( TQ3Object deletedObject )
 {
-	if (sObToWeakRefs != NULL)
+	if (sObToWeakRefs != nullptr)
 	{
 		ObToWeakRefs::iterator found = sObToWeakRefs->find( deletedObject );
 		if (found != sObToWeakRefs->end())
@@ -1336,7 +1336,7 @@ void	E3Object_ZeroWeakReferences( TQ3Object deletedObject )
 				TQ3Object* theRefAddr( *i );
 				//Q3_MESSAGE_FMT("zeroing reference %p to dead object %p",
 				//	theRefAddr, deletedObject );
-				*theRefAddr = NULL;
+				*theRefAddr = nullptr;
 			}
 			sObToWeakRefs->erase( found );
 			//Q3_MESSAGE_FMT("----");
@@ -1378,7 +1378,7 @@ E3Object_Duplicate(TQ3Object theObject)
 		! Q3_OBJECT_IS_CLASS ( theObject, E3PathStorage ) ) )
 		{
 		E3ErrorManager_PostError(kQ3ErrorInvalidObjectType, kQ3False);
-		return(NULL);
+		return(nullptr);
 		}
 
 
@@ -1419,7 +1419,7 @@ TQ3Boolean
 E3Object_IsDrawable(TQ3Object theObject)
 	{
 	// Get the 'method'
-	TQ3Boolean isDrawable = (TQ3Boolean) ( NULL != theObject->GetClass ()->GetMethod (
+	TQ3Boolean isDrawable = (TQ3Boolean) ( nullptr != theObject->GetClass ()->GetMethod (
 									kQ3XMethodTypeObjectIsDrawable ) ) ;
 
 	return isDrawable ;
@@ -1447,7 +1447,7 @@ E3Object_IsWritable(TQ3Object theObject, TQ3FileObject theFile)
 
 
 	// Return as the method exists or not
-	return (TQ3Boolean) ( writeMethod != NULL ) ;
+	return (TQ3Boolean) ( writeMethod != nullptr ) ;
 	}
 
 
@@ -1506,11 +1506,11 @@ OpaqueTQ3Object::AddElement ( TQ3ElementType theType, const void *theData )
 
 		
 	// otherwise use the set within the instance data
-	if ( theSet == NULL )
+	if ( theSet == nullptr )
 		{
 		theSet = E3Set_New () ;
 		
-		if ( theSet == NULL )
+		if ( theSet == nullptr )
 			return kQ3Failure ;
 		}
 	
@@ -1545,7 +1545,7 @@ OpaqueTQ3Object::GetElement ( TQ3ElementType theType, void *theData )
 	
 	// otherwise use the set within the instance data
 	
-	if ( theSet == NULL )
+	if ( theSet == nullptr )
 		return kQ3Failure ;
 	
 	return ( (E3Set*) theSet )->Get ( theType, theData ) ;
@@ -1573,7 +1573,7 @@ OpaqueTQ3Object::ContainsElement ( TQ3ElementType theType )
 	
 	// otherwise use the set within the instance data		
 		
-	if ( theSet != NULL )
+	if ( theSet != nullptr )
 		return Q3Set_Contains ( theSet, theType ) ;
 		
 		
@@ -1606,7 +1606,7 @@ OpaqueTQ3Object::GetNextElementType ( TQ3ElementType *theType )
 		qd3dStatus = Q3Set_GetNextElementType ( (TQ3SetObject) this, theType ) ;
 	else	// otherwise use the set within the instance data
 		{
-		if ( theSet == NULL )
+		if ( theSet == nullptr )
 			{
 			*theType = kQ3ElementTypeNone ;
 			return kQ3Success ;
@@ -1639,7 +1639,7 @@ OpaqueTQ3Object::EmptyElements ( void )
 		return Q3Set_Empty ( (TQ3SetObject) this ) ;
 	
 	// otherwise use the set within the instance data
-	if ( theSet == NULL )
+	if ( theSet == nullptr )
 		return kQ3Success ;
 	
 	TQ3Status qd3dStatus = Q3Set_Empty ( theSet ) ;
@@ -1673,7 +1673,7 @@ OpaqueTQ3Object::ClearElement ( TQ3ElementType theType )
 		return Q3Set_Clear ( (TQ3SetObject) this, theType ) ;
 	
 	// otherwise use the set within the instance data
-	if ( theSet == NULL )
+	if ( theSet == nullptr )
 		return kQ3Success ;
 		
 	TQ3Status qd3dStatus = Q3Set_Clear ( theSet, theType ) ;
@@ -1730,17 +1730,17 @@ OpaqueTQ3Object::SetProperty( TQ3ObjectType inPropType,
 {
 	TQ3Status didset = kQ3Failure;
 	
-	if (propertyTable == NULL)
+	if (propertyTable == nullptr)
 	{
 		propertyTable = E3HashTable_Create( kPropertyHashTableSize );
 	}
 	
-	if (propertyTable != NULL)
+	if (propertyTable != nullptr)
 	{
 		(void) RemoveProperty( inPropType );
 		
 		char* itemBuf = (char*) Q3Memory_Allocate( static_cast<TQ3Uns32>(inDataSize + sizeof(TQ3Uns32)) );
-		if (itemBuf != NULL)
+		if (itemBuf != nullptr)
 		{
 			Q3Memory_Copy( &inDataSize, itemBuf, sizeof(TQ3Uns32) );
 			Q3Memory_Copy( inData, itemBuf + sizeof(TQ3Uns32), inDataSize );
@@ -1779,16 +1779,16 @@ OpaqueTQ3Object::GetProperty( TQ3ObjectType inPropType,
 {
 	TQ3Status found = kQ3Failure;
 	
-	if (propertyTable != NULL)
+	if (propertyTable != nullptr)
 	{
 		void* itemAddr = E3HashTable_Find( propertyTable, inPropType );
-		if (itemAddr != NULL)
+		if (itemAddr != nullptr)
 		{
 			found = kQ3Success;
 			
 			TQ3Uns32 dataSize = *(TQ3Uns32*) itemAddr;
 			
-			if (outDataBuffer != NULL)
+			if (outDataBuffer != nullptr)
 			{
 				dataSize = E3Num_Min( dataSize, inBufferSize );
 				
@@ -1799,7 +1799,7 @@ OpaqueTQ3Object::GetProperty( TQ3ObjectType inPropType,
 				}
 			}
 
-			if (outDataSize != NULL)
+			if (outDataSize != nullptr)
 			{
 				*outDataSize = dataSize;
 			}
@@ -1819,14 +1819,14 @@ OpaqueTQ3Object::GetProperty( TQ3ObjectType inPropType,
 const void*
 OpaqueTQ3Object::GetPropertyAddress( TQ3ObjectType inPropType ) const
 {
-	const void* theAddr = NULL;
+	const void* theAddr = nullptr;
 	
-	if (propertyTable != NULL)
+	if (propertyTable != nullptr)
 	{
 		const char* itemAddr = (const char*) E3HashTable_Find( propertyTable,
 			inPropType );
 		
-		if (itemAddr != NULL)
+		if (itemAddr != nullptr)
 		{
 			theAddr = itemAddr + sizeof(TQ3Uns32);
 		}
@@ -1847,10 +1847,10 @@ OpaqueTQ3Object::RemoveProperty( TQ3ObjectType inPropType )
 {
 	TQ3Status found = kQ3Failure;
 	
-	if (propertyTable != NULL)
+	if (propertyTable != nullptr)
 	{
 		void* itemAddr = E3HashTable_Find( propertyTable, inPropType );
-		if (itemAddr != NULL)
+		if (itemAddr != nullptr)
 		{
 			Q3Memory_Free( &itemAddr );
 			E3HashTable_Remove( propertyTable, inPropType );
@@ -1878,7 +1878,7 @@ OpaqueTQ3Object::IterateProperties( TQ3PropertyIterator userIterator,
 {
 	TQ3Status status = kQ3Success;
 	
-	if (propertyTable != NULL)
+	if (propertyTable != nullptr)
 	{
 		PropIterData iterData =
 		{
@@ -1904,7 +1904,7 @@ OpaqueTQ3Object::IterateProperties( TQ3PropertyIterator userIterator,
 TQ3Boolean
 E3Shared_IsOfMyClass ( TQ3Object object )
 	{
-	if ( object == NULL )
+	if ( object == nullptr )
 		return kQ3False ;
 		
 	if ( object->IsObjectValid () )
@@ -2097,7 +2097,7 @@ E3Shared::IsEditIndexLocked() const
 TQ3Boolean
 E3Shape_IsOfMyClass ( TQ3Object object )
 	{
-	if ( object == NULL )
+	if ( object == nullptr )
 		return kQ3False ;
 		
 	if ( object->IsObjectValid () )
@@ -2130,7 +2130,7 @@ E3Shape_GetType(TQ3ShapeObject theShape)
 TQ3Status
 E3Shape_GetSet(TQ3ShapeObject theShape, TQ3SetObject *theSet)
 	{
-	*theSet = NULL ;
+	*theSet = nullptr ;
 	return theShape->GetElement ( kQ3ElementTypeSet, theSet ) ;
 	}
 
@@ -2144,7 +2144,7 @@ E3Shape_GetSet(TQ3ShapeObject theShape, TQ3SetObject *theSet)
 TQ3Status
 E3Shape_SetSet(TQ3ShapeObject theShape, TQ3SetObject theSet)
 	{
-	if ( theSet == NULL )
+	if ( theSet == nullptr )
 		return theShape->ClearElement ( kQ3ElementTypeSet ) ;
 	
 	return theShape->AddElement ( kQ3ElementTypeSet, &theSet ) ;
@@ -2164,7 +2164,7 @@ TQ3Status
 OpaqueTQ3Object::SubmitElements ( TQ3ViewObject inView )
 	{
 	// Use the shape's set, if any.
-	if ( theSet == NULL )
+	if ( theSet == nullptr )
 		return kQ3Success ;
 	
 	
