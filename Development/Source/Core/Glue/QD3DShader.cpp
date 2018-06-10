@@ -87,7 +87,7 @@ Q3ColorARGB_Set(TQ3ColorARGB *color, float a, float r, float g, float b)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(color), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(color), nullptr);
 
 
 
@@ -117,9 +117,9 @@ Q3ColorARGB_Add(const TQ3ColorARGB *c1, const TQ3ColorARGB *c2, TQ3ColorARGB *re
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(c1), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(c2), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(c1), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(c2), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -149,9 +149,9 @@ Q3ColorARGB_Subtract(const TQ3ColorARGB *c1, const TQ3ColorARGB *c2, TQ3ColorARG
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(c1), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(c2), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(c1), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(c2), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -181,8 +181,8 @@ Q3ColorARGB_Scale(const TQ3ColorARGB *color, float scale, TQ3ColorARGB *result)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(color), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(color), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -212,8 +212,8 @@ Q3ColorARGB_Clamp(const TQ3ColorARGB *color, TQ3ColorARGB *result)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(color), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(color), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -243,9 +243,9 @@ Q3ColorARGB_Lerp(const TQ3ColorARGB *first, const TQ3ColorARGB *last, float alph
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(first), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(last), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(first), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(last), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -275,8 +275,8 @@ Q3ColorARGB_Accumulate(const TQ3ColorARGB *src, TQ3ColorARGB *result)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(src), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(src), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -306,7 +306,7 @@ Q3ColorRGB_Set(TQ3ColorRGB *color, float r, float g, float b)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(color), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(color), nullptr);
 
 
 
@@ -336,9 +336,9 @@ Q3ColorRGB_Add(const TQ3ColorRGB *c1, const TQ3ColorRGB *c2, TQ3ColorRGB *result
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(c1), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(c2), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(c1), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(c2), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -368,9 +368,9 @@ Q3ColorRGB_Subtract(const TQ3ColorRGB *c1, const TQ3ColorRGB *c2, TQ3ColorRGB *r
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(c1), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(c2), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(c1), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(c2), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -400,8 +400,8 @@ Q3ColorRGB_Scale(const TQ3ColorRGB *color, float scale, TQ3ColorRGB *result)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(color), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(color), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -431,8 +431,8 @@ Q3ColorRGB_Clamp(const TQ3ColorRGB *color, TQ3ColorRGB *result)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(color), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(color), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -462,9 +462,9 @@ Q3ColorRGB_Lerp(const TQ3ColorRGB *first, const TQ3ColorRGB *last, float alpha, 
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(first), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(last), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(first), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(last), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -494,8 +494,8 @@ Q3ColorRGB_Accumulate(const TQ3ColorRGB *src, TQ3ColorRGB *result)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(src), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(src), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(result), nullptr);
 
 
 
@@ -525,8 +525,8 @@ Q3ColorRGB_Luminance(const TQ3ColorRGB *color, float *luminance)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(color), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(luminance), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(color), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(luminance), nullptr);
 
 
 
@@ -739,7 +739,7 @@ Q3Shader_GetUBoundary(TQ3ShaderObject shader, TQ3ShaderUVBoundary *uBoundary)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(shader != NULL, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(shader != nullptr, kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(shader->IsObjectValid (), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_OBJECT_IS_CLASS(shader, E3Shader), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(uBoundary), kQ3Failure);
@@ -772,7 +772,7 @@ Q3Shader_GetVBoundary(TQ3ShaderObject shader, TQ3ShaderUVBoundary *vBoundary)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(shader != NULL, kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(shader != nullptr, kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(shader->IsObjectValid (), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_OBJECT_IS_CLASS(shader, E3Shader), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(vBoundary), kQ3Failure);
@@ -928,7 +928,7 @@ Q3TextureShader_New(TQ3TextureObject texture)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( (texture == NULL) || E3Texture_IsOfMyClass ( texture ), NULL);
+	Q3_REQUIRE_OR_RESULT( (texture == nullptr) || E3Texture_IsOfMyClass ( texture ), nullptr);
 
 
 
@@ -992,7 +992,7 @@ Q3TextureShader_SetTexture(TQ3ShaderObject shader, TQ3TextureObject texture)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT( E3TextureShader_IsOfMyClass ( shader ), kQ3Failure);
-	Q3_REQUIRE_OR_RESULT( (texture == NULL) || E3Texture_IsOfMyClass ( texture ), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( (texture == nullptr) || E3Texture_IsOfMyClass ( texture ), kQ3Failure);
 
 
 
@@ -1114,7 +1114,7 @@ Q3PixmapTexture_New(const TQ3StoragePixmap *pixmap)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(pixmap), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(pixmap), nullptr);
 
 
 
@@ -1206,7 +1206,7 @@ Q3MipmapTexture_New(const TQ3Mipmap *mipmap)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(mipmap), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(mipmap), nullptr);
 
 
 
@@ -1300,7 +1300,7 @@ Q3CompressedPixmapTexture_New(const TQ3CompressedPixmap *compressedPixmap)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(compressedPixmap), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(compressedPixmap), nullptr);
 
 
 

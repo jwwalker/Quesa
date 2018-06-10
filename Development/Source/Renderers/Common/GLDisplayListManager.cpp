@@ -189,11 +189,11 @@ static DisplayListCache* GetDisplayListCache( TQ3GLContext glContext )
 	DisplayListCache*	theCache = static_cast<DisplayListCache*>(
 		GLGPUSharing_GetCache( glContext, kDisplayListCacheKey ) );
 	
-	if (theCache == NULL)
+	if (theCache == nullptr)
 	{
 		theCache = new(std::nothrow) DisplayListCache;
 		
-		if (theCache != NULL)
+		if (theCache != nullptr)
 		{
 			GLGPUSharing_AddCache( glContext, kDisplayListCacheKey, theCache );
 		}
@@ -207,7 +207,7 @@ static DisplayListCache* GetDisplayListCache( TQ3GLContext glContext )
 CachedDisplayList*	DisplayListCache::FindDisplayList( TQ3GeometryObject inGeom,
 														GLenum inMode )
 {
-	CachedDisplayList*	theCachedList = NULL;
+	CachedDisplayList*	theCachedList = nullptr;
 	CachedDisplayList	searchDummy( inGeom, inMode );
 	
 	DisplayListVec::iterator	foundIt = std::lower_bound( mDisplayLists.begin(),
@@ -308,10 +308,10 @@ TQ3Boolean			RenderCachedDisplayList(
 	TQ3Boolean	didRender = kQ3False;
 	DisplayListCache*	theCache = GetDisplayListCache( glContext );
 	
-	if (theCache != NULL)
+	if (theCache != nullptr)
 	{
 		theCache->FlushStale();
-		CachedDisplayList*	theList = NULL;
+		CachedDisplayList*	theList = nullptr;
 
 		if (inFillStyle == kQ3FillStyleEdges)
 		{
@@ -321,13 +321,13 @@ TQ3Boolean			RenderCachedDisplayList(
 		{
 			theList = theCache->FindDisplayList( inGeom, GL_TRIANGLE_STRIP );
 			
-			if (theList == NULL)
+			if (theList == nullptr)
 			{
 				theList = theCache->FindDisplayList( inGeom, GL_TRIANGLES );
 			}
 		}
 		
-		if (theList != NULL)
+		if (theList != nullptr)
 		{
 			theCache->RenderList( theList );
 			didRender = kQ3True;
@@ -367,7 +367,7 @@ void				CacheDisplayList(
 {
 	DisplayListCache*	theCache = GetDisplayListCache( glContext );
 	
-	if (theCache != NULL)
+	if (theCache != nullptr)
 	{
 		CachedDisplayList	newRec( inGeom, inMode );
 		newRec.mDisplayList = inDisplayList;
@@ -387,7 +387,7 @@ void				FlushDisplayListCache(
 {
 	DisplayListCache*	theCache = GetDisplayListCache( glContext );
 	
-	if (theCache != NULL)
+	if (theCache != nullptr)
 	{
 		theCache->FlushUnreferenced();
 	}

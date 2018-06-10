@@ -204,7 +204,7 @@ e3shader_duplicate(	TQ3Object fromObject, const void *fromPrivateData,
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3shader_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -261,7 +261,7 @@ e3shader_illumination_submit(	TQ3ViewObject theView, TQ3ObjectType objectType,
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3shader_illumination_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -312,7 +312,7 @@ e3shader_surface_submit(TQ3ViewObject theView, TQ3ObjectType objectType,
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3shader_surface_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -375,9 +375,9 @@ e3shader_texture_duplicate(	TQ3Object fromObject, const void *fromPrivateData,
 
 
 	//duplicate the texture
-	if (*fromInstanceData == NULL)
+	if (*fromInstanceData == nullptr)
 	{
-		*toInstanceData = NULL;
+		*toInstanceData = nullptr;
 	}
 	else
 	{
@@ -402,7 +402,7 @@ e3shader_texture_delete(TQ3Object theObject, void *privateData)
 
 
 	//delete the storage for the texture
-	if (*instanceData != NULL)
+	if (*instanceData != nullptr)
 		Q3Object_Dispose( *instanceData ) ;
 }
 
@@ -419,7 +419,7 @@ e3shader_texture_copyreplace (TQ3SharedObject *source, TQ3SharedObject *dest)
 	TQ3SharedObject	temp;
 	
 	temp = Q3Shared_GetReference(*source);
-	if (temp == NULL) 
+	if (temp == nullptr) 
 		return kQ3Failure;
 
 	if (*dest)
@@ -439,7 +439,7 @@ e3shader_texture_copyreplace (TQ3SharedObject *source, TQ3SharedObject *dest)
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3shader_texture_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -711,17 +711,17 @@ E3Shader_RegisterClass(void)
 	//register illumination shaders
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = Q3_REGISTER_CLASS_NO_DATA (	kQ3ClassNameIlluminationNULL,
-											NULL,
+											nullptr,
 											E3NULLIllumination ) ;
 											
 	if(qd3dStatus == kQ3Success)
 		qd3dStatus = Q3_REGISTER_CLASS_NO_DATA (	kQ3ClassNameIlluminationLambert,
-											NULL,
+											nullptr,
 											E3LambertIllumination ) ;
 	
 	if(qd3dStatus == kQ3Success)
 		qd3dStatus = Q3_REGISTER_CLASS_NO_DATA (	kQ3ClassNameIlluminationPhong,
-											NULL,
+											nullptr,
 											E3PhongIllumination ) ;	
 
 
@@ -783,7 +783,7 @@ E3Shader_UnregisterClass(void)
 TQ3Boolean
 E3Shader::IsOfMyClass ( TQ3Object object )
 	{
-	if ( object == NULL )
+	if ( object == nullptr )
 		return kQ3False ;
 		
 	if ( object->IsObjectValid () )
@@ -951,7 +951,7 @@ E3PhongIllumination_New(void)
 	
 	
 	// Create the object
-	phongShader = E3ClassTree::CreateInstance ( kQ3IlluminationTypePhong, kQ3False, NULL) ;
+	phongShader = E3ClassTree::CreateInstance ( kQ3IlluminationTypePhong, kQ3False, nullptr) ;
 
 	return(phongShader);
 }
@@ -970,7 +970,7 @@ E3LambertIllumination_New(void)
 	
 	
 	// Create the object
-	lambertShader = E3ClassTree::CreateInstance ( kQ3IlluminationTypeLambert, kQ3False, NULL) ;
+	lambertShader = E3ClassTree::CreateInstance ( kQ3IlluminationTypeLambert, kQ3False, nullptr) ;
 
 	return(lambertShader);
 }
@@ -980,7 +980,7 @@ E3LambertIllumination_New(void)
 
 
 //=============================================================================
-//      E3NULLIllumination_New : Create a new NULL illumination shader.
+//      E3NULLIllumination_New : Create a new nullptr illumination shader.
 //-----------------------------------------------------------------------------
 TQ3ShaderObject
 E3NULLIllumination_New(void)
@@ -989,7 +989,7 @@ E3NULLIllumination_New(void)
 
 
 	// Create the object	
-	nullShader = E3ClassTree::CreateInstance ( kQ3IlluminationTypeNULL, kQ3False, NULL) ;
+	nullShader = E3ClassTree::CreateInstance ( kQ3IlluminationTypeNULL, kQ3False, nullptr) ;
 
 	return(nullShader);
 }
@@ -1024,7 +1024,7 @@ E3SurfaceShader_GetType(TQ3SurfaceShaderObject shader)
 TQ3Boolean
 E3TextureShader_IsOfMyClass ( TQ3Object object )
 	{
-	if ( object == NULL )
+	if ( object == nullptr )
 		return kQ3False ;
 		
 	if ( object->IsObjectValid () )

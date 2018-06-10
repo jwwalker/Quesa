@@ -151,7 +151,7 @@ Q3SubdivisionStyle_New(const TQ3SubdivisionStyleData *data)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), nullptr);
 
 
 
@@ -1354,7 +1354,7 @@ Q3AntiAliasStyle_New(const TQ3AntiAliasStyleData *data)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), nullptr);
 
 
 
@@ -1477,7 +1477,7 @@ Q3FogStyle_New(const TQ3FogStyleData *data)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), nullptr);
 
 
 

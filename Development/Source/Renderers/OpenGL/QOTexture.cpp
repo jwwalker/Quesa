@@ -184,9 +184,9 @@ Texture::Texture(
 	, mGLContext( inGLContext )
 	, mGLExtensions( inExtensions )
 	, mPPLighting( ioPPLighting )
-	, mTextureCache( NULL )
+	, mTextureCache( nullptr )
 	, mPendingTextureRemoval( true )
-	, mGLActiveTexture( NULL )
+	, mGLActiveTexture( nullptr )
 {
 	mState.Reset();
 }
@@ -198,7 +198,7 @@ Texture::~Texture()
 
 void	Texture::FlushCache()
 {
-	if (mGLContext != NULL)
+	if (mGLContext != nullptr)
 	{
 		GLDrawContext_SetCurrent( mGLContext, kQ3False );
 		
@@ -356,11 +356,11 @@ void	Texture::EndPass()
 */
 TQ3CachedTexturePtr		Texture::CacheTexture( TQ3TextureObject inTexture )
 {
-	TQ3CachedTexturePtr	cacheRec = NULL;
+	TQ3CachedTexturePtr	cacheRec = nullptr;
 	TQ3Boolean	convertAlpha = kQ3False;
 	
 	Q3Object_GetProperty( mRenderer, kQ3RendererPropertyConvertToPremultipliedAlpha,
-		sizeof(convertAlpha), NULL, &convertAlpha );
+		sizeof(convertAlpha), nullptr, &convertAlpha );
 	
 	GLuint	textureName = GLTextureLoader( inTexture, convertAlpha );
 	
@@ -389,7 +389,7 @@ void	Texture::HandlePendingTextureRemoval()
 		glMatrixMode( GL_TEXTURE );
 		glLoadIdentity();
 		
-		if (mGLActiveTexture != NULL)
+		if (mGLActiveTexture != nullptr)
 		{
 			(*mGLActiveTexture)( GL_TEXTURE1_ARB );
 			glBindTexture( GL_TEXTURE_2D, 0 );
@@ -409,7 +409,7 @@ void	Texture::SetCurrentTexture(
 								TQ3TextureObject inTexture,
 								TQ3ShaderObject inShader )
 {
-	if (inTexture == NULL)	// disable texturing
+	if (inTexture == nullptr)	// disable texturing
 	{
 		mState.mIsTextureActive = false;
 		mPendingTextureRemoval = true;
@@ -423,12 +423,12 @@ void	Texture::SetCurrentTexture(
 		// Put it in the cache if need be
 		TQ3CachedTexturePtr	cachedTexture = GLTextureMgr_FindCachedTexture(
 			mTextureCache, inTexture );
-		if (cachedTexture == NULL)
+		if (cachedTexture == nullptr)
 		{
 			cachedTexture = CacheTexture( inTexture );
 		}
 		
-		if (cachedTexture != NULL)
+		if (cachedTexture != nullptr)
 		{
 			mState.mIsTextureActive = true;
 			
@@ -463,19 +463,19 @@ void	Texture::SetCurrentTexture(
 */
 void	Texture::SetSpecularMap( TQ3ShaderObject inShader )
 {
-	if ( (inShader != NULL) && (mGLActiveTexture != NULL) )
+	if ( (inShader != nullptr) && (mGLActiveTexture != nullptr) )
 	{
 		CQ3ObjectRef shininessTexture( CESpecularMapElement_Copy( inShader ) );
 		if (shininessTexture.isvalid())
 		{
 			TQ3CachedTexturePtr	cachedTexture = GLTextureMgr_FindCachedTexture(
 				mTextureCache, shininessTexture.get() );
-			if (cachedTexture == NULL)
+			if (cachedTexture == nullptr)
 			{
 				(*mGLActiveTexture)( GL_TEXTURE1_ARB );
 				cachedTexture = CacheTexture( shininessTexture.get() );
 			}
-			if (cachedTexture != NULL)
+			if (cachedTexture != nullptr)
 			{
 				GLuint textureName = GLTextureMgr_GetOpenGLTexture( cachedTexture );
 				(*mGLActiveTexture)( GL_TEXTURE1_ARB );

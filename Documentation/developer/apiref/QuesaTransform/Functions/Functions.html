@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
     "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
-<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a[name]:hover {text-decoration: inherit; font-family: inherit; font-size: inherit}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
     <title>Functions</title>
 	 <meta name="generator" content="HeaderDoc">
 </head><body bgcolor="#ffffff">
@@ -43,7 +43,7 @@
 <dt><tt><em>theData</em></tt></dt><dd>The data for the camera transform object.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>A new camera transform object, or NULL on failure.
+<dl><dt><i>function result</i></dt><dd>A new camera transform object, or nullptr on failure.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3CameraTransform_Set"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3CameraTransform_Set">Q3CameraTransform_Set</a></h2>
@@ -122,7 +122,7 @@ within a submitting loop.
 <dt><tt><em>matrix</em></tt></dt><dd>Initial matrix of the transform.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>A new transform object, or NULL on failure.
+<dl><dt><i>function result</i></dt><dd>A new transform object, or nullptr on failure.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3MatrixTransform_Set"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MatrixTransform_Set">Q3MatrixTransform_Set</a></h2>
@@ -197,7 +197,7 @@ Should only be used within a submitting loop.
 <dt><tt><em>quaternion</em></tt></dt><dd>Quaternion data specifying the transform.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>A new quaternion transform object, or NULL on failure.
+<dl><dt><i>function result</i></dt><dd>A new quaternion transform object, or nullptr on failure.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3QuaternionTransform_Set"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3QuaternionTransform_Set">Q3QuaternionTransform_Set</a></h2>
@@ -265,7 +265,7 @@ the scene.
 <em>This function is not available in QD3D.</em>
 <br><br>
 </p>
-<dl><dt><i>function result</i></dt><dd>A new camera transform object, or NULL on failure.
+<dl><dt><i>function result</i></dt><dd>A new camera transform object, or nullptr on failure.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3RasterizeCameraTransform_Submit"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RasterizeCameraTransform_Submit">Q3RasterizeCameraTransform_Submit</a></h2>
@@ -298,7 +298,7 @@ modified by groups or push and pop operations.  Submitting a reset
 transform is a shortcut which sets the current transform to the identity.
 <br><br>
 </p>
-<dl><dt><i>function result</i></dt><dd>A new reset transform, or NULL on failure.
+<dl><dt><i>function result</i></dt><dd>A new reset transform, or nullptr on failure.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3ResetTransform_Submit"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ResetTransform_Submit">Q3ResetTransform_Submit</a></h2>
@@ -410,7 +410,7 @@ Note that the orientation vector must be normalized.
 <dt><tt><em>data</em></tt></dt><dd>Structure specifying the initial state of the transform.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>A new rotate-about-axis transform object, or NULL on failure.
+<dl><dt><i>function result</i></dt><dd>A new rotate-about-axis transform object, or nullptr on failure.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3RotateAboutAxisTransform_SetAngle"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateAboutAxisTransform_SetAngle">Q3RotateAboutAxisTransform_SetAngle</a></h2>
@@ -601,7 +601,7 @@ the x, y, or z axis.
 <dt><tt><em>data</em></tt></dt><dd>Structure containing the initial state of the transform.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>A new rotate-about-point transform, or NULL on failure.
+<dl><dt><i>function result</i></dt><dd>A new rotate-about-point transform, or nullptr on failure.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3RotateAboutPointTransform_SetAboutPoint"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateAboutPointTransform_SetAboutPoint">Q3RotateAboutPointTransform_SetAboutPoint</a></h2>
@@ -771,7 +771,7 @@ Should only be used within a submitting loop.
 <dt><tt><em>data</em></tt></dt><dd>Data specifying the initial state of the transform.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>The new transform object, or NULL on failure.
+<dl><dt><i>function result</i></dt><dd>The new transform object, or nullptr on failure.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3RotateTransform_SetAngle"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateTransform_SetAngle">Q3RotateTransform_SetAngle</a></h2>
@@ -886,7 +886,7 @@ identical positive numbers.
 <dt><tt><em>scale</em></tt></dt><dd>Vector specifying scale factors for each coordinate.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>A new scale transform object, or NULL on failure.
+<dl><dt><i>function result</i></dt><dd>A new scale transform object, or nullptr on failure.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3ScaleTransform_Set"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ScaleTransform_Set">Q3ScaleTransform_Set</a></h2>
@@ -1024,7 +1024,7 @@ identity matrix.
 <dt><tt><em>translate</em></tt></dt><dd>Vector by which to translate.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>A new transform object, or NULL on failure.
+<dl><dt><i>function result</i></dt><dd>A new transform object, or nullptr on failure.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3TranslateTransform_Set"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3TranslateTransform_Set">Q3TranslateTransform_Set</a></h2>
@@ -1065,5 +1065,5 @@ called within a submitting loop.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
-<p><p>&#169; 1999-2011 Quesa Developers (Last Updated 3/13/2011)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
 </p></body></html>

@@ -80,7 +80,7 @@
 static TQ3Uns8	sDummyPlaceholder;
 
 static void* const	sMissingMethodPlaceholder	= (void*) &sDummyPlaceholder;
-// Our hash table functions cannot record a NULL value, and return NULL when
+// Our hash table functions cannot record a nullptr value, and return nullptr when
 // nothing is found, so we must use a different value to indicate a missing
 // method in the method table.
 
@@ -150,14 +150,14 @@ E3ClassInfo::E3ClassInfo	(
 						 	)
 	{
 	classType = 0 ;
-	className = NULL ;
-	methodTable = NULL ;
+	className = nullptr ;
+	methodTable = nullptr ;
 	abstract = kQ3False ;
 	numInstances = 0 ;
 	instanceSize = 0 ;
 	deltaInstanceSize = 0;
 	numChildren = 0 ;
-	theChildren = NULL ;
+	theChildren = nullptr ;
 	for ( TQ3Int32 i = kQ3MaxBuiltInClassHierarchyDepth - 1 ; i >= 0 ; --i )
 		ownAndParentTypes [ i ] = 0 ;
 	
@@ -246,7 +246,7 @@ E3ClassInfo::Detach ( void )
 
 
 	// Remove the parent from the child
-	theParent = NULL ;	
+	theParent = nullptr ;	
 	}
 
 
@@ -260,9 +260,9 @@ E3ClassInfoPtr
 E3ClassInfo::Find ( const char *theClassName )
 	{
 	// Validate our parameters
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(this),							NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theClassName),                    NULL);
-	Q3_REQUIRE_OR_RESULT(strlen(theClassName) < kQ3StringMaximumLength, NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(this),							nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theClassName),                    nullptr);
+	Q3_REQUIRE_OR_RESULT(strlen(theClassName) < kQ3StringMaximumLength, nullptr);
 
 
 
@@ -282,11 +282,11 @@ E3ClassInfo::Find ( const char *theClassName )
 
 		// Check it
 		E3ClassInfoPtr theResult = theChild->Find ( theClassName ) ;
-		if ( theResult != NULL )
+		if ( theResult != nullptr )
 			return theResult ;
 		}
 	
-	return NULL ;
+	return nullptr ;
 	}
 
 
@@ -300,27 +300,27 @@ TQ3XFunctionPointer
 E3ClassInfo::Find_Method ( TQ3XMethodType methodType, TQ3Boolean canInherit )
 	{
 	// Validate our parameters
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(this), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(this), nullptr);
 
 
 
 	// Walk up the class tree until we find the method
 	
-	if ( classMetaHandler != NULL )
+	if ( classMetaHandler != nullptr )
 		if ( TQ3XFunctionPointer leafMethod = classMetaHandler ( methodType ) )
 			return leafMethod ;
 	
 	// If this class doesn't implement it, and we can inherit, try each of the parents in turn
 	if ( canInherit )	
-		for ( E3ClassInfoPtr theClass = theParent ; theClass != NULL ; theClass = theClass->theParent )
-			if ( theClass->classMetaHandler != NULL ) // Check the current class
+		for ( E3ClassInfoPtr theClass = theParent ; theClass != nullptr ; theClass = theClass->theParent )
+			if ( theClass->classMetaHandler != nullptr ) // Check the current class
 				if ( TQ3XFunctionPointer theMethod = theClass->classMetaHandler ( methodType ) )
 					return theMethod ;
 
 
 
-	// Did not find a suitable method, return NULL
-	return NULL ;
+	// Did not find a suitable method, return nullptr
+	return nullptr ;
 	}
 
 
@@ -430,10 +430,10 @@ E3ClassTree::Destroy ( void )
 	E3GlobalsPtr theGlobals = E3Globals_Get () ;
 
 	// If we have a class tree, destroy it
-	if (theGlobals->classTree != NULL)
+	if (theGlobals->classTree != nullptr)
 		{
 		E3HashTable_Destroy(&theGlobals->classTree);
-		theGlobals->classTreeRoot = NULL;
+		theGlobals->classTreeRoot = nullptr;
 		}
 	}
 
@@ -511,48 +511,48 @@ E3ClassTree::RegisterClass (	TQ3ObjectType		parentClassType,
 	Q3_REQUIRE_OR_RESULT(strlen(className) < kQ3StringMaximumLength, kQ3Failure);
 
 	E3ClassInfo* theParent = E3ClassTree::GetClass ( parentClassType ) ;
-	if ( theParent == NULL )
-		Q3_REQUIRE_OR_RESULT(theGlobals->classTree == NULL, kQ3Failure);
+	if ( theParent == nullptr )
+		Q3_REQUIRE_OR_RESULT(theGlobals->classTree == nullptr, kQ3Failure);
 
 	// Make sure the class isn't registered yet
-	if ( E3ClassTree::GetClass ( classType ) != NULL )
+	if ( E3ClassTree::GetClass ( classType ) != nullptr )
 		return kQ3Failure ;
 
 
 
 	// Find the parent class
-	if ( theParent != NULL )
+	if ( theParent != nullptr )
 		{
 		Q3_ASSERT ( totalInstanceSize >= theParent->instanceSize ) ;
 		}
 
-	TQ3XObjectRegisterMethod registerMethod = NULL ;
-	if ( classMetaHandler != NULL )
+	TQ3XObjectRegisterMethod registerMethod = nullptr ;
+	if ( classMetaHandler != nullptr )
 		registerMethod = (TQ3XObjectRegisterMethod) classMetaHandler ( kQ3XMethodTypeNewObjectClass ) ;
 
-	if ( registerMethod == NULL )
-		for ( E3ClassInfoPtr theClass = theParent ; theClass != NULL ; theClass = theClass->theParent )
-			if ( theClass->classMetaHandler != NULL ) // Check the current class
-				if ( ( registerMethod = (TQ3XObjectRegisterMethod) theClass->classMetaHandler ( kQ3XMethodTypeNewObjectClass ) ) != NULL )
+	if ( registerMethod == nullptr )
+		for ( E3ClassInfoPtr theClass = theParent ; theClass != nullptr ; theClass = theClass->theParent )
+			if ( theClass->classMetaHandler != nullptr ) // Check the current class
+				if ( ( registerMethod = (TQ3XObjectRegisterMethod) theClass->classMetaHandler ( kQ3XMethodTypeNewObjectClass ) ) != nullptr )
 					break ;
 	
-	if ( registerMethod == NULL )
+	if ( registerMethod == nullptr )
 		return kQ3Failure ;
 
 	E3ClassInfo* newClass = registerMethod ( classMetaHandler, theParent ) ; // performs the new ( std::nothrow ) of the most appropriate C++ class
 
-	if ( newClass == NULL )
+	if ( newClass == nullptr )
 		return kQ3Failure ;
 
 	newClass->className   = (char *) Q3Memory_Allocate ( (TQ3Uns32)strlen ( className ) + 1 ) ;
 	newClass->methodTable = E3HashTable_Create ( kMethodHashTableSize)  ;
 
-	if ( newClass->className == NULL || newClass->methodTable == NULL )
+	if ( newClass->className == nullptr || newClass->methodTable == nullptr )
 		{
-		if ( newClass->className != NULL )
+		if ( newClass->className != nullptr )
 			Q3Memory_Free ( & newClass->className ) ;
 		
-		if ( newClass->methodTable != NULL )
+		if ( newClass->methodTable != nullptr )
 			E3HashTable_Destroy ( &newClass->methodTable ) ;
 
 		delete newClass ;
@@ -573,11 +573,11 @@ E3ClassTree::RegisterClass (	TQ3ObjectType		parentClassType,
 
 
 	// If we don't have a hash table yet, create it
-	if ( theGlobals->classTree == NULL )
+	if ( theGlobals->classTree == nullptr )
 		{
 		theGlobals->classTreeRoot = newClass ;
 		theGlobals->classTree     = E3HashTable_Create ( kClassHashTableSize ) ;
-		if ( theGlobals->classTree == NULL )
+		if ( theGlobals->classTree == nullptr )
 			qd3dStatus = kQ3Failure ;
 		}
 
@@ -587,7 +587,7 @@ E3ClassTree::RegisterClass (	TQ3ObjectType		parentClassType,
 	if ( qd3dStatus != kQ3Failure )
 		qd3dStatus = E3HashTable_Add ( theGlobals->classTree, classType, newClass ) ;
 
-	if ( qd3dStatus != kQ3Failure && newClass->theParent != NULL )
+	if ( qd3dStatus != kQ3Failure && newClass->theParent != nullptr )
 		qd3dStatus = E3ClassInfo::Attach ( newClass, newClass->theParent ) ;
 		
 		
@@ -610,14 +610,14 @@ E3ClassTree::RegisterClass (	TQ3ObjectType		parentClassType,
 	if ( qd3dStatus == kQ3Failure )
 		{
 		// Clean up the class tree
-		if ( theGlobals->classTree != NULL )
+		if ( theGlobals->classTree != nullptr )
 			{
-			if ( E3HashTable_Find ( theGlobals->classTree, classType) != NULL )
+			if ( E3HashTable_Find ( theGlobals->classTree, classType) != nullptr )
 				E3HashTable_Remove ( theGlobals->classTree, classType ) ;
 			}
 			
 		if ( theGlobals->classTreeRoot == newClass )
-				theGlobals->classTreeRoot = NULL ;
+				theGlobals->classTreeRoot = nullptr ;
 
 
 		// Clean up the class
@@ -652,7 +652,7 @@ E3ClassTree::UnregisterClass ( TQ3ObjectType classType, TQ3Boolean isRequired )
 
 	// Find the class to unregister
 	E3ClassInfoPtr theClass = E3ClassTree::GetClass ( classType ) ;
-	if ( theClass == NULL )
+	if ( theClass == nullptr )
 		return kQ3Failure ;
 
 
@@ -689,11 +689,11 @@ E3ClassTree::UnregisterClass ( TQ3ObjectType classType, TQ3Boolean isRequired )
 
 
 	// Remove the class from the tree
-	if ( theClass->theParent != NULL )
+	if ( theClass->theParent != nullptr )
 		theClass->E3ClassInfo::Detach () ;
 	
 	if ( theGlobals->classTreeRoot == theClass )
-		theGlobals->classTreeRoot = NULL ;
+		theGlobals->classTreeRoot = nullptr ;
 
 	E3HashTable_Remove(theGlobals->classTree, classType);
 
@@ -701,7 +701,7 @@ E3ClassTree::UnregisterClass ( TQ3ObjectType classType, TQ3Boolean isRequired )
 
 	// Dispose of the class itself
 	Q3_ASSERT(theClass->numChildren == 0);
-	Q3_ASSERT(theClass->theChildren == NULL);
+	Q3_ASSERT(theClass->theChildren == nullptr);
 
 	Q3Memory_Free(&theClass->className);
 	E3HashTable_Destroy(&theClass->methodTable);
@@ -724,7 +724,7 @@ E3ClassTree::UnregisterClass ( TQ3ObjectType classType, TQ3Boolean isRequired )
 //				If sharedParams is true, the paramData parameter is passed to
 //				the specified class and its parent classes.
 //
-//				Otherwise, NULL is passed as the paramData for any classes
+//				Otherwise, nullptr is passed as the paramData for any classes
 //				above the parent.
 //
 //				The sharedParams behaviour is necessary to support the QD3D
@@ -740,13 +740,13 @@ OpaqueTQ3Object::InitialiseInstanceData (	E3ClassInfoPtr	inClass,
 	E3ClassInfoPtr parentClass = inClass->theParent ;
 	
 	// If this class has a parent, initialise the parent object
-	if ( parentClass != NULL )
+	if ( parentClass != nullptr )
 		{
 		//parentInstanceSize = parentClass->instanceSize ;
 		if (sharedParams)
 			qd3dStatus = InitialiseInstanceData ( parentClass, sharedParams, paramData ) ;
 		else
-			qd3dStatus = InitialiseInstanceData ( parentClass, sharedParams, NULL ) ;
+			qd3dStatus = InitialiseInstanceData ( parentClass, sharedParams, nullptr ) ;
 		}
 
 	// If this class has any private data, initialise it
@@ -755,18 +755,18 @@ OpaqueTQ3Object::InitialiseInstanceData (	E3ClassInfoPtr	inClass,
 		void* leafInstanceData = FindInstanceDataOfClass( inClass );
 		
 		// If the object has a new method, call it to initialise the object
-		if ( ( (E3Root*) inClass )->newMethod != NULL )
+		if ( ( (E3Root*) inClass )->newMethod != nullptr )
 			return ( (E3Root*) inClass )->newMethod (	(TQ3Object) this,
 														leafInstanceData,
 														(void *) paramData ) ;
 			
 		// If the object is an element, it might have a copy add method
 		// which we call to initialise the object.
-		TQ3XElementCopyAddMethod elementCopyAddMethod = NULL ;
+		TQ3XElementCopyAddMethod elementCopyAddMethod = nullptr ;
 		if ( Q3_CLASS_INFO_IS_CLASS ( inClass , E3Element ) )
 			elementCopyAddMethod = ( (E3ElementInfo*) inClass )->elementCopyAddMethod ;
 			
-		if ( elementCopyAddMethod != NULL )
+		if ( elementCopyAddMethod != nullptr )
 			return elementCopyAddMethod ( paramData, leafInstanceData ) ;
 			
 
@@ -775,7 +775,7 @@ OpaqueTQ3Object::InitialiseInstanceData (	E3ClassInfoPtr	inClass,
 		// a new method, and classes which don't have any parameter data will be left
 		// with instance data that's initialised to 0s.
 
-		if ( paramData != NULL )
+		if ( paramData != nullptr )
 			Q3Memory_Copy ( paramData, leafInstanceData, inClass->deltaInstanceSize ) ;
 		
 		}
@@ -796,7 +796,7 @@ OpaqueTQ3Object::InitialiseInstanceData (	E3ClassInfoPtr	inClass,
 //				If sharedParams is true, the paramData parameter is passed to
 //				the specified class and its parent classes.
 //
-//				Otherwise, NULL is passed as the paramData for any classes
+//				Otherwise, nullptr is passed as the paramData for any classes
 //				above the parent.
 //
 //				The sharedParams behaviour is necessary to support the QD3D
@@ -812,14 +812,14 @@ E3ClassTree::CreateInstance (	TQ3ObjectType	classType,
 	// Instantiating objects is often the first thing to fail if the library
 	// has not been initialised yet, so we also check for that case here.
 	E3ClassInfoPtr theClass = E3ClassTree::GetClass ( classType ) ;
-	if ( theClass == NULL )
+	if ( theClass == nullptr )
 		{
 		E3ErrorManager_PostWarning ( kQ3WarningTypeHasNotBeenRegistered ) ;
 
 		if ( ! Q3IsInitialized () )
 			E3ErrorManager_PostError ( kQ3ErrorNotInitialized, kQ3False ) ;
 
-		return NULL ;
+		return nullptr ;
 		}
 
 
@@ -835,12 +835,12 @@ E3ClassInfo::CreateInstance (	TQ3Boolean		sharedParams,
 	Q3_ASSERT ( ! abstract ) ;
 
 	if ( abstract )
-		return NULL ; // Cannot create an object of an abstract class, the required methods are missing (pure virtual)
+		return nullptr ; // Cannot create an object of an abstract class, the required methods are missing (pure virtual)
 		
 	// Allocate and initialise the object
 	TQ3Object theObject = (TQ3Object) Q3Memory_AllocateClear ( instanceSize + (TQ3Uns32)sizeof( TQ3ObjectType ) ) ;
-	if ( theObject == NULL )
-		return NULL ;
+	if ( theObject == nullptr )
+		return nullptr ;
 
 	theObject->quesaTag = kQ3ObjectTypeQuesa ;
 	theObject->theClass = this ;
@@ -854,7 +854,7 @@ E3ClassInfo::CreateInstance (	TQ3Boolean		sharedParams,
 	if ( qd3dStatus == kQ3Failure )
 		{
 		Q3Memory_Free ( &theObject ) ;
-		return NULL ;
+		return nullptr ;
 		}
 		
 	// Increment the instance count of the class (watch for overflow)
@@ -881,25 +881,25 @@ OpaqueTQ3Object::DeleteInstanceData ( E3ClassInfoPtr inClass )
 	{
 	void* leafInstanceData = FindInstanceDataOfClass( inClass );
 
-	TQ3XElementDeleteMethod elementDeleteMethod = NULL ;
+	TQ3XElementDeleteMethod elementDeleteMethod = nullptr ;
 	if ( Q3_CLASS_INFO_IS_CLASS ( inClass , E3Element ) )
 		elementDeleteMethod = ( (E3ElementInfo*) inClass )->elementDeleteMethod ;
 		
 	// Call the object's delete method
-	if ( elementDeleteMethod != NULL )
+	if ( elementDeleteMethod != nullptr )
 		{
 		elementDeleteMethod ( leafInstanceData ) ;
 		}	
 	else
 		{
-		if ( ( (E3Root*) inClass )->deleteMethod != NULL )
+		if ( ( (E3Root*) inClass )->deleteMethod != nullptr )
 			( (E3Root*) inClass )->deleteMethod ( (TQ3Object) this , leafInstanceData ) ;
 		}
 
 
 
 	// Dispose of the parent object, if any
-	if ( inClass->theParent != NULL )
+	if ( inClass->theParent != nullptr )
 		DeleteInstanceData ( inClass->theParent ) ;
 
 	}
@@ -953,7 +953,7 @@ OpaqueTQ3Object::DuplicateInstanceData (	TQ3Object		newObject,
 										E3ClassInfoPtr	inClass )
 	{
 	// If the object has a parent, duplicate the parent object
-	if ( inClass->theParent != NULL )
+	if ( inClass->theParent != nullptr )
 		{
 		if ( DuplicateInstanceData ( newObject , inClass->theParent ) == kQ3Failure )
 			return kQ3Failure ;
@@ -970,7 +970,7 @@ OpaqueTQ3Object::DuplicateInstanceData (	TQ3Object		newObject,
 		// Call the object's duplicate method to initialise it. If the object
 		// does not have duplicate method, we do a bitwise copy.
 
-		if ( ( (E3Root*) inClass )->duplicateMethod != NULL)
+		if ( ( (E3Root*) inClass )->duplicateMethod != nullptr)
 			{
 			if ( ( (E3Root*) inClass )->duplicateMethod (
 					(TQ3Object) this,
@@ -978,24 +978,24 @@ OpaqueTQ3Object::DuplicateInstanceData (	TQ3Object		newObject,
 					newObject,
 					newLeafInstanceData ) == kQ3Failure )
 				{
-				if ( inClass->theParent != NULL )
+				if ( inClass->theParent != nullptr )
 					newObject->DeleteInstanceData (	inClass->theParent ) ;
 				return kQ3Failure ;
 				}
 			}
 		else
 			{
-			TQ3XElementCopyDuplicateMethod elementDuplicateMethod = NULL ;
+			TQ3XElementCopyDuplicateMethod elementDuplicateMethod = nullptr ;
 			if ( Q3_CLASS_INFO_IS_CLASS ( inClass , E3Element ) )
 				elementDuplicateMethod = ( (E3ElementInfo*) inClass )->elementCopyDuplicateMethod ;
 
-			if ( elementDuplicateMethod != NULL )
+			if ( elementDuplicateMethod != nullptr )
 				{
 				TQ3Status qd3dStatus = elementDuplicateMethod (
 					oldLeafInstanceData, newLeafInstanceData ) ;
 				if ( qd3dStatus == kQ3Failure )
 					{
-					if ( inClass->theParent != NULL )
+					if ( inClass->theParent != nullptr )
 						newObject->DeleteInstanceData ( inClass->theParent ) ;
 					return kQ3Failure ;
 					}
@@ -1025,8 +1025,8 @@ OpaqueTQ3Object::DuplicateInstance ( void )
 
 	// Allocate and initialise the object
 	TQ3Object newObject = (TQ3Object) Q3Memory_AllocateClear ( theClass->instanceSize + (TQ3Uns32)sizeof( TQ3ObjectType ) ) ;
-	if ( newObject == NULL )
-		return NULL ;
+	if ( newObject == nullptr )
+		return nullptr ;
 
 	newObject->quesaTag = kQ3ObjectTypeQuesa ;
 	newObject->theClass = theClass;
@@ -1040,7 +1040,7 @@ OpaqueTQ3Object::DuplicateInstance ( void )
 	if ( qd3dStatus == kQ3Failure )
 		{
 		Q3Memory_Free ( &newObject ) ;
-		return NULL ;
+		return nullptr ;
 		}
 	
 
@@ -1069,7 +1069,7 @@ TQ3Boolean	OpaqueTQ3Object::IsDerivedFromClass( E3ClassInfoPtr inClass ) const
 {
 	TQ3Boolean isDerived = kQ3False;
 	E3ClassInfoPtr myClass = GetClass();
-	while (myClass != NULL)
+	while (myClass != nullptr)
 	{
 		if (inClass == myClass)
 		{
@@ -1092,9 +1092,9 @@ TQ3Boolean	OpaqueTQ3Object::IsDerivedFromClass( E3ClassInfoPtr inClass ) const
 
 void*	OpaqueTQ3Object::FindInstanceDataOfClass( E3ClassInfoPtr inClass )
 {
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(this), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(this), nullptr);
 	Q3_CLASS_VERIFY(this);
-	Q3_REQUIRE_OR_RESULT( IsDerivedFromClass( inClass ), NULL );
+	Q3_REQUIRE_OR_RESULT( IsDerivedFromClass( inClass ), nullptr );
 
 	return (void*) ( (TQ3Uns8*) this + inClass->deltaInstanceOffset ) ;
 }
@@ -1113,7 +1113,7 @@ void *
 OpaqueTQ3Object::FindLeafInstanceData ( void ) // Same as the old FindInstanceData ( kQ3ObjectTypeLeaf ) but simpler
 {
 	// Validate our parameters
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(this), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(this), nullptr);
 	Q3_CLASS_VERIFY(this);
 
 	return (void*) ( (TQ3Uns8*) this + theClass->deltaInstanceOffset ) ;
@@ -1138,15 +1138,15 @@ OpaqueTQ3Object::GetObjectType ( TQ3ObjectType baseType )
 	
 
 	// Walk up to the level immediately below the base class
-	while ( ( aClass != NULL )
-	&& ( aClass->theParent != NULL )
+	while ( ( aClass != nullptr )
+	&& ( aClass->theParent != nullptr )
 	&& ( aClass->theParent->classType != baseType ) )
 		{
 		Q3_ASSERT_VALID_PTR(aClass);
 		aClass = aClass->theParent ;
 		}
 
-	if ( ( aClass == NULL ) || ( aClass->theParent == NULL ) )
+	if ( ( aClass == nullptr ) || ( aClass->theParent == nullptr ) )
 		return kQ3ObjectTypeInvalid ;
 	
 	return aClass->classType ;
@@ -1184,13 +1184,13 @@ E3ClassTree::GetClass ( TQ3ObjectType classType )
 
 
 	// Validate our parameters
-	Q3_REQUIRE_OR_RESULT(classType != kQ3ObjectTypeInvalid, NULL);
+	Q3_REQUIRE_OR_RESULT(classType != kQ3ObjectTypeInvalid, nullptr);
 
 
 
 	// We can't find anything if we don't have a tree
-	if ( theGlobals->classTree == NULL )
-		return NULL ;
+	if ( theGlobals->classTree == nullptr )
+		return nullptr ;
 
 
 
@@ -1217,14 +1217,14 @@ E3ClassTree::GetClass ( const char *className )
 
 
 	// Validate our parameters
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(className),                    NULL);
-	Q3_REQUIRE_OR_RESULT(strlen(className) < kQ3StringMaximumLength, NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(className),                    nullptr);
+	Q3_REQUIRE_OR_RESULT(strlen(className) < kQ3StringMaximumLength, nullptr);
 
 
 
 	// Make sure we have a root
-	if ( theGlobals->classTreeRoot == NULL )
-		return NULL ;
+	if ( theGlobals->classTreeRoot == nullptr )
+		return nullptr ;
 
 
 
@@ -1245,7 +1245,7 @@ E3ClassInfoPtr
 E3ClassTree::GetClass ( TQ3Object theObject )
 	{
 	// Validate our parameters
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theObject), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theObject), nullptr);
 
 
 
@@ -1266,7 +1266,7 @@ E3ClassInfoPtr
 E3ClassInfo::GetParent ( void )
 	{
 	// Validate our parameters
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(this), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(this), nullptr);
 
 
 
@@ -1306,8 +1306,8 @@ E3ClassInfoPtr
 E3ClassInfo::GetChild ( TQ3Uns32 childIndex )
 	{
 	// Validate our parameters
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(this), NULL);
-	Q3_REQUIRE_OR_RESULT(childIndex >= 0 && childIndex < numChildren, NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(this), nullptr);
+	Q3_REQUIRE_OR_RESULT(childIndex >= 0 && childIndex < numChildren, nullptr);
 
 
 
@@ -1350,7 +1350,7 @@ E3ClassInfo::IsType ( TQ3ObjectType theType)
 	E3ClassInfoPtr theClass = this ;
 
 	// Walk up through the class and its parents, checking the type
-	while ( theClass != NULL)
+	while ( theClass != nullptr)
 		{
 		// Check this object
 		if (theClass->classType == theType)
@@ -1381,7 +1381,7 @@ const char *
 E3ClassInfo::GetName ( void )
 	{
 	// Validate our parameters
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(this), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(this), nullptr);
 
 
 
@@ -1400,7 +1400,7 @@ TQ3XMetaHandler
 E3ClassInfo::GetMetaHandler ( void )
 	{
 	// Validate our parameters
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(this), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(this), nullptr);
 
 
 
@@ -1467,7 +1467,7 @@ TQ3XFunctionPointer
 E3ClassInfo::GetMethod ( TQ3XMethodType methodType )
 {
 	// Validate our parameters
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(this), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(this), nullptr);
 
 
 
@@ -1483,13 +1483,13 @@ E3ClassInfo::GetMethod ( TQ3XMethodType methodType )
 	TQ3XFunctionPointer theMethod = (TQ3XFunctionPointer) E3HashTable_Find( methodTable, methodType );
 	if ( theMethod == sMissingMethodPlaceholder )
 	{
-		theMethod = NULL;
+		theMethod = nullptr;
 	}
-	else if ( theMethod == NULL )
+	else if ( theMethod == nullptr )
 	{
 		theMethod = Find_Method ( methodType, kQ3True ) ;
 
-		if (theMethod != NULL)
+		if (theMethod != nullptr)
 		{
 			AddMethod( methodType, theMethod );
 		}
@@ -1509,7 +1509,7 @@ TQ3XFunctionPointer
 OpaqueTQ3Object::GetMethod ( TQ3XMethodType methodType )
 	{
 	// Validate our parameters
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(this), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(this), nullptr);
 
 
 
@@ -1538,7 +1538,7 @@ E3ClassInfo::AddMethod ( TQ3XMethodType methodType, TQ3XFunctionPointer theMetho
 
 
 	// Add the method to the hash table for the class
-	if (theMethod == NULL)
+	if (theMethod == nullptr)
 	{
 		E3HashTable_Add( methodTable, methodType, sMissingMethodPlaceholder );
 	}
@@ -1565,8 +1565,8 @@ E3ClassTree::AddMethod ( TQ3ObjectType classType, TQ3XMethodType methodType, TQ3
 
 	// Find the class, then add the method
 	E3ClassInfoPtr theClass = E3ClassTree::GetClass ( classType ) ;
-	Q3_ASSERT( theClass != NULL );
-	if ( theClass != NULL )
+	Q3_ASSERT( theClass != nullptr );
+	if ( theClass != nullptr )
 		theClass->AddMethod ( methodType, theMethod ) ;
 	}
 
@@ -1589,13 +1589,13 @@ E3ClassTree::Dump ( void )
 
 	// Open our file
 	FILE* theFile = fopen("Quesa class tree.dump", "wt");
-	if (theFile == NULL)
+	if (theFile == nullptr)
 		return;
 
 
 
 	// Write out a header
-	time_t theTime = time(NULL);
+	time_t theTime = time(nullptr);
 	fprintf(theFile, "Dumping Quesa class tree - %s", ctime(&theTime));
 
 

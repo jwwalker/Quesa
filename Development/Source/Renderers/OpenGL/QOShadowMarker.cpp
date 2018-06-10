@@ -136,7 +136,7 @@ static void FindLitFaces( const TQ3RationalPoint4D& inLightPos,
 
 	// Compute face normals if we do not have them.
 	E3FastArray<TQ3Vector3D>	faceNormals;
-	if (inFaceNormals == NULL)
+	if (inFaceNormals == nullptr)
 	{
 		ComputeFaceNormals( inTMData, faceNormals );
 		inFaceNormals = &faceNormals[0];
@@ -182,7 +182,7 @@ static void FindLitFaces( const TQ3RationalPoint4D& inLightPos,
 void QORenderer::ShadowMarker::GetTriMeshEdges( TQ3GeometryObject inTMObject,
 						const TQ3TriMeshData& inTMData )
 {
-	if (inTMObject == NULL)
+	if (inTMObject == nullptr)
 	{
 		QOCalcTriMeshEdges( inTMData, mShadowEdges, &mShadowFacesToEdges );
 	}
@@ -630,7 +630,7 @@ void	QORenderer::ShadowMarker::MarkShadowOfTriMesh(
 	}
 	TQ3RationalPoint4D	localLightPos( CalcLocalLightPosition() );
 	
-	if ( (inTMObject == NULL) ||
+	if ( (inTMObject == nullptr) ||
 		(mGLExtensions.vertexBufferObjects == kQ3False) ||
 		(! mIsCachingShadows) )
 	{

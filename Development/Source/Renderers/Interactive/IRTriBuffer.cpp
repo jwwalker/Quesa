@@ -63,8 +63,8 @@ IRTriBuffer_Initialize(TQ3InteractiveData *instanceData)
 
 
 	// Initialise our state
-	instanceData->triBufferSlab = Q3SlabMemory_New(sizeof(TQ3FVertex3D), 0, NULL);
-	if (instanceData->triBufferSlab == NULL)
+	instanceData->triBufferSlab = Q3SlabMemory_New(sizeof(TQ3FVertex3D), 0, nullptr);
+	if (instanceData->triBufferSlab == nullptr)
 		return(kQ3Failure);
 	
 	return(kQ3Success);
@@ -129,8 +129,8 @@ IRTriBuffer_Draw(TQ3ViewObject theView, TQ3InteractiveData *instanceData)
 	indicesPerVert = sizeof(TQ3FVertex3D) / sizeof(GLuint);
 	numExtra       = (numIndices / indicesPerVert) + 1;
 
-	theIndices = (GLuint *) Q3SlabMemory_AppendData(instanceData->triBufferSlab, numExtra, NULL);
-	if (theIndices == NULL)
+	theIndices = (GLuint *) Q3SlabMemory_AppendData(instanceData->triBufferSlab, numExtra, nullptr);
+	if (theIndices == nullptr)
 		return;
 	
 	for (n = 0; n < numIndices; n++)
@@ -220,7 +220,7 @@ IRTriBuffer_AddTriangle(TQ3ViewObject			theView,
 
 
 	// Append the vertices to the buffer
-	if (Q3SlabMemory_AppendData(instanceData->triBufferSlab, 3, theVertices) == NULL)
+	if (Q3SlabMemory_AppendData(instanceData->triBufferSlab, 3, theVertices) == nullptr)
 		return(kQ3Failure);
 
 

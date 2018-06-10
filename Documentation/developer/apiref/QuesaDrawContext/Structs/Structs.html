@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
     "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
-<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a[name]:hover {text-decoration: inherit; font-family: inherit; font-size: inherit}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
     <title>Structs</title>
 	 <meta name="generator" content="HeaderDoc">
 </head><body bgcolor="#ffffff">
@@ -147,7 +147,7 @@ renderers.
 </td></tr></table><hr><blockquote><pre>
 typedef struct TQ3MacDrawContextData {
     TQ3DrawContextData                          drawContextData;
-    CWindowPtr                                  window;
+    WindowRef                                   window;
     TQ3MacDrawContext2DLibrary                  library;
     gxViewPort                                  viewPort;
     CGrafPtr                                    grafPort;
@@ -163,9 +163,9 @@ valid. Rendering to an off-screen buffer (e.g., a GWorld) should be
 achieved by rendering to a suitably constructed Pixmap draw context.
 <br><br>
 If a window is supplied, its port will be obtained internally by Quesa
-and the grafPort field should be NULL. When rendering to a port which
+and the grafPort field should be nullptr. When rendering to a port which
 does not correspond to a valid WindowRef (e.g., a QD port constructed
-from a CoreGraphics context), the window field should be NULL and the
+from a CoreGraphics context), the window field should be nullptr and the
 port to render to supplied in the grafPort field.
 <br><br>
 </p>
@@ -175,7 +175,7 @@ port to render to supplied in the grafPort field.
 <dt><tt>drawContextData</tt></dt><dd>The common state for the draw context.</dd>
 <dt><tt>window</tt></dt><dd>The window to render to.</dd>
 <dt><tt>library</tt></dt><dd>The library to use for rendering. Should be kQ3Mac2DLibraryNone.</dd>
-<dt><tt>viewPort</tt></dt><dd>The QuickDraw GX port to render to. Should be NULL.</dd>
+<dt><tt>viewPort</tt></dt><dd>The QuickDraw GX port to render to. Should be nullptr.</dd>
 <dt><tt>grafPort</tt></dt><dd>The QuickDraw port to render to.</dd>
 </dl>
 </blockquote>
@@ -279,5 +279,5 @@ of the fields have been assumed.
 <dt><tt>colorMapData</tt></dt><dd>The X11 color map data.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2011 Quesa Developers (Last Updated 3/13/2011)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
 </p></body></html>

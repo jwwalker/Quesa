@@ -110,7 +110,7 @@ e3clip_calc_opcode(const TQ3Area *theRect, float x, float y)
 //-----------------------------------------------------------------------------
 //      E3Shared_Acquire : Acquire a new reference to a shared object.
 //-----------------------------------------------------------------------------
-//		Note :	We initialise *newRef to NULL (if theObject is NULL), or a
+//		Note :	We initialise *newRef to nullptr (if theObject is nullptr), or a
 //				new reference to theObject.
 //-----------------------------------------------------------------------------
 void
@@ -120,8 +120,8 @@ E3Shared_Acquire(TQ3SharedObject *newRef, TQ3SharedObject theObject)
 
 	// Validate our parameters
 	Q3_REQUIRE ( Q3_VALID_PTR ( newRef ) ) ;
-	*newRef = NULL ;
-	if ( theObject != NULL )
+	*newRef = nullptr ;
+	if ( theObject != nullptr )
 		{
 		Q3_REQUIRE ( theObject->IsObjectValid () ) ;
 		Q3_REQUIRE ( Q3_OBJECT_IS_CLASS ( theObject, E3Shared ) ) ;
@@ -154,7 +154,7 @@ E3Shared_Replace(TQ3SharedObject *origObject, TQ3SharedObject newObject)
 
 	// Validate our parameters
 	Q3_REQUIRE(Q3_VALID_PTR(origObject));
-	if (newObject != NULL)
+	if (newObject != nullptr)
 		Q3_REQUIRE( Q3_OBJECT_IS_CLASS ( newObject, E3Shared ) ) ;
 
 
@@ -166,7 +166,7 @@ E3Shared_Replace(TQ3SharedObject *origObject, TQ3SharedObject newObject)
 
 
 	// Dispose of any existing reference
-	if (*origObject != NULL)
+	if (*origObject != nullptr)
 		Q3Object_Dispose(*origObject);
 
 
@@ -205,7 +205,7 @@ TQ3Status E3Bitmap_Replace(const TQ3Bitmap *original, TQ3Bitmap *copy, TQ3Boolea
 	}
 	
 	// Copy the bitmap fields from original to copy
-	copy->image    = NULL;
+	copy->image    = nullptr;
 	copy->width    = original->width;
 	copy->height   = original->height;
 	copy->rowBytes = original->rowBytes;
@@ -217,7 +217,7 @@ TQ3Status E3Bitmap_Replace(const TQ3Bitmap *original, TQ3Bitmap *copy, TQ3Boolea
 	{
 		originalData = Q3Memory_Allocate( originalSize ) ;
 
-		if (originalData == NULL)
+		if (originalData == nullptr)
 		{
 			return(kQ3Failure);						
 		}
@@ -237,25 +237,25 @@ TQ3Status E3Bitmap_Replace(const TQ3Bitmap *original, TQ3Bitmap *copy, TQ3Boolea
 //      E3AttributeSet_Combine : Combine two attribute sets.
 //-----------------------------------------------------------------------------
 //		Note :	Our internal wrapper around Q3AttributeSet_Inherit, to allow
-//				us to handle NULL parent or child attribute sets.
+//				us to handle nullptr parent or child attribute sets.
 //-----------------------------------------------------------------------------
 void E3AttributeSet_Combine(TQ3AttributeSet parent, TQ3AttributeSet child, TQ3AttributeSet *result)
 {
 
 
 	// Initialise a return value
-	*result = NULL;
+	*result = nullptr;
 
 
 
 	// Combine the attribute sets	
-	if (parent != NULL)
+	if (parent != nullptr)
 		{
 		// We have both a parent and child -- combine them
-		if (child != NULL)
+		if (child != nullptr)
 			{
 			*result = Q3AttributeSet_New();
-			if (*result != NULL)
+			if (*result != nullptr)
 				Q3AttributeSet_Inherit(parent, child, *result);
 			}
 		
@@ -291,11 +291,11 @@ void E3Geometry_AddNormalIndicators(TQ3GroupObject group, TQ3Uns32 numPoints,
 
 
 	// Set up the attributes
-	lineData.vertices[0].attributeSet = NULL;
-	lineData.vertices[1].attributeSet = NULL;
+	lineData.vertices[0].attributeSet = nullptr;
+	lineData.vertices[1].attributeSet = nullptr;
 	lineData.lineAttributeSet         = Q3AttributeSet_New();
 
-	if (lineData.lineAttributeSet != NULL)
+	if (lineData.lineAttributeSet != nullptr)
 		Q3AttributeSet_Add(lineData.lineAttributeSet, kQ3AttributeTypeDiffuseColor, &color);
 
 
@@ -312,7 +312,7 @@ void E3Geometry_AddNormalIndicators(TQ3GroupObject group, TQ3Uns32 numPoints,
 
 
 	// Clean up
-	if (lineData.lineAttributeSet != NULL)
+	if (lineData.lineAttributeSet != nullptr)
 		Q3Object_Dispose(lineData.lineAttributeSet);
 }
 
@@ -620,11 +620,11 @@ E3Triangle_InterpolateHit (	TQ3ViewObject			theView,
 	Q3Matrix4x4_Transpose ( &localToWorldForNormals , &localToWorldForNormals ) ;
 	Q3Matrix4x4_Invert ( &localToWorldForNormals , &localToWorldForNormals ) ;
 
-	if (theTriangle->triangleAttributeSet != NULL)
+	if (theTriangle->triangleAttributeSet != nullptr)
 		{
 		theNormal = (TQ3Vector3D *) Q3XAttributeSet_GetPointer(theTriangle->triangleAttributeSet, kQ3AttributeTypeNormal);
 
-		if (theNormal != NULL)
+		if (theNormal != nullptr)
 			Q3Vector3D_Transform(theNormal, &localToWorldForNormals, &triNormal) ;
 		}
 
@@ -641,7 +641,7 @@ E3Triangle_InterpolateHit (	TQ3ViewObject			theView,
 
 		// If we have an attribute set, try and override the normal/UV
 		theSet = theTriangle->vertices[n].attributeSet;
-		if (theSet != NULL)
+		if (theSet != nullptr)
 			{
 			// Override normal
 			if ( Q3AttributeSet_Get(theSet, kQ3AttributeTypeNormal, &theNormals[n]) != kQ3Failure )
@@ -714,7 +714,7 @@ E3TriMeshAttribute_GatherArray(TQ3Uns32						numSets,
 
 	// Find out how large the data for each attribute is
 	E3ClassInfoPtr theClass = E3ClassTree::GetClass  (E3Attribute_AttributeToClassType ( attributeType ) ) ;
-	if ( theClass == NULL )
+	if ( theClass == nullptr )
 		return kQ3False ;
 
 	TQ3Uns32 attributeSize = theClass->GetInstanceSize () ;
@@ -726,7 +726,7 @@ E3TriMeshAttribute_GatherArray(TQ3Uns32						numSets,
 	for (n = 0; n < numSets; n++)
 		{
 		theSet = userCallback(userData, n);
-		if (theSet != NULL && Q3AttributeSet_Contains(theSet, attributeType))
+		if (theSet != nullptr && Q3AttributeSet_Contains(theSet, attributeType))
 			numPresent++;
 		}
 
@@ -738,15 +738,15 @@ E3TriMeshAttribute_GatherArray(TQ3Uns32						numSets,
 	// Allocate the attribute arrays
 	theAttribute->attributeType     = attributeType;
 	theAttribute->data              = Q3Memory_AllocateClear(numSets * attributeSize);
-	theAttribute->attributeUseArray = NULL;
+	theAttribute->attributeUseArray = nullptr;
 	
-	if (theAttribute->data == NULL)
+	if (theAttribute->data == nullptr)
 		return(kQ3False);
 
 	if (numPresent != numSets)
 		{
 		theAttribute->attributeUseArray = (char *) Q3Memory_AllocateClear(static_cast<TQ3Uns32>(numSets * sizeof(char)));
-		if (theAttribute->attributeUseArray == NULL)
+		if (theAttribute->attributeUseArray == nullptr)
 			{
 			Q3Memory_Free(&theAttribute->data);
 			return(kQ3False);
@@ -760,7 +760,7 @@ E3TriMeshAttribute_GatherArray(TQ3Uns32						numSets,
 		{
 		// Grab the attribute data if it's present
 		theSet    = userCallback(userData, n);
-		TQ3Boolean isPresent = (TQ3Boolean) (theSet != NULL && Q3AttributeSet_Contains(theSet, attributeType));
+		TQ3Boolean isPresent = (TQ3Boolean) (theSet != nullptr && Q3AttributeSet_Contains(theSet, attributeType));
 		if (isPresent)
 			{
 			void* dataPtr = ( (TQ3Uns8 *) theAttribute->data ) + ( n * attributeSize ) ;
@@ -769,7 +769,7 @@ E3TriMeshAttribute_GatherArray(TQ3Uns32						numSets,
 
 
 		// Set up the use array if required
-		if (theAttribute->attributeUseArray != NULL)
+		if (theAttribute->attributeUseArray != nullptr)
 			theAttribute->attributeUseArray[n] = (char) isPresent;
 		}
 	
@@ -800,14 +800,14 @@ E3TriMesh_BuildOrientationGroup(TQ3GeometryObject theTriMesh, TQ3OrientationStyl
 
 
 	// If the TriMesh couldn't be created, neither can the group
-	if (theTriMesh == NULL)
-		return(NULL);
+	if (theTriMesh == nullptr)
+		return(nullptr);
 
 
 
 	// Create the group
 	theGroup = Q3DisplayGroup_New();
-	if (theGroup != NULL)
+	if (theGroup != nullptr)
 		{
 		// Add the orientation style
 		theStyle = Q3OrientationStyle_New(theOrientation);

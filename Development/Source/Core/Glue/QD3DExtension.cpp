@@ -91,8 +91,8 @@ Q3XObjectHierarchy_RegisterClass(TQ3ObjectType parentType, TQ3ObjectType *object
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(objectType), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(objectName), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(objectType), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(objectName), nullptr);
 
 
 
@@ -329,7 +329,7 @@ Q3XObjectClass_GetPrivate(TQ3XObjectClass objectClass, TQ3Object targetObject)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(targetObject->IsObjectValid (), NULL);
+	Q3_REQUIRE_OR_RESULT(targetObject->IsObjectValid (), nullptr);
 
 
 
@@ -359,7 +359,7 @@ Q3XObject_GetClass(TQ3Object object)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(object->IsObjectValid (), NULL);
+	Q3_REQUIRE_OR_RESULT(object->IsObjectValid (), nullptr);
 
 
 

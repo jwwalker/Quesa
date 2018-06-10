@@ -94,7 +94,7 @@ extern "C" {
  *  @constant kQ3ErrorX11Error                             X11 error.
  *  @constant kQ3ErrorMemoryLeak                           Memory leak.
  *  @constant kQ3ErrorOutOfMemory                          Out of memory.
- *  @constant kQ3ErrorNULLParameter                        NULL parameter.
+ *  @constant kQ3ErrorNULLParameter                        nullptr parameter.
  *  @constant kQ3ErrorParameterOutOfRange                  Parameter out of range.
  *  @constant kQ3ErrorInvalidParameter                     Invalid parameter.
  *  @constant kQ3ErrorInvalidData                          Invalid data.
@@ -670,7 +670,7 @@ Q3Notice_Register (
  *		part of the Error Manager will clear the error codes.
  *
  *  @param firstError       Pointer to variable to receive the oldest error code
- *							that has not yet been reported.  May be NULL if you
+ *							that has not yet been reported.  May be nullptr if you
  *							don't need that information.
  *  @result                 Most recent error code.
  */
@@ -712,7 +712,7 @@ Q3Error_IsFatalError (
  *		part of the Error Manager will clear the warning codes.
  *
  *  @param firstWarning     Pointer to variable to receive the oldest warning code
- *							that has not yet been reported.  May be NULL if you
+ *							that has not yet been reported.  May be nullptr if you
  *							don't need that information.
  *  @result                 Most recent warning code.
  */
@@ -734,7 +734,7 @@ Q3Warning_Get (
  *		part of the Error Manager will clear the notice codes.
  *
  *  @param firstNotice      Pointer to variable to receive the oldest notice code
- *							that has not yet been reported.  May be NULL if you
+ *							that has not yet been reported.  May be nullptr if you
  *							don't need that information.
  *  @result                 Most recent notice code.
  */
@@ -763,7 +763,7 @@ Q3Notice_Get (
  *      <em>This function is not available in QD3D.</em>
  *
  *  @param firstErr         Pointer to variable to receive the oldest unreported
- *							platform-specific error code.  May be NULL if you
+ *							platform-specific error code.  May be nullptr if you
  *							don't need that information.
  *  @result                 Most recent platform-specific error code.
  */
@@ -812,7 +812,7 @@ Q3Error_PlatformPost (
  *  @param theLanguage      Preferred language for the error string.
  *							Currently only English is supported.
  *  @param theError         Quesa error code.
- *  @result                 Text version of the error code, as a NULL-terminated string.
+ *  @result                 Text version of the error code, as a NUL-terminated string.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -837,7 +837,7 @@ Q3Error_ToString (
  *  @param theLanguage      Preferred language for the warning string.
  *							Currently only English is supported.
  *  @param theWarning       Quesa warning code.
- *  @result                 Text version of the warning code, as a NULL-terminated string.
+ *  @result                 Text version of the warning code, as a NUL-terminated string.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -862,7 +862,7 @@ Q3Warning_ToString (
  *  @param theLanguage      Preferred language for the notice string.
  *							Currently only English is supported.
  *  @param theWarning       Quesa notice code.
- *  @result                 Text version of the notice code, as a NULL-terminated string.
+ *  @result                 Text version of the notice code, as a NUL-terminated string.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -894,7 +894,7 @@ Q3Notice_ToString (
  *		Q3Error_PlatformGet may be used in place of this function.
  *
  *  @param firstMacErr      Pointer to variable to receive the oldest Mac error code
- *							that has not yet been reported.  May be NULL if you
+ *							that has not yet been reported.  May be nullptr if you
  *							don't need that information.
  *  @result                 Most recent Mac error code.
  */

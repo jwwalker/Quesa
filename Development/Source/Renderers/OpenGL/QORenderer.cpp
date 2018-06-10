@@ -81,7 +81,7 @@ void	QORenderer::ColorState::Reset()
 
 QORenderer::GLContextCleanup::~GLContextCleanup()
 {
-	if (mContext != NULL)
+	if (mContext != nullptr)
 	{
 		GLDrawContext_Destroy( &mContext );
 	}
@@ -94,10 +94,10 @@ QORenderer::GLStencilFuncs::GLStencilFuncs()
 
 void	QORenderer::GLStencilFuncs::SetNULL()
 {
-	glActiveStencilFace = NULL;
-	glStencilFuncSeparate = NULL;
-	glStencilOpSeparate = NULL;
-	glStencilMaskSeparate = NULL;
+	glActiveStencilFace = nullptr;
+	glStencilFuncSeparate = nullptr;
+	glStencilOpSeparate = nullptr;
+	glStencilMaskSeparate = nullptr;
 }
 
 /*!
@@ -139,8 +139,8 @@ void	QORenderer::GLStencilFuncs::Initialize( const TQ3GLExtensions& inExts )
 
 QORenderer::Renderer::Renderer( TQ3RendererObject inRenderer )
 	: mRendererObject( inRenderer )
-	, mDrawContextObject( NULL )
-	, mGLContext( NULL )
+	, mDrawContextObject( nullptr )
+	, mGLContext( nullptr )
 	, mCleanup( mGLContext )
 	, mSLFuncs()
 	, mStencilFuncs()
@@ -148,7 +148,7 @@ QORenderer::Renderer::Renderer( TQ3RendererObject inRenderer )
 	, mRendererEditIndex( Q3Shared_GetEditIndex( inRenderer ) )
 	, mDrawContextEditIndex( 0 )
 	, mGLClearFlags( 0 )
-	, mGLBlendEqProc( NULL )
+	, mGLBlendEqProc( nullptr )
 	, mPassIndex( 0 )
 	, mNumPasses( 1 )
 	, mAllowLineSmooth( true )
@@ -172,7 +172,7 @@ QORenderer::Renderer::Renderer( TQ3RendererObject inRenderer )
 
 QORenderer::Renderer::~Renderer()
 {
-	if (mGLContext != NULL)
+	if (mGLContext != nullptr)
 	{
 		GLDrawContext_SetCurrent( mGLContext, kQ3False );
 	}

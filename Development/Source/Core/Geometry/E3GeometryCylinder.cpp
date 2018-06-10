@@ -94,35 +94,35 @@ e3geom_cylinder_copydata(const TQ3CylinderData *src, TQ3CylinderData *dst, TQ3Bo
 	// copy or shared-replace the attributes
 	if (isDuplicate)
 	{
-		if (src->interiorAttributeSet != NULL)
+		if (src->interiorAttributeSet != nullptr)
 		{
 			dst->interiorAttributeSet = Q3Object_Duplicate(src->interiorAttributeSet);
-			if (dst->interiorAttributeSet == NULL) qd3dStatus = kQ3Failure;
-		} else dst->interiorAttributeSet = NULL;
+			if (dst->interiorAttributeSet == nullptr) qd3dStatus = kQ3Failure;
+		} else dst->interiorAttributeSet = nullptr;
 
-		if (src->faceAttributeSet != NULL)
+		if (src->faceAttributeSet != nullptr)
 		{
 			dst->faceAttributeSet = Q3Object_Duplicate(src->faceAttributeSet);
-			if (dst->faceAttributeSet == NULL) qd3dStatus = kQ3Failure;
-		} else dst->faceAttributeSet = NULL;
+			if (dst->faceAttributeSet == nullptr) qd3dStatus = kQ3Failure;
+		} else dst->faceAttributeSet = nullptr;
 
-		if (src->topAttributeSet != NULL)
+		if (src->topAttributeSet != nullptr)
 		{
 			dst->topAttributeSet = Q3Object_Duplicate(src->topAttributeSet);
-			if (dst->topAttributeSet == NULL) qd3dStatus = kQ3Failure;
-		} else dst->topAttributeSet = NULL;
+			if (dst->topAttributeSet == nullptr) qd3dStatus = kQ3Failure;
+		} else dst->topAttributeSet = nullptr;
 
-		if (src->bottomAttributeSet != NULL)
+		if (src->bottomAttributeSet != nullptr)
 		{
 			dst->bottomAttributeSet = Q3Object_Duplicate(src->bottomAttributeSet);
-			if (dst->bottomAttributeSet == NULL) qd3dStatus = kQ3Failure;
-		} else dst->bottomAttributeSet = NULL;
+			if (dst->bottomAttributeSet == nullptr) qd3dStatus = kQ3Failure;
+		} else dst->bottomAttributeSet = nullptr;
 
-		if (src->cylinderAttributeSet != NULL)
+		if (src->cylinderAttributeSet != nullptr)
 		{
 			dst->cylinderAttributeSet = Q3Object_Duplicate(src->cylinderAttributeSet);
-			if (dst->cylinderAttributeSet == NULL) qd3dStatus = kQ3Failure;
-		} else dst->cylinderAttributeSet = NULL;
+			if (dst->cylinderAttributeSet == nullptr) qd3dStatus = kQ3Failure;
+		} else dst->cylinderAttributeSet = nullptr;
 	}
 	else {
 		E3Shared_Replace(&dst->interiorAttributeSet, src->interiorAttributeSet);
@@ -342,10 +342,10 @@ e3geom_cylinder_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, cons
 
 	// Create a group to hold the cached geometry
 	theGroup = Q3DisplayGroup_New();
-	if (theGroup == NULL)
+	if (theGroup == nullptr)
 	{
 		E3ErrorManager_PostError( kQ3ErrorOutOfMemory, kQ3False );
-		return NULL;
+		return nullptr;
 	}
 
 
@@ -360,7 +360,7 @@ e3geom_cylinder_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, cons
 
 
 	// Add the cone attributes	
-	if (geomData->cylinderAttributeSet != NULL)
+	if (geomData->cylinderAttributeSet != nullptr)
 		Q3Group_AddObject( theGroup, geomData->cylinderAttributeSet );
 
 
@@ -371,7 +371,7 @@ e3geom_cylinder_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, cons
 	uvs       = (TQ3Param2D  *)            Q3Memory_Allocate(static_cast<TQ3Uns32>(numpoints*sizeof(TQ3Param2D)));
 	triangles = (TQ3TriMeshTriangleData *) Q3Memory_Allocate( static_cast<TQ3Uns32>(2*sides*sizeof(TQ3TriMeshTriangleData)) );
 
-	if (points == NULL || normals == NULL || uvs == NULL || triangles == NULL)
+	if (points == nullptr || normals == nullptr || uvs == nullptr || triangles == nullptr)
 		{
 		Q3Memory_Free(&points);
 		Q3Memory_Free(&normals);
@@ -461,22 +461,22 @@ e3geom_cylinder_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, cons
 	// set up remaining trimesh data
 	vertexAttributes[0].attributeType     = kQ3AttributeTypeNormal;
 	vertexAttributes[0].data              = normals;
-	vertexAttributes[0].attributeUseArray = NULL;
+	vertexAttributes[0].attributeUseArray = nullptr;
 
 	vertexAttributes[1].attributeType     = kQ3AttributeTypeSurfaceUV;
 	vertexAttributes[1].data              = uvs;
-	vertexAttributes[1].attributeUseArray = NULL;
+	vertexAttributes[1].attributeUseArray = nullptr;
 
 	triMeshData.numPoints                 = numpoints;
 	triMeshData.points                    = points;
 	triMeshData.numTriangles              = 2*sides;
 	triMeshData.triangles                 = triangles;
 	triMeshData.numTriangleAttributeTypes = 0;
-	triMeshData.triangleAttributeTypes    = NULL;
+	triMeshData.triangleAttributeTypes    = nullptr;
 	triMeshData.numEdges                  = 0;
-	triMeshData.edges                     = NULL;
+	triMeshData.edges                     = nullptr;
 	triMeshData.numEdgeAttributeTypes     = 0;
-	triMeshData.edgeAttributeTypes        = NULL;
+	triMeshData.edgeAttributeTypes        = nullptr;
 	triMeshData.numVertexAttributeTypes   = 2;
 	triMeshData.vertexAttributeTypes      = vertexAttributes;
 	triMeshData.triMeshAttributeSet = geomData->faceAttributeSet;
@@ -490,7 +490,7 @@ e3geom_cylinder_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, cons
 
 	// finally, create the TriMesh and add to the group
 	theTriMesh = Q3TriMesh_New(&triMeshData);
-	if (theTriMesh != NULL)
+	if (theTriMesh != nullptr)
 		{
 		E3TriMesh_AddTriangleNormals(theTriMesh, kQ3OrientationStyleCounterClockwise);
 		Q3Group_AddObjectAndDispose(theGroup, &theTriMesh);
@@ -514,7 +514,7 @@ e3geom_cylinder_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, cons
 		botDisk.diskAttributeSet = geomData->bottomAttributeSet;
 		
 		botGeom = Q3Disk_New( &botDisk );
-		if (botGeom != NULL)
+		if (botGeom != nullptr)
 		{
 			Q3Group_AddObjectAndDispose(theGroup, &botGeom);
 		}
@@ -538,7 +538,7 @@ e3geom_cylinder_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, cons
 		topDisk.diskAttributeSet = geomData->topAttributeSet;
 		
 		topGeom = Q3Disk_New( &topDisk );
-		if (topGeom != NULL)
+		if (topGeom != nullptr)
 		{
 			Q3Group_AddObjectAndDispose(theGroup, &topGeom);
 		}
@@ -559,11 +559,11 @@ e3geom_cylinder_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, cons
 			{ { 0, 3, 1 } }, { { 0, 2, 3 } }
 		};
 		TQ3TriMeshAttributeData	interiorPtAtts[2] = {
-			{ kQ3AttributeTypeNormal, NULL, NULL },
-			{ kQ3AttributeTypeSurfaceUV, NULL, NULL }
+			{ kQ3AttributeTypeNormal, nullptr, nullptr },
+			{ kQ3AttributeTypeSurfaceUV, nullptr, nullptr }
 		};
 		TQ3TriMeshData	intTriMeshData;
-		TQ3GeometryObject	intGeom = NULL;
+		TQ3GeometryObject	intGeom = nullptr;
 		
 		// First half of interior, from ending edge of face to center line.
 		ang = endAngle;
@@ -601,11 +601,11 @@ e3geom_cylinder_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, cons
 		intTriMeshData.numTriangles = 2;
 		intTriMeshData.triangles = interiorTris;
 		intTriMeshData.numTriangleAttributeTypes = 0;
-		intTriMeshData.triangleAttributeTypes = NULL;
+		intTriMeshData.triangleAttributeTypes = nullptr;
 		intTriMeshData.numEdges = 0;
-		intTriMeshData.edges = NULL;
+		intTriMeshData.edges = nullptr;
 		intTriMeshData.numEdgeAttributeTypes = 0;
-		intTriMeshData.edgeAttributeTypes = NULL;
+		intTriMeshData.edgeAttributeTypes = nullptr;
 		intTriMeshData.numPoints = 4;
 		intTriMeshData.points = interiorPts;
 		intTriMeshData.numVertexAttributeTypes = 2;
@@ -617,7 +617,7 @@ e3geom_cylinder_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, cons
 		
 		// Make the first part of the interior
 		intGeom = Q3TriMesh_New( &intTriMeshData );
-		if (intGeom != NULL)
+		if (intGeom != nullptr)
 			{
 			E3TriMesh_AddTriangleNormals(intGeom, kQ3OrientationStyleCounterClockwise);
 			Q3Group_AddObjectAndDispose(theGroup, &intGeom);
@@ -648,7 +648,7 @@ e3geom_cylinder_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, cons
 		
 		// Make the second part of the interior
 		intGeom = Q3TriMesh_New( &intTriMeshData );
-		if (intGeom != NULL)
+		if (intGeom != nullptr)
 			{
 			E3TriMesh_AddTriangleNormals(intGeom, kQ3OrientationStyleCounterClockwise);
 			Q3Group_AddObjectAndDispose(theGroup, &intGeom);
@@ -692,7 +692,7 @@ e3geom_cylinder_get_attribute ( E3Cylinder* cylinder )
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3geom_cylinder_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -778,7 +778,7 @@ E3Cylinder_New(const TQ3CylinderData *cylinderData)
 
 
 
-	if (cylinderData == NULL)
+	if (cylinderData == nullptr)
 	{
 		TQ3CylinderData	defaultCylinder = {
 			{ 0.0f, 0.0f, 0.0f },
@@ -787,7 +787,7 @@ E3Cylinder_New(const TQ3CylinderData *cylinderData)
 			{ 0.0f, 0.0f, 1.0f },
 			0.0f, 1.0f, 0.0f, 1.0f,
 			kQ3EndCapNone,
-			NULL, NULL, NULL, NULL, NULL
+			nullptr, nullptr, nullptr, nullptr, nullptr
 		};
 		theObject = E3ClassTree::CreateInstance ( kQ3GeometryTypeCylinder, kQ3False, &defaultCylinder ) ;
 	}
@@ -855,11 +855,11 @@ E3Cylinder_GetData(TQ3GeometryObject theCylinder, TQ3CylinderData *cylinderData)
 	E3Cylinder* cylinder = (E3Cylinder*) theCylinder ;
 
 	// Copy the data out of the Cylinder
-	cylinderData->interiorAttributeSet = NULL;
-	cylinderData->faceAttributeSet = NULL;
-	cylinderData->topAttributeSet = NULL;
-	cylinderData->bottomAttributeSet = NULL;
-	cylinderData->cylinderAttributeSet = NULL;
+	cylinderData->interiorAttributeSet = nullptr;
+	cylinderData->faceAttributeSet = nullptr;
+	cylinderData->topAttributeSet = nullptr;
+	cylinderData->bottomAttributeSet = nullptr;
+	cylinderData->cylinderAttributeSet = nullptr;
 	
 	return e3geom_cylinder_copydata ( &cylinder->instanceData, cylinderData, kQ3False ) ;
 	}

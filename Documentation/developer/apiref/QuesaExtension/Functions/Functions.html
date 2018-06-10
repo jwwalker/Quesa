@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
     "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
-<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a[name]:hover {text-decoration: inherit; font-family: inherit; font-size: inherit}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
     <title>Functions</title>
 	 <meta name="generator" content="HeaderDoc">
 </head><body bgcolor="#ffffff">
@@ -110,7 +110,7 @@ when the class was registered.
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the private instance data of an object.
 <br><br>
-If no instance data space was reserved for the object, a NULL
+If no instance data space was reserved for the object, a nullptr
 pointer will be returned.
 <br><br>
 </p>
@@ -157,7 +157,7 @@ pointer will be returned.
 <dt><tt><em>theType</em></tt></dt><dd>The class type.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>The class registered under theType, or NULL.
+<dl><dt><i>function result</i></dt><dd>The class registered under theType, or nullptr.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3XObjectHierarchy_GetClassVersion"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XObjectHierarchy_GetClassVersion">Q3XObjectHierarchy_GetClassVersion</a></h2>
@@ -214,7 +214,7 @@ The class version is returned by the class ClassVersion method.
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Register a new object class in the class tree.
 <br><br>
 Quesa does not support the virtualMetaHandler or methodsSize parameters,
-and these should be set to NULL and 0 respectively.
+and these should be set to nullptr and 0 respectively.
 <br><br>
 Virtual methods are inherited from the parent class metahandler in the
 Quesa class tree, and the QD3D docs are unclear on the purpose of
@@ -236,7 +236,7 @@ Q3Object_IsType to identify objects of this class.</dd>
 for the new class. This value is used as the class
 identifier in text 3DMF files.</dd>
 <dt><tt><em>metaHandler</em></tt></dt><dd>The metahandler for the class.</dd>
-<dt><tt><em>virtualMetaHandler</em></tt></dt><dd>The virtual metahandler for the class (should be NULL).</dd>
+<dt><tt><em>virtualMetaHandler</em></tt></dt><dd>The virtual metahandler for the class (should be nullptr).</dd>
 <dt><tt><em>methodsSize</em></tt></dt><dd>The size of the private class data (shoudld be 0).</dd>
 <dt><tt><em>instanceSize</em></tt></dt><dd>The size of the instance data for the class, if any.</dd>
 </dl>
@@ -341,5 +341,5 @@ is also available to general application clients in Quesa.
 <dt><tt><em>warning</em></tt></dt><dd>The warning to post.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2011 Quesa Developers (Last Updated 3/13/2011)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
 </p></body></html>

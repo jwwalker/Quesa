@@ -103,7 +103,7 @@ CocoaGLContext::CocoaGLContext(
     NSRect							viewFrame;
     GLint							enable;
 	TQ3GLExtensions					extFlags;
-	TQ3GLContext					sharingContext = NULL;
+	TQ3GLContext					sharingContext = nullptr;
 	NSView*							theView = nil;
 
 
@@ -124,11 +124,11 @@ CocoaGLContext::CocoaGLContext(
 
 			// Check whether a pixel format was provided by the client
 			Q3Object_GetProperty( theDrawContext, kQ3DrawContextPropertyGLPixelFormat,
-				sizeof(pixelFormat), NULL, &pixelFormat );
+				sizeof(pixelFormat), nullptr, &pixelFormat );
 
 
 			// If not, create a pixel format here
-			if (pixelFormat == NULL)
+			if (pixelFormat == nullptr)
 			{
 				pixelFormat = [[[NSOpenGLPixelFormat alloc]
 					initWithAttributes: (NSOpenGLPixelFormatAttribute *)glAttributes]
@@ -139,7 +139,7 @@ CocoaGLContext::CocoaGLContext(
 			if (shareTextures)
 			{
 				// Attempt to share textures with a previously created context.
-				while ( (sharingContext = GLGPUSharing_GetNextSharingBase( sharingContext )) != NULL )
+				while ( (sharingContext = GLGPUSharing_GetNextSharingBase( sharingContext )) != nullptr )
 				{
 					GLDrawContext_SetCurrent( sharingContext, kQ3False );
 					NSOpenGLContext* prevGLContext = [NSOpenGLContext currentContext];
@@ -236,7 +236,7 @@ CocoaGLContext::CocoaGLContext(
 	// Sync to monitor refresh rate?
 	TQ3Boolean	doSync;
 	if (kQ3Success == Q3Object_GetProperty( theDrawContext,
-		kQ3DrawContextPropertySyncToRefresh, sizeof(doSync), NULL, &doSync ))
+		kQ3DrawContextPropertySyncToRefresh, sizeof(doSync), nullptr, &doSync ))
 	{
 		if (doSync)
 		{

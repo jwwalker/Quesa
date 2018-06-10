@@ -554,7 +554,7 @@ Q3Viewer_GetReleaseVersion (
  *  @param theWindow        The window to which the viewer should be attached.
  *  @param theRect          Area of bounding rectangle within the window.
  *  @param theFlags         Flags for the viewer. Use kQ3ViewerFlagDefault for the default attributes.
- *  @result                 Newly created Viewer object, or <code>NULL</code> if the Viewer could not be created.
+ *  @result                 Newly created Viewer object, or <code>nullptr</code> if the Viewer could not be created.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -1246,7 +1246,7 @@ Q3Viewer_GetMinimumDimension (
  *  @discussion
  *      Gets the window into which the viewer draws.
  *
- *		If NULL is returned, the viewer is not associated with any window.
+ *		If nullptr is returned, the viewer is not associated with any window.
  *
  *		On Mac OS, the window returned will be a WindowRef. On Windows, it
  *		will be an HWND.
@@ -1310,7 +1310,7 @@ Q3Viewer_SetWindow (
  *      <em>This function is not available in QD3D.</em>
  *
  *  @param theWindow        The window to query.
- *  @result                 The associated viewer, or NULL if no viewer was found.
+ *  @result                 The associated viewer, or nullptr if no viewer was found.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -2041,7 +2041,7 @@ Q3Viewer_GetImage (
  *  @discussion
  *      Gets the current post-drawing callback for the viewer.
  *
- *		If no callback has been set, will return NULL.
+ *		If no callback has been set, will return nullptr.
  *
  *      <em>This function is not available in QD3D.</em>
  *
@@ -2095,7 +2095,7 @@ Q3Viewer_SetCallbackDraw (
  *  @discussion
  *      Gets the current resizing callback for the viewer.
  *
- *		If no callback has been set, will return NULL.
+ *		If no callback has been set, will return nullptr.
  *
  *      <em>This function is not available in QD3D.</em>
  *
@@ -2153,7 +2153,7 @@ Q3Viewer_SetCallbackResize (
  *  @discussion
  *      Gets the current resize notification callback for the viewer.
  *
- *		If no callback has been set, will return NULL.
+ *		If no callback has been set, will return nullptr.
  *
  *      <em>This function is not available in QD3D.</em>
  *
@@ -2276,7 +2276,7 @@ Q3ViewerGetReleaseVersion (
  *  @param port             MacOS port to which the Viewer should be attached.
  *  @param rect             Address of a bounding rectangle, in port coordinates.
  *  @param flags            Any combination of Viewer flags (consider using kQ3ViewerDefault).
- *  @result                 Newly created Viewer, or <code>NULL</code> if Viewer could not be created.
+ *  @result                 Newly created Viewer, or <code>nullptr</code> if Viewer could not be created.
  */
 Q3_EXTERN_API_C ( TQ3ViewerObject )
 Q3ViewerNew(
@@ -2931,7 +2931,7 @@ Q3ViewerGetMinimumDimension (
  *		a Window and its port are basically the same thing, but this is
  *		not true under Carbon.  Take care to pass in an actual CGrafPtr,
  *		not a WindowRef (use GetWindowPort to get a window's port).
- *		You may also pass in NULL to indicate that no port should be
+ *		You may also pass in nullptr to indicate that no port should be
  *		associated with this Viewer object.
  *
  *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
@@ -2954,7 +2954,7 @@ Q3ViewerSetPort (
  *      Gets the graphics port into which the specified Viewer draws.
  *
  *		The returned port may be associated with a window or an offscreen
- *		graphics world; or it may be NULL, indicating that the Viewer is
+ *		graphics world; or it may be nullptr, indicating that the Viewer is
  *		not associated with any port.
  *
  *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
@@ -3938,7 +3938,7 @@ Q3WinViewerMouseUp (
  *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
  *
  *  @param viewer           A valid viewer.
- *  @result                 The bitmap, if successful, or NULL.
+ *  @result                 The bitmap, if successful, or nullptr.
  */
 Q3_EXTERN_API_C ( HBITMAP )
 Q3WinViewerGetBitmap (
@@ -4414,7 +4414,7 @@ Q3WinViewerGetWindow (
  *		Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
  *
  *  @param theWindow        Your window.
- *  @result                 The viewer, or NULL, if not successful.
+ *  @result                 The viewer, or nullptr, if not successful.
  */
 Q3_EXTERN_API_C ( TQ3ViewerObject )
 Q3WinViewerGetViewer (

@@ -99,7 +99,7 @@ private:
 
 template <typename T>
 E3FastArray<T>::E3FastArray()
-	: mArray( NULL )
+	: mArray( nullptr )
 	, mSize( 0 )
 	, mCapacity( 0 )
 	, mIsOwned( true )

@@ -125,10 +125,10 @@ void		GLUtils_ValidateElements( TQ3Uns32 inNumPoints, TQ3Uns32 inNumIndices,
 // Convenience template to get OpenGL extension function pointer
 #ifdef __cplusplus
 template <typename T>
-inline void GLGetProcAddress( T& outFuncPtr, const char* inName1, const char* inName2 = NULL )
+inline void GLGetProcAddress( T& outFuncPtr, const char* inName1, const char* inName2 = nullptr )
 {
 	outFuncPtr = (T) GLGetProcAddress( inName1 );
-	if ( (outFuncPtr == NULL) && (inName2 != NULL) )
+	if ( (outFuncPtr == nullptr) && (inName2 != nullptr) )
 	{
 		outFuncPtr = (T) GLGetProcAddress( inName2 );
 	}

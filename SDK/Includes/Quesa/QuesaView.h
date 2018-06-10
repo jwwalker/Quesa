@@ -211,7 +211,7 @@ Q3View_New (
  *
  *  @param drawContextType     The type of data referenced by drawContextTarget
  *  @param drawContextTarget   The window/etc reference for the draw context.
- *  @result                    The new view object, or NULL on failure.
+ *  @result                    The new view object, or nullptr on failure.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 

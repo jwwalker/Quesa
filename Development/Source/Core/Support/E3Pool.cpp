@@ -108,7 +108,7 @@ E3Pool_Destroy(
 	Q3_ASSERT_VALID_PTR(poolPtr);
 
 	// Free all blocks in pool
-	for (blockPtr = poolPtr->headBlockPtr_private; blockPtr != NULL; )
+	for (blockPtr = poolPtr->headBlockPtr_private; blockPtr != nullptr; )
 	{
 		// Save current block pointer
 		TE3PoolBlock* currBlockPtr = blockPtr;
@@ -134,8 +134,8 @@ E3Pool_Destroy(
 //								the mesh can be tagged with a pointer to the
 //								mesh itself.)
 //-----------------------------------------------------------------------------
-//		Note :  If tagItemPtr is NULL, blocks are not tagged.
-//				If unable to allocate (out of memory), return NULL.
+//		Note :  If tagItemPtr is nullptr, blocks are not tagged.
+//				If unable to allocate (out of memory), return nullptr.
 //-----------------------------------------------------------------------------
 TE3PoolItem*
 E3Pool_AllocateTagged(
@@ -151,10 +151,10 @@ E3Pool_AllocateTagged(
 	Q3_ASSERT_VALID_PTR(poolPtr);
 	Q3_ASSERT(itemOffset >= sizeof(TE3PoolBlock));
 	Q3_ASSERT(itemSize >= sizeof(TE3PoolItem));
-	Q3_ASSERT(blockLength > (tagItemPtr == NULL ? 0U : 1U));
+	Q3_ASSERT(blockLength > (tagItemPtr == nullptr ? 0U : 1U));
 
 	// If no free items in pool...
-	if (poolPtr->headFreeItemPtr_private == NULL)
+	if (poolPtr->headFreeItemPtr_private == nullptr)
 	{
 		TE3PoolBlock* newBlockPtr;
 		TE3PoolItem* currItemPtr;
@@ -162,7 +162,7 @@ E3Pool_AllocateTagged(
 		TE3PoolItem* nextItemPtr;
 
 		// Allocate new block of items
-		if ((newBlockPtr = (TE3PoolBlock*) Q3Memory_Allocate(itemOffset + itemSize*blockLength)) == NULL)
+		if ((newBlockPtr = (TE3PoolBlock*) Q3Memory_Allocate(itemOffset + itemSize*blockLength)) == nullptr)
 			goto failure;
 
 		// Link block into pool's list of blocks
@@ -175,12 +175,12 @@ E3Pool_AllocateTagged(
     	
     	// If required, reserve one item for tag
     	numItems = blockLength;
-    	if (tagItemPtr != NULL)
+    	if (tagItemPtr != nullptr)
     	    --numItems;
 
 		// Link items into pool's list of free items
-		nextItemPtr = NULL;
-		for ( ; ((char*&) currItemPtr) -= itemSize, numItems > 0; nextItemPtr = currItemPtr, --numItems)
+		nextItemPtr = nullptr;
+		for ( ; static_cast<void>(((char*&) currItemPtr) -= itemSize), numItems > 0; nextItemPtr = currItemPtr, --numItems)
 			currItemPtr->nextFreeItemPtr_private = nextItemPtr;
 		poolPtr->headFreeItemPtr_private = nextItemPtr;
 		
@@ -188,15 +188,15 @@ E3Pool_AllocateTagged(
 		// Thus E3PoolItem_Tag() should search BACKWARD from an item to find its tag.
 		
 		// If required, tag first item in block
-		if (tagItemPtr != NULL)
+		if (tagItemPtr != nullptr)
 			Q3Memory_Copy(tagItemPtr, currItemPtr, itemSize);
 	}
 
 	// Allocate next free item
 	itemPtr = poolPtr->headFreeItemPtr_private;
-	if (itemPtr == NULL)
+	if (itemPtr == nullptr)
 	{
-		poolPtr->headFreeItemPtr_private = NULL; // can this happen?
+		poolPtr->headFreeItemPtr_private = nullptr; // can this happen?
 	}
 	else
 	{
@@ -207,7 +207,7 @@ E3Pool_AllocateTagged(
 	
 failure:
 
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -215,9 +215,9 @@ failure:
 
 
 //=============================================================================
-//		E3Pool_Free : Free allocated item to pool, and set item pointer to NULL.
+//		E3Pool_Free : Free allocated item to pool, and set item pointer to nullptr.
 //-----------------------------------------------------------------------------
-//		Note :	If the item pointer is already NULL, do nothing.
+//		Note :	If the item pointer is already nullptr, do nothing.
 //				Does *not* call destructor for allocated item.
 //-----------------------------------------------------------------------------
 void
@@ -231,14 +231,14 @@ E3Pool_Free(
 	Q3_ASSERT_VALID_PTR(poolPtr);
 	Q3_ASSERT_VALID_PTR(itemPtrPtr);
 
-	if ((itemPtr = *itemPtrPtr) != NULL)
+	if ((itemPtr = *itemPtrPtr) != nullptr)
 	{
 		// Link item into pool's list of free items
 		itemPtr->nextFreeItemPtr_private = poolPtr->headFreeItemPtr_private;
 		poolPtr->headFreeItemPtr_private = itemPtr;
 		
 		// Zero item pointer
-		*itemPtrPtr = NULL;
+		*itemPtrPtr = nullptr;
 	}
 }
 
@@ -276,7 +276,7 @@ E3PoolItem_Tag(
 	// Thus E3Pool_AllocateTagged() should make the FIRST item in each block a tag.
 
 	tagItemPtr = itemPtr;
-	while (((const char*&) tagItemPtr) -= itemSize, (*isTagItemFunc)(tagItemPtr) == kQ3False)
+	while (static_cast<void>(((const char*&) tagItemPtr) -= itemSize), (*isTagItemFunc)(tagItemPtr) == kQ3False)
 		;
 
 	return(tagItemPtr);

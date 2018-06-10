@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
     "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
-<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a[name]:hover {text-decoration: inherit; font-family: inherit; font-size: inherit}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
     <title>Functions</title>
 	 <meta name="generator" content="HeaderDoc">
 </head><body bgcolor="#ffffff">
@@ -306,7 +306,7 @@ Configuration data should be saved by the application in a manner appropriate
 for the current platform (e.g., the Registry on Windows or a .plist file on
 the Mac), tagging it with the renderer's type for later identification.
 <br><br>
-If dataBuffer is NULL, the size of data required to store the configuration
+If dataBuffer is nullptr, the size of data required to store the configuration
 data will be returned in actualDataSize.
 <br><br>
 Otherwise bufferSize should be set to the number of bytes pointed to by
@@ -318,7 +318,7 @@ dataBuffer.
 <blockquote>
 <dl>
 <dt><tt><em>renderer</em></tt></dt><dd>The renderer to query.</dd>
-<dt><tt><em>dataBuffer</em></tt></dt><dd>Receives the renderer configuration data. May be NULL.</dd>
+<dt><tt><em>dataBuffer</em></tt></dt><dd>Receives the renderer configuration data. May be nullptr.</dd>
 <dt><tt><em>bufferSize</em></tt></dt><dd>The number of bytes pointed to by dataBuffer. May be 0.</dd>
 <dt><tt><em>actualDataSize</em></tt></dt><dd>Receives the number of bytes required for, or written to, dataBuffer.</dd>
 </dl>
@@ -406,7 +406,7 @@ the application for later recall.
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
 <dl>
-<dt><tt><em>theRenderer</em></tt></dt><dd>The renderer whose configure dialog is to be displayed.</dd>
+<dt><tt><em>renderer</em></tt></dt><dd>The renderer whose configure dialog is to be displayed.</dd>
 <dt><tt><em>dialogAnchor</em></tt></dt><dd>Platform-specific dialog data.</dd>
 <dt><tt><em>cancelled</em></tt></dt><dd>Receives the OK/Cancel state of the dialog.</dd>
 </dl>
@@ -561,5 +561,5 @@ This function should only be called from renderer plug-ins.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
-<p><p>&#169; 1999-2011 Quesa Developers (Last Updated 3/13/2011)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
 </p></body></html>

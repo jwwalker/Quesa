@@ -120,8 +120,8 @@ Q3Transform_GetMatrix(TQ3TransformObject transform, TQ3Matrix4x4 *matrix)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( E3Transform::IsOfMyClass ( transform ), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix), NULL);
+	Q3_REQUIRE_OR_RESULT( E3Transform::IsOfMyClass ( transform ), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix), nullptr);
 
 
 
@@ -182,7 +182,7 @@ Q3MatrixTransform_New(const TQ3Matrix4x4 *matrix)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(matrix), nullptr);
 
 
 
@@ -305,7 +305,7 @@ Q3RotateTransform_New(const TQ3RotateTransformData *data)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), nullptr);
 
 
 
@@ -550,7 +550,7 @@ Q3RotateAboutPointTransform_New(const TQ3RotateAboutPointTransformData *data)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), nullptr);
 
 
 
@@ -857,7 +857,7 @@ Q3RotateAboutAxisTransform_New(const TQ3RotateAboutAxisTransformData *data)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), nullptr);
 
 
 
@@ -1165,7 +1165,7 @@ Q3ScaleTransform_New(const TQ3Vector3D *scale)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(scale), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(scale), nullptr);
 
 
 
@@ -1288,7 +1288,7 @@ Q3TranslateTransform_New(const TQ3Vector3D *translate)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(translate), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(translate), nullptr);
 
 
 
@@ -1411,7 +1411,7 @@ Q3QuaternionTransform_New(const TQ3Quaternion *quaternion)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(quaternion), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(quaternion), nullptr);
 
 
 
@@ -1585,7 +1585,7 @@ Q3CameraTransform_New(const TQ3CameraTransformData *theData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theData), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theData), nullptr);
 
 
 

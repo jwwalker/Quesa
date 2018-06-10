@@ -87,7 +87,7 @@ typedef struct TQ3ViewerData {
 	TQ3Vector2D				mPixelScale;		// world units (at z=0) per pixel of screen space
 	float					mRadius;			// radius of a bounding sphere
 	TQ3Quaternion			mOrientation;		// current orientation, relative to initial
-	TQ3GeometryObject		mGuideGeom;			// guide circle, etc. (or NULL)
+	TQ3GeometryObject		mGuideGeom;			// guide circle, etc. (or nullptr)
 	TQ3AntiAliasStyleData	mStyleAntiAlias;	// anti-aliasing style
 	TQ3BackfacingStyle		mStyleBackfacing;	// backfacing style
 	TQ3ShaderObject			mShader;			// current shader; either sPhongShader or sLamberShader
@@ -184,9 +184,9 @@ enum {
 //-----------------------------------------------------------------------------
 // Should move to E3Globals.c
 static TQ3Boolean			gViewerInitedQuesa = kQ3False;
-static TQ3GeometryObject	sGuideCircle       = NULL;
-static TQ3ShaderObject		sPhongShader       = NULL;
-static TQ3ShaderObject		sLambertShader     = NULL;
+static TQ3GeometryObject	sGuideCircle       = nullptr;
+static TQ3ShaderObject		sPhongShader       = nullptr;
+static TQ3ShaderObject		sLambertShader     = nullptr;
 
 extern short gShlbResFile;
 
@@ -209,7 +209,7 @@ static void e3viewer_groupChanged(TQ3ViewerObject theViewer);
 //-----------------------------------------------------------------------------
 #define CheckViewerFailure(_viewer)	if (!_viewer || (((E3Viewer*)(_viewer))->instanceData.mValidViewer != kQ3ValidViewer)) return kQ3Failure
 #define CheckViewerFalse(_viewer)	if (!_viewer || (((E3Viewer*)(_viewer))->instanceData.mValidViewer != kQ3ValidViewer)) return 0
-#define CheckViewerNULL(_viewer)	if (!_viewer || (((E3Viewer*)(_viewer))->instanceData.mValidViewer != kQ3ValidViewer)) return NULL
+#define CheckViewerNULL(_viewer)	if (!_viewer || (((E3Viewer*)(_viewer))->instanceData.mValidViewer != kQ3ValidViewer)) return nullptr
 
 
 
@@ -403,11 +403,11 @@ static TQ3GeometryObject e3viewer_createGuideCircle(void)
 	polyLineData.numVertices          = kGuideCircleSides;
 	polyLineData.vertices             = theVertices;
 	polyLineData.polyLineAttributeSet = Q3AttributeSet_New();
-	if (polyLineData.polyLineAttributeSet != NULL)
+	if (polyLineData.polyLineAttributeSet != nullptr)
 			Q3AttributeSet_Add(polyLineData.polyLineAttributeSet,
 								kQ3AttributeTypeDiffuseColor,
 								&color);
-	polyLineData.segmentAttributeSet  = NULL;
+	polyLineData.segmentAttributeSet  = nullptr;
 
 	for (n = 0; n < kGuideCircleSides; n++)
 		{
@@ -419,7 +419,7 @@ static TQ3GeometryObject e3viewer_createGuideCircle(void)
 	thePolyLine = Q3PolyLine_New(&polyLineData);
 
 	// Clean up
-	if (polyLineData.polyLineAttributeSet != NULL)
+	if (polyLineData.polyLineAttributeSet != nullptr)
 		Q3Object_Dispose(polyLineData.polyLineAttributeSet);
 
 	return(thePolyLine);
@@ -439,11 +439,11 @@ static void e3viewer_drawButton(TQ3ViewerData *data,
 	#if QUESA_SUPPORT_HITOOLBOX
 		Rect r;
 		ThemeButtonDrawInfo drawInfo = {0};
-		static GWorldPtr sIconImages = NULL, sIconMasks = NULL;
-		PicHandle resPic = NULL;
+		static GWorldPtr sIconImages = nullptr, sIconMasks = nullptr;
+		PicHandle resPic = nullptr;
 		CGrafPtr oldGWorld;
 		GDHandle oldDevice;
-		PixMapHandle imagePM = NULL, maskPM = NULL;
+		PixMapHandle imagePM = nullptr, maskPM = nullptr;
 		Rect srcRect = {0,0,28,32};
 		
 		SetPort((GrafPtr)data->mWindow);
@@ -451,7 +451,7 @@ static void e3viewer_drawButton(TQ3ViewerData *data,
 		E3Area_ToRect(butnRect, &r);
 		drawInfo.state = down ? kThemeStatePressed : kThemeStateActive;
 		DrawThemeButton(&r, kThemeMediumBevelButton, 
-			&drawInfo, NULL, NULL, NULL, 0);
+			&drawInfo, nullptr, nullptr, nullptr, 0);
 
 		GetGWorld(&oldGWorld, &oldDevice);
 		if (!sIconImages || !sIconMasks)
@@ -462,19 +462,19 @@ static void e3viewer_drawButton(TQ3ViewerData *data,
 			resPic = GetPicture(129);
 			UseResFile(oldResFile);
 			Q3_ASSERT(resPic);
-			NewGWorld(&sIconImages, 32, &r2, NULL, NULL, 0);
-			NewGWorld(&sIconMasks,  32, &r2, NULL, NULL, 0);
+			NewGWorld(&sIconImages, 32, &r2, nullptr, nullptr, 0);
+			NewGWorld(&sIconMasks,  32, &r2, nullptr, nullptr, 0);
 			Q3_ASSERT(sIconImages && sIconMasks);
 
 			imagePM = GetGWorldPixMap(sIconImages);
 			LockPixels(imagePM);
-			SetGWorld(sIconImages, NULL);
+			SetGWorld(sIconImages, nullptr);
 			EraseRect(&r2);
 			DrawPicture(resPic, &r2);
 
 			maskPM = GetGWorldPixMap(sIconMasks);
 			LockPixels(maskPM);
-			SetGWorld(sIconMasks, NULL);
+			SetGWorld(sIconMasks, nullptr);
 			OffsetRect(&r2, 0, -28);
 			DrawPicture(resPic, &r2);
 			
@@ -686,12 +686,12 @@ static TQ3Status e3viewer_readFile(TQ3ViewerObject theViewer, TQ3StorageObject s
 			if (viewerData->theViewHints)
 				Q3Group_EmptyObjects (viewerData->theViewHints);
 */				
-			Q3Error_Get (NULL); // clears any pending errors
+			Q3Error_Get (nullptr); // clears any pending errors
 			while (Q3File_IsEndOfFile (theFile) == kQ3False)
 				{
 				TQ3Error readError;
 				TQ3Object object = Q3File_ReadObject (theFile);
-				readError = Q3Error_Get (NULL);
+				readError = Q3Error_Get (nullptr);
 				if (readError)
 					{
 					if (Q3Error_IsFatalError (readError))
@@ -721,7 +721,7 @@ static TQ3Status e3viewer_readFile(TQ3ViewerObject theViewer, TQ3StorageObject s
 // ???
 						}
 					else if (Q3Object_IsDrawable (object))
-						Q3Group_AddObject (viewerData->mGroup, object); // no need to check viewerData->theObjects != NULL, done above
+						Q3Group_AddObject (viewerData->mGroup, object); // no need to check viewerData->theObjects != nullptr, done above
 //						else if (viewerData->otherObjects)
 //							Q3Group_AddObject (viewerData->otherObjects, object);
 
@@ -763,7 +763,7 @@ static TQ3Status e3viewer_Write(TQ3ViewerObject theViewer, TQ3StorageObject stor
 
 
 	// Save the model into the selected file
-	if (storage != NULL){
+	if (storage != nullptr){
 
 
 		file = Q3File_New();
@@ -839,7 +839,7 @@ static TQ3Status e3viewer_askBackgroundColor(TQ3ColorARGB *inOutColor)
 static void e3viewer_applyCameraPreset(TQ3ViewerObject theViewer, TQ3Uns32 thePreset)
 {	TQ3ViewerData		*instanceData = instance_data ( theViewer ) ;
 	TQ3CameraData		cameraData;
-	TQ3CameraObject		camera = NULL;
+	TQ3CameraObject		camera = nullptr;
 
 	// reset the model translation to center
 	Q3Vector3D_Set(&instanceData->mTranslation, 0.0f, 0.0f, 0.0f);
@@ -1285,7 +1285,7 @@ static void e3viewer_applyTruck(TQ3ViewerObject theViewer,
 {
 	TQ3ViewerData		*instanceData = instance_data ( theViewer ) ;
 	TQ3CameraData		cameraData;
-	TQ3CameraObject		camera = NULL;
+	TQ3CameraObject		camera = nullptr;
 	float				zoom;
 		
 	if (oldY == newY) return;
@@ -1540,7 +1540,7 @@ static void e3viewer_setupView(TQ3ViewerData *instanceData)
 		Q3Object_Dispose(light);
 		
 		// Shader
-		if (NULL == sLambertShader)
+		if (nullptr == sLambertShader)
 			sLambertShader = Q3LambertIllumination_New();
 		instanceData->mShader = sLambertShader;
 		
@@ -1736,7 +1736,7 @@ e3viewer_delete(TQ3Object theObject, void *privateData)
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3viewer_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -1874,7 +1874,7 @@ E3Viewer_New(const void *theWindow, const TQ3Area *theRect, TQ3Uns32 theFlags)
 
 	qd3dStatus = Q3Initialize();
 	if (qd3dStatus != kQ3Success)
-		return(NULL);
+		return(nullptr);
 
 
 
@@ -1891,13 +1891,13 @@ E3Viewer_New(const void *theWindow, const TQ3Area *theRect, TQ3Uns32 theFlags)
 
 
 	// Instantiate our static helper geometry
-	if (NULL == sGuideCircle)
+	if (nullptr == sGuideCircle)
 		sGuideCircle = e3viewer_createGuideCircle();
 	
-	if (NULL == sPhongShader)
+	if (nullptr == sPhongShader)
 		sPhongShader = Q3PhongIllumination_New();
 	
-	if (NULL == sLambertShader)
+	if (nullptr == sLambertShader)
 		sLambertShader = Q3LambertIllumination_New();
 	
 	return(theViewer);
@@ -1954,7 +1954,7 @@ E3Viewer_Dispose(TQ3ViewerObject theViewer)
 TQ3Status
 E3Viewer_UseFile(TQ3ViewerObject theViewer, TQ3Uns32 fileRef)
 {
-TQ3StorageObject storage = NULL;
+TQ3StorageObject storage = nullptr;
 if (fileRef == 0)
 	return kQ3Failure;
 
@@ -1967,7 +1967,7 @@ if (fileRef == 0)
 #warning platform not supported
 #endif
 
-	if(storage != NULL) 
+	if(storage != nullptr) 
 		{
 		TQ3Status status = e3viewer_readFile(theViewer, storage);
 		Q3Object_Dispose (storage);
@@ -1993,7 +1993,7 @@ TQ3Status
 E3Viewer_UseData(TQ3ViewerObject theViewer, const void *data, TQ3Uns32 dataSize)
 {
 	TQ3StorageObject storage;
-	if (data == NULL || dataSize == 0)
+	if (data == nullptr || dataSize == 0)
 		return kQ3Failure;
 
 	storage = Q3MemoryStorage_New ((unsigned char*)data, dataSize);
@@ -2062,7 +2062,7 @@ E3Viewer_GetGroup(TQ3ViewerObject theViewer)
 TQ3Status
 E3Viewer_WriteFile(TQ3ViewerObject theViewer, TQ3Uns32 fileRef)
 {
-	TQ3StorageObject	storage = NULL;
+	TQ3StorageObject	storage = nullptr;
 	TQ3Status			status = kQ3Failure;
 
 	if (fileRef == 0)
@@ -2076,7 +2076,7 @@ E3Viewer_WriteFile(TQ3ViewerObject theViewer, TQ3Uns32 fileRef)
 #else
 #warning platform not supported
 #endif
-	if(storage != NULL) {
+	if(storage != nullptr) {
 		status = e3viewer_Write(theViewer, storage);
 		Q3Object_Dispose (storage);
 		}
@@ -2097,15 +2097,15 @@ TQ3Status
 E3Viewer_WriteData(TQ3ViewerObject theViewer, void **theData, TQ3Uns32 *dataSize)
 {
 	TQ3ViewerData		*instanceData = instance_data ( theViewer ) ;
-	TQ3StorageObject 	storage = NULL;
+	TQ3StorageObject 	storage = nullptr;
 	TQ3Status 			status = kQ3Failure;
 
-	if (theData == NULL || dataSize == NULL)
+	if (theData == nullptr || dataSize == nullptr)
 		return status;
 
 
 	storage = Q3MemoryStorage_New (0, 0);
-	if(storage != NULL) {
+	if(storage != nullptr) {
 		Q3Object_CleanDispose(&instanceData->mDataStorage);
 		status = e3viewer_Write(theViewer, storage);
 		E3Shared_Replace(&instanceData->mDataStorage, storage);
@@ -2183,7 +2183,7 @@ E3Viewer_DrawContent(TQ3ViewerObject theViewer)
 		// submit transforms (and guide circle, if any)
 		Q3TranslateTransform_Submit( &instanceData->mTranslation, view );
 
-		if (NULL != instanceData->mGuideGeom)
+		if (nullptr != instanceData->mGuideGeom)
 			{
 			Q3Push_Submit(view);
 			scale.x = scale.y = scale.z = instanceData->mRadius;
@@ -2407,7 +2407,7 @@ TQ3Status
 E3Viewer_GetBackgroundColor ( TQ3ViewerObject theViewer, TQ3ColorARGB *color )
 {
 	TQ3Status status= kQ3Failure;
-	if (color == NULL)
+	if (color == nullptr)
 		return status;
 
 	CheckViewerFailure (theViewer);
@@ -2437,7 +2437,7 @@ TQ3Status
 E3Viewer_SetBackgroundColor(TQ3ViewerObject theViewer, const TQ3ColorARGB *color)
 {
 	TQ3Status status = kQ3Failure;
-	if (color == NULL)
+	if (color == nullptr)
 		return status;
 	CheckViewerFailure (theViewer);
 	if (instance_data(theViewer)->mView)
@@ -2729,7 +2729,7 @@ E3Viewer_GetViewer(const void *theWindow)
 
 
 	// To be implemented...
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -2747,7 +2747,7 @@ E3Viewer_GetControlStripWindow(TQ3ViewerObject theViewer)
 
 
 	// To be implemented...
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -3132,7 +3132,7 @@ E3Viewer_EventMouseUp(TQ3ViewerObject theViewer, TQ3Int32 hPos, TQ3Int32 vPos)
 		instanceData->mTrackingMode = kNotTracking;
 		if (instanceData->mGuideGeom)
 			{
-			instanceData->mGuideGeom = NULL;
+			instanceData->mGuideGeom = nullptr;
 			E3Viewer_DrawContent(theViewer);
 			}
 		return kQ3True;
@@ -3386,7 +3386,7 @@ E3Viewer_GetImage(TQ3ViewerObject theViewer)
 
 
 	// To be implemented...
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -3404,7 +3404,7 @@ E3Viewer_GetCallbackDraw(TQ3ViewerObject theViewer)
 
 
 	// To be implemented...
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -3442,7 +3442,7 @@ E3Viewer_GetCallbackResize(TQ3ViewerObject theViewer)
 
 
 	// To be implemented...
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -3478,7 +3478,7 @@ E3Viewer_GetCallbackResizeNotify(TQ3ViewerObject theViewer)
 
 
 	// To be implemented...
-	return(NULL);
+	return(nullptr);
 }
 
 

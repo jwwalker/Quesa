@@ -120,7 +120,7 @@ E3TextureInfo::E3TextureInfo	(
 		: E3SharedInfo ( newClassMetaHandler, newParent ) ,
 		textureDimensions		( (TQ3XTextureDimensionsMethod)		Find_Method ( kQ3XMethodTypeTextureDimensions ) )		 
 	{
-	if ( textureDimensions == NULL )
+	if ( textureDimensions == nullptr )
 		SetAbstract () ;
 	}
 
@@ -251,7 +251,7 @@ e3texture_pixmap_dimensions ( E3PixmapTexture* texture, TQ3Point2D *theDimension
 static TQ3XFunctionPointer
 e3texture_pixmap_metahandler(TQ3XMethodType methodType)
 {	
-	TQ3XFunctionPointer		theMethod = NULL;
+	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -300,7 +300,7 @@ e3texture_mipmap_new(TQ3Object theObject, void *privateData, const void *paramDa
 	instanceData->byteOrder		= textureData->byteOrder ;
 	
 
-	// the reserved field should always be set to NULL
+	// the reserved field should always be set to nullptr
 	instanceData->reserved		= textureData->reserved ;
 
 	
@@ -349,7 +349,7 @@ e3texture_mipmap_duplicate(	TQ3Object fromObject, const void *fromPrivateData,
 	toInstanceData->byteOrder		= fromInstanceData->byteOrder ;
 	
 	
-	// the reserved field should always be set to NULL
+	// the reserved field should always be set to nullptr
 	toInstanceData->reserved	= fromInstanceData->reserved ;
 	
 	
@@ -410,7 +410,7 @@ e3texture_mipmap_dimensions ( E3MipmapTexture* texture, TQ3Point2D *theDimension
 static TQ3XFunctionPointer
 e3texture_mipmap_metahandler(TQ3XMethodType methodType)
 {	
-	TQ3XFunctionPointer		theMethod = NULL;
+	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -560,7 +560,7 @@ e3texture_compressed_dimensions ( E3CompressedPixmapTexture* texture, TQ3Point2D
 static TQ3XFunctionPointer
 e3texture_compressed_metahandler(TQ3XMethodType methodType)
 {	
-	TQ3XFunctionPointer		theMethod = NULL;
+	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -604,7 +604,7 @@ e3texture_metahandler(TQ3XMethodType methodType)
 
 		}
 	
-	return NULL ;
+	return nullptr ;
 	}
 
 
@@ -703,7 +703,7 @@ E3Texture_GetType(TQ3TextureObject texture)
 TQ3Boolean
 E3Texture_IsOfMyClass ( TQ3Object object )
 	{
-	return ( (object != NULL) &&  object->IsObjectValid() &&
+	return ( (object != nullptr) &&  object->IsObjectValid() &&
 		Q3_OBJECT_IS_CLASS( object, E3Texture ) )?
 		kQ3True : kQ3False;
 	}
@@ -857,7 +857,7 @@ E3MipmapTexture_GetMipmap(TQ3TextureObject theTexture, TQ3Mipmap *mipmap)
 
 
 
-	// the reserved field should always be set to NULL
+	// the reserved field should always be set to nullptr
 	mipmap->reserved		= texture->instanceData.reserved ;
 
 
@@ -897,7 +897,7 @@ E3MipmapTexture_SetMipmap(TQ3TextureObject theTexture, const TQ3Mipmap *mipmap)
 
 
 
-	// the reserved field should always be set to NULL
+	// the reserved field should always be set to nullptr
 	texture->instanceData.reserved		= mipmap->reserved ;
 
 
@@ -1045,14 +1045,14 @@ E3CompressedPixmapTexture_CompressImage(TQ3CompressedPixmap *	compressedPixmap,
 
 
 	// If we support QuickTime, compress the image
-	ImageDescriptionHandle	imageDescH 			= NULL;
+	ImageDescriptionHandle	imageDescH 			= nullptr;
 	long					maxCompressedSize	= 0;
-	Handle					compressedDataH		= NULL;
-	Ptr						compressedDataP		= NULL;
+	Handle					compressedDataH		= nullptr;
+	Ptr						compressedDataP		= nullptr;
 	OSErr					theErr				= noErr;
 	Rect 					bounds				= (**sourcePixMap).bounds;
-	TQ3StorageObject		compressedImage		= NULL;
-	TQ3StorageObject		imageDesc			= NULL;
+	TQ3StorageObject		compressedImage		= nullptr;
+	TQ3StorageObject		imageDesc			= nullptr;
 
 
 
@@ -1083,7 +1083,7 @@ E3CompressedPixmapTexture_CompressImage(TQ3CompressedPixmap *	compressedPixmap,
 	imageDescH		= (ImageDescriptionHandle) NewHandle( 4 );
 	compressedDataH = NewHandle( maxCompressedSize );
 	
-	if ( compressedDataH != NULL && imageDescH != NULL )
+	if ( compressedDataH != nullptr && imageDescH != nullptr )
 	{
 		HLock(compressedDataH);
 		compressedDataP = *compressedDataH;
@@ -1094,11 +1094,11 @@ E3CompressedPixmapTexture_CompressImage(TQ3CompressedPixmap *	compressedPixmap,
 								codecQuality,
 								codecType,
 								(CompressorComponent) codecComponent,
-								NULL,
+								nullptr,
 								0,
 								0,
-								NULL,
-								NULL,
+								nullptr,
+								nullptr,
 								imageDescH,
 								compressedDataP);
 		
@@ -1153,11 +1153,11 @@ E3CompressedPixmapTexture_CompressImage(TQ3CompressedPixmap *	compressedPixmap,
 	
 		
 	// make sure memory was allocated
-	if( compressedImage == NULL && imageDesc == NULL )
+	if( compressedImage == nullptr && imageDesc == nullptr )
 	{
-		if( compressedImage != NULL )
+		if( compressedImage != nullptr )
 			Q3Object_Dispose( compressedImage ) ;
-		if( imageDesc != NULL )
+		if( imageDesc != nullptr )
 			Q3Object_Dispose( imageDesc ) ;
 				
 		// deallocate handle storage

@@ -391,7 +391,7 @@ typedef TQ3Int32                                TQ3ObjectType;
  *      Miscellaneous constants
  *
  *  @constant kQ3StringMaximumLength    Maximum length of TQ3ObjectClassNameString.
- *  @constant kQ3ArrayIndexNULL         NULL array index.
+ *  @constant kQ3ArrayIndexNULL         nullptr array index.
  */
 enum {
     kQ3StringMaximumLength                      = 1024,
@@ -1786,20 +1786,20 @@ Q3Object_Dispose (
  *  @discussion
  *      Cleanly disposes of a Quesa object.
  *
- *      If theObject is not NULL, invokes Q3Object_Dispose to decrement the object
+ *      If theObject is not nullptr, invokes Q3Object_Dispose to decrement the object
  *      reference count then clears the supplied pointer to prevent stale references.
  *
  *      Equivalent to:
  *
- *          if (theObject != NULL)
+ *          if (theObject != nullptr)
  *              {
  *              Q3Object_Dispose(theObject);
- *              theObject = NULL;
+ *              theObject = nullptr;
  *              }
  *      
  *      <em>This function is not available in QD3D.</em>
  *      
- *  @param theObject        The object to dispose (may be NULL).
+ *  @param theObject        The object to dispose (may be nullptr).
  *  @result                 Success or failure of the operation.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
@@ -2169,7 +2169,7 @@ Q3Object_ClearElement (
  *      <em>This function is not available in QD3D.</em>
  *
  *  @param	object    		The object.
- *  @param	set             Receives a set object, or NULL.
+ *  @param	set             Receives a set object, or nullptr.
  *	@result		Success or failure of the operation.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
@@ -2194,7 +2194,7 @@ Q3Object_GetSet (
  *		buffer that is not large enough to hold the data.
  *
  *		If you do not know the size of the property, you may call Q3Object_GetProperty
- *		passing NULL for the buffer to find the size of the data, then allocate your
+ *		passing nullptr for the buffer to find the size of the data, then allocate your
  *		buffer and call Q3Object_GetProperty again.
  *      
  *      <em>This function is not available in QD3D.</em>
@@ -2203,8 +2203,8 @@ Q3Object_GetSet (
  *	@param	propType		Property type tag.
  *	@param	bufferSize		Size of provided buffer in bytes.
  *	@param	actualSize		Returns size of returned data in bytes.
- *							You may pass NULL if you do not need this information.
- *	@param	buffer			Buffer to receive the property data.  May be NULL.
+ *							You may pass nullptr if you do not need this information.
+ *	@param	buffer			Buffer to receive the property data.  May be nullptr.
  *	@result		Success or failure of the operation.
 */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
@@ -2291,7 +2291,7 @@ Q3Object_SetProperty(
 	@param		object			A Quesa object.
 	@param		userIterator	A callback function.
 	@param		userData		A pointer to be passed back to the callback
-								(use NULL if none is needed).
+								(use nullptr if none is needed).
 	@result		Success or failure of the operation.
 */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
@@ -2319,7 +2319,7 @@ Q3Object_IterateProperties(
  *
  *  @param	object    		The object.
  *	@param	set				A set object.
- *  @result                 A set object, or NULL.
+ *  @result                 A set object, or nullptr.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -2609,10 +2609,10 @@ Q3Shape_GetType (
  *      Note that this is not the same as the attribute set of a geometry object,
  *		nor is in the internal set which holds elements on an object.  That is,
  *		after adding elements or attributes to an object, this function may still
- *		return the NULL set.
+ *		return the nullptr set.
  *
  *  @param shape            The object to query.
- *  @param theSet           Receives the set of the object, or NULL.
+ *  @param theSet           Receives the set of the object, or nullptr.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )

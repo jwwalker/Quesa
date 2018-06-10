@@ -109,8 +109,8 @@ E3GeometryInfo::E3GeometryInfo	(
 		getAttribute		( (TQ3XGeomGetAttributeMethod)		Find_Method ( kQ3XMethodTypeGeomGetAttribute ) ) ,
 		getPublicData		( (TQ3XGeomGetPublicDataMethod)		Find_Method ( kQ3XMethodTypeGeomGetPublicData ) )		 
 	{
-	if ( cacheIsValid == NULL
-	|| cacheUpdate == NULL )
+	if ( cacheIsValid == nullptr
+	|| cacheUpdate == nullptr )
 		SetAbstract () ;
 	}
 
@@ -139,16 +139,16 @@ e3geometry_get_attributes( E3Geometry* theGeom)
 	{
 	// Get the geometry attribute method
 	TQ3XGeomGetAttributeMethod getAttribute = theGeom->GetClass ()->getAttribute ;
-	if ( getAttribute == NULL )
-		return NULL ;
+	if ( getAttribute == nullptr )
+		return nullptr ;
 
 
 
 	// Get the pointer to the geometry attribute set.
 	//
-	// Note that this should never be NULL, since we're getting a pointer
+	// Note that this should never be nullptr, since we're getting a pointer
 	// to the attribute set here (which should always exist) rather than
-	// the attribute set itself (which may well be NULL).
+	// the attribute set itself (which may well be nullptr).
 	TQ3AttributeSet* attributeSet = getAttribute ( theGeom ) ;
 	Q3_ASSERT_VALID_PTR( attributeSet ) ;
 	
@@ -210,7 +210,7 @@ e3geometry_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 	toInstanceData->instanceData.styleSubdivision  = fromInstanceData->instanceData.styleSubdivision;
 	toInstanceData->instanceData.styleOrientation  = fromInstanceData->instanceData.styleOrientation;
 	toInstanceData->instanceData.cachedEditIndex   = 0;
-	toInstanceData->instanceData.cachedObject      = NULL;
+	toInstanceData->instanceData.cachedObject      = nullptr;
 	toInstanceData->instanceData.cachedDeterminant = 0.0f;
 	
 	return kQ3Success ;
@@ -244,15 +244,15 @@ e3geometry_submit_decomposed(TQ3ViewObject theView, TQ3ObjectType objectType, TQ
 
 
 	// Get the class for the geometry
-	E3GeometryInfo* theClass = (E3GeometryInfo*) ( theObject != NULL ? theObject->GetClass () : E3ClassTree::GetClass ( objectType ) ) ;
+	E3GeometryInfo* theClass = (E3GeometryInfo*) ( theObject != nullptr ? theObject->GetClass () : E3ClassTree::GetClass ( objectType ) ) ;
 
-	if ( theClass == NULL || ! Q3_CLASS_INFO_IS_CLASS ( theClass , E3Geometry ) )
+	if ( theClass == nullptr || ! Q3_CLASS_INFO_IS_CLASS ( theClass , E3Geometry ) )
 		return kQ3Failure ;
 
 
 
 	// If this is a retained mode submit, submit the cached version.
-	if ( theObject != NULL )
+	if ( theObject != nullptr )
 		{
 		// Find our instance data
 		E3Geometry* instanceData = (E3Geometry*) theObject ;
@@ -269,7 +269,7 @@ e3geometry_submit_decomposed(TQ3ViewObject theView, TQ3ObjectType objectType, TQ
 
 
 		// Submit the cached object (or we fail)
-		if (instanceData->instanceData.cachedObject != NULL)
+		if (instanceData->instanceData.cachedObject != nullptr)
 			qd3dStatus = E3View_SubmitRetained(theView, instanceData->instanceData.cachedObject);
 		}
 
@@ -288,13 +288,13 @@ e3geometry_submit_decomposed(TQ3ViewObject theView, TQ3ObjectType objectType, TQ
 	else
 		{
 		// Check we have a method
-		if ( theClass->cacheNew == NULL )
+		if ( theClass->cacheNew == nullptr )
 			return kQ3Failure ;
 		
 		
 		// Create a temporary object, submit it, and clean up
 		TQ3Object tmpObject = theClass->cacheNew ( theView, theObject, objectData ) ;
-		if ( tmpObject == NULL )
+		if ( tmpObject == nullptr )
 			return kQ3Failure ;
 		
 		qd3dStatus = Q3Object_Submit(tmpObject, theView);
@@ -324,7 +324,7 @@ e3geometry_render(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object the
 	// use the supplied data directly.
 	const void* publicData = objectData ;
 
-	if ( theObject != NULL )
+	if ( theObject != nullptr )
 		if ( TQ3XGeomGetPublicDataMethod getPublicData = ( (E3GeometryInfo*) ( theObject->GetClass () ) )->getPublicData )
 			publicData = getPublicData ( theObject ) ;
 
@@ -438,7 +438,7 @@ e3geometry_write(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theO
 	// use the supplied data directly.
 	const void* publicData = objectData ;
 
-	if ( theObject != NULL )
+	if ( theObject != nullptr )
 		if ( TQ3XGeomGetPublicDataMethod getPublicData = ( (E3GeometryInfo*) ( theObject->GetClass () ) )->getPublicData )
 			publicData = getPublicData ( theObject ) ;
 
@@ -509,14 +509,14 @@ e3geometry_cache_isvalid(TQ3ViewObject theView,
 	
 	
 	// Does the geometry use subdivision?
-	TQ3Boolean usesSubdivision = ( theClass->GetMethod ( kQ3XMethodTypeGeomUsesSubdivision ) != NULL)?
+	TQ3Boolean usesSubdivision = ( theClass->GetMethod ( kQ3XMethodTypeGeomUsesSubdivision ) != nullptr)?
 		kQ3True : kQ3False;
 
 
 
 	// First check the geometry edit index
 	TQ3Uns32 editIndex = Q3Shared_GetEditIndex ( theGeom ) ;
-	if (instanceData->instanceData.cachedObject == NULL || editIndex > instanceData->instanceData.cachedEditIndex)
+	if (instanceData->instanceData.cachedObject == nullptr || editIndex > instanceData->instanceData.cachedEditIndex)
 		{
 		instanceData->instanceData.cachedEditIndex = editIndex;
 		
@@ -572,7 +572,7 @@ e3geometry_cache_isvalid(TQ3ViewObject theView,
 
 
 	// Check for changes to the orientation style
-	if ( theClass->GetMethod ( kQ3XMethodTypeGeomUsesOrientation ) != NULL )
+	if ( theClass->GetMethod ( kQ3XMethodTypeGeomUsesOrientation ) != nullptr )
 		{
 		TQ3OrientationStyle theOrientation = E3View_State_GetStyleOrientation ( theView ) ;
 		if (instanceData->instanceData.styleOrientation != theOrientation)
@@ -600,7 +600,7 @@ e3geometry_cache_isvalid(TQ3ViewObject theView,
 //				cached representation rather than rebuilding it.
 //
 //				The current cached representation is passed in cachedGeom, and
-//				we must either return NULL (on failure) or a new cached object.
+//				we must either return nullptr (on failure) or a new cached object.
 //-----------------------------------------------------------------------------
 static void
 e3geometry_cache_update(TQ3ViewObject theView,
@@ -617,17 +617,17 @@ e3geometry_cache_update(TQ3ViewObject theView,
 
 	// Find the class, and the appropriate method
 	E3GeometryInfo* theClass = (E3GeometryInfo*) E3ClassTree::GetClass ( objectType ) ;
-	if ( theClass == NULL )
+	if ( theClass == nullptr )
 		return ;
 
 	// Get rid of the existing cached object, if any
-	if ( *cachedGeom != NULL )
+	if ( *cachedGeom != nullptr )
 		Q3Object_CleanDispose ( cachedGeom ) ;
 
 
 
 	// If we can create a cached geometry, create it
-	if ( theClass->cacheNew != NULL )
+	if ( theClass->cacheNew != nullptr )
 	{
 		try
 		{
@@ -635,12 +635,12 @@ e3geometry_cache_update(TQ3ViewObject theView,
 		}
 		catch (std::bad_alloc&)
 		{
-			*cachedGeom = NULL;
+			*cachedGeom = nullptr;
 			E3ErrorManager_PostError( kQ3ErrorOutOfMemory, kQ3False );
 		}
 		catch (...)
 		{
-			*cachedGeom = NULL;
+			*cachedGeom = nullptr;
 		}
 	}
 	}
@@ -654,7 +654,7 @@ e3geometry_cache_update(TQ3ViewObject theView,
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3geometry_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -860,18 +860,18 @@ E3Geometry_GetAttributeSet(TQ3GeometryObject theGeom, TQ3AttributeSet *attribute
 
 
 	// Set up a return value
-	*attributeSet = NULL;
+	*attributeSet = nullptr;
 
 
 
 	// Make sure we found the pointer
-	if (geomAttributes == NULL)
+	if (geomAttributes == nullptr)
 		return(kQ3Failure);
 
 
 
 	// Return another reference to the attribute set
-	if (*geomAttributes != NULL)
+	if (*geomAttributes != nullptr)
 		*attributeSet = ((E3Shared*)*geomAttributes)->GetReference();
 
 	return(kQ3Success);
@@ -891,7 +891,7 @@ E3Geometry_SetAttributeSet(TQ3GeometryObject theGeom, TQ3AttributeSet attributeS
 
 
 	// Make sure we found the pointer
-	if (geomAttributes == NULL)
+	if (geomAttributes == nullptr)
 		return(kQ3Failure);
 
 
@@ -940,14 +940,14 @@ TQ3Object
 E3Geometry_GetDecomposed( TQ3GeometryObject theGeom, TQ3ViewObject view )
 	{
 	// Verify that we are in a submitting loop
-	Q3_REQUIRE_OR_RESULT( E3View_GetViewState( view ) == kQ3ViewStateSubmitting, NULL );
+	Q3_REQUIRE_OR_RESULT( E3View_GetViewState( view ) == kQ3ViewStateSubmitting, nullptr );
 
 
 
 	// Find the method we need
 	TQ3XGeomCacheNewMethod cacheNew = ( (E3GeometryInfo*) ( theGeom->GetClass () ) )->cacheNew ;
-	if ( cacheNew == NULL )
-		return NULL ;
+	if ( cacheNew == nullptr )
+		return nullptr ;
 
 
 
@@ -1026,7 +1026,7 @@ TQ3Boolean			E3Geometry_IsDegenerateTriple( const TQ3Vector3D* orientation,
 TQ3Boolean
 E3Geometry_IsOfMyClass ( TQ3Object object )
 	{
-	if ( object == NULL )
+	if ( object == nullptr )
 		return kQ3False ;
 		
 	if ( object->IsObjectValid () )

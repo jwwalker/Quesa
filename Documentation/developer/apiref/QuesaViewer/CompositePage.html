@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
     "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
-<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a[name]:hover {text-decoration: inherit; font-family: inherit; font-size: inherit}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
     <title>QuesaViewer.h</title>
 	 <meta name="generator" content="HeaderDoc">
 </head><body bgcolor="#ffffff">
@@ -592,7 +592,7 @@ Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Gets the graphics port into which the specified Viewer draws.
 <br><br>
 The returned port may be associated with a window or an offscreen
-graphics world; or it may be NULL, indicating that the Viewer is
+graphics world; or it may be nullptr, indicating that the Viewer is
 not associated with any port.
 <br><br>
 Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
@@ -895,7 +895,7 @@ Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
 <dt><tt><em>flags</em></tt></dt><dd>Any combination of Viewer flags (consider using kQ3ViewerDefault).</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>Newly created Viewer, or <code>NULL</code> if Viewer could not be created.
+<dl><dt><i>function result</i></dt><dd>Newly created Viewer, or <code>nullptr</code> if Viewer could not be created.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3ViewerPaste"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewerPaste">Q3ViewerPaste</a></h2>
@@ -1259,7 +1259,7 @@ be an offscreen graphics world.  Note that under classic MacOS,
 a Window and its port are basically the same thing, but this is
 not true under Carbon.  Take care to pass in an actual CGrafPtr,
 not a WindowRef (use GetWindowPort to get a window's port).
-You may also pass in NULL to indicate that no port should be
+You may also pass in nullptr to indicate that no port should be
 associated with this Viewer object.
 <br><br>
 Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
@@ -1960,7 +1960,7 @@ control strip, use the kQ3ViewerButtonCamera constant.
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Gets the current post-drawing callback for the viewer.
 <br><br>
-If no callback has been set, will return NULL.
+If no callback has been set, will return nullptr.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
@@ -1981,7 +1981,7 @@ If no callback has been set, will return NULL.
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Gets the current resizing callback for the viewer.
 <br><br>
-If no callback has been set, will return NULL.
+If no callback has been set, will return nullptr.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
@@ -2002,7 +2002,7 @@ If no callback has been set, will return NULL.
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Gets the current resize notification callback for the viewer.
 <br><br>
-If no callback has been set, will return NULL.
+If no callback has been set, will return nullptr.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
@@ -2449,7 +2449,7 @@ should be an HWND.
 <dt><tt><em>theWindow</em></tt></dt><dd>The window to query.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>The associated viewer, or NULL if no viewer was found.
+<dl><dt><i>function result</i></dt><dd>The associated viewer, or nullptr if no viewer was found.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Viewer_GetWindow"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Viewer_GetWindow">Q3Viewer_GetWindow</a></h2>
@@ -2459,7 +2459,7 @@ should be an HWND.
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Gets the window into which the viewer draws.
 <br><br>
-If NULL is returned, the viewer is not associated with any window.
+If nullptr is returned, the viewer is not associated with any window.
 <br><br>
 On Mac OS, the window returned will be a WindowRef. On Windows, it
 will be an HWND.
@@ -2510,7 +2510,7 @@ QD3D's old kQ3ViewerXXXX constants.
 <dt><tt><em>theFlags</em></tt></dt><dd>Flags for the viewer. Use kQ3ViewerFlagDefault for the default attributes.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>Newly created Viewer object, or <code>NULL</code> if the Viewer could not be created.
+<dl><dt><i>function result</i></dt><dd>Newly created Viewer object, or <code>nullptr</code> if the Viewer could not be created.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Viewer_RestoreView"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Viewer_RestoreView">Q3Viewer_RestoreView</a></h2>
@@ -3330,7 +3330,7 @@ Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
 <dt><tt><em>viewer</em></tt></dt><dd>A valid viewer.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>The bitmap, if successful, or NULL.
+<dl><dt><i>function result</i></dt><dd>The bitmap, if successful, or nullptr.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3WinViewerGetBounds"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3WinViewerGetBounds">Q3WinViewerGetBounds</a></h2>
@@ -3723,7 +3723,7 @@ Note - the QD3D Viewer API is deprecated in favour of the Quesa Viewer.
 <dt><tt><em>theWindow</em></tt></dt><dd>Your window.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>The viewer, or NULL, if not successful.
+<dl><dt><i>function result</i></dt><dd>The viewer, or nullptr, if not successful.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3WinViewerGetWindow"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3WinViewerGetWindow">Q3WinViewerGetWindow</a></h2>
@@ -4599,5 +4599,5 @@ enum {
 <dt><a name="//Quesa/c/econst/Q3VNM_BADGEHIT"><tt>Q3VNM_BADGEHIT</tt></a></dt><dd>The viewer badge has been clicked.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2011 Quesa Developers (Last Updated 3/13/2011)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
 </p></body></html>

@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
     "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
-<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a[name]:hover {text-decoration: inherit; font-family: inherit; font-size: inherit}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
     <title>Functions</title>
 	 <meta name="generator" content="HeaderDoc">
 </head><body bgcolor="#ffffff">
@@ -554,7 +554,7 @@ caller must release their reference when done.
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3NULLIllumination_New">Q3NULLIllumination_New</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3ShaderObject ) Q3NULLIllumination_New (void);</tt><br>
 </pre></blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a NULL illumination shader.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a nullptr illumination shader.
 <br><br>
 </p>
 <dl><dt><i>function result</i></dt><dd>The new illumination shader.
@@ -827,7 +827,7 @@ caller must release their reference when done.
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a texture shader.
 <br><br>
-A texture shader with a NULL texture serves to override a texture shader
+A texture shader with a nullptr texture serves to override a texture shader
 at a higher level of the hierarchy, causing geometries that it governs
 to be untextured.
 <br><br>
@@ -838,7 +838,7 @@ to be untextured.
 <dt><tt><em>texture</em></tt></dt><dd>The texture object for the shader.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>The new texture shader, or NULL.
+<dl><dt><i>function result</i></dt><dd>The new texture shader, or nullptr.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3TextureShader_SetTexture"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3TextureShader_SetTexture">Q3TextureShader_SetTexture</a></h2>
@@ -854,7 +854,7 @@ to be untextured.
 <blockquote>
 <dl>
 <dt><tt><em>shader</em></tt></dt><dd>The shader to update.</dd>
-<dt><tt><em>texture</em></tt></dt><dd>The texture for the shader, or NULL.</dd>
+<dt><tt><em>texture</em></tt></dt><dd>The texture for the shader, or nullptr.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -914,5 +914,5 @@ to be untextured.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
-<p><p>&#169; 1999-2011 Quesa Developers (Last Updated 3/13/2011)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
 </p></body></html>

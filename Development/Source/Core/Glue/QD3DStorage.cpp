@@ -286,7 +286,7 @@ Q3MemoryStorage_NewNoCopy(
     TQ3Uns32                      bufferSize
 )
 {
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(buffer), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(buffer), nullptr);
 
 
 	// Call the bottleneck
@@ -338,8 +338,8 @@ Q3MemoryStorage_NewBuffer(unsigned char *buffer, TQ3Uns32 validSize, TQ3Uns32 bu
 
 
 	// Release build checks
-	// Note, buffer is allowed to be NULL.
-	Q3_REQUIRE_OR_RESULT( validSize <= bufferSize, NULL );
+	// Note, buffer is allowed to be nullptr.
+	Q3_REQUIRE_OR_RESULT( validSize <= bufferSize, nullptr );
 
 
 
@@ -396,7 +396,7 @@ Q3MemoryStorage_SetBuffer(TQ3StorageObject storage, unsigned char *buffer, TQ3Un
 //      Q3MemoryStorage_GetBuffer : Quesa API entry point.
 //-----------------------------------------------------------------------------
 //		Note :	It's not correct going by the documentation, but the QD3D
-//				Interactive Renderer calls this with several NULL parameters.
+//				Interactive Renderer calls this with several nullptr parameters.
 //-----------------------------------------------------------------------------
 TQ3Status
 Q3MemoryStorage_GetBuffer(TQ3StorageObject storage, unsigned char **buffer, TQ3Uns32 *validSize, TQ3Uns32 *bufferSize)
@@ -406,13 +406,13 @@ Q3MemoryStorage_GetBuffer(TQ3StorageObject storage, unsigned char **buffer, TQ3U
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3Object_GetLeafType(storage) == kQ3StorageTypeMemory, kQ3Failure);
 
-	if (buffer != NULL)
+	if (buffer != nullptr)
 		Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(buffer), kQ3Failure);
 
-	if (validSize != NULL)
+	if (validSize != nullptr)
 		Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(validSize), kQ3Failure);
 
-	if (bufferSize != NULL)
+	if (bufferSize != nullptr)
 		Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(bufferSize), kQ3Failure);
 
 
@@ -444,7 +444,7 @@ Q3PathStorage_New(const char *pathName)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(pathName), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(pathName), nullptr);
 
 
 
@@ -845,7 +845,7 @@ Q3FSSpecStorage_New(const FSSpec *fs)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(fs), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(fs), nullptr);
 
 
 
@@ -934,7 +934,7 @@ Q3FSRefStorage_New(
 )
 {
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(fr), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(fr), nullptr);
 
 
 
@@ -1106,7 +1106,7 @@ Q3UnixPathStorage_New(const char *pathName)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(pathName), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(pathName), nullptr);
 
 
 

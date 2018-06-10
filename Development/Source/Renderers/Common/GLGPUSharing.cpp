@@ -87,7 +87,7 @@ namespace
 //		Static variables
 //-----------------------------------------------------------------------------
 
-static GroupList*	sGroupList = NULL;
+static GroupList*	sGroupList = nullptr;
 
 
 
@@ -103,11 +103,11 @@ static GroupList*	sGroupList = NULL;
 */
 static void InitGroups()
 {
-	if (sGroupList == NULL)
+	if (sGroupList == nullptr)
 	{
 		sGroupList = new(std::nothrow) GroupList;
 		
-		if (sGroupList == NULL)
+		if (sGroupList == nullptr)
 		{
 			E3ErrorManager_PostError( kQ3ErrorOutOfMemory, kQ3True );
 		}
@@ -127,12 +127,12 @@ static void InitGroups()
 */
 static bool FindGroupFromContext( TQ3GLContext inContext,
 								GroupList::iterator& outGroupIterator,
-								GLContextVec::iterator* outWhichContext = NULL )
+								GLContextVec::iterator* outWhichContext = nullptr )
 {
 	bool	didFind = false;
 	InitGroups();
 	
-	if (sGroupList != NULL)
+	if (sGroupList != nullptr)
 	{
 		GroupList::iterator	endList = sGroupList->end();
 		outGroupIterator = endList;
@@ -144,7 +144,7 @@ static bool FindGroupFromContext( TQ3GLContext inContext,
 			
 			if (foundContextIt != i->mGLContexts.end())
 			{
-				if (outWhichContext != NULL)
+				if (outWhichContext != nullptr)
 					*outWhichContext = foundContextIt;
 				outGroupIterator = i;
 				didFind = true;
@@ -202,22 +202,22 @@ GPUSharingGroup&	GPUSharingGroup::operator=(
 					The texture manager maintains a list of existing GL contexts
 					grouped by sharing.  This function can be used to find one
 					context in each sharing group.
-	@param			glBase			NULL to begin iteration, or a value returned
+	@param			glBase			nullptr to begin iteration, or a value returned
 									by a previous call to this function.
-	@result			Next GL sharing context, or NULL when there are no more.
+	@result			Next GL sharing context, or nullptr when there are no more.
 */
 
 TQ3GLContext		GLGPUSharing_GetNextSharingBase( TQ3GLContext glBase )
 {
-	TQ3GLContext	nextContext = NULL;
+	TQ3GLContext	nextContext = nullptr;
 	
 	try
 	{
 		InitGroups();
 		
-		if (sGroupList != NULL)
+		if (sGroupList != nullptr)
 		{
-			if (glBase == NULL)
+			if (glBase == nullptr)
 			{
 				if (! sGroupList->empty())
 				{
@@ -258,21 +258,21 @@ CQ3GPSharedCache::~CQ3GPSharedCache()
 					to inform the GPU sharing manager.
 	@param			newGLContext		The newly created context.
 	@param			sharingBase			The existing context with which the new one
-										shares data, or NULL.
+										shares data, or nullptr.
 */
 void				GLGPUSharing_AddContext( TQ3GLContext newGLContext,
 											TQ3GLContext sharingBase )
 {
 	InitGroups();
 	
-	if (sGroupList != NULL)
+	if (sGroupList != nullptr)
 	{
 		try
 		{
-			GPUSharingGroup*	theGroup = NULL;
+			GPUSharingGroup*	theGroup = nullptr;
 			
 			// If there is a sharing base, look for an existing group containing it.
-			if (sharingBase != NULL)
+			if (sharingBase != nullptr)
 			{
 				GroupList::iterator	groupIt;
 				
@@ -283,13 +283,13 @@ void				GLGPUSharing_AddContext( TQ3GLContext newGLContext,
 			}
 			
 			// If we do not have an existing group to use, make a new one.
-			if (theGroup == NULL)
+			if (theGroup == nullptr)
 			{
 				sGroupList->push_back( GPUSharingGroup() );
 				theGroup = &sGroupList->back();
 			}
 			
-			if (theGroup != NULL)
+			if (theGroup != nullptr)
 			{
 				theGroup->mGLContexts.push_back( newGLContext );
 			}
@@ -345,12 +345,12 @@ bool				GLGPUSharing_IsContextKnown( TQ3GLContext inGLContext )
 	@abstract		Locate a cache within a sharing group.
 	@param			glContext			A GL context.
 	@param			inCacheType			key code for type of cache.
-	@result			A cache pointer, or NULL.
+	@result			A cache pointer, or nullptr.
 */
 CQ3GPSharedCache*	GLGPUSharing_GetCache( TQ3GLContext glContext,
 											TQ3Uns32 inCacheType )
 {
-	CQ3GPSharedCache*	theCache = NULL;
+	CQ3GPSharedCache*	theCache = nullptr;
 	GroupList::iterator	groupIt;
 	
 	if (FindGroupFromContext( glContext, groupIt ))
@@ -373,7 +373,7 @@ CQ3GPSharedCache*	GLGPUSharing_GetCache( TQ3GLContext glContext,
 	@function		GLGPUSharing_AddCache
 	@abstract		Add a cache to a sharing group.
 	@discussion		This should only be called if GLGPUSharing_GetCache has
-					returned NULL.  After this call, the sharing group takes
+					returned nullptr.  After this call, the sharing group takes
 					ownership of the cache, so do not delete the cache. it will
 					be deleted when the sharing group is deleted.
 	@param			glContext			A GL context.
@@ -384,7 +384,7 @@ void				GLGPUSharing_AddCache( TQ3GLContext glContext,
 											TQ3Uns32 inCacheType,
 											CQ3GPSharedCache* inCache )
 {
-	Q3_ASSERT( GLGPUSharing_GetCache( glContext, inCacheType ) == NULL );
+	Q3_ASSERT( GLGPUSharing_GetCache( glContext, inCacheType ) == nullptr );
 	GroupList::iterator	groupIt;
 	
 	if (FindGroupFromContext( glContext, groupIt ))
@@ -414,7 +414,7 @@ bool				GLGPUSharing_IsCacheValid(
 {
 	bool	didFind = false;
 	
-	if (sGroupList != NULL)
+	if (sGroupList != nullptr)
 	{
 		for (GroupList::iterator i = sGroupList->begin();
 			i != sGroupList->end(); ++i)

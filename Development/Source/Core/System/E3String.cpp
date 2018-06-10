@@ -101,7 +101,7 @@ e3string_c_new(TQ3Object theObject, void *privateData, const void *paramData)
 
 	// Initialise our instance data
 	*instanceData = (TQ3StringPtr) Q3Memory_Allocate(static_cast<TQ3Uns32>(strlen(theString) + 1));
-	if (*instanceData == NULL)
+	if (*instanceData == nullptr)
 		return(kQ3Failure);
 	
 	strcpy(*instanceData, theString);	
@@ -150,11 +150,11 @@ e3string_c_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 
 
 	// Initialise the instance data of the new object
-	*toInstanceData = NULL;
-	if (*fromInstanceData != NULL)
+	*toInstanceData = nullptr;
+	if (*fromInstanceData != nullptr)
 		{
 		*toInstanceData = (TQ3StringPtr) Q3Memory_Allocate(static_cast<TQ3Uns32>(strlen(*fromInstanceData) + 1));
-		if (*toInstanceData == NULL)
+		if (*toInstanceData == nullptr)
 			return(kQ3Failure);
 	
 		strcpy(*toInstanceData, *fromInstanceData);	
@@ -172,7 +172,7 @@ e3string_c_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3string_c_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -212,7 +212,7 @@ E3String_RegisterClass(void)
 
 	// Register the classes
 	qd3dStatus = Q3_REGISTER_CLASS_NO_DATA (	kQ3ClassNameString,
-										NULL,
+										nullptr,
 										E3String ) ;
 	
 	if (qd3dStatus == kQ3Success)
@@ -285,7 +285,7 @@ TQ3Status
 E3CString_GetLength(TQ3StringObject stringObj, TQ3Uns32 *length)
 	{
 	// Return the length of the string
-	if ( ( (E3CString*) stringObj )->instanceData == NULL )
+	if ( ( (E3CString*) stringObj )->instanceData == nullptr )
 		*length = 0 ;
 	else
 		*length = static_cast<TQ3Uns32>(strlen ( ( (E3CString*) stringObj )->instanceData ));
@@ -328,7 +328,7 @@ E3CString_SetString(TQ3StringObject stringObj, const char *str)
 //      E3CString_GetString : Get the data for a string.
 //-----------------------------------------------------------------------------
 //		Note :	We return a copy of the string data in str - posting a warning
-//				if this pointer is not already NULL, since this may indicate
+//				if this pointer is not already nullptr, since this may indicate
 //				a memory leak.
 //-----------------------------------------------------------------------------
 TQ3Status
@@ -336,15 +336,15 @@ E3CString_GetString(TQ3StringObject stringObj, char **str)
 	{
 	TQ3StringPtr* instanceData = & ( (E3CString*) stringObj )->instanceData ;
 
-	// If the pointer isn't NULL, warn that they might be leaking memory
-	if ( *str != NULL )
+	// If the pointer isn't nullptr, warn that they might be leaking memory
+	if ( *str != nullptr )
 		E3ErrorManager_PostWarning ( kQ3WarningPossibleMemoryLeak ) ;
 
 
 
 	// Allocate the data for the string
 	*str = (char *) Q3Memory_Allocate( static_cast<TQ3Uns32>(strlen ( *instanceData ) + 1) ) ;
-	if ( *str == NULL )
+	if ( *str == nullptr )
 		return kQ3Failure ;
 	
 	
@@ -377,7 +377,7 @@ E3CString_PeekString( TQ3StringObject stringObj )
 //=============================================================================
 //      E3CString_EmptyData : Dispose of data allocated by Q3CString_GetData.
 //-----------------------------------------------------------------------------
-//		Note :	After disposing of the data, we must also reset str to NULL.
+//		Note :	After disposing of the data, we must also reset str to nullptr.
 //				This is done for us by Q3Memory_Free, but we assert it in case
 //				that behaviour is ever changed.
 //-----------------------------------------------------------------------------
@@ -392,7 +392,7 @@ E3CString_EmptyData(char **str)
 
 
 	// Make sure we really did get rid of it
-	Q3_ASSERT(*str == NULL);
+	Q3_ASSERT(*str == nullptr);
 	
 	return(kQ3Success);
 }

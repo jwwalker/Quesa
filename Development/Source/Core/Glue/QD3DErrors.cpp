@@ -181,7 +181,7 @@ Q3Error_Get(TQ3Error *firstError)
 
 
 	// Release build checks
-	if (firstError != NULL)
+	if (firstError != nullptr)
 		Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(firstError), kQ3ErrorNone);
 
 
@@ -243,7 +243,7 @@ Q3Warning_Get(TQ3Warning *firstWarning)
 
 
 	// Release build checks
-	if (firstWarning != NULL)
+	if (firstWarning != nullptr)
 		Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(firstWarning), kQ3WarningNone);
 
 
@@ -285,7 +285,7 @@ Q3Notice_Get(TQ3Notice *firstNotice)
 
 
 	// Release build checks
-	if (firstNotice != NULL)
+	if (firstNotice != nullptr)
 		Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(firstNotice), kQ3NoticeNone);
 
 
@@ -328,7 +328,7 @@ Q3Error_PlatformGet(TQ3Uns32 *firstErr)
 
 
 	// Release build checks
-	if (firstErr != NULL)
+	if (firstErr != nullptr)
 		Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(firstErr), 0);
 
 
@@ -460,7 +460,7 @@ Q3MacintoshError_Get(OSErr *firstMacErr)
 
 
 	// Release build checks
-	if (firstMacErr != NULL)
+	if (firstMacErr != nullptr)
 		Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(firstMacErr), noErr);
 
 

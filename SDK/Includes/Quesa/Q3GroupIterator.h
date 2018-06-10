@@ -79,7 +79,7 @@ public:
 	/*!
 		@function	NextObject
 		@abstract	Get a reference to the next member of the group.
-		@result		A reference to a member object, or NULL if done.
+		@result		A reference to a member object, or nullptr if done.
 	*/
 	CQ3ObjectRef		NextObject();
 	
@@ -94,14 +94,14 @@ inline Q3GroupIterator::Q3GroupIterator(
 								TQ3ObjectType inType )
 	: mGroup( inGroup )
 	, mType( inType )
-	, mPos( NULL )
+	, mPos( nullptr )
 {
 }
 
 inline 	CQ3ObjectRef	Q3GroupIterator::NextObject()
 {
 	TQ3Status	theStatus;
-	if (mPos == NULL)
+	if (mPos == nullptr)
 	{
 		theStatus = Q3Group_GetFirstPositionOfType(
 			mGroup, mType, &mPos );
@@ -113,10 +113,10 @@ inline 	CQ3ObjectRef	Q3GroupIterator::NextObject()
 	}
 	if (theStatus == kQ3Failure)
 	{
-		mPos = NULL;
+		mPos = nullptr;
 	}
-	TQ3Object	theObject = NULL;
-	if (mPos != NULL)
+	TQ3Object	theObject = nullptr;
+	if (mPos != nullptr)
 	{
 		Q3Group_GetPositionObject( mGroup, mPos,
 			&theObject );

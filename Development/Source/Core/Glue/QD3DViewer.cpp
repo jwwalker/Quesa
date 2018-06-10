@@ -165,21 +165,21 @@ Q3Viewer_New(const void *theWindow,const TQ3Area *theRect, TQ3Uns32 theFlags)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theWindow), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theRect), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theWindow), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theRect), nullptr);
 
 
 
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on theWindow
-		return(NULL);
+		return(nullptr);
 
 	if (0) // Further checks on theRect
-		return(NULL);
+		return(nullptr);
 
 	if (0) // Further checks on theFlags
-		return(NULL);
+		return(nullptr);
 #endif
 
 
@@ -356,14 +356,14 @@ Q3Viewer_GetGroup(TQ3ViewerObject theViewer)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), nullptr);
 
 
 
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on theViewer
-		return(NULL);
+		return(nullptr);
 #endif
 
 
@@ -759,14 +759,14 @@ Q3Viewer_GetView(TQ3ViewerObject theViewer)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), nullptr);
 
 
 
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on theViewer
-		return(NULL);
+		return(nullptr);
 #endif
 
 
@@ -1098,14 +1098,14 @@ Q3Viewer_GetWindow(TQ3ViewerObject theViewer)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), nullptr);
 
 
 
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on theViewer
-		return(NULL);
+		return(nullptr);
 #endif
 
 
@@ -1170,14 +1170,14 @@ Q3Viewer_GetViewer(const void *theWindow)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theWindow), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theWindow), nullptr);
 
 
 
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on theWindow
-		return(NULL);
+		return(nullptr);
 #endif
 
 
@@ -1204,14 +1204,14 @@ Q3Viewer_GetControlStripWindow(TQ3ViewerObject theViewer)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), nullptr);
 
 
 
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on theViewer
-		return(NULL);
+		return(nullptr);
 #endif
 
 
@@ -2127,14 +2127,14 @@ Q3Viewer_GetImage(TQ3ViewerObject theViewer)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), nullptr);
 
 
 
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on theViewer
-		return(NULL);
+		return(nullptr);
 #endif
 
 
@@ -2161,14 +2161,14 @@ Q3Viewer_GetCallbackDraw(TQ3ViewerObject theViewer)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), nullptr);
 
 
 
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on theViewer
-		return(NULL);
+		return(nullptr);
 #endif
 
 
@@ -2236,14 +2236,14 @@ Q3Viewer_GetCallbackResize(TQ3ViewerObject theViewer)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), nullptr);
 
 
 
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on theViewer
-		return(NULL);
+		return(nullptr);
 #endif
 
 
@@ -2311,14 +2311,14 @@ Q3Viewer_GetCallbackResizeNotify(TQ3ViewerObject theViewer)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theViewer, kQ3ObjectTypeViewer), nullptr);
 
 
 
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on theViewer
-		return(NULL);
+		return(nullptr);
 #endif
 
 
@@ -2464,21 +2464,21 @@ Q3ViewerNew(CGrafPtr port, Rect *rect, unsigned long flags)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(port), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(rect), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(port), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(rect), nullptr);
 
 
 
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on port
-		return(NULL);
+		return(nullptr);
 
 	if (0) // Further checks on rect
-		return(NULL);
+		return(nullptr);
 
 	if (0) // Further checks on flags
-		return(NULL);
+		return(nullptr);
 #endif
 
 
@@ -2828,7 +2828,7 @@ Q3ViewerGetPict(TQ3ViewerObject theViewer)
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on theViewer
-		return(NULL);
+		return(nullptr);
 #endif
 
 
@@ -3007,7 +3007,7 @@ Q3ViewerGetGroup(TQ3ViewerObject theViewer)
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on theViewer
-		return(NULL);
+		return(nullptr);
 #endif
 
 
@@ -3114,7 +3114,7 @@ Q3ViewerGetView(TQ3ViewerObject theViewer)
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on theViewer
-		return(NULL);
+		return(nullptr);
 #endif
 
 
@@ -3481,7 +3481,7 @@ Q3ViewerGetPort(TQ3ViewerObject theViewer)
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on theViewer
-		return(NULL);
+		return(nullptr);
 #endif
 
 
@@ -4533,21 +4533,21 @@ Q3WinViewerNew(HWND window, const RECT *rect, unsigned long flags)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(window), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(rect), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(window), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(rect), nullptr);
 
 
 
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on window
-		return(NULL);
+		return(nullptr);
 
 	if (0) // Further checks on rect
-		return(NULL);
+		return(nullptr);
 
 	if (0) // Further checks on flags
-		return(NULL);
+		return(nullptr);
 #endif
 
 
@@ -4985,7 +4985,7 @@ Q3WinViewerGetBitmap(TQ3ViewerObject viewer)
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on viewer
-		return(NULL);
+		return(nullptr);
 #endif
 
 
@@ -5058,7 +5058,7 @@ Q3WinViewerGetCurrentButton(TQ3ViewerObject viewer)
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on viewer
-		return(NULL);
+		return(nullptr);
 #endif
 
 
@@ -5164,7 +5164,7 @@ Q3WinViewerGetGroup(TQ3ViewerObject viewer)
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on viewer
-		return(NULL);
+		return(nullptr);
 #endif
 
 
@@ -5271,7 +5271,7 @@ Q3WinViewerGetView(TQ3ViewerObject viewer)
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on viewer
-		return(NULL);
+		return(nullptr);
 #endif
 
 
@@ -5373,7 +5373,7 @@ Q3WinViewerGetFlags(TQ3ViewerObject viewer)
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on viewer
-		return(NULL);
+		return(nullptr);
 #endif
 
 
@@ -5638,7 +5638,7 @@ Q3WinViewerGetWindow(TQ3ViewerObject viewer)
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on viewer
-		return(NULL);
+		return(nullptr);
 #endif
 
 
@@ -5665,14 +5665,14 @@ Q3WinViewerGetViewer(HWND theWindow)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theWindow), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theWindow), nullptr);
 
 
 
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on theWindow
-		return(NULL);
+		return(nullptr);
 #endif
 
 
@@ -5705,7 +5705,7 @@ Q3WinViewerGetControlStrip(TQ3ViewerObject viewer)
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on viewer
-		return(NULL);
+		return(nullptr);
 #endif
 
 
@@ -5810,7 +5810,7 @@ Q3WinViewerGetState(TQ3ViewerObject viewer)
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on viewer
-		return(NULL);
+		return(nullptr);
 #endif
 
 

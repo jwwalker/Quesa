@@ -283,7 +283,7 @@ e3meshPartPtr_IsMeshPtr(
 	Q3_ASSERT_VALID_PTR(partHdl);
 
 	// A null pointer is not a pointer to mesh data	
-	if ((*partHdl) == NULL)
+	if ((*partHdl) == nullptr)
 		return(kQ3False);
 
 	// If this pointer points to a pointer that points back to this pointer,
@@ -416,7 +416,7 @@ e3meshPart_AcquireHandleInMesh(
 	Q3_ASSERT_VALID_PTR(partPtr);
 	Q3_ASSERT_VALID_PTR(meshPtr);
 	
-	if (partPtr->partPtrOrHdl.partHdl == NULL)
+	if (partPtr->partPtrOrHdl.partHdl == nullptr)
 	{
 		// Allocate master pointer to part from mesh's pool
 			// Note: The type of items in the pool is, in effect, a union:
@@ -433,7 +433,7 @@ e3meshPart_AcquireHandleInMesh(
 			// TE3MeshPartData* and we use a type cast to coerce one pointer
 			// type to the other.
 		if ((partHdl = e3meshPartPtrPool_AllocateTagged(
-			&meshPtr->partPtrPool, (const TE3MeshPartPtr*) &meshPtr)) == NULL)
+			&meshPtr->partPtrPool, (const TE3MeshPartPtr*) &meshPtr)) == nullptr)
 				goto failure;
 
 		// Initialize master pointer to part
@@ -470,7 +470,7 @@ e3meshPart_ReleaseHandleInMesh(
 	Q3_ASSERT_VALID_PTR(partPtr);
 	Q3_ASSERT_VALID_PTR(meshPtr);
 
-	// Free master pointer to part in mesh's pool; set part's handle to self to NULL
+	// Free master pointer to part in mesh's pool; set part's handle to self to nullptr
 	e3meshPartPtrPool_Free(&meshPtr->partPtrPool, &partPtr->partPtrOrHdl.partHdl);
 }
 
@@ -481,7 +481,7 @@ e3meshPart_ReleaseHandleInMesh(
 //=============================================================================
 //      e3meshPart_HandleInMesh : Return handle to part.
 //-----------------------------------------------------------------------------
-//		Note : If unable to get handle (out of memory), return NULL.
+//		Note : If unable to get handle (out of memory), return nullptr.
 //-----------------------------------------------------------------------------
 static
 TE3MeshPartData**
@@ -494,7 +494,7 @@ e3meshPart_HandleInMesh(
 	Q3_ASSERT_VALID_PTR(meshPtr);
 
 	// Acquire handle to part
-	if ( (partPtr == NULL) ||
+	if ( (partPtr == nullptr) ||
 		(e3meshPart_AcquireHandleInMesh(partPtr, meshPtr) == kQ3Failure) )
 		goto failure;
 
@@ -502,7 +502,7 @@ e3meshPart_HandleInMesh(
 	
 failure:
 
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -521,7 +521,7 @@ e3meshPart_CreateUnreferenced(
 	Q3_ASSERT_VALID_PTR(partPtr);
 
 	// Initialize handle
-	partPtr->partPtrOrHdl.partHdl = NULL;
+	partPtr->partPtrOrHdl.partHdl = nullptr;
 
 	return(kQ3Success);
 }
@@ -547,7 +547,7 @@ e3meshPart_Create(
 	Q3_ASSERT_VALID_PTR(meshPtr);
 
 	// Initialize handle BEFORE calling e3meshPart_AcquireHandleInMesh
-	partPtr->partPtrOrHdl.partHdl = NULL;
+	partPtr->partPtrOrHdl.partHdl = nullptr;
 	
 	// If requested, acquire handle to part
 	if (isReferenced)
@@ -579,8 +579,8 @@ e3meshPart_Destroy(
 	Q3_ASSERT_VALID_PTR(partPtr);
 
 	// If part has handle, clear master pointer to part
-	if (partPtr->partPtrOrHdl.partHdl != NULL)
-		*partPtr->partPtrOrHdl.partHdl = NULL;
+	if (partPtr->partPtrOrHdl.partHdl != nullptr)
+		*partPtr->partPtrOrHdl.partHdl = nullptr;
 }
 
 
@@ -603,7 +603,7 @@ e3meshPart_Relocate(
 	Q3_ASSERT_VALID_PTR(oldPartPtr);
 
 	// If part has handle, update master pointer to part
-	if (newPartPtr->partPtrOrHdl.partHdl != NULL)
+	if (newPartPtr->partPtrOrHdl.partHdl != nullptr)
 		*newPartPtr->partPtrOrHdl.partHdl = newPartPtr;
 	
 	// Save pointer to new part in old part
@@ -617,7 +617,7 @@ e3meshPart_Relocate(
 //=============================================================================
 //      e3meshPartHdl_Part : Return part for part handle.
 //-----------------------------------------------------------------------------
-//		Note : If part deleted, return NULL.
+//		Note : If part deleted, return nullptr.
 //-----------------------------------------------------------------------------
 #pragma mark -
 static
@@ -682,7 +682,7 @@ e3meshCorner_CreateEmptyListOfFacePtrs(
 	Q3_ASSERT_VALID_PTR(attributeSet);
 
 	// Create empty list of face pointers
-	if (e3meshFacePtrList_Create(&cornerPtr->facePtrArrayOrList.list, 0, NULL) == kQ3Failure)
+	if (e3meshFacePtrList_Create(&cornerPtr->facePtrArrayOrList.list, 0, nullptr) == kQ3Failure)
 		goto failure;
 
 	// Initialize attribute set
@@ -737,7 +737,7 @@ e3meshCorner_CreateFromExtData(
 	faceIndices = cornerExtDataPtr->faceIndices;
 	if (numFaces == 0)
 		goto failure_1;
-	if (faceIndices == NULL)
+	if (faceIndices == nullptr)
 		goto failure_2;
 
 	// Check for out-of-range or duplicate face indices
@@ -759,11 +759,11 @@ e3meshCorner_CreateFromExtData(
 	}
 
 	// Check for null attribute set
-	if (cornerExtDataPtr->cornerAttributeSet == NULL)
+	if (cornerExtDataPtr->cornerAttributeSet == nullptr)
 		goto failure_5;
 
 	// Create array of uninitialized face pointers
-	if (e3meshFacePtrArray_Create(&cornerPtr->facePtrArrayOrList.array, numFaces, NULL) == kQ3Failure)
+	if (e3meshFacePtrArray_Create(&cornerPtr->facePtrArrayOrList.array, numFaces, nullptr) == kQ3Failure)
 		goto failure_6;
 
 	// Initialize face pointers
@@ -809,7 +809,7 @@ e3meshCorner_Destroy(
 	Q3Object_CleanDispose(&cornerPtr->attributeSet);
 
 	// Destroy face pointer array or list
-	e3meshFacePtrArrayOrList_Destroy(&cornerPtr->facePtrArrayOrList, NULL);
+	e3meshFacePtrArrayOrList_Destroy(&cornerPtr->facePtrArrayOrList, nullptr);
 }
 
 
@@ -852,7 +852,7 @@ e3meshCorner_RelinkFaces(
 	return(e3meshFacePtrArrayOrList_DoForEach(
 		&cornerPtr->facePtrArrayOrList,
 		&e3meshFacePtr_Relink,
-		NULL));
+		nullptr));
 }
 
 
@@ -874,9 +874,9 @@ e3meshCorner_UseFacePtrArray(
 
 	return(e3meshFacePtrArrayOrList_UseArray(
 		&cornerPtr->facePtrArrayOrList,
-		NULL,
-		NULL,
-		NULL));
+		nullptr,
+		nullptr,
+		nullptr));
 }
 
 
@@ -898,9 +898,9 @@ e3meshCorner_UseFacePtrList(
 
 	return(e3meshFacePtrArrayOrList_UseList(
 		&cornerPtr->facePtrArrayOrList,
-		NULL,
-		NULL,
-		NULL));
+		nullptr,
+		nullptr,
+		nullptr));
 }
 
 
@@ -968,7 +968,7 @@ e3meshCorner_AttachFace(
 		goto failure_1;
 
 	// Push back face pointer
-	if (e3meshFacePtrList_PushBackPtr(&cornerPtr->facePtrArrayOrList.list, facePtr) == NULL)
+	if (e3meshFacePtrList_PushBackPtr(&cornerPtr->facePtrArrayOrList.list, facePtr) == nullptr)
 		goto failure_2;
 
 	return(kQ3Success);
@@ -1046,7 +1046,7 @@ e3meshCorner_SpliceFace(
 		goto failure_1;
 
 	// Find face pointer for old corner
-	if ((faceHdl = e3meshFacePtrList_FindPtr(&oldCornerPtr->facePtrArrayOrList.list, facePtr)) == NULL)
+	if ((faceHdl = e3meshFacePtrList_FindPtr(&oldCornerPtr->facePtrArrayOrList.list, facePtr)) == nullptr)
 		goto failure_2;
 
 	// Use list of face pointers (*** MAY RELOCATE FACE POINTERS ***)
@@ -1127,7 +1127,7 @@ e3meshCorner_GetExtData(
 
 	// Allocate array of uninitialized face indices
 	numFaces = e3meshCorner_NumFaces(cornerPtr);
-	if ((faceIndices = (TQ3Uns32*) Q3Memory_Allocate(numFaces * sizeof(TQ3Uns32))) == NULL)
+	if ((faceIndices = (TQ3Uns32*) Q3Memory_Allocate(numFaces * sizeof(TQ3Uns32))) == nullptr)
 		goto failure_2;
 	cornerExtDataPtr->numFaces = numFaces;
 	cornerExtDataPtr->faceIndices = faceIndices;
@@ -1179,7 +1179,7 @@ e3meshCornerExtData_Empty(
 	faceIndices = cornerExtDataPtr->faceIndices;
 	if (numFaces == 0)
 		result = kQ3Failure;
-	if (faceIndices == NULL)
+	if (faceIndices == nullptr)
 		result = kQ3Failure;
 
 	// Deallocate array of face indices
@@ -1220,7 +1220,7 @@ e3meshVertex_CreateEmptyArrayOfCorners(
 	vertexPtr->point = vertexExtDataPtr->point;
 
 	// Create empty array of corners
-	if (e3meshCornerArray_Create(&vertexPtr->cornerArrayOrList.array, 0, NULL) == kQ3Failure)
+	if (e3meshCornerArray_Create(&vertexPtr->cornerArrayOrList.array, 0, nullptr) == kQ3Failure)
 		goto failure_2;
 
 	// Initialize attribute set
@@ -1276,11 +1276,11 @@ e3meshVertex_CreateFromExtData(
 	// Get and validate corners
 	numCorners = vertexExtDataPtr->numCorners;
 	cornerExtDatas = vertexExtDataPtr->corners;
-	if (numCorners > 0 && cornerExtDatas == NULL)
+	if (numCorners > 0 && cornerExtDatas == nullptr)
 		goto failure_2;
 
 	// Create array of uninitialized corners
-	if (e3meshCornerArray_Create(&vertexPtr->cornerArrayOrList.array, numCorners, NULL) == kQ3Failure)
+	if (e3meshCornerArray_Create(&vertexPtr->cornerArrayOrList.array, numCorners, nullptr) == kQ3Failure)
 		goto failure_3;
 
 	// Initialize corners
@@ -1326,7 +1326,7 @@ failure_4:
 	while (iSave > 0)
 		e3meshCorner_Destroy(&corners[--iSave]);
 
-	e3meshCornerArray_Destroy(&vertexPtr->cornerArrayOrList.array, NULL);
+	e3meshCornerArray_Destroy(&vertexPtr->cornerArrayOrList.array, nullptr);
 failure_3:
 
 failure_2:
@@ -1402,7 +1402,7 @@ e3meshVertex_RelinkCornerFaces(
 	return(e3meshCornerArrayOrList_DoForEach(
 		&vertexPtr->cornerArrayOrList,
 		&e3meshCorner_RelinkFaces,
-		NULL));
+		nullptr));
 }
 
 
@@ -1424,16 +1424,16 @@ e3meshVertex_UseCornerArray(
 	// Validate our parameters
 	Q3_ASSERT_VALID_PTR(vertexPtr);
 
-	if (cornerHdl == NULL)
+	if (cornerHdl == nullptr)
 		return(e3meshCornerArrayOrList_UseArray(
 			&vertexPtr->cornerArrayOrList,
-			NULL,
-			NULL,
-			NULL));
+			nullptr,
+			nullptr,
+			nullptr));
 	else
 		return(e3meshCornerArrayOrList_UseArray(
 			&vertexPtr->cornerArrayOrList,
-			NULL,
+			nullptr,
 			E3_UP_CAST(void (*)(void*), &e3meshCornerPtr_Relink),
 			cornerHdl));
 }
@@ -1457,16 +1457,16 @@ e3meshVertex_UseCornerList(
 	// Validate our parameters
 	Q3_ASSERT_VALID_PTR(vertexPtr);
 
-	if (cornerHdl == NULL)
+	if (cornerHdl == nullptr)
 		return(e3meshCornerArrayOrList_UseList(
 			&vertexPtr->cornerArrayOrList,
-			NULL,
-			NULL,
-			NULL));
+			nullptr,
+			nullptr,
+			nullptr));
 	else
 		return(e3meshCornerArrayOrList_UseList(
 			&vertexPtr->cornerArrayOrList,
-			NULL,
+			nullptr,
 			E3_UP_CAST(void (*)(void*), &e3meshCornerPtr_Relink),
 			cornerHdl));
 }
@@ -1497,7 +1497,7 @@ e3meshVertex_NumCorners(
 //      e3meshVertex_NewCorner : Return new empty corner for vertex.
 //-----------------------------------------------------------------------------
 //		Note :	If unable to use list of corners, if unable to insert corner
-//				item, or if unable to create corner, return NULL.
+//				item, or if unable to create corner, return nullptr.
 //-----------------------------------------------------------------------------
 static
 TE3MeshCornerData*
@@ -1516,11 +1516,11 @@ e3meshVertex_NewCorner(
 	Q3_ASSERT_VALID_PTR(attributeSet);
 
 	// Use list of corners (*** MAY RELOCATE CORNERS ***)
-	if (e3meshVertex_UseCornerList(vertexPtr, NULL) == kQ3Failure)
+	if (e3meshVertex_UseCornerList(vertexPtr, nullptr) == kQ3Failure)
 		goto failure_1;
 
 	// Push back new uninitialized corner
-	if ((cornerPtr = e3meshCornerList_PushBackItem(&vertexPtr->cornerArrayOrList.list, NULL)) == NULL)
+	if ((cornerPtr = e3meshCornerList_PushBackItem(&vertexPtr->cornerArrayOrList.list, nullptr)) == nullptr)
 		goto failure_2;
 
 	// Create corner with empty list of face pointers
@@ -1535,12 +1535,12 @@ e3meshVertex_NewCorner(
 	// Dead code to reverse e3meshCorner_CreateEmptyListOfFacePtrs
 failure_3:
 	
-	e3meshCornerList_EraseItem(&vertexPtr->cornerArrayOrList.list, NULL, cornerPtr);
+	e3meshCornerList_EraseItem(&vertexPtr->cornerArrayOrList.list, nullptr, cornerPtr);
 failure_2:
 
 failure_1:
 
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -1569,7 +1569,7 @@ e3meshVertex_DeleteCorner(
 		goto failure;
 
 	// Erase corner
-	e3meshCornerList_EraseItem(&vertexPtr->cornerArrayOrList.list, NULL, cornerPtr);
+	e3meshCornerList_EraseItem(&vertexPtr->cornerArrayOrList.list, nullptr, cornerPtr);
 
 	// Decrement number of (defined) corners in mesh
 	--meshPtr->numCorners;
@@ -1588,7 +1588,7 @@ failure:
 //=============================================================================
 //      e3meshVertex_FaceCorner : Return corner for vertex-face combination.
 //-----------------------------------------------------------------------------
-//		Note : If corner undefined, return NULL.
+//		Note : If corner undefined, return nullptr.
 //-----------------------------------------------------------------------------
 static
 TE3MeshCornerData*
@@ -1614,7 +1614,7 @@ e3meshVertex_FaceCorner(
 //      e3meshVertex_AttributeSetCorner :	Return corner for vertex-attribute
 //											set combination.
 //-----------------------------------------------------------------------------
-//		Note : If corner undefined, return NULL.
+//		Note : If corner undefined, return nullptr.
 //-----------------------------------------------------------------------------
 static
 TE3MeshCornerData*
@@ -1641,7 +1641,7 @@ e3meshVertex_AttributeSetCorner(
 //=============================================================================
 //      e3meshVertex_ExtRefInMesh :	Return external reference to vertex.
 //-----------------------------------------------------------------------------
-//		Note : If unable to get external reference (out of memory), return NULL.
+//		Note : If unable to get external reference (out of memory), return nullptr.
 //-----------------------------------------------------------------------------
 static
 TE3MeshVertexExtRef
@@ -1685,14 +1685,14 @@ e3meshVertex_GetExtData(
 	vertexExtDataPtr->point = vertexPtr->point;
 
 	// Use array of corners (*** MAY RELOCATE CORNERS ***)
-	if (e3meshVertex_UseCornerArray(E3_CONST_CAST(TE3MeshVertexData*, vertexPtr), NULL) == kQ3Failure)
+	if (e3meshVertex_UseCornerArray(E3_CONST_CAST(TE3MeshVertexData*, vertexPtr), nullptr) == kQ3Failure)
 		goto failure_1;
 
 	// Allocate array of uninitialized corners
 	numCorners = e3meshVertex_NumCorners(vertexPtr);
 	if (numCorners == 0)
-		cornerExtDatas = NULL;
-	else if ((cornerExtDatas = (TQ3MeshCornerData*) Q3Memory_Allocate(numCorners * sizeof(TQ3MeshCornerData))) == NULL)
+		cornerExtDatas = nullptr;
+	else if ((cornerExtDatas = (TQ3MeshCornerData*) Q3Memory_Allocate(numCorners * sizeof(TQ3MeshCornerData))) == nullptr)
 		goto failure_2;
 	vertexExtDataPtr->numCorners = numCorners;
 	vertexExtDataPtr->corners = cornerExtDatas;
@@ -1727,7 +1727,7 @@ failure_1:
 //=============================================================================
 //      e3meshVertexExtRef_Vertex : Return vertex for external reference.
 //-----------------------------------------------------------------------------
-//		Note : If vertex deleted, return NULL.
+//		Note : If vertex deleted, return nullptr.
 //-----------------------------------------------------------------------------
 #pragma mark -
 static
@@ -1783,7 +1783,7 @@ e3meshVertexExtData_Empty(
 	// Validate and empty corners
 	numCorners = vertexExtDataPtr->numCorners;
 	cornerExtDatas = vertexExtDataPtr->corners;
-	if (numCorners > 0 && cornerExtDatas == NULL)
+	if (numCorners > 0 && cornerExtDatas == nullptr)
 		result = kQ3Failure;
 	else
 	{
@@ -1840,7 +1840,7 @@ e3meshContour_CreateFromVertexExtRefs(
 	effectiveNumVertices = 0;
 	for (i = 0; i < numVertices; ++i)
 	{
-		if (e3meshVertexExtRef_Vertex(vertexExtRefs[i]) == NULL)
+		if (e3meshVertexExtRef_Vertex(vertexExtRefs[i]) == nullptr)
 			goto failure_1;
 		if (vertexExtRefs[i] != vertexExtRefs[i > 0 ? i-1 : numVertices-1])
 			++effectiveNumVertices;
@@ -1856,7 +1856,7 @@ e3meshContour_CreateFromVertexExtRefs(
 	contourPtr->containerFacePtr = containerFacePtr;
 
 	// Create array of uninitialized vertex pointers
-	if (e3meshVertexPtrArray_Create(&contourPtr->vertexPtrArray, effectiveNumVertices, NULL) == kQ3Failure)
+	if (e3meshVertexPtrArray_Create(&contourPtr->vertexPtrArray, effectiveNumVertices, nullptr) == kQ3Failure)
 		goto failure_4;
 
 	// Initialize vertex pointers
@@ -1927,7 +1927,7 @@ e3meshContour_CreateFromExtData(
 	// Get and validate vertex indices
 	numVertices = contourExtDataPtr->numVertices;
 	vertexIndices = contourExtDataPtr->vertexIndices;
-	if (numVertices > 0 && vertexIndices == NULL)
+	if (numVertices > 0 && vertexIndices == nullptr)
 		goto failure_2;
 
 	// Check for out-of-range vertex indices; count effective number of vertices (excluding repeats)
@@ -1950,7 +1950,7 @@ e3meshContour_CreateFromExtData(
 	contourPtr->containerFacePtr = containerFacePtr;
 
 	// Create array of uninitialized vertex pointers
-	if (e3meshVertexPtrArray_Create(&contourPtr->vertexPtrArray, effectiveNumVertices, NULL) == kQ3Failure)
+	if (e3meshVertexPtrArray_Create(&contourPtr->vertexPtrArray, effectiveNumVertices, nullptr) == kQ3Failure)
 		goto failure_4;
 
 	// Initialize vertex pointers
@@ -1990,7 +1990,7 @@ e3meshContour_Destroy(
 	Q3_ASSERT_VALID_PTR(contourPtr);
 
 	// Destroy vertex pointer array
-	e3meshVertexPtrArray_Destroy(&contourPtr->vertexPtrArray, NULL);
+	e3meshVertexPtrArray_Destroy(&contourPtr->vertexPtrArray, nullptr);
 
 	// Destroy part
 	e3meshPart_Destroy(&contourPtr->part);
@@ -2060,7 +2060,7 @@ e3meshContour_RelinkContainerFace(
 	// Validate our parameters
 	Q3_ASSERT_VALID_PTR(contourPtr);
 
-	return(e3meshFacePtr_Relink(&contourPtr->containerFacePtr, NULL));
+	return(e3meshFacePtr_Relink(&contourPtr->containerFacePtr, nullptr));
 }
 
 
@@ -2122,7 +2122,7 @@ e3meshContour_RelinkVertices(
 	return(e3meshVertexPtrArray_DoForEach(
 		&contourPtr->vertexPtrArray,
 		&e3meshVertexPtr_Relink,
-		NULL));
+		nullptr));
 }
 
 
@@ -2175,7 +2175,7 @@ e3meshContour_HasVertex(
 //=============================================================================
 //      e3meshContour_ExtRefInMesh : Return external reference to contour.
 //-----------------------------------------------------------------------------
-//		Note : If unable to get external reference (out of memory), return NULL.
+//		Note : If unable to get external reference (out of memory), return nullptr.
 //-----------------------------------------------------------------------------
 static
 TE3MeshContourExtRef
@@ -2223,8 +2223,8 @@ e3meshContour_GetExtData(
 	// Allocate array of uninitialized vertex indices
 	numVertices = e3meshContour_NumVertices(contourPtr);
 	if (numVertices == 0)
-		vertexIndices = NULL;
-	else if ((vertexIndices = (TQ3Uns32*) Q3Memory_Allocate(numVertices * sizeof(TQ3Uns32))) == NULL)
+		vertexIndices = nullptr;
+	else if ((vertexIndices = (TQ3Uns32*) Q3Memory_Allocate(numVertices * sizeof(TQ3Uns32))) == nullptr)
 		goto failure_1;
 	contourExtDataPtr->numVertices = numVertices;
 	contourExtDataPtr->vertexIndices = vertexIndices;
@@ -2250,7 +2250,7 @@ failure_1:
 //=============================================================================
 //      e3meshContourExtRef_Contour : Return contour for external reference.
 //-----------------------------------------------------------------------------
-//		Note : If contour deleted, return NULL.
+//		Note : If contour deleted, return nullptr.
 //-----------------------------------------------------------------------------
 #pragma mark -
 static
@@ -2304,7 +2304,7 @@ e3meshContourExtData_Empty(
 	vertexIndices = contourExtDataPtr->vertexIndices;
 	if (numVertices == 0)
 		result = kQ3Failure;
-	if (vertexIndices == NULL)
+	if (vertexIndices == nullptr)
 		result = kQ3Failure;
 
 	// Deallocate array of vertex indices
@@ -2341,7 +2341,7 @@ e3meshFace_CreateEmptyListOfContours(
 		goto failure_1;
 
 	// Create empty list of contours
-	if (e3meshContourList_Create(&facePtr->contourArrayOrList.list, 0, NULL) == kQ3Failure)
+	if (e3meshContourList_Create(&facePtr->contourArrayOrList.list, 0, nullptr) == kQ3Failure)
 		goto failure_2;
 
 	// Initialize attribute set
@@ -2392,7 +2392,7 @@ e3meshFace_CreateFromVertexExtRefs(
 		goto failure_1;
 
 	// Create array of one uninitialized contour
-	if (e3meshContourArray_Create(&facePtr->contourArrayOrList.array, 1, NULL) == kQ3Failure)
+	if (e3meshContourArray_Create(&facePtr->contourArrayOrList.array, 1, nullptr) == kQ3Failure)
 		goto failure_2;
 
 	// Initialize contour
@@ -2408,7 +2408,7 @@ e3meshFace_CreateFromVertexExtRefs(
 	// Dead code to reverse e3meshContour_CreateFromVertexExtRefs
 failure_3:
 
-	e3meshContourArray_Destroy(&facePtr->contourArrayOrList.array, NULL);
+	e3meshContourArray_Destroy(&facePtr->contourArrayOrList.array, nullptr);
 failure_2:
 
 	e3meshPart_ReleaseHandleInMesh(&facePtr->part, meshPtr);
@@ -2454,11 +2454,11 @@ e3meshFace_CreateFromExtData(
 	contourExtDatas = faceExtDataPtr->contours;
 	if (numContours == 0)
 		goto failure_2;
-	if (contourExtDatas == NULL)
+	if (contourExtDatas == nullptr)
 		goto failure_3;
 
 	// Create array of uninitialized contours
-	if (e3meshContourArray_Create(&facePtr->contourArrayOrList.array, numContours, NULL) == kQ3Failure)
+	if (e3meshContourArray_Create(&facePtr->contourArrayOrList.array, numContours, nullptr) == kQ3Failure)
 		goto failure_4;
 
 	// Initialize contours
@@ -2475,7 +2475,7 @@ e3meshFace_CreateFromExtData(
 	while (iSave > 0)
 		e3meshContour_Destroy(&contours[--iSave]);
 
-	e3meshContourArray_Destroy(&facePtr->contourArrayOrList.array, NULL);
+	e3meshContourArray_Destroy(&facePtr->contourArrayOrList.array, nullptr);
 failure_4:
 
 failure_3:
@@ -2587,7 +2587,7 @@ e3meshFace_RelinkContourFaces(
 	return(e3meshContourArrayOrList_DoForEach(
 		&facePtr->contourArrayOrList,
 		&e3meshContour_RelinkContainerFace,
-		NULL));
+		nullptr));
 }
 
 
@@ -2610,8 +2610,8 @@ e3meshFace_UseContourArray(
 	return(e3meshContourArrayOrList_UseArray(
 		&facePtr->contourArrayOrList,
 		&e3meshContour_Relocate,
-		NULL,
-		NULL));
+		nullptr,
+		nullptr));
 }
 
 
@@ -2634,8 +2634,8 @@ e3meshFace_UseContourList(
 	return(e3meshContourArrayOrList_UseList(
 		&facePtr->contourArrayOrList,
 		&e3meshContour_Relocate,
-		NULL,
-		NULL));
+		nullptr,
+		nullptr));
 }
 
 
@@ -2677,7 +2677,7 @@ e3meshFace_RelinkContourVertices(
 	return(e3meshContourArrayOrList_DoForEach(
 		&facePtr->contourArrayOrList,
 		&e3meshContour_RelinkVertices,
-		NULL));
+		nullptr));
 }
 
 
@@ -2704,7 +2704,7 @@ e3meshFace_NumVertices(
 	// Number of vertices in face is sum of number of vertices in each contour
 	numVertices = 0;
 	for (contourPtr = e3meshContourArrayOrList_FirstItemConst(&facePtr->contourArrayOrList);
-		contourPtr != NULL;
+		contourPtr != nullptr;
 		contourPtr = e3meshContourArrayOrList_NextItemConst(&facePtr->contourArrayOrList, contourPtr))
 	{
 		numVertices += e3meshContour_NumVertices(contourPtr);
@@ -2743,7 +2743,7 @@ e3meshFace_HasVertex(
 //=============================================================================
 //      e3meshFace_ExtRefInMesh : Return external reference to face.
 //-----------------------------------------------------------------------------
-//		Note : If unable to get external reference (out of memory), return NULL.
+//		Note : If unable to get external reference (out of memory), return nullptr.
 //-----------------------------------------------------------------------------
 static
 TE3MeshFaceExtRef
@@ -2784,10 +2784,10 @@ e3meshFace_GetExtData(
 	faceExtDataPtr->numContours = e3meshFace_NumContours(facePtr);
 
 	if (faceExtDataPtr->numContours == 0)
-		faceExtDataPtr->contours = NULL;
+		faceExtDataPtr->contours = nullptr;
 	else
 		if ((faceExtDataPtr->contours = (TQ3MeshContourData*) Q3Memory_Allocate(
-			faceExtDataPtr->numContours * sizeof(TQ3MeshContourData))) == NULL)
+			faceExtDataPtr->numContours * sizeof(TQ3MeshContourData))) == nullptr)
 			goto failure_2;
 	
 	// Use list of contours in face (*** MAY RELOCATE CONTOURS ***)
@@ -2822,7 +2822,7 @@ failure_2:
 //=============================================================================
 //      e3meshFaceExtRef_Face : Return face for external reference.
 //-----------------------------------------------------------------------------
-//		Note : If face deleted, return NULL.
+//		Note : If face deleted, return nullptr.
 //-----------------------------------------------------------------------------
 #pragma mark -
 static
@@ -2878,7 +2878,7 @@ e3meshFaceExtData_Empty(
 	// Validate and empty contours
 	numContours = faceExtDataPtr->numContours;
 	contourExtDatas = faceExtDataPtr->contours;
-	if (numContours > 0 && contourExtDatas == NULL)
+	if (numContours > 0 && contourExtDatas == nullptr)
 		result = kQ3Failure;
 	else
 	{
@@ -2938,7 +2938,7 @@ e3meshTessellatorCallback_End(
 	Q3_ASSERT_VALID_PTR(tessellatorPtr);
 
 	// Push back polyhedron triangle
-	if (e3polyhedronTriangleList_PushBackItem(&tessellatorPtr->polyhedronTriangleArrayOrList.list, &tessellatorPtr->polyhedronTriangle) == NULL)
+	if (e3polyhedronTriangleList_PushBackItem(&tessellatorPtr->polyhedronTriangleArrayOrList.list, &tessellatorPtr->polyhedronTriangle) == nullptr)
 		tessellatorPtr->status = kQ3Failure;
 }
 
@@ -3063,17 +3063,17 @@ e3meshTessellator_Create(
 	tessellatorPtr->vertexArrayPtr = vertexArrayPtr;
 
 	// Initialize face attribute set
-	tessellatorPtr->faceAttributeSet = NULL;
+	tessellatorPtr->faceAttributeSet = nullptr;
 
 	// Create new OpenGL tessellator
-	if ((tessellatorPtr->gluTessellatorPtr = gluNewTess()) == NULL)
+	if ((tessellatorPtr->gluTessellatorPtr = gluNewTess()) == nullptr)
 	{
 		E3ErrorManager_PostError(kQ3ErrorOutOfMemory, kQ3False);
 		goto failure_1;
 	}
 
 	// Create empty list of polyhedron triangles
-	if (e3polyhedronTriangleList_Create(&tessellatorPtr->polyhedronTriangleArrayOrList.list, 0, NULL) == kQ3Failure)
+	if (e3polyhedronTriangleList_Create(&tessellatorPtr->polyhedronTriangleArrayOrList.list, 0, nullptr) == kQ3Failure)
 		goto failure_2;
 
 	tessellatorPtr->status = kQ3Success;
@@ -3105,7 +3105,7 @@ e3meshTessellator_Destroy(
 	Q3_ASSERT_VALID_PTR(tessellatorPtr);
 
 	// Destroy polyhedron triangle list
-	e3polyhedronTriangleArrayOrList_Destroy(&tessellatorPtr->polyhedronTriangleArrayOrList, NULL);
+	e3polyhedronTriangleArrayOrList_Destroy(&tessellatorPtr->polyhedronTriangleArrayOrList, nullptr);
 
 	// Delete OpenGL tessellator
 	gluDeleteTess(tessellatorPtr->gluTessellatorPtr);
@@ -3140,15 +3140,15 @@ e3mesh_Create(
 	meshPtr->numCorners = 0;
 
 	// Create empty array of vertices
-	if (e3meshVertexArray_Create(&meshPtr->vertexArrayOrList.array, 0, NULL) == kQ3Failure)
+	if (e3meshVertexArray_Create(&meshPtr->vertexArrayOrList.array, 0, nullptr) == kQ3Failure)
 		goto failure_2;
 
 	// Create empty array of faces
-	if (e3meshFaceArray_Create(&meshPtr->faceArrayOrList.array, 0, NULL) == kQ3Failure)
+	if (e3meshFaceArray_Create(&meshPtr->faceArrayOrList.array, 0, nullptr) == kQ3Failure)
 		goto failure_3;
 
 	// Initialize attribute set
-	meshPtr->attributeSet = NULL;
+	meshPtr->attributeSet = nullptr;
 
 	return(kQ3Success);
 	
@@ -3202,21 +3202,21 @@ e3mesh_CreateFromExtData(
 	// Get and validate vertices
 	numVertices = meshExtDataPtr->numVertices;
 	vertexExtDatas = meshExtDataPtr->vertices;
-	if (numVertices > 0 && vertexExtDatas == NULL)
+	if (numVertices > 0 && vertexExtDatas == nullptr)
 		goto failure_2;
 
 	// Create array of uninitialized vertices
-	if (e3meshVertexArray_Create(&meshPtr->vertexArrayOrList.array, meshExtDataPtr->numVertices, NULL) == kQ3Failure)
+	if (e3meshVertexArray_Create(&meshPtr->vertexArrayOrList.array, meshExtDataPtr->numVertices, nullptr) == kQ3Failure)
 		goto failure_3;
 
 	// Get and validate faces
 	numFaces = meshExtDataPtr->numFaces;
 	faceExtDatas = meshExtDataPtr->faces;
-	if (numFaces > 0 && faceExtDatas == NULL)
+	if (numFaces > 0 && faceExtDatas == nullptr)
 		goto failure_4;
 
 	// Create array of uninitialized faces
-	if (e3meshFaceArray_Create(&meshPtr->faceArrayOrList.array, meshExtDataPtr->numFaces, NULL) == kQ3Failure)
+	if (e3meshFaceArray_Create(&meshPtr->faceArrayOrList.array, meshExtDataPtr->numFaces, nullptr) == kQ3Failure)
 		goto failure_5;
 
 	// Initialize vertices
@@ -3248,12 +3248,12 @@ failure_6:
 	while (iSave > 0)
 		e3meshVertex_Destroy(&vertices[--iSave]);
 
-	e3meshFaceArray_Destroy(&meshPtr->faceArrayOrList.array, NULL);
+	e3meshFaceArray_Destroy(&meshPtr->faceArrayOrList.array, nullptr);
 failure_5:
 
 failure_4:
 
-	e3meshVertexArray_Destroy(&meshPtr->vertexArrayOrList.array, NULL);
+	e3meshVertexArray_Destroy(&meshPtr->vertexArrayOrList.array, nullptr);
 failure_3:
 
 failure_2:
@@ -3328,7 +3328,7 @@ e3mesh_RelinkVertices(
 	e3meshFaceArrayOrList_DoForEach(
 		&meshPtr->faceArrayOrList,
 		&e3meshFace_RelinkContourVertices,
-		NULL);
+		nullptr);
 }
 
 
@@ -3418,7 +3418,7 @@ e3mesh_NumContours(
 	// Number of contours in mesh is sum of number of contours in each face
 	numContours = 0;
 	for (facePtr = e3meshFaceArrayOrList_FirstItemConst(&meshPtr->faceArrayOrList);
-		facePtr != NULL;
+		facePtr != nullptr;
 		facePtr = e3meshFaceArrayOrList_NextItemConst(&meshPtr->faceArrayOrList, facePtr))
 	{
 		numContours += e3meshFace_NumContours(facePtr);
@@ -3445,12 +3445,12 @@ e3mesh_RelinkFaces(
 	e3meshVertexArrayOrList_DoForEach(
 		&meshPtr->vertexArrayOrList,
 		&e3meshVertex_RelinkCornerFaces,
-		NULL);
+		nullptr);
 
 	e3meshFaceArrayOrList_DoForEach(
 		&meshPtr->faceArrayOrList,
 		&e3meshFace_RelinkContourFaces,
-		NULL);
+		nullptr);
 }
 
 
@@ -3585,9 +3585,9 @@ e3mesh_GetExtData(
 	// Allocate array of uninitialized vertices
 	meshExtDataPtr->numVertices = e3mesh_NumVertices(meshPtr);
 	if (meshExtDataPtr->numVertices == 0)
-		meshExtDataPtr->vertices = NULL;
+		meshExtDataPtr->vertices = nullptr;
 	else if ((meshExtDataPtr->vertices = (TQ3MeshVertexData*)
-		Q3Memory_Allocate(meshExtDataPtr->numVertices * sizeof(TQ3MeshVertexData))) == NULL)
+		Q3Memory_Allocate(meshExtDataPtr->numVertices * sizeof(TQ3MeshVertexData))) == nullptr)
 		goto failure_2;
 
 	// Use array of faces (*** MAY RELOCATE FACES ***)
@@ -3606,9 +3606,9 @@ e3mesh_GetExtData(
 	// Allocate array of uninitialized faces
 	meshExtDataPtr->numFaces = e3mesh_NumFaces(meshPtr);
 	if (meshExtDataPtr->numFaces == 0)
-		meshExtDataPtr->faces = NULL;
+		meshExtDataPtr->faces = nullptr;
 	else if ((meshExtDataPtr->faces = (TQ3MeshFaceData*) Q3Memory_Allocate(
-		meshExtDataPtr->numFaces * sizeof(TQ3MeshFaceData))) == NULL)
+		meshExtDataPtr->numFaces * sizeof(TQ3MeshFaceData))) == nullptr)
 		goto failure_5;
 
 	// Get faces
@@ -3678,7 +3678,7 @@ e3meshExtData_Empty(
 	// Validate and empty faces
 	numFaces = meshExtDataPtr->numFaces;
 	faceExtDatas = meshExtDataPtr->faces;
-	if (numFaces > 0 && faceExtDatas == NULL)
+	if (numFaces > 0 && faceExtDatas == nullptr)
 		result = kQ3Failure;
 	else
 	{
@@ -3695,7 +3695,7 @@ e3meshExtData_Empty(
 	// Validate and empty vertices
 	numVertices = meshExtDataPtr->numVertices;
 	vertexExtDatas = meshExtDataPtr->vertices;
-	if (numVertices > 0 && vertexExtDatas == NULL)
+	if (numVertices > 0 && vertexExtDatas == nullptr)
 		result = kQ3Failure;
 	else
 	{
@@ -3736,7 +3736,7 @@ e3meshIterator_Initialize(
 	// Initialize other fields
 	iteratorPtr->var1 =
 	iteratorPtr->var2 =
-	iteratorPtr->var3 = NULL;
+	iteratorPtr->var3 = nullptr;
 }
 
 
@@ -3815,7 +3815,7 @@ e3geom_mesh_duplicate(
 
 	// Handle failure
 	//if (qd3dStatus != kQ3Success)
-	//	NULL;
+	//	nullptr;
 
 	return(qd3dStatus);
 }
@@ -3837,7 +3837,7 @@ e3geom_mesh_cache_new_as_polys(const TE3MeshData * meshPtr)
 	const TE3MeshVertexPtr* 		vertexHdl;
 	const TE3MeshCornerData* 		cornerPtr;
 	
-	TQ3GroupObject 					thePolysGroup = NULL;
+	TQ3GroupObject 					thePolysGroup = nullptr;
 	TQ3GeneralPolygonData			polyData;
 	TQ3Object						*objectsToDelete;
 	TQ3Uns32						numObjectsToDelete;
@@ -3847,31 +3847,31 @@ e3geom_mesh_cache_new_as_polys(const TE3MeshData * meshPtr)
 	TQ3Uns32						i,j;
 	
 	
-    polyData.contours = NULL;
+    polyData.contours = nullptr;
     polyData.shapeHint = kQ3GeneralPolygonShapeHintComplex;
-    polyData.generalPolygonAttributeSet = NULL;
+    polyData.generalPolygonAttributeSet = nullptr;
     
 
 
 	thePolysGroup = Q3OrderedDisplayGroup_New ();
-	if(thePolysGroup == NULL)
-		return NULL;
+	if(thePolysGroup == nullptr)
+		return nullptr;
 	
 	objectsToDelete = (TQ3Object*) Q3Memory_Allocate(_MESH_AS_POLYS_OBJECTS_TO_DELETE_GROW * sizeof(TQ3Object));
-	if(objectsToDelete == NULL)
+	if(objectsToDelete == nullptr)
 		return thePolysGroup;
 		
 	allocatedObjectsToDelete = _MESH_AS_POLYS_OBJECTS_TO_DELETE_GROW;
 	
 	// add the mesh attribute Set to the group
-	if(meshPtr->attributeSet != NULL)
+	if(meshPtr->attributeSet != nullptr)
 		Q3Group_AddObject(thePolysGroup,meshPtr->attributeSet);
 		
 	numObjectsToDelete = 0;
 		
 	
 	for (facePtr = e3meshFaceArrayOrList_FirstItemConst(&meshPtr->faceArrayOrList);
-		facePtr != NULL;
+		facePtr != nullptr;
 		facePtr = e3meshFaceArrayOrList_NextItemConst(&meshPtr->faceArrayOrList, facePtr))
 		{
 		numObjectsToDelete = 0;
@@ -3879,23 +3879,23 @@ e3geom_mesh_cache_new_as_polys(const TE3MeshData * meshPtr)
 		polyData.numContours = e3meshFace_NumContours(facePtr);
 		polyData.contours = (TQ3GeneralPolygonContourData*) Q3Memory_AllocateClear(
 			polyData.numContours * sizeof(TQ3GeneralPolygonContourData));
-		if(polyData.contours == NULL)
+		if(polyData.contours == nullptr)
 			goto cleanup;
 		
 	    polyData.generalPolygonAttributeSet = facePtr->attributeSet;
 		
 		for (contourPtr = e3meshContourArrayOrList_FirstItemConst(&facePtr->contourArrayOrList), i = 0;
-			contourPtr != NULL;
+			contourPtr != nullptr;
 			contourPtr = e3meshContourArrayOrList_NextItemConst(&facePtr->contourArrayOrList, contourPtr), ++i)
 			{
 			polyData.contours[i].numVertices = e3meshContour_NumVertices(contourPtr);
 			polyData.contours[i].vertices = (TQ3Vertex3D*) Q3Memory_Allocate(polyData.contours[i].numVertices * sizeof(TQ3Vertex3D));
-			if(polyData.contours == NULL)
+			if(polyData.contours == nullptr)
 				goto cleanup;
 
 
 			for (vertexHdl = e3meshVertexPtrArray_FirstItemConst(&contourPtr->vertexPtrArray), j = 0;
-				vertexHdl != NULL;
+				vertexHdl != nullptr;
 				vertexHdl = e3meshVertexPtrArray_NextItemConst(&contourPtr->vertexPtrArray, vertexHdl), ++j)
 				{
 
@@ -3904,14 +3904,14 @@ e3geom_mesh_cache_new_as_polys(const TE3MeshData * meshPtr)
 				currentVertex->attributeSet = (*vertexHdl)->attributeSet;
 
 				cornerPtr = e3meshVertex_FaceCorner(*vertexHdl, facePtr);
-				if(cornerPtr != NULL)
+				if(cornerPtr != nullptr)
 					{
-					if(cornerPtr->attributeSet != NULL)
+					if(cornerPtr->attributeSet != nullptr)
 						{
-						if(currentVertex->attributeSet != NULL)
+						if(currentVertex->attributeSet != nullptr)
 							{
 							currentVertex->attributeSet = Q3AttributeSet_New();
-							if(currentVertex->attributeSet == NULL)
+							if(currentVertex->attributeSet == nullptr)
 								{
 								currentVertex->attributeSet = (*vertexHdl)->attributeSet;
 								}
@@ -3943,7 +3943,7 @@ e3geom_mesh_cache_new_as_polys(const TE3MeshData * meshPtr)
 			}
 			
 		thePoly = Q3GeneralPolygon_New(&polyData);
-		if(thePoly != NULL){
+		if(thePoly != nullptr){
 			Q3Group_AddObject(thePolysGroup,thePoly);
 			Q3Object_Dispose(thePoly);
 			}
@@ -3954,11 +3954,11 @@ e3geom_mesh_cache_new_as_polys(const TE3MeshData * meshPtr)
 			Q3Object_Dispose(objectsToDelete[numObjectsToDelete]);
 			};
 			
-		if(polyData.contours != NULL)
+		if(polyData.contours != nullptr)
 			{
 			for(i = 0; i < polyData.numContours; i++)
 				{
-				if(polyData.contours[i].vertices != NULL)
+				if(polyData.contours[i].vertices != nullptr)
 					Q3Memory_Free(&polyData.contours[i].vertices);
 				}
 			Q3Memory_Free(&polyData.contours);
@@ -3972,14 +3972,14 @@ cleanup:
 		Q3Object_Dispose(objectsToDelete[numObjectsToDelete]);
 		};
 		
-	if(objectsToDelete != NULL)	
+	if(objectsToDelete != nullptr)	
 		Q3Memory_Free(&objectsToDelete);
 		
-	if(polyData.contours != NULL)
+	if(polyData.contours != nullptr)
 		{
 		for(i = 0; i < polyData.numContours; i++)
 			{
-			if(polyData.contours[i].vertices != NULL)
+			if(polyData.contours[i].vertices != nullptr)
 				Q3Memory_Free(&polyData.contours[i].vertices);
 			}
 		Q3Memory_Free(&polyData.contours);
@@ -4012,26 +4012,26 @@ e3geom_mesh_cache_new_as_polyhedron(const TE3MeshData *meshPtr)
 
 
 	// Assume unable to create polyhedron
-	polyhedron = NULL;
+	polyhedron = nullptr;
 	
 	// Allocate memory for polyhedron vertices
 	polyhedronData.numVertices = e3mesh_NumVertices(meshPtr);
 	if (polyhedronData.numVertices > 0)
 	{
-		if ((polyhedronData.vertices = (TQ3Vertex3D*) Q3Memory_Allocate(polyhedronData.numVertices * sizeof(TQ3Vertex3D))) == NULL)
+		if ((polyhedronData.vertices = (TQ3Vertex3D*) Q3Memory_Allocate(polyhedronData.numVertices * sizeof(TQ3Vertex3D))) == nullptr)
 			goto cleanup_1;
 	}
 	else
-		polyhedronData.vertices = NULL;
+		polyhedronData.vertices = nullptr;
 	
 	// Allocate memory for polyhedron edges
 	polyhedronData.numEdges = 0;
-	polyhedronData.edges = NULL;
+	polyhedronData.edges = nullptr;
 	
 	// Allocate memory for polyhedron triangles
 	polyhedronData.numTriangles = 0;
 	for (facePtr = e3meshFaceArrayOrList_FirstItemConst(&meshPtr->faceArrayOrList);
-		facePtr != NULL;
+		facePtr != nullptr;
 		facePtr = e3meshFaceArrayOrList_NextItemConst(&meshPtr->faceArrayOrList, facePtr))
 	{
 		if (e3meshFace_NumContours(facePtr) == 1)
@@ -4039,11 +4039,11 @@ e3geom_mesh_cache_new_as_polyhedron(const TE3MeshData *meshPtr)
 	}
 	if (polyhedronData.numTriangles > 0)
 	{
-		if ((polyhedronData.triangles = (TQ3PolyhedronTriangleData*) Q3Memory_Allocate(polyhedronData.numTriangles * sizeof(TQ3PolyhedronTriangleData))) == NULL)
+		if ((polyhedronData.triangles = (TQ3PolyhedronTriangleData*) Q3Memory_Allocate(polyhedronData.numTriangles * sizeof(TQ3PolyhedronTriangleData))) == nullptr)
 			goto cleanup_3;
 	}
 	else
-		polyhedronData.triangles = NULL;
+		polyhedronData.triangles = nullptr;
 
 	// Use array of vertices in mesh (*** MAY RELOCATE VERTICES ***)
 	if (e3mesh_UseVertexArray(E3_CONST_CAST(TE3MeshData*, meshPtr)) == kQ3Failure)
@@ -4062,7 +4062,7 @@ e3geom_mesh_cache_new_as_polyhedron(const TE3MeshData *meshPtr)
 	// Initialize the triangles
 	k = 0;
 	for (facePtr = e3meshFaceArrayOrList_FirstItemConst(&meshPtr->faceArrayOrList);
-		facePtr != NULL;
+		facePtr != nullptr;
 		facePtr = e3meshFaceArrayOrList_NextItemConst(&meshPtr->faceArrayOrList, facePtr))
 	{
 		if (e3meshFace_NumContours(facePtr) == 1)
@@ -4071,7 +4071,7 @@ e3geom_mesh_cache_new_as_polyhedron(const TE3MeshData *meshPtr)
 			TQ3Uns32 numContourVertices = e3meshContour_NumVertices(contourPtr);
 			
 			for (vertexHdl = e3meshVertexPtrArray_FirstItemConst(&contourPtr->vertexPtrArray), i = 0;
-				vertexHdl != NULL;
+				vertexHdl != nullptr;
 				vertexHdl = e3meshVertexPtrArray_NextItemConst(&contourPtr->vertexPtrArray, vertexHdl), ++i)
 			{
 				TQ3Uns32 vertexIndex = e3meshVertexArray_ItemIndex(&meshPtr->vertexArrayOrList.array, *vertexHdl);
@@ -4132,7 +4132,7 @@ cleanup_1:
 	const TE3MeshFaceData* facePtr;
 
 	// Assume unable to create polyhedron
-	polyhedron = NULL;
+	polyhedron = nullptr;
 
 	// Use array of vertices in mesh (*** MAY RELOCATE VERTICES ***)
 	if (e3mesh_UseVertexArray(E3_CONST_CAST(TE3MeshData*, meshPtr)) == kQ3Failure)
@@ -4162,11 +4162,11 @@ cleanup_1:
 	polyhedronData.numVertices = e3mesh_NumVertices(meshPtr);
 	if (polyhedronData.numVertices > 0)
 	{
-		if ((polyhedronData.vertices = (TQ3Vertex3D*) Q3Memory_Allocate(polyhedronData.numVertices * sizeof(TQ3Vertex3D))) == NULL)
+		if ((polyhedronData.vertices = (TQ3Vertex3D*) Q3Memory_Allocate(polyhedronData.numVertices * sizeof(TQ3Vertex3D))) == nullptr)
 			goto cleanup_3;
 	}
 	else
-		polyhedronData.vertices = NULL;
+		polyhedronData.vertices = nullptr;
 	
 	// Get first vertex
 	firstMeshVertexPtr = e3meshVertexArray_FirstItemConst(&meshPtr->vertexArrayOrList.array);
@@ -4180,10 +4180,10 @@ cleanup_1:
 	
 	// Allocate memory for polyhedron edges
 	polyhedronData.numEdges = 0;
-	polyhedronData.edges = NULL;
+	polyhedronData.edges = nullptr;
 
 	// Use array of triangles in tessellator
-	if (e3polyhedronTriangleArrayOrList_UseArray(&tessellator.polyhedronTriangleArrayOrList, NULL, NULL, NULL) == kQ3Failure)
+	if (e3polyhedronTriangleArrayOrList_UseArray(&tessellator.polyhedronTriangleArrayOrList, nullptr, nullptr, nullptr) == kQ3Failure)
 		goto cleanup_4;
 	
 	// Set polyhedron triangles
@@ -4249,7 +4249,7 @@ e3geom_mesh_cache_new(TQ3ViewObject view, TQ3GeometryObject meshObject,const TE3
 
 	// Check for an empty mesh
 	if (e3mesh_NumFaces(meshPtr) == 0)
-		return NULL;
+		return nullptr;
 
 
 
@@ -4266,7 +4266,7 @@ e3geom_mesh_cache_new(TQ3ViewObject view, TQ3GeometryObject meshObject,const TE3
 			needToUsePolys = (TQ3Boolean) (meshFace->attributeSet != faceAttributes);
 			meshFace       = e3meshFaceArrayOrList_NextItemConst(&meshPtr->faceArrayOrList, meshFace);
 			}		
-		while (meshFace != NULL && !needToUsePolys);
+		while (meshFace != nullptr && !needToUsePolys);
 		}
 
 
@@ -4360,7 +4360,7 @@ static
 TQ3XFunctionPointer
 e3geom_mesh_metahandler(
 	TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -4447,7 +4447,7 @@ E3Mesh_New(void)
 
 
 	// Create the object
-	theObject = E3ClassTree::CreateInstance ( kQ3GeometryTypeMesh, kQ3False, NULL);
+	theObject = E3ClassTree::CreateInstance ( kQ3GeometryTypeMesh, kQ3False, nullptr);
 	return(theObject);
 }
 
@@ -4556,7 +4556,7 @@ E3Mesh_ResumeUpdates(
 //      E3Mesh_FaceNew : Add new face created from vertices and attribute set.
 //-----------------------------------------------------------------------------
 //		Note :	If unable to use list of faces, if unable to insert face item,
-//				or if unable to create face, return NULL.
+//				or if unable to create face, return nullptr.
 //-----------------------------------------------------------------------------
 TE3MeshFaceExtRef
 E3Mesh_FaceNew(
@@ -4573,7 +4573,7 @@ E3Mesh_FaceNew(
 		goto failure_1;
 
 	// Push back new uninitialized face
-	if ((facePtr = e3meshFaceList_PushBackItem(&meshPtr->faceArrayOrList.list, NULL)) == NULL)
+	if ((facePtr = e3meshFaceList_PushBackItem(&meshPtr->faceArrayOrList.list, nullptr)) == nullptr)
 		goto failure_2;
 
 	// Create face, with reference
@@ -4587,12 +4587,12 @@ E3Mesh_FaceNew(
 	// Dead code to reverse e3meshFace_Create
 failure_3:
 
-	e3meshFaceList_EraseItem(&meshPtr->faceArrayOrList.list, NULL, facePtr);
+	e3meshFaceList_EraseItem(&meshPtr->faceArrayOrList.list, nullptr, facePtr);
 failure_2:
 
 failure_1:
 
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -4613,7 +4613,7 @@ E3Mesh_FaceDelete(
 	TE3MeshFaceData* facePtr;
 
 	// Check face; if face already deleted, return kQ3Success
-	if ((facePtr = e3meshFaceExtRef_Face(faceExtRef)) == NULL)
+	if ((facePtr = e3meshFaceExtRef_Face(faceExtRef)) == nullptr)
 		goto success;
 
 	// Use list of faces in mesh (*** MAY RELOCATE FACES ***)
@@ -4647,7 +4647,7 @@ failure:
 //								delete face.
 //-----------------------------------------------------------------------------
 //		Note :	If container face deleted, face deleted, unable to relocate
-//				faces, or unable to relocate contours, return NULL.
+//				faces, or unable to relocate contours, return nullptr.
 //-----------------------------------------------------------------------------
 TE3MeshContourExtRef
 E3Mesh_FaceToContour(
@@ -4662,11 +4662,11 @@ E3Mesh_FaceToContour(
 	TE3MeshContourExtRef contourExtRef;
 
 	// Check container face
-	if ((containerFacePtr = e3meshFaceExtRef_Face(containerFaceExtRef)) == NULL)
+	if ((containerFacePtr = e3meshFaceExtRef_Face(containerFaceExtRef)) == nullptr)
 		goto failure;
 
 	// Check face
-	if ((facePtr = e3meshFaceExtRef_Face(faceExtRef)) == NULL)
+	if ((facePtr = e3meshFaceExtRef_Face(faceExtRef)) == nullptr)
 		goto failure;
 
 	// Use list of faces in mesh (*** MAY RELOCATE FACES ***)
@@ -4688,14 +4688,14 @@ E3Mesh_FaceToContour(
 		goto failure;
 
 	// Get first contour in face
-	if ((contourPtr = e3meshContourList_FirstItem(&facePtr->contourArrayOrList.list)) == NULL)
+	if ((contourPtr = e3meshContourList_FirstItem(&facePtr->contourArrayOrList.list)) == nullptr)
 		goto failure;
-	if ((contourExtRef = e3meshContour_ExtRefInMesh(contourPtr, meshPtr)) == NULL)
+	if ((contourExtRef = e3meshContour_ExtRefInMesh(contourPtr, meshPtr)) == nullptr)
 		goto failure;
 
 	// For each contour in face, reset container face
 	for (contourPtr = e3meshContourList_FirstItem(&facePtr->contourArrayOrList.list);
-		contourPtr != NULL;
+		contourPtr != nullptr;
 		contourPtr = e3meshContourList_NextItem(&facePtr->contourArrayOrList.list, contourPtr))
 	{
 		// Reset container face
@@ -4716,7 +4716,7 @@ E3Mesh_FaceToContour(
 	
 failure:
 
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -4727,7 +4727,7 @@ failure:
 //      E3Mesh_ContourToFace :	Add new face with contour.
 //-----------------------------------------------------------------------------
 //		Note :	If contour deleted, unable to relocate faces, unable to
-//				insert face item, or unable to relocate contours, return NULL.
+//				insert face item, or unable to relocate contours, return nullptr.
 //-----------------------------------------------------------------------------
 //		Note :	If the specified contour is the only contour in its container
 //				face, then this function merely returns that container face.
@@ -4740,10 +4740,10 @@ E3Mesh_ContourToFace(
 	TE3MeshData* meshPtr = & ( (E3Mesh*) meshObject )->instanceData ;
 	TE3MeshContourData* contourPtr;
 	TE3MeshFaceData* containerFacePtr;
-	TE3MeshFaceData* facePtr = NULL;
+	TE3MeshFaceData* facePtr = nullptr;
 
 	// Check contour
-	if ((contourPtr = e3meshContourExtRef_Contour(contourExtRef)) == NULL)
+	if ((contourPtr = e3meshContourExtRef_Contour(contourExtRef)) == nullptr)
 		goto failure_1;
 		
 	// Get and check container face
@@ -4759,11 +4759,11 @@ E3Mesh_ContourToFace(
 	containerFacePtr = e3meshContour_ContainerFace(contourPtr);
 
 	// Push back new uninitialized face
-	if ((facePtr = e3meshFaceList_PushBackItem(&meshPtr->faceArrayOrList.list, NULL)) == NULL)
+	if ((facePtr = e3meshFaceList_PushBackItem(&meshPtr->faceArrayOrList.list, nullptr)) == nullptr)
 		goto failure_3;
 
 	// Create face with empty list of contours, with reference
-	if (e3meshFace_CreateEmptyListOfContours(facePtr, meshPtr, kQ3True, NULL) == kQ3Failure)
+	if (e3meshFace_CreateEmptyListOfContours(facePtr, meshPtr, kQ3True, nullptr) == kQ3Failure)
 		goto failure_4;
 
 	// Use list of contours in container face (*** MAY RELOCATE CONTOURS ***)
@@ -4792,14 +4792,14 @@ failure_5:
 	e3meshFace_Destroy(facePtr);
 failure_4:
 
-	e3meshFaceList_EraseItem(&meshPtr->faceArrayOrList.list, NULL, facePtr);
+	e3meshFaceList_EraseItem(&meshPtr->faceArrayOrList.list, nullptr, facePtr);
 failure_3:
 
 failure_2:
 
 failure_1:
 
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -4810,7 +4810,7 @@ failure_1:
 //      E3Mesh_VertexNew : Add new vertex created from coordinates and attribute set.
 //-----------------------------------------------------------------------------
 //		Note :	If unable to use list of vertices, if unable to insert vertex
-//				item, or if unable to create vertex, return NULL.
+//				item, or if unable to create vertex, return nullptr.
 //-----------------------------------------------------------------------------
 TE3MeshVertexExtRef
 E3Mesh_VertexNew(
@@ -4825,7 +4825,7 @@ E3Mesh_VertexNew(
 		goto failure_1;
 
 	// Push back new uninitialized vertex
-	if ((vertexPtr = e3meshVertexList_PushBackItem(&meshPtr->vertexArrayOrList.list, NULL)) == NULL)
+	if ((vertexPtr = e3meshVertexList_PushBackItem(&meshPtr->vertexArrayOrList.list, nullptr)) == nullptr)
 		goto failure_2;
 
 	// Create vertex, with reference
@@ -4839,12 +4839,12 @@ E3Mesh_VertexNew(
 	// Dead code to reverse e3meshVertex_CreateEmptyArrayOfCorners
 failure_3:
 
-	e3meshVertexList_EraseItem(&meshPtr->vertexArrayOrList.list, NULL, vertexPtr);
+	e3meshVertexList_EraseItem(&meshPtr->vertexArrayOrList.list, nullptr, vertexPtr);
 failure_2:
 
 failure_1:
 
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -4866,7 +4866,7 @@ E3Mesh_VertexDelete(
 	TE3MeshFaceData* facePtr;
 
 	// Check vertex; if vertex already deleted, return kQ3Success
-	if ((vertexPtr = e3meshVertexExtRef_Vertex(vertexExtRef)) == NULL)
+	if ((vertexPtr = e3meshVertexExtRef_Vertex(vertexExtRef)) == nullptr)
 		goto success;
 
 	// Use list of vertices in mesh (*** MAY RELOCATE VERTICES ***)
@@ -4880,17 +4880,17 @@ E3Mesh_VertexDelete(
 	facePtr = e3meshFaceArrayOrList_FirstItem(&meshPtr->faceArrayOrList);
 
 	// Delete each face having vertex
-	while (facePtr != NULL)
+	while (facePtr != nullptr)
 	{
-		TE3MeshFaceData* markedMeshFacePtr = NULL;
+		TE3MeshFaceData* markedMeshFacePtr = nullptr;
 
 		// Check if face has vertex
 		if (e3meshFace_HasVertex(facePtr, vertexPtr))
 		{
-			TE3MeshFaceExtRef faceExtRef = NULL;
+			TE3MeshFaceExtRef faceExtRef = nullptr;
 
 			// Save face
-			if ((faceExtRef = e3meshFace_ExtRefInMesh(facePtr, meshPtr)) == NULL)
+			if ((faceExtRef = e3meshFace_ExtRefInMesh(facePtr, meshPtr)) == nullptr)
 				goto failure;
 
 			// Use list of faces in mesh (*** MAY RELOCATE FACES ***)
@@ -4898,7 +4898,7 @@ E3Mesh_VertexDelete(
 				goto failure;
 
 			// Restore face (in case relocated)
-			if ((facePtr = e3meshFaceExtRef_Face(faceExtRef)) == NULL)
+			if ((facePtr = e3meshFaceExtRef_Face(faceExtRef)) == nullptr)
 				goto failure;
 
 			// Mark face for erasure
@@ -4991,7 +4991,7 @@ E3Mesh_FirstMeshComponent(
 
 
 	// To be implemented...
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -5010,7 +5010,7 @@ E3Mesh_NextMeshComponent(
 
 
 	// To be implemented...
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -5041,7 +5041,7 @@ E3Mesh_GetNumFaces(
 //      E3Mesh_FirstMeshFace : Get first face in mesh.
 //-----------------------------------------------------------------------------
 //		Note :	If no first face or unable to create external reference to
-//				face, return NULL.
+//				face, return nullptr.
 //-----------------------------------------------------------------------------
 TE3MeshFaceExtRef
 E3Mesh_FirstMeshFace(
@@ -5056,9 +5056,9 @@ E3Mesh_FirstMeshFace(
 	e3meshIterator_Initialize(iteratorPtr, meshPtr, "mefa");
 
 	// Get and save first face in mesh
-	if ((facePtr = e3meshFaceArrayOrList_FirstItem(&meshPtr->faceArrayOrList)) == NULL)
+	if ((facePtr = e3meshFaceArrayOrList_FirstItem(&meshPtr->faceArrayOrList)) == nullptr)
 		goto failure;
-	if ((faceExtRef = e3meshFace_ExtRefInMesh(facePtr, meshPtr)) == NULL)
+	if ((faceExtRef = e3meshFace_ExtRefInMesh(facePtr, meshPtr)) == nullptr)
 		goto failure;
 	iteratorPtr->var1 = faceExtRef;
 
@@ -5067,8 +5067,8 @@ E3Mesh_FirstMeshFace(
 	
 failure:
 
-	iteratorPtr->var1 = NULL;
-	return(NULL);
+	iteratorPtr->var1 = nullptr;
+	return(nullptr);
 }
 
 
@@ -5079,7 +5079,7 @@ failure:
 //      E3Mesh_NextMeshFace : Get next face in mesh.
 //-----------------------------------------------------------------------------
 //		Note :	If iterator ended, current face deleted, no next face or
-//				unable to create external reference to face, return NULL.
+//				unable to create external reference to face, return nullptr.
 //-----------------------------------------------------------------------------
 TE3MeshFaceExtRef
 E3Mesh_NextMeshFace(
@@ -5090,15 +5090,15 @@ E3Mesh_NextMeshFace(
 	TE3MeshFaceData* facePtr;
 
 	// Restore and check current face in mesh
-	if ((faceExtRef = (TE3MeshFaceExtRef) iteratorPtr->var1) == NULL)
+	if ((faceExtRef = (TE3MeshFaceExtRef) iteratorPtr->var1) == nullptr)
 		goto failure;
-	if ((facePtr = e3meshFaceExtRef_Face(faceExtRef)) == NULL)
+	if ((facePtr = e3meshFaceExtRef_Face(faceExtRef)) == nullptr)
 		goto failure;
 
 	// Get and save next face in mesh
-	if ((facePtr = e3meshFaceArrayOrList_NextItem(&meshPtr->faceArrayOrList, facePtr)) == NULL)
+	if ((facePtr = e3meshFaceArrayOrList_NextItem(&meshPtr->faceArrayOrList, facePtr)) == nullptr)
 		goto failure;
-	if ((faceExtRef = e3meshFace_ExtRefInMesh(facePtr, meshPtr)) == NULL)
+	if ((faceExtRef = e3meshFace_ExtRefInMesh(facePtr, meshPtr)) == nullptr)
 		goto failure;
 	iteratorPtr->var1 = faceExtRef;
 
@@ -5107,8 +5107,8 @@ E3Mesh_NextMeshFace(
 	
 failure:
 
-	iteratorPtr->var1 = NULL;
-	return(NULL);
+	iteratorPtr->var1 = nullptr;
+	return(nullptr);
 }
 
 
@@ -5150,7 +5150,7 @@ E3Mesh_FirstMeshEdge(
 
 
 	// To be implemented...
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -5169,7 +5169,7 @@ TQ3MeshIterator* iteratorPtr)
 
 
 	// To be implemented...
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -5200,7 +5200,7 @@ E3Mesh_GetNumVertices(
 //      E3Mesh_FirstMeshVertex : Get first vertex in mesh.
 //-----------------------------------------------------------------------------
 //		Note :	If no first vertex or unable to create external reference
-//				to vertex, return NULL.
+//				to vertex, return nullptr.
 //-----------------------------------------------------------------------------
 TE3MeshVertexExtRef
 E3Mesh_FirstMeshVertex(
@@ -5215,9 +5215,9 @@ E3Mesh_FirstMeshVertex(
 	e3meshIterator_Initialize(iteratorPtr, meshPtr, "meve");
 
 	// Get and save first vertex in mesh
-	if ((vertexPtr = e3meshVertexArrayOrList_FirstItem(&meshPtr->vertexArrayOrList)) == NULL)
+	if ((vertexPtr = e3meshVertexArrayOrList_FirstItem(&meshPtr->vertexArrayOrList)) == nullptr)
 		goto failure;
-	if ((vertexExtRef = e3meshVertex_ExtRefInMesh(vertexPtr, meshPtr)) == NULL)
+	if ((vertexExtRef = e3meshVertex_ExtRefInMesh(vertexPtr, meshPtr)) == nullptr)
 		goto failure;
 	iteratorPtr->var1 = vertexExtRef;
 
@@ -5226,8 +5226,8 @@ E3Mesh_FirstMeshVertex(
 	
 failure:
 
-	iteratorPtr->var1 = NULL;
-	return(NULL);
+	iteratorPtr->var1 = nullptr;
+	return(nullptr);
 }
 
 
@@ -5238,7 +5238,7 @@ failure:
 //      E3Mesh_NextMeshVertex : Get next vertex in mesh.
 //-----------------------------------------------------------------------------
 //		Note :	If iterator ended, current vertex deleted, no next vertex or
-//				unable to create external reference to vertex, return NULL.
+//				unable to create external reference to vertex, return nullptr.
 //-----------------------------------------------------------------------------
 TE3MeshVertexExtRef
 E3Mesh_NextMeshVertex(
@@ -5249,15 +5249,15 @@ E3Mesh_NextMeshVertex(
 	TE3MeshVertexData* vertexPtr;
 
 	// Restore and check current vertex in mesh
-	if ((vertexExtRef = (TE3MeshVertexExtRef) iteratorPtr->var1) == NULL)
+	if ((vertexExtRef = (TE3MeshVertexExtRef) iteratorPtr->var1) == nullptr)
 		goto failure;
-	if ((vertexPtr = e3meshVertexExtRef_Vertex(vertexExtRef)) == NULL)
+	if ((vertexPtr = e3meshVertexExtRef_Vertex(vertexExtRef)) == nullptr)
 		goto failure;
 
 	// Get and save next vertex in mesh
-	if ((vertexPtr = e3meshVertexArrayOrList_NextItem(&meshPtr->vertexArrayOrList, vertexPtr)) == NULL)
+	if ((vertexPtr = e3meshVertexArrayOrList_NextItem(&meshPtr->vertexArrayOrList, vertexPtr)) == nullptr)
 		goto failure;
-	if ((vertexExtRef = e3meshVertex_ExtRefInMesh(vertexPtr, meshPtr)) == NULL)
+	if ((vertexExtRef = e3meshVertex_ExtRefInMesh(vertexPtr, meshPtr)) == nullptr)
 		goto failure;
 	iteratorPtr->var1 = vertexExtRef;
 
@@ -5266,8 +5266,8 @@ E3Mesh_NextMeshVertex(
 	
 failure:
 
-	iteratorPtr->var1 = NULL;
-	return(NULL);
+	iteratorPtr->var1 = nullptr;
+	return(nullptr);
 }
 
 
@@ -5375,7 +5375,7 @@ E3Mesh_FirstComponentEdge(
 
 
 	// To be implemented...
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -5394,7 +5394,7 @@ E3Mesh_NextComponentEdge(
 
 
 	// To be implemented...
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -5436,7 +5436,7 @@ E3Mesh_FirstComponentVertex(
 
 
 	// To be implemented...
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -5455,7 +5455,7 @@ E3Mesh_NextComponentVertex(
 
 
 	// To be implemented...
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -5479,7 +5479,7 @@ E3Mesh_GetFaceIndex(
 	TE3MeshFaceData* facePtr;
 
 	// Check face
-	if ((facePtr = e3meshFaceExtRef_Face(faceExtRef)) == NULL)
+	if ((facePtr = e3meshFaceExtRef_Face(faceExtRef)) == nullptr)
 		goto failure;
 
 	// Use array of faces in mesh (*** MAY RELOCATE FACES ***)
@@ -5540,7 +5540,7 @@ E3Mesh_GetFaceAttributeSet(
 	TE3MeshFaceData* facePtr;
 
 	// Check face
-	if ((facePtr = e3meshFaceExtRef_Face(faceExtRef)) == NULL)
+	if ((facePtr = e3meshFaceExtRef_Face(faceExtRef)) == nullptr)
 		goto failure;
 
 	// Get attribute set
@@ -5572,7 +5572,7 @@ E3Mesh_SetFaceAttributeSet(
 	TE3MeshFaceData* facePtr;
 
 	// Check face
-	if ((facePtr = e3meshFaceExtRef_Face(faceExtRef)) == NULL)
+	if ((facePtr = e3meshFaceExtRef_Face(faceExtRef)) == nullptr)
 		goto failure;
 
 	// Set attribute set
@@ -5627,7 +5627,7 @@ E3Mesh_FirstFaceFace(
 
 
 	// To be implemented...
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -5646,7 +5646,7 @@ E3Mesh_NextFaceFace(
 
 
 	// To be implemented...
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -5668,7 +5668,7 @@ E3Mesh_GetFaceNumContours(
 	TE3MeshFaceData* facePtr;
 
 	// Check face
-	if ((facePtr = e3meshFaceExtRef_Face(faceExtRef)) == NULL)
+	if ((facePtr = e3meshFaceExtRef_Face(faceExtRef)) == nullptr)
 		goto failure;
 
 	// Get number of contours in face
@@ -5689,7 +5689,7 @@ failure:
 //      E3Mesh_FirstFaceContour : Get first contour in face.
 //-----------------------------------------------------------------------------
 //		Note :	If face deleted, no first contour or unable to create
-//				external reference to contour, return NULL.
+//				external reference to contour, return nullptr.
 //-----------------------------------------------------------------------------
 TE3MeshContourExtRef
 E3Mesh_FirstFaceContour(
@@ -5702,21 +5702,21 @@ E3Mesh_FirstFaceContour(
 	TE3MeshContourExtRef contourExtRef;
 
 	// Get mesh for face
-	if ((meshPtr = e3meshFaceExtRef_Mesh(faceExtRef)) == NULL)
+	if ((meshPtr = e3meshFaceExtRef_Mesh(faceExtRef)) == nullptr)
 		goto failure;
 	
 	// Initialize iterator
 	e3meshIterator_Initialize(iteratorPtr, meshPtr, "fact");
 
 	// Check and save face
-	if ((facePtr = e3meshFaceExtRef_Face(faceExtRef)) == NULL)
+	if ((facePtr = e3meshFaceExtRef_Face(faceExtRef)) == nullptr)
 		goto failure;
 	iteratorPtr->var2 = faceExtRef;
 
 	// Get and save first contour in face
-	if ((contourPtr = e3meshContourArrayOrList_FirstItem(&facePtr->contourArrayOrList)) == NULL)
+	if ((contourPtr = e3meshContourArrayOrList_FirstItem(&facePtr->contourArrayOrList)) == nullptr)
 		goto failure;
-	if ((contourExtRef = e3meshContour_ExtRefInMesh(contourPtr, meshPtr)) == NULL)
+	if ((contourExtRef = e3meshContour_ExtRefInMesh(contourPtr, meshPtr)) == nullptr)
 		goto failure;
 	iteratorPtr->var1 = contourExtRef;
 
@@ -5725,9 +5725,9 @@ E3Mesh_FirstFaceContour(
 	
 failure:
 
-	iteratorPtr->var2 = NULL;
-	iteratorPtr->var1 = NULL;
-	return(NULL);
+	iteratorPtr->var2 = nullptr;
+	iteratorPtr->var1 = nullptr;
+	return(nullptr);
 }
 
 
@@ -5739,7 +5739,7 @@ failure:
 //-----------------------------------------------------------------------------
 //		Note :	If iterator ended, face deleted, current contour deleted,
 //				no next contour or unable to create external reference to
-//				contour, return NULL.
+//				contour, return nullptr.
 //-----------------------------------------------------------------------------
 TE3MeshContourExtRef
 E3Mesh_NextFaceContour(
@@ -5752,21 +5752,21 @@ E3Mesh_NextFaceContour(
 	TE3MeshContourData* contourPtr;
 
 	// Restore and check face
-	if ((faceExtRef = (TE3MeshFaceExtRef) iteratorPtr->var2) == NULL)
+	if ((faceExtRef = (TE3MeshFaceExtRef) iteratorPtr->var2) == nullptr)
 		goto failure;
-	if ((facePtr = e3meshFaceExtRef_Face(faceExtRef)) == NULL)
+	if ((facePtr = e3meshFaceExtRef_Face(faceExtRef)) == nullptr)
 		goto failure;
 
 	// Restore and check current contour in face
-	if ((contourExtRef = (TE3MeshContourExtRef) iteratorPtr->var1) == NULL)
+	if ((contourExtRef = (TE3MeshContourExtRef) iteratorPtr->var1) == nullptr)
 		goto failure;
-	if ((contourPtr = e3meshContourExtRef_Contour(contourExtRef)) == NULL)
+	if ((contourPtr = e3meshContourExtRef_Contour(contourExtRef)) == nullptr)
 		goto failure;
 
 	// Get and save next contour in face
-	if ((contourPtr = e3meshContourArrayOrList_NextItem(&facePtr->contourArrayOrList, contourPtr)) == NULL)
+	if ((contourPtr = e3meshContourArrayOrList_NextItem(&facePtr->contourArrayOrList, contourPtr)) == nullptr)
 		goto failure;
-	if ((contourExtRef = e3meshContour_ExtRefInMesh(contourPtr, meshPtr)) == NULL)
+	if ((contourExtRef = e3meshContour_ExtRefInMesh(contourPtr, meshPtr)) == nullptr)
 		goto failure;
 	iteratorPtr->var1 = contourExtRef;
 
@@ -5775,9 +5775,9 @@ E3Mesh_NextFaceContour(
 	
 failure:
 
-	iteratorPtr->var2 = NULL;
-	iteratorPtr->var1 = NULL;
-	return(NULL);
+	iteratorPtr->var2 = nullptr;
+	iteratorPtr->var1 = nullptr;
+	return(nullptr);
 }
 
 
@@ -5797,7 +5797,7 @@ E3Mesh_FirstFaceEdge(
 
 
 	// To be implemented...
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -5815,7 +5815,7 @@ E3Mesh_NextFaceEdge(TQ3MeshIterator* iteratorPtr)
 
 
 	// To be implemented...
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -5840,7 +5840,7 @@ E3Mesh_GetFaceNumVertices(
 	TE3MeshFaceData* facePtr;
 
 	// Check face
-	if ((facePtr = e3meshFaceExtRef_Face(faceExtRef)) == NULL)
+	if ((facePtr = e3meshFaceExtRef_Face(faceExtRef)) == nullptr)
 		goto failure;
 
 	*numVerticesPtr = e3meshFace_NumVertices(facePtr);
@@ -5860,7 +5860,7 @@ failure:
 //      E3Mesh_FirstFaceVertex : Get first vertex in face.
 //-----------------------------------------------------------------------------
 //		Note :	If face deleted, no first vertex or unable to create
-//				external reference to vertex, return NULL.
+//				external reference to vertex, return nullptr.
 //-----------------------------------------------------------------------------
 //		Note :	If a particular vertex occurs multiple times, each occurrence
 //				is iterated separately.
@@ -5878,40 +5878,40 @@ E3Mesh_FirstFaceVertex(
 	TE3MeshVertexExtRef vertexExtRef;
 
 	// Get mesh for face
-	if ((meshPtr = e3meshFaceExtRef_Mesh(faceExtRef)) == NULL)
+	if ((meshPtr = e3meshFaceExtRef_Mesh(faceExtRef)) == nullptr)
 		goto failure;
 	
 	// Initialize iterator
 	e3meshIterator_Initialize(iteratorPtr, meshPtr, "fave");
 
 	// Check and save face
-	if ((facePtr = e3meshFaceExtRef_Face(faceExtRef)) == NULL)
+	if ((facePtr = e3meshFaceExtRef_Face(faceExtRef)) == nullptr)
 		goto failure;
 	iteratorPtr->var3 = faceExtRef;
 
 	// Get first contour in face
-	if ((contourPtr = e3meshContourArrayOrList_FirstItem(&facePtr->contourArrayOrList)) == NULL)
+	if ((contourPtr = e3meshContourArrayOrList_FirstItem(&facePtr->contourArrayOrList)) == nullptr)
 		goto failure;
 
 	// Get first vertex in face
 	for (;;)
 	{
 		// If first vertex in current contour exists, break
-		if ((vertexHdl = e3meshVertexPtrArray_FirstItem(&contourPtr->vertexPtrArray)) != NULL)
+		if ((vertexHdl = e3meshVertexPtrArray_FirstItem(&contourPtr->vertexPtrArray)) != nullptr)
 			break;
 
 		// Otherwise, get next contour in face
-		if ((contourPtr = e3meshContourArrayOrList_NextItem(&facePtr->contourArrayOrList, contourPtr)) == NULL)
+		if ((contourPtr = e3meshContourArrayOrList_NextItem(&facePtr->contourArrayOrList, contourPtr)) == nullptr)
 			goto failure;
 	}
 
 	// Save current contour in face
-	if ((contourExtRef = e3meshContour_ExtRefInMesh(contourPtr, meshPtr)) == NULL)
+	if ((contourExtRef = e3meshContour_ExtRefInMesh(contourPtr, meshPtr)) == nullptr)
 		goto failure;
 	iteratorPtr->var2 = contourExtRef;
 
 	// Save first vertex in face
-	if ((vertexExtRef = e3meshVertex_ExtRefInMesh(*vertexHdl, meshPtr)) == NULL)
+	if ((vertexExtRef = e3meshVertex_ExtRefInMesh(*vertexHdl, meshPtr)) == nullptr)
 		goto failure;
 	iteratorPtr->var1 = vertexHdl;
 
@@ -5920,10 +5920,10 @@ E3Mesh_FirstFaceVertex(
 	
 failure:
 
-	iteratorPtr->var3 = NULL;
-	iteratorPtr->var2 = NULL;
-	iteratorPtr->var1 = NULL;
-	return(NULL);
+	iteratorPtr->var3 = nullptr;
+	iteratorPtr->var2 = nullptr;
+	iteratorPtr->var1 = nullptr;
+	return(nullptr);
 }
 
 
@@ -5935,7 +5935,7 @@ failure:
 //-----------------------------------------------------------------------------
 //		Note :	If iterator ended, face deleted, current vertex deleted,
 //				no next vertex or unable to create external reference to
-//				vertex, return NULL.
+//				vertex, return nullptr.
 //-----------------------------------------------------------------------------
 //		Note :	If a particular vertex occurs multiple times, each occurrence
 //				is iterated separately.
@@ -5953,25 +5953,25 @@ E3Mesh_NextFaceVertex(
 	TE3MeshVertexExtRef vertexExtRef;
 
 	// Restore and check face
-	if ((faceExtRef = (TE3MeshFaceExtRef) iteratorPtr->var3) == NULL)
+	if ((faceExtRef = (TE3MeshFaceExtRef) iteratorPtr->var3) == nullptr)
 		goto failure;
-	if ((facePtr = e3meshFaceExtRef_Face(faceExtRef)) == NULL)
+	if ((facePtr = e3meshFaceExtRef_Face(faceExtRef)) == nullptr)
 		goto failure;
 
 	// Restore and check current contour
-	if ((contourExtRef = (TE3MeshContourExtRef) iteratorPtr->var2) == NULL)
+	if ((contourExtRef = (TE3MeshContourExtRef) iteratorPtr->var2) == nullptr)
 		goto failure;
-	if ((contourPtr = e3meshContourExtRef_Contour(contourExtRef)) == NULL)
+	if ((contourPtr = e3meshContourExtRef_Contour(contourExtRef)) == nullptr)
 		goto failure;
 
 	// ??? check that contour still belongs to face ???
 
 	// Restore and check current vertex
-	if ((vertexHdl = (TE3MeshVertexData**) iteratorPtr->var1) == NULL)
+	if ((vertexHdl = (TE3MeshVertexData**) iteratorPtr->var1) == nullptr)
 		goto failure;
 
 	// If next vertex in current contour exists, break
-	if ((vertexHdl = e3meshVertexPtrArray_NextItem(&contourPtr->vertexPtrArray, vertexHdl)) != NULL)
+	if ((vertexHdl = e3meshVertexPtrArray_NextItem(&contourPtr->vertexPtrArray, vertexHdl)) != nullptr)
 		;
 	// Otherwise, get next vertex in face
 	else
@@ -5979,22 +5979,22 @@ E3Mesh_NextFaceVertex(
 		for (;;)
 		{
 			// Get next contour in face
-			if ((contourPtr = e3meshContourArrayOrList_NextItem(&facePtr->contourArrayOrList, contourPtr)) == NULL)
+			if ((contourPtr = e3meshContourArrayOrList_NextItem(&facePtr->contourArrayOrList, contourPtr)) == nullptr)
 				goto failure;
 				
 			// If first vertex in current contour exists, break
-			if ((vertexHdl = e3meshVertexPtrArray_FirstItem(&contourPtr->vertexPtrArray)) != NULL)
+			if ((vertexHdl = e3meshVertexPtrArray_FirstItem(&contourPtr->vertexPtrArray)) != nullptr)
 				break;
 		}
 	}
 
 	// Save current contour in face
-	if ((contourExtRef = e3meshContour_ExtRefInMesh(contourPtr, meshPtr)) == NULL)
+	if ((contourExtRef = e3meshContour_ExtRefInMesh(contourPtr, meshPtr)) == nullptr)
 		goto failure;
 	iteratorPtr->var2 = contourExtRef;
 
 	// Save next vertex in face
-	if ((vertexExtRef = e3meshVertex_ExtRefInMesh(*vertexHdl, meshPtr)) == NULL)
+	if ((vertexExtRef = e3meshVertex_ExtRefInMesh(*vertexHdl, meshPtr)) == nullptr)
 		goto failure;
 	iteratorPtr->var1 = vertexHdl;
 
@@ -6003,10 +6003,10 @@ E3Mesh_NextFaceVertex(
 	
 failure:
 
-	iteratorPtr->var3 = NULL;
-	iteratorPtr->var2 = NULL;
-	iteratorPtr->var1 = NULL;
-	return(NULL);
+	iteratorPtr->var3 = nullptr;
+	iteratorPtr->var2 = nullptr;
+	iteratorPtr->var1 = nullptr;
+	return(nullptr);
 }
 
 
@@ -6031,12 +6031,12 @@ E3Mesh_GetContourFace(
 	TE3MeshFaceData* containerFacePtr;
 	
 	// Check contour
-	if ((contourPtr = e3meshContourExtRef_Contour(contourExtRef)) == NULL)
+	if ((contourPtr = e3meshContourExtRef_Contour(contourExtRef)) == nullptr)
 		goto failure;
 	
 	// Get external reference to container face
 	containerFacePtr = e3meshContour_ContainerFace(contourPtr);
-	if ((*containerFaceExtRefPtr = e3meshFace_ExtRefInMesh(containerFacePtr, meshPtr)) == NULL)
+	if ((*containerFaceExtRefPtr = e3meshFace_ExtRefInMesh(containerFacePtr, meshPtr)) == nullptr)
 		goto failure;
 	
 	return(kQ3Success);
@@ -6063,7 +6063,7 @@ E3Mesh_FirstContourFace(
 
 
 	// To be implemented...
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -6082,7 +6082,7 @@ E3Mesh_NextContourFace(
 
 
 	// To be implemented...
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -6102,7 +6102,7 @@ E3Mesh_FirstContourEdge(
 
 
 	// To be implemented...
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -6121,7 +6121,7 @@ E3Mesh_NextContourEdge(
 
 
 	// To be implemented...
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -6146,7 +6146,7 @@ E3Mesh_GetContourNumVertices(
 	TE3MeshContourData* contourPtr;
 
 	// Check contour
-	if ((contourPtr = e3meshContourExtRef_Contour(contourExtRef)) == NULL)
+	if ((contourPtr = e3meshContourExtRef_Contour(contourExtRef)) == nullptr)
 		goto failure;
 
 	// Get number of vertices in contour
@@ -6167,7 +6167,7 @@ failure:
 //      E3Mesh_FirstContourVertex : Get first vertex in contour.
 //-----------------------------------------------------------------------------
 //		Note :	If contour deleted, no first vertex or unable to create
-//				external reference to vertex, return NULL.
+//				external reference to vertex, return nullptr.
 //-----------------------------------------------------------------------------
 //		Note :	If a particular vertex occurs multiple times, each occurrence is
 //				iterated separately.
@@ -6183,21 +6183,21 @@ E3Mesh_FirstContourVertex(
 	TE3MeshVertexExtRef vertexExtRef;
 
 	// Get mesh for contour
-	if ((meshPtr = e3meshContourExtRef_Mesh(contourExtRef)) == NULL)
+	if ((meshPtr = e3meshContourExtRef_Mesh(contourExtRef)) == nullptr)
 		goto failure;
 	
 	// Initialize iterator
 	e3meshIterator_Initialize(iteratorPtr, meshPtr, "ctve");
 
 	// Check and save contour
-	if ((contourPtr = e3meshContourExtRef_Contour(contourExtRef)) == NULL)
+	if ((contourPtr = e3meshContourExtRef_Contour(contourExtRef)) == nullptr)
 		goto failure;
 	iteratorPtr->var2 = contourExtRef;
 
 	// Get and save first vertex in contour
-	if ((vertexHdl = e3meshVertexPtrArray_FirstItem(&contourPtr->vertexPtrArray)) == NULL)
+	if ((vertexHdl = e3meshVertexPtrArray_FirstItem(&contourPtr->vertexPtrArray)) == nullptr)
 		goto failure;
-	if ((vertexExtRef = e3meshVertex_ExtRefInMesh(*vertexHdl, meshPtr)) == NULL)
+	if ((vertexExtRef = e3meshVertex_ExtRefInMesh(*vertexHdl, meshPtr)) == nullptr)
 		goto failure;
 	iteratorPtr->var1 = vertexHdl;
 
@@ -6206,9 +6206,9 @@ E3Mesh_FirstContourVertex(
 	
 failure:
 
-	iteratorPtr->var2 = NULL;
-	iteratorPtr->var1 = NULL;
-	return(NULL);
+	iteratorPtr->var2 = nullptr;
+	iteratorPtr->var1 = nullptr;
+	return(nullptr);
 }
 
 
@@ -6220,7 +6220,7 @@ failure:
 //-----------------------------------------------------------------------------
 //		Note :	If iterator ended, contour deleted, current vertex deleted,
 //				no next vertex or unable to create external reference to
-//				vertex, return NULL.
+//				vertex, return nullptr.
 //-----------------------------------------------------------------------------
 //		Note :	If a particular vertex occurs multiple times, each occurrence is
 //				iterated separately.
@@ -6236,19 +6236,19 @@ E3Mesh_NextContourVertex(
 	TE3MeshVertexExtRef vertexExtRef;
 
 	// Restore and check contour
-	if ((contourExtRef = (TE3MeshContourExtRef) iteratorPtr->var2) == NULL)
+	if ((contourExtRef = (TE3MeshContourExtRef) iteratorPtr->var2) == nullptr)
 		goto failure;
-	if ((contourPtr = e3meshContourExtRef_Contour(contourExtRef)) == NULL)
+	if ((contourPtr = e3meshContourExtRef_Contour(contourExtRef)) == nullptr)
 		goto failure;
 
 	// Restore and check current vertex in contour
-	if ((vertexHdl = (TE3MeshVertexData**) iteratorPtr->var1) == NULL)
+	if ((vertexHdl = (TE3MeshVertexData**) iteratorPtr->var1) == nullptr)
 		goto failure;
 
 	// Get and save next vertex in contour
-	if ((vertexHdl = e3meshVertexPtrArray_NextItem(&contourPtr->vertexPtrArray, vertexHdl)) == NULL)
+	if ((vertexHdl = e3meshVertexPtrArray_NextItem(&contourPtr->vertexPtrArray, vertexHdl)) == nullptr)
 		goto failure;
-	if ((vertexExtRef = e3meshVertex_ExtRefInMesh(*vertexHdl, meshPtr)) == NULL)
+	if ((vertexExtRef = e3meshVertex_ExtRefInMesh(*vertexHdl, meshPtr)) == nullptr)
 		goto failure;
 	iteratorPtr->var1 = vertexHdl;
 
@@ -6257,9 +6257,9 @@ E3Mesh_NextContourVertex(
 	
 failure:
 
-	iteratorPtr->var2 = NULL;
-	iteratorPtr->var1 = NULL;
-	return(NULL);
+	iteratorPtr->var2 = nullptr;
+	iteratorPtr->var1 = nullptr;
+	return(nullptr);
 }
 
 
@@ -6421,7 +6421,7 @@ E3Mesh_GetVertexIndex(
 	TE3MeshVertexData* vertexPtr;
 
 	// Check vertex
-	if ((vertexPtr = e3meshVertexExtRef_Vertex(vertexExtRef)) == NULL)
+	if ((vertexPtr = e3meshVertexExtRef_Vertex(vertexExtRef)) == nullptr)
 		goto failure;
 
 	// Use array of vertices in mesh (*** MAY RELOCATE VERTICES ***)
@@ -6482,7 +6482,7 @@ E3Mesh_GetVertexCoordinates(
 	TE3MeshVertexData* vertexPtr;
 
 	// Check vertex
-	if ((vertexPtr = e3meshVertexExtRef_Vertex(vertexExtRef)) == NULL)
+	if ((vertexPtr = e3meshVertexExtRef_Vertex(vertexExtRef)) == nullptr)
 		goto failure;
 
 	// Get vertex coordinates
@@ -6514,7 +6514,7 @@ E3Mesh_SetVertexCoordinates(
 	TE3MeshVertexData* vertexPtr;
 
 	// Check vertex
-	if ((vertexPtr = e3meshVertexExtRef_Vertex(vertexExtRef)) == NULL)
+	if ((vertexPtr = e3meshVertexExtRef_Vertex(vertexExtRef)) == nullptr)
 		goto failure;
 
 	// Set vertex coordinates
@@ -6548,7 +6548,7 @@ E3Mesh_GetVertexAttributeSet(
 	TE3MeshVertexData* vertexPtr;
 
 	// Check vertex
-	if ((vertexPtr = e3meshVertexExtRef_Vertex(vertexExtRef)) == NULL)
+	if ((vertexPtr = e3meshVertexExtRef_Vertex(vertexExtRef)) == nullptr)
 		goto failure;
 
 	// Get vertex attribute set
@@ -6580,7 +6580,7 @@ E3Mesh_SetVertexAttributeSet(
 	TE3MeshVertexData* vertexPtr;
 
 	// Check vertex
-	if ((vertexPtr = e3meshVertexExtRef_Vertex(vertexExtRef)) == NULL)
+	if ((vertexPtr = e3meshVertexExtRef_Vertex(vertexExtRef)) == nullptr)
 		goto failure;
 
 	// Set vertex attribute set
@@ -6626,7 +6626,7 @@ E3Mesh_GetVertexComponent(
 //      E3Mesh_FirstVertexFace : Get first face having vertex.
 //-----------------------------------------------------------------------------
 //		Note :	If vertex deleted, no first face or unable to create
-//				external reference to face, return NULL.
+//				external reference to face, return nullptr.
 //-----------------------------------------------------------------------------
 TE3MeshFaceExtRef
 E3Mesh_FirstVertexFace(
@@ -6639,19 +6639,19 @@ E3Mesh_FirstVertexFace(
 	TE3MeshFaceExtRef faceExtRef;
 
 	// Get mesh for vertex
-	if ((meshPtr = e3meshVertexExtRef_Mesh(vertexExtRef)) == NULL)
+	if ((meshPtr = e3meshVertexExtRef_Mesh(vertexExtRef)) == nullptr)
 		goto failure;
 	
 	// Initialize iterator
 	e3meshIterator_Initialize(iteratorPtr, meshPtr, "vefa");
 
 	// Check and save vertex
-	if ((vertexPtr = e3meshVertexExtRef_Vertex(vertexExtRef)) == NULL)
+	if ((vertexPtr = e3meshVertexExtRef_Vertex(vertexExtRef)) == nullptr)
 		goto failure;
 	iteratorPtr->var2 = vertexExtRef;
 
 	// Get first face in mesh
-	if ((facePtr = e3meshFaceArrayOrList_FirstItem(&meshPtr->faceArrayOrList)) == NULL)
+	if ((facePtr = e3meshFaceArrayOrList_FirstItem(&meshPtr->faceArrayOrList)) == nullptr)
 		goto failure;
 
 	// Get first face having vertex
@@ -6662,12 +6662,12 @@ E3Mesh_FirstVertexFace(
 			break;
 
 		// Otherwise, get next face in mesh
-		if ((facePtr = e3meshFaceArrayOrList_NextItem(&meshPtr->faceArrayOrList, facePtr)) == NULL)
+		if ((facePtr = e3meshFaceArrayOrList_NextItem(&meshPtr->faceArrayOrList, facePtr)) == nullptr)
 			goto failure;
 	}
 
 	// Save first face having vertex
-	if ((faceExtRef = e3meshFace_ExtRefInMesh(facePtr, meshPtr)) == NULL)
+	if ((faceExtRef = e3meshFace_ExtRefInMesh(facePtr, meshPtr)) == nullptr)
 		goto failure;
 	iteratorPtr->var1 = faceExtRef;
 
@@ -6676,9 +6676,9 @@ E3Mesh_FirstVertexFace(
 	
 failure:
 
-	iteratorPtr->var2 = NULL;
-	iteratorPtr->var1 = NULL;
-	return(NULL);
+	iteratorPtr->var2 = nullptr;
+	iteratorPtr->var1 = nullptr;
+	return(nullptr);
 }
 
 
@@ -6690,7 +6690,7 @@ failure:
 //-----------------------------------------------------------------------------
 //		Note :	If iterator ended, vertex deleted, current face deleted,
 //				no next face or unable to create external reference to face,
-//				return NULL.
+//				return nullptr.
 //-----------------------------------------------------------------------------
 TE3MeshFaceExtRef
 E3Mesh_NextVertexFace(
@@ -6703,22 +6703,22 @@ E3Mesh_NextVertexFace(
 	TE3MeshFaceData* facePtr;
 
 	// Restore and check vertex
-	if ((vertexExtRef = (TE3MeshVertexExtRef) iteratorPtr->var2) == NULL)
+	if ((vertexExtRef = (TE3MeshVertexExtRef) iteratorPtr->var2) == nullptr)
 		goto failure;
-	if ((vertexPtr = e3meshVertexExtRef_Vertex(vertexExtRef)) == NULL)
+	if ((vertexPtr = e3meshVertexExtRef_Vertex(vertexExtRef)) == nullptr)
 		goto failure;
 
 	// Restore and check current face having vertex
-	if ((faceExtRef = (TE3MeshFaceExtRef) iteratorPtr->var1) == NULL)
+	if ((faceExtRef = (TE3MeshFaceExtRef) iteratorPtr->var1) == nullptr)
 		goto failure;
-	if ((facePtr = e3meshFaceExtRef_Face(faceExtRef)) == NULL)
+	if ((facePtr = e3meshFaceExtRef_Face(faceExtRef)) == nullptr)
 		goto failure;
 
 	// Get next face having vertex
 	for (;;)
 	{
 		// Get next face in mesh
-		if ((facePtr = e3meshFaceArrayOrList_NextItem(&meshPtr->faceArrayOrList, facePtr)) == NULL)
+		if ((facePtr = e3meshFaceArrayOrList_NextItem(&meshPtr->faceArrayOrList, facePtr)) == nullptr)
 			goto failure;
 
 		// If face has vertex, break
@@ -6727,7 +6727,7 @@ E3Mesh_NextVertexFace(
 	}
 
 	// Save next face having vertex
-	if ((faceExtRef = e3meshFace_ExtRefInMesh(facePtr, meshPtr)) == NULL)
+	if ((faceExtRef = e3meshFace_ExtRefInMesh(facePtr, meshPtr)) == nullptr)
 		goto failure;
 	iteratorPtr->var1 = faceExtRef;
 
@@ -6736,9 +6736,9 @@ E3Mesh_NextVertexFace(
 	
 failure:
 
-	iteratorPtr->var2 = NULL;
-	iteratorPtr->var1 = NULL;
-	return(NULL);
+	iteratorPtr->var2 = nullptr;
+	iteratorPtr->var1 = nullptr;
+	return(nullptr);
 }
 
 
@@ -6758,7 +6758,7 @@ E3Mesh_FirstVertexEdge(
 
 
 	// To be implemented...
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -6777,7 +6777,7 @@ E3Mesh_NextVertexEdge(
 
 
 	// To be implemented...
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -6797,7 +6797,7 @@ E3Mesh_FirstVertexVertex(
 
 
 	// To be implemented...
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -6816,7 +6816,7 @@ E3Mesh_NextVertexVertex(
 
 
 	// To be implemented...
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -6841,19 +6841,19 @@ E3Mesh_GetCornerAttributeSet(
 	TE3MeshCornerData* cornerPtr;
 
 	// Check vertex
-	if ((vertexPtr = e3meshVertexExtRef_Vertex(vertexExtRef)) == NULL)
+	if ((vertexPtr = e3meshVertexExtRef_Vertex(vertexExtRef)) == nullptr)
 		goto failure;
 
 	// Check face
-	if ((facePtr = e3meshFaceExtRef_Face(faceExtRef)) == NULL)
+	if ((facePtr = e3meshFaceExtRef_Face(faceExtRef)) == nullptr)
 		goto failure;
 
 	// Get corner
 	cornerPtr = e3meshVertex_FaceCorner(vertexPtr, facePtr);
 	
 	// Get attribute set
-	if (cornerPtr == NULL)
-		*attributeSetPtr = NULL;
+	if (cornerPtr == nullptr)
+		*attributeSetPtr = nullptr;
 	else
 		E3Shared_Acquire(attributeSetPtr, cornerPtr->attributeSet);
 
@@ -6888,17 +6888,17 @@ E3Mesh_SetCornerAttributeSet(
 	TQ3Uns32 oldFaceCount;
 
 	// Check vertex
-	if ((vertexPtr = e3meshVertexExtRef_Vertex(vertexExtRef)) == NULL)
+	if ((vertexPtr = e3meshVertexExtRef_Vertex(vertexExtRef)) == nullptr)
 		goto failure;
 
 	// Check face
-	if ((facePtr = e3meshFaceExtRef_Face(faceExtRef)) == NULL)
+	if ((facePtr = e3meshFaceExtRef_Face(faceExtRef)) == nullptr)
 		goto failure;
 
 	// Get old corner, attribute set and face count
-	if ((oldCornerPtr = e3meshVertex_FaceCorner(vertexPtr, facePtr)) == NULL)
+	if ((oldCornerPtr = e3meshVertex_FaceCorner(vertexPtr, facePtr)) == nullptr)
 	{
-		oldAttributeSet = NULL;
+		oldAttributeSet = nullptr;
 		oldFaceCount = 0;
 	}
 	else
@@ -6912,37 +6912,37 @@ E3Mesh_SetCornerAttributeSet(
 	{
 		TE3MeshCornerData* newCornerPtr;
 		
-		if (newAttributeSet == NULL)
+		if (newAttributeSet == nullptr)
 		{
-			// ? -> NULL
+			// ? -> nullptr
 			
 			switch (oldFaceCount)
 			{
-			case 0:		// NULL -> NULL
+			case 0:		// nullptr -> nullptr
 				Q3_ASSERT(0);
 				break;
 
-			case 1:		// x -> NULL
+			case 1:		// x -> nullptr
 				// Delete corner (*** MAY RELOCATE CORNERS ***)
 				if (e3meshVertex_DeleteCorner(vertexPtr, meshPtr, oldCornerPtr) == kQ3Failure)
 					goto failure;
 				break;
 
-			default:	// x+ -> NULL
+			default:	// x+ -> nullptr
 				if (e3meshCorner_DetachFace(oldCornerPtr, facePtr) == kQ3Failure)
 					goto failure;
 				break;
 			}
 		}
-		else if ((newCornerPtr = e3meshVertex_AttributeSetCorner(vertexPtr, meshPtr, newAttributeSet)) == NULL)
+		else if ((newCornerPtr = e3meshVertex_AttributeSetCorner(vertexPtr, meshPtr, newAttributeSet)) == nullptr)
 		{
 			// ? -> y
 			
 			switch (oldFaceCount)
 			{
-			case 0:		// NULL -> y
+			case 0:		// nullptr -> y
 				// New corner (*** MAY RELOCATE CORNERS ***)
-				if ((newCornerPtr = e3meshVertex_NewCorner(vertexPtr, meshPtr, newAttributeSet)) == NULL)
+				if ((newCornerPtr = e3meshVertex_NewCorner(vertexPtr, meshPtr, newAttributeSet)) == nullptr)
 					goto failure;
 				if (e3meshCorner_AttachFace(newCornerPtr, facePtr) == kQ3Failure)
 				{
@@ -6958,7 +6958,7 @@ E3Mesh_SetCornerAttributeSet(
 
 			default:	// x+ -> y
 				// New corner (*** MAY RELOCATE CORNERS ***)
-				if ((newCornerPtr = e3meshVertex_NewCorner(vertexPtr, meshPtr, newAttributeSet)) == NULL)
+				if ((newCornerPtr = e3meshVertex_NewCorner(vertexPtr, meshPtr, newAttributeSet)) == nullptr)
 					goto failure;
 				if (e3meshCorner_SpliceFace(newCornerPtr, oldCornerPtr, facePtr) == kQ3Failure)
 				{
@@ -6975,7 +6975,7 @@ E3Mesh_SetCornerAttributeSet(
 			
 			switch (oldFaceCount)
 			{
-			case 0:		// NULL -> y+
+			case 0:		// nullptr -> y+
 				if (e3meshCorner_AttachFace(newCornerPtr, facePtr) == kQ3Failure)
 					goto failure;
 				break;

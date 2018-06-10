@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
     "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
-<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a[name]:hover {text-decoration: inherit; font-family: inherit; font-size: inherit}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
     <title>Functions</title>
 	 <meta name="generator" content="HeaderDoc">
 </head><body bgcolor="#ffffff">
@@ -526,7 +526,7 @@ draw context (e.g., the bounds of the window).
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MacDrawContext_GetWindow">Q3MacDrawContext_GetWindow</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3MacDrawContext_GetWindow (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject drawContext,
-&nbsp;&nbsp;&nbsp;&nbsp;CWindowPtr *window
+&nbsp;&nbsp;&nbsp;&nbsp;WindowRef *window
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the window of a Mac draw context.
@@ -619,7 +619,7 @@ draw context (e.g., the bounds of the window).
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MacDrawContext_SetWindow">Q3MacDrawContext_SetWindow</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3MacDrawContext_SetWindow (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject drawContext,
-&nbsp;&nbsp;&nbsp;&nbsp;CWindowPtr window
+&nbsp;&nbsp;&nbsp;&nbsp;WindowRef window
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the window for a Mac draw context.
@@ -1017,5 +1017,5 @@ purpose of the function, and its parameters/result, have been assumed.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>The X11 visual info.
  </dd></dl>
-<p><p>&#169; 1999-2011 Quesa Developers (Last Updated 3/13/2011)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
 </p></body></html>

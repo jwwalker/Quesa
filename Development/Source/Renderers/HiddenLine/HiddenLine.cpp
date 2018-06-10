@@ -62,21 +62,21 @@
 
 namespace
 {
-	TQ3XObjectClass	s_ParentRendererClass = NULL;
+	TQ3XObjectClass	s_ParentRendererClass = nullptr;
 }
 
 //____________________________________________________________________________________
 
 static TQ3XFunctionPointer GetParentRendererMethod(TQ3XMethodType methodType)
 {
-	if (NULL == s_ParentRendererClass)
+	if (nullptr == s_ParentRendererClass)
 	{
 		s_ParentRendererClass = Q3XObjectHierarchy_FindClassByType(kQ3RendererTypeOpenGL);	
 	}
 
-	if (NULL == s_ParentRendererClass)
+	if (nullptr == s_ParentRendererClass)
 	{
-		return 0;
+		return nullptr;
 	}
 
 	return Q3XObjectClass_GetMethod( s_ParentRendererClass, methodType );
@@ -159,10 +159,10 @@ void CHiddenLineRendererQuesa::StartPassHiddenLine(
 	TQ3Float32 lineW = 1.0f;
 	TQ3Float32 factor = 1.0f;
 	Q3Object_GetProperty( mRendererObject, kQ3RendererPropertyLineWidth,
-			sizeof(lineW), NULL, &lineW );
+			sizeof(lineW), nullptr, &lineW );
 			
 	Q3Object_GetProperty( mRendererObject, kQ3RendererPropertyUseColor,
-			sizeof(useColor), NULL, &useColor );
+			sizeof(useColor), nullptr, &useColor );
 			
 	CQ3ObjectRef	theDrawContext( CQ3View_GetDrawContext( inView ) );
 			
@@ -194,7 +194,7 @@ void CHiddenLineRendererQuesa::StartPassHiddenLine(
 				mViewState.diffuseColor = &mFillColor;
 				mAttributesMask &= ~kQ3XAttributeMaskDiffuseColor; // don't update the diffuse color
 				}
-			UpdateIlluminationShader(NULL);
+			UpdateIlluminationShader(nullptr);
 			mUpdateShader = false;
  		}
 		break;
@@ -211,7 +211,7 @@ void CHiddenLineRendererQuesa::StartPassHiddenLine(
 		mViewState.diffuseColor = &mLineColor;
 		mAttributesMask &= ~kQ3XAttributeMaskDiffuseColor; // don't update the diffuse color
 		mStyleState.mFill = kQ3FillStyleEdges;
-		UpdateIlluminationShader(NULL);
+		UpdateIlluminationShader(nullptr);
 //		mStyleState.mExplicitEdges = true;
 		mUpdateShader = false;
 		}
@@ -227,7 +227,7 @@ void CHiddenLineRendererQuesa::StartPassHiddenLine(
 		glLineWidth( mLineWidth );
 		mViewState.diffuseColor = &mLineColor;
 		mAttributesMask &= ~kQ3XAttributeMaskDiffuseColor; // don't update the diffuse color
-		UpdateIlluminationShader(NULL);
+		UpdateIlluminationShader(nullptr);
 		mStyleState.mFill = kQ3FillStyleEdges;
 		mStyleState.mExplicitEdges = true;
 		}
@@ -290,7 +290,7 @@ static TQ3Status	hiddenline_update_illumination_shader(
 	CHiddenLineRendererQuesa*	me = *(CHiddenLineRendererQuesa**)privateData;
 	try
 	{
-		if (inShader != NULL)
+		if (inShader != nullptr)
 		{
 			me->UpdateIlluminationShaderHiddenLine( *inShader );
 		}
@@ -327,7 +327,7 @@ hiddenline_nickname(unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3Uns32 *ac
     *actualDataSize = (TQ3Uns32)strlen(kQ3ClassNameRendererHiddenLine) + 1;
 
 	// If we have a buffer, return the nick name
-	if (dataBuffer != NULL)
+	if (dataBuffer != nullptr)
 		{
 		// Clamp the buffer size
 		if (bufferSize < *actualDataSize)
@@ -354,19 +354,19 @@ hiddenline_new_object( TQ3Object theObject, void *privateData, void *paramData )
 	// methods have been cached.  This happens the first time such a renderer
 	// is instantiated.
 	E3ClassInfoPtr	qoClass = E3ClassTree::GetClass( kQ3RendererTypeOpenGL );
-	Q3_ASSERT( qoClass != NULL );
-	if ( (qoClass != NULL) &&
-		(qoClass->GetMethod ( kQ3XMethodTypeRendererMethodsCached ) == NULL) )
+	Q3_ASSERT( qoClass != nullptr );
+	if ( (qoClass != nullptr) &&
+		(qoClass->GetMethod ( kQ3XMethodTypeRendererMethodsCached ) == nullptr) )
 	{
 		TQ3Object	dummyRenderer = Q3Renderer_NewFromType( kQ3RendererTypeOpenGL );
 		Q3Object_CleanDispose( &dummyRenderer );
-		Q3_ASSERT( qoClass->GetMethod ( kQ3XMethodTypeRendererMethodsCached ) != NULL );
+		Q3_ASSERT( qoClass->GetMethod ( kQ3XMethodTypeRendererMethodsCached ) != nullptr );
 	}
 
 
 	TQ3Status	theStatus;
 	CHiddenLineRendererQuesa*	newHidden = new(std::nothrow) CHiddenLineRendererQuesa( theObject );
-	if (newHidden == NULL)
+	if (newHidden == nullptr)
 	{
 		theStatus = kQ3Failure;
 	}
@@ -406,7 +406,7 @@ hiddenline_delete_object( TQ3Object theObject, void *privateData )
 static TQ3XRendererUpdateStyleMethod hiddenline_style_metahandler (
 									TQ3ObjectType inStyleType )
 {
-	TQ3XRendererUpdateStyleMethod	theMethod = NULL;
+	TQ3XRendererUpdateStyleMethod	theMethod = nullptr;
 	
 	switch (inStyleType)
 	{
@@ -431,7 +431,7 @@ static TQ3XRendererUpdateStyleMethod hiddenline_style_metahandler (
 static TQ3XRendererUpdateShaderMethod hiddenline_shader_metahandler (
 									TQ3ObjectType inShaderType )
 {
-	TQ3XRendererUpdateShaderMethod	theMethod = NULL;
+	TQ3XRendererUpdateShaderMethod	theMethod = nullptr;
 	
 	switch (inShaderType)
 	{
@@ -456,7 +456,7 @@ static TQ3XRendererUpdateShaderMethod hiddenline_shader_metahandler (
 static TQ3XFunctionPointer
 hiddenline_metahandler(TQ3XMethodType methodType)
 {	
-	TQ3XFunctionPointer		theMethod = NULL;	
+	TQ3XFunctionPointer		theMethod = nullptr;	
 
 	switch(methodType)
 	{
@@ -477,7 +477,7 @@ hiddenline_metahandler(TQ3XMethodType methodType)
 			break;
 			
 		case kQ3XMethodTypeRendererMethodsCached:
-			// Deliberately return NULL here, so we do not inherit from parent
+			// Deliberately return nullptr here, so we do not inherit from parent
 			break;
 		
 		case kQ3XMethodTypeRendererUpdateStyleMetaHandler:
@@ -517,12 +517,12 @@ TQ3Status HiddenLine_Register()
 														kQ3RendererTypeHiddenLine,
 														kQ3ClassNameRendererHiddenLine,
 														hiddenline_metahandler,
-														NULL,
+														nullptr,
 														0,
 														sizeof(CHiddenLineRendererQuesa*));
 
 
-	return(theClass == NULL ? kQ3Failure : kQ3Success);
+	return(theClass == nullptr ? kQ3Failure : kQ3Success);
 }
 
 //____________________________________________________________________________________
@@ -533,11 +533,11 @@ void HiddenLine_Unregister()
 
 	// Find the renderer class
 	theClass = Q3XObjectHierarchy_FindClassByType( kQ3RendererTypeHiddenLine );
-	if (theClass == NULL)
+	if (theClass == nullptr)
 		return;
 
 	// Unregister the class
 	Q3XObjectHierarchy_UnregisterClass(theClass);
 	
-	s_ParentRendererClass = NULL;
+	s_ParentRendererClass = nullptr;
 }

@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
     "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
-<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a[name]:hover {text-decoration: inherit; font-family: inherit; font-size: inherit}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
     <title>Functions</title>
 	 <meta name="generator" content="HeaderDoc">
 </head><body bgcolor="#ffffff">
@@ -22,7 +22,7 @@ part of the Error Manager will clear the error codes.
 <blockquote>
 <dl>
 <dt><tt><em>firstError</em></tt></dt><dd>Pointer to variable to receive the oldest error code
-that has not yet been reported.  May be NULL if you
+that has not yet been reported.  May be nullptr if you
 don't need that information.</dd>
 </dl>
 </blockquote>
@@ -73,7 +73,7 @@ will clear the platform-specific error codes.
 <blockquote>
 <dl>
 <dt><tt><em>firstErr</em></tt></dt><dd>Pointer to variable to receive the oldest unreported
-platform-specific error code.  May be NULL if you
+platform-specific error code.  May be nullptr if you
 don't need that information.</dd>
 </dl>
 </blockquote>
@@ -141,7 +141,7 @@ Currently only English is supported.</dd>
 <dt><tt><em>theError</em></tt></dt><dd>Quesa error code.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>Text version of the error code, as a NULL-terminated string.
+<dl><dt><i>function result</i></dt><dd>Text version of the error code, as a NUL-terminated string.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3MacintoshError_Get"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MacintoshError_Get">Q3MacintoshError_Get</a></h2>
@@ -160,7 +160,7 @@ Q3Error_PlatformGet may be used in place of this function.
 <blockquote>
 <dl>
 <dt><tt><em>firstMacErr</em></tt></dt><dd>Pointer to variable to receive the oldest Mac error code
-that has not yet been reported.  May be NULL if you
+that has not yet been reported.  May be nullptr if you
 don't need that information.</dd>
 </dl>
 </blockquote>
@@ -183,7 +183,7 @@ part of the Error Manager will clear the notice codes.
 <blockquote>
 <dl>
 <dt><tt><em>firstNotice</em></tt></dt><dd>Pointer to variable to receive the oldest notice code
-that has not yet been reported.  May be NULL if you
+that has not yet been reported.  May be nullptr if you
 don't need that information.</dd>
 </dl>
 </blockquote>
@@ -233,7 +233,7 @@ Currently only English is supported.</dd>
 <dt><tt><em>theWarning</em></tt></dt><dd>Quesa notice code.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>Text version of the notice code, as a NULL-terminated string.
+<dl><dt><i>function result</i></dt><dd>Text version of the notice code, as a NUL-terminated string.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Warning_Get"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Warning_Get">Q3Warning_Get</a></h2>
@@ -252,7 +252,7 @@ part of the Error Manager will clear the warning codes.
 <blockquote>
 <dl>
 <dt><tt><em>firstWarning</em></tt></dt><dd>Pointer to variable to receive the oldest warning code
-that has not yet been reported.  May be NULL if you
+that has not yet been reported.  May be nullptr if you
 don't need that information.</dd>
 </dl>
 </blockquote>
@@ -301,7 +301,7 @@ Currently only English is supported.</dd>
 <dt><tt><em>theWarning</em></tt></dt><dd>Quesa warning code.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>Text version of the warning code, as a NULL-terminated string.
+<dl><dt><i>function result</i></dt><dd>Text version of the warning code, as a NUL-terminated string.
  </dd></dl>
-<p><p>&#169; 1999-2011 Quesa Developers (Last Updated 3/13/2011)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
 </p></body></html>

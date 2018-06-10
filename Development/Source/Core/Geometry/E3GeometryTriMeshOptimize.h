@@ -104,10 +104,10 @@ TQ3Status E3TriMesh_OptimizeData( const TQ3TriMeshData& inData,
 				interactive renderer.
 	
 	@discussion	See discussion of E3TriMesh_OptimizeData for the optimizations
-				that are performed.  If no optimizations are needed, NULL
+				that are performed.  If no optimizations are needed, nullptr
 				is returned.
 	
 	@param		inTriMesh		A TriMesh geometry.
-	@result		A TriMesh or NULL.
+	@result		A TriMesh or nullptr.
 */
 TQ3GeometryObject E3TriMesh_Optimize( TQ3GeometryObject inTriMesh );

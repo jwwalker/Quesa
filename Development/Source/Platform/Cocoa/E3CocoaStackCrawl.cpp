@@ -164,8 +164,8 @@ static int32_t MachOReadSwappedInt32(const void *addr);
 //
 char *MachOCopySymbol(uintptr_t pc,uintptr_t *offset)
 {
-	const MachOSegmentCommand	*linkedit = NULL,*text = NULL;
-	const MachOSymTabCommand	*symtab = NULL;
+	const MachOSegmentCommand	*linkedit = nullptr,*text = nullptr;
+	const MachOSymTabCommand	*symtab = nullptr;
 	const MachOHeader			*mh;
 	const MachONList			*sym,*symbase;
 	const char					*strings, *name;
@@ -177,11 +177,11 @@ char *MachOCopySymbol(uintptr_t pc,uintptr_t *offset)
 	*offset = 0;
 	
 	if ((dladdr((void*)pc,&info) == 0) ||
-		((mh = (const MachOHeader*)info.dli_fbase) == NULL) ||
-		((text = MachOGetSegmentCommand(mh,SEG_TEXT)) == NULL) ||
-		((linkedit = MachOGetSegmentCommand(mh,SEG_LINKEDIT)) == NULL) ||
-		((symtab = (const MachOSymTabCommand*)MachOGetLoadCommand(mh,LC_SYMTAB,NULL)) == NULL))
-		return NULL;
+		((mh = (const MachOHeader*)info.dli_fbase) == nullptr) ||
+		((text = MachOGetSegmentCommand(mh,SEG_TEXT)) == nullptr) ||
+		((linkedit = MachOGetSegmentCommand(mh,SEG_LINKEDIT)) == nullptr) ||
+		((symtab = (const MachOSymTabCommand*)MachOGetLoadCommand(mh,LC_SYMTAB,nullptr)) == nullptr))
+		return nullptr;
 	
 	moffset = (uintptr_t)mh - (uintptr_t)text->vmaddr;
 	foffset = ((uintptr_t)linkedit->vmaddr - (uintptr_t)text->vmaddr) - linkedit->fileoff;
@@ -194,7 +194,7 @@ char *MachOCopySymbol(uintptr_t pc,uintptr_t *offset)
 		if (sym->n_type != N_FUN)
 			continue;
 		
-		name = sym->n_un.n_strx ? (strings + sym->n_un.n_strx) : NULL;
+		name = sym->n_un.n_strx ? (strings + sym->n_un.n_strx) : nullptr;
 		base = sym->n_value + moffset;
 		
 		for (index += 1,sym += 1;index < symtab->nsyms;index += 1,sym += 1)
@@ -203,7 +203,7 @@ char *MachOCopySymbol(uintptr_t pc,uintptr_t *offset)
 				break;
 		}
 		
-		if ((pc >= base) && (pc <= (base + sym->n_value)) && (name != NULL) && (strlen(name) > 0))
+		if ((pc >= base) && (pc <= (base + sym->n_value)) && (name != nullptr) && (strlen(name) > 0))
 		{
 			*offset = pc - base;
 			return strdup(name);
@@ -211,37 +211,37 @@ char *MachOCopySymbol(uintptr_t pc,uintptr_t *offset)
 	}
 	
 	// Compensate for optimized shared region.
-	if ((mh->filetype == MH_DYLIB) && (info.dli_fname != NULL))
+	if ((mh->filetype == MH_DYLIB) && (info.dli_fname != nullptr))
 	{
 		const MachOHeader	*arch;
 		size_t				size;
 		
-		result_name = NULL;
+		result_name = nullptr;
 		
-		if ((arch = MachOMapArch(mh,info.dli_fname,&size)) != NULL)
+		if ((arch = MachOMapArch(mh,info.dli_fname,&size)) != nullptr)
 		{
 			result_name = MachOCopySymbolMapped(arch,(pc + ((uintptr_t)arch - (uintptr_t)mh)),offset);
 			munmap((void*)arch,size);
 		}
 		
-		if (result_name != NULL)
+		if (result_name != nullptr)
 			return result_name;
 	}
 	
 	// Look for a reasonably close private symbol.
-	for (name = NULL,base = ~((uintptr_t)0),index = 0,sym = symbase;index < symtab->nsyms;index += 1,sym += 1)
+	for (name = nullptr,base = ~((uintptr_t)0),index = 0,sym = symbase;index < symtab->nsyms;index += 1,sym += 1)
 	{
 		if (((sym->n_type & 0x0E) != 0x0E) ||
 			((sym->n_value + moffset) > pc) ||
 			((base != ~((uintptr_t)0)) && ((pc - (sym->n_value + moffset)) >= (pc - base))))
 			continue;
 		
-		name = sym->n_un.n_strx ? (strings + sym->n_un.n_strx) : NULL;
+		name = sym->n_un.n_strx ? (strings + sym->n_un.n_strx) : nullptr;
 		base = sym->n_value + moffset;
 	}
 	
 	*offset = pc - base;
-	return (name != NULL) ? strdup(name) : NULL;
+	return (name != nullptr) ? strdup(name) : nullptr;
 }
 
 
@@ -252,8 +252,8 @@ char *MachOCopySymbol(uintptr_t pc,uintptr_t *offset)
 //
 char *MachOCopySymbolMapped(const MachOHeader *mh,uintptr_t pc,uintptr_t *offset)
 {
-	const MachOSegmentCommand	*text = NULL;
-	const MachOSymTabCommand	*symtab = NULL;
+	const MachOSegmentCommand	*text = nullptr;
+	const MachOSymTabCommand	*symtab = nullptr;
 	const MachONList			*sym,*symbase;
 	const char					*strings,*name;
 	uintptr_t					moffset,base;
@@ -261,9 +261,9 @@ char *MachOCopySymbolMapped(const MachOHeader *mh,uintptr_t pc,uintptr_t *offset
 	
 	*offset = 0;
 	
-	if (((text = MachOGetSegmentCommand(mh,SEG_TEXT)) == NULL) ||
-		((symtab = (const MachOSymTabCommand*)MachOGetLoadCommand(mh,LC_SYMTAB,NULL)) == NULL))
-		return NULL;
+	if (((text = MachOGetSegmentCommand(mh,SEG_TEXT)) == nullptr) ||
+		((symtab = (const MachOSymTabCommand*)MachOGetLoadCommand(mh,LC_SYMTAB,nullptr)) == nullptr))
+		return nullptr;
 	
 	moffset = (uintptr_t)mh - (uintptr_t)text->vmaddr;
 	symbase = (const MachONList*)((uintptr_t)mh + symtab->symoff);
@@ -275,7 +275,7 @@ char *MachOCopySymbolMapped(const MachOHeader *mh,uintptr_t pc,uintptr_t *offset
 		if (sym->n_type != N_FUN)
 			continue;
 		
-		name = sym->n_un.n_strx ? (strings + sym->n_un.n_strx) : NULL;
+		name = sym->n_un.n_strx ? (strings + sym->n_un.n_strx) : nullptr;
 		base = sym->n_value + moffset;
 		
 		for (index += 1,sym += 1;index < symtab->nsyms;index += 1,sym += 1)
@@ -284,7 +284,7 @@ char *MachOCopySymbolMapped(const MachOHeader *mh,uintptr_t pc,uintptr_t *offset
 				break;
 		}
 		
-		if ((pc >= base) && (pc <= (base + sym->n_value)) && (name != NULL) && (strlen(name) > 0))
+		if ((pc >= base) && (pc <= (base + sym->n_value)) && (name != nullptr) && (strlen(name) > 0))
 		{
 			*offset = pc - base;
 			return strdup(name);
@@ -292,19 +292,19 @@ char *MachOCopySymbolMapped(const MachOHeader *mh,uintptr_t pc,uintptr_t *offset
 	}
 	
 	// Look for a reasonably close private symbol.
-	for (name = NULL,base = ~((uintptr_t)0),index = 0,sym = symbase;index < symtab->nsyms;index += 1,sym += 1)
+	for (name = nullptr,base = ~((uintptr_t)0),index = 0,sym = symbase;index < symtab->nsyms;index += 1,sym += 1)
 	{
 		if (((sym->n_type & 0x0E) != 0x0E) ||
 			((sym->n_value + moffset) > pc) ||
 			((base != ~((uintptr_t)0)) && ((pc - (sym->n_value + moffset)) >= (pc - base))))
 			continue;
 		
-		name = sym->n_un.n_strx ? (strings + sym->n_un.n_strx) : NULL;
+		name = sym->n_un.n_strx ? (strings + sym->n_un.n_strx) : nullptr;
 		base = sym->n_value + moffset;
 	}
 	
 	*offset = pc - base;
-	return (name != NULL) ? strdup(name) : NULL;
+	return (name != nullptr) ? strdup(name) : nullptr;
 }
 
 
@@ -319,7 +319,7 @@ const MachOLoadCommand *MachOGetLoadCommand(const MachOHeader *mh,uint32_t cmd,c
 	const MachOLoadCommand	*cur,*end;
 	
 	end = (MachOLoadCommand*)((uintptr_t)mh + sizeof(MachOHeader) + mh->sizeofcmds);
-	cur = (after != NULL) ? (MachOLoadCommand*)((uintptr_t)after + after->cmdsize) :
+	cur = (after != nullptr) ? (MachOLoadCommand*)((uintptr_t)after + after->cmdsize) :
 							(MachOLoadCommand*)((uintptr_t)mh + sizeof(MachOHeader));
 	
 	for (;cur < end;cur = (MachOLoadCommand*)((uintptr_t)cur + cur->cmdsize))
@@ -328,7 +328,7 @@ const MachOLoadCommand *MachOGetLoadCommand(const MachOHeader *mh,uint32_t cmd,c
 			return cur;
 	}
 	
-	return NULL;
+	return nullptr;
 }
 
 
@@ -340,17 +340,17 @@ const MachOLoadCommand *MachOGetLoadCommand(const MachOHeader *mh,uint32_t cmd,c
 //
 const MachOSegmentCommand *MachOGetSegmentCommand(const MachOHeader *mh,const char *segname)
 {
-	const MachOLoadCommand		*cmd = NULL;
+	const MachOLoadCommand		*cmd = nullptr;
 	const MachOSegmentCommand	*seg;
 	
-	while((cmd = MachOGetLoadCommand(mh,MACHO_LC_SEGMENT,cmd)) != NULL)
+	while((cmd = MachOGetLoadCommand(mh,MACHO_LC_SEGMENT,cmd)) != nullptr)
 	{
 		seg = (const MachOSegmentCommand*)(const void*)cmd;
 		if (!strncmp(segname,seg->segname,sizeof(seg->segname)))
 			return seg;
 	}
 	
-	return NULL;
+	return nullptr;
 }
 
 
@@ -361,9 +361,9 @@ const MachOSegmentCommand *MachOGetSegmentCommand(const MachOHeader *mh,const ch
 //
 const MachOHeader *MachOMapArch(const MachOHeader *mh,const char *path,size_t *size)
 {
-	integer_t				(*read32)(const void*) = NULL;
-	MachOFatArch			*farchs = NULL;
-	const MachOHeader		*arch = NULL;
+	integer_t				(*read32)(const void*) = nullptr;
+	MachOFatArch			*farchs = nullptr;
+	const MachOHeader		*arch = nullptr;
 	int						fd = -1;
 	const MachOUUIDCommand	*mhID,*archID;
 	struct stat				finfo;
@@ -375,7 +375,7 @@ const MachOHeader *MachOMapArch(const MachOHeader *mh,const char *path,size_t *s
 	*size = 0;
 	
 	if ((mh->filetype == MH_DYLIB) &&
-		((mhID = (const MachOUUIDCommand*)MachOGetLoadCommand(mh,MACHO_LC_UUID,NULL)) != NULL) &&
+		((mhID = (const MachOUUIDCommand*)MachOGetLoadCommand(mh,MACHO_LC_UUID,nullptr)) != nullptr) &&
 		((fd = open(path,O_RDONLY,0)) >= 0) &&
 		(fstat(fd,&finfo) == 0) &&
 		((finfo.st_mode & S_IFREG) != 0) &&
@@ -394,13 +394,13 @@ const MachOHeader *MachOMapArch(const MachOHeader *mh,const char *path,size_t *s
 				break;
 		}
 		
-		if (read32 != NULL)
+		if (read32 != nullptr)
 		{
 			narchs = read32(&fh.nfat_arch);
 			amount = narchs * sizeof(MachOFatArch);
 			
 			if ((finfo.st_size >= ((off_t)sizeof(MachOFatHeader) + amount)) &&
-				((farchs = (MachOFatArch*)malloc(amount)) != NULL) &&
+				((farchs = (MachOFatArch*)malloc(amount)) != nullptr) &&
 				(pread(fd,farchs,amount,sizeof(MachOFatHeader)) == amount))
 			{
 				for (index = 0;index < narchs;index += 1)
@@ -430,23 +430,23 @@ const MachOHeader *MachOMapArch(const MachOHeader *mh,const char *path,size_t *s
 		
 		if ((*size > 0) && ((off_t)(*size + offset) <= finfo.st_size))
 		{
-			arch = (const MachOHeader*)mmap(NULL,*size,PROT_READ,(MAP_FILE | MAP_PRIVATE),fd,offset);
+			arch = (const MachOHeader*)mmap(nullptr,*size,PROT_READ,(MAP_FILE | MAP_PRIVATE),fd,offset);
 			if (arch == (const MachOHeader*)-1ULL)
-				arch = NULL;
+				arch = nullptr;
 			
-			if (arch != NULL)
+			if (arch != nullptr)
 			{
-				if (((archID = (const MachOUUIDCommand*)MachOGetLoadCommand(arch,MACHO_LC_UUID,NULL)) == NULL) ||
+				if (((archID = (const MachOUUIDCommand*)MachOGetLoadCommand(arch,MACHO_LC_UUID,nullptr)) == nullptr) ||
 					bcmp(archID,mhID,sizeof(MachOUUIDCommand)))
 				{
 					munmap((void*)arch,*size);
-					arch = NULL;
+					arch = nullptr;
 				}
 			}
 		}
 	}
 	
-	if (farchs != NULL)
+	if (farchs != nullptr)
 		free(farchs);
 	
 	if (fd >= 0)
@@ -505,7 +505,7 @@ E3StackCrawl_New()
 	}
 	#endif
 	
-	for (index = 0; ((index < kMaxCrawlDepth) && (frame != NULL));
+	for (index = 0; ((index < kMaxCrawlDepth) && (frame != nullptr));
 		index += 1, frame = (StackFrame*)frame->savedSP)
 	{
 		if (((frame->savedLR & ~3) == 0) ||
@@ -530,7 +530,7 @@ E3StackCrawl_New()
 TQ3Uns32
 E3StackCrawl_Count( TQ3StackCrawl inCrawl )
 {
-	if (inCrawl != NULL)
+	if (inCrawl != nullptr)
 	{
 		return inCrawl->numFrames;
 	}
@@ -552,9 +552,9 @@ E3StackCrawl_Count( TQ3StackCrawl inCrawl )
 const char*
 E3StackCrawl_Get( TQ3StackCrawl inCrawl, TQ3Uns32 inIndex )
 {
-	const char*	theName = NULL;
+	const char*	theName = nullptr;
 	
-	if ( (inCrawl != NULL) &&
+	if ( (inCrawl != nullptr) &&
 		E3Num_SafeLess( inIndex, inCrawl->numFrames ) )
 	{
 		uintptr_t	offset;
@@ -563,16 +563,16 @@ E3StackCrawl_Get( TQ3StackCrawl inCrawl, TQ3Uns32 inIndex )
 		
 		symname = MachOCopySymbol( inCrawl->frames[inIndex].pc, &offset );
 		
-		if (symname != NULL)
+		if (symname != nullptr)
 		{
 			// The symbol sometimes ends with something like ":f(2,8)", and we
 			// want to strip that off.  However, Objective-C names sometimes
 			// have a colon inside brackets, and we want to leave that alone.
 			char*	colonLoc = strrchr( symname, ':' );
-			if (colonLoc != NULL)
+			if (colonLoc != nullptr)
 			{
 				char* bracketLoc = strrchr( symname, ']' );
-				if ( (bracketLoc == NULL) || (bracketLoc < colonLoc) )
+				if ( (bracketLoc == nullptr) || (bracketLoc < colonLoc) )
 				{
 					*colonLoc = '\0';
 				}

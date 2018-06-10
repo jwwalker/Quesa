@@ -142,7 +142,7 @@ e3read_3dmf_read_pixmap(TQ3StoragePixmap* 	pixmap, TQ3FileObject theFile)
 	
 	pixmapImage = (TQ3Uns8*)Q3Memory_Allocate (imageSize);
 	
-	if(pixmapImage == NULL)
+	if(pixmapImage == nullptr)
 		return (kQ3Failure);
 	
 	qd3dStatus = Q3RawData_Read ((unsigned char*)pixmapImage, imageSize, theFile);
@@ -151,7 +151,7 @@ e3read_3dmf_read_pixmap(TQ3StoragePixmap* 	pixmap, TQ3FileObject theFile)
 
 	Q3Memory_Free(&pixmapImage);
 	
-	if(pixmap->image == NULL)
+	if(pixmap->image == nullptr)
 		return (kQ3Failure);
 	
 	return(qd3dStatus);
@@ -166,7 +166,7 @@ e3read_3dmf_read_pixmap(TQ3StoragePixmap* 	pixmap, TQ3FileObject theFile)
 static void
 e3read_3dmf_merge_element_set( TQ3SetObject* ioElements, TQ3SetObject ioNewChild )
 {
-	if (*ioElements == NULL)
+	if (*ioElements == nullptr)
 		*ioElements = ioNewChild;
 	else
 	{
@@ -189,12 +189,12 @@ e3read_3dmf_merge_element_set( TQ3SetObject* ioElements, TQ3SetObject ioNewChild
 static void
 e3read_3dmf_apply_element_set( TQ3ShapeObject ioShape, TQ3SetObject& ioElements )
 {
-	if (ioElements != NULL)
+	if (ioElements != nullptr)
 	{
-		if (ioShape != NULL)
+		if (ioShape != nullptr)
 			Q3Object_SetSet( ioShape, ioElements );
 		Q3Object_Dispose( ioElements );
-		ioElements = NULL;
+		ioElements = nullptr;
 	}
 }
 
@@ -207,16 +207,16 @@ static void
 e3read_3dmf_geom_finish_default( TQ3GeometryObject ioGeom, TQ3FileObject ioFile )
 {
 	TQ3Object				childObject;
-	TQ3SetObject			elementSet = NULL;
+	TQ3SetObject			elementSet = nullptr;
 
 
-	if (ioGeom != NULL)
+	if (ioGeom != nullptr)
 		{
 		// Read in the attributes
-		while (Q3File_IsEndOfContainer(ioFile, NULL) == kQ3False)
+		while (Q3File_IsEndOfContainer(ioFile, nullptr) == kQ3False)
 			{
 			childObject = Q3File_ReadObject(ioFile);
-			if (childObject != NULL)
+			if (childObject != nullptr)
 				{
 				if (Q3Object_IsType (childObject, kQ3SetTypeAttribute))
 					{
@@ -283,11 +283,11 @@ static void
 e3read_3dmf_group_subobjects( TQ3Object theGroup, TQ3FileObject theFile )
 {
 	TQ3Object			childObject;
-	TQ3SetObject		elementSet = NULL;
+	TQ3SetObject		elementSet = nullptr;
 
-	while(Q3File_IsEndOfContainer(theFile,NULL) == kQ3False){
+	while(Q3File_IsEndOfContainer(theFile,nullptr) == kQ3False){
 		childObject = Q3File_ReadObject(theFile);
-		if(childObject != NULL){
+		if(childObject != nullptr){
 			if (Q3Object_IsType (childObject, kQ3ObjectTypeDisplayGroupState))
 				{
 				Q3DisplayGroup_SetState (theGroup, E3FFormat_3DMF_DisplayGroupState_Get(childObject));
@@ -321,19 +321,19 @@ e3read_3dmf_group_subobjects( TQ3Object theGroup, TQ3FileObject theFile )
 TQ3Object
 E3Read_3DMF_String_C(TQ3FileObject theFile)
 {
-	TQ3StringObject theNewString = NULL;
+	TQ3StringObject theNewString = nullptr;
 	TQ3Uns32 bytesRead;
 #if QUESA_ALLOW_QD3D_EXTENSIONS
-	char *buffer = NULL;
+	char *buffer = nullptr;
 	
 	// Find the length of the string
-	if (kQ3Success == Q3String_ReadUnlimited( NULL, &bytesRead, theFile ))
+	if (kQ3Success == Q3String_ReadUnlimited( nullptr, &bytesRead, theFile ))
 	{
 		// Allocate a buffer (+1 for trailing NUL byte)
 		bytesRead += 1;
 		buffer = (char *) Q3Memory_Allocate(bytesRead);
 		
-		if (buffer != NULL)
+		if (buffer != nullptr)
 		{
 			// Read the string
 			if (kQ3Success == Q3String_ReadUnlimited( buffer, &bytesRead, theFile ))
@@ -370,23 +370,23 @@ E3Read_3DMF_Unknown_Binary(TQ3FileObject theFile)
 
 
 	if(Q3Int32_Read (&data.objectType,theFile) != kQ3Success)
-		return NULL;
+		return nullptr;
 
 	if(Q3Uns32_Read (&data.size,theFile) != kQ3Success)
-		return NULL;
+		return nullptr;
 
 	if(Q3Int32_Read ((TQ3Int32*)&data.byteOrder,theFile) != kQ3Success)
-		return NULL;
+		return nullptr;
 	
 	data.contents = (char *)Q3Memory_Allocate(data.size);
 	
-	if(data.contents == NULL)
-		return(NULL);
+	if(data.contents == nullptr)
+		return(nullptr);
 		
 	if(Q3RawData_Read((unsigned char *)data.contents, data.size, theFile) != kQ3Success)
-		return NULL;
+		return nullptr;
 	
-	theObject = E3UnknownBinary_New(&data,NULL);
+	theObject = E3UnknownBinary_New(&data,nullptr);
 	
 	Q3Memory_Free(&data.contents);
 	
@@ -409,11 +409,11 @@ E3Read_3DMF_Unknown_Text(TQ3FileObject theFile)
 	TQ3Uns32 length = kQ3StringMaximumLength;
 	
 	if(Q3String_Read (buffer, &length, theFile) != kQ3Success)
-		return NULL;
+		return nullptr;
 	
 	length = kQ3StringMaximumLength;
 	if(Q3String_Read (buffer2, &length, theFile) != kQ3Success)
-		return NULL;
+		return nullptr;
 	
 	data.objectName = buffer;
 	data.contents = buffer2;
@@ -643,7 +643,7 @@ E3Read_3DMF_Group_Display_IOProxy(TQ3FileObject theFile)
 	// Create the object
 	theObject = Q3IOProxyDisplayGroup_New();
 	
-	if(NULL != theObject)
+	if(nullptr != theObject)
 		e3read_3dmf_group_subobjects( theObject, theFile );
 
 	return(theObject);
@@ -673,7 +673,7 @@ E3Read_3DMF_Group_Display(TQ3FileObject theFile)
 		kQ3DisplayGroupStateMaskIsWritten );
 		
 	
-	if(NULL != theObject)
+	if(nullptr != theObject)
 		e3read_3dmf_group_subobjects( theObject, theFile );
 
 	return(theObject);
@@ -703,7 +703,7 @@ E3Read_3DMF_Group_Display_Ordered(TQ3FileObject theFile)
 		kQ3DisplayGroupStateMaskIsWritten );
 
 	
-	if(NULL != theObject)
+	if(nullptr != theObject)
 		e3read_3dmf_group_subobjects( theObject, theFile );
 
 	return(theObject);
@@ -726,7 +726,7 @@ E3Read_3DMF_Group_info(TQ3FileObject theFile)
 	// Create the object
 	theObject = Q3InfoGroup_New();
 	
-	if(NULL != theObject)
+	if(nullptr != theObject)
 		e3read_3dmf_group_subobjects( theObject, theFile );
 
 	return(theObject);
@@ -749,7 +749,7 @@ E3Read_3DMF_Group_Light(TQ3FileObject theFile)
 	// Create the object
 	theObject = Q3LightGroup_New();
 	
-	if(NULL != theObject)
+	if(nullptr != theObject)
 		e3read_3dmf_group_subobjects( theObject, theFile );
 
 	return(theObject);
@@ -772,7 +772,7 @@ E3Read_3DMF_Group(TQ3FileObject theFile)
 	// Create the object
 	theObject = Q3Group_New();
 	
-	if(NULL != theObject)
+	if(nullptr != theObject)
 		e3read_3dmf_group_subobjects( theObject, theFile );
 
 	return(theObject);
@@ -795,7 +795,7 @@ E3Read_3DMF_Texture_Pixmap(TQ3FileObject theFile)
 	
 	
 	if(e3read_3dmf_read_pixmap (&pixmap, theFile) == kQ3Failure)
-		return (NULL);
+		return (nullptr);
 	
 	theTexture = Q3PixmapTexture_New (&pixmap);
 	Q3Object_Dispose(pixmap.image);
@@ -832,38 +832,38 @@ E3Read_3DMF_Texture_Mipmap(TQ3FileObject    theFile)
 	
 	qd3dStatus = E3FFormat_3DMF_ReadFlag (&imageSize, theFile, kQ3ObjectType3DMF);
 	if(qd3dStatus == kQ3Failure)
-		return(NULL);
+		return(nullptr);
 	mipmap.useMipmapping = (TQ3Boolean)imageSize;
 	
 	if(mipmap.useMipmapping == kQ3True)
-		return(NULL);// I haven't the mipmap 3DMF docs,
+		return(nullptr);// I haven't the mipmap 3DMF docs,
 	
 	qd3dStatus = E3FFormat_3DMF_ReadFlag (&imageSize, theFile, kQ3TextureTypePixmap);
 	if(qd3dStatus == kQ3Failure)
-		return(NULL);
+		return(nullptr);
 	mipmap.pixelType = (TQ3PixelType)imageSize;
 	
 	qd3dStatus = E3FFormat_3DMF_ReadFlag (&imageSize, theFile, kQ3ObjectType3DMF);
 	if(qd3dStatus == kQ3Failure)
-		return(NULL);
+		return(nullptr);
 	mipmap.bitOrder = (TQ3Endian)imageSize;
 	qd3dStatus = E3FFormat_3DMF_ReadFlag (&imageSize, theFile, kQ3ObjectType3DMF);
 	if(qd3dStatus == kQ3Failure)
-		return(NULL);
+		return(nullptr);
 	mipmap.byteOrder = (TQ3Endian)imageSize;
 
 	qd3dStatus = Q3Uns32_Read(&mipmap.mipmaps[0].width,theFile);
 	if(qd3dStatus == kQ3Failure)
-		return(NULL);
+		return(nullptr);
 	qd3dStatus = Q3Uns32_Read(&mipmap.mipmaps[0].height,theFile);
 	if(qd3dStatus == kQ3Failure)
-		return(NULL);
+		return(nullptr);
 	qd3dStatus = Q3Uns32_Read(&mipmap.mipmaps[0].rowBytes,theFile);
 	if(qd3dStatus == kQ3Failure)
-		return(NULL);
+		return(nullptr);
 	qd3dStatus = Q3Uns32_Read(&mipmap.mipmaps[0].offset,theFile);
 	if(qd3dStatus == kQ3Failure)
-		return(NULL);
+		return(nullptr);
 	
 	
 	
@@ -874,8 +874,8 @@ E3Read_3DMF_Texture_Mipmap(TQ3FileObject    theFile)
 	
 	mipmapImage = (TQ3Uns8*)Q3Memory_Allocate (imageSize);
 	
-	if(mipmapImage == NULL)
-		return (NULL);
+	if(mipmapImage == nullptr)
+		return (nullptr);
 	
 	qd3dStatus = Q3RawData_Read ((unsigned char*)mipmapImage, imageSize, theFile);
 	if(qd3dStatus == kQ3Success)
@@ -883,8 +883,8 @@ E3Read_3DMF_Texture_Mipmap(TQ3FileObject    theFile)
 
 	Q3Memory_Free(&mipmapImage);
 	
-	if(mipmap.image == NULL)
-		return (NULL);
+	if(mipmap.image == nullptr)
+		return (nullptr);
 	
 	theTexture = Q3MipmapTexture_New (&mipmap);
 	Q3Object_Dispose(mipmap.image);
@@ -905,10 +905,10 @@ E3Read_3DMF_Shader_Texture(TQ3FileObject theFile)
 
 
 
-	TQ3Object			childObject = NULL;
-	TQ3SetObject		elementSet = NULL;
-	TQ3Object			theObject = NULL;
-	TQ3TextureObject	theTexture = NULL;
+	TQ3Object			childObject = nullptr;
+	TQ3SetObject		elementSet = nullptr;
+	TQ3Object			theObject = nullptr;
+	TQ3TextureObject	theTexture = nullptr;
 	
 	TQ3ShaderUVBoundary			uBoundary = kQ3ShaderUVBoundaryWrap;
 	TQ3ShaderUVBoundary			vBoundary = kQ3ShaderUVBoundaryWrap;
@@ -922,14 +922,14 @@ E3Read_3DMF_Shader_Texture(TQ3FileObject theFile)
 
 	// Read in the sub Objects
 
-	while(Q3File_IsEndOfContainer(theFile,NULL) == kQ3False){
+	while(Q3File_IsEndOfContainer(theFile,nullptr) == kQ3False){
 		childObject = Q3File_ReadObject(theFile);
 
-		if(childObject != NULL){
+		if(childObject != nullptr){
 			if((Q3Object_IsType (childObject, kQ3TextureTypePixmap)
 				|| Q3Object_IsType (childObject, kQ3TextureTypeMipmap)
 				|| Q3Object_IsType (childObject, kQ3TextureTypeCompressedPixmap))
-				&& (theTexture == NULL))
+				&& (theTexture == nullptr))
 				{
 				theTexture = childObject;
 				}
@@ -969,7 +969,7 @@ E3Read_3DMF_Shader_Texture(TQ3FileObject theFile)
 		Q3Object_Dispose(theTexture);
 		}
 	
-	if (elementSet != NULL)
+	if (elementSet != nullptr)
 	{
 		Q3Object_Dispose( elementSet );
 	}
@@ -1023,7 +1023,7 @@ E3Read_3DMF_Shader_Phong(TQ3FileObject theFile)
 
 
 //=============================================================================
-//      E3Read_3DMF_Shader_NULL : NULL illumination shader read object method.
+//      E3Read_3DMF_Shader_NULL : nullptr illumination shader read object method.
 //-----------------------------------------------------------------------------
 //		Note : Nothing to read, just create the object
 //-----------------------------------------------------------------------------
@@ -1049,7 +1049,7 @@ E3Read_3DMF_Shader_NULL(TQ3FileObject theFile)
 TQ3Object
 E3Read_3DMF_Style_Subdivision(TQ3FileObject theFile)
 {
-	TQ3StyleObject theStyle = NULL;
+	TQ3StyleObject theStyle = nullptr;
 	TQ3SubdivisionStyleData styleData;
 	TQ3Int32 temp;
 	TQ3Uns32 flag;
@@ -1059,23 +1059,23 @@ E3Read_3DMF_Style_Subdivision(TQ3FileObject theFile)
 
 	// read the style data
 	if (kQ3Failure == E3FFormat_3DMF_ReadFlag (&flag, theFile, kQ3StyleTypeSubdivision))
-		return NULL;
+		return nullptr;
 	
 	styleData.method = (TQ3SubdivisionMethod)flag;
 	
 	if (styleData.method == kQ3SubdivisionMethodConstant)
 	{
 		if (Q3Int32_Read (&temp, theFile) != kQ3Success)
-			return (NULL);
+			return (nullptr);
 		styleData.c1 = (float)temp;
 		if (Q3Int32_Read (&temp, theFile) != kQ3Success)
-			return (NULL);
+			return (nullptr);
 		styleData.c2 = (float)temp;
 	}
 	else
 	{
 		if(Q3Float32_Read (&styleData.c1, theFile) != kQ3Success)
-			return (NULL);
+			return (nullptr);
 	}
 
 	
@@ -1096,7 +1096,7 @@ E3Read_3DMF_Style_Subdivision(TQ3FileObject theFile)
 TQ3Object
 E3Read_3DMF_Style_PickID(TQ3FileObject theFile)
 {
-	TQ3StyleObject theStyle = NULL;
+	TQ3StyleObject theStyle = nullptr;
 	TQ3Uns32 styleData;
 
 	// Initialise the style data
@@ -1105,7 +1105,7 @@ E3Read_3DMF_Style_PickID(TQ3FileObject theFile)
 	// read the style data
 	
 	if(Q3Uns32_Read (&styleData, theFile) != kQ3Success)
-		return(NULL);
+		return(nullptr);
 
 	// Create the style
 	theStyle =  Q3PickIDStyle_New (styleData);
@@ -1125,14 +1125,14 @@ E3Read_3DMF_Style_PickID(TQ3FileObject theFile)
 TQ3Object
 E3Read_3DMF_Style_PickParts(TQ3FileObject theFile)
 {
-	TQ3StyleObject theStyle = NULL;
+	TQ3StyleObject theStyle = nullptr;
 	TQ3PickParts styleData;
 	TQ3Int32 temp;
 
 	// read the style data
 	
 	if(Q3Int32_Read (&temp, theFile) != kQ3Success)
-		return(NULL);
+		return(nullptr);
 		
 	styleData = (TQ3PickParts)temp;
 	
@@ -1154,14 +1154,14 @@ E3Read_3DMF_Style_PickParts(TQ3FileObject theFile)
 TQ3Object
 E3Read_3DMF_Style_CastShadows(TQ3FileObject theFile)
 {
-	TQ3StyleObject theStyle = NULL;
+	TQ3StyleObject theStyle = nullptr;
 	TQ3Boolean styleData;
 	TQ3Int32 temp;
 
 	// read the style data
 	
 	if(Q3Int32_Read (&temp, theFile) != kQ3Success)
-		return(NULL);
+		return(nullptr);
 		
 	styleData = (TQ3Boolean)temp;
 	
@@ -1182,14 +1182,14 @@ E3Read_3DMF_Style_CastShadows(TQ3FileObject theFile)
 TQ3Object
 E3Read_3DMF_Style_ReceiveShadows(TQ3FileObject theFile)
 {
-	TQ3StyleObject theStyle = NULL;
+	TQ3StyleObject theStyle = nullptr;
 	TQ3Boolean styleData;
 	TQ3Int32 temp;
 
 	// read the style data
 	
 	if(Q3Int32_Read (&temp, theFile) != kQ3Success)
-		return(NULL);
+		return(nullptr);
 		
 	styleData = (TQ3Boolean)temp;
 	
@@ -1210,7 +1210,7 @@ E3Read_3DMF_Style_ReceiveShadows(TQ3FileObject theFile)
 TQ3Object
 E3Read_3DMF_Style_LineWidth(TQ3FileObject theFile)
 {
-	TQ3StyleObject theStyle = NULL;
+	TQ3StyleObject theStyle = nullptr;
 	TQ3Float32 theWidth = 1.0f;
 	
 	if (Q3Float32_Read( &theWidth, theFile ) == kQ3Success)
@@ -1231,13 +1231,13 @@ E3Read_3DMF_Style_LineWidth(TQ3FileObject theFile)
 TQ3Object
 E3Read_3DMF_Style_Fill(TQ3FileObject theFile)
 {
-	TQ3StyleObject theStyle = NULL;
+	TQ3StyleObject theStyle = nullptr;
 	TQ3FillStyle styleData;
 	TQ3Uns32 temp;
 
 	// read the style data
 	if (kQ3Failure == E3FFormat_3DMF_ReadFlag (&temp, theFile, kQ3StyleTypeFill))
-		return NULL;
+		return nullptr;
 
 	styleData = (TQ3FillStyle)temp;
 	
@@ -1260,13 +1260,13 @@ E3Read_3DMF_Style_Fill(TQ3FileObject theFile)
 TQ3Object
 E3Read_3DMF_Style_Backfacing(TQ3FileObject theFile)
 {
-	TQ3StyleObject theStyle = NULL;
+	TQ3StyleObject theStyle = nullptr;
 	TQ3BackfacingStyle styleData;
 	TQ3Uns32 temp;
 
 	// read the style data
 	if (kQ3Failure == E3FFormat_3DMF_ReadFlag (&temp, theFile, kQ3StyleTypeBackfacing))
-		return NULL;
+		return nullptr;
 
 	styleData = (TQ3BackfacingStyle)temp;
 	
@@ -1288,7 +1288,7 @@ E3Read_3DMF_Style_Backfacing(TQ3FileObject theFile)
 TQ3Object
 E3Read_3DMF_Style_Interpolation(TQ3FileObject theFile)
 {
-	TQ3StyleObject theStyle = NULL;
+	TQ3StyleObject theStyle = nullptr;
 	TQ3InterpolationStyle styleData;
 	TQ3Uns32 temp;
 
@@ -1314,22 +1314,22 @@ E3Read_3DMF_Style_Interpolation(TQ3FileObject theFile)
 TQ3Object
 E3Read_3DMF_Style_Hilight(TQ3FileObject theFile)
 {
-	TQ3StyleObject theStyle = NULL;
+	TQ3StyleObject theStyle = nullptr;
 	TQ3Object styleData;
 
 	// Initialise the style data
-	styleData = NULL;
+	styleData = nullptr;
 
 	// read the style data
 	// Read in the attributes
-	while (Q3File_IsEndOfContainer(theFile, NULL) == kQ3False)
+	while (Q3File_IsEndOfContainer(theFile, nullptr) == kQ3False)
 		{
 		styleData = Q3File_ReadObject(theFile);
-		if (styleData == NULL)
-			return (NULL);
+		if (styleData == nullptr)
+			return (nullptr);
 			
 		if (Q3Object_IsType (styleData, kQ3SetTypeAttribute) == kQ3False)
-			return (NULL);
+			return (nullptr);
 		}
 
 	
@@ -1353,13 +1353,13 @@ E3Read_3DMF_Style_Hilight(TQ3FileObject theFile)
 TQ3Object
 E3Read_3DMF_Style_Orientation(TQ3FileObject theFile)
 {
-	TQ3StyleObject theStyle = NULL;
+	TQ3StyleObject theStyle = nullptr;
 	TQ3OrientationStyle styleData;
 	TQ3Uns32 temp;
 
 	// read the style data
 	if (kQ3Failure == E3FFormat_3DMF_ReadFlag (&temp, theFile, kQ3StyleTypeOrientation))
-		return NULL;
+		return nullptr;
 
 	styleData = (TQ3OrientationStyle)temp;
 	
@@ -1382,7 +1382,7 @@ E3Read_3DMF_Style_Orientation(TQ3FileObject theFile)
 TQ3Object
 E3Read_3DMF_Style_AntiAlias(TQ3FileObject theFile)
 {
-	TQ3StyleObject theStyle = NULL;
+	TQ3StyleObject theStyle = nullptr;
 	TQ3AntiAliasStyleData styleData;
 	TQ3Int32 temp;
 
@@ -1392,17 +1392,17 @@ E3Read_3DMF_Style_AntiAlias(TQ3FileObject theFile)
 	// read the style data
 	
 	if(Q3Int32_Read (&temp, theFile) != kQ3Success)
-		return(NULL);
+		return(nullptr);
 
 	styleData.state = (TQ3Switch)temp;
 	
 	if(Q3Int32_Read (&temp, theFile) != kQ3Success)
-		return(NULL);
+		return(nullptr);
 
 	styleData.mode = (TQ3AntiAliasMode)temp;
 	
 	if(Q3Float32_Read (&styleData.quality, theFile) != kQ3Success)
-		return(NULL);
+		return(nullptr);
 	
 	
 	// Create the style
@@ -1422,7 +1422,7 @@ E3Read_3DMF_Style_AntiAlias(TQ3FileObject theFile)
 TQ3Object
 E3Read_3DMF_Style_Fog(TQ3FileObject theFile)
 {
-	TQ3StyleObject theStyle = NULL;
+	TQ3StyleObject theStyle = nullptr;
 	TQ3FogStyleData styleData;
 	TQ3Int32 temp;
 
@@ -1432,35 +1432,35 @@ E3Read_3DMF_Style_Fog(TQ3FileObject theFile)
 	// read the style data
 	
 	if(Q3Int32_Read (&temp, theFile) != kQ3Success)
-		return(NULL);
+		return(nullptr);
 
 	styleData.state = (TQ3Switch)temp;
 	
 	if(Q3Int32_Read (&temp, theFile) != kQ3Success)
-		return(NULL);
+		return(nullptr);
 
 	styleData.mode = (TQ3FogMode)temp;
 	
 	if(Q3Float32_Read (&styleData.fogStart, theFile) != kQ3Success)
-		return(NULL);
+		return(nullptr);
 	
 	if(Q3Float32_Read (&styleData.fogEnd, theFile) != kQ3Success)
-		return(NULL);
+		return(nullptr);
 	
 	if(Q3Float32_Read (&styleData.density, theFile) != kQ3Success)
-		return(NULL);
+		return(nullptr);
 	
 	if(Q3Float32_Read (&styleData.color.a, theFile) != kQ3Success)
-		return(NULL);
+		return(nullptr);
 	
 	if(Q3Float32_Read (&styleData.color.r, theFile) != kQ3Success)
-		return(NULL);
+		return(nullptr);
 	
 	if(Q3Float32_Read (&styleData.color.g, theFile) != kQ3Success)
-		return(NULL);
+		return(nullptr);
 	
 	if(Q3Float32_Read (&styleData.color.b, theFile) != kQ3Success)
-		return(NULL);
+		return(nullptr);
 		
 	
 	
@@ -1662,7 +1662,7 @@ E3Read_3DMF_Geom_Box(TQ3FileObject theFile)
 	TQ3Object 			theObject;
 	TQ3BoxData			geomData;
 	TQ3Uns32 			i;
-	TQ3SetObject		elementSet = NULL;
+	TQ3SetObject		elementSet = nullptr;
 	TQ3AttributeSet		faceAtts[6];
 
 
@@ -1688,10 +1688,10 @@ E3Read_3DMF_Geom_Box(TQ3FileObject theFile)
 
 
 	// Read in the attributes
-	while (Q3File_IsEndOfContainer(theFile, NULL) == kQ3False)
+	while (Q3File_IsEndOfContainer(theFile, nullptr) == kQ3False)
 		{
 		childObject = Q3File_ReadObject(theFile);
-		if (childObject != NULL)
+		if (childObject != nullptr)
 			{
 			if (Q3Object_IsType (childObject, kQ3SetTypeAttribute))
 				geomData.boxAttributeSet = childObject;
@@ -1719,12 +1719,12 @@ E3Read_3DMF_Geom_Box(TQ3FileObject theFile)
 
 
 	// Clean up
-	if (geomData.boxAttributeSet != NULL)
+	if (geomData.boxAttributeSet != nullptr)
 		Q3Object_Dispose(geomData.boxAttributeSet);
 		
-	if(geomData.faceAttributeSet != NULL){
+	if(geomData.faceAttributeSet != nullptr){
 		for(i = 0; i< 6; i++){
-			if (geomData.faceAttributeSet[i] != NULL)
+			if (geomData.faceAttributeSet[i] != nullptr)
 				Q3Object_Dispose(geomData.faceAttributeSet[i]);
 			}
 		}
@@ -1744,15 +1744,15 @@ E3Read_3DMF_Geom_Box_Default(TQ3FileObject theFile)
 {
 	TQ3Object			childObject;
 	TQ3Uns32 			i;
-	TQ3SetObject		elementSet = NULL;
-	TQ3Object			theObject = Q3Box_New( NULL );
+	TQ3SetObject		elementSet = nullptr;
+	TQ3Object			theObject = Q3Box_New( nullptr );
 	TQ3AttributeSet		attSet;
 	
 	// Read in the attributes
-	while (Q3File_IsEndOfContainer(theFile, NULL) == kQ3False)
+	while (Q3File_IsEndOfContainer(theFile, nullptr) == kQ3False)
 		{
 		childObject = Q3File_ReadObject(theFile);
-		if (childObject != NULL)
+		if (childObject != nullptr)
 			{
 			if (Q3Object_IsType (childObject, kQ3SetTypeAttribute))
 				{
@@ -1767,7 +1767,7 @@ E3Read_3DMF_Geom_Box_Default(TQ3FileObject theFile)
 					for (i = 0; i< 6; i++)
 						{
 						attSet = E3FFormat_3DMF_AttributeSetList_Get (childObject, i);
-						if (attSet != NULL)
+						if (attSet != nullptr)
 							{
 							Q3Box_SetFaceAttributeSet( theObject, i, attSet );
 							Q3Object_Dispose( attSet );
@@ -1797,7 +1797,7 @@ E3Read_3DMF_Geom_Cone(TQ3FileObject theFile)
 {	TQ3Object				childObject;
 	TQ3Object 				theObject;
 	TQ3ConeData				geomData;
-	TQ3SetObject			elementSet = NULL;
+	TQ3SetObject			elementSet = nullptr;
 
 
 
@@ -1834,10 +1834,10 @@ E3Read_3DMF_Geom_Cone(TQ3FileObject theFile)
 
 
 	// Read in the attributes
-	while (Q3File_IsEndOfContainer(theFile, NULL) == kQ3False)
+	while (Q3File_IsEndOfContainer(theFile, nullptr) == kQ3False)
 		{
 		childObject = Q3File_ReadObject(theFile);
-		if (childObject != NULL)
+		if (childObject != nullptr)
 			{
 			if(Q3Object_IsType (childObject, kQ3AttributeSetTypeBottomCap)){
 				geomData.bottomAttributeSet = E3FFormat_3DMF_CapsAttributes_Get(childObject);
@@ -1873,16 +1873,16 @@ E3Read_3DMF_Geom_Cone(TQ3FileObject theFile)
 	e3read_3dmf_apply_element_set( theObject, elementSet );
 
 	// Clean up
-	if (geomData.interiorAttributeSet != NULL)
+	if (geomData.interiorAttributeSet != nullptr)
 		Q3Object_Dispose(geomData.interiorAttributeSet);
 		
-	if (geomData.faceAttributeSet != NULL)
+	if (geomData.faceAttributeSet != nullptr)
 		Q3Object_Dispose(geomData.faceAttributeSet);
 		
-	if (geomData.bottomAttributeSet != NULL)
+	if (geomData.bottomAttributeSet != nullptr)
 		Q3Object_Dispose(geomData.bottomAttributeSet);
 		
-	if (geomData.coneAttributeSet != NULL)
+	if (geomData.coneAttributeSet != nullptr)
 		Q3Object_Dispose(geomData.coneAttributeSet);
 		
 	return theObject;
@@ -1898,18 +1898,18 @@ E3Read_3DMF_Geom_Cone(TQ3FileObject theFile)
 TQ3Object
 E3Read_3DMF_Geom_Cone_Default(TQ3FileObject theFile)
 {
-	TQ3Object	theObject = Q3Cone_New( NULL );
+	TQ3Object	theObject = Q3Cone_New( nullptr );
 	TQ3Object				childObject;
-	TQ3SetObject			elementSet = NULL;
+	TQ3SetObject			elementSet = nullptr;
 	TQ3AttributeSet			attSet;
 	TQ3EndCap				caps;
 	
 	
 	// Read in the attributes
-	while (Q3File_IsEndOfContainer(theFile, NULL) == kQ3False)
+	while (Q3File_IsEndOfContainer(theFile, nullptr) == kQ3False)
 		{
 		childObject = Q3File_ReadObject(theFile);
-		if (childObject != NULL)
+		if (childObject != nullptr)
 			{
 			if(Q3Object_IsType( childObject, kQ3AttributeSetTypeBottomCap )){
 				attSet = E3FFormat_3DMF_CapsAttributes_Get( childObject );
@@ -1963,7 +1963,7 @@ E3Read_3DMF_Geom_Cylinder(TQ3FileObject theFile)
 {	TQ3Object				childObject;
 	TQ3Object 				theObject;
 	TQ3CylinderData			geomData;
-	TQ3SetObject			elementSet = NULL;
+	TQ3SetObject			elementSet = nullptr;
 
 
 
@@ -2000,10 +2000,10 @@ E3Read_3DMF_Geom_Cylinder(TQ3FileObject theFile)
 
 
 	// Read in the attributes
-	while (Q3File_IsEndOfContainer(theFile, NULL) == kQ3False)
+	while (Q3File_IsEndOfContainer(theFile, nullptr) == kQ3False)
 		{
 		childObject = Q3File_ReadObject(theFile);
-		if (childObject != NULL)
+		if (childObject != nullptr)
 			{
 			if(Q3Object_IsType (childObject, kQ3AttributeSetTypeTopCap)){
 				geomData.topAttributeSet = E3FFormat_3DMF_CapsAttributes_Get(childObject);
@@ -2044,19 +2044,19 @@ E3Read_3DMF_Geom_Cylinder(TQ3FileObject theFile)
 	e3read_3dmf_apply_element_set( theObject, elementSet );
 
 	// Clean up
-	if (geomData.interiorAttributeSet != NULL)
+	if (geomData.interiorAttributeSet != nullptr)
 		Q3Object_Dispose(geomData.interiorAttributeSet);
 		
-	if (geomData.faceAttributeSet != NULL)
+	if (geomData.faceAttributeSet != nullptr)
 		Q3Object_Dispose(geomData.faceAttributeSet);
 		
-	if (geomData.topAttributeSet != NULL)
+	if (geomData.topAttributeSet != nullptr)
 		Q3Object_Dispose(geomData.topAttributeSet);
 		
-	if (geomData.bottomAttributeSet != NULL)
+	if (geomData.bottomAttributeSet != nullptr)
 		Q3Object_Dispose(geomData.bottomAttributeSet);
 		
-	if (geomData.cylinderAttributeSet != NULL)
+	if (geomData.cylinderAttributeSet != nullptr)
 		Q3Object_Dispose(geomData.cylinderAttributeSet);
 		
 	return theObject;
@@ -2073,16 +2073,16 @@ TQ3Object
 E3Read_3DMF_Geom_Cylinder_Default(TQ3FileObject theFile)
 {
 	TQ3Object				childObject;
-	TQ3SetObject			elementSet = NULL;
+	TQ3SetObject			elementSet = nullptr;
 	TQ3AttributeSet			attSet;
 	TQ3EndCap				caps;
-	TQ3Object	theObject = Q3Cylinder_New( NULL );
+	TQ3Object	theObject = Q3Cylinder_New( nullptr );
 	
 	// Read in the attributes
-	while (Q3File_IsEndOfContainer(theFile, NULL) == kQ3False)
+	while (Q3File_IsEndOfContainer(theFile, nullptr) == kQ3False)
 		{
 		childObject = Q3File_ReadObject(theFile);
-		if (childObject != NULL)
+		if (childObject != nullptr)
 			{
 			if(Q3Object_IsType (childObject, kQ3AttributeSetTypeTopCap)){
 				attSet = E3FFormat_3DMF_CapsAttributes_Get(childObject);
@@ -2148,7 +2148,7 @@ E3Read_3DMF_Geom_Disk(TQ3FileObject theFile)
 {	TQ3Object				childObject;
 	TQ3Object 				theObject;
 	TQ3DiskData				geomData;
-	TQ3SetObject			elementSet = NULL;
+	TQ3SetObject			elementSet = nullptr;
 
 
 
@@ -2182,10 +2182,10 @@ E3Read_3DMF_Geom_Disk(TQ3FileObject theFile)
 
 
 	// Read in the attributes
-	while (Q3File_IsEndOfContainer(theFile, NULL) == kQ3False)
+	while (Q3File_IsEndOfContainer(theFile, nullptr) == kQ3False)
 		{
 		childObject = Q3File_ReadObject(theFile);
-		if (childObject != NULL)
+		if (childObject != nullptr)
 			{
 			if (Q3Object_IsType (childObject, kQ3SetTypeAttribute))
 				geomData.diskAttributeSet = childObject;
@@ -2206,7 +2206,7 @@ E3Read_3DMF_Geom_Disk(TQ3FileObject theFile)
 	e3read_3dmf_apply_element_set( theObject, elementSet );
 
 	// Clean up
-	if (geomData.diskAttributeSet != NULL)
+	if (geomData.diskAttributeSet != nullptr)
 		Q3Object_Dispose(geomData.diskAttributeSet);
 		
 	return theObject;
@@ -2224,7 +2224,7 @@ E3Read_3DMF_Geom_Disk_Default( TQ3FileObject theFile )
 {
 	TQ3Object 				theObject;
 
-	theObject = Q3Disk_New( NULL );
+	theObject = Q3Disk_New( nullptr );
 	
 	e3read_3dmf_geom_finish_default( theObject, theFile );
 		
@@ -2243,7 +2243,7 @@ E3Read_3DMF_Geom_Ellipse(TQ3FileObject theFile)
 {	TQ3Object				childObject;
 	TQ3Object 				theObject;
 	TQ3EllipseData			geomData;
-	TQ3SetObject			elementSet = NULL;
+	TQ3SetObject			elementSet = nullptr;
 
 
 
@@ -2271,10 +2271,10 @@ E3Read_3DMF_Geom_Ellipse(TQ3FileObject theFile)
 
 
 	// Read in the attributes
-	while (Q3File_IsEndOfContainer(theFile, NULL) == kQ3False)
+	while (Q3File_IsEndOfContainer(theFile, nullptr) == kQ3False)
 		{
 		childObject = Q3File_ReadObject(theFile);
-		if (childObject != NULL)
+		if (childObject != nullptr)
 			{
 			if (Q3Object_IsType (childObject, kQ3SetTypeAttribute))
 				geomData.ellipseAttributeSet = childObject;
@@ -2295,7 +2295,7 @@ E3Read_3DMF_Geom_Ellipse(TQ3FileObject theFile)
 	e3read_3dmf_apply_element_set( theObject, elementSet );
 
 	// Clean up
-	if (geomData.ellipseAttributeSet != NULL)
+	if (geomData.ellipseAttributeSet != nullptr)
 		Q3Object_Dispose(geomData.ellipseAttributeSet);
 		
 	return theObject;
@@ -2311,7 +2311,7 @@ E3Read_3DMF_Geom_Ellipse(TQ3FileObject theFile)
 TQ3Object
 E3Read_3DMF_Geom_Ellipse_Default(TQ3FileObject theFile)
 {
-	TQ3Object	theObject = Q3Ellipse_New( NULL );
+	TQ3Object	theObject = Q3Ellipse_New( nullptr );
 	
 	e3read_3dmf_geom_finish_default( theObject, theFile );
 		
@@ -2330,7 +2330,7 @@ E3Read_3DMF_Geom_Ellipsoid(TQ3FileObject theFile)
 {	TQ3Object				childObject;
 	TQ3Object 				theObject;
 	TQ3EllipsoidData		geomData;
-	TQ3SetObject			elementSet = NULL;
+	TQ3SetObject			elementSet = nullptr;
 
 
 
@@ -2367,10 +2367,10 @@ E3Read_3DMF_Geom_Ellipsoid(TQ3FileObject theFile)
 
 
 	// Read in the attributes
-	while (Q3File_IsEndOfContainer(theFile, NULL) == kQ3False)
+	while (Q3File_IsEndOfContainer(theFile, nullptr) == kQ3False)
 		{
 		childObject = Q3File_ReadObject(theFile);
-		if (childObject != NULL)
+		if (childObject != nullptr)
 			{
 			if (Q3Object_IsType (childObject, kQ3SetTypeAttribute))
 				geomData.ellipsoidAttributeSet = childObject;
@@ -2402,9 +2402,9 @@ E3Read_3DMF_Geom_Ellipsoid(TQ3FileObject theFile)
 
 
 	// Clean up
-	if (geomData.ellipsoidAttributeSet != NULL)
+	if (geomData.ellipsoidAttributeSet != nullptr)
 		Q3Object_Dispose(geomData.ellipsoidAttributeSet);
-	if (geomData.interiorAttributeSet != NULL)
+	if (geomData.interiorAttributeSet != nullptr)
 		Q3Object_Dispose(geomData.interiorAttributeSet);
 		
 	return theObject;
@@ -2420,7 +2420,7 @@ E3Read_3DMF_Geom_Ellipsoid(TQ3FileObject theFile)
 TQ3Object
 E3Read_3DMF_Geom_Ellipsoid_Default(TQ3FileObject theFile)
 {
-	TQ3Object	theObject = Q3Ellipsoid_New( NULL );
+	TQ3Object	theObject = Q3Ellipsoid_New( nullptr );
 	
 	e3read_3dmf_geom_finish_default( theObject, theFile );
 		
@@ -2438,9 +2438,9 @@ TQ3Object
 E3Read_3DMF_Geom_GeneralPolygon(TQ3FileObject theFile)
 {	TQ3Uns32 				i,j,vertexCount;
 	TQ3Object				childObject;
-	TQ3Object 				theObject = NULL;
+	TQ3Object 				theObject = nullptr;
 	TQ3GeneralPolygonData	geomData;
-	TQ3SetObject			elementSet = NULL;
+	TQ3SetObject			elementSet = nullptr;
 
 
 
@@ -2453,13 +2453,13 @@ E3Read_3DMF_Geom_GeneralPolygon(TQ3FileObject theFile)
 	Q3Uns32_Read(&geomData.numContours, theFile);
 	
 	if(geomData.numContours < 1)
-		return (NULL);
+		return (nullptr);
 		
 	// allocate the array
 	geomData.contours = (TQ3GeneralPolygonContourData *)Q3Memory_AllocateClear(sizeof(TQ3GeneralPolygonContourData) * geomData.numContours);
 
-	if(geomData.contours == NULL)
-		return (NULL);
+	if(geomData.contours == nullptr)
+		return (nullptr);
 		
 	for(j = 0; j < geomData.numContours; j++)
 		{
@@ -2472,7 +2472,7 @@ E3Read_3DMF_Geom_GeneralPolygon(TQ3FileObject theFile)
 		// allocate the array
 		geomData.contours[j].vertices = (TQ3Vertex3D *)Q3Memory_AllocateClear(sizeof(TQ3Vertex3D) * geomData.contours[j].numVertices);
 		
-		if(geomData.contours[j].vertices == NULL)
+		if(geomData.contours[j].vertices == nullptr)
 			goto cleanup;
 	
 		for(i = 0; i< geomData.contours[j].numVertices; i++){
@@ -2484,10 +2484,10 @@ E3Read_3DMF_Geom_GeneralPolygon(TQ3FileObject theFile)
 	
 
 	// Read in the attributes
-	while (Q3File_IsEndOfContainer(theFile, NULL) == kQ3False)
+	while (Q3File_IsEndOfContainer(theFile, nullptr) == kQ3False)
 		{
 		childObject = Q3File_ReadObject(theFile);
-		if (childObject != NULL)
+		if (childObject != nullptr)
 			{
 			if (Q3Object_IsType (childObject, kQ3SetTypeAttribute))
 				geomData.generalPolygonAttributeSet = childObject;
@@ -2522,14 +2522,14 @@ E3Read_3DMF_Geom_GeneralPolygon(TQ3FileObject theFile)
 
 	// Clean up
 cleanup:
-	if (geomData.generalPolygonAttributeSet != NULL)
+	if (geomData.generalPolygonAttributeSet != nullptr)
 		Q3Object_Dispose(geomData.generalPolygonAttributeSet);
 			
-	if(geomData.contours != NULL){
+	if(geomData.contours != nullptr){
 		for(j = 0; j < geomData.numContours; j++){
-			if(geomData.contours[j].vertices != NULL){
+			if(geomData.contours[j].vertices != nullptr){
 				for(i = 0; i< geomData.contours[j].numVertices; i++){
-					if (geomData.contours[j].vertices[i].attributeSet != NULL)
+					if (geomData.contours[j].vertices[i].attributeSet != nullptr)
 						Q3Object_Dispose(geomData.contours[j].vertices[i].attributeSet);
 					}
 				Q3Memory_Free(&geomData.contours[j].vertices);
@@ -2554,7 +2554,7 @@ E3Read_3DMF_Geom_Line(TQ3FileObject theFile)
 	TQ3Object		theObject;
 	TQ3LineData		geomData;
 	TQ3Uns32		i;
-	TQ3SetObject			elementSet = NULL;
+	TQ3SetObject			elementSet = nullptr;
 
 
 
@@ -2573,9 +2573,9 @@ E3Read_3DMF_Geom_Line(TQ3FileObject theFile)
 
 
 	// Read in the attributes
-	while(Q3File_IsEndOfContainer(theFile,NULL) == kQ3False){
+	while(Q3File_IsEndOfContainer(theFile,nullptr) == kQ3False){
 		childObject = Q3File_ReadObject(theFile);
-		if(childObject != NULL){
+		if(childObject != nullptr){
 			if(Q3Object_IsType (childObject, kQ3SetTypeAttribute))
 				{
 				geomData.lineAttributeSet = childObject;
@@ -2603,11 +2603,11 @@ E3Read_3DMF_Geom_Line(TQ3FileObject theFile)
 	e3read_3dmf_apply_element_set( theObject, elementSet );
 
 	// Clean up
-	if (geomData.lineAttributeSet != NULL)
+	if (geomData.lineAttributeSet != nullptr)
 		Q3Object_Dispose(geomData.lineAttributeSet);
 		
 	for(i = 0; i< 2; i++){
-		if (geomData.vertices[i].attributeSet != NULL)
+		if (geomData.vertices[i].attributeSet != nullptr)
 			Q3Object_Dispose(geomData.vertices[i].attributeSet);
 		}
 
@@ -2627,7 +2627,7 @@ E3Read_3DMF_Geom_Marker(TQ3FileObject theFile)
 	TQ3Object 			theObject;
 	TQ3Uns32 			imageSize;
 	TQ3MarkerData		geomData;
-	TQ3SetObject			elementSet = NULL;
+	TQ3SetObject			elementSet = nullptr;
 
 
 
@@ -2663,10 +2663,10 @@ E3Read_3DMF_Geom_Marker(TQ3FileObject theFile)
 
 
 	// Read in the attributes
-	while(Q3File_IsEndOfContainer(theFile,NULL) == kQ3False){
+	while(Q3File_IsEndOfContainer(theFile,nullptr) == kQ3False){
 
 		childObject = Q3File_ReadObject(theFile);
-		if(childObject != NULL){
+		if(childObject != nullptr){
 			if(Q3Object_IsType (childObject, kQ3SetTypeAttribute))
 				{
 				geomData.markerAttributeSet = childObject;
@@ -2688,7 +2688,7 @@ E3Read_3DMF_Geom_Marker(TQ3FileObject theFile)
 	e3read_3dmf_apply_element_set( theObject, elementSet );
 
 	// Clean up
-	if (geomData.markerAttributeSet != NULL)
+	if (geomData.markerAttributeSet != nullptr)
 		Q3Object_Dispose(geomData.markerAttributeSet);
 		
 	Q3Memory_Free(&geomData.bitmap.image);
@@ -2708,7 +2708,7 @@ E3Read_3DMF_Geom_Mesh(TQ3FileObject theFile)
 {
 
 	TQ3Object			childObject;
-	TQ3GeometryObject 	mesh = NULL;
+	TQ3GeometryObject 	mesh = nullptr;
 	
 	TQ3Uns32 			numVertices;
 	TQ3Uns32 			numFaces;
@@ -2718,12 +2718,12 @@ E3Read_3DMF_Geom_Mesh(TQ3FileObject theFile)
 	
 	TQ3Vertex3D			vertex;
 	
-	TQ3MeshVertex*		vertices = NULL;
-	TQ3MeshVertex*		faceVertices = NULL;
+	TQ3MeshVertex*		vertices = nullptr;
+	TQ3MeshVertex*		faceVertices = nullptr;
 	TQ3Uns32			allocatedFaceIndices = 0L;
 	
-	TQ3MeshFace			lastFace = NULL;
-	TQ3MeshFace*		faces = NULL;
+	TQ3MeshFace			lastFace = nullptr;
+	TQ3MeshFace*		faces = nullptr;
 	TQ3Uns32			faceCount = 0L;
 	
 	TQ3Uns32			i,j,index;
@@ -2741,11 +2741,11 @@ E3Read_3DMF_Geom_Mesh(TQ3FileObject theFile)
 	// allocate the array
 	vertices = (TQ3MeshVertex *) Q3Memory_AllocateClear(sizeof(TQ3MeshVertex) * numVertices);
 
-	if(vertices == NULL)
+	if(vertices == nullptr)
 		return mesh;
 	
 	mesh = Q3Mesh_New();
-	if(mesh == NULL)
+	if(mesh == nullptr)
 		goto cleanUp;
 		
 	Q3Mesh_DelayUpdates(mesh);
@@ -2753,7 +2753,7 @@ E3Read_3DMF_Geom_Mesh(TQ3FileObject theFile)
 	
 	// read the vertices
 	
-	vertex.attributeSet = NULL;
+	vertex.attributeSet = nullptr;
 	
 	for(i = 0; i< numVertices; i++){
 		if(Q3Point3D_Read(&vertex.point, theFile)!= kQ3Success)
@@ -2781,7 +2781,7 @@ E3Read_3DMF_Geom_Mesh(TQ3FileObject theFile)
 	if (numFaces > 0)
 		{
 		faces = (TQ3MeshFace *) Q3Memory_AllocateClear(sizeof(TQ3MeshFace) * numFaces);
-		if (faces == NULL)
+		if (faces == nullptr)
 			{
 			readFailed = kQ3True;
 			goto cleanUp;
@@ -2822,35 +2822,35 @@ E3Read_3DMF_Geom_Mesh(TQ3FileObject theFile)
 				goto cleanUp;
 				}
 			
-			lastFace = Q3Mesh_FaceNew (mesh, absFaceVertexIndices, faceVertices, NULL);
+			lastFace = Q3Mesh_FaceNew (mesh, absFaceVertexIndices, faceVertices, nullptr);
 			faces[faceCount] = lastFace;
 			faceCount ++;
 			}
 		else 						// it's a contour
 			{
 			// It is illegal for a contour to occur before any face
-			if (lastFace == NULL)
+			if (lastFace == nullptr)
 				{
 				readFailed = kQ3True;
 				goto cleanUp;
 				}
 				
 			Q3Mesh_FaceToContour (mesh, lastFace, 
-								 Q3Mesh_FaceNew (mesh, absFaceVertexIndices, faceVertices, NULL));
+								 Q3Mesh_FaceNew (mesh, absFaceVertexIndices, faceVertices, nullptr));
 			}
 		}
 
 	Q3_ASSERT(faceCount == numFaces);
 	// Read in the attributes
-	while (Q3File_IsEndOfContainer(theFile, NULL) == kQ3False)
+	while (Q3File_IsEndOfContainer(theFile, nullptr) == kQ3False)
 		{
 		childObject = Q3File_ReadObject(theFile);
-		if (childObject != NULL)
+		if (childObject != nullptr)
 			{
 			if(Q3Object_IsType (childObject, kQ3ObjectTypeAttributeSetListFace)){
 				for(i = 0; i< numFaces; i++){
 					attributeSet = E3FFormat_3DMF_AttributeSetList_Get (childObject, i);
-					if(attributeSet != NULL)
+					if(attributeSet != nullptr)
 						{
 						Q3Mesh_SetFaceAttributeSet (mesh, faces[i], attributeSet);
 						Q3Object_Dispose(attributeSet);
@@ -2866,7 +2866,7 @@ E3Read_3DMF_Geom_Mesh(TQ3FileObject theFile)
 			else if(Q3Object_IsType (childObject, kQ3ObjectTypeAttributeSetListVertex)){
 				for(i = 0; i< numVertices; i++){
 					attributeSet = E3FFormat_3DMF_AttributeSetList_Get (childObject, i);
-					if(attributeSet != NULL)
+					if(attributeSet != nullptr)
 						{
 						Q3Mesh_SetVertexAttributeSet (mesh, vertices[i], attributeSet);
 						Q3Object_Dispose(attributeSet);
@@ -2885,14 +2885,14 @@ E3Read_3DMF_Geom_Mesh(TQ3FileObject theFile)
 
 
 cleanUp:	
-	if(mesh != NULL)
+	if(mesh != nullptr)
 		{
 		// Apply any custom elements
 		Q3Mesh_ResumeUpdates(mesh);
 		if(readFailed == kQ3True)
 			{
 			Q3Object_Dispose(mesh);
-			mesh = NULL;
+			mesh = nullptr;
 			}
 		}
 
@@ -2914,12 +2914,12 @@ cleanUp:
 //-----------------------------------------------------------------------------
 TQ3Object
 E3Read_3DMF_Geom_NURBCurve(TQ3FileObject theFile)
-{	TQ3Object 			theObject = NULL;
+{	TQ3Object 			theObject = nullptr;
 	TQ3Object			childObject;
 	TQ3Status			qd3dStatus;
 	TQ3NURBCurveData	geomData;
 	TQ3Uns32			i;
-	TQ3SetObject			elementSet = NULL;
+	TQ3SetObject			elementSet = nullptr;
 
 
 
@@ -2944,7 +2944,7 @@ E3Read_3DMF_Geom_NURBCurve(TQ3FileObject theFile)
 	geomData.controlPoints =
 	(TQ3RationalPoint4D *) Q3Memory_AllocateClear(geomData.numPoints * sizeof(TQ3RationalPoint4D)) ;
 	
-	if(geomData.controlPoints == NULL)
+	if(geomData.controlPoints == nullptr)
 		goto cleanup;
 
 	
@@ -2957,7 +2957,7 @@ E3Read_3DMF_Geom_NURBCurve(TQ3FileObject theFile)
 	// Allocate memory to hold knots
 	geomData.knots =
 	(float *) Q3Memory_AllocateClear( (geomData.numPoints+geomData.order) * sizeof( float )) ;
-	if(geomData.knots == NULL)
+	if(geomData.knots == nullptr)
 		goto cleanup;
 			
 	// Read in knots
@@ -2967,10 +2967,10 @@ E3Read_3DMF_Geom_NURBCurve(TQ3FileObject theFile)
 	}
 
 	// Read in the attributes
-	while(Q3File_IsEndOfContainer(theFile,NULL) == kQ3False){
+	while(Q3File_IsEndOfContainer(theFile,nullptr) == kQ3False){
 		//read the Attributes
 		childObject = Q3File_ReadObject(theFile);
-		if(childObject != NULL){
+		if(childObject != nullptr){
 			if(Q3Object_IsType (childObject, kQ3SetTypeAttribute))
 				{
 				geomData.curveAttributeSet = childObject;
@@ -2993,13 +2993,13 @@ E3Read_3DMF_Geom_NURBCurve(TQ3FileObject theFile)
 
 cleanup:
 	// Clean up
-	if (geomData.curveAttributeSet != NULL)
+	if (geomData.curveAttributeSet != nullptr)
 		Q3Object_Dispose(geomData.curveAttributeSet);
 		
-	if(geomData.controlPoints != NULL)
+	if(geomData.controlPoints != nullptr)
 		Q3Memory_Free(&geomData.controlPoints);
 		
-	if(geomData.knots != NULL)
+	if(geomData.knots != nullptr)
 		Q3Memory_Free(&geomData.knots);
 		
 	
@@ -3016,11 +3016,11 @@ cleanup:
 TQ3Object
 E3Read_3DMF_Geom_NURBPatch(TQ3FileObject theFile)
 {
-	TQ3Object 			theObject = NULL ;
+	TQ3Object 			theObject = nullptr ;
 	TQ3Object			childObject ;
 	TQ3Uns32			i ;
 	TQ3Uns32			numPoints ;
-	TQ3SetObject		elementSet = NULL ;
+	TQ3SetObject		elementSet = nullptr ;
 	TQ3NURBPatchData	geomData ;
 
 
@@ -3033,15 +3033,15 @@ E3Read_3DMF_Geom_NURBPatch(TQ3FileObject theFile)
 	||	 ( Q3Uns32_Read ( &geomData.vOrder , theFile ) == kQ3Failure )
 	||	 ( Q3Uns32_Read ( &geomData.numRows , theFile ) == kQ3Failure )
 	||	 ( Q3Uns32_Read ( &geomData.numColumns , theFile ) == kQ3Failure ) )
-		return NULL ;
+		return nullptr ;
 	
 	numPoints = geomData.numRows * geomData.numColumns ;
 	// Allocate memory to hold control points
 	geomData.controlPoints =
 	(TQ3RationalPoint4D*) Q3Memory_Allocate ( numPoints * sizeof ( TQ3RationalPoint4D ) ) ;
 	
-	if ( geomData.controlPoints == NULL )
-		return NULL ;
+	if ( geomData.controlPoints == nullptr )
+		return nullptr ;
 	
 	// Read in vertices
 	for ( i = 0 ; i < numPoints ; ++i )
@@ -3050,7 +3050,7 @@ E3Read_3DMF_Geom_NURBPatch(TQ3FileObject theFile)
 	// Allocate memory to hold knots
 	geomData.uKnots = (float *) Q3Memory_AllocateClear ( ( geomData.numColumns + geomData.uOrder ) * sizeof( float ) ) ;
 	geomData.vKnots = (float *) Q3Memory_AllocateClear ( ( geomData.numRows + geomData.vOrder ) * sizeof( float ) ) ;
-	if ( geomData.uKnots == NULL || geomData.vKnots == NULL )
+	if ( geomData.uKnots == nullptr || geomData.vKnots == nullptr )
 		goto cleanup ;
 			
 	// Read in knots
@@ -3063,10 +3063,10 @@ E3Read_3DMF_Geom_NURBPatch(TQ3FileObject theFile)
 	
 
 	// Read in the attributes
-	while(Q3File_IsEndOfContainer(theFile,NULL) == kQ3False){
+	while(Q3File_IsEndOfContainer(theFile,nullptr) == kQ3False){
 		//read the Attributes
 		childObject = Q3File_ReadObject(theFile);
-		if(childObject != NULL){
+		if(childObject != nullptr){
 			// Trim loop reading loop will go here one day
 			if(Q3Object_IsType (childObject, kQ3SetTypeAttribute))
 				{
@@ -3090,18 +3090,18 @@ E3Read_3DMF_Geom_NURBPatch(TQ3FileObject theFile)
 
 cleanup:
 	// Clean up
-	if (geomData.patchAttributeSet != NULL)
+	if (geomData.patchAttributeSet != nullptr)
 		Q3Object_Dispose(geomData.patchAttributeSet);
 		
 	// When trim loops implemented, dispose of trim loop array (and any data hanging off it) here
 	
-	if(geomData.controlPoints != NULL)
+	if(geomData.controlPoints != nullptr)
 		Q3Memory_Free(&geomData.controlPoints);
 		
-	if(geomData.uKnots != NULL)
+	if(geomData.uKnots != nullptr)
 		Q3Memory_Free(&geomData.uKnots);
 		
-	if(geomData.vKnots != NULL)
+	if(geomData.vKnots != nullptr)
 		Q3Memory_Free(&geomData.vKnots);
 	
 	return (theObject);
@@ -3116,10 +3116,10 @@ cleanup:
 //-----------------------------------------------------------------------------
 TQ3Object
 E3Read_3DMF_Geom_PixmapMarker(TQ3FileObject theFile)
-{	TQ3Object 			theObject = NULL;
+{	TQ3Object 			theObject = nullptr;
 	TQ3Object			childObject;
 	TQ3PixmapMarkerData geomData;
-	TQ3SetObject			elementSet = NULL;
+	TQ3SetObject			elementSet = nullptr;
 
 
 
@@ -3139,9 +3139,9 @@ E3Read_3DMF_Geom_PixmapMarker(TQ3FileObject theFile)
 
 
 	// Read in the attributes
-	while(Q3File_IsEndOfContainer(theFile,NULL) == kQ3False){
+	while(Q3File_IsEndOfContainer(theFile,nullptr) == kQ3False){
 		childObject = Q3File_ReadObject(theFile);
-		if(childObject != NULL){
+		if(childObject != nullptr){
 			if(Q3Object_IsType (childObject, kQ3SetTypeAttribute))
 				{
 				geomData.pixmapMarkerAttributeSet = childObject;
@@ -3164,10 +3164,10 @@ E3Read_3DMF_Geom_PixmapMarker(TQ3FileObject theFile)
 
 	// Clean up
 cleanup:
-	if (geomData.pixmapMarkerAttributeSet != NULL)
+	if (geomData.pixmapMarkerAttributeSet != nullptr)
 		Q3Object_Dispose(geomData.pixmapMarkerAttributeSet);
 		
-	if (geomData.pixmap.image != NULL)
+	if (geomData.pixmap.image != nullptr)
 		Q3Object_Dispose(geomData.pixmap.image);
 		
 	return theObject;
@@ -3185,7 +3185,7 @@ E3Read_3DMF_Geom_Point(TQ3FileObject theFile)
 {	TQ3Object			childObject;
 	TQ3Object 			theObject;
 	TQ3PointData		geomData;
-	TQ3SetObject			elementSet = NULL;
+	TQ3SetObject			elementSet = nullptr;
 
 
 
@@ -3200,9 +3200,9 @@ E3Read_3DMF_Geom_Point(TQ3FileObject theFile)
 
 
 	// Read in the attributes
-	while(Q3File_IsEndOfContainer(theFile,NULL) == kQ3False){
+	while(Q3File_IsEndOfContainer(theFile,nullptr) == kQ3False){
 		childObject = Q3File_ReadObject(theFile);
-		if(childObject != NULL){
+		if(childObject != nullptr){
 			if(Q3Object_IsType (childObject, kQ3SetTypeAttribute))
 				{
 				geomData.pointAttributeSet = childObject;
@@ -3224,7 +3224,7 @@ E3Read_3DMF_Geom_Point(TQ3FileObject theFile)
 
 	
 	// Clean up
-	if (geomData.pointAttributeSet != NULL)
+	if (geomData.pointAttributeSet != nullptr)
 		Q3Object_Dispose(geomData.pointAttributeSet);
 		
 	return (theObject);
@@ -3240,7 +3240,7 @@ E3Read_3DMF_Geom_Point(TQ3FileObject theFile)
 TQ3Object
 E3Read_3DMF_Geom_Point_Default(TQ3FileObject theFile)
 {
-	TQ3Object	theObject = Q3Point_New( NULL );
+	TQ3Object	theObject = Q3Point_New( nullptr );
 	
 	e3read_3dmf_geom_finish_default( theObject, theFile );
 		
@@ -3261,7 +3261,7 @@ E3Read_3DMF_Geom_PolyLine(TQ3FileObject theFile)
 	TQ3Object 			theObject;
 	TQ3PolyLineData		geomData;
 	TQ3Uns32			i;
-	TQ3SetObject			elementSet = NULL;
+	TQ3SetObject			elementSet = nullptr;
 	
 	
 
@@ -3274,7 +3274,7 @@ E3Read_3DMF_Geom_PolyLine(TQ3FileObject theFile)
 	qd3dStatus = Q3Uns32_Read (&geomData.numVertices, theFile);
 	
 	if(qd3dStatus != kQ3Success)
-		return (NULL);
+		return (nullptr);
 
 		
 		
@@ -3282,8 +3282,8 @@ E3Read_3DMF_Geom_PolyLine(TQ3FileObject theFile)
 	geomData.vertices =
 	(TQ3Vertex3D *) Q3Memory_AllocateClear( geomData.numVertices * sizeof( TQ3Vertex3D )) ;
 	
-	if(geomData.vertices == NULL)
-		return (NULL);
+	if(geomData.vertices == nullptr)
+		return (nullptr);
 
 
 	
@@ -3295,10 +3295,10 @@ E3Read_3DMF_Geom_PolyLine(TQ3FileObject theFile)
 
 
 	// Read in the attributes
-	while(Q3File_IsEndOfContainer(theFile,NULL) == kQ3False){
+	while(Q3File_IsEndOfContainer(theFile,nullptr) == kQ3False){
 		//read the Attributes
 		childObject = Q3File_ReadObject(theFile);
-		if(childObject != NULL){
+		if(childObject != nullptr){
 			if(Q3Object_IsType (childObject, kQ3SetTypeAttribute))
 				{
 				geomData.polyLineAttributeSet = childObject;
@@ -3332,16 +3332,16 @@ E3Read_3DMF_Geom_PolyLine(TQ3FileObject theFile)
 
 		
 	// Clean up
-	if (geomData.polyLineAttributeSet != NULL)
+	if (geomData.polyLineAttributeSet != nullptr)
 		Q3Object_Dispose(geomData.polyLineAttributeSet);
 		
 	for(i = 0; i< geomData.numVertices; i++){
-		if (geomData.vertices[i].attributeSet != NULL)
+		if (geomData.vertices[i].attributeSet != nullptr)
 			Q3Object_Dispose(geomData.vertices[i].attributeSet);
 		}
-	if(geomData.segmentAttributeSet != NULL){
+	if(geomData.segmentAttributeSet != nullptr){
 		for(i = 0; i< (geomData.numVertices-1); i++){
-			if (geomData.segmentAttributeSet[i] != NULL)
+			if (geomData.segmentAttributeSet[i] != nullptr)
 				Q3Object_Dispose(geomData.segmentAttributeSet[i]);
 			}
 		Q3Memory_Free(&geomData.segmentAttributeSet);
@@ -3361,10 +3361,10 @@ E3Read_3DMF_Geom_PolyLine(TQ3FileObject theFile)
 TQ3Object
 E3Read_3DMF_Geom_Polygon(TQ3FileObject theFile)
 {	TQ3Object			childObject;
-	TQ3Object 			theObject = NULL;
+	TQ3Object 			theObject = nullptr;
 	TQ3PolygonData		geomData;
 	TQ3Uns32 			i;
-	TQ3SetObject			elementSet = NULL;
+	TQ3SetObject			elementSet = nullptr;
 	
 
 
@@ -3377,12 +3377,12 @@ E3Read_3DMF_Geom_Polygon(TQ3FileObject theFile)
 	Q3Uns32_Read(&geomData.numVertices, theFile);
 	
 	if(geomData.numVertices < 3)
-		return (NULL);
+		return (nullptr);
 		
 	// allocate the array
 	geomData.vertices = (TQ3Vertex3D *)Q3Memory_AllocateClear(sizeof(TQ3Vertex3D) * geomData.numVertices);
-	if(geomData.vertices == NULL)
-		return (NULL);
+	if(geomData.vertices == nullptr)
+		return (nullptr);
 	
 	for(i = 0; i< geomData.numVertices; i++){
 		if(Q3Point3D_Read(&geomData.vertices[i].point, theFile)!= kQ3Success)
@@ -3392,10 +3392,10 @@ E3Read_3DMF_Geom_Polygon(TQ3FileObject theFile)
 	
 
 	// Read in the attributes
-	while (Q3File_IsEndOfContainer(theFile, NULL) == kQ3False)
+	while (Q3File_IsEndOfContainer(theFile, nullptr) == kQ3False)
 		{
 		childObject = Q3File_ReadObject(theFile);
-		if (childObject != NULL)
+		if (childObject != nullptr)
 			{
 			if (Q3Object_IsType (childObject, kQ3SetTypeAttribute))
 				geomData.polygonAttributeSet = childObject;
@@ -3424,11 +3424,11 @@ E3Read_3DMF_Geom_Polygon(TQ3FileObject theFile)
 
 	// Clean up
 cleanup:
-	if (geomData.polygonAttributeSet != NULL)
+	if (geomData.polygonAttributeSet != nullptr)
 		Q3Object_Dispose(geomData.polygonAttributeSet);
 		
 	for(i = 0; i< geomData.numVertices; i++){
-		if (geomData.vertices[i].attributeSet != NULL)
+		if (geomData.vertices[i].attributeSet != nullptr)
 			Q3Object_Dispose(geomData.vertices[i].attributeSet);
 		}
 	
@@ -3450,7 +3450,7 @@ E3Read_3DMF_Geom_Polyhedron(TQ3FileObject theFile)
 
 
 	// To be implemented
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -3465,7 +3465,7 @@ E3Read_3DMF_Geom_Torus(TQ3FileObject theFile)
 {	TQ3Object				childObject;
 	TQ3Object 				theObject;
 	TQ3TorusData			geomData;
-	TQ3SetObject			elementSet = NULL;
+	TQ3SetObject			elementSet = nullptr;
 
 
 
@@ -3505,10 +3505,10 @@ E3Read_3DMF_Geom_Torus(TQ3FileObject theFile)
 
 
 	// Read in the attributes
-	while (Q3File_IsEndOfContainer(theFile, NULL) == kQ3False)
+	while (Q3File_IsEndOfContainer(theFile, nullptr) == kQ3False)
 		{
 		childObject = Q3File_ReadObject(theFile);
-		if (childObject != NULL)
+		if (childObject != nullptr)
 			{
 			if (Q3Object_IsType (childObject, kQ3SetTypeAttribute))
 				geomData.torusAttributeSet = childObject;
@@ -3542,10 +3542,10 @@ E3Read_3DMF_Geom_Torus(TQ3FileObject theFile)
 
 
 	// Clean up
-	if (geomData.interiorAttributeSet != NULL)
+	if (geomData.interiorAttributeSet != nullptr)
 		Q3Object_Dispose(geomData.interiorAttributeSet);
 		
-	if (geomData.torusAttributeSet != NULL)
+	if (geomData.torusAttributeSet != nullptr)
 		Q3Object_Dispose(geomData.torusAttributeSet);
 		
 	return theObject;
@@ -3561,7 +3561,7 @@ E3Read_3DMF_Geom_Torus(TQ3FileObject theFile)
 TQ3Object
 E3Read_3DMF_Geom_Torus_Default(TQ3FileObject theFile)
 {
-	TQ3Object	theObject = Q3Torus_New( NULL );
+	TQ3Object	theObject = Q3Torus_New( nullptr );
 	
 	e3read_3dmf_geom_finish_default( theObject, theFile );
 		
@@ -3579,9 +3579,9 @@ TQ3Object
 E3Read_3DMF_Geom_TriGrid(TQ3FileObject theFile)
 {	TQ3Uns32 			i, numVertices, numFacets;
 	TQ3Object			childObject;
-	TQ3Object 			theObject = NULL;
+	TQ3Object 			theObject = nullptr;
 	TQ3TriGridData		geomData;
-	TQ3SetObject			elementSet = NULL;
+	TQ3SetObject			elementSet = nullptr;
 
 
 
@@ -3598,12 +3598,12 @@ E3Read_3DMF_Geom_TriGrid(TQ3FileObject theFile)
 	numVertices = geomData.numRows * geomData.numColumns;
 	
 	if(numFacets < 2)
-		return (NULL);
+		return (nullptr);
 		
 	// allocate the array
 	geomData.vertices = (TQ3Vertex3D *)Q3Memory_AllocateClear(sizeof(TQ3Vertex3D) * numVertices);
-	if(geomData.vertices == NULL)
-		return (NULL);
+	if(geomData.vertices == nullptr)
+		return (nullptr);
 	
 	for(i = 0; i< numVertices; i++){
 		if(Q3Point3D_Read(&geomData.vertices[i].point, theFile)!= kQ3Success)
@@ -3613,10 +3613,10 @@ E3Read_3DMF_Geom_TriGrid(TQ3FileObject theFile)
 	
 
 	// Read in the attributes
-	while (Q3File_IsEndOfContainer(theFile, NULL) == kQ3False)
+	while (Q3File_IsEndOfContainer(theFile, nullptr) == kQ3False)
 		{
 		childObject = Q3File_ReadObject(theFile);
-		if (childObject != NULL)
+		if (childObject != nullptr)
 			{
 			if (Q3Object_IsType (childObject, kQ3SetTypeAttribute))
 				geomData.triGridAttributeSet = childObject;
@@ -3651,19 +3651,19 @@ E3Read_3DMF_Geom_TriGrid(TQ3FileObject theFile)
 
 	// Clean up
 cleanup:
-	if (geomData.triGridAttributeSet != NULL)
+	if (geomData.triGridAttributeSet != nullptr)
 		Q3Object_Dispose(geomData.triGridAttributeSet);
 		
-	if(geomData.facetAttributeSet != NULL){
+	if(geomData.facetAttributeSet != nullptr){
 		for(i = 0; i< 6; i++){
-			if (geomData.facetAttributeSet[i] != NULL)
+			if (geomData.facetAttributeSet[i] != nullptr)
 				Q3Object_Dispose(geomData.facetAttributeSet[i]);
 			}
 		Q3Memory_Free(&geomData.facetAttributeSet);
 		}
 		
 	for(i = 0; i< numVertices; i++){
-		if (geomData.vertices[i].attributeSet != NULL)
+		if (geomData.vertices[i].attributeSet != nullptr)
 			Q3Object_Dispose(geomData.vertices[i].attributeSet);
 		}
 	
@@ -3682,13 +3682,13 @@ cleanup:
 TQ3Object
 E3Read_3DMF_Geom_TriMesh(TQ3FileObject theFile)
 {	TQ3Object				childObject;
-	TQ3Object	 			theObject = NULL;
+	TQ3Object	 			theObject = nullptr;
 	TQ3TriMeshData			geomData;
 	TQ3Uns16				temp16;
 	TQ3Uns8					temp8;
 	TQ3Uns32				i;
-	TQ3Object				elementSet = NULL;
-	TQ3StorageObject		theStorage = NULL;
+	TQ3Object				elementSet = nullptr;
+	TQ3StorageObject		theStorage = nullptr;
 	TQ3Uns32				storageSize;
 
 
@@ -3718,8 +3718,8 @@ E3Read_3DMF_Geom_TriMesh(TQ3FileObject theFile)
 	Q3Uns32_Read(&geomData.numPoints, theFile);
 	Q3Uns32_Read(&geomData.numVertexAttributeTypes, theFile);
 
-	Q3_REQUIRE_OR_RESULT(geomData.numPoints > 0,NULL);
-	Q3_REQUIRE_OR_RESULT(geomData.numTriangles > 0,NULL);
+	Q3_REQUIRE_OR_RESULT(geomData.numPoints > 0,nullptr);
+	Q3_REQUIRE_OR_RESULT(geomData.numTriangles > 0,nullptr);
 	
 	//================ read the triangles
 	if (geomData.numTriangles > storageSize / 3)	// a triangle takes at least 3 bytes
@@ -3728,7 +3728,7 @@ E3Read_3DMF_Geom_TriMesh(TQ3FileObject theFile)
 		goto cleanUp;
 		}
 	geomData.triangles = (TQ3TriMeshTriangleData *)Q3Memory_Allocate(sizeof(TQ3TriMeshTriangleData)*geomData.numTriangles);
-	if(geomData.triangles == NULL)
+	if(geomData.triangles == nullptr)
 		goto cleanUp;
 	if(geomData.numPoints >= 0x00010000U)
 		{
@@ -3756,7 +3756,7 @@ E3Read_3DMF_Geom_TriMesh(TQ3FileObject theFile)
 			goto cleanUp;
 			}
 		geomData.edges = (TQ3TriMeshEdgeData *)Q3Memory_Allocate(sizeof(TQ3TriMeshEdgeData)*geomData.numEdges);
-		if(geomData.edges == NULL)
+		if(geomData.edges == nullptr)
 			goto cleanUp;
 		if(geomData.numPoints >= 0x00010000U)
 			for(i = 0; i < geomData.numEdges; i++)
@@ -3907,7 +3907,7 @@ E3Read_3DMF_Geom_TriMesh(TQ3FileObject theFile)
 		goto cleanUp;
 		}
 	geomData.points = (TQ3Point3D *)Q3Memory_Allocate(sizeof(TQ3Point3D)*geomData.numPoints);
-	if(geomData.points == NULL)
+	if(geomData.points == nullptr)
 		goto cleanUp;
 	if (Q3Float32_ReadArray( geomData.numPoints * 3, (TQ3Float32*)geomData.points, theFile ) != kQ3Success)
 		goto cleanUp;
@@ -3923,26 +3923,26 @@ E3Read_3DMF_Geom_TriMesh(TQ3FileObject theFile)
 	// allocate the arrays
 	if(geomData.numTriangleAttributeTypes != 0){
 		geomData.triangleAttributeTypes = (TQ3TriMeshAttributeData *)Q3Memory_AllocateClear(sizeof(TQ3TriMeshAttributeData) * geomData.numTriangleAttributeTypes);
-		if(geomData.triangleAttributeTypes == NULL)
+		if(geomData.triangleAttributeTypes == nullptr)
 			goto cleanUp;
 		}
 	if(geomData.numEdgeAttributeTypes != 0){
 		geomData.edgeAttributeTypes = (TQ3TriMeshAttributeData *)Q3Memory_AllocateClear(sizeof(TQ3TriMeshAttributeData) * geomData.numEdgeAttributeTypes);
-		if(geomData.edgeAttributeTypes == NULL)
+		if(geomData.edgeAttributeTypes == nullptr)
 			goto cleanUp;
 		}
 	if(geomData.numVertexAttributeTypes != 0){
 		geomData.vertexAttributeTypes = (TQ3TriMeshAttributeData *)Q3Memory_AllocateClear(sizeof(TQ3TriMeshAttributeData) * geomData.numVertexAttributeTypes);
-		if(geomData.vertexAttributeTypes == NULL)
+		if(geomData.vertexAttributeTypes == nullptr)
 			goto cleanUp;
 		}
 
 	// Read in the attributes
-	while(Q3File_IsEndOfContainer(theFile,NULL) == kQ3False){
+	while(Q3File_IsEndOfContainer(theFile,nullptr) == kQ3False){
 		childObject = Q3File_ReadObject(theFile);
 		// the kE3attributearray objects, are read but not created
 		// thir read method just fills the currentTriMesh data
-		if(childObject != NULL){
+		if(childObject != nullptr){
 			if(Q3Object_IsType (childObject, kQ3SetTypeAttribute))
 				{
 				geomData.triMeshAttributeSet = childObject;
@@ -3972,7 +3972,7 @@ cleanUp:
 									// the memory, but since we're using the Quesa memory
 									// allocators it's fine to use it here
 		
-	((TE3FFormat3DMF_Data*) format->FindLeafInstanceData () )->currentTriMesh = NULL;
+	((TE3FFormat3DMF_Data*) format->FindLeafInstanceData () )->currentTriMesh = nullptr;
 	return theObject;
 }
 
@@ -3989,7 +3989,7 @@ E3Read_3DMF_Geom_Triangle(TQ3FileObject theFile)
 	TQ3Object 			theObject;
 	TQ3TriangleData		geomData;
 	TQ3Uns32			i;
-	TQ3SetObject			elementSet = NULL;
+	TQ3SetObject			elementSet = nullptr;
 
 
 
@@ -4006,10 +4006,10 @@ E3Read_3DMF_Geom_Triangle(TQ3FileObject theFile)
 
 
 	// Read in the attributes
-	while (Q3File_IsEndOfContainer(theFile, NULL) == kQ3False)
+	while (Q3File_IsEndOfContainer(theFile, nullptr) == kQ3False)
 		{
 		childObject = Q3File_ReadObject(theFile);
-		if (childObject != NULL)
+		if (childObject != nullptr)
 			{
 			if (Q3Object_IsType (childObject, kQ3SetTypeAttribute))
 				geomData.triangleAttributeSet = childObject;
@@ -4039,11 +4039,11 @@ E3Read_3DMF_Geom_Triangle(TQ3FileObject theFile)
 
 
 	// Clean up
-	if (geomData.triangleAttributeSet != NULL)
+	if (geomData.triangleAttributeSet != nullptr)
 		Q3Object_Dispose(geomData.triangleAttributeSet);
 		
 	for(i = 0; i< 3; i++){
-		if (geomData.vertices[i].attributeSet != NULL)
+		if (geomData.vertices[i].attributeSet != nullptr)
 			Q3Object_Dispose(geomData.vertices[i].attributeSet);
 		}
 		

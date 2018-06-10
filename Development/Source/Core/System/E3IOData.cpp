@@ -146,13 +146,13 @@ e3unknown_binary_duplicateData(const TQ3UnknownBinaryData *fromData, TQ3UnknownB
 	if (fromData->size != 0)
 		{
 		toData->contents = (char *) Q3Memory_Allocate(fromData->size);
-		if (toData->contents != NULL)
+		if (toData->contents != nullptr)
 			Q3Memory_Copy(fromData->contents, toData->contents,fromData->size);
 		else
 			qd3dStatus = kQ3Failure;
 		}
 	else
-		toData->contents = NULL;
+		toData->contents = nullptr;
 	// Handle failure
 	if (qd3dStatus != kQ3Success)
 		{
@@ -190,15 +190,15 @@ e3unknown_binary_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 
 	
 	// Copy the string
-	if (fromInstanceData->typeString != NULL)
+	if (fromInstanceData->typeString != nullptr)
 		{
 		toInstanceData->typeString = (char *) Q3Memory_Allocate(static_cast<TQ3Uns32>(strlen(fromInstanceData->typeString) + 1));
-		if (toInstanceData->typeString == NULL)
+		if (toInstanceData->typeString == nullptr)
 			return(kQ3Failure);
 		strcpy(toInstanceData->typeString, fromInstanceData->typeString);	
 		}
 	else
-		toInstanceData->typeString = NULL;
+		toInstanceData->typeString = nullptr;
 	
 	// Copy the data members
 	qd3dStatus = e3unknown_binary_duplicateData (&fromInstanceData->data, &toInstanceData->data);
@@ -217,7 +217,7 @@ static TQ3Status
 e3unknown_binary_new(TQ3Object theObject, void *privateData, const void *paramData)
 {	
 
-	return e3unknown_binary_duplicate (NULL, paramData, theObject, privateData);
+	return e3unknown_binary_duplicate (nullptr, paramData, theObject, privateData);
 }
 
 
@@ -230,7 +230,7 @@ e3unknown_binary_new(TQ3Object theObject, void *privateData, const void *paramDa
 static TQ3XFunctionPointer
 e3unknown_binary_metahandler(TQ3XMethodType methodType)
 {	
-	TQ3XFunctionPointer		theMethod = NULL;
+	TQ3XFunctionPointer		theMethod = nullptr;
 
 	// Return our methods
 	switch (methodType) {
@@ -291,19 +291,19 @@ e3unknown_text_duplicateData(const TQ3UnknownTextData *fromData, TQ3UnknownTextD
 
 	
 	// Copy the name
-	if (fromData->objectName != NULL)
+	if (fromData->objectName != nullptr)
 		toData->objectName = (char *) Q3Memory_Allocate(static_cast<TQ3Uns32>(strlen(fromData->objectName) + 1));
-	if (toData->objectName == NULL)
+	if (toData->objectName == nullptr)
 		return(kQ3Failure);
-	if (fromData->objectName != NULL)
+	if (fromData->objectName != nullptr)
 		strcpy(toData->objectName, fromData->objectName);
 	else
-		toData->objectName = NULL;	// not sure if this is appropriate
+		toData->objectName = nullptr;	// not sure if this is appropriate
 	
 	// Copy the contents
-	if (fromData->contents != 0)
+	if (fromData->contents != nullptr)
 		toData->contents = (char *) Q3Memory_Allocate(static_cast<TQ3Uns32>(strlen(fromData->contents) + 1));
-	if ( (fromData->contents != 0) && (toData->contents != NULL) )
+	if ( (fromData->contents != nullptr) && (toData->contents != nullptr) )
 		strcpy(toData->contents, fromData->contents);	
 	else
 		qd3dStatus = kQ3Failure;
@@ -311,7 +311,7 @@ e3unknown_text_duplicateData(const TQ3UnknownTextData *fromData, TQ3UnknownTextD
 	// Handle failure
 	if (qd3dStatus != kQ3Success)
 		{
-		e3unknown_text_delete(NULL, toData);
+		e3unknown_text_delete(nullptr, toData);
 		}
 
 	return(qd3dStatus);
@@ -358,7 +358,7 @@ static TQ3Status
 e3unknown_text_new(TQ3Object theObject, void *privateData, const void *paramData)
 {	
 
-	return e3unknown_text_duplicate (NULL, paramData, theObject, privateData);
+	return e3unknown_text_duplicate (nullptr, paramData, theObject, privateData);
 }
 
 
@@ -371,7 +371,7 @@ e3unknown_text_new(TQ3Object theObject, void *privateData, const void *paramData
 static TQ3XFunctionPointer
 e3unknown_text_metahandler(TQ3XMethodType methodType)
 {	
-	TQ3XFunctionPointer		theMethod = NULL;
+	TQ3XFunctionPointer		theMethod = nullptr;
 
 	// Return our methods
 	switch (methodType) {
@@ -500,15 +500,15 @@ E3Uns8_ReadArray(TQ3Uns32 numNums, TQ3Uns8 *data, E3File* theFile)
 	TQ3Status						status = kQ3Success;
 
 	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Reading),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT((format != NULL),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT((format != nullptr),kQ3Failure);
 
 	
 	int8ArrayRead = (TQ3XFFormatInt8ReadArrayMethod) format->GetMethod ( kQ3XMethodTypeFFormatInt8ReadArray);
 
-	if (int8ArrayRead == NULL)
+	if (int8ArrayRead == nullptr)
 	{
 		int8Read = (TQ3XFFormatInt8ReadMethod) format->GetMethod ( kQ3XMethodTypeFFormatInt8Read);
-		Q3_REQUIRE_OR_RESULT((int8Read != NULL),kQ3Failure);
+		Q3_REQUIRE_OR_RESULT((int8Read != nullptr),kQ3Failure);
 		
 		
 		for (n = 0; n < numNums; ++n)
@@ -572,15 +572,15 @@ E3Uns16_ReadArray(TQ3Uns32 numNums, TQ3Uns16 *data, E3File* theFile)
 	TQ3Status						status = kQ3Success;
 
 	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Reading),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT((format != NULL),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT((format != nullptr),kQ3Failure);
 
 	
 	int16ArrayRead = (TQ3XFFormatInt16ReadArrayMethod) format->GetMethod ( kQ3XMethodTypeFFormatInt16ReadArray);
 
-	if (int16ArrayRead == NULL)
+	if (int16ArrayRead == nullptr)
 	{
 		int16Read = (TQ3XFFormatInt16ReadMethod) format->GetMethod ( kQ3XMethodTypeFFormatInt16Read);
-		Q3_REQUIRE_OR_RESULT((int16Read != NULL),kQ3Failure);
+		Q3_REQUIRE_OR_RESULT((int16Read != nullptr),kQ3Failure);
 		
 		
 		for (n = 0; n < numNums; ++n)
@@ -653,11 +653,11 @@ E3Int8_Read(TQ3Int8 *data, E3File* theFile)
 	TQ3XFFormatInt8ReadMethod 		int8Read;
 
 	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Reading),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != NULL),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != nullptr),kQ3Failure);
 
 	int8Read = (TQ3XFFormatInt8ReadMethod) theFile->GetFileFormat ()->GetMethod ( kQ3XMethodTypeFFormatInt8Read);
 
-	if (int8Read != NULL)
+	if (int8Read != nullptr)
 		return int8Read( theFile->GetFileFormat (),data);
 
 	return(kQ3Failure);
@@ -676,11 +676,11 @@ E3Int8_Write(TQ3Int8 data, E3File* theFile)
 	TQ3XFFormatInt8WriteMethod 		int8Write;
 
 	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Writing),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != NULL),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != nullptr),kQ3Failure);
 
 	int8Write = (TQ3XFFormatInt8WriteMethod) theFile->GetFileFormat ()->GetMethod ( kQ3XMethodTypeFFormatInt8Write);
 
-	if (int8Write != NULL)
+	if (int8Write != nullptr)
 		return int8Write( theFile->GetFileFormat (),&data);
 
 	return(kQ3Failure);
@@ -699,11 +699,11 @@ E3Int16_Read(TQ3Int16 *data, E3File* theFile)
 	TQ3XFFormatInt16ReadMethod 		int16Read;
 
 	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Reading),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != NULL),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != nullptr),kQ3Failure);
 
 	int16Read = (TQ3XFFormatInt16ReadMethod) theFile->GetFileFormat ()->GetMethod ( kQ3XMethodTypeFFormatInt16Read);
 
-	if(int16Read != NULL)
+	if(int16Read != nullptr)
 		return int16Read( theFile->GetFileFormat (),data);
 
 	return(kQ3Failure);
@@ -722,11 +722,11 @@ E3Int16_Write(TQ3Int16 data, E3File* theFile)
 	TQ3XFFormatInt16WriteMethod 		int16Write;
 
 	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Writing),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != NULL),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != nullptr),kQ3Failure);
 
 	int16Write = (TQ3XFFormatInt16WriteMethod) theFile->GetFileFormat ()->GetMethod ( kQ3XMethodTypeFFormatInt16Write);
 
-	if(int16Write != NULL)
+	if(int16Write != nullptr)
 		return int16Write( theFile->GetFileFormat (),&data);
 
 	return(kQ3Failure);
@@ -745,11 +745,11 @@ E3Int32_Read(TQ3Int32 *data, E3File* theFile)
 	TQ3XFFormatInt32ReadMethod 		int32Read;
 
 	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Reading),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != NULL),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != nullptr),kQ3Failure);
 
 	int32Read = (TQ3XFFormatInt32ReadMethod) theFile->GetFileFormat ()->GetMethod ( kQ3XMethodTypeFFormatInt32Read);
 
-	if(int32Read != NULL)
+	if(int32Read != nullptr)
 		return int32Read( theFile->GetFileFormat (),data);
 
 	return(kQ3Failure);
@@ -772,15 +772,15 @@ E3Uns32_ReadArray(TQ3Uns32 numNums, TQ3Uns32 *data, E3File* theFile)
 	TQ3Status						status = kQ3Success;
 
 	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Reading),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT((format != NULL),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT((format != nullptr),kQ3Failure);
 
 	
 	int32ArrayRead = (TQ3XFFormatInt32ReadArrayMethod) format->GetMethod ( kQ3XMethodTypeFFormatInt32ReadArray);
 
-	if (int32ArrayRead == NULL)
+	if (int32ArrayRead == nullptr)
 	{
 		int32Read = (TQ3XFFormatInt32ReadMethod) format->GetMethod ( kQ3XMethodTypeFFormatInt32Read);
-		Q3_REQUIRE_OR_RESULT((int32Read != NULL),kQ3Failure);
+		Q3_REQUIRE_OR_RESULT((int32Read != nullptr),kQ3Failure);
 		
 		
 		for (n = 0; n < numNums; ++n)
@@ -814,11 +814,11 @@ E3Int32_Write(TQ3Int32 data, E3File* theFile)
 	TQ3XFFormatInt32WriteMethod 		int32Write;
 
 	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Writing),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != NULL),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != nullptr),kQ3Failure);
 
 	int32Write = (TQ3XFFormatInt32WriteMethod) theFile->GetFileFormat ()->GetMethod ( kQ3XMethodTypeFFormatInt32Write);
 
-	if(int32Write != NULL)
+	if(int32Write != nullptr)
 		return int32Write( theFile->GetFileFormat (),&data);
 
 	return(kQ3Failure);
@@ -863,11 +863,11 @@ E3Int64_Read(TQ3Int64 *data, E3File* theFile)
 	TQ3XFFormatInt64ReadMethod 		int64Read;
 
 	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Reading),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != NULL),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != nullptr),kQ3Failure);
 
 	int64Read = (TQ3XFFormatInt64ReadMethod) theFile->GetFileFormat ()->GetMethod ( kQ3XMethodTypeFFormatInt64Read);
 
-	if(int64Read != NULL)
+	if(int64Read != nullptr)
 		return int64Read( theFile->GetFileFormat (),data);
 
 	return(kQ3Failure);
@@ -886,11 +886,11 @@ E3Int64_Write(TQ3Int64 data, E3File* theFile)
 	TQ3XFFormatInt64WriteMethod 		int64Write;
 
 	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Writing),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != NULL),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != nullptr),kQ3Failure);
 
 	int64Write = (TQ3XFFormatInt64WriteMethod) theFile->GetFileFormat ()->GetMethod ( kQ3XMethodTypeFFormatInt64Write);
 
-	if(int64Write != NULL)
+	if(int64Write != nullptr)
 		return int64Write( theFile->GetFileFormat (),&data);
 
 	return(kQ3Failure);
@@ -910,11 +910,11 @@ E3Float32_Read(TQ3Float32 *data, E3File* theFile)
 	TQ3Status	status = kQ3Failure;
 
 	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Reading),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != NULL),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != nullptr),kQ3Failure);
 
 	float32Read = (TQ3XFFormatFloat32ReadMethod) theFile->GetFileFormat ()->GetMethod ( kQ3XMethodTypeFFormatFloat32Read);
 
-	if (float32Read != NULL)
+	if (float32Read != nullptr)
 	{
 		status = float32Read( theFile->GetFileFormat (), data );
 		if (status == kQ3Success)
@@ -943,15 +943,15 @@ E3Float32_ReadArray( TQ3Uns32 numFloats, TQ3Float32* theFloats, E3File* theFile)
 	TQ3Status						status = kQ3Success;
 
 	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Reading),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT((format != NULL),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT((format != nullptr),kQ3Failure);
 
 	
 	floatArrayRead = (TQ3XFFormatFloat32ReadArrayMethod) format->GetMethod ( kQ3XMethodTypeFFormatFloat32ReadArray);
 
-	if (floatArrayRead == NULL)
+	if (floatArrayRead == nullptr)
 	{
 		float32Read = (TQ3XFFormatFloat32ReadMethod) format->GetMethod ( kQ3XMethodTypeFFormatFloat32Read);
-		Q3_REQUIRE_OR_RESULT((float32Read != NULL),kQ3Failure);
+		Q3_REQUIRE_OR_RESULT((float32Read != nullptr),kQ3Failure);
 		
 		
 		for (n = 0; n < numFloats; ++n)
@@ -993,11 +993,11 @@ E3Float32_Write(TQ3Float32 data, E3File* theFile)
 	TQ3XFFormatFloat32WriteMethod 	float32Write;
 
 	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Writing),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != NULL),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != nullptr),kQ3Failure);
 
 	float32Write = (TQ3XFFormatFloat32WriteMethod) theFile->GetFileFormat ()->GetMethod ( kQ3XMethodTypeFFormatFloat32Write);
 
-	if(float32Write != NULL)
+	if(float32Write != nullptr)
 		return float32Write( theFile->GetFileFormat (),&data);
 
 	return(kQ3Failure);
@@ -1016,11 +1016,11 @@ E3Float64_Read(TQ3Float64 *data, E3File* theFile)
 	TQ3XFFormatFloat64ReadMethod 	float64Read;
 
 	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Reading),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != NULL),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != nullptr),kQ3Failure);
 
 	float64Read = (TQ3XFFormatFloat64ReadMethod) theFile->GetFileFormat ()->GetMethod ( kQ3XMethodTypeFFormatFloat64Read);
 
-	if(float64Read != NULL)
+	if(float64Read != nullptr)
 		return float64Read( theFile->GetFileFormat (),data);
 
 	return(kQ3Failure);
@@ -1039,11 +1039,11 @@ E3Float64_Write(TQ3Float64 data, E3File* theFile)
 	TQ3XFFormatFloat64WriteMethod 	float64Write;
 
 	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Writing),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != NULL),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != nullptr),kQ3Failure);
 
 	float64Write = (TQ3XFFormatFloat64WriteMethod) theFile->GetFileFormat ()->GetMethod ( kQ3XMethodTypeFFormatFloat64Write);
 
-	if(float64Write != NULL)
+	if(float64Write != nullptr)
 		return float64Write( theFile->GetFileFormat (),&data);
 
 	return(kQ3Failure);
@@ -1081,17 +1081,17 @@ E3String_ReadUnlimited(char *data, TQ3Uns32 *ioLength, E3File* theFile)
 	TQ3Uns32		bufferSize;
 
 	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Reading),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != NULL),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != nullptr),kQ3Failure);
 	
 	stringRead = (TQ3XFFormatStringReadMethod) theFile->GetFileFormat ()->GetMethod ( kQ3XMethodTypeFFormatStringRead);
 
-	if (stringRead != NULL)
+	if (stringRead != nullptr)
 	{
 		bufferSize = *ioLength;
 		
 		status = stringRead( theFile->GetFileFormat (), data, ioLength );
 		
-		if ( (status == kQ3Success) && (data != NULL) &&
+		if ( (status == kQ3Success) && (data != nullptr) &&
 			(*ioLength >= bufferSize) )
 		{
 			E3ErrorManager_PostWarning( kQ3WarningStringExceedsMaximumLength );
@@ -1137,10 +1137,10 @@ E3String_WriteUnlimited(const char *data, E3File* theFile)
 	TQ3XFFormatStringWriteMethod 	stringWrite;
 
 	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Writing),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != NULL),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != nullptr),kQ3Failure);
 
 	stringWrite = (TQ3XFFormatStringWriteMethod) theFile->GetFileFormat ()->GetMethod ( kQ3XMethodTypeFFormatStringWrite);
-	Q3_REQUIRE_OR_RESULT( stringWrite != NULL, kQ3Failure );
+	Q3_REQUIRE_OR_RESULT( stringWrite != nullptr, kQ3Failure );
 	
 	return stringWrite( theFile->GetFileFormat (), data );
 }
@@ -1194,11 +1194,11 @@ E3RawData_Read(unsigned char *data, TQ3Uns32 size, E3File* theFile)
 	TQ3XFFormatRawReadMethod	 	rawRead;
 
 	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Reading),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != NULL),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != nullptr),kQ3Failure);
 
 	rawRead = (TQ3XFFormatRawReadMethod) theFile->GetFileFormat ()->GetMethod ( kQ3XMethodTypeFFormatRawRead);
 
-	if(rawRead != NULL)
+	if(rawRead != nullptr)
 		return rawRead( theFile->GetFileFormat (),data,size);
 
 	return(kQ3Failure);
@@ -1217,11 +1217,11 @@ E3RawData_Write(const unsigned char *data, TQ3Uns32 size, E3File* theFile)
 	TQ3XFFormatRawWriteMethod	 	rawWrite;
 
 	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Writing),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != NULL),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != nullptr),kQ3Failure);
 
 	rawWrite = (TQ3XFFormatRawWriteMethod) theFile->GetFileFormat ()->GetMethod ( kQ3XMethodTypeFFormatRawWrite);
 
-	if(rawWrite != NULL)
+	if(rawWrite != nullptr)
 		return rawWrite( theFile->GetFileFormat (),data,size);
 
 	return(kQ3Failure);
@@ -1241,11 +1241,11 @@ E3Point2D_Read(TQ3Point2D *point2D, E3File* theFile)
 	TQ3XFFormatFloat32ReadMethod 	float32Read;
 
 	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Reading),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != NULL),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != nullptr),kQ3Failure);
 
 	float32Read = (TQ3XFFormatFloat32ReadMethod) theFile->GetFileFormat ()->GetMethod ( kQ3XMethodTypeFFormatFloat32Read);
 
-	if(float32Read != NULL){
+	if(float32Read != nullptr){
 		result = float32Read( theFile->GetFileFormat (),&point2D->x);
 		if(result == kQ3Success)
 			result = float32Read( theFile->GetFileFormat (),&point2D->y);
@@ -1274,11 +1274,11 @@ E3Point2D_Write(const TQ3Point2D *point2D, E3File* theFile)
 	TQ3XFFormatFloat32WriteMethod 	float32Write;
 
 	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Writing),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != NULL),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != nullptr),kQ3Failure);
 
 	float32Write = (TQ3XFFormatFloat32WriteMethod) theFile->GetFileFormat ()->GetMethod ( kQ3XMethodTypeFFormatFloat32Write);
 
-	if(float32Write != NULL){
+	if(float32Write != nullptr){
 		result = float32Write( theFile->GetFileFormat (),&point2D->x);
 		if(result == kQ3Success)
 			result = float32Write( theFile->GetFileFormat (),&point2D->y);
@@ -1301,11 +1301,11 @@ E3Point3D_Read(TQ3Point3D *point3D, E3File* theFile)
 	TQ3XFFormatFloat32ReadMethod 	float32Read;
 
 	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Reading),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != NULL),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != nullptr),kQ3Failure);
 
 	float32Read = (TQ3XFFormatFloat32ReadMethod) theFile->GetFileFormat ()->GetMethod ( kQ3XMethodTypeFFormatFloat32Read);
 
-	if(float32Read != NULL){
+	if(float32Read != nullptr){
 		result = float32Read( theFile->GetFileFormat (),&point3D->x);
 		if(result == kQ3Success)
 			result = float32Read( theFile->GetFileFormat (),&point3D->y);
@@ -1338,11 +1338,11 @@ E3Point3D_Write(const TQ3Point3D *point3D, E3File* theFile)
 	TQ3XFFormatFloat32WriteMethod 	float32Write;
 
 	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Writing),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != NULL),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != nullptr),kQ3Failure);
 
 	float32Write = (TQ3XFFormatFloat32WriteMethod) theFile->GetFileFormat ()->GetMethod ( kQ3XMethodTypeFFormatFloat32Write);
 
-	if(float32Write != NULL){
+	if(float32Write != nullptr){
 		result = float32Write( theFile->GetFileFormat (),&point3D->x);
 		if(result == kQ3Success)
 			result = float32Write( theFile->GetFileFormat (),&point3D->y);
@@ -1367,11 +1367,11 @@ E3RationalPoint3D_Read(TQ3RationalPoint3D *point3D, E3File* theFile)
 	TQ3XFFormatFloat32ReadMethod 	float32Read;
 
 	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Reading),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != NULL),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != nullptr),kQ3Failure);
 
 	float32Read = (TQ3XFFormatFloat32ReadMethod) theFile->GetFileFormat ()->GetMethod ( kQ3XMethodTypeFFormatFloat32Read);
 
-	if(float32Read != NULL){
+	if(float32Read != nullptr){
 		result = float32Read( theFile->GetFileFormat (),&point3D->x);
 		if(result == kQ3Success)
 			result = float32Read( theFile->GetFileFormat (),&point3D->y);
@@ -1403,11 +1403,11 @@ E3RationalPoint3D_Write(const TQ3RationalPoint3D *point3D, E3File* theFile)
 	TQ3XFFormatFloat32WriteMethod 	float32Write;
 
 	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Writing),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != NULL),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != nullptr),kQ3Failure);
 
 	float32Write = (TQ3XFFormatFloat32WriteMethod) theFile->GetFileFormat ()->GetMethod ( kQ3XMethodTypeFFormatFloat32Write);
 
-	if(float32Write != NULL){
+	if(float32Write != nullptr){
 		result = float32Write( theFile->GetFileFormat (),&point3D->x);
 		if(result == kQ3Success)
 			result = float32Write( theFile->GetFileFormat (),&point3D->y);
@@ -1432,11 +1432,11 @@ E3RationalPoint4D_Read(TQ3RationalPoint4D *point4D, E3File* theFile)
 	TQ3XFFormatFloat32ReadMethod 	float32Read;
 
 	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Reading),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != NULL),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != nullptr),kQ3Failure);
 
 	float32Read = (TQ3XFFormatFloat32ReadMethod) theFile->GetFileFormat ()->GetMethod ( kQ3XMethodTypeFFormatFloat32Read);
 
-	if(float32Read != NULL){
+	if(float32Read != nullptr){
 		result = float32Read( theFile->GetFileFormat (),&point4D->x);
 		if(result == kQ3Success)
 			result = float32Read( theFile->GetFileFormat (),&point4D->y);
@@ -1471,11 +1471,11 @@ E3RationalPoint4D_Write(const TQ3RationalPoint4D *point4D, E3File* theFile)
 	TQ3XFFormatFloat32WriteMethod 	float32Write;
 
 	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Writing),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != NULL),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != nullptr),kQ3Failure);
 
 	float32Write = (TQ3XFFormatFloat32WriteMethod) theFile->GetFileFormat ()->GetMethod ( kQ3XMethodTypeFFormatFloat32Write);
 
-	if(float32Write != NULL){
+	if(float32Write != nullptr){
 		result = float32Write( theFile->GetFileFormat (),&point4D->x);
 		if(result == kQ3Success)
 			result = float32Write( theFile->GetFileFormat (),&point4D->y);
@@ -1555,11 +1555,11 @@ E3Matrix4x4_Read(TQ3Matrix4x4 *matrix4x4, E3File* theFile)
 	TQ3Uns32						i,j;
 
 	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Reading),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != NULL),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != nullptr),kQ3Failure);
 
 	float32Read = (TQ3XFFormatFloat32ReadMethod) theFile->GetFileFormat ()->GetMethod ( kQ3XMethodTypeFFormatFloat32Read);
 
-	if(float32Read != NULL){
+	if(float32Read != nullptr){
 		result = kQ3Success;
 		
 		for( i = 0; ((i< 4) && (result == kQ3Success)); i++)
@@ -1589,11 +1589,11 @@ E3Matrix4x4_Write(const TQ3Matrix4x4 *matrix4x4, E3File* theFile)
 	TQ3Uns32						i,j;
 
 	Q3_REQUIRE_OR_RESULT(( theFile->GetFileStatus () == kE3_File_Status_Writing),kQ3Failure);
-	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != NULL),kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(( theFile->GetFileFormat () != nullptr),kQ3Failure);
 
 	float32Write = (TQ3XFFormatFloat32WriteMethod) theFile->GetFileFormat ()->GetMethod ( kQ3XMethodTypeFFormatFloat32Write);
 
-	if(float32Write != NULL){
+	if(float32Write != nullptr){
 		result = kQ3Success;
 		
 		for( i = 0; ((i< 4) && (result == kQ3Success)); i++)
@@ -1719,7 +1719,7 @@ E3Unknown_RegisterClass(void)
 
 	// Register the classes
 	qd3dStatus = Q3_REGISTER_CLASS_WITH_MEMBER (	kQ3ClassNameUnknown,
-										NULL,
+										nullptr,
 										E3Unknown,
 										dirtyFlag ) ;
 	if(qd3dStatus == kQ3Success)
@@ -1909,11 +1909,11 @@ E3UnknownBinary_GetTypeString(TQ3UnknownObject unknownObject, char **typeString)
 	{
 	E3UnknownBinary* unknownBinary = (E3UnknownBinary*) unknownObject ;
 	
-	if ( unknownBinary->instanceData.typeString != NULL)
+	if ( unknownBinary->instanceData.typeString != nullptr)
 		{
 		*typeString = (char *) Q3Memory_Allocate(
 			static_cast<TQ3Uns32>(strlen ( unknownBinary->instanceData.typeString ) + 1) ) ;
-		if ( *typeString == NULL )
+		if ( *typeString == nullptr )
 			return kQ3Failure ;
 		strcpy ( * typeString, unknownBinary->instanceData.typeString ) ;
 		}
@@ -1980,12 +1980,12 @@ e3viewhints_new ( E3ViewHints* theObject, void *privateData, const void *paramDa
 	else
 		{
 		theObject->instanceData.renderer = Q3Renderer_NewFromType ( kQ3RendererTypeInteractive ) ;
-		theObject->instanceData.camera = NULL ;
-		theObject->instanceData.lightGroup = NULL ;
-		theObject->instanceData.attributeSet = NULL ;
+		theObject->instanceData.camera = nullptr ;
+		theObject->instanceData.lightGroup = nullptr ;
+		theObject->instanceData.attributeSet = nullptr ;
 		theObject->instanceData.clearMethod = kQ3ClearMethodNone  ;
 		Q3ColorARGB_Set ( &theObject->instanceData.clearImageColor, 1.0f, 1.0f, 1.0f, 1.0f ) ;
-		theObject->instanceData.mask.image = NULL ;
+		theObject->instanceData.mask.image = nullptr ;
 		theObject->instanceData.mask.width = 0 ;
 		theObject->instanceData.mask.height = 0 ;
 		theObject->instanceData.mask.rowBytes = 0 ;
@@ -2035,11 +2035,11 @@ e3viewhints_read ( TQ3FileObject theFile )
 	TQ3Status result = kQ3Success ;
 
 	// Create the object
-	E3ViewHints* theObject = (E3ViewHints*) E3ClassTree::CreateInstance ( kQ3SharedTypeViewHints, kQ3False, NULL ) ;
+	E3ViewHints* theObject = (E3ViewHints*) E3ClassTree::CreateInstance ( kQ3SharedTypeViewHints, kQ3False, nullptr ) ;
 	
 	if ( theObject )
 		{
-		while ( ! Q3File_IsEndOfContainer ( theFile, NULL ) )
+		while ( ! Q3File_IsEndOfContainer ( theFile, nullptr ) )
 			{
 			if ( TQ3Object childObject = Q3File_ReadObject ( theFile ) )
 				{
@@ -2056,7 +2056,7 @@ e3viewhints_read ( TQ3FileObject theFile )
  					{
  					TQ3GroupObject lightGroup ;
  					theObject->GetLightGroup ( &lightGroup ) ;
-					if ( lightGroup == NULL )
+					if ( lightGroup == nullptr )
  						{
  						lightGroup = Q3LightGroup_New () ;
   						theObject->SetLightGroup ( lightGroup ) ;
@@ -2096,7 +2096,7 @@ To be written:
 		if ( result != kQ3Success )
 			{
 			Q3Object_Dispose ( theObject ) ;
-			return NULL ;
+			return nullptr ;
 			}
 		}
 	
@@ -2113,7 +2113,7 @@ To be written:
 static TQ3Status
 e3viewhints_traverse ( E3ViewHints* theObject, void *data, TQ3ViewObject theView )
 	{
-	TQ3Uns32 result = Q3XView_SubmitWriteData ( theView, 0, NULL, NULL ) ;
+	TQ3Uns32 result = Q3XView_SubmitWriteData ( theView, 0, nullptr, nullptr ) ;
 
 	TQ3RendererObject renderer ;
 	if ( theObject->GetRenderer ( &renderer ) == kQ3Success )
@@ -2158,14 +2158,14 @@ e3viewhints_traverse ( E3ViewHints* theObject, void *data, TQ3ViewObject theView
 	if ( theObject->GetClearImageMethod ( &clearMethod ) == kQ3Success
 	&& clearMethod == kQ3ClearMethodWithColor )
 		{
-		result &= Q3XView_SubmitSubObjectData ( theView, (TQ3XObjectClass) E3ClassTree::GetClass ( kQ3ImageClearColour ), sizeof ( TQ3ColorARGB ), theObject, NULL ) ;
+		result &= Q3XView_SubmitSubObjectData ( theView, (TQ3XObjectClass) E3ClassTree::GetClass ( kQ3ImageClearColour ), sizeof ( TQ3ColorARGB ), theObject, nullptr ) ;
 		}
 		
 	TQ3Boolean isValidSetDimensions ;
 	if ( theObject->GetDimensionsState ( &isValidSetDimensions ) == kQ3Success
 	&& isValidSetDimensions == kQ3True )
 		{
-		result &= Q3XView_SubmitSubObjectData ( theView, (TQ3XObjectClass) E3ClassTree::GetClass ( kQ3ImageDimensions ), sizeof ( TQ3Uns32 ) * 2, theObject, NULL ) ;
+		result &= Q3XView_SubmitSubObjectData ( theView, (TQ3XObjectClass) E3ClassTree::GetClass ( kQ3ImageDimensions ), sizeof ( TQ3Uns32 ) * 2, theObject, nullptr ) ;
 		}
 		
 	return (TQ3Status) result ;
@@ -2196,7 +2196,7 @@ viewhints_metahandler ( TQ3XMethodType methodType )
 				
 		}
 
-	return NULL ;
+	return nullptr ;
 	}
 
 
@@ -2272,9 +2272,9 @@ TQ3Status
 E3ViewHints::GetRenderer ( TQ3RendererObject* theRenderer )
 	{
 	// Make sure we have a renderer
-	if ( instanceData.renderer == NULL )
+	if ( instanceData.renderer == nullptr )
 		{
-		*theRenderer = NULL ; // Assign a return value
+		*theRenderer = nullptr ; // Assign a return value
 		return kQ3Failure ;
 		}
 
@@ -2313,9 +2313,9 @@ TQ3Status
 E3ViewHints::GetCamera ( TQ3CameraObject* theCamera )
 	{
 	// Make sure we have a camera
-	if ( instanceData.camera == NULL )
+	if ( instanceData.camera == nullptr )
 		{
-		*theCamera = NULL ; // Assign a return value
+		*theCamera = nullptr ; // Assign a return value
 		return kQ3Failure ;
 		}
 
@@ -2354,9 +2354,9 @@ TQ3Status
 E3ViewHints::GetLightGroup ( TQ3GroupObject* theLightGroup )
 	{
 	// Make sure we have a light group
-	if ( instanceData.lightGroup == NULL )
+	if ( instanceData.lightGroup == nullptr )
 		{
-		*theLightGroup = NULL ; // Assign a return value
+		*theLightGroup = nullptr ; // Assign a return value
 		return kQ3Failure ;
 		}
 
@@ -2395,9 +2395,9 @@ TQ3Status
 E3ViewHints::GetAttributeSet ( TQ3AttributeSet* theAttributeSet )
 	{
 	// Make sure we have an attribute set
-	if ( instanceData.attributeSet == NULL )
+	if ( instanceData.attributeSet == nullptr )
 		{
-		*theAttributeSet = NULL ; // Assign a return value
+		*theAttributeSet = nullptr ; // Assign a return value
 		return kQ3Failure ;
 		}
 

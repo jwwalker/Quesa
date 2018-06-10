@@ -140,12 +140,12 @@ e3geom_triangle_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 	qd3dStatus = Q3Triangle_GetData(fromObject, toInstanceData);
 	
 	if ( (qd3dStatus == kQ3Success) &&
-		(toInstanceData->triangleAttributeSet != NULL) )
+		(toInstanceData->triangleAttributeSet != nullptr) )
 	{
 		dupSet = Q3Object_Duplicate( toInstanceData->triangleAttributeSet );
 		Q3Object_Dispose( toInstanceData->triangleAttributeSet );
 		toInstanceData->triangleAttributeSet = dupSet;
-		if (dupSet == NULL)
+		if (dupSet == nullptr)
 		{
 			qd3dStatus = kQ3Failure;
 		}
@@ -245,11 +245,11 @@ e3geom_triangle_pick_with_ray(  TQ3ViewObject		theView,
 		// Obtain the XYZ, normal, and UV for the hit point. We always return an
 		// XYZ and normal for the hit, however we need to cope with missing UVs.
 		E3Triangle_InterpolateHit(theView,&worldTriangle, &theHit, &hitXYZ, &hitNormal, &hitUV, &haveUV);
-		resultUV = (haveUV ? &hitUV : NULL);
+		resultUV = (haveUV ? &hitUV : nullptr);
 
 
 		// Record the hit
-		qd3dStatus = E3Pick_RecordHit(thePick, theView, &hitXYZ, &hitNormal, resultUV, NULL, &theHit);
+		qd3dStatus = E3Pick_RecordHit(thePick, theView, &hitXYZ, &hitNormal, resultUV, nullptr, &theHit);
 	}
 
 	return(qd3dStatus);
@@ -327,13 +327,13 @@ e3geom_triangle_pick_window_rect(TQ3ViewObject theView, TQ3PickObject thePick, T
 	{
 		Q3Point3D_Transform( &instanceData->vertices[0].point, localToWorld,
 			&worldHit );
-		qd3dStatus = E3Pick_RecordHit(thePick, theView, &worldHit, NULL, NULL, NULL);
+		qd3dStatus = E3Pick_RecordHit(thePick, theView, &worldHit, nullptr, nullptr, nullptr);
 	}
 	else if (E3Rect_ContainsLine(&pickData.rect, &windowPoints[1], &windowPoints[2]))
 	{
 		Q3Point3D_Transform( &instanceData->vertices[1].point, localToWorld,
 			&worldHit );
-		qd3dStatus = E3Pick_RecordHit(thePick, theView, &worldHit, NULL, NULL, NULL);
+		qd3dStatus = E3Pick_RecordHit(thePick, theView, &worldHit, nullptr, nullptr, nullptr);
 	}
 
 	return(qd3dStatus);
@@ -445,7 +445,7 @@ e3geom_triangle_get_attribute ( E3Triangle* triangle )
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3geom_triangle_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 

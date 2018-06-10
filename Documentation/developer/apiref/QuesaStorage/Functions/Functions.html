@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
     "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
-<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a[name]:hover {text-decoration: inherit; font-family: inherit; font-size: inherit}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
     <title>Functions</title>
 	 <meta name="generator" content="HeaderDoc">
 </head><body bgcolor="#ffffff">
@@ -133,6 +133,75 @@ The storage must be closed at the time you call this.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
+<hr><a name="//Quesa/c/func/Q3FileStreamStorage_Get"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FileStreamStorage_Get">Q3FileStreamStorage_Get</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3FileStreamStorage_Get (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject theStorage,
+&nbsp;&nbsp;&nbsp;&nbsp;FILE** theStream
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the stream associated with the storage.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>theStorage</em></tt></dt><dd>A file stream storage object.</dd>
+<dt><tt><em>theStream</em></tt></dt><dd>Receives a FILE pointer.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+</dd></dl>
+<hr><a name="//Quesa/c/func/Q3FileStreamStorage_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FileStreamStorage_New">Q3FileStreamStorage_New</a></h2>
+</td></tr></table><hr>Create a storage object from a Unix-style file stream (FILE*).
+<br><br>
+
+<blockquote><pre><tt>( TQ3StorageObject ) Q3FileStreamStorage_New (
+&nbsp;&nbsp;&nbsp;&nbsp;FILE* theStream
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>The specified stream must remain open as long as you use the
+storage object, and it is your responsibility to close it later.
+Calling Q3File_OpenRead, Q3File_OpenWrite, or Q3File_Close on an
+associated TQ3FileObject do not actually open or close the
+stream, though they are still necessary steps when doing I/O
+with a file stream storage object.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>theStream</em></tt></dt><dd>An open stream.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>The new storage object.
+</dd></dl>
+<hr><a name="//Quesa/c/func/Q3FileStreamStorage_Set"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FileStreamStorage_Set">Q3FileStreamStorage_Set</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3FileStreamStorage_Set (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject theStorage,
+&nbsp;&nbsp;&nbsp;&nbsp;FILE* theStream
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the stream associated with the storage.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>theStorage</em></tt></dt><dd>A file stream storage object.</dd>
+<dt><tt><em>theStream</em></tt></dt><dd>A stream to use with the storage.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+</dd></dl>
 <hr><a name="//Quesa/c/func/Q3HandleStorage_Get"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3HandleStorage_Get">Q3HandleStorage_Get</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3HandleStorage_Get (
@@ -164,7 +233,7 @@ The storage must be closed at the time you call this.
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a Handle storage object.
 <br><br>
 Create a storage object that stores data in a Macintosh memory Handle.
-If you pass NULL for the Handle, Quesa internally allocates a
+If you pass nullptr for the Handle, Quesa internally allocates a
 Handle of the given size, and disposes the Handle when the storage
 object is disposed.
 <br><br>
@@ -172,12 +241,12 @@ object is disposed.
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
 <dl>
-<dt><tt><em>handle</em></tt></dt><dd>An existing Handle, or NULL.</dd>
+<dt><tt><em>handle</em></tt></dt><dd>An existing Handle, or nullptr.</dd>
 <dt><tt><em>validSize</em></tt></dt><dd>The size of the valid date in the given Handle,
-or the desired size if the Handle is NULL.</dd>
+or the desired size if the Handle is nullptr.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>The new storage object, or NULL on failure.
+<dl><dt><i>function result</i></dt><dd>The new storage object, or nullptr on failure.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3HandleStorage_Set"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3HandleStorage_Set">Q3HandleStorage_Set</a></h2>
@@ -190,7 +259,7 @@ or the desired size if the Handle is NULL.</dd>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set information about a Handle storage object.
 <br><br>
 Sets the buffer location and size of a Handle storage object.
-If you pass NULL for the Handle, Quesa internally allocates a
+If you pass nullptr for the Handle, Quesa internally allocates a
 Handle of the given size, and disposes the Handle when the storage
 object is disposed.
 <br><br>
@@ -199,7 +268,7 @@ object is disposed.
 <blockquote>
 <dl>
 <dt><tt><em>storage</em></tt></dt><dd>The storage object.</dd>
-<dt><tt><em>handle</em></tt></dt><dd>A Mac Handle to be associated with the storage, or NULL.</dd>
+<dt><tt><em>handle</em></tt></dt><dd>A Mac Handle to be associated with the storage, or nullptr.</dd>
 <dt><tt><em>validSize</em></tt></dt><dd>Size in bytes of the specified buffer.</dd>
 </dl>
 </blockquote>
@@ -303,7 +372,7 @@ Gets a pointer to the data of a memory storage object without copying.
 The pointer may become invalid if later storage operations cause the
 buffer to be reallocated.
 <br><br>
-Each of the output parameters may be NULL if you don't need that information.
+Each of the output parameters may be nullptr if you don't need that information.
 <br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
@@ -356,11 +425,11 @@ copied to the storage object's private memory
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
 <dl>
-<dt><tt><em>buffer</em></tt></dt><dd>Pointer to a buffer in memory, or NULL.</dd>
+<dt><tt><em>buffer</em></tt></dt><dd>Pointer to a buffer in memory, or nullptr.</dd>
 <dt><tt><em>validSize</em></tt></dt><dd>Number of bytes of data in the buffer.
-If you passed NULL for the buffer, this number serves
+If you passed nullptr for the buffer, this number serves
 as the initial size and grow size of the internally
-allocated buffer.  If you passed NULL for buffer and
+allocated buffer.  If you passed nullptr for buffer and
 0 for validSize, then Quesa uses a default grow size.</dd>
 </dl>
 </blockquote>
@@ -383,15 +452,45 @@ allocating Quesa memory.
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
 <dl>
-<dt><tt><em>buffer</em></tt></dt><dd>Pointer to a buffer of data, or NULL.</dd>
+<dt><tt><em>buffer</em></tt></dt><dd>Pointer to a buffer of data, or nullptr.</dd>
 <dt><tt><em>validSize</em></tt></dt><dd>Number of bytes of valid data in the provided buffer,
-or if buffer was NULL, the initial size and grow
+or if buffer was nullptr, the initial size and grow
 size of an internally-allocated buffer.</dd>
 <dt><tt><em>bufferSize</em></tt></dt><dd>Size in bytes of the buffer.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>The new storage object.
  </dd></dl>
+<hr><a name="//Quesa/c/func/Q3MemoryStorage_NewNoCopy <br><br>"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MemoryStorage_NewNoCopy <br><br>">Q3MemoryStorage_NewNoCopy <br><br></a></h2>
+</td></tr></table><hr>Create a memory storage object, taking over ownership of
+previously allocated memory.
+<br><br>
+
+<blockquote><pre><tt>( TQ3StorageObject ) Q3MemoryStorage_NewNoCopy (
+&nbsp;&nbsp;&nbsp;&nbsp;unsigned char *buffer,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 validSize,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 bufferSize
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>The buffer you pass in must have been allocated using
+Q3Memory_Allocate or Q3Memory_AllocateClear.  The storage
+object will take over responsibility for releasing the
+buffer when the storage object is disposed or grown,
+as appropriate.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>buffer</em></tt></dt><dd>Pointer to a buffer in memory, previously allocated
+using Q3Memory_Allocate or Q3Memory_AllocateClear.</dd>
+<dt><tt><em>validSize</em></tt></dt><dd>Number of bytes of data in the buffer.</dd>
+<dt><tt><em>bufferSize</em></tt></dt><dd>Allocated size of the buffer.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>The new storage object.
+</dd></dl>
 <hr><a name="//Quesa/c/func/Q3MemoryStorage_Set"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MemoryStorage_Set">Q3MemoryStorage_Set</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3MemoryStorage_Set (
@@ -412,9 +511,9 @@ or Q3MemoryStorage_NewBuffer), it will own its own memory afterward.
 <blockquote>
 <dl>
 <dt><tt><em>storage</em></tt></dt><dd>The storage object.</dd>
-<dt><tt><em>buffer</em></tt></dt><dd>Pointer to a buffer of data, or NULL.</dd>
+<dt><tt><em>buffer</em></tt></dt><dd>Pointer to a buffer of data, or nullptr.</dd>
 <dt><tt><em>validSize</em></tt></dt><dd>Number of bytes to be copied from the buffer to the
-storage, or initial memory size if buffer was NULL.</dd>
+storage, or initial memory size if buffer was nullptr.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -438,9 +537,9 @@ given buffer.
 <blockquote>
 <dl>
 <dt><tt><em>storage</em></tt></dt><dd>The storage object.</dd>
-<dt><tt><em>buffer</em></tt></dt><dd>Pointer to a buffer of data, or NULL.</dd>
+<dt><tt><em>buffer</em></tt></dt><dd>Pointer to a buffer of data, or nullptr.</dd>
 <dt><tt><em>validSize</em></tt></dt><dd>Number of valid bytes in the buffer, or
-if the buffer is NULL, the initial and grow size
+if the buffer is nullptr, the initial and grow size
 of an internally allocated buffer.</dd>
 <dt><tt><em>bufferSize</em></tt></dt><dd>Size in bytes of the buffer.</dd>
 </dl>
@@ -466,7 +565,7 @@ Be sure to allocate enough space for it.
 <blockquote>
 <dl>
 <dt><tt><em>theStorage</em></tt></dt><dd>A path storage object.</dd>
-<dt><tt><em>pathName</em></tt></dt><dd>On output, the path as a NULL-terminated string.</dd>
+<dt><tt><em>pathName</em></tt></dt><dd>On output, the path as a NUL-terminated string.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -491,10 +590,10 @@ the path is colon-separated and assumed to be in the system encoding.
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
 <dl>
-<dt><tt><em>pathName</em></tt></dt><dd>A NULL-terminated pathname, as might be passed to fopen.</dd>
+<dt><tt><em>pathName</em></tt></dt><dd>A NUL-terminated pathname, as might be passed to fopen.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+<dl><dt><i>function result</i></dt><dd>The new storage object.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3PathStorage_Set"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PathStorage_Set">Q3PathStorage_Set</a></h2>
@@ -512,7 +611,7 @@ the path is colon-separated and assumed to be in the system encoding.
 <blockquote>
 <dl>
 <dt><tt><em>theStorage</em></tt></dt><dd>A path storage object.</dd>
-<dt><tt><em>pathName</em></tt></dt><dd>A NULL-terminated pathname.</dd>
+<dt><tt><em>pathName</em></tt></dt><dd>A NUL-terminated pathname.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -636,7 +735,7 @@ Be sure to allocate enough space for it.
 <blockquote>
 <dl>
 <dt><tt><em>storage</em></tt></dt><dd>A Unix path storage object.</dd>
-<dt><tt><em>pathName</em></tt></dt><dd>On output, a NULL-terminated path.</dd>
+<dt><tt><em>pathName</em></tt></dt><dd>On output, a NUL-terminated path.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -655,7 +754,7 @@ The Quesa extension Q3PathStorage_New may be used in place of this.
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
 <dl>
-<dt><tt><em>pathName</em></tt></dt><dd>A NULL-terminated file system path.</dd>
+<dt><tt><em>pathName</em></tt></dt><dd>A NUL-terminated file system path.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>The new storage object.
@@ -674,7 +773,7 @@ The Quesa extension Q3PathStorage_New may be used in place of this.
 <blockquote>
 <dl>
 <dt><tt><em>storage</em></tt></dt><dd>A Unix path storage object.</dd>
-<dt><tt><em>pathName</em></tt></dt><dd>A NULL-terminated file system path.</dd>
+<dt><tt><em>pathName</em></tt></dt><dd>A NUL-terminated file system path.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -737,5 +836,5 @@ object, and it is your responsibility to close the file later.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
-<p><p>&#169; 1999-2011 Quesa Developers (Last Updated 3/13/2011)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
 </p></body></html>

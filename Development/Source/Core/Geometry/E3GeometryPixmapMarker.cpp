@@ -83,14 +83,14 @@ e3geom_pixmapmarker_get_data(const TQ3PixmapMarkerData *instanceData, TQ3Boolean
 {	TQ3Uns32			validSize, bufferSize;
 	TQ3StorageObject	theStorage;
 	TQ3Status			qd3dStatus;
-	TQ3Uns8				*basePtr = NULL;
+	TQ3Uns8				*basePtr = nullptr;
 	TQ3ObjectType		theType;
 	
 
 
 	// Validate our parameters
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(instanceData), NULL);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(wasCopied), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(instanceData), nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(wasCopied), nullptr);
 
 
 
@@ -112,7 +112,7 @@ e3geom_pixmapmarker_get_data(const TQ3PixmapMarkerData *instanceData, TQ3Boolean
 			{	Handle	theHnd;
 			
 			qd3dStatus = Q3HandleStorage_Get(theStorage, &theHnd, &validSize);
-			if (qd3dStatus == kQ3Success && theHnd != NULL)
+			if (qd3dStatus == kQ3Success && theHnd != nullptr)
 				{
     			HLock(theHnd);
     			basePtr = (TQ3Uns8 *) *theHnd;
@@ -126,7 +126,7 @@ e3geom_pixmapmarker_get_data(const TQ3PixmapMarkerData *instanceData, TQ3Boolean
 			if (qd3dStatus == kQ3Success)
 				basePtr = (TQ3Uns8 *) Q3Memory_Allocate(bufferSize);
 			
-			if (basePtr != NULL)
+			if (basePtr != nullptr)
 				{
 				qd3dStatus = Q3Storage_GetData(theStorage, 0, bufferSize, (unsigned char*)basePtr, &validSize);
 				*wasCopied = (TQ3Boolean) (qd3dStatus == kQ3Success);
@@ -141,7 +141,7 @@ e3geom_pixmapmarker_get_data(const TQ3PixmapMarkerData *instanceData, TQ3Boolean
 
 	// Return the image
 	if (qd3dStatus != kQ3Success)
-		return(NULL);
+		return(nullptr);
 	
 	return(basePtr);
 }
@@ -186,7 +186,7 @@ e3geom_pixmapmarker_release_data(const TQ3PixmapMarkerData	*instanceData,
 	if (theType == kQ3MemoryStorageTypeHandle)
 		{
 		qd3dStatus = Q3HandleStorage_Get(theStorage, &theHnd, &validSize);
-		if (qd3dStatus == kQ3Success && theHnd != NULL)
+		if (qd3dStatus == kQ3Success && theHnd != nullptr)
 			HUnlock(theHnd);
 		}
 #endif
@@ -238,7 +238,7 @@ e3geom_pixmapmarker_pixel_is_set(const TQ3PixmapMarkerData *instanceData, TQ3Int
 
 	// Get the data for the marker
 	basePtr = e3geom_pixmapmarker_get_data(instanceData, &wasCopied);
-	if (basePtr == NULL)
+	if (basePtr == nullptr)
 		return(kQ3False);
 
 
@@ -282,7 +282,7 @@ e3geom_pixmapmarker_pixel_is_set(const TQ3PixmapMarkerData *instanceData, TQ3Int
 static void
 e3geom_pixmapmarker_update_position(TQ3ViewObject theView, const TQ3PixmapMarkerData *geomData, TQ3Object cachedGeom)
 {	TQ3Matrix4x4		theMatrix, worldToFrustum, frustumToWindow;
-	TQ3TransformObject		theTransform = NULL;
+	TQ3TransformObject		theTransform = nullptr;
 	TQ3Status				qd3dStatus;
 	TQ3GroupPosition		groupPos;
 	TQ3Point3D				thePoint;
@@ -398,12 +398,12 @@ e3geom_pixmapmarker_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 	qd3dStatus = Q3PixmapMarker_GetData(fromObject, toInstanceData);
 	
 	if ( (qd3dStatus == kQ3Success) &&
-		(toInstanceData->pixmapMarkerAttributeSet != NULL) )
+		(toInstanceData->pixmapMarkerAttributeSet != nullptr) )
 	{
 		dupSet = Q3Object_Duplicate( toInstanceData->pixmapMarkerAttributeSet );
 		Q3Object_Dispose( toInstanceData->pixmapMarkerAttributeSet );
 		toInstanceData->pixmapMarkerAttributeSet = dupSet;
-		if (dupSet == NULL)
+		if (dupSet == nullptr)
 		{
 			qd3dStatus = kQ3Failure;
 		}
@@ -449,7 +449,7 @@ e3geom_pixmapmarker_pick_window_point(TQ3ViewObject theView, TQ3PickObject thePi
 
 	// See if we fall within the pick
 	if (e3geom_pixmapmarker_pixel_is_set(instanceData, (TQ3Int32) markerPixel.x, (TQ3Int32) markerPixel.y))
-		qd3dStatus = E3Pick_RecordHit(thePick, theView, NULL, NULL, NULL, NULL);
+		qd3dStatus = E3Pick_RecordHit(thePick, theView, nullptr, nullptr, nullptr, nullptr);
 
 	return(qd3dStatus);
 }
@@ -499,7 +499,7 @@ e3geom_pixmapmarker_pick_window_rect(TQ3ViewObject theView, TQ3PickObject thePic
 				{
 				if (e3geom_pixmapmarker_pixel_is_set(instanceData, (TQ3Int32) x, (TQ3Int32) y))
 					{
-					qd3dStatus = E3Pick_RecordHit(thePick, theView, NULL, NULL, NULL, NULL);
+					qd3dStatus = E3Pick_RecordHit(thePick, theView, nullptr, nullptr, nullptr, nullptr);
 					return(qd3dStatus);
 					}
 				}
@@ -537,8 +537,8 @@ e3geom_pixmapmarker_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, 
 
 	// Create the group	
 	theGroup = Q3OrderedDisplayGroup_New();
-	if (theGroup == NULL)
-		return(NULL);
+	if (theGroup == nullptr)
+		return(nullptr);
 
 
 
@@ -596,11 +596,11 @@ e3geom_pixmapmarker_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, 
 		
 	vertexAttributes[0].attributeType     = kQ3AttributeTypeSurfaceUV;
 	vertexAttributes[0].data              = vertexUVs;
-	vertexAttributes[0].attributeUseArray = NULL;
+	vertexAttributes[0].attributeUseArray = nullptr;
 	
 	vertexAttributes[1].attributeType     = kQ3AttributeTypeNormal;
 	vertexAttributes[1].data              = vertexNormals;
-	vertexAttributes[1].attributeUseArray = NULL;
+	vertexAttributes[1].attributeUseArray = nullptr;
 
 
 
@@ -610,11 +610,11 @@ e3geom_pixmapmarker_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, 
 	triMeshData.numTriangles              = 2;
 	triMeshData.triangles                 = theTriangles;
 	triMeshData.numTriangleAttributeTypes = 0;
-	triMeshData.triangleAttributeTypes    = NULL;
+	triMeshData.triangleAttributeTypes    = nullptr;
 	triMeshData.numEdges                  = 0;
-	triMeshData.edges                     = NULL;
+	triMeshData.edges                     = nullptr;
 	triMeshData.numEdgeAttributeTypes     = 0;
-	triMeshData.edgeAttributeTypes        = NULL;
+	triMeshData.edgeAttributeTypes        = nullptr;
 	triMeshData.numVertexAttributeTypes   = 2;
 	triMeshData.vertexAttributeTypes      = vertexAttributes;
 	triMeshData.triMeshAttributeSet       = geomData->pixmapMarkerAttributeSet;
@@ -625,17 +625,17 @@ e3geom_pixmapmarker_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, 
 
 	// Create the TriMesh
 	theTriMesh = Q3TriMesh_New(&triMeshData);
-	if (theTriMesh != NULL)
+	if (theTriMesh != nullptr)
 		Q3Group_AddObjectAndDispose(theGroup, &theTriMesh);
 
 
 
 	// Create the texture
 	theTexture = Q3PixmapTexture_New(&geomData->pixmap);
-	if (theTexture != NULL)
+	if (theTexture != nullptr)
 		{
 		theShader = Q3TextureShader_New(theTexture);
-		if (theShader != NULL)
+		if (theShader != nullptr)
 			{
 			Q3Shader_SetUBoundary(theShader, kQ3ShaderUVBoundaryClamp);
 			Q3Shader_SetVBoundary(theShader, kQ3ShaderUVBoundaryClamp);
@@ -699,7 +699,7 @@ e3geom_pixmapmarker_cache_update(TQ3ViewObject		theView,
 
 
 	// Create a new object if required
-	if (*cachedGeom == NULL)
+	if (*cachedGeom == nullptr)
 		*cachedGeom = e3geom_pixmapmarker_cache_new(theView, theGeom,
 			(const TQ3PixmapMarkerData*)geomData);
 
@@ -793,7 +793,7 @@ e3geom_pixmapmarker_get_attribute ( E3PixmapMarker* pixmapMarker )
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3geom_pixmapmarker_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 

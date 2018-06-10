@@ -204,7 +204,7 @@ Q3File_SetStorage(TQ3FileObject theFile, TQ3StorageObject storage)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, (kQ3SharedTypeFile)), kQ3Failure);
-	// storage can be NULL
+	// storage can be nullptr
 
 
 	// Debug build checks
@@ -567,7 +567,7 @@ Q3File_ReadObject(TQ3FileObject theFile)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), nullptr);
 
 
 
@@ -658,7 +658,7 @@ Q3File_IsEndOfContainer(TQ3FileObject theFile, TQ3Object rootObject)
 
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), kQ3False);
-	// rootObject can be NULL
+	// rootObject can be nullptr
 
 
 	// Debug build checks
@@ -748,7 +748,7 @@ Q3File_GetExternalReferences(TQ3FileObject theFile)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), nullptr);
 
 
 
@@ -2765,7 +2765,7 @@ Q3ViewHints_New(TQ3ViewObject view)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), NULL);
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), nullptr);
 
 
 
@@ -3412,7 +3412,7 @@ Q3File_GetFileFormat(TQ3FileObject theFile)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3Object_IsType(theFile, kQ3SharedTypeFile), nullptr);
 
 
 
@@ -3443,7 +3443,7 @@ Q3FileFormat_NewFromType(TQ3ObjectType fformatObjectType)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(fformatObjectType != kQ3ObjectTypeInvalid, NULL);
+	Q3_REQUIRE_OR_RESULT(fformatObjectType != kQ3ObjectTypeInvalid, nullptr);
 
 
 

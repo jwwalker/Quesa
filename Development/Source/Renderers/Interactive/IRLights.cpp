@@ -424,9 +424,9 @@ IRRenderer_Lights_StartPass(TQ3InteractiveData		*instanceData,
 
 
 	// Translate the enabled lights
-	lightPos   = NULL;
+	lightPos   = nullptr;
 	qd3dStatus = Q3Group_GetFirstPosition(theLights, &lightPos);
-    while (qd3dStatus == kQ3Success && lightPos != NULL)
+    while (qd3dStatus == kQ3Success && lightPos != nullptr)
         {
         // Get the light
         Q3Group_GetPositionObject(theLights, lightPos, &theLight);

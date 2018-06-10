@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
     "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
-<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a[name]:hover {text-decoration: inherit; font-family: inherit; font-size: inherit}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
     <title>QuesaRenderer.h</title>
 	 <meta name="generator" content="HeaderDoc">
 </head><body bgcolor="#ffffff">
@@ -311,7 +311,7 @@ Configuration data should be saved by the application in a manner appropriate
 for the current platform (e.g., the Registry on Windows or a .plist file on
 the Mac), tagging it with the renderer's type for later identification.
 <br><br>
-If dataBuffer is NULL, the size of data required to store the configuration
+If dataBuffer is nullptr, the size of data required to store the configuration
 data will be returned in actualDataSize.
 <br><br>
 Otherwise bufferSize should be set to the number of bytes pointed to by
@@ -323,7 +323,7 @@ dataBuffer.
 <blockquote>
 <dl>
 <dt><tt><em>renderer</em></tt></dt><dd>The renderer to query.</dd>
-<dt><tt><em>dataBuffer</em></tt></dt><dd>Receives the renderer configuration data. May be NULL.</dd>
+<dt><tt><em>dataBuffer</em></tt></dt><dd>Receives the renderer configuration data. May be nullptr.</dd>
 <dt><tt><em>bufferSize</em></tt></dt><dd>The number of bytes pointed to by dataBuffer. May be 0.</dd>
 <dt><tt><em>actualDataSize</em></tt></dt><dd>Receives the number of bytes required for, or written to, dataBuffer.</dd>
 </dl>
@@ -411,7 +411,7 @@ the application for later recall.
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
 <dl>
-<dt><tt><em>theRenderer</em></tt></dt><dd>The renderer whose configure dialog is to be displayed.</dd>
+<dt><tt><em>renderer</em></tt></dt><dd>The renderer whose configure dialog is to be displayed.</dd>
 <dt><tt><em>dialogAnchor</em></tt></dt><dd>Platform-specific dialog data.</dd>
 <dt><tt><em>cancelled</em></tt></dt><dd>Receives the OK/Cancel state of the dialog.</dd>
 </dl>
@@ -704,7 +704,7 @@ This method is optional and should only be implemented by asynchronous renderers
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the renderer configuration data.
 <br><br>
-If dataBuffer is NULL, actualDataSize returns the size in bytes of a buffer
+If dataBuffer is nullptr, actualDataSize returns the size in bytes of a buffer
 which could receive the renderer data.
 <br><br>
 This method is optional.
@@ -734,7 +734,7 @@ The "nick name" is the user-visible name for the renderer, and should be
 suitable for display in a menu or window (e.g., it may need to be localised
 for the current language).
 <br><br>
-If dataBuffer is NULL, actualDataSize returns the size in bytes of a buffer
+If dataBuffer is nullptr, actualDataSize returns the size in bytes of a buffer
 which could receive the entire renderer nick name.
 <br><br>
 This method is optional.
@@ -976,7 +976,7 @@ This method is required.
 <blockquote>
 <dl><dt><tt>theView</tt></dt><dd>The view being rendered to.</dd>
 <dt><tt>rendererPrivate</tt></dt><dd>Renderer-specific instance data.</dd>
-<dt><tt>theCamera</tt></dt><dd>The camera object being submitted, or NULL.</dd>
+<dt><tt>theCamera</tt></dt><dd>The camera object being submitted, or nullptr.</dd>
 <dt><tt>publicData</tt></dt><dd>The public data for the camera being submitted.</dd>
 </dl>
 </blockquote>
@@ -991,7 +991,7 @@ This method is required.
 <br><br>
 Renderers should return a TQ3XRendererSubmitGeometryMetaHandlerMethod to
 be invoked when a geometry of the supplied type is submitted for rendering.
-If a particular geometry type is not supported, return NULL.
+If a particular geometry type is not supported, return nullptr.
 <br><br>
 Geometries which do not have their own submit method will be decomposed to
 more primitive geometry types, which will then be submitted as one of the
@@ -1027,7 +1027,7 @@ If a geometry object is submitted in retained mode, theGeometry will be
 a valid geometry object and publicData will point to the public data
 structure describing that object.
 <br><br>
-If a geometry is submitted in immediate mode, theGeometry will be NULL
+If a geometry is submitted in immediate mode, theGeometry will be nullptr
 and publicData will point to the data structure submitted for rendering.
 <br><br>
 Renderers should therefore try and render from the data contained in the
@@ -1042,7 +1042,7 @@ This method is required.
 <blockquote>
 <dl><dt><tt>theView</tt></dt><dd>The view being rendered to.</dd>
 <dt><tt>rendererPrivate</tt></dt><dd>Renderer-specific instance data.</dd>
-<dt><tt>theGeometry</tt></dt><dd>The geometry object being submitted, or NULL.</dd>
+<dt><tt>theGeometry</tt></dt><dd>The geometry object being submitted, or nullptr.</dd>
 <dt><tt>publicData</tt></dt><dd>The public data for the geometry being submitted.</dd>
 </dl>
 </blockquote>
@@ -1063,7 +1063,7 @@ This method is optional.
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
-<dl><dt><tt>cameraType</tt></dt><dd>The camera type whose submit method is requested.</dd>
+<dl><dt><tt>lightType</tt></dt><dd>The camera type whose submit method is requested.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>The submit method for cameras of type cameraType.
@@ -1088,7 +1088,7 @@ This method is required.
 <blockquote>
 <dl><dt><tt>theView</tt></dt><dd>The view being rendered to.</dd>
 <dt><tt>rendererPrivate</tt></dt><dd>Renderer-specific instance data.</dd>
-<dt><tt>theLight</tt></dt><dd>The light object being submitted, or NULL.</dd>
+<dt><tt>theLight</tt></dt><dd>The light object being submitted, or nullptr.</dd>
 <dt><tt>publicData</tt></dt><dd>The public data for the light being submitted.</dd>
 </dl>
 </blockquote>
@@ -1171,7 +1171,7 @@ This method is optional.
 <blockquote>
 <dl><dt><tt>theView</tt></dt><dd>The view being rendered to.</dd>
 <dt><tt>rendererPrivate</tt></dt><dd>Renderer-specific instance data.</dd>
-<dt><tt>publicData</tt></dt><dd>The public data for the matrix being submitted.</dd>
+<dt><tt>theMatrix</tt></dt><dd>The public data for the matrix being submitted.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the callback.
@@ -1212,7 +1212,7 @@ This method is optional.
 <blockquote>
 <dl><dt><tt>theView</tt></dt><dd>The view being rendered to.</dd>
 <dt><tt>rendererPrivate</tt></dt><dd>Renderer-specific instance data.</dd>
-<dt><tt>publicData</tt></dt><dd>The public data for the shader being submitted.</dd>
+<dt><tt>theShader</tt></dt><dd>The public data for the shader being submitted.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the callback.
@@ -1360,7 +1360,7 @@ the light, so do not dispose it.
 <blockquote>
 <dl>
 <dt><tt>passType</tt></dt><dd>Type of the current pass.</dd>
-<dt><tt>light</tt></dt><dd>Current shadowing light, or NULL if this is a pass
+<dt><tt>light</tt></dt><dd>Current shadowing light, or nullptr if this is a pass
 of type kQ3RendererPassNonShadow.</dd>
 </dl>
 </blockquote>
@@ -1406,19 +1406,22 @@ preferences.
 <blockquote><pre>
 enum
 {
-  kQ3RendererPropertyAutomaticTriangleStrips  = Q3_OBJECT_TYPE('a', 't', 'r', 's'),
-  kQ3RendererPropertyPerPixelLighting      = Q3_OBJECT_TYPE('p', 'p', 'x', 'l'),
+  kQ3RendererPropertyAutomaticTriangleStrips      = Q3_OBJECT_TYPE('a', 't', 'r', 's'),
+  kQ3RendererPropertyPerPixelLighting             = Q3_OBJECT_TYPE('p', 'p', 'x', 'l'),
   kQ3RendererPropertyConvertToPremultipliedAlpha  = Q3_OBJECT_TYPE('c', 'p', 'm', 'a'),
-  kQ3RendererPropertyShadows          = Q3_OBJECT_TYPE('s', 'h', 'd', 'w'),
-  kQ3RendererPropertyAttenuationThreshold    = Q3_OBJECT_TYPE('s', 'h', 'a', 't'),
-  kQ3RendererPropertyLineWidth        = Q3_OBJECT_TYPE('l', 'n', 'w', 'h'),
-  kQ3RendererPropertyUseColor          = Q3_OBJECT_TYPE('u', 'c', 'l', 'r'),
-  kQ3RendererPropertyAllowVBOs        = Q3_OBJECT_TYPE('a', 'v', 'b', 'o'),
-  kQ3RendererPropertyAllowLineSmooth      = Q3_OBJECT_TYPE('a', 'l', 's', 'm'),
-  kQ3RendererPropertyQuantizePerPixelLight  = Q3_OBJECT_TYPE('p', 'p', 'x', 'q'),
-  kQ3RendererPropertyCartoonLightNearEdge    = Q3_OBJECT_TYPE('p', 'p', 'c', 'e'),
-  kQ3RendererPropertyPassType          = Q3_OBJECT_TYPE('r', 'p', 't', 'y'),
-  kQ3RendererPropertyDepthAlphaThreshold    = Q3_OBJECT_TYPE('d', 'p', 'a', 't')
+  kQ3RendererPropertyShadows                      = Q3_OBJECT_TYPE('s', 'h', 'd', 'w'),
+  kQ3RendererPropertyAttenuationThreshold         = Q3_OBJECT_TYPE('s', 'h', 'a', 't'),
+  kQ3RendererPropertyLineWidth                    = Q3_OBJECT_TYPE('l', 'n', 'w', 'h'),
+  kQ3RendererPropertyUseColor                     = Q3_OBJECT_TYPE('u', 'c', 'l', 'r'),
+  kQ3RendererPropertyAllowVBOs                    = Q3_OBJECT_TYPE('a', 'v', 'b', 'o'),
+  kQ3RendererPropertyVBOLimit                     = Q3_OBJECT_TYPE('v', 'b', 'o', 'l'),
+  kQ3RendererPropertyAllowLineSmooth              = Q3_OBJECT_TYPE('a', 'l', 's', 'm'),
+  kQ3RendererPropertyQuantizePerPixelLight        = Q3_OBJECT_TYPE('p', 'p', 'x', 'q'),
+  kQ3RendererPropertyCartoonLightNearEdge         = Q3_OBJECT_TYPE('p', 'p', 'c', 'e'),
+  kQ3RendererPropertyPassType                     = Q3_OBJECT_TYPE('r', 'p', 't', 'y'),
+  kQ3RendererPropertyDepthAlphaThreshold          = Q3_OBJECT_TYPE('d', 'p', 'a', 't'),
+  kQ3RendererPropertyShadowVBOLimit               = Q3_OBJECT_TYPE('s', 'h', 'v', 'l'),
+  kQ3RendererPropertyPrimitivesRenderedCount      = Q3_OBJECT_TYPE('p', 'r', 'n', 'c'),
 };
 </pre>
 </blockquote>
@@ -1466,6 +1469,13 @@ that the OpenGL driver claims to support them.  This could
 be used to disable VBO usage for buggy graphics drivers.
 Data type: TQ3Boolean.  Default value: kQ3True.
 <br><br></dd>
+<dt><a name="//Quesa/c/econst/kQ3RendererPropertyVBOLimit"><tt>kQ3RendererPropertyVBOLimit</tt></a></dt><dd>Maximum amount of video memory, in K, that may be used to
+cache rendering data in VBOs.
+When the cache becomes full, least recently used VBOs will
+be purged.
+<br><br>
+Data type: TQ3Uns32.	Default value: 51200 (50 megabytes).
+<br><br></dd>
 <dt><a name="//Quesa/c/econst/kQ3RendererPropertyAllowLineSmooth"><tt>kQ3RendererPropertyAllowLineSmooth</tt></a></dt><dd>Allow an OpenGL-based renderer to enable GL_LINE_SMOOTH.
 This may be used to disable line smoothing for buggy
 graphics drivers, such as some versions of Apple's software
@@ -1504,7 +1514,26 @@ you can make sufficiently opaque fragments (alpha greater
 than the given threshold) update the depth,
 at the expense of a little extra rendering time.
 <br><br>
-Data type: TQ3Float32.  Range: [0, 1].  Default value: 1.0.</dd>
+Data type: TQ3Float32.  Range: [0, 1].  Default value: 1.0.
+<br><br></dd>
+<dt><a name="//Quesa/c/econst/kQ3RendererPropertyShadowVBOLimit"><tt>kQ3RendererPropertyShadowVBOLimit</tt></a></dt><dd>If you are rendering shadows, and VBOs are available, you
+may choose to cache shadow volumes in VBOs.  This is not
+advisable in cases where all geometries (or all lights)
+change on every frame, as in some of the demo apps.  The
+value of the property is the maximum number of K-bytes of
+video memory that may be used for shadow volumes.  (For
+example, a 10 megabyte limit would be the value 10240.)
+When the cache becomes full, least recently used VBOs will
+be purged.
+<br><br>
+Data type: TQ3Uns32.  Range: [0, 4294967295].  Default: 0.
+<br><br></dd>
+<dt><a name="//Quesa/c/econst/kQ3RendererPropertyPrimitivesRenderedCount"><tt>kQ3RendererPropertyPrimitivesRenderedCount</tt></a></dt><dd>The renderer uses this property to report the cumulative number
+of primitives (triangles, lines, or points) rendered since
+the renderer was created.  Currently only supported by the OpenGL
+renderer.
+<br><br>
+Data type: TQ3Uns64.</dd>
 </dl>
 </blockquote>
 <hr><a name="//Quesa/c/tag/TQ3CSGEquation"></a>
@@ -1828,5 +1857,5 @@ enum {
 <br><br>
 The data for the attribute is a single TQ3CSGObjectID.
  </p>
-<p><p>&#169; 1999-2011 Quesa Developers (Last Updated 3/13/2011)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
 </p></body></html>

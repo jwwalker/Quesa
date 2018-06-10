@@ -97,17 +97,17 @@ e3geom_torus_copydata(const TQ3TorusData *src, TQ3TorusData *dst, TQ3Boolean isD
 	// copy or shared-replace the attributes
 	if (isDuplicate)
 	{
-		if (src->interiorAttributeSet != NULL)
+		if (src->interiorAttributeSet != nullptr)
 		{
 			dst->interiorAttributeSet = Q3Object_Duplicate(src->interiorAttributeSet);
-			if (dst->interiorAttributeSet == NULL) qd3dStatus = kQ3Failure;
-		} else dst->interiorAttributeSet = NULL;
+			if (dst->interiorAttributeSet == nullptr) qd3dStatus = kQ3Failure;
+		} else dst->interiorAttributeSet = nullptr;
 
-		if (src->torusAttributeSet != NULL)
+		if (src->torusAttributeSet != nullptr)
 		{
 			dst->torusAttributeSet = Q3Object_Duplicate(src->torusAttributeSet);
-			if (dst->torusAttributeSet == NULL) qd3dStatus = kQ3Failure;
-		} else dst->torusAttributeSet = NULL;
+			if (dst->torusAttributeSet == nullptr) qd3dStatus = kQ3Failure;
+		} else dst->torusAttributeSet = nullptr;
 	}
 	else {
 		E3Shared_Replace(&dst->interiorAttributeSet, src->interiorAttributeSet);
@@ -464,7 +464,7 @@ e3geom_torus_create_surface( const TQ3TorusData& geomData,
 
 
 	// Compute face normals
-	Q3Triangle_CrossProductArray( numtriangles, NULL,
+	Q3Triangle_CrossProductArray( numtriangles, nullptr,
 		&triangles[0].pointIndices[0], &points[0], &faceNormals[0] );
 
 
@@ -472,16 +472,16 @@ e3geom_torus_create_surface( const TQ3TorusData& geomData,
 	// set up remaining trimesh data
 	TQ3TriMeshAttributeData vertexAttributes[2] =
 	{
-		{ kQ3AttributeTypeNormal, &normals[0], NULL },
-		{ kQ3AttributeTypeSurfaceUV, &uvs[0], NULL }
+		{ kQ3AttributeTypeNormal, &normals[0], nullptr },
+		{ kQ3AttributeTypeSurfaceUV, &uvs[0], nullptr }
 	};
 	TQ3TriMeshAttributeData	faceAttributes[1] =
 	{
-		{ kQ3AttributeTypeNormal, &faceNormals[0], NULL },
+		{ kQ3AttributeTypeNormal, &faceNormals[0], nullptr },
 	};
 
 	TQ3TriMeshData	triMeshData;
-	triMeshData.triMeshAttributeSet 	  = NULL;
+	triMeshData.triMeshAttributeSet 	  = nullptr;
 	triMeshData.numPoints                 = numpoints;
 	triMeshData.points                    = &points[0];
 	triMeshData.numTriangles              = numtriangles;
@@ -489,9 +489,9 @@ e3geom_torus_create_surface( const TQ3TorusData& geomData,
 	triMeshData.numTriangleAttributeTypes = 1;
 	triMeshData.triangleAttributeTypes    = faceAttributes;
 	triMeshData.numEdges                  = 0;
-	triMeshData.edges                     = NULL;
+	triMeshData.edges                     = nullptr;
 	triMeshData.numEdgeAttributeTypes     = 0;
-	triMeshData.edgeAttributeTypes        = NULL;
+	triMeshData.edgeAttributeTypes        = nullptr;
 	triMeshData.numVertexAttributeTypes   = 2;
 	triMeshData.vertexAttributeTypes      = vertexAttributes;
 
@@ -539,7 +539,7 @@ e3geom_torus_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom,
 		vMin, vMax ))
 	{
 		E3ErrorManager_PostError( kQ3ErrorDegenerateGeometry, kQ3False );
-		return NULL;
+		return nullptr;
 	}
 
 
@@ -551,7 +551,7 @@ e3geom_torus_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom,
 	
 	
 	// If there is an overall attribute set, add it to the group.
-	if (geomData->torusAttributeSet != NULL)
+	if (geomData->torusAttributeSet != nullptr)
 	{
 		Q3Group_AddObject( resultGroup.get(), geomData->torusAttributeSet );
 	}
@@ -597,7 +597,7 @@ e3geom_torus_get_attribute ( E3Torus* torus )
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3geom_torus_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -682,7 +682,7 @@ E3Torus_New(const TQ3TorusData *torusData)
 {	TQ3Object		theObject;
 
 
-	if (torusData == NULL)
+	if (torusData == nullptr)
 	{
 		TQ3TorusData defaultTorus = {
 			{ 0.0f, 0.0f, 0.0f },
@@ -692,7 +692,7 @@ E3Torus_New(const TQ3TorusData *torusData)
 			1.0f,
 			0.0f, 1.0f, 0.0f, 1.0f,
 			kQ3EndCapNone,
-			NULL, NULL
+			nullptr, nullptr
 		};
 		theObject = E3ClassTree::CreateInstance ( kQ3GeometryTypeTorus, kQ3False, &defaultTorus);
 	}
@@ -759,8 +759,8 @@ E3Torus_GetData(TQ3GeometryObject theTorus, TQ3TorusData *torusData)
 	E3Torus* torus = (E3Torus*) theTorus ;
 
 	// Copy the data out of the Torus
-	torusData->interiorAttributeSet = NULL ;
-	torusData->torusAttributeSet = NULL ;
+	torusData->interiorAttributeSet = nullptr ;
+	torusData->torusAttributeSet = nullptr ;
 	
 	return e3geom_torus_copydata ( & torus->instanceData, torusData, kQ3False ) ;
 	}

@@ -63,7 +63,7 @@ e3ffw_3DMF_submit_nonempty_attribute_set( TQ3AttributeSet inAtts, TQ3ViewObject 
 {
 	TQ3Status	theStatus = kQ3Success;
 	
-	if (inAtts != NULL)
+	if (inAtts != nullptr)
 	{
 		TQ3AttributeType	attrType = kQ3AttributeTypeNone;
 		
@@ -88,12 +88,12 @@ static TQ3Status
 e3ffw_3DMF_storage_write(TQ3StorageObject theStorage,TQ3Uns32 expectedSize,TQ3FileObject theFile)
 {
 	TQ3Status			qd3dStatus;
-	TQ3Uns8				*basePtr = NULL;
+	TQ3Uns8				*basePtr = nullptr;
 	TQ3Boolean			wasCopied = kQ3False;
 	TQ3Uns32			validSize = 0, bufferSize;
 	TQ3ObjectType		theType;
 #if QUESA_OS_MACINTOSH
-	Handle				theHnd = NULL;
+	Handle				theHnd = nullptr;
 #endif			
 
 	// Get a pointer to the data for the image, ideally without copying
@@ -109,7 +109,7 @@ e3ffw_3DMF_storage_write(TQ3StorageObject theStorage,TQ3Uns32 expectedSize,TQ3Fi
 			{
 			
 			qd3dStatus = Q3HandleStorage_Get(theStorage, &theHnd, &validSize);
-			if (qd3dStatus == kQ3Success && theHnd != NULL)
+			if (qd3dStatus == kQ3Success && theHnd != nullptr)
 				{
     			HLock(theHnd);
     			basePtr = (TQ3Uns8 *) *theHnd;
@@ -123,7 +123,7 @@ e3ffw_3DMF_storage_write(TQ3StorageObject theStorage,TQ3Uns32 expectedSize,TQ3Fi
 			if (qd3dStatus == kQ3Success)
 				basePtr = (TQ3Uns8 *) Q3Memory_Allocate(bufferSize);
 			
-			if (basePtr != NULL)
+			if (basePtr != nullptr)
 				{
 				qd3dStatus = Q3Storage_GetData(theStorage, 0, bufferSize, (unsigned char*)basePtr, &validSize);
 				wasCopied = (TQ3Boolean) (qd3dStatus == kQ3Success);
@@ -136,7 +136,7 @@ e3ffw_3DMF_storage_write(TQ3StorageObject theStorage,TQ3Uns32 expectedSize,TQ3Fi
 
 	
 	
-	if(basePtr == NULL)
+	if(basePtr == nullptr)
 		return (kQ3Failure);
 	
 	validSize = Q3Size_Pad(validSize);
@@ -148,7 +148,7 @@ e3ffw_3DMF_storage_write(TQ3StorageObject theStorage,TQ3Uns32 expectedSize,TQ3Fi
 	
 #if QUESA_OS_MACINTOSH
 	// If this is a Mac handle object, unlock the handle
-	if(theHnd != NULL)
+	if(theHnd != nullptr)
 		HUnlock(theHnd);
 
 #endif
@@ -177,7 +177,7 @@ e3ffw_3DMF_transform_vector_traverse(TQ3Object object,
 {
 	#pragma unused(object)
 	
-	TQ3Status qd3dstatus = Q3XView_SubmitWriteData (view, 12, (void*)data, NULL);
+	TQ3Status qd3dstatus = Q3XView_SubmitWriteData (view, 12, (void*)data, nullptr);
 	
 	return qd3dstatus;
 }
@@ -215,7 +215,7 @@ e3ffw_3DMF_transform_matrix_traverse(TQ3Object object,
 {
 	#pragma unused(object)
 	
-	TQ3Status qd3dstatus = Q3XView_SubmitWriteData (view, 64, (void*)data, NULL);
+	TQ3Status qd3dstatus = Q3XView_SubmitWriteData (view, 64, (void*)data, nullptr);
 	
 	return qd3dstatus;
 }
@@ -256,7 +256,7 @@ e3ffw_3DMF_transform_rotate_traverse(TQ3Object object,
 {
 	#pragma unused(object)
 	
-	TQ3Status qd3dstatus = Q3XView_SubmitWriteData (view, 8, (void*)data, NULL);
+	TQ3Status qd3dstatus = Q3XView_SubmitWriteData (view, 8, (void*)data, nullptr);
 	
 	return qd3dstatus;
 }
@@ -299,7 +299,7 @@ e3ffw_3DMF_transform_rotatepoint_traverse(TQ3Object object,
 {
 	#pragma unused(object)
 	
-	TQ3Status qd3dstatus = Q3XView_SubmitWriteData (view, 20, (void*)data, NULL);
+	TQ3Status qd3dstatus = Q3XView_SubmitWriteData (view, 20, (void*)data, nullptr);
 	
 	return qd3dstatus;
 }
@@ -345,7 +345,7 @@ e3ffw_3DMF_transform_rotateaxis_traverse(TQ3Object object,
 {
 	#pragma unused(object)
 	
-	TQ3Status qd3dstatus = Q3XView_SubmitWriteData (view, 28, (void*)data, NULL);
+	TQ3Status qd3dstatus = Q3XView_SubmitWriteData (view, 28, (void*)data, nullptr);
 	
 	return qd3dstatus;
 }
@@ -391,7 +391,7 @@ e3ffw_3DMF_transform_quaternion_traverse(TQ3Object object,
 {
 	#pragma unused(object)
 	
-	TQ3Status qd3dstatus = Q3XView_SubmitWriteData (view, 16, (void*)data, NULL);
+	TQ3Status qd3dstatus = Q3XView_SubmitWriteData (view, 16, (void*)data, nullptr);
 	
 	return qd3dstatus;
 }
@@ -439,7 +439,7 @@ e3ffw_3DMF_attributeset_traverse(TQ3Object theSet,
 	TQ3AttributeType		theType = kQ3ElementTypeNone;
 	TQ3ElementType			classType = kQ3ElementTypeNone;
 	
-	TQ3Status qd3dstatus = Q3XView_SubmitWriteData (view, 0, NULL, NULL);
+	TQ3Status qd3dstatus = Q3XView_SubmitWriteData (view, 0, nullptr, nullptr);
 	
 	if(qd3dstatus != kQ3Success)
 		return qd3dstatus;
@@ -460,7 +460,7 @@ e3ffw_3DMF_attributeset_traverse(TQ3Object theSet,
 					if(qd3dstatus == kQ3Success){
 						attributeClass = Q3XObjectHierarchy_FindClassByType (classType);
 					
-						if(attributeClass != NULL)
+						if(attributeClass != nullptr)
 							qd3dstatus = Q3XView_SubmitSubObjectData (view, attributeClass, sizeof(TQ3Param2D),
 																subObjectData, E3FFW_3DMF_Default_Delete);
 						}
@@ -472,7 +472,7 @@ e3ffw_3DMF_attributeset_traverse(TQ3Object theSet,
 					if(qd3dstatus == kQ3Success){
 						attributeClass = Q3XObjectHierarchy_FindClassByType (classType);
 					
-						if(attributeClass != NULL)
+						if(attributeClass != nullptr)
 							qd3dstatus = Q3XView_SubmitSubObjectData (view, attributeClass, sizeof(TQ3Vector3D),
 																subObjectData, E3FFW_3DMF_Default_Delete);
 						}
@@ -487,7 +487,7 @@ e3ffw_3DMF_attributeset_traverse(TQ3Object theSet,
 					if(qd3dstatus == kQ3Success){
 						attributeClass = Q3XObjectHierarchy_FindClassByType (classType);
 					
-						if(attributeClass != NULL)
+						if(attributeClass != nullptr)
 							qd3dstatus = Q3XView_SubmitSubObjectData (view, attributeClass, sizeof(TQ3ColorRGB),
 																subObjectData, E3FFW_3DMF_Default_Delete);
 						}
@@ -500,7 +500,7 @@ e3ffw_3DMF_attributeset_traverse(TQ3Object theSet,
 					if(qd3dstatus == kQ3Success){
 						attributeClass = Q3XObjectHierarchy_FindClassByType (classType);
 					
-						if(attributeClass != NULL)
+						if(attributeClass != nullptr)
 							qd3dstatus = Q3XView_SubmitSubObjectData (view, attributeClass, sizeof(TQ3Float32),
 																subObjectData, E3FFW_3DMF_Default_Delete);
 						}
@@ -512,7 +512,7 @@ e3ffw_3DMF_attributeset_traverse(TQ3Object theSet,
 					if(qd3dstatus == kQ3Success){
 						attributeClass = Q3XObjectHierarchy_FindClassByType (classType);
 					
-						if(attributeClass != NULL)
+						if(attributeClass != nullptr)
 							qd3dstatus = Q3XView_SubmitSubObjectData (view, attributeClass, sizeof(TQ3Tangent2D),
 																subObjectData, E3FFW_3DMF_Default_Delete);
 						}
@@ -524,7 +524,7 @@ e3ffw_3DMF_attributeset_traverse(TQ3Object theSet,
 					if(qd3dstatus == kQ3Success){
 						attributeClass = Q3XObjectHierarchy_FindClassByType (classType);
 					
-						if(attributeClass != NULL)
+						if(attributeClass != nullptr)
 							qd3dstatus = Q3XView_SubmitSubObjectData (view, attributeClass, sizeof(TQ3Switch),
 																subObjectData, E3FFW_3DMF_Default_Delete);
 						}
@@ -540,7 +540,7 @@ e3ffw_3DMF_attributeset_traverse(TQ3Object theSet,
 					break;
 				default:
 					subObject = ( (E3Set*) theSet )->FindElement ( classType ) ;
-					if(subObject != NULL)
+					if(subObject != nullptr)
 						qd3dstatus = Q3Object_Submit (subObject, view);
 					break;
 			}	// end switch
@@ -735,7 +735,7 @@ e3ffw_3DMF_shader_traverse(TQ3Object object,
 	
 	TQ3XObjectClass	theClass = Q3XObjectHierarchy_FindClassByType (kQ3ShapeTypeShader);
 	
-	if(theClass == NULL){
+	if(theClass == nullptr){
 		E3ErrorManager_PostWarning(kQ3WarningTypeHasNotBeenRegistered);
 		}
 	else{
@@ -757,7 +757,7 @@ e3ffw_3DMF_shader_traverse(TQ3Object object,
 		if((uBoundary != kQ3ShaderUVBoundaryWrap) || (vBoundary != kQ3ShaderUVBoundaryWrap)){
 		
 			boundaries = (TQ3Uns32*)Q3Memory_Allocate (8);
-			if(boundaries == NULL)
+			if(boundaries == nullptr)
 				return kQ3Failure;
 				
 			boundaries[0] = (TQ3Uns32)uBoundary;
@@ -779,12 +779,12 @@ e3ffw_3DMF_shader_traverse(TQ3Object object,
 
 	theClass = Q3XObjectHierarchy_FindClassByType (kQ3ObjectTypeShaderUVTransform);
 	
-	if(theClass == NULL){
+	if(theClass == nullptr){
 		E3ErrorManager_PostWarning(kQ3WarningTypeHasNotBeenRegistered);
 		}
 	else{
 		uvTransform = (TQ3Matrix3x3*)Q3Memory_Allocate (sizeof(TQ3Matrix3x3));
-		if(uvTransform == NULL)
+		if(uvTransform == nullptr)
 			return kQ3Failure;
 			
 		qd3dstatus = Q3Shader_GetUVTransform (object, uvTransform);
@@ -817,7 +817,7 @@ e3ffw_3DMF_illumination_traverse(TQ3Object object,
 {
 	#pragma unused(object, data)
 	
-	TQ3Status qd3dstatus = Q3XView_SubmitWriteData (view, 0, NULL, NULL);
+	TQ3Status qd3dstatus = Q3XView_SubmitWriteData (view, 0, nullptr, nullptr);
 	
 	return qd3dstatus;
 }
@@ -837,16 +837,16 @@ e3ffw_3DMF_shader_texture_traverse(TQ3Object object,
 {	
 	TQ3Status qd3dstatus = kQ3Success;
 	
-	if(data == NULL || *data == NULL){
+	if(data == nullptr || *data == nullptr){
 		E3ErrorManager_PostWarning(kQ3WarningInvalidSubObjectForObject);
 		return qd3dstatus;
 		}
 	
-	qd3dstatus = Q3XView_SubmitWriteData (view, 0, NULL, NULL);
+	qd3dstatus = Q3XView_SubmitWriteData (view, 0, nullptr, nullptr);
 	if(qd3dstatus != kQ3Success)
 		return qd3dstatus;
 	
-	qd3dstatus = e3ffw_3DMF_shader_traverse (object, NULL, view);
+	qd3dstatus = e3ffw_3DMF_shader_traverse (object, nullptr, view);
 	if(qd3dstatus != kQ3Success)
 		return qd3dstatus;
 	
@@ -890,7 +890,7 @@ e3ffw_3DMF_pixmap_traverse(TQ3Object object,
 
 	TQ3Size size;
 	
-	if(data == NULL || data->image == NULL){
+	if(data == nullptr || data->image == nullptr){
 		E3ErrorManager_PostWarning(kQ3WarningInvalidSubObjectForObject);
 		return qd3dstatus;
 		}
@@ -899,7 +899,7 @@ e3ffw_3DMF_pixmap_traverse(TQ3Object object,
 	
 	size = Q3Size_Pad(size);
 	
-	qd3dstatus = Q3XView_SubmitWriteData (view, size, data, NULL);
+	qd3dstatus = Q3XView_SubmitWriteData (view, size, data, nullptr);
 	
 	
 	return(qd3dstatus);
@@ -979,7 +979,7 @@ e3ffw_3DMF_mipmap_traverse(TQ3Object object,
 
 	TQ3Size size;
 	
-	if(data == NULL || data->image == NULL){
+	if(data == nullptr || data->image == nullptr){
 		E3ErrorManager_PostWarning(kQ3WarningInvalidSubObjectForObject);
 		return qd3dstatus;
 		}
@@ -993,7 +993,7 @@ e3ffw_3DMF_mipmap_traverse(TQ3Object object,
 	
 	size = Q3Size_Pad(size);
 	
-	qd3dstatus = Q3XView_SubmitWriteData (view, size, data, NULL);
+	qd3dstatus = Q3XView_SubmitWriteData (view, size, data, nullptr);
 	
 	
 	return (qd3dstatus);
@@ -1077,9 +1077,9 @@ e3ffw_3DMF_subdivision_traverse( TQ3Object object,
 	TQ3Status	status;
 	
 	if (styleData->method == kQ3SubdivisionMethodConstant)
-		status = Q3XView_SubmitWriteData( view, 12, data, NULL );
+		status = Q3XView_SubmitWriteData( view, 12, data, nullptr );
 	else
-		status = Q3XView_SubmitWriteData( view, 8, data, NULL );
+		status = Q3XView_SubmitWriteData( view, 8, data, nullptr );
 	
 	return status;
 }
@@ -1130,7 +1130,7 @@ e3ffw_3DMF_antialias_traverse( TQ3Object object,
 #pragma unused( object )
 	TQ3Status	status;
 
-	status = Q3XView_SubmitWriteData( view, 12, data, NULL );
+	status = Q3XView_SubmitWriteData( view, 12, data, nullptr );
 	
 	return status;
 }
@@ -1177,7 +1177,7 @@ e3ffw_3DMF_fog_traverse( TQ3Object object,
 #pragma unused( object )
 	TQ3Status	status;
 
-	status = Q3XView_SubmitWriteData( view, 36, data, NULL );
+	status = Q3XView_SubmitWriteData( view, 36, data, nullptr );
 	
 	return status;
 }
@@ -1237,7 +1237,7 @@ e3ffw_3DMF_simplestyle_traverse( TQ3Object object,
 #pragma unused( object )
 	TQ3Status	status;
 	
-	status = Q3XView_SubmitWriteData( view, 4, data, NULL );
+	status = Q3XView_SubmitWriteData( view, 4, data, nullptr );
 	
 	return status;
 }
@@ -1273,9 +1273,9 @@ e3ffw_3DMF_highlight_traverse( TQ3Object object,
 #pragma unused( object )
 	TQ3Status	status;
 	
-	status = Q3XView_SubmitWriteData( view, 0, data, NULL );
+	status = Q3XView_SubmitWriteData( view, 0, data, nullptr );
 	
-	if ( (status == kQ3Success) && (*data != NULL) )
+	if ( (status == kQ3Success) && (*data != nullptr) )
 		status = Q3Object_Submit( *data, view );
 	
 	return status;
@@ -1298,14 +1298,14 @@ e3ffw_3DMF_triangle_traverse(TQ3Object object,
 {
 	#pragma unused(object)
 	
-	TQ3Object attributeList = NULL;
+	TQ3Object attributeList = nullptr;
 	TQ3Uns32 i;
 	TQ3Status qd3dstatus;
 	
-	qd3dstatus = Q3XView_SubmitWriteData (view, 36, (void*)data, NULL);
+	qd3dstatus = Q3XView_SubmitWriteData (view, 36, (void*)data, nullptr);
 	
 	for(i=0;i < 3;i++){
-		if(data->vertices[i].attributeSet != NULL){
+		if(data->vertices[i].attributeSet != nullptr){
 			attributeList = E3FFormat_3DMF_VertexAttributeSetList_New (3);
 			break;
 			}
@@ -1313,7 +1313,7 @@ e3ffw_3DMF_triangle_traverse(TQ3Object object,
 	
 	if(attributeList){
 		for(i=0;i < 3 && qd3dstatus == kQ3Success;i++){
-			if(data->vertices[i].attributeSet != NULL){
+			if(data->vertices[i].attributeSet != nullptr){
 				qd3dstatus = E3FFormat_3DMF_AttributeSetList_Set (attributeList, i, data->vertices[i].attributeSet);
 				}
 			}
@@ -1372,23 +1372,23 @@ e3ffw_3DMF_line_traverse(TQ3Object object,
 {
 	#pragma unused(object)
 	
-	TQ3Object attributeList = NULL;
+	TQ3Object attributeList = nullptr;
 	TQ3Uns32 i;
 	TQ3Status qd3dstatus;
 	
-	qd3dstatus = Q3XView_SubmitWriteData( view, 24, (void*)data, NULL );
+	qd3dstatus = Q3XView_SubmitWriteData( view, 24, (void*)data, nullptr );
 	
 	if ( (qd3dstatus == kQ3Success) &&
-		((data->vertices[0].attributeSet != NULL) || (data->vertices[1].attributeSet != NULL)) )
+		((data->vertices[0].attributeSet != nullptr) || (data->vertices[1].attributeSet != nullptr)) )
 	{
 		attributeList = E3FFormat_3DMF_VertexAttributeSetList_New(2);
 	}
 	
-	if (attributeList != NULL)
+	if (attributeList != nullptr)
 	{
 		for (i=0; i < 2 && qd3dstatus == kQ3Success; ++i)
 		{
-			if (data->vertices[i].attributeSet != NULL)
+			if (data->vertices[i].attributeSet != nullptr)
 			{
 				qd3dstatus = E3FFormat_3DMF_AttributeSetList_Set( attributeList, i, data->vertices[i].attributeSet );
 			}
@@ -1446,7 +1446,7 @@ e3ffw_3DMF_point_traverse(TQ3Object object,
 	
 	TQ3Status qd3dstatus;
 	
-	qd3dstatus = Q3XView_SubmitWriteData( view, 12, (void*)data, NULL );
+	qd3dstatus = Q3XView_SubmitWriteData( view, 12, (void*)data, nullptr );
 	
 
 	// Overall attribute set (don't write it unless it's nonempty)
@@ -1493,14 +1493,14 @@ e3ffw_3DMF_marker_traverse (	TQ3Object object ,
 
 	TQ3Status	status ;
 	
-	if ( data == NULL || data->bitmap.image == NULL )
+	if ( data == nullptr || data->bitmap.image == nullptr )
 		{
 		E3ErrorManager_PostWarning(kQ3WarningInvalidSubObjectForObject);
 		return kQ3Failure;
 		}
 		
 	status = Q3XView_SubmitWriteData ( view ,
-		Q3Size_Pad ( 36 + data->bitmap.rowBytes * data->bitmap.height )  , (void*) data , NULL ) ;
+		Q3Size_Pad ( 36 + data->bitmap.rowBytes * data->bitmap.height )  , (void*) data , nullptr ) ;
 	
 	// Overall attribute set (don't write it unless it's nonempty)
 	if ( status == kQ3Success )
@@ -1566,14 +1566,14 @@ e3ffw_3DMF_pixmapmarker_traverse (	TQ3Object object ,
 
 	TQ3Status	status ;
 	
-	if ( data == NULL || data->pixmap.image == NULL )
+	if ( data == nullptr || data->pixmap.image == nullptr )
 		{
 		E3ErrorManager_PostWarning(kQ3WarningInvalidSubObjectForObject);
 		return kQ3Failure;
 		}
 		
 	status = Q3XView_SubmitWriteData ( view ,
-		Q3Size_Pad ( 48 + data->pixmap.rowBytes * data->pixmap.height ) , (void*) data , NULL ) ;
+		Q3Size_Pad ( 48 + data->pixmap.rowBytes * data->pixmap.height ) , (void*) data , nullptr ) ;
 	
 	// Overall attribute set (don't write it unless it's nonempty)
 	if ( status == kQ3Success )
@@ -1624,11 +1624,11 @@ e3ffw_3DMF_box_traverse( TQ3Object object,
 #pragma unused( object )
 	TQ3Status	status;
 	TQ3Uns32 i;
-	TQ3Object attributeList = NULL;
+	TQ3Object attributeList = nullptr;
 	
-	status = Q3XView_SubmitWriteData( view, 48, (void*)data, NULL );
+	status = Q3XView_SubmitWriteData( view, 48, (void*)data, nullptr );
 	
-	if ( (status == kQ3Success) && (data->faceAttributeSet != NULL) )
+	if ( (status == kQ3Success) && (data->faceAttributeSet != nullptr) )
 		{
 		
 		attributeList = E3FFormat_3DMF_FaceAttributeSetList_New (6);
@@ -1636,7 +1636,7 @@ e3ffw_3DMF_box_traverse( TQ3Object object,
 		if(attributeList){
 		
 			for(i=0;i < 6 && status == kQ3Success;i++){
-				if(data->faceAttributeSet[i] != NULL){
+				if(data->faceAttributeSet[i] != nullptr){
 					status = E3FFormat_3DMF_AttributeSetList_Set (attributeList, i, data->faceAttributeSet[i]);
 					}
 				}
@@ -1701,7 +1701,7 @@ e3ffw_3DMF_generalpolygon_traverse( TQ3Object object,
 #pragma unused( object )
 	TQ3Status			status;
 	TQ3Uns32 			i, j, totalVertices = 0;
-	TQ3Object 			attributeList = NULL;
+	TQ3Object 			attributeList = nullptr;
 	TQ3XObjectClass		theClass;
 
 	for(j = 0; j < data->numContours; j++)
@@ -1709,14 +1709,14 @@ e3ffw_3DMF_generalpolygon_traverse( TQ3Object object,
 		totalVertices += data->contours[j].numVertices;
 		}
 	
-	status = Q3XView_SubmitWriteData( view, 4 + (4 * data->numContours) + (12 * totalVertices), (void*)data, NULL );
+	status = Q3XView_SubmitWriteData( view, 4 + (4 * data->numContours) + (12 * totalVertices), (void*)data, nullptr );
 	
 	if (status == kQ3Success && data->shapeHint != kQ3GeneralPolygonShapeHintComplex)
 		{
 		theClass = Q3XObjectHierarchy_FindClassByType( kQ3ObjectTypeGeneralPolygonHint );
-		Q3_REQUIRE_OR_RESULT( theClass != NULL, kQ3Failure );
+		Q3_REQUIRE_OR_RESULT( theClass != nullptr, kQ3Failure );
 
-		status = Q3XView_SubmitSubObjectData (view, theClass, 4, &data->shapeHint, NULL);
+		status = Q3XView_SubmitSubObjectData (view, theClass, 4, &data->shapeHint, nullptr);
 		}
 	
 	if (status == kQ3Success)
@@ -1730,7 +1730,7 @@ e3ffw_3DMF_generalpolygon_traverse( TQ3Object object,
 		
 			for(j = 0; j < data->numContours; j++)
 				for(i = 0; i< data->contours[j].numVertices; i++){
-					if(data->contours[j].vertices[i].attributeSet != NULL){
+					if(data->contours[j].vertices[i].attributeSet != nullptr){
 						status = E3FFormat_3DMF_AttributeSetList_Set (attributeList, totalVertices, data->contours[j].vertices[i].attributeSet);
 						}
 					totalVertices++;
@@ -1812,12 +1812,12 @@ e3ffw_3DMF_mesh_traverse( TQ3Object mesh,
 	TQ3MeshData*		meshData;
 	TQ3Uns32 			meshSize;
 	TQ3Uns32 			i,j;
-	TQ3Object 			subobject = NULL;
+	TQ3Object 			subobject = nullptr;
 	TQ3Status			status;
 	
 	meshData = (TQ3MeshData*) Q3Memory_Allocate(sizeof(TQ3MeshData));
 	
-	if(meshData == NULL)
+	if(meshData == nullptr)
 		return kQ3Failure;
 	
 	if(Q3Mesh_GetData(mesh, meshData) == kQ3Failure)
@@ -1852,7 +1852,7 @@ e3ffw_3DMF_mesh_traverse( TQ3Object mesh,
 		
 			for(i = 0; i < meshData->numVertices && status == kQ3Success; i++)
 				{
-				if(meshData->vertices[i].attributeSet != NULL){
+				if(meshData->vertices[i].attributeSet != nullptr){
 					status = E3FFormat_3DMF_AttributeSetList_Set (subobject, i, meshData->vertices[i].attributeSet);
 					}
 				}
@@ -1879,7 +1879,7 @@ e3ffw_3DMF_mesh_traverse( TQ3Object mesh,
 		
 			for(i = 0; i < meshData->numFaces && status == kQ3Success; i++)
 				{
-				if(meshData->faces[i].faceAttributeSet != NULL){
+				if(meshData->faces[i].faceAttributeSet != nullptr){
 					status = E3FFormat_3DMF_AttributeSetList_Set (subobject, i, meshData->faces[i].faceAttributeSet);
 					}
 				}
@@ -2013,7 +2013,7 @@ e3ffw_3DMF_NURBpatch_traverse ( TQ3Object object ,
 		static_cast<TQ3Uns32>(sizeof ( TQ3Uns32 ) * 4 +
 		sizeof ( TQ3RationalPoint4D ) * data->numRows * data->numColumns +
 		sizeof ( float ) * ( data->numRows + data->uOrder ) +
-		sizeof ( float ) * ( data->numColumns + data->vOrder )), (void*) data , NULL );
+		sizeof ( float ) * ( data->numColumns + data->vOrder )), (void*) data , nullptr );
 	
 	// Overall attribute set (don't write it unless it's nonempty)
 	if ( status == kQ3Success )
@@ -2085,28 +2085,28 @@ e3ffw_3DMF_polygon_traverse(TQ3Object object,
 	#pragma unused(object)
 	
 	TQ3Status qd3dstatus;
-	TQ3Object attributeList = NULL;
+	TQ3Object attributeList = nullptr;
 	TQ3Uns32 i;
 	
-	qd3dstatus = Q3XView_SubmitWriteData( view, static_cast<TQ3Uns32>(sizeof(TQ3Uns32) + data->numVertices*sizeof(TQ3Point3D)), (void*)data, NULL );
+	qd3dstatus = Q3XView_SubmitWriteData( view, static_cast<TQ3Uns32>(sizeof(TQ3Uns32) + data->numVertices*sizeof(TQ3Point3D)), (void*)data, nullptr );
 
 
 
 	// attribute set list for vertices
 	for (i = 0; (i < data->numVertices) && (qd3dstatus == kQ3Success); ++i)
 	{
-		if (data->vertices[i].attributeSet != NULL)
+		if (data->vertices[i].attributeSet != nullptr)
 		{
 			attributeList = E3FFormat_3DMF_VertexAttributeSetList_New(  data->numVertices );
 			break;
 		}
 	}
 	
-	if (attributeList != NULL)
+	if (attributeList != nullptr)
 	{
 		for (i = 0; (i < data->numVertices) && (qd3dstatus == kQ3Success); ++i)
 		{
-			if (data->vertices[i].attributeSet != NULL)
+			if (data->vertices[i].attributeSet != nullptr)
 			{
 				qd3dstatus = E3FFormat_3DMF_AttributeSetList_Set( attributeList, i, data->vertices[i].attributeSet );
 			}
@@ -2167,29 +2167,29 @@ e3ffw_3DMF_polyline_traverse(TQ3Object object,
 	#pragma unused(object)
 	
 	TQ3Status qd3dstatus;
-	TQ3Object attributeList = NULL;
+	TQ3Object attributeList = nullptr;
 	TQ3Uns32 i;
 	
-	qd3dstatus = Q3XView_SubmitWriteData( view, static_cast<TQ3Uns32>(sizeof(TQ3Uns32) + data->numVertices*sizeof(TQ3Point3D)), (void*)data, NULL );
+	qd3dstatus = Q3XView_SubmitWriteData( view, static_cast<TQ3Uns32>(sizeof(TQ3Uns32) + data->numVertices*sizeof(TQ3Point3D)), (void*)data, nullptr );
 	
 	
 	// attribute set list for segments
-	if ( (qd3dstatus == kQ3Success) && (data->segmentAttributeSet != NULL) )
+	if ( (qd3dstatus == kQ3Success) && (data->segmentAttributeSet != nullptr) )
 	{
 		for (i = 0; (i < data->numVertices - 1) && (qd3dstatus == kQ3Success); ++i)
 		{
-			if (data->segmentAttributeSet[i] != NULL)
+			if (data->segmentAttributeSet[i] != nullptr)
 			{
 				attributeList = E3FFormat_3DMF_GeomAttributeSetList_New(  data->numVertices - 1 );
 				break;
 			}
 		}
 		
-		if (attributeList != NULL)
+		if (attributeList != nullptr)
 		{
 			for (i = 0; (i < data->numVertices - 1) && (qd3dstatus == kQ3Success); ++i)
 			{
-				if (data->segmentAttributeSet[i] != NULL)
+				if (data->segmentAttributeSet[i] != nullptr)
 				{
 					qd3dstatus = E3FFormat_3DMF_AttributeSetList_Set( attributeList, i, data->segmentAttributeSet[i] );
 				}
@@ -2205,18 +2205,18 @@ e3ffw_3DMF_polyline_traverse(TQ3Object object,
 	// attribute set list for vertices
 	for (i = 0; (i < data->numVertices) && (qd3dstatus == kQ3Success); ++i)
 	{
-		if (data->vertices[i].attributeSet != NULL)
+		if (data->vertices[i].attributeSet != nullptr)
 		{
 			attributeList = E3FFormat_3DMF_VertexAttributeSetList_New(  data->numVertices );
 			break;
 		}
 	}
 	
-	if (attributeList != NULL)
+	if (attributeList != nullptr)
 	{
 		for (i = 0; (i < data->numVertices) && (qd3dstatus == kQ3Success); ++i)
 		{
-			if (data->vertices[i].attributeSet != NULL)
+			if (data->vertices[i].attributeSet != nullptr)
 			{
 				qd3dstatus = E3FFormat_3DMF_AttributeSetList_Set( attributeList, i, data->vertices[i].attributeSet );
 			}
@@ -2277,14 +2277,14 @@ e3ffw_3DMF_trigrid_traverse( TQ3Object object,
 #pragma unused( object )
 	TQ3Status	status;
 	TQ3Uns32 i;
-	TQ3Object attributeList = NULL;
+	TQ3Object attributeList = nullptr;
 	
 	TQ3Uns32 numFacets = 2 * (data->numRows - 1) * (data->numColumns - 1);
 	TQ3Uns32 numVertices = data->numRows * data->numColumns;
 
-	status = Q3XView_SubmitWriteData( view, 8 + (numVertices * 12), (void*)data, NULL );
+	status = Q3XView_SubmitWriteData( view, 8 + (numVertices * 12), (void*)data, nullptr );
 	
-	if ( (status == kQ3Success) && (data->facetAttributeSet != NULL) )
+	if ( (status == kQ3Success) && (data->facetAttributeSet != nullptr) )
 		{
 		
 		attributeList = E3FFormat_3DMF_FaceAttributeSetList_New (numFacets);
@@ -2292,7 +2292,7 @@ e3ffw_3DMF_trigrid_traverse( TQ3Object object,
 		if(attributeList){
 		
 			for(i=0;i < numFacets && status == kQ3Success;i++){
-				if(data->facetAttributeSet[i] != NULL){
+				if(data->facetAttributeSet[i] != nullptr){
 					status = E3FFormat_3DMF_AttributeSetList_Set (attributeList, i, data->facetAttributeSet[i]);
 					}
 				}
@@ -2317,7 +2317,7 @@ e3ffw_3DMF_trigrid_traverse( TQ3Object object,
 		if(attributeList){
 		
 			for(i=0;i < numVertices && status == kQ3Success;i++){
-				if(data->vertices[i].attributeSet != NULL){
+				if(data->vertices[i].attributeSet != nullptr){
 					status = E3FFormat_3DMF_AttributeSetList_Set (attributeList, i, data->vertices[i].attributeSet);
 					}
 				}
@@ -2390,41 +2390,41 @@ e3ffw_3DMF_cone_traverse( TQ3Object object,
 	TQ3XObjectClass	theClass;
 	TQ3Uns32*	capData;
 	
-	status = Q3XView_SubmitWriteData( view, 64, (void*)data, NULL );
+	status = Q3XView_SubmitWriteData( view, 64, (void*)data, nullptr );
 	
 	// Optional caps flag
 	if ( (status == kQ3Success) && (data->caps != kQ3EndCapNone) )
 	{
 		capData = (TQ3Uns32*)Q3Memory_Allocate( sizeof(TQ3Uns32) );
-		Q3_REQUIRE_OR_RESULT( capData != NULL, kQ3Failure );
+		Q3_REQUIRE_OR_RESULT( capData != nullptr, kQ3Failure );
 		*capData = data->caps;
 		theClass = Q3XObjectHierarchy_FindClassByType( kQ3ObjectTypeGeometryCaps );
-		Q3_REQUIRE_OR_RESULT( theClass != NULL, kQ3Failure );
+		Q3_REQUIRE_OR_RESULT( theClass != nullptr, kQ3Failure );
 		
 		status = Q3XView_SubmitSubObjectData( view, theClass, 4, capData,
 			E3FFW_3DMF_Default_Delete );
 	}
 	
 	// optional face cap attribute set
-	if ( (status == kQ3Success) && (data->faceAttributeSet != NULL) )
+	if ( (status == kQ3Success) && (data->faceAttributeSet != nullptr) )
 	{
-		status = E3FileFormat_Method_SubmitObject( view, NULL,
+		status = E3FileFormat_Method_SubmitObject( view, nullptr,
 			kQ3AttributeSetTypeFaceCap, data->faceAttributeSet );
 	}
 	
 	// optional bottom cap attribute set
-	if ( (status == kQ3Success) && (data->bottomAttributeSet != NULL) &&
+	if ( (status == kQ3Success) && (data->bottomAttributeSet != nullptr) &&
 		((data->caps & kQ3EndCapMaskBottom) != 0) )
 	{
-		status = E3FileFormat_Method_SubmitObject( view, NULL,
+		status = E3FileFormat_Method_SubmitObject( view, nullptr,
 			kQ3AttributeSetTypeBottomCap, data->bottomAttributeSet );
 	}
 	
 	// optional interior cap attribute set
-	if ( (status == kQ3Success) && (data->interiorAttributeSet != NULL) &&
+	if ( (status == kQ3Success) && (data->interiorAttributeSet != nullptr) &&
 		((data->caps & kQ3EndCapMaskInterior) != 0) )
 	{
-		status = E3FileFormat_Method_SubmitObject( view, NULL,
+		status = E3FileFormat_Method_SubmitObject( view, nullptr,
 			kQ3AttributeSetTypeInteriorCap, data->interiorAttributeSet );
 	}
 	
@@ -2492,49 +2492,49 @@ e3ffw_3DMF_cylinder_traverse( TQ3Object object,
 	TQ3XObjectClass	theClass;
 	TQ3Uns32*	capData;
 	
-	status = Q3XView_SubmitWriteData( view, 64, (void*)data, NULL );
+	status = Q3XView_SubmitWriteData( view, 64, (void*)data, nullptr );
 	
 	// Optional caps flag
 	if ( (status == kQ3Success) && (data->caps != kQ3EndCapNone) )
 	{
 		capData = (TQ3Uns32*)Q3Memory_Allocate( sizeof(TQ3Uns32) );
-		Q3_REQUIRE_OR_RESULT( capData != NULL, kQ3Failure );
+		Q3_REQUIRE_OR_RESULT( capData != nullptr, kQ3Failure );
 		*capData = data->caps;
 		theClass = Q3XObjectHierarchy_FindClassByType( kQ3ObjectTypeGeometryCaps );
-		Q3_REQUIRE_OR_RESULT( theClass != NULL, kQ3Failure );
+		Q3_REQUIRE_OR_RESULT( theClass != nullptr, kQ3Failure );
 		
 		status = Q3XView_SubmitSubObjectData( view, theClass, 4, capData,
 			E3FFW_3DMF_Default_Delete );
 	}
 	
 	// optional face cap attribute set
-	if ( (status == kQ3Success) && (data->faceAttributeSet != NULL) )
+	if ( (status == kQ3Success) && (data->faceAttributeSet != nullptr) )
 	{
-		status = E3FileFormat_Method_SubmitObject( view, NULL,
+		status = E3FileFormat_Method_SubmitObject( view, nullptr,
 			kQ3AttributeSetTypeFaceCap, data->faceAttributeSet );
 	}
 	
 	// optional bottom cap attribute set
-	if ( (status == kQ3Success) && (data->bottomAttributeSet != NULL) &&
+	if ( (status == kQ3Success) && (data->bottomAttributeSet != nullptr) &&
 		((data->caps & kQ3EndCapMaskBottom) != 0) )
 	{
-		status = E3FileFormat_Method_SubmitObject( view, NULL,
+		status = E3FileFormat_Method_SubmitObject( view, nullptr,
 			kQ3AttributeSetTypeBottomCap, data->bottomAttributeSet );
 	}
 	
 	// optional top cap attribute set
-	if ( (status == kQ3Success) && (data->topAttributeSet != NULL) &&
+	if ( (status == kQ3Success) && (data->topAttributeSet != nullptr) &&
 		((data->caps & kQ3EndCapMaskTop) != 0) )
 	{
-		status = E3FileFormat_Method_SubmitObject( view, NULL,
+		status = E3FileFormat_Method_SubmitObject( view, nullptr,
 			kQ3AttributeSetTypeTopCap, data->topAttributeSet );
 	}
 	
 	// optional interior cap attribute set
-	if ( (status == kQ3Success) && (data->interiorAttributeSet != NULL) &&
+	if ( (status == kQ3Success) && (data->interiorAttributeSet != nullptr) &&
 		((data->caps & kQ3EndCapMaskInterior) != 0) )
 	{
-		status = E3FileFormat_Method_SubmitObject( view, NULL,
+		status = E3FileFormat_Method_SubmitObject( view, nullptr,
 			kQ3AttributeSetTypeInteriorCap, data->interiorAttributeSet );
 	}
 	
@@ -2598,7 +2598,7 @@ e3ffw_3DMF_disk_traverse( TQ3Object object,
 #pragma unused( object )
 	TQ3Status	status;
 	
-	status = Q3XView_SubmitWriteData( view, 52, (void*)data, NULL );
+	status = Q3XView_SubmitWriteData( view, 52, (void*)data, nullptr );
 
 
 	// Overall attribute set (don't write it unless it's nonempty)
@@ -2661,7 +2661,7 @@ e3ffw_3DMF_ellipse_traverse(TQ3Object object,
 	#pragma unused(object)
 	TQ3Status	status;
 	
-	status = Q3XView_SubmitWriteData( view, 44, (void*)data, NULL );
+	status = Q3XView_SubmitWriteData( view, 44, (void*)data, nullptr );
 
 
 	// Overall attribute set (don't write it unless it's nonempty)
@@ -2721,27 +2721,27 @@ e3ffw_3DMF_ellipsoid_traverse( TQ3Object object,
 #pragma unused( object )
 	TQ3Status	status;
 	
-	status = Q3XView_SubmitWriteData( view, 64, (void*)data, NULL );
+	status = Q3XView_SubmitWriteData( view, 64, (void*)data, nullptr );
 	
 
 	// Optional caps flag
 	if ( (status == kQ3Success) && (data->caps != kQ3EndCapNone) )
 	{
 		TQ3Uns32*	capData = (TQ3Uns32*)Q3Memory_Allocate( sizeof(TQ3Uns32) );
-		Q3_REQUIRE_OR_RESULT( capData != NULL, kQ3Failure );
+		Q3_REQUIRE_OR_RESULT( capData != nullptr, kQ3Failure );
 		*capData = data->caps;
 		TQ3XObjectClass	theClass = Q3XObjectHierarchy_FindClassByType( kQ3ObjectTypeGeometryCaps );
-		Q3_REQUIRE_OR_RESULT( theClass != NULL, kQ3Failure );
+		Q3_REQUIRE_OR_RESULT( theClass != nullptr, kQ3Failure );
 		
 		status = Q3XView_SubmitSubObjectData( view, theClass, 4, capData,
 			E3FFW_3DMF_Default_Delete );
 	}
 
 	// optional interior cap attribute set
-	if ( (status == kQ3Success) && (data->interiorAttributeSet != NULL) &&
+	if ( (status == kQ3Success) && (data->interiorAttributeSet != nullptr) &&
 		(data->caps != 0) )
 	{
-		status = E3FileFormat_Method_SubmitObject( view, NULL,
+		status = E3FileFormat_Method_SubmitObject( view, nullptr,
 			kQ3AttributeSetTypeInteriorCap, data->interiorAttributeSet );
 	}
 
@@ -2815,27 +2815,27 @@ e3ffw_3DMF_torus_traverse( TQ3Object object,
 #pragma unused( object )
 	TQ3Status	status;
 	
-	status = Q3XView_SubmitWriteData( view, 68, (void*)data, NULL );
+	status = Q3XView_SubmitWriteData( view, 68, (void*)data, nullptr );
 	
 
 	// Optional caps flag
 	if ( (status == kQ3Success) && (data->caps != kQ3EndCapNone) )
 	{
 		TQ3Uns32*	capData = (TQ3Uns32*)Q3Memory_Allocate( sizeof(TQ3Uns32) );
-		Q3_REQUIRE_OR_RESULT( capData != NULL, kQ3Failure );
+		Q3_REQUIRE_OR_RESULT( capData != nullptr, kQ3Failure );
 		*capData = data->caps;
 		TQ3XObjectClass	theClass = Q3XObjectHierarchy_FindClassByType( kQ3ObjectTypeGeometryCaps );
-		Q3_REQUIRE_OR_RESULT( theClass != NULL, kQ3Failure );
+		Q3_REQUIRE_OR_RESULT( theClass != nullptr, kQ3Failure );
 		
 		status = Q3XView_SubmitSubObjectData( view, theClass, 4, capData,
 			E3FFW_3DMF_Default_Delete );
 	}
 
 	// optional interior cap attribute set
-	if ( (status == kQ3Success) && (data->interiorAttributeSet != NULL) &&
+	if ( (status == kQ3Success) && (data->interiorAttributeSet != nullptr) &&
 		(data->caps != 0) )
 	{
-		status = E3FileFormat_Method_SubmitObject( view, NULL,
+		status = E3FileFormat_Method_SubmitObject( view, nullptr,
 			kQ3AttributeSetTypeInteriorCap, data->interiorAttributeSet );
 	}
 
@@ -2946,7 +2946,7 @@ e3ffw_3DMF_submit_tm_attarray( TQ3ViewObject view,
 {
 	TQ3Status	status = kQ3Success;
 	TQ3Uns32	size;
-	TQ3TriMeshAttributeData*	theArray = NULL;
+	TQ3TriMeshAttributeData*	theArray = nullptr;
 	TQ3TriMeshAttributeData*	theAttData;
 	TQ3Uns32	arraySize = 0;
 	TQ3Uns32	attrSize;
@@ -2954,7 +2954,7 @@ e3ffw_3DMF_submit_tm_attarray( TQ3ViewObject view,
 	TE3FFormat3DMF_AttributeArray_Data*	objectData;
 	TQ3Uns32	i;
 	TQ3ObjectType		attClassType;
-	E3ClassInfoPtr 		theClass = NULL;
+	E3ClassInfoPtr 		theClass = nullptr;
 	TQ3Uns8*	attRawData;
 	
 	switch (inWhichArray)
@@ -2989,17 +2989,17 @@ e3ffw_3DMF_submit_tm_attarray( TQ3ViewObject view,
 		size += arraySize * attrSize;
 	}
 	else if ( (theAttData->attributeType < 0) &&
-		(theAttData->attributeUseArray != NULL) )
+		(theAttData->attributeUseArray != nullptr) )
 	{
 		size += arraySize;
 	}
 	
 	attrArrayClass = Q3XObjectHierarchy_FindClassByType( kQ3ObjectTypeAttributeArray );
-	Q3_REQUIRE_OR_RESULT( attrArrayClass != NULL, kQ3Failure );
+	Q3_REQUIRE_OR_RESULT( attrArrayClass != nullptr, kQ3Failure );
 	
 	objectData = (TE3FFormat3DMF_AttributeArray_Data*)
 		Q3Memory_Allocate( sizeof(TE3FFormat3DMF_AttributeArray_Data) );
-	Q3_REQUIRE_OR_RESULT( objectData != NULL, kQ3Failure );
+	Q3_REQUIRE_OR_RESULT( objectData != nullptr, kQ3Failure );
 
 	objectData->attributeData = theAttData;
 	objectData->whichArray = inWhichArray;
@@ -3017,16 +3017,16 @@ e3ffw_3DMF_submit_tm_attarray( TQ3ViewObject view,
 		(theAttData->attributeType == kQ3AttributeTypeSurfaceShader) )
 	{
 		theClass = E3ClassTree::GetClass ( attClassType ) ;
-		Q3_REQUIRE_OR_RESULT( theClass != NULL, kQ3Failure );
+		Q3_REQUIRE_OR_RESULT( theClass != nullptr, kQ3Failure );
 		attRawData = (TQ3Uns8*) theAttData->data;
 		
 		for (i = 0; (status == kQ3Success) && (i < arraySize); ++i)
 		{
-			if ( (theAttData->attributeUseArray == NULL) ||
+			if ( (theAttData->attributeUseArray == nullptr) ||
 				(theAttData->attributeUseArray[i] != 0) )
 			{
 				status = Q3XView_SubmitSubObjectData( view, (TQ3XObjectClass)theClass,
-					attrSize, attRawData, NULL );
+					attrSize, attRawData, nullptr );
 				
 				attRawData += attrSize;
 			}
@@ -3075,7 +3075,7 @@ e3ffw_3DMF_trimesh_traverse(TQ3Object object,
 		// bounding box
 	size += Q3Size_Pad( sizeof(TQ3BoundingBox) );
 	
-	qd3dstatus = Q3XView_SubmitWriteData (view, size, (void*)data, NULL);
+	qd3dstatus = Q3XView_SubmitWriteData (view, size, (void*)data, nullptr);
 	
 	// Attribute array subobjects
 	

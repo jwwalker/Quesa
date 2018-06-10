@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
     "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
-<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a[name]:hover {text-decoration: inherit; font-family: inherit; font-size: inherit}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
     <title>Enumerations</title>
 	 <meta name="generator" content="HeaderDoc">
 </head><body bgcolor="#ffffff">
@@ -46,19 +46,22 @@ preferences.
 <blockquote><pre>
 enum
 {
-  kQ3RendererPropertyAutomaticTriangleStrips  = Q3_OBJECT_TYPE('a', 't', 'r', 's'),
-  kQ3RendererPropertyPerPixelLighting      = Q3_OBJECT_TYPE('p', 'p', 'x', 'l'),
+  kQ3RendererPropertyAutomaticTriangleStrips      = Q3_OBJECT_TYPE('a', 't', 'r', 's'),
+  kQ3RendererPropertyPerPixelLighting             = Q3_OBJECT_TYPE('p', 'p', 'x', 'l'),
   kQ3RendererPropertyConvertToPremultipliedAlpha  = Q3_OBJECT_TYPE('c', 'p', 'm', 'a'),
-  kQ3RendererPropertyShadows          = Q3_OBJECT_TYPE('s', 'h', 'd', 'w'),
-  kQ3RendererPropertyAttenuationThreshold    = Q3_OBJECT_TYPE('s', 'h', 'a', 't'),
-  kQ3RendererPropertyLineWidth        = Q3_OBJECT_TYPE('l', 'n', 'w', 'h'),
-  kQ3RendererPropertyUseColor          = Q3_OBJECT_TYPE('u', 'c', 'l', 'r'),
-  kQ3RendererPropertyAllowVBOs        = Q3_OBJECT_TYPE('a', 'v', 'b', 'o'),
-  kQ3RendererPropertyAllowLineSmooth      = Q3_OBJECT_TYPE('a', 'l', 's', 'm'),
-  kQ3RendererPropertyQuantizePerPixelLight  = Q3_OBJECT_TYPE('p', 'p', 'x', 'q'),
-  kQ3RendererPropertyCartoonLightNearEdge    = Q3_OBJECT_TYPE('p', 'p', 'c', 'e'),
-  kQ3RendererPropertyPassType          = Q3_OBJECT_TYPE('r', 'p', 't', 'y'),
-  kQ3RendererPropertyDepthAlphaThreshold    = Q3_OBJECT_TYPE('d', 'p', 'a', 't')
+  kQ3RendererPropertyShadows                      = Q3_OBJECT_TYPE('s', 'h', 'd', 'w'),
+  kQ3RendererPropertyAttenuationThreshold         = Q3_OBJECT_TYPE('s', 'h', 'a', 't'),
+  kQ3RendererPropertyLineWidth                    = Q3_OBJECT_TYPE('l', 'n', 'w', 'h'),
+  kQ3RendererPropertyUseColor                     = Q3_OBJECT_TYPE('u', 'c', 'l', 'r'),
+  kQ3RendererPropertyAllowVBOs                    = Q3_OBJECT_TYPE('a', 'v', 'b', 'o'),
+  kQ3RendererPropertyVBOLimit                     = Q3_OBJECT_TYPE('v', 'b', 'o', 'l'),
+  kQ3RendererPropertyAllowLineSmooth              = Q3_OBJECT_TYPE('a', 'l', 's', 'm'),
+  kQ3RendererPropertyQuantizePerPixelLight        = Q3_OBJECT_TYPE('p', 'p', 'x', 'q'),
+  kQ3RendererPropertyCartoonLightNearEdge         = Q3_OBJECT_TYPE('p', 'p', 'c', 'e'),
+  kQ3RendererPropertyPassType                     = Q3_OBJECT_TYPE('r', 'p', 't', 'y'),
+  kQ3RendererPropertyDepthAlphaThreshold          = Q3_OBJECT_TYPE('d', 'p', 'a', 't'),
+  kQ3RendererPropertyShadowVBOLimit               = Q3_OBJECT_TYPE('s', 'h', 'v', 'l'),
+  kQ3RendererPropertyPrimitivesRenderedCount      = Q3_OBJECT_TYPE('p', 'r', 'n', 'c'),
 };
 </pre>
 </blockquote>
@@ -106,6 +109,13 @@ that the OpenGL driver claims to support them.  This could
 be used to disable VBO usage for buggy graphics drivers.
 Data type: TQ3Boolean.  Default value: kQ3True.
 <br><br></dd>
+<dt><a name="//Quesa/c/econst/kQ3RendererPropertyVBOLimit"><tt>kQ3RendererPropertyVBOLimit</tt></a></dt><dd>Maximum amount of video memory, in K, that may be used to
+cache rendering data in VBOs.
+When the cache becomes full, least recently used VBOs will
+be purged.
+<br><br>
+Data type: TQ3Uns32.	Default value: 51200 (50 megabytes).
+<br><br></dd>
 <dt><a name="//Quesa/c/econst/kQ3RendererPropertyAllowLineSmooth"><tt>kQ3RendererPropertyAllowLineSmooth</tt></a></dt><dd>Allow an OpenGL-based renderer to enable GL_LINE_SMOOTH.
 This may be used to disable line smoothing for buggy
 graphics drivers, such as some versions of Apple's software
@@ -144,7 +154,26 @@ you can make sufficiently opaque fragments (alpha greater
 than the given threshold) update the depth,
 at the expense of a little extra rendering time.
 <br><br>
-Data type: TQ3Float32.  Range: [0, 1].  Default value: 1.0.</dd>
+Data type: TQ3Float32.  Range: [0, 1].  Default value: 1.0.
+<br><br></dd>
+<dt><a name="//Quesa/c/econst/kQ3RendererPropertyShadowVBOLimit"><tt>kQ3RendererPropertyShadowVBOLimit</tt></a></dt><dd>If you are rendering shadows, and VBOs are available, you
+may choose to cache shadow volumes in VBOs.  This is not
+advisable in cases where all geometries (or all lights)
+change on every frame, as in some of the demo apps.  The
+value of the property is the maximum number of K-bytes of
+video memory that may be used for shadow volumes.  (For
+example, a 10 megabyte limit would be the value 10240.)
+When the cache becomes full, least recently used VBOs will
+be purged.
+<br><br>
+Data type: TQ3Uns32.  Range: [0, 4294967295].  Default: 0.
+<br><br></dd>
+<dt><a name="//Quesa/c/econst/kQ3RendererPropertyPrimitivesRenderedCount"><tt>kQ3RendererPropertyPrimitivesRenderedCount</tt></a></dt><dd>The renderer uses this property to report the cumulative number
+of primitives (triangles, lines, or points) rendered since
+the renderer was created.  Currently only supported by the OpenGL
+renderer.
+<br><br>
+Data type: TQ3Uns64.</dd>
 </dl>
 </blockquote>
 <hr><a name="//Quesa/c/tag/TQ3CSGEquation"></a>
@@ -468,5 +497,5 @@ enum {
 <br><br>
 The data for the attribute is a single TQ3CSGObjectID.
  </p>
-<p><p>&#169; 1999-2011 Quesa Developers (Last Updated 3/13/2011)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
 </p></body></html>

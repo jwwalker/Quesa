@@ -1093,7 +1093,7 @@ E3Vector3D_DotArray(
 	TQ3Uns32 i;
 
 	// Calculate the dot products
-	if (outDotProducts != NULL && outDotLessThanZeros != NULL)
+	if (outDotProducts != nullptr && outDotLessThanZeros != nullptr)
 	{
 		for (i = 0; i < numVectors; ++i)
 		{
@@ -1108,7 +1108,7 @@ E3Vector3D_DotArray(
 		}
 	}
 
-	else if (outDotProducts != NULL)
+	else if (outDotProducts != nullptr)
 	{
 		for (i = 0; i < numVectors; ++i)
 		{
@@ -1217,7 +1217,7 @@ E3Triangle_CrossProductArray(TQ3Uns32			numTriangles,
 
 
 	// Calculate the normals
-	if (usageFlags == NULL)
+	if (usageFlags == nullptr)
 		{
 		for (n = 0, m = 0; n < numTriangles; n++, m += 3)
 			{
@@ -1418,7 +1418,7 @@ E3Point3D_DistanceSquared(const TQ3Point3D *p1, const TQ3Point3D *p2)
 	@param		p			A point.
 	@param		box			A bounding box.
 	@param		outNearest	Receives the point of the bounding box that is
-							nearest to p.  You may pass NULL if you do not
+							nearest to p.  You may pass nullptr if you do not
 							need this information.
 	@result		The squared distance.
 */
@@ -1442,7 +1442,7 @@ E3Point3D_BoundingBox_DistanceSquared( const TQ3Point3D *p,
 		
 		theDistanceSq = Q3FastPoint3D_DistanceSquared( p, &nearest );
 		
-		if (outNearest != NULL)
+		if (outNearest != nullptr)
 		{
 			*outNearest = nearest;
 		}
@@ -4197,7 +4197,7 @@ E3Quaternion_InterpolateLinear(const TQ3Quaternion *q1, const TQ3Quaternion *q2,
 //      E3Quaternion_GetAxisAndAngle : Get the rotation axis and angle
 //				represented by a quaternion.
 //-----------------------------------------------------------------------------
-//		Note :	'outAxis' or 'outAngle' may be NULL.
+//		Note :	'outAxis' or 'outAngle' may be nullptr.
 //
 //				For correct results, |quaternion] == 1.
 //

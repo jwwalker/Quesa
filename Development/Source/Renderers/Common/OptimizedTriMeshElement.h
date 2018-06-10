@@ -63,16 +63,16 @@
 	
 				1. We have never recorded an optimized TriMesh on this TriMesh.
 				2. An optimized TriMesh has been set but is stale.
-				3. We recorded NULL as the optimized TriMesh, meaning that
+				3. We recorded nullptr as the optimized TriMesh, meaning that
 					the TriMesh was already optimized.
-				4. We recorded a non-NULL optimized TriMesh and it is up to
+				4. We recorded a non-nullptr optimized TriMesh and it is up to
 					date.
 				
 				The output parameter outWasValid is true in cases (3) and (4).
 	@param		inTriMesh		A TriMesh object.
 	@param		outWasValid		Receives true if the cache was set and is not
 								stale.
-	@result		A reference to an optimized TriMesh, or NULL.
+	@result		A reference to an optimized TriMesh, or nullptr.
 */
 CQ3ObjectRef	GetCachedOptimizedTriMesh( TQ3GeometryObject inTriMesh,
 											bool& outWasValid );

@@ -945,7 +945,7 @@ Q3File_SetStorage (
  *  @param theFile          The file object.
  *  @param mode             Receives a combination of TQ3FileModeMasks values if the file is a 3DMF file,
  *							otherway it receives the choosed file format signature.
- *                          Pass NULL if you don't need this information.
+ *                          Pass nullptr if you don't need this information.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -1154,7 +1154,7 @@ Q3File_IsNextObjectOfType (
  *      the typical usage of this function and any special requirements.
  *
  *  @param theFile          The file object.
- *  @result                 The new object, or NULL on failure.
+ *  @result                 The new object, or nullptr on failure.
  */
 Q3_EXTERN_API_C ( TQ3Object  )
 Q3File_ReadObject (
@@ -1750,16 +1750,16 @@ Q3Size_Pad (
  *		this function does not know the size of your buffer, it simply
  *		assumes that you have allocated <code>kQ3StringMaximumLength</code> bytes.
  *
- *      If you pass NULL for the buffer, <code>Q3String_Read</code> will still
+ *      If you pass nullptr for the buffer, <code>Q3String_Read</code> will still
  *		find the length of the string, but will leave the file object's position
  *		at the beginning of the string.
  *
  *		If it reads a string of length at least <code>kQ3StringMaximumLength</code>,
- *		and you have passed a non-NULL buffer, then Quesa will post the warning
+ *		and you have passed a non-nullptr buffer, then Quesa will post the warning
  *		<code>kQ3WarningStringExceedsMaximumLength</code>.
  *
  *  @param data             Buffer to receive string data, of size
- *							<code>kQ3StringMaximumLength</code>, or NULL.
+ *							<code>kQ3StringMaximumLength</code>, or nullptr.
  *  @param length           Receives length in bytes of string data that was read,
  *							not including the terminating NUL character.
  *  @param theFile          A file object.
@@ -1784,24 +1784,24 @@ Q3String_Read (
  *      limited to reading at most <code>kQ3StringMaximumLength</code> bytes. Note that
  *		the length parameter is an input-output parameter.
  *
- *      If you pass NULL for the buffer, <code>Q3String_ReadUnlimited</code> will still
+ *      If you pass nullptr for the buffer, <code>Q3String_ReadUnlimited</code> will still
  *		find the length of the string, but will leave the file object's position
  *		at the beginning of the string.  Therefore, you can read a string of
  *		unknown size as follows:
  *      
  *		<blockquote><pre><code>
- *		Q3String_Read( NULL, &stringSize, theFile );
+ *		Q3String_Read( nullptr, &stringSize, theFile );
  *		stringSize += 1;	// make room for terminal NUL byte
  *		buffer = Q3Memory_Allocate( stringSize );
  *		Q3String_Read( buffer, &stringSize, theFile );
  *		</code></pre></blockquote>
  *
- *		If you passed a non-NULL buffer that was not big enough for the whole string,
+ *		If you passed a non-nullptr buffer that was not big enough for the whole string,
  *		Quesa posts <code>kQ3WarningStringExceedsMaximumLength</code>.
  *
  *      <em>This function is not available in QD3D.</em>
  *
- *	@param	data			Buffer to receive string data, or NULL.
+ *	@param	data			Buffer to receive string data, or nullptr.
  *	@param	ioLength		Pass the size of your buffer.  Receives the number of
  *							bytes of string data found in the file, not including
  *							the terminal NUL byte, even if it did not all fit in the
@@ -2563,7 +2563,7 @@ Q3FileFormatClass_GetFormatNameString (
  *      for the current platform (e.g., the Registry on Windows or a .plist file on
  *      the Mac), tagging it with the file format's type for later identification.
  *
- *      If dataBuffer is NULL, the size of data required to store the configuration
+ *      If dataBuffer is nullptr, the size of data required to store the configuration
  *      data will be returned in actualDataSize.
  *
  *      Otherwise bufferSize should be set to the number of bytes pointed to by
@@ -2573,7 +2573,7 @@ Q3FileFormatClass_GetFormatNameString (
  *      <em>This function is not available in QD3D.</em>
  *
  *  @param format           The file format to query.
- *  @param dataBuffer       Receives the file format configuration data. May be NULL.
+ *  @param dataBuffer       Receives the file format configuration data. May be nullptr.
  *  @param bufferSize       The number of bytes pointed to by dataBuffer. May be 0.
  *  @param actualDataSize   Receives the number of bytes required for, or written to, dataBuffer.
  */

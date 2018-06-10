@@ -206,8 +206,8 @@ CENameElement_SetData (
  *  @discussion
  *      Get the name element for an object.
  *
- *      The name parameter will receive a C string, or NULL if no name has
- *      been associated with the object. If a non-NULL pointer is returned,
+ *      The name parameter will receive a C string, or nullptr if no name has
+ *      been associated with the object. If a non-nullptr pointer is returned,
  *      it must be disposed of with CENameElement_EmptyData.
  *
  *  @param object           The object to query.
@@ -228,8 +228,8 @@ CENameElement_GetData (
  *  @discussion
  *      Get the name element for an object.
  *
- *      The name parameter will receive a C string, or NULL if no name has
- *      been associated with the object. If a non-NULL pointer is returned,
+ *      The name parameter will receive a C string, or nullptr if no name has
+ *      been associated with the object. If a non-nullptr pointer is returned,
  *      it should be considered read-only and temporary.  Unlike
  *      CENameElement_GetData, this function returns the actual string within
  *      the element, not a copy.
@@ -295,8 +295,8 @@ CEUrlElement_SetData (
  *  @discussion
  *      Get the URL element for an object.
  *
- *      The urlData parameter will receive a pointer to the URL data, or NULL
- *      if no URL element has been associated with the object. If a non-NULL
+ *      The urlData parameter will receive a pointer to the URL data, or nullptr
+ *      if no URL element has been associated with the object. If a non-nullptr
  *      pointer is returned, it must be disposed of with CEUrlElement_EmptyData.
  *
  *  @param object           The object to retrieve the URL element from.
@@ -356,8 +356,8 @@ CEWireElement_SetData (
  *  @discussion
  *      Get the QuickTime wired element for an object.
  *
- *      The wireData parameter will receive a QTAtomContainer, or NULL if no
- *      wired element has been associated with the object. If a non-NULL pointer
+ *      The wireData parameter will receive a QTAtomContainer, or nullptr if no
+ *      wired element has been associated with the object. If a non-nullptr pointer
  *      is returned, it must be disposed of with CEWireElement_EmptyData.
  *
  *  @param object           The object to query.
@@ -403,7 +403,7 @@ CEWireElement_EmptyData (
 				When you assign a triangle strip, the element also records the
 				current edit index of the object.
 				
-				You can pass 0 for inNumIndices and NULL for inIndices to
+				You can pass 0 for inNumIndices and nullptr for inIndices to
 				indicate that you want to avoid using a triangle strip, perhaps
 				because there is no efficient strip for this geometry.
 				
@@ -469,7 +469,7 @@ CETriangleStripElement_Remove(
 	@function	CESpecularMapElement_Copy
 	@abstract	Retrieve a shininess map texture from an object.
 	@param		inShader	A surface shader.
-	@result		A new reference to a texture, or NULL.
+	@result		A new reference to a texture, or nullptr.
 */
 Q3_EXTERN_API_C( TQ3TextureObject )
 CESpecularMapElement_Copy( TQ3ShaderObject inShader );
@@ -490,7 +490,7 @@ CESpecularMapElement_Copy( TQ3ShaderObject inShader );
 				renderer, and requires that per-pixel lighting be
 				enabled.
 	@param		ioShader	A surface shader.
-	@param		inTexture	A texture object, or NULL to remove.
+	@param		inTexture	A texture object, or nullptr to remove.
 */
 Q3_EXTERN_API_C( void )
 CESpecularMapElement_Set( TQ3ShaderObject ioShader, TQ3TextureObject inTexture );

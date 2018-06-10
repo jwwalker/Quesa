@@ -158,7 +158,7 @@ static void CreateRedundantEdges(
 							fields are used.
 	@param		outEdges			Receives array of edges.
 	@param		outFacesToEdges		Receives array mapping faces to edges.
-									You may pass NULL if you do not need this
+									You may pass nullptr if you do not need this
 									information.
 */
 void QOCalcTriMeshEdges( 	const TQ3TriMeshData& inData,
@@ -217,7 +217,7 @@ void QOCalcTriMeshEdges( 	const TQ3TriMeshData& inData,
 	}
 	
 	// Create faces with new indices.
-	if (outFacesToEdges != NULL)
+	if (outFacesToEdges != nullptr)
 	{
 		const TQ3Uns32 kNumFaces = facesWithCopies.size();
 		outFacesToEdges->resizeNotPreserving( kNumFaces );
@@ -258,7 +258,7 @@ void QOGetCachedTriMeshEdges( TQ3GeometryObject inGeom,
 	const char*	propData = reinterpret_cast<const char*>(
 		inGeom->GetPropertyAddress( kPropertyTypeEdgeCache ) );
 	
-	if (propData != NULL)
+	if (propData != nullptr)
 	{
 		const EdgeCacheRec*	cacheData = reinterpret_cast<const EdgeCacheRec*>( propData );
 		if (cacheData->editIndex == geomEdits)
@@ -279,7 +279,7 @@ void QOGetCachedTriMeshEdges( TQ3GeometryObject inGeom,
 	
 	if (! haveCachedData)
 	{
-		TQ3TriMeshData*	tmData = NULL;
+		TQ3TriMeshData*	tmData = nullptr;
 		Q3TriMesh_LockData( inGeom, kQ3True, &tmData );
 		
 		QOCalcTriMeshEdges( *tmData, outEdges, &outFacesToEdges );
@@ -334,7 +334,7 @@ void QOAccessCachedTriMeshEdges( TQ3GeometryObject inGeom,
 	const char*	propData = reinterpret_cast<const char*>(
 		inGeom->GetPropertyAddress( kPropertyTypeEdgeCache ) );
 	
-	if (propData != NULL)
+	if (propData != nullptr)
 	{
 		const EdgeCacheRec*	cacheData = reinterpret_cast<const EdgeCacheRec*>( propData );
 		if (cacheData->editIndex == geomEdits)
@@ -356,7 +356,7 @@ void QOAccessCachedTriMeshEdges( TQ3GeometryObject inGeom,
 		TQ3EdgeVec				computedEdges;
 		TQ3TriangleToEdgeVec	computedFacesToEdges;
 
-		TQ3TriMeshData*	tmData = NULL;
+		TQ3TriMeshData*	tmData = nullptr;
 		Q3TriMesh_LockData( inGeom, kQ3True, &tmData );
 		
 		QOCalcTriMeshEdges( *tmData, computedEdges, &computedFacesToEdges );

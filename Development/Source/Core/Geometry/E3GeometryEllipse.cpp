@@ -137,12 +137,12 @@ e3geom_ellipse_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 	qd3dStatus = Q3Ellipse_GetData(fromObject, toInstanceData);
 	
 	if ( (qd3dStatus == kQ3Success) &&
-		(toInstanceData->ellipseAttributeSet != NULL) )
+		(toInstanceData->ellipseAttributeSet != nullptr) )
 	{
 		dupSet = Q3Object_Duplicate( toInstanceData->ellipseAttributeSet );
 		Q3Object_Dispose( toInstanceData->ellipseAttributeSet );
 		toInstanceData->ellipseAttributeSet = dupSet;
-		if (dupSet == NULL)
+		if (dupSet == nullptr)
 		{
 			qd3dStatus = kQ3Failure;
 		}
@@ -220,8 +220,8 @@ e3geom_ellipse_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const
 
 	// Allocate the memory we need for the PolyLine
 	theVertices = (TQ3Vertex3D *) Q3Memory_AllocateClear(static_cast<TQ3Uns32>(numPoints * sizeof(TQ3Vertex3D)));
-	if (theVertices == NULL)
-		return(NULL);
+	if (theVertices == nullptr)
+		return(nullptr);
 
 
 
@@ -245,7 +245,7 @@ e3geom_ellipse_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const
 	// Initialise the PolyLine data
 	polyLineData.numVertices          = numPoints;
 	polyLineData.vertices             = theVertices;
-	polyLineData.segmentAttributeSet  = NULL;
+	polyLineData.segmentAttributeSet  = nullptr;
 	polyLineData.polyLineAttributeSet = geomData->ellipseAttributeSet;
 
 
@@ -281,7 +281,7 @@ e3geom_ellipse_get_attribute ( E3Ellipse* ellipse )
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3geom_ellipse_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -366,7 +366,7 @@ E3Ellipse_New(const TQ3EllipseData *ellipseData)
 {	TQ3Object		theObject;
 
 
-	if (ellipseData == NULL)
+	if (ellipseData == nullptr)
 	{
 		// This is not what the 3DMF specification claims to be the default, but it seems
 		// to be what QD3D actually does.
@@ -374,7 +374,7 @@ E3Ellipse_New(const TQ3EllipseData *ellipseData)
 			{ 0.0f, 0.0f, 0.0f },
 			{ 0.0f, 1.0f, 0.0f },
 			{ 0.0f, 0.0f, 1.0f },
-			0.0f, 1.0f, NULL
+			0.0f, 1.0f, nullptr
 		};
 		theObject = E3ClassTree::CreateInstance ( kQ3GeometryTypeEllipse, kQ3False, &defaultEllipse ) ;
 	}

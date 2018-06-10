@@ -173,10 +173,10 @@ enum
  *	@field		majorAxis			Major axis of the box.
  *	@field		minorAxis			Minor axis of the box.
  *	@field		faceAttributeSet	Array of attribute set objects for the 6 faces.
- *									This field may be NULL, or individual sets in the
- *									array may be NULL.
+ *									This field may be nullptr, or individual sets in the
+ *									array may be nullptr.
  *	@field		boxAttributeSet		Attribute set object holding attributes that apply
- *									to all of the faces.  May be NULL.
+ *									to all of the faces.  May be nullptr.
  */
 typedef struct TQ3BoxData {
     TQ3Point3D                                  origin;
@@ -226,9 +226,9 @@ typedef struct TQ3BoxData {
  *										there is an interior face.
  *	@field		interiorAttributeSet	Interior attributes.  Unused by QD3D.
  *	@field		faceAttributeSet		Attributes that affect the face but not the bottom.
- *										May be NULL.
- *	@field		bottomAttributeSet		Attributes that affect the bottom end cap.  May be NULL.
- *	@field		coneAttributeSet		Attributes for all parts of the cone.  May be NULL.
+ *										May be nullptr.
+ *	@field		bottomAttributeSet		Attributes that affect the bottom end cap.  May be nullptr.
+ *	@field		coneAttributeSet		Attributes for all parts of the cone.  May be nullptr.
  */
 typedef struct TQ3ConeData {
     TQ3Point3D                                  origin;
@@ -279,12 +279,12 @@ typedef struct TQ3ConeData {
  *										base to the other end.  Typically 1.
  *	@field		caps					End cap masks, determining whether the cylinder is
  *										closed on one end, the other, or both.
- *	@field		interiorAttributeSet	Interior attributes.  May be NULL.  Unused by QD3D.
- *	@field		topAttributeSet			Attributes that affect the top end cap.  May be NULL.
+ *	@field		interiorAttributeSet	Interior attributes.  May be nullptr.  Unused by QD3D.
+ *	@field		topAttributeSet			Attributes that affect the top end cap.  May be nullptr.
  *	@field		faceAttributeSet		Attributes that affect the face but not the bottom or top.
- *										May be NULL.
- *	@field		bottomAttributeSet		Attributes that affect the bottom end cap.  May be NULL.
- *	@field		cylinderAttributeSet	Attributes for all parts of the cylinder.  May be NULL.
+ *										May be nullptr.
+ *	@field		bottomAttributeSet		Attributes that affect the bottom end cap.  May be nullptr.
+ *	@field		cylinderAttributeSet	Attributes for all parts of the cylinder.  May be nullptr.
  */
 typedef struct TQ3CylinderData {
     TQ3Point3D                                  origin;
@@ -338,7 +338,7 @@ typedef struct TQ3CylinderData {
  *	@field		vMax					Maximum value of the v parameter, which goes from the
  *										perimeter to the origin.  Typically 1, must be in the
  *										range [0, 1].
- *	@field		diskAttributeSet		Attributes for the disk.  May be NULL.
+ *	@field		diskAttributeSet		Attributes for the disk.  May be nullptr.
  */
 typedef struct TQ3DiskData {
     TQ3Point3D                                  origin;
@@ -371,7 +371,7 @@ typedef struct TQ3DiskData {
  *	@field		minorRadius				Another vector from the origin to a point on the curve.
  *	@field		uMin					Starting value of the u parameter.  Typically 0.
  *	@field		uMax					Ending value of the u parameter.  Typically 1.
- *	@field		ellipseAttributeSet		Attributes for the ellipse.  May be NULL.
+ *	@field		ellipseAttributeSet		Attributes for the ellipse.  May be nullptr.
  */
 typedef struct TQ3EllipseData {
     TQ3Point3D                                  origin;
@@ -415,8 +415,8 @@ typedef struct TQ3EllipseData {
  *	@field		vMax					Minimum value of the v parameter.  Typically 1.
  *	@field		caps					Style of caps to be used on partial ellipsoids.
  *	@field		interiorAttributeSet	Interior attributes, used for end or interior caps.
- *										May be NULL.
- *	@field		ellipsoidAttributeSet	Attributes for the ellipsoid surface.  May be NULL.
+ *										May be nullptr.
+ *	@field		ellipsoidAttributeSet	Attributes for the ellipsoid surface.  May be nullptr.
  */
 typedef struct TQ3EllipsoidData {
     TQ3Point3D                                  origin;
@@ -462,7 +462,7 @@ typedef struct TQ3GeneralPolygonContourData {
  *										which may be used by the renderer to optimize
  *										drawing.
  *	@field		generalPolygonAttributeSet		Set of attributes for the polygon.
- *										May be NULL.
+ *										May be nullptr.
  */
 typedef struct TQ3GeneralPolygonData {
     TQ3Uns32                                    numContours;
@@ -478,7 +478,7 @@ typedef struct TQ3GeneralPolygonData {
  *	@discussion
  *		Data describing a line.
  *	@field		vertices				Array of two vertices, the ends of the line.
- *	@field		lineAttributeSet		Set of attributes for the line.  May be NULL.
+ *	@field		lineAttributeSet		Set of attributes for the line.  May be nullptr.
  */
 typedef struct TQ3LineData {
     TQ3Vertex3D                                 vertices[2];
@@ -499,7 +499,7 @@ typedef struct TQ3LineData {
  *										upper left corner of the marker, in pixels.
  *	@field		bitmap					A bitmap.  Each bit corresponds to a pixel in the image.
  *	@field		markerAttributeSet		Marker attributes, which can for instance modify the color
- *										or transparency of the 1 bits.  May be NULL.
+ *										or transparency of the 1 bits.  May be nullptr.
  */
 typedef struct TQ3MarkerData {
     TQ3Point3D                                  location;
@@ -592,7 +592,7 @@ typedef struct TQ3MeshIterator {
  *		<em>This structure is not available in QD3D.</em>
  *	@field		numFaces				Number of faces.  Must be at least 1.
  *	@field		faceIndices				Indices of the faces.
- *	@field		cornerAttributeSet		Set of attributes for the corner.  <em>Should not be NULL.</em>
+ *	@field		cornerAttributeSet		Set of attributes for the corner.  <em>Should not be nullptr.</em>
  */
 typedef struct TQ3MeshCornerData {
     TQ3Uns32                                    numFaces;
@@ -615,7 +615,7 @@ typedef struct TQ3MeshCornerData {
  *  @field		point					Location of the vertex.
  *	@field		numCorners				Number of corners in the following array.  May be 0
  *										if you do not want to specify any corners.
- *	@field		corners					Pointer to an array of corners.  May be NULL if you
+ *	@field		corners					Pointer to an array of corners.  May be nullptr if you
  *										also specify 0 for <code>numCorners</code>.
  *	@field		attributeSet			Attribute set for the vertex.
  */
@@ -640,7 +640,7 @@ typedef struct TQ3MeshVertexData {
  *
  *		<em>This structure is not available in QD3D.</em>
  *	@field		vertexIndices			Indices of the two vertices that are ends of the edge.
- *	@field		edgeAttributeSet		Set of attributes for the edge.  May be NULL.
+ *	@field		edgeAttributeSet		Set of attributes for the edge.  May be nullptr.
  */
 typedef struct TQ3MeshEdgeData {
     TQ3Uns32                                    vertexIndices[2];
@@ -681,7 +681,7 @@ typedef struct TQ3MeshContourData {
  *		<em>This structure is not available in QD3D.</em>
  *	@field		numContours				Number of contours.  Must be at least 1.
  *	@field		contours				Contours of the face.
- *	@field		faceAttributeSet		Set of attributes for the face.  May be NULL.
+ *	@field		faceAttributeSet		Set of attributes for the face.  May be nullptr.
  */
 typedef struct TQ3MeshFaceData {
     TQ3Uns32                                    numContours;
@@ -703,11 +703,11 @@ typedef struct TQ3MeshFaceData {
  *	@field		vertices				Pointer to array of vertices of the mesh.
  *	@field		numEdges				Number of edges in the following array.  May be 0
  *										if you do not want to specify any edges.
- *	@field		edges					Pointer to an array of edges.  May be NULL if you
+ *	@field		edges					Pointer to an array of edges.  May be nullptr if you
  *										also specify 0 for <code>numEdges</code>.
  *	@field		numFaces				Number of faces in the mesh.
  *	@field		faces					Pointer to an array of faces.
- *	@field		meshAttributeSet		Set of attributes for the mesh.  May be NULL.
+ *	@field		meshAttributeSet		Set of attributes for the mesh.  May be nullptr.
  */
 typedef struct TQ3MeshData {
     TQ3Uns32									numVertices;
@@ -738,7 +738,7 @@ typedef struct TQ3MeshData {
  *												of knots must equal the sum of <code>order</code>
  *												and <code>numPoints</code>.  The values must be
  *												nondecreasing.
- *	@field		curveAttributeSet				Set of attributes for the curve.  May be NULL.
+ *	@field		curveAttributeSet				Set of attributes for the curve.  May be nullptr.
  */
 typedef struct TQ3NURBCurveData {
     TQ3Uns32                                    order;
@@ -817,8 +817,8 @@ typedef struct TQ3NURBPatchTrimLoopData {
  *	@field		numTrimLoops			Number of trim loops in the following array.
  *										Currently this should be 0.
  *	@field		trimLoops				Pointer to an array of trim loop structures.
- *										Currently this should be NULL.
- *	@field		patchAttributeSet		Set of attributes for the patch.  May be NULL.
+ *										Currently this should be nullptr.
+ *	@field		patchAttributeSet		Set of attributes for the patch.  May be nullptr.
  */
 typedef struct TQ3NURBPatchData {
     TQ3Uns32                                    uOrder;
@@ -845,7 +845,7 @@ typedef struct TQ3NURBPatchData {
  *	@field		yOffset					Vertical offset from the <code>position</code> to the
  *										upper left corner of the marker, in pixels.
  *	@field		pixmap					A pixmap.
- *	@field		pixmapMarkerAttributeSet		A set of attributes for the marker.  May be NULL.
+ *	@field		pixmapMarkerAttributeSet		A set of attributes for the marker.  May be nullptr.
  */
 typedef struct TQ3PixmapMarkerData {
     TQ3Point3D                                  position;
@@ -861,7 +861,7 @@ typedef struct TQ3PixmapMarkerData {
  *	@discussion
  *		Data describing a point object.
  *	@field		point					Location of the point.
- *	@field		pointAttributeSet		Set of attributes for the point.  May be NULL.
+ *	@field		pointAttributeSet		Set of attributes for the point.  May be nullptr.
  */
 typedef struct TQ3PointData {
     TQ3Point3D                                  point;
@@ -875,7 +875,7 @@ typedef struct TQ3PointData {
  *		Data describing a simple convex polygon.
  *	@field		numVertices				Number of vertices.  Must be at least 3.
  *	@field		vertices				Pointer to an array of vertices.
- *	@field		polygonAttributeSet		Set of attributes for the polygon.  May be NULL.
+ *	@field		polygonAttributeSet		Set of attributes for the polygon.  May be nullptr.
  */
 typedef struct TQ3PolygonData {
     TQ3Uns32                                    numVertices;
@@ -899,7 +899,7 @@ typedef TQ3Uns32                                TQ3PolyhedronEdge;
  *		Data describing an edge within a polyhedron.
  *	@field		vertexIndices			Indices of the two vertices that are ends of the edge.
  *	@field		triangleIndices			Indices of the two triangles that contain the edge.
- *	@field		edgeAttributeSet		Set of attributes for the edge.  May be NULL.
+ *	@field		edgeAttributeSet		Set of attributes for the edge.  May be nullptr.
  */
 typedef struct TQ3PolyhedronEdgeData {
     TQ3Uns32                                    vertexIndices[2];
@@ -914,7 +914,7 @@ typedef struct TQ3PolyhedronEdgeData {
  *	@field		vertexIndices			Indices of the 3 vertices of the triangle.
  *	@field		edgeFlag				Flags indicating which edges of the triangle should
  *										be rendered.  See <code>TQ3PolyhedronEdgeMasks</code>.
- *	@field		triangleAttributeSet	Set of attributes for the triangle.  May be NULL.
+ *	@field		triangleAttributeSet	Set of attributes for the triangle.  May be nullptr.
  */
 typedef struct TQ3PolyhedronTriangleData {
     TQ3Uns32                                    vertexIndices[3];
@@ -930,11 +930,11 @@ typedef struct TQ3PolyhedronTriangleData {
  *	@field		vertices				Pointer to array of vertices of the polyhedron.
  *	@field		numEdges				Number of edges in the following array.  May be 0
  *										if you do not want to specify any edges.
- *	@field		edges					Pointer to an array of edges.  May be NULL if you
+ *	@field		edges					Pointer to an array of edges.  May be nullptr if you
  *										also specify 0 for <code>numEdges</code>.
  *	@field		numTriangles			Number of triangles (faces) in the polygon.
  *	@field		triangles				Pointer to an array of triangles.
- *	@field		polyhedronAttributeSet	Set of attributes for the polyhedron.  May be NULL.
+ *	@field		polyhedronAttributeSet	Set of attributes for the polyhedron.  May be nullptr.
  */
 typedef struct TQ3PolyhedronData {
     TQ3Uns32                                    numVertices;
@@ -957,8 +957,8 @@ typedef struct TQ3PolyhedronData {
  *	@field		vertices				Pointer to an array of vertices.
  *	@field		segmentAttributeSet		Pointer to an array of attribute sets, one for each
  *										segment.  If you do not want to assign attributes
- *										to any segment, this pointer may be NULL.
- *	@field		polyLineAttributeSet	Set of attributes for the whole curve.  May be NULL.
+ *										to any segment, this pointer may be nullptr.
+ *	@field		polyLineAttributeSet	Set of attributes for the whole curve.  May be nullptr.
  */
 typedef struct TQ3PolyLineData {
     TQ3Uns32                                    numVertices;
@@ -1051,7 +1051,7 @@ typedef struct TQ3TorusData {
  *	@discussion
  *		Data defining a single triangle.
  *	@field		vertices				The 3 vertices of the triangle.
- *	@field		triangleAttributeSet	Set of attributes for the triangle.  May be NULL.
+ *	@field		triangleAttributeSet	Set of attributes for the triangle.  May be nullptr.
  */
 typedef struct TQ3TriangleData {
     TQ3Vertex3D                                 vertices[3];
@@ -1074,11 +1074,11 @@ typedef struct TQ3TriangleData {
  *										increasing rows.  The number of vertices should be
  *										<code>numRows</code> times <code>numColumns</code>.
  *	@field		facetAttributeSet		Pointer to an array of triangle attributes.  May be
- *										NULL, but otherwise should point to an array of
+ *										nullptr, but otherwise should point to an array of
  *										2&times;(<code>numRows</code>-1)&times;(<code>numColumns</code>-1)
  *										attribute sets.
  *	@field		triGridAttributeSet		Set of attributes for the whole TriGrid object.
- *										May be NULL.	
+ *										May be nullptr.	
  */
 typedef struct TQ3TriGridData {
     TQ3Uns32                                    numRows;
@@ -1125,7 +1125,7 @@ typedef struct TQ3TriMeshEdgeData {
  *										instance, if these are vertex attributes, the number
  *										of members is the number of vertices.  The size of each
  *										member depends on the attribute type.
- *	@field		attributeUseArray		For non-custom attribute types, this must be NULL.
+ *	@field		attributeUseArray		For non-custom attribute types, this must be nullptr.
  *										For custom attribute types, it can point to an array
  *										of 1-byte 0s and 1s, with 1s indicating which items
  *										have the custom attribute.
@@ -1144,24 +1144,24 @@ typedef struct TQ3TriMeshAttributeData {
  *		attribute data for vertices, edges, and faces are not stored in attribute sets, but
  *		in arrays of attribute data.  This is normally more efficient, so long as you are
  *		going to be assigning an attribute to every vertex, or every edge, or every face.
- *	@field		triMeshAttributeSet		Set of attributes for the whole object.  May be NULL.
+ *	@field		triMeshAttributeSet		Set of attributes for the whole object.  May be nullptr.
  *	@field		numTriangles			Number of triangles in the following array.
  *	@field		triangles				Pointer to an array of triangle data.
  *	@field		numTriangleAttributeTypes	Number of triangle attribute types listed in the
  *											following array.
  *	@field		triangleAttributeTypes		Pointer to an array of attribute data for triangles (faces).
- *											May be NULL, if <code>numTriangleAttributeTypes</code> is 0.
+ *											May be nullptr, if <code>numTriangleAttributeTypes</code> is 0.
  *	@field		numEdges				Number of edges in the following array.
  *	@field		edges					Pointer to an array of edge data.  If you do not wish to
- *										specify any edges, you can set this to NULL, and set
+ *										specify any edges, you can set this to nullptr, and set
  *										<code>numEdges</code> to 0.
  *	@field		numEdgeAttributeTypes	Number of edge attribute types in the following array.
- *	@field		edgeAttributeTypes		Pointer to an array of edge attribute types.  May be NULL,
+ *	@field		edgeAttributeTypes		Pointer to an array of edge attribute types.  May be nullptr,
  *										provided that <code>numEdgeAttributeTypes</code> is 0.
  *	@field		numPoints				Number of points (vertices).
  *	@field		points					Pointer to an array of points.
  *	@field		numVertexAttributeTypes	Number of vertex attribute types in the following array.
- *	@field		vertexAttributeTypes	Pointer to an array of vertex attribute data.  May be NULL,
+ *	@field		vertexAttributeTypes	Pointer to an array of vertex attribute data.  May be nullptr,
  *										so long as <code>numVertexAttributeTypes</code> is 0.
  *	@field		bBox					Bounding box of the TriMesh.
  */
@@ -1218,7 +1218,7 @@ typedef struct TQ3TriMeshData {
  */
 #define Q3ForEachMeshComponent(_m, _c, _i)                  \
         for ((_c) = Q3Mesh_FirstMeshComponent((_m), (_i));  \
-             (_c) != NULL;                                  \
+             (_c) != nullptr;                                  \
              (_c) = Q3Mesh_NextMeshComponent((_i)))
 
 /*!
@@ -1231,7 +1231,7 @@ typedef struct TQ3TriMeshData {
  */
 #define Q3ForEachComponentVertex(_c, _v, _i)                \
         for ((_v) = Q3Mesh_FirstComponentVertex((_c), (_i));\
-             (_v) != NULL;                                  \
+             (_v) != nullptr;                                  \
              (_v) = Q3Mesh_NextComponentVertex((_i)))
 
 /*!
@@ -1244,7 +1244,7 @@ typedef struct TQ3TriMeshData {
  */
 #define Q3ForEachComponentEdge(_c, _e, _i)                  \
         for ((_e) = Q3Mesh_FirstComponentEdge((_c), (_i));  \
-             (_e) != NULL;                                  \
+             (_e) != nullptr;                                  \
              (_e) = Q3Mesh_NextComponentEdge((_i)))
 
 /*!
@@ -1257,7 +1257,7 @@ typedef struct TQ3TriMeshData {
  */
 #define Q3ForEachMeshVertex(_m, _v, _i)                     \
         for ((_v) = Q3Mesh_FirstMeshVertex((_m), (_i));     \
-             (_v) != NULL;                                  \
+             (_v) != nullptr;                                  \
              (_v) = Q3Mesh_NextMeshVertex((_i)))
 
 /*!
@@ -1270,7 +1270,7 @@ typedef struct TQ3TriMeshData {
  */
 #define Q3ForEachMeshFace(_m, _f, _i)                       \
         for ((_f) = Q3Mesh_FirstMeshFace((_m), (_i));       \
-             (_f) != NULL;                                  \
+             (_f) != nullptr;                                  \
              (_f) = Q3Mesh_NextMeshFace((_i)))
 
 /*!
@@ -1283,7 +1283,7 @@ typedef struct TQ3TriMeshData {
  */
 #define Q3ForEachMeshEdge(_m, _e, _i)                       \
         for ((_e) = Q3Mesh_FirstMeshEdge((_m), (_i));       \
-             (_e) != NULL;                                  \
+             (_e) != nullptr;                                  \
              (_e) = Q3Mesh_NextMeshEdge((_i)))
 
 /*!
@@ -1296,7 +1296,7 @@ typedef struct TQ3TriMeshData {
  */
 #define Q3ForEachVertexEdge(_v, _e, _i)                     \
         for ((_e) = Q3Mesh_FirstVertexEdge((_v), (_i));     \
-             (_e) != NULL;                                  \
+             (_e) != nullptr;                                  \
              (_e) = Q3Mesh_NextVertexEdge((_i)))
 
 
@@ -1310,7 +1310,7 @@ typedef struct TQ3TriMeshData {
  */
 #define Q3ForEachVertexVertex(_v, _n, _i)                   \
         for ((_n) = Q3Mesh_FirstVertexVertex((_v), (_i));   \
-             (_n) != NULL;                                  \
+             (_n) != nullptr;                                  \
              (_n) = Q3Mesh_NextVertexVertex((_i)))
 
 /*!
@@ -1323,7 +1323,7 @@ typedef struct TQ3TriMeshData {
  */
 #define Q3ForEachVertexFace(_v, _f, _i)                     \
         for ((_f) = Q3Mesh_FirstVertexFace((_v), (_i));     \
-             (_f) != NULL;                                  \
+             (_f) != nullptr;                                  \
              (_f) = Q3Mesh_NextVertexFace((_i)))
 
 /*!
@@ -1336,7 +1336,7 @@ typedef struct TQ3TriMeshData {
  */
 #define Q3ForEachFaceEdge(_f, _e, _i)                       \
         for ((_e) = Q3Mesh_FirstFaceEdge((_f), (_i));       \
-             (_e) != NULL;                                  \
+             (_e) != nullptr;                                  \
              (_e) = Q3Mesh_NextFaceEdge((_i)))
 
 /*!
@@ -1349,7 +1349,7 @@ typedef struct TQ3TriMeshData {
  */
 #define Q3ForEachFaceVertex(_f, _v, _i)                     \
         for ((_v) = Q3Mesh_FirstFaceVertex((_f), (_i));     \
-             (_v) != NULL;                                  \
+             (_v) != nullptr;                                  \
              (_v) = Q3Mesh_NextFaceVertex((_i)))
     
 /*!
@@ -1362,7 +1362,7 @@ typedef struct TQ3TriMeshData {
  */
 #define Q3ForEachFaceFace(_f, _n, _i)                       \
         for ((_n) = Q3Mesh_FirstFaceFace((_f), (_i));       \
-             (_n) != NULL;                                  \
+             (_n) != nullptr;                                  \
              (_n) = Q3Mesh_NextFaceFace((_i)))
           
 /*!
@@ -1375,7 +1375,7 @@ typedef struct TQ3TriMeshData {
  */
 #define Q3ForEachFaceContour(_f, _h, _i)                    \
         for ((_h) = Q3Mesh_FirstFaceContour((_f), (_i));    \
-             (_h) != NULL;                                  \
+             (_h) != nullptr;                                  \
              (_h) = Q3Mesh_NextFaceContour((_i)))
 
 /*!
@@ -1388,7 +1388,7 @@ typedef struct TQ3TriMeshData {
  */
 #define Q3ForEachContourEdge(_h, _e, _i)                    \
         for ((_e) = Q3Mesh_FirstContourEdge((_h), (_i));    \
-             (_e) != NULL;                                  \
+             (_e) != nullptr;                                  \
              (_e) = Q3Mesh_NextContourEdge((_i)))
 
 /*!
@@ -1401,7 +1401,7 @@ typedef struct TQ3TriMeshData {
  */
 #define Q3ForEachContourVertex(_h, _v, _i)                  \
         for ((_v) = Q3Mesh_FirstContourVertex((_h), (_i));  \
-             (_v) != NULL;                                  \
+             (_v) != nullptr;                                  \
              (_v) = Q3Mesh_NextContourVertex((_i)))
 
 /*!
@@ -1414,7 +1414,7 @@ typedef struct TQ3TriMeshData {
  */
 #define Q3ForEachContourFace(_h, _f, _i)                    \
         for ((_f) = Q3Mesh_FirstContourFace((_h), (_i));    \
-             (_f) != NULL;                                  \
+             (_f) != nullptr;                                  \
              (_f) = Q3Mesh_NextContourFace((_i)))
 
 
@@ -1525,7 +1525,7 @@ Q3Geometry_Submit (
  *		Creates the decomposed form of the geometry, if any.
  *
  *      The result may be a geometry or a group.  If the geometry cannot be decomposed
- *      further, NULL is returned.
+ *      further, nullptr is returned.
  *
  *      The decomposition of a given geometry is not documented and is subject to change.
  *      Geometries may be decomposed to multiple objects; for example, the decomposition
@@ -1543,7 +1543,7 @@ Q3Geometry_Submit (
  *
  *	@param	geometry		A geometry object.
  *	@param	view			A view object
- *	@result					A new reference to a group or geometry object, or NULL.
+ *	@result					A new reference to a group or geometry object, or nullptr.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -1569,13 +1569,13 @@ Q3Geometry_GetDecomposed (
  *  @discussion
  *      Constructs a new Box geometry object.
  *
- *		If you pass NULL, you will get a default box with orientation (1, 0, 0), major axis
+ *		If you pass nullptr, you will get a default box with orientation (1, 0, 0), major axis
  *		(0, 1, 0), minor axis (0, 0, 1), and origin (0, 0, 0).  <em>This behavior was
  *		not present in QuickDraw 3D.</em>
  *
  *  @param boxData          Instance data passed in specifying the parameters of the new box object,
- *							or NULL.
- *  @result                 A reference to the new geometry object, or NULL on failure.
+ *							or nullptr.
+ *  @result                 A reference to the new geometry object, or nullptr on failure.
  */
 Q3_EXTERN_API_C ( TQ3GeometryObject  )
 Q3Box_New (
@@ -1819,7 +1819,7 @@ Q3Box_GetMinorAxis (
  *  @param box              A reference to a box geometry object.
  *  @param faceIndex        The index of the face of the box.
  *  @param faceAttributeSet Receives a reference to the attribute set of the box face, or
- *							NULL if the face does not have an attribute set.
+ *							nullptr if the face does not have an attribute set.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -1867,12 +1867,12 @@ Q3Box_SetFaceAttributeSet (
  *  @discussion
  *      Create a cone geometry object.
  *
- *		If you pass NULL, you will get a default cone with orientation (1, 0, 0), major axis
+ *		If you pass nullptr, you will get a default cone with orientation (1, 0, 0), major axis
  *		(0, 1, 0), minor axis (0, 0, 1), and origin (0, 0, 0).  <em>This behavior was
  *		not present in QuickDraw 3D.</em>
  *
- *  @param coneData         Pointer to data describing the cone, or NULL.
- *  @result                 The new cone object, or NULL on failure.
+ *  @param coneData         Pointer to data describing the cone, or nullptr.
+ *  @result                 The new cone object, or nullptr on failure.
  */
 Q3_EXTERN_API_C ( TQ3GeometryObject  )
 Q3Cone_New (
@@ -2131,7 +2131,7 @@ Q3Cone_GetCaps (
  *      Naturally, this only makes sense if the cone has a bottom end cap.
  *
  *  @param cone             	The cone object.
- *  @param bottomAttributeSet	New bottom attribute set.  May be NULL.
+ *  @param bottomAttributeSet	New bottom attribute set.  May be nullptr.
  *  @result                 	Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -2149,7 +2149,7 @@ Q3Cone_SetBottomAttributeSet (
  *      Get the attribute set for the bottom cap of a cone object.
  *
  *  @param cone             	The cone object.
- *  @param bottomAttributeSet	Receives a reference to the bottom attribute set, or NULL.
+ *  @param bottomAttributeSet	Receives a reference to the bottom attribute set, or nullptr.
  *  @result                 	Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -2167,7 +2167,7 @@ Q3Cone_GetBottomAttributeSet (
  *      Set the attribute set for the face (as opposed to the bottom cap) of a cone.
  *
  *  @param cone             The cone object.
- *  @param faceAttributeSet New face attribute set.  May be NULL.
+ *  @param faceAttributeSet New face attribute set.  May be nullptr.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -2185,7 +2185,7 @@ Q3Cone_SetFaceAttributeSet (
  *      Get the attribute set for the face (as opposed to the bottom cap) of a cone.
  *
  *  @param cone             The cone object.
- *  @param faceAttributeSet Receives the attribute set for the face, or NULL.
+ *  @param faceAttributeSet Receives the attribute set for the face, or nullptr.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -2229,7 +2229,7 @@ Q3Cone_SetInteriorAttributeSet (
  *      <em>This function is not available in QD3D.</em>
  *
  *  @param cylinder         A cone object.
- *  @param faceAttributeSet Receives the attribute set for the interior, or NULL.
+ *  @param faceAttributeSet Receives the attribute set for the interior, or nullptr.
  *  @result                 Success or failure of the operation.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
@@ -2273,12 +2273,12 @@ Q3Cone_EmptyData (
  *  @discussion
  *      Create a new Cylinder object.
  *
- *		If you pass NULL, you will get a default cylinder with orientation (1, 0, 0), major axis
+ *		If you pass nullptr, you will get a default cylinder with orientation (1, 0, 0), major axis
  *		(0, 1, 0), minor axis (0, 0, 1), origin (0, 0, 0), and no end caps.  <em>This behavior was
  *		not present in QuickDraw 3D.</em>
  *
- *  @param cylinderData     Data describing a cylinder, or NULL.
- *  @result                 Reference to a new Cylinder geometry object, or NULL on failure.
+ *  @param cylinderData     Data describing a cylinder, or nullptr.
+ *  @result                 Reference to a new Cylinder geometry object, or nullptr on failure.
  */
 Q3_EXTERN_API_C ( TQ3GeometryObject  )
 Q3Cylinder_New (
@@ -2555,7 +2555,7 @@ Q3Cylinder_SetTopAttributeSet (
  *      Get the attribute set for the top cap of a cylinder object.
  *
  *  @param cylinder         A cylinder object.
- *  @param topAttributeSet  Receives the attribute set for the top cap, or NULL.
+ *  @param topAttributeSet  Receives the attribute set for the top cap, or nullptr.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -2591,7 +2591,7 @@ Q3Cylinder_SetBottomAttributeSet (
  *      Get the attribute set for the bottom cap of a cylinder object.
  *
  *  @param cylinder         	A cylinder object.
- *  @param bottomAttributeSet	Receives the attribute set for the bottom cap, or NULL.
+ *  @param bottomAttributeSet	Receives the attribute set for the bottom cap, or nullptr.
  *  @result						Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -2627,7 +2627,7 @@ Q3Cylinder_SetFaceAttributeSet (
  *      Get the attribute set for the face of a cylinder object (i.e., neither end).
  *
  *  @param cylinder         A cylinder object.
- *  @param faceAttributeSet Receives the attribute set for the face, or NULL.
+ *  @param faceAttributeSet Receives the attribute set for the face, or nullptr.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -2672,7 +2672,7 @@ Q3Cylinder_SetInteriorAttributeSet (
  *      <em>This function is not available in QD3D.</em>
  *
  *  @param cylinder         A cylinder object.
- *  @param faceAttributeSet Receives the attribute set for the interior, or NULL.
+ *  @param faceAttributeSet Receives the attribute set for the interior, or nullptr.
  *  @result                 Success or failure of the operation.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
@@ -2715,12 +2715,12 @@ Q3Cylinder_EmptyData (
  *  @discussion
  *      Create a new disk object.
  *
- *		If you pass NULL instead of a data pointer, you will get a default disk, with origin
+ *		If you pass nullptr instead of a data pointer, you will get a default disk, with origin
  *		(0, 0, 0), major radius (1, 0, 0), and minor radius (0, 1, 0).  <em>This behavior was
  *		not present in QuickDraw 3D.</em>
  *
- *  @param diskData         Data describing a disk object, or NULL.
- *  @result                 Reference to a new Disk geometry object, or NULL on failure.
+ *  @param diskData         Data describing a disk object, or nullptr.
+ *  @result                 Reference to a new Disk geometry object, or nullptr on failure.
  */
 Q3_EXTERN_API_C ( TQ3GeometryObject  )
 Q3Disk_New (
@@ -2924,12 +2924,12 @@ Q3Disk_EmptyData (
  *  @discussion
  *      Create a new ellipse geometry object.
  *
- *		If you pass NULL, you will get a default ellipse with major axis (0, 1, 0),
+ *		If you pass nullptr, you will get a default ellipse with major axis (0, 1, 0),
  *		minor axis (0, 0, 1), and origin (0, 0, 0).  <em>This behavior was
  *		not present in QuickDraw 3D.</em>
  *
- *  @param ellipseData      Data describing an ellipse, or NULL.
- *  @result                 Reference to a new Ellipse geometry object, or NULL on failure.
+ *  @param ellipseData      Data describing an ellipse, or nullptr.
+ *  @result                 Reference to a new Ellipse geometry object, or nullptr on failure.
  */
 Q3_EXTERN_API_C ( TQ3GeometryObject  )
 Q3Ellipse_New (
@@ -3134,12 +3134,12 @@ Q3Ellipse_EmptyData (
  *  @discussion
  *      Create a new ellipsoid geometry object.
  *
- *		If you pass NULL, you will get a default ellipsoid with orientation (1, 0, 0), major axis
+ *		If you pass nullptr, you will get a default ellipsoid with orientation (1, 0, 0), major axis
  *		(0, 1, 0), minor axis (0, 0, 1), and origin (0, 0, 0).  <em>This behavior was
  *		not present in QuickDraw 3D.</em>
  *
- *  @param ellipsoidData    Data describing an ellipsoid, or NULL.
- *  @result                 Reference to a new Ellipsoid geometry object, or NULL on failure.
+ *  @param ellipsoidData    Data describing an ellipsoid, or nullptr.
+ *  @result                 Reference to a new Ellipsoid geometry object, or nullptr on failure.
  */
 Q3_EXTERN_API_C ( TQ3GeometryObject  )
 Q3Ellipsoid_New (
@@ -3381,7 +3381,7 @@ Q3Ellipsoid_EmptyData (
  *      Create a new general polygon geometry object.
  *
  *  @param generalPolygonData	Data describing a general polygon.
- *  @result						Reference to a new General Polygon geometry object, or NULL on failure.
+ *  @result						Reference to a new General Polygon geometry object, or nullptr on failure.
  */
 Q3_EXTERN_API_C ( TQ3GeometryObject  )
 Q3GeneralPolygon_New (
@@ -3553,7 +3553,7 @@ Q3GeneralPolygon_SetVertexPosition (
  *  @param generalPolygon   A general polygon object.
  *  @param contourIndex		A 0-based index into the array of contours.
  *  @param pointIndex       A 0-based index into the array of vertices of a contour.
- *  @param attributeSet     Receives a new reference to the vertex attribute set, or NULL.
+ *  @param attributeSet     Receives a new reference to the vertex attribute set, or nullptr.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -3641,7 +3641,7 @@ Q3GeneralPolygon_GetShapeHint (
  *      Create a new line geometry object.
  *
  *  @param lineData         Data describing a line.
- *  @result                 Reference to a new Line geometry object, or NULL on failure.
+ *  @result                 Reference to a new Line geometry object, or nullptr on failure.
  */
 Q3_EXTERN_API_C ( TQ3GeometryObject  )
 Q3Line_New (
@@ -3757,7 +3757,7 @@ Q3Line_SetVertexPosition (
  *
  *  @param line             A line object.
  *  @param index            An index, 0 or 1, specifying an end of the line.
- *  @param attributeSet     Receives a new reference to the attribute set, or NULL.
+ *  @param attributeSet     Receives a new reference to the attribute set, or nullptr.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -3822,7 +3822,7 @@ Q3Line_EmptyData (
  *      Create a new marker geometry object.
  *
  *  @param markerData       Data describing a marker.
- *  @result                 Reference to a new Marker geometry object, or NULL on failure.
+ *  @result                 Reference to a new Marker geometry object, or nullptr on failure.
  */
 Q3_EXTERN_API_C ( TQ3GeometryObject  )
 Q3Marker_New (
@@ -4079,7 +4079,7 @@ Q3Marker_SetBitmap (
  *  @discussion
  *      Create a new empty Mesh geometry object.
  *
- *  @result                 Reference to a new Mesh geometry object, or NULL on failure.
+ *  @result                 Reference to a new Mesh geometry object, or nullptr on failure.
  */
 Q3_EXTERN_API_C ( TQ3GeometryObject  )
 Q3Mesh_New (
@@ -5553,7 +5553,7 @@ Q3Mesh_NextContourFace (
  *      Create a new NURB curve geometry object.
  *
  *  @param curveData        Data describing a NURB curve.
- *  @result                 Reference to a new NURB curve geometry object, or NULL on failure.
+ *  @result                 Reference to a new NURB curve geometry object, or nullptr on failure.
  */
 Q3_EXTERN_API_C ( TQ3GeometryObject  )
 Q3NURBCurve_New (
@@ -5731,7 +5731,7 @@ Q3NURBCurve_GetKnot (
  *      Create a new NURB patch geometry object.
  *
  *  @param nurbPatchData    Data describing a NURB patch.
- *  @result                 Reference to a new NURB patch geometry object, or NULL on failure.
+ *  @result                 Reference to a new NURB patch geometry object, or nullptr on failure.
  */
 Q3_EXTERN_API_C ( TQ3GeometryObject  )
 Q3NURBPatch_New (
@@ -5953,7 +5953,7 @@ Q3NURBPatch_EmptyData (
  *      Create a new pixmap marker geometry object.
  *
  *  @param pixmapMarkerData Data describing a pixmap marker.
- *  @result                 Reference to a new pixmap marker geometry object, or NULL on failure.
+ *  @result                 Reference to a new pixmap marker geometry object, or nullptr on failure.
  */
 Q3_EXTERN_API_C ( TQ3GeometryObject  )
 Q3PixmapMarker_New (
@@ -6200,11 +6200,11 @@ Q3PixmapMarker_SetPixmap (
  *  @discussion
  *      Create a new point geometry object.
  *
- *		If you pass NULL instead of a data pointer, you will get a point disk, at (0, 0, 0).
+ *		If you pass nullptr instead of a data pointer, you will get a point disk, at (0, 0, 0).
  *		<em>This behavior was not present in QuickDraw 3D.</em>
  *
- *  @param pointData        Data describing a point, or NULL.
- *  @result                 Reference to a new Point geometry object, or NULL on failure.
+ *  @param pointData        Data describing a point, or nullptr.
+ *  @result                 Reference to a new Point geometry object, or nullptr on failure.
  */
 Q3_EXTERN_API_C ( TQ3GeometryObject  )
 Q3Point_New (
@@ -6338,7 +6338,7 @@ Q3Point_GetPosition (
  *      Create a new polygon geometry object.
  *
  *  @param polygonData      Data describing a polygon.
- *  @result                 Reference to a new Polygon geometry object, or NULL on failure.
+ *  @result                 Reference to a new Polygon geometry object, or nullptr on failure.
  */
 Q3_EXTERN_API_C ( TQ3GeometryObject  )
 Q3Polygon_New (
@@ -6471,7 +6471,7 @@ Q3Polygon_SetVertexPosition (
  *
  *  @param polygon          A polygon object.
  *  @param index            A 0-based index into the array of vertices of the polygon.
- *  @param attributeSet     Receives a new reference to the attribute set, or NULL.
+ *  @param attributeSet     Receives a new reference to the attribute set, or nullptr.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -6516,7 +6516,7 @@ Q3Polygon_SetVertexAttributeSet (
  *      Create a new polyhedron geometry object.
  *
  *  @param polyhedronData   Data describing a polyhedron.
- *  @result                 Reference to a new Polyhedron geometry object, or NULL on failure.
+ *  @result                 Reference to a new Polyhedron geometry object, or nullptr on failure.
  */
 Q3_EXTERN_API_C ( TQ3GeometryObject  )
 Q3Polyhedron_New (
@@ -6774,7 +6774,7 @@ Q3Polyhedron_SetEdgeData (
  *      Create a new polyline geometry object.
  *
  *  @param polylineData     Data describing a polyline.
- *  @result                 Reference to a new Polyline geometry object, or NULL on failure.
+ *  @result                 Reference to a new Polyline geometry object, or nullptr on failure.
  */
 Q3_EXTERN_API_C ( TQ3GeometryObject  )
 Q3PolyLine_New (
@@ -6991,12 +6991,12 @@ Q3PolyLine_SetSegmentAttributeSet (
  *  @discussion
  *      Create a new torus geometry object.
  *
- *		If you pass NULL, you will get a default torus with orientation (1, 0, 0), major axis
+ *		If you pass nullptr, you will get a default torus with orientation (1, 0, 0), major axis
  *		(0, 1, 0), minor axis (0, 0, 1), origin (0, 0, 0), and ratio 1.  <em>This behavior was
  *		not present in QuickDraw 3D.</em>
  *
- *  @param torusData        Data describing a torus, or NULL.
- *  @result                 Reference to a new Torus geometry object, or NULL on failure.
+ *  @param torusData        Data describing a torus, or nullptr.
+ *  @result                 Reference to a new Torus geometry object, or nullptr on failure.
  */
 Q3_EXTERN_API_C ( TQ3GeometryObject  )
 Q3Torus_New (
@@ -7274,7 +7274,7 @@ Q3Torus_EmptyData (
  *      Create a new triangle geometry object.
  *
  *  @param triangleData     Data describing a triangle.
- *  @result                 Reference to a new Triangle geometry object, or NULL on failure.
+ *  @result                 Reference to a new Triangle geometry object, or nullptr on failure.
  */
 Q3_EXTERN_API_C ( TQ3GeometryObject  )
 Q3Triangle_New (
@@ -7452,7 +7452,7 @@ Q3Triangle_SetVertexAttributeSet (
  *      Create a new TriGrid geometry object.
  *
  *  @param triGridData      Data describing a TriGrid.
- *  @result                 Reference to a new TriGrid geometry object, or NULL on failure.
+ *  @result                 Reference to a new TriGrid geometry object, or nullptr on failure.
  */
 Q3_EXTERN_API_C ( TQ3GeometryObject  )
 Q3TriGrid_New (
@@ -7686,7 +7686,7 @@ Q3TriGrid_SetFacetAttributeSet (
  *		normal vectors will be normalized.
  *
  *  @param triMeshData      Data describing a TriMesh.
- *  @result                 Reference to a new TriMesh geometry object, or NULL on failure.
+ *  @result                 Reference to a new TriMesh geometry object, or nullptr on failure.
  */
 Q3_EXTERN_API_C ( TQ3GeometryObject  )
 Q3TriMesh_New (
@@ -7704,7 +7704,7 @@ Q3TriMesh_New (
 				critical.  It assumes that each of the 6 array pointers within
 				the <code>TQ3TriMeshData</code> structure, and each array
 				pointer within the <code>TQ3TriMeshAttributeData</code>
-				structures, is either NULL or has been allocated with one of the
+				structures, is either nullptr or has been allocated with one of the
 				Quesa memory allocation functions.  Ownership of these pointers
 				is transferred to the TriMesh object.
 				
@@ -7717,7 +7717,7 @@ Q3TriMesh_New (
 				<code>bBox</code> field, and Quesa will compute the bounding box.
 	
 	@param triMeshData      Data describing a TriMesh.
-	@result                 Reference to a new TriMesh geometry object, or NULL on failure.
+	@result                 Reference to a new TriMesh geometry object, or nullptr on failure.
 */
 Q3_EXTERN_API_C ( TQ3GeometryObject  )
 Q3TriMesh_New_NoCopy (
@@ -7932,12 +7932,12 @@ Q3TriMesh_OptimizeData( const TQ3TriMeshData* inData,
  *	
  *	@discussion
  *		See discussion of Q3TriMesh_OptimizeData for the optimizations
- *		that are performed.  If no optimizations are needed, NULL is returned.
+ *		that are performed.  If no optimizations are needed, nullptr is returned.
  *	
  *      <em>This function is not available in QD3D.</em>
  *
  *	@param		inTriMesh		A TriMesh geometry.
- *	@result		A TriMesh or NULL.
+ *	@result		A TriMesh or nullptr.
 */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 

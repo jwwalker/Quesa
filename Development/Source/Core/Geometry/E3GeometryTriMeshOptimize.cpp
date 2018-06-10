@@ -51,7 +51,7 @@
 #include <vector>
 #include <algorithm>
 
-#define	EQ3ThrowIfMemFail_( x )		do { if ( (x) == NULL ) { \
+#define	EQ3ThrowIfMemFail_( x )		do { if ( (x) == nullptr ) { \
 										throw std::bad_alloc();	\
 										} } while (false)
 
@@ -183,22 +183,22 @@ TriMeshOptimizer::TriMeshOptimizer(
 	: mOrigData( inData )
 	, mResultData( outData )
 	
-	, mOrigFaceNormals( NULL )
-	, mOrigFaceColor( NULL )
-	, mOrigFaceTransparency( NULL )
-	, mOrigFaceSpecularColor( NULL )
+	, mOrigFaceNormals( nullptr )
+	, mOrigFaceColor( nullptr )
+	, mOrigFaceTransparency( nullptr )
+	, mOrigFaceSpecularColor( nullptr )
 
-	, mOrigEdgeNormals( NULL )
-	, mOrigEdgeColor( NULL )
-	, mOrigEdgeTransparency( NULL )
-	, mOrigEdgeSpecularColor( NULL )
+	, mOrigEdgeNormals( nullptr )
+	, mOrigEdgeColor( nullptr )
+	, mOrigEdgeTransparency( nullptr )
+	, mOrigEdgeSpecularColor( nullptr )
 
-	, mOrigVertexNormals( NULL )
-	, mOrigVertexColor( NULL )
-	, mOrigVertexTransparency( NULL )
-	, mOrigVertexSpecularColor( NULL )
+	, mOrigVertexNormals( nullptr )
+	, mOrigVertexColor( nullptr )
+	, mOrigVertexTransparency( nullptr )
+	, mOrigVertexSpecularColor( nullptr )
 	
-	, mResultFaceNormals( NULL )
+	, mResultFaceNormals( nullptr )
 {
 }
 
@@ -231,11 +231,11 @@ TQ3Boolean		TriMeshOptimizer::IsOptNeeded() const
 {
 	TQ3Boolean	needOpt = kQ3False;
 	
-	if ( (mOrigFaceNormals == NULL) ||
-		(mOrigVertexNormals == NULL) ||
-		((mOrigFaceColor != NULL) && (mOrigVertexColor == NULL)) ||
-		((mOrigFaceTransparency != NULL) && (mOrigVertexTransparency == NULL)) ||
-		((mOrigFaceSpecularColor != NULL) && (mOrigVertexSpecularColor == NULL))
+	if ( (mOrigFaceNormals == nullptr) ||
+		(mOrigVertexNormals == nullptr) ||
+		((mOrigFaceColor != nullptr) && (mOrigVertexColor == nullptr)) ||
+		((mOrigFaceTransparency != nullptr) && (mOrigVertexTransparency == nullptr)) ||
+		((mOrigFaceSpecularColor != nullptr) && (mOrigVertexSpecularColor == nullptr))
 	)
 	{
 		needOpt = kQ3True;
@@ -332,7 +332,7 @@ TQ3Vector3D	TriMeshOptimizer::GetNormalFromOwner( const Owner& inOwner ) const
 	}
 	else if (inOwner.mType == kOwnerTypeEdge)
 	{
-		if (mOrigEdgeNormals != NULL)
+		if (mOrigEdgeNormals != nullptr)
 		{
 			theNormal = mOrigEdgeNormals[ inOwner.mIndex ];
 		}
@@ -356,7 +356,7 @@ TQ3ColorRGB	TriMeshOptimizer::GetDiffColorFromOwner( const Owner& inOwner ) cons
 	}
 	else if (inOwner.mType == kOwnerTypeEdge)
 	{
-		if (mOrigEdgeColor != NULL)
+		if (mOrigEdgeColor != nullptr)
 		{
 			theColor = mOrigEdgeColor[ inOwner.mIndex ];
 		}
@@ -380,7 +380,7 @@ TQ3ColorRGB	TriMeshOptimizer::GetSpecColorFromOwner( const Owner& inOwner ) cons
 	}
 	else if (inOwner.mType == kOwnerTypeEdge)
 	{
-		if (mOrigEdgeSpecularColor != NULL)
+		if (mOrigEdgeSpecularColor != nullptr)
 		{
 			theColor = mOrigEdgeSpecularColor[ inOwner.mIndex ];
 		}
@@ -404,7 +404,7 @@ TQ3ColorRGB	TriMeshOptimizer::GetTransColorFromOwner( const Owner& inOwner ) con
 	}
 	else if (inOwner.mType == kOwnerTypeEdge)
 	{
-		if (mOrigEdgeTransparency != NULL)
+		if (mOrigEdgeTransparency != nullptr)
 		{
 			theColor = mOrigEdgeTransparency[ inOwner.mIndex ];
 		}
@@ -465,7 +465,7 @@ bool	TriMeshOptimizer::AreInstancesSimilar( TQ3Int32 inPt1, TQ3Int32 inPt2 )
 	
 	// If vertex normals do not exist, similar instances must have the same
 	// face normal.
-	if (mOrigVertexNormals == NULL)
+	if (mOrigVertexNormals == nullptr)
 	{
 		TQ3Vector3D	norm1( GetNormalFromOwner( owner1 ) );
 		TQ3Vector3D	norm2( GetNormalFromOwner( owner2 ) );
@@ -480,7 +480,7 @@ bool	TriMeshOptimizer::AreInstancesSimilar( TQ3Int32 inPt1, TQ3Int32 inPt2 )
 	
 	// If the instances seem the same so far, and there are face colors but
 	// not vertex colors, then the face colors may distinguish them.
-	if ( isSame && (mOrigFaceColor != NULL) && (mOrigVertexColor == NULL) )
+	if ( isSame && (mOrigFaceColor != nullptr) && (mOrigVertexColor == nullptr) )
 	{
 		TQ3ColorRGB	diff1( GetDiffColorFromOwner( owner1 ) );
 		TQ3ColorRGB	diff2( GetDiffColorFromOwner( owner2 ) );
@@ -488,7 +488,7 @@ bool	TriMeshOptimizer::AreInstancesSimilar( TQ3Int32 inPt1, TQ3Int32 inPt2 )
 	}
 	
 	// Same for transparency color.
-	if ( isSame && (mOrigFaceTransparency != NULL) && (mOrigVertexTransparency == NULL) )
+	if ( isSame && (mOrigFaceTransparency != nullptr) && (mOrigVertexTransparency == nullptr) )
 	{
 		TQ3ColorRGB	trans1( GetTransColorFromOwner( owner1 ) );
 		TQ3ColorRGB	trans2( GetTransColorFromOwner( owner2 ) );
@@ -496,7 +496,7 @@ bool	TriMeshOptimizer::AreInstancesSimilar( TQ3Int32 inPt1, TQ3Int32 inPt2 )
 	}
 	
 	// Same for specular color.
-	if ( isSame && (mOrigFaceSpecularColor != NULL) && (mOrigVertexSpecularColor == NULL) )
+	if ( isSame && (mOrigFaceSpecularColor != nullptr) && (mOrigVertexSpecularColor == nullptr) )
 	{
 		TQ3ColorRGB	spec1( GetSpecColorFromOwner( owner1 ) );
 		TQ3ColorRGB	spec2( GetSpecColorFromOwner( owner2 ) );
@@ -627,7 +627,7 @@ static TQ3Uns32	GetAttributeSize( TQ3AttributeType inAttType )
 {
 	TQ3ObjectType	attType = E3Attribute_AttributeToClassType( inAttType );
 	E3ClassInfoPtr theClass = E3ClassTree::GetClass( attType );
-	EQ3ThrowIf_( theClass == NULL );
+	EQ3ThrowIf_( theClass == nullptr );
 	TQ3Uns32 attrSize = theClass->GetInstanceSize();
 	return attrSize;
 }
@@ -643,7 +643,7 @@ static void CopyAttributeData(
 	TQ3Uns32 bytes    = inNumElements * attrSize;
 	if (bytes == 0)
 	{
-		outDest.data = NULL;
+		outDest.data = nullptr;
 	}
 	else
 	{
@@ -657,7 +657,7 @@ static void CopyAttributeData(
 			
 			for (TQ3Uns32 i = 0; i < inNumElements; ++i)
 			{
-				if (obArray[i] != NULL)
+				if (obArray[i] != nullptr)
 				{
 					Q3Shared_GetReference( obArray[i] );
 				}
@@ -665,9 +665,9 @@ static void CopyAttributeData(
 		}
 	}
 	
-	if ( (inSrc.attributeUseArray == NULL) || (inNumElements == 0) )
+	if ( (inSrc.attributeUseArray == nullptr) || (inNumElements == 0) )
 	{
-		outDest.attributeUseArray = NULL;
+		outDest.attributeUseArray = nullptr;
 	}
 	else
 	{
@@ -682,7 +682,7 @@ void	TriMeshOptimizer::BuildFaceAttributes()
 {
 	const TQ3Uns32	kNumAtts = mOrigData.numTriangleAttributeTypes;
 	mResultData.numTriangleAttributeTypes = kNumAtts;
-	if (mOrigFaceNormals == NULL)
+	if (mOrigFaceNormals == nullptr)
 	{
 		mResultData.numTriangleAttributeTypes += 1;
 	}
@@ -699,7 +699,7 @@ void	TriMeshOptimizer::BuildFaceAttributes()
 			mResultData.triangleAttributeTypes[i] );
 	}
 	
-	if (mOrigFaceNormals == NULL)
+	if (mOrigFaceNormals == nullptr)
 	{
 		mResultData.triangleAttributeTypes[ kNumAtts ].attributeType
 			= kQ3AttributeTypeNormal;
@@ -719,7 +719,7 @@ void	TriMeshOptimizer::BuildEdges()
 	
 	if (mResultData.numEdges == 0)
 	{
-		mResultData.edges = NULL;
+		mResultData.edges = nullptr;
 	}
 	else
 	{
@@ -747,7 +747,7 @@ void	TriMeshOptimizer::BuildEdgeAttributes()
 	
 	if (mResultData.numEdgeAttributeTypes == 0)
 	{
-		mResultData.edgeAttributeTypes = NULL;
+		mResultData.edgeAttributeTypes = nullptr;
 	}
 	else
 	{
@@ -771,7 +771,7 @@ void	TriMeshOptimizer::BuildPoints()
 	
 	if (mResultData.numPoints == 0)
 	{
-		mResultData.points = NULL;
+		mResultData.points = nullptr;
 	}
 	else
 	{
@@ -788,12 +788,12 @@ void	TriMeshOptimizer::BuildPoints()
 
 void	TriMeshOptimizer::BuildVertexAttributes()
 {
-	bool	isAddingNormals = (mOrigVertexNormals == NULL);
-	bool	isAddingColor = ((mOrigFaceColor != NULL) && (mOrigVertexColor == NULL));
-	bool	isAddingTransparency = ((mOrigFaceTransparency != NULL) &&
-		(mOrigVertexTransparency == NULL));
-	bool	isAddingSpecular = ((mOrigFaceSpecularColor != NULL) &&
-		(mOrigVertexSpecularColor == NULL));
+	bool	isAddingNormals = (mOrigVertexNormals == nullptr);
+	bool	isAddingColor = ((mOrigFaceColor != nullptr) && (mOrigVertexColor == nullptr));
+	bool	isAddingTransparency = ((mOrigFaceTransparency != nullptr) &&
+		(mOrigVertexTransparency == nullptr));
+	bool	isAddingSpecular = ((mOrigFaceSpecularColor != nullptr) &&
+		(mOrigVertexSpecularColor == nullptr));
 	
 	mResultData.numVertexAttributeTypes = mOrigData.numVertexAttributeTypes;
 	if (isAddingNormals)
@@ -845,7 +845,7 @@ void	TriMeshOptimizer::BuildVertexAttributes()
 					dstData + j * attrSize, attrSize );
 			}
 			
-			if (mOrigData.vertexAttributeTypes[i].attributeUseArray != NULL)
+			if (mOrigData.vertexAttributeTypes[i].attributeUseArray != nullptr)
 			{
 				mResultData.vertexAttributeTypes[i].attributeUseArray =
 					static_cast<char*>( E3Memory_Allocate( mResultData.numPoints ) );
@@ -936,7 +936,7 @@ void	TriMeshOptimizer::ComputeBounds()
 */
 void	TriMeshOptimizer::EnsureFaceNormals()
 {
-	if (mOrigFaceNormals == NULL)
+	if (mOrigFaceNormals == nullptr)
 	{
 		mComputedFaceNormals.resize( mOrigData.numTriangles );
 		
@@ -1135,17 +1135,17 @@ TQ3Status E3TriMesh_OptimizeData( const TQ3TriMeshData& inData,
 				interactive renderer.
 	
 	@discussion	See discussion of E3TriMesh_OptimizeData for the optimizations
-				that are performed.  If no optimizations are needed, NULL
+				that are performed.  If no optimizations are needed, nullptr
 				is returned.
 	
 	@param		inTriMesh		A TriMesh geometry.
-	@result		A TriMesh or NULL.
+	@result		A TriMesh or nullptr.
 */
 TQ3GeometryObject E3TriMesh_Optimize( TQ3GeometryObject inTriMesh )
 {
-	TQ3GeometryObject	theResult = NULL;
+	TQ3GeometryObject	theResult = nullptr;
 	
-	TQ3TriMeshData*	origData = NULL;
+	TQ3TriMeshData*	origData = nullptr;
 	
 	if (kQ3Success == Q3TriMesh_LockData( inTriMesh, kQ3True, &origData ))
 	{

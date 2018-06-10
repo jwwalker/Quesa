@@ -105,7 +105,7 @@ isOpenGLExtensionPresent( const char* inNames, const char* inExtName )
 	TQ3Boolean	foundExtension = kQ3False;
 	size_t	nameLength = strlen( inExtName );
 	
-	if (inNames != NULL)
+	if (inNames != nullptr)
 	{
 		while (inNames[0] != '\0')
 		{
@@ -310,7 +310,7 @@ GLUtils_CheckExtensions( TQ3GLExtensions* featureFlags )
 	// Initialize to default value, all off.
 	memset( featureFlags, 0, sizeof(TQ3GLExtensions) );
 	
-	if (openGLVersion != NULL)
+	if (openGLVersion != nullptr)
 	{
 		// Get BCD version.
 		while (((openGLVersion[j] <= '9') && (openGLVersion[j] >= '0')) || (openGLVersion[j] == '.'))
@@ -556,7 +556,7 @@ static CFBundleRef	GetOpenGLBundle()
 {
 	CFBundleRef	theBundle = CFBundleGetBundleWithIdentifier( CFSTR("com.apple.OpenGL") );
 	
-	if (theBundle == NULL)
+	if (theBundle == nullptr)
 	{
 		LoadFrameworkBundle( CFSTR("OpenGL.framework"), &theBundle );
 	}
@@ -567,17 +567,17 @@ static CFBundleRef	GetOpenGLBundle()
 // See <http://developer.apple.com/qa/qa2001/qa1188.html>
 void*	GLGetProcAddress( const char* funcName )
 {
-	void*	thePtr = NULL;
+	void*	thePtr = nullptr;
 
-	// Currently we always return NULL in Classic mode...
+	// Currently we always return nullptr in Classic mode...
 	#if TARGET_API_MAC_CARBON
 	CFBundleRef		theBundle = GetOpenGLBundle();
 	
-	if (theBundle != NULL)
+	if (theBundle != nullptr)
 	{
-		CFStringRef	nameCF = CFStringCreateWithCString( NULL, funcName,
+		CFStringRef	nameCF = CFStringCreateWithCString( nullptr, funcName,
 			kCFStringEncodingASCII );
-		if (nameCF != NULL)
+		if (nameCF != nullptr)
 		{
 			thePtr = CFBundleGetFunctionPointerForName( theBundle, nameCF );
 			
@@ -606,7 +606,7 @@ void*	GLGetProcAddress( const char* funcName )
 // See <http://developer.apple.com/qa/qa2001/qa1188.html>
 void*	GLGetProcAddress( const char* funcName )
 {
-	void*	thePtr = NULL;
+	void*	thePtr = nullptr;
 	int		len = strlen( funcName );
 	char	nameBuf[1024];
 	
@@ -615,13 +615,13 @@ void*	GLGetProcAddress( const char* funcName )
 		// Prepend a '_' for the Unix C symbol mangling convention
 		strcpy( &nameBuf[1], funcName );
 		nameBuf[0] = '_';
-		NSSymbol symbol = NULL;
+		NSSymbol symbol = nullptr;
 		
 		if (NSIsSymbolNameDefined( nameBuf ))
 		{
 			symbol = NSLookupAndBindSymbol( nameBuf );
 			
-			if (symbol != NULL)
+			if (symbol != nullptr)
 			{
 				thePtr = NSAddressOfSymbol( symbol );
 			}

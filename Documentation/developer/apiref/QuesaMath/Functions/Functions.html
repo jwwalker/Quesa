@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
     "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
-<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a[name]:hover {text-decoration: inherit; font-family: inherit; font-size: inherit}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
     <title>Functions</title>
 	 <meta name="generator" content="HeaderDoc">
 </head><body bgcolor="#ffffff">
@@ -1093,7 +1093,7 @@ Available in inline form as Q3FastParam2D_Set.
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
 <dl>
-<dt><tt><em>param2D</em></tt></dt><dd>Address of param2D to set (may be NULL).</dd>
+<dt><tt><em>param2D</em></tt></dt><dd>Address of param2D to set (may be nullptr).</dd>
 <dt><tt><em>u</em></tt></dt><dd>U coordinate to set into param2D.</dd>
 <dt><tt><em>v</em></tt></dt><dd>V coordinate to set into param2D.</dd>
 </dl>
@@ -1137,7 +1137,7 @@ Available in inline form as Q3FastParam2D_Subtract.
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
 <dl>
-<dt><tt><em>point2D</em></tt></dt><dd>Address of a point to transform.</dd>
+<dt><tt><em>param2D</em></tt></dt><dd>Address of a point to transform.</dd>
 <dt><tt><em>matrix3x3</em></tt></dt><dd>Address of a 3x3 transformation matrix.</dd>
 <dt><tt><em>result</em></tt></dt><dd>Address of point to set (may be the same as point2D).</dd>
 </dl>
@@ -1345,7 +1345,7 @@ Available in inline form as Q3FastPoint2D_Set.
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
 <dl>
-<dt><tt><em>point2D</em></tt></dt><dd>Address of point to set (may be NULL).</dd>
+<dt><tt><em>point2D</em></tt></dt><dd>Address of point to set (may be nullptr).</dd>
 <dt><tt><em>x</em></tt></dt><dd>X coordinate to set into vector2D.</dd>
 <dt><tt><em>y</em></tt></dt><dd>Y coordinate to set into vector2D.</dd>
 </dl>
@@ -1710,7 +1710,7 @@ Available in inline form as Q3FastPoint3D_Set.
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
 <dl>
-<dt><tt><em>point3D</em></tt></dt><dd>Address of point to set (may be NULL).</dd>
+<dt><tt><em>point3D</em></tt></dt><dd>Address of point to set (may be nullptr).</dd>
 <dt><tt><em>x</em></tt></dt><dd>X coordinate to set into point3D.</dd>
 <dt><tt><em>y</em></tt></dt><dd>Y coordinate to set into point3D.</dd>
 <dt><tt><em>z</em></tt></dt><dd>Z coordinate to set into point3D.</dd>
@@ -1947,7 +1947,7 @@ Available in inline form as Q3FastPolarPoint_Set.
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
 <dl>
-<dt><tt><em>polarPoint</em></tt></dt><dd>Address of point to set (may be NULL).</dd>
+<dt><tt><em>polarPoint</em></tt></dt><dd>Address of point to set (may be nullptr).</dd>
 <dt><tt><em>r</em></tt></dt><dd>Radius coordinate to set into polarPoint.</dd>
 <dt><tt><em>theta</em></tt></dt><dd>Angle coordinate (in radians) to set into polarPoint.</dd>
 </dl>
@@ -2532,7 +2532,7 @@ Available in inline form as Q3FastRationalPoint3D_Set.
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
 <dl>
-<dt><tt><em>rationalPoint3D</em></tt></dt><dd>Address of rational point to set (may be NULL).</dd>
+<dt><tt><em>rationalPoint3D</em></tt></dt><dd>Address of rational point to set (may be nullptr).</dd>
 <dt><tt><em>x</em></tt></dt><dd>X coordinate to set into rationalPoint3D.</dd>
 <dt><tt><em>y</em></tt></dt><dd>Y coordinate to set into rationalPoint3D.</dd>
 <dt><tt><em>w</em></tt></dt><dd>W coordinate to set into rationalPoint3D.</dd>
@@ -3008,7 +3008,7 @@ Available in inline form as Q3FastSphericalPoint_Set.
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
 <dl>
-<dt><tt><em>sphericalPoint</em></tt></dt><dd>Address of point to set (may be NULL).</dd>
+<dt><tt><em>sphericalPoint</em></tt></dt><dd>Address of point to set (may be nullptr).</dd>
 <dt><tt><em>rho</em></tt></dt><dd>Rho coordinate to set into sphericalPoint.</dd>
 <dt><tt><em>theta</em></tt></dt><dd>Theta coordinate to set into sphericalPoint.</dd>
 <dt><tt><em>phi</em></tt></dt><dd>Phi coordinate to set into sphericalPoint.</dd>
@@ -3056,7 +3056,7 @@ of triangle normals.
 <br><br>
 Triangles may be omitted from processing with the usageFlags parameter,
 which should point to an array of TQ3Uns8 flags. If usageFlags is not
-NULL, only triangles whose corresponding entry in this array is 0 will
+nullptr, only triangles whose corresponding entry in this array is 0 will
 be processed.
 <br><br>
 The returning vectors are normalized.
@@ -3272,7 +3272,7 @@ Available in inline form as Q3FastVector2D_Set.
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
 <dl>
-<dt><tt><em>vector2D</em></tt></dt><dd>Address of vector to set (may be NULL).</dd>
+<dt><tt><em>vector2D</em></tt></dt><dd>Address of vector to set (may be nullptr).</dd>
 <dt><tt><em>x</em></tt></dt><dd>X coordinate to set into vector2D.</dd>
 <dt><tt><em>y</em></tt></dt><dd>Y coordinate to set into vector2D.</dd>
 </dl>
@@ -3502,8 +3502,8 @@ Given two arrays of vectors, an array of dot products is returned along
 with an array of TQ3Booleans indicating which dot products are less than
 zero.
 <br><br>
-At least one of dotProducts or dotLessThanZero must be non-NULL, however
-one parameter may be set to NULL if that information is not required.
+At least one of dotProducts or dotLessThanZero must be non-nullptr, however
+one parameter may be set to nullptr if that information is not required.
 <br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
@@ -3652,7 +3652,7 @@ Available in inline form as Q3FastVector3D_Set.
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
 <dl>
-<dt><tt><em>vector3D</em></tt></dt><dd>Address of vector to set (may be NULL).</dd>
+<dt><tt><em>vector3D</em></tt></dt><dd>Address of vector to set (may be nullptr).</dd>
 <dt><tt><em>x</em></tt></dt><dd>X coordinate to set into vector3D.</dd>
 <dt><tt><em>y</em></tt></dt><dd>Y coordinate to set into vector3D.</dd>
 <dt><tt><em>z</em></tt></dt><dd>Z coordinate to set into vector3D.</dd>
@@ -3817,5 +3817,5 @@ Note that for correct results, the quaternion should be normalized.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Convenience copy of result parameter.
  </dd></dl>
-<p><p>&#169; 1999-2011 Quesa Developers (Last Updated 3/13/2011)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
 </p></body></html>

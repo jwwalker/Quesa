@@ -3,7 +3,7 @@
 	
 	This header provides C++ wrappers for Quesa functions that return an object
 	reference in an output parameter, as a convenience.  In failure conditions,
-	the CQ3ObjectRef may contain NULL.  The name of the wrapper is the name of
+	the CQ3ObjectRef may contain nullptr.  The name of the wrapper is the name of
 	the original function with a C prepended.
 */
 
@@ -75,11 +75,11 @@
  *		Most applications will not need it.
  *
  *  @param	inObject    		The object.
- *	@result		A set object, or NULL.
+ *	@result		A set object, or nullptr.
  */
 inline CQ3ObjectRef	CQ3Object_GetSet( TQ3Object inObject )
 {
-	TQ3SetObject	theSet = NULL;
+	TQ3SetObject	theSet = nullptr;
 	Q3Object_GetSet( inObject, &theSet );
 	return CQ3ObjectRef( theSet );
 }
@@ -94,14 +94,14 @@ inline CQ3ObjectRef	CQ3Object_GetSet( TQ3Object inObject )
  *      Note that this is not the same as the attribute set of a geometry object,
  *		nor is in the internal set which holds elements on an object.  That is,
  *		after adding elements or attributes to an object, this function may still
- *		return the NULL set.
+ *		return the nullptr set.
  *
  *  @param inObject         The object to query.
  *  @result                 Success or failure of the operation.
  */
 inline CQ3ObjectRef	CQ3Shape_GetSet( TQ3ShapeObject inObject )
 {
-	TQ3SetObject	theSet = NULL;
+	TQ3SetObject	theSet = nullptr;
 	Q3Shape_GetSet( inObject, &theSet );
 	return CQ3ObjectRef( theSet );
 }
@@ -124,10 +124,10 @@ inline CQ3ObjectRef	CQ3Shape_GetSet( TQ3ShapeObject inObject )
 inline CQ3ObjectRef	CQ3Geometry_GetAttributeSet(
 	TQ3GeometryObject             geometry )
 {
-	TQ3AttributeSet	atts = NULL;
+	TQ3AttributeSet	atts = nullptr;
 	if (kQ3Failure == Q3Geometry_GetAttributeSet( geometry, &atts ))
 	{
-		atts = NULL;
+		atts = nullptr;
 	}
 	return CQ3ObjectRef( atts );
 }
@@ -142,13 +142,13 @@ inline CQ3ObjectRef	CQ3Geometry_GetAttributeSet(
  *  @param faceIndex        The index of the face of the box,
  *							between 0 and 5 (inclusive).
  *  @result                 The attribute set of the box face, or
- *							NULL if the face does not have an attribute set.
+ *							nullptr if the face does not have an attribute set.
  */
 inline CQ3ObjectRef CQ3Box_GetFaceAttributeSet(
 	TQ3GeometryObject             box,
     TQ3Uns32                      faceIndex )
 {
-	TQ3AttributeSet	atts = NULL;
+	TQ3AttributeSet	atts = nullptr;
 	Q3Box_GetFaceAttributeSet( box, faceIndex, &atts );
 	return CQ3ObjectRef( atts );
 }
@@ -159,12 +159,12 @@ inline CQ3ObjectRef CQ3Box_GetFaceAttributeSet(
  *  @discussion		Get the attribute set for the bottom cap of a cone object.
  *
  *  @param cone             	The cone object.
- *  @result                 	The bottom attribute set, or NULL.
+ *  @result                 	The bottom attribute set, or nullptr.
  */
 inline CQ3ObjectRef CQ3Cone_GetBottomAttributeSet(
 	TQ3GeometryObject             cone )
 {
-	TQ3AttributeSet	atts = NULL;
+	TQ3AttributeSet	atts = nullptr;
 	Q3Cone_GetBottomAttributeSet( cone, &atts );
 	return CQ3ObjectRef( atts );
 }
@@ -175,12 +175,12 @@ inline CQ3ObjectRef CQ3Cone_GetBottomAttributeSet(
  *					cap) of a cone.
  *
  *  @param cone             	The cone object.
- *  @result                 	The face attribute set, or NULL.
+ *  @result                 	The face attribute set, or nullptr.
  */
 inline CQ3ObjectRef CQ3Cone_GetFaceAttributeSet(
 	TQ3GeometryObject             cone )
 {
-	TQ3AttributeSet	atts = NULL;
+	TQ3AttributeSet	atts = nullptr;
 	Q3Cone_GetFaceAttributeSet( cone, &atts );
 	return CQ3ObjectRef( atts );
 }
@@ -191,12 +191,12 @@ inline CQ3ObjectRef CQ3Cone_GetFaceAttributeSet(
  *      Get the attribute set for the interior of a cone object.
  *
  *  @param cone             A cone object.
- *  @result                 The attribute set for the interior, or NULL.
+ *  @result                 The attribute set for the interior, or nullptr.
  */
 inline CQ3ObjectRef CQ3Cone_GetInteriorAttributeSet(
 	TQ3GeometryObject             cone )
 {
-	TQ3AttributeSet	atts = NULL;
+	TQ3AttributeSet	atts = nullptr;
 	Q3Cone_GetInteriorAttributeSet( cone, &atts );
 	return CQ3ObjectRef( atts );
 }
@@ -207,12 +207,12 @@ inline CQ3ObjectRef CQ3Cone_GetInteriorAttributeSet(
  *  @discussion		Get the attribute set for the top cap of a cylinder object.
  *
  *  @param cylinder         A cylinder object.
- *  @result                 The attribute set for the top cap, or NULL.
+ *  @result                 The attribute set for the top cap, or nullptr.
  */
 inline CQ3ObjectRef CQ3Cylinder_GetTopAttributeSet(
 	TQ3GeometryObject             cylinder )
 {
-	TQ3AttributeSet	atts = NULL;
+	TQ3AttributeSet	atts = nullptr;
 	Q3Cylinder_GetTopAttributeSet( cylinder, &atts );
 	return CQ3ObjectRef( atts );
 }
@@ -222,12 +222,12 @@ inline CQ3ObjectRef CQ3Cylinder_GetTopAttributeSet(
  *  @discussion		Get the attribute set for the bottom cap of a cylinder object.
  *
  *  @param cylinder         A cylinder object.
- *  @result                 The attribute set for the bottom cap, or NULL.
+ *  @result                 The attribute set for the bottom cap, or nullptr.
  */
 inline CQ3ObjectRef CQ3Cylinder_GetBottomAttributeSet(
 	TQ3GeometryObject             cylinder )
 {
-	TQ3AttributeSet	atts = NULL;
+	TQ3AttributeSet	atts = nullptr;
 	Q3Cylinder_GetBottomAttributeSet( cylinder, &atts );
 	return CQ3ObjectRef( atts );
 }
@@ -238,12 +238,12 @@ inline CQ3ObjectRef CQ3Cylinder_GetBottomAttributeSet(
  *  @discussion		Get the attribute set for the face of a cylinder object
  *					(i.e., neither end)
  *  @param cylinder         A cylinder object.
- *  @result                 The attribute set for the face, or NULL.
+ *  @result                 The attribute set for the face, or nullptr.
  */
 inline CQ3ObjectRef CQ3Cylinder_GetFaceAttributeSet(
 	TQ3GeometryObject             cylinder )
 {
-	TQ3AttributeSet	atts = NULL;
+	TQ3AttributeSet	atts = nullptr;
 	Q3Cylinder_GetFaceAttributeSet( cylinder, &atts );
 	return CQ3ObjectRef( atts );
 }
@@ -252,12 +252,12 @@ inline CQ3ObjectRef CQ3Cylinder_GetFaceAttributeSet(
  *  @function		CQ3Cylinder_GetInteriorAttributeSet
  *  @discussion		Get the attribute set for the interior of a cylinder object.
  *  @param cylinder         A cylinder object.
- *  @result                 The attribute set for the interior, or NULL.
+ *  @result                 The attribute set for the interior, or nullptr.
  */
 inline CQ3ObjectRef CQ3Cylinder_GetInteriorAttributeSet(
 	TQ3GeometryObject             cylinder )
 {
-	TQ3AttributeSet	atts = NULL;
+	TQ3AttributeSet	atts = nullptr;
 	Q3Cylinder_GetInteriorAttributeSet( cylinder, &atts );
 	return CQ3ObjectRef( atts );
 }
@@ -269,14 +269,14 @@ inline CQ3ObjectRef CQ3Cylinder_GetInteriorAttributeSet(
  *  @param generalPolygon   A general polygon object.
  *  @param contourIndex		A 0-based index into the array of contours.
  *  @param pointIndex       A 0-based index into the array of vertices of a contour.
- *  @result                 The vertex attribute set, or NULL.
+ *  @result                 The vertex attribute set, or nullptr.
  */
 inline CQ3ObjectRef	CQ3GeneralPolygon_GetVertexAttributeSet(
 	TQ3GeometryObject             generalPolygon,
     TQ3Uns32                      contourIndex,
     TQ3Uns32                      pointIndex )
 {
-	TQ3AttributeSet	atts = NULL;
+	TQ3AttributeSet	atts = nullptr;
 	Q3GeneralPolygon_GetVertexAttributeSet( generalPolygon, contourIndex,
 		pointIndex, &atts );
 	return CQ3ObjectRef( atts );
@@ -288,13 +288,13 @@ inline CQ3ObjectRef	CQ3GeneralPolygon_GetVertexAttributeSet(
  *
  *  @param line             A line object.
  *  @param index            An index, 0 or 1, specifying an end of the line.
- *  @result					The attribute set, or NULL.
+ *  @result					The attribute set, or nullptr.
  */
 inline CQ3ObjectRef CQ3Line_GetVertexAttributeSet(
 	TQ3GeometryObject             line,
     TQ3Uns32                      index )
 {
-	TQ3AttributeSet	atts = NULL;
+	TQ3AttributeSet	atts = nullptr;
 	Q3Line_GetVertexAttributeSet( line, index, &atts );
 	return CQ3ObjectRef( atts );
 }
@@ -312,7 +312,7 @@ inline CQ3ObjectRef CQ3Mesh_GetVertexAttributeSet(
 	TQ3GeometryObject             mesh,
     TQ3MeshVertex                 vertex )
 {
-	TQ3AttributeSet	atts = NULL;
+	TQ3AttributeSet	atts = nullptr;
 	Q3Mesh_GetVertexAttributeSet( mesh, vertex, &atts );
 	return CQ3ObjectRef( atts );
 }
@@ -329,7 +329,7 @@ inline CQ3ObjectRef CQ3Mesh_GetFaceAttributeSet(
 	TQ3GeometryObject             mesh,
 	TQ3MeshFace                   face )
 {
-	TQ3AttributeSet	atts = NULL;
+	TQ3AttributeSet	atts = nullptr;
 	Q3Mesh_GetFaceAttributeSet( mesh, face, &atts );
 	return CQ3ObjectRef( atts );
 }
@@ -346,7 +346,7 @@ inline CQ3ObjectRef CQ3Mesh_GetEdgeAttributeSet(
 	TQ3GeometryObject             mesh,
 	TQ3MeshEdge                   edge )
 {
-	TQ3AttributeSet	atts = NULL;
+	TQ3AttributeSet	atts = nullptr;
 	Q3Mesh_GetEdgeAttributeSet( mesh, edge, &atts );
 	return CQ3ObjectRef( atts );
 }
@@ -365,7 +365,7 @@ inline CQ3ObjectRef CQ3Mesh_GetCornerAttributeSet(
 	TQ3MeshVertex                 vertex,
     TQ3MeshFace                   face )
 {
-	TQ3AttributeSet	atts = NULL;
+	TQ3AttributeSet	atts = nullptr;
 	Q3Mesh_GetCornerAttributeSet( mesh, vertex, face, &atts );
 	return CQ3ObjectRef( atts );
 }
@@ -376,13 +376,13 @@ inline CQ3ObjectRef CQ3Mesh_GetCornerAttributeSet(
  *
  *  @param polygon          A polygon object.
  *  @param index            A 0-based index into the array of vertices of the polygon.
- *  @result                 The attribute set, or NULL.
+ *  @result                 The attribute set, or nullptr.
  */
 inline CQ3ObjectRef CQ3Polygon_GetVertexAttributeSet(
 	TQ3GeometryObject             polygon,
     TQ3Uns32                      index )
 {
-	TQ3AttributeSet	atts = NULL;
+	TQ3AttributeSet	atts = nullptr;
 	Q3Polygon_GetVertexAttributeSet( polygon, index, &atts );
 	return CQ3ObjectRef( atts );
 }
@@ -399,7 +399,7 @@ inline CQ3ObjectRef CQ3Polyhedron_GetVertexAttributeSet(
 	TQ3GeometryObject             polyhedron,
     TQ3Uns32                      index )
 {
-	TQ3AttributeSet	atts = NULL;
+	TQ3AttributeSet	atts = nullptr;
 	Q3Polyhedron_GetVertexAttributeSet( polyhedron, index, &atts );
 	return CQ3ObjectRef( atts );
 }
@@ -416,7 +416,7 @@ inline CQ3ObjectRef CQ3PolyLine_GetVertexAttributeSet(
 	TQ3GeometryObject             polyLine,
     TQ3Uns32                      index )
 {
-	TQ3AttributeSet	atts = NULL;
+	TQ3AttributeSet	atts = nullptr;
 	Q3PolyLine_GetVertexAttributeSet( polyLine, index, &atts );
 	return CQ3ObjectRef( atts );
 }
@@ -433,7 +433,7 @@ inline CQ3ObjectRef CQ3PolyLine_GetSegmentAttributeSet(
 	TQ3GeometryObject             polyLine,
     TQ3Uns32                      index )
 {
-	TQ3AttributeSet	atts = NULL;
+	TQ3AttributeSet	atts = nullptr;
 	Q3PolyLine_GetSegmentAttributeSet( polyLine, index, &atts );
 	return CQ3ObjectRef( atts );
 }
@@ -450,7 +450,7 @@ inline CQ3ObjectRef CQ3Triangle_GetVertexAttributeSet(
 	TQ3GeometryObject             triangle,
     TQ3Uns32                      index )
 {
-	TQ3AttributeSet	atts = NULL;
+	TQ3AttributeSet	atts = nullptr;
 	Q3Triangle_GetVertexAttributeSet( triangle, index, &atts );
 	return CQ3ObjectRef( atts );
 }
@@ -468,7 +468,7 @@ inline CQ3ObjectRef CQ3Triangle_GetVertexAttributeSet(
  *		This function obtains a reference to the group member at a 
  *		specified position.
  *
- *      Returns NULL if there is no object at the given position.
+ *      Returns nullptr if there is no object at the given position.
  *
  *  @param group            Group to inspect.
  *  @param position         Position of desired object.
@@ -478,7 +478,7 @@ inline CQ3ObjectRef CQ3Group_GetPositionObject(
 	TQ3GroupObject                group,
     TQ3GroupPosition              position )
 {
-	TQ3Object	theObject = NULL;
+	TQ3Object	theObject = nullptr;
 	Q3Group_GetPositionObject( group, position, &theObject );
 	return CQ3ObjectRef( theObject );
 }
@@ -498,7 +498,7 @@ inline CQ3ObjectRef CQ3Group_GetPositionObject(
 inline CQ3ObjectRef CQ3File_GetStorage(
 	TQ3FileObject                 theFile )
 {
-	TQ3StorageObject	theStorage = NULL;
+	TQ3StorageObject	theStorage = nullptr;
 	Q3File_GetStorage( theFile, &theStorage );
 	return CQ3ObjectRef( theStorage );
 }
@@ -513,7 +513,7 @@ inline CQ3ObjectRef CQ3File_GetStorage(
 inline CQ3ObjectRef CQ3ViewHints_GetRenderer(
 	TQ3ViewHintsObject            viewHints )
 {
-	TQ3Object	theObject = NULL;
+	TQ3Object	theObject = nullptr;
 	Q3ViewHints_GetRenderer( viewHints, &theObject );
 	return CQ3ObjectRef( theObject );
 }
@@ -528,7 +528,7 @@ inline CQ3ObjectRef CQ3ViewHints_GetRenderer(
 inline CQ3ObjectRef CQ3ViewHints_GetCamera(
 	TQ3ViewHintsObject            viewHints )
 {
-	TQ3Object	theObject = NULL;
+	TQ3Object	theObject = nullptr;
 	Q3ViewHints_GetCamera( viewHints, &theObject );
 	return CQ3ObjectRef( theObject );
 }
@@ -543,7 +543,7 @@ inline CQ3ObjectRef CQ3ViewHints_GetCamera(
 inline CQ3ObjectRef CQ3ViewHints_GetLightGroup(
 	TQ3ViewHintsObject            viewHints )
 {
-	TQ3Object	theObject = NULL;
+	TQ3Object	theObject = nullptr;
 	Q3ViewHints_GetLightGroup( viewHints, &theObject );
 	return CQ3ObjectRef( theObject );
 }
@@ -559,7 +559,7 @@ inline CQ3ObjectRef CQ3ViewHints_GetLightGroup(
 inline CQ3ObjectRef CQ3ViewHints_GetAttributeSet(
 	TQ3ViewHintsObject            viewHints )
 {
-	TQ3Object	theObject = NULL;
+	TQ3Object	theObject = nullptr;
 	Q3ViewHints_GetAttributeSet( viewHints, &theObject );
 	return CQ3ObjectRef( theObject );
 }
@@ -575,12 +575,12 @@ inline CQ3ObjectRef CQ3ViewHints_GetAttributeSet(
  *	@discussion	Get the surface shader from an attribute set.
  *
  *	@param		inSet		An attribute set.
- *	@result		A surface shader or NULL.
+ *	@result		A surface shader or nullptr.
 */
 inline CQ3ObjectRef CQ3AttributeSet_GetSurfaceShader( TQ3AttributeSet inSet )
 {
-	TQ3Object	theShader = NULL;
-	if (inSet != NULL)
+	TQ3Object	theShader = nullptr;
+	if (inSet != nullptr)
 	{
 		Q3AttributeSet_Get( inSet, kQ3AttributeTypeSurfaceShader, &theShader );
 	}
@@ -603,7 +603,7 @@ inline CQ3ObjectRef CQ3AttributeSet_GetSurfaceShader( TQ3AttributeSet inSet )
 inline CQ3ObjectRef CQ3TextureShader_GetTexture(
 	TQ3ShaderObject               shader )
 {
-	TQ3Object	theObject = NULL;
+	TQ3Object	theObject = nullptr;
 	Q3TextureShader_GetTexture( shader, &theObject );
 	return CQ3ObjectRef( theObject );
 }
@@ -624,7 +624,7 @@ inline CQ3ObjectRef CQ3TextureShader_GetTexture(
 inline CQ3ObjectRef CQ3HighlightStyle_Get(
 	TQ3StyleObject                highlight )
 {
-	TQ3Object	theObject = NULL;
+	TQ3Object	theObject = nullptr;
 	Q3HighlightStyle_Get( highlight, &theObject );
 	return CQ3ObjectRef( theObject );
 }
@@ -645,7 +645,7 @@ inline CQ3ObjectRef CQ3HighlightStyle_Get(
 inline CQ3ObjectRef CQ3View_GetRenderer(
 	TQ3ViewObject                 view )
 {
-	TQ3Object	theObject = NULL;
+	TQ3Object	theObject = nullptr;
 	Q3View_GetRenderer( view, &theObject );
 	return CQ3ObjectRef( theObject );
 }
@@ -661,7 +661,7 @@ inline CQ3ObjectRef CQ3View_GetRenderer(
 inline CQ3ObjectRef CQ3View_GetCamera(
 	TQ3ViewObject                 view )
 {
-	TQ3Object	theObject = NULL;
+	TQ3Object	theObject = nullptr;
 	Q3View_GetCamera( view, &theObject );
 	return CQ3ObjectRef( theObject );
 }
@@ -676,7 +676,7 @@ inline CQ3ObjectRef CQ3View_GetCamera(
 inline CQ3ObjectRef CQ3View_GetLightGroup(
 	TQ3ViewObject                 view )
 {
-	TQ3Object	theObject = NULL;
+	TQ3Object	theObject = nullptr;
 	Q3View_GetLightGroup( view, &theObject );
 	return CQ3ObjectRef( theObject );
 }
@@ -691,7 +691,7 @@ inline CQ3ObjectRef CQ3View_GetLightGroup(
 inline CQ3ObjectRef CQ3View_GetDrawContext(
 	TQ3ViewObject                 view )
 {
-	TQ3Object	theObject = NULL;
+	TQ3Object	theObject = nullptr;
 	Q3View_GetDrawContext( view, &theObject );
 	return CQ3ObjectRef( theObject );
 }
@@ -706,7 +706,7 @@ inline CQ3ObjectRef CQ3View_GetDrawContext(
 inline CQ3ObjectRef CQ3View_GetDefaultAttributeSet(
 	TQ3ViewObject                 view )
 {
-	TQ3Object	theObject = NULL;
+	TQ3Object	theObject = nullptr;
 	Q3View_GetDefaultAttributeSet( view, &theObject );
 	return CQ3ObjectRef( theObject );
 }
@@ -721,7 +721,7 @@ inline CQ3ObjectRef CQ3View_GetDefaultAttributeSet(
 inline CQ3ObjectRef CQ3View_GetAttributeSetState(
 	TQ3ViewObject                 view )
 {
-	TQ3Object	theObject = NULL;
+	TQ3Object	theObject = nullptr;
 	Q3View_GetAttributeSetState( view, &theObject );
 	return CQ3ObjectRef( theObject );
 }

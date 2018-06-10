@@ -77,11 +77,11 @@ TQ3Status			QORenderer_Register(void)
 											kQ3RendererTypeOpenGL,
 											kRendererClassName,
 											&QORenderer::Statics::MetaHandler,
-											NULL,
+											nullptr,
 											0,
 											sizeof(QORenderer::Renderer*));
 
-	return(theClass == NULL ? kQ3Failure : kQ3Success);
+	return(theClass == nullptr ? kQ3Failure : kQ3Success);
 }
 
 
@@ -91,7 +91,7 @@ void				QORenderer_Unregister(void)
 	TQ3XObjectClass theClass = Q3XObjectHierarchy_FindClassByType(
 		kQ3RendererTypeOpenGL );
 	
-	if (theClass != NULL)
+	if (theClass != nullptr)
 	{
 		// Unregister the class
 		Q3XObjectHierarchy_UnregisterClass( theClass );

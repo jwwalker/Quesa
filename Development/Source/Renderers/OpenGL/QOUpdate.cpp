@@ -158,7 +158,7 @@ void	QORenderer::Renderer::UpdateSurfaceShader(
 	
 	// If this is a texture shader, get the texture from the shader
 	CQ3ObjectRef	theTexture;
-	if (inShader != NULL && ( (mAttributesMask & kQ3XAttributeMaskDiffuseColor) != 0))
+	if (inShader != nullptr && ( (mAttributesMask & kQ3XAttributeMaskDiffuseColor) != 0))
 	{
 		if (Q3SurfaceShader_GetType( inShader ) == kQ3SurfaceShaderTypeTexture)
 		{
@@ -193,7 +193,7 @@ void	QORenderer::Renderer::UpdateIlluminationShader(
 	
 	
 	// Update our state
-	if (inShader != NULL)
+	if (inShader != nullptr)
 	{
 		mViewIllumination = Q3IlluminationShader_GetType(inShader);
 	}
@@ -209,7 +209,7 @@ void	QORenderer::Renderer::UpdateIlluminationShader(
 	GLfloat	dullSpecularControl = 0.0f;
 	
 	// Texturing note:  The legacy behavior is that unless the illumination is
-	// NULL, the texture completely overrides the underlying color.
+	// nullptr, the texture completely overrides the underlying color.
 	
 	switch (mViewIllumination)
 	{
@@ -397,7 +397,7 @@ void	QORenderer::Renderer::UpdateHighlightStyle(
 	mTriBuffer.Flush();
 	
 	
-	if (*inStyleData == NULL)
+	if (*inStyleData == nullptr)
 	{
 		mStyleState.mHilite = CQ3ObjectRef();
 	}

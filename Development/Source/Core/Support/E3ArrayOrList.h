@@ -202,7 +202,7 @@ typedef struct TE3Kernal {
 //-----------------------------------------------------------------------------
 typedef struct TE3Array {
 	TE3Kernal					kernal_private;
-	TE3GenericItem*				headItemPtr_private;	// ptr to items (or NULL)
+	TE3GenericItem*				headItemPtr_private;	// ptr to items (or nullptr)
 } TE3Array;
 
 
@@ -645,7 +645,7 @@ E3PtrArray_HasPtr(															\
 	Q3_ASSERT_VALID_PTR(arrayInfoPtr),										\
 																			\
 	E3PtrArray_FindPtr(arrayPtr, arrayInfoPtr, item)						\
-	!= NULL ? kQ3True : kQ3False											\
+	!= nullptr ? kQ3True : kQ3False											\
 )
 
 
@@ -920,7 +920,7 @@ E3PtrList_HasPtr(															\
 	Q3_ASSERT_VALID_PTR(listPtr),											\
 																			\
 	E3PtrList_FindPtr(listPtr, listInfoPtr, item)							\
-	!= NULL ? kQ3True : kQ3False											\
+	!= nullptr ? kQ3True : kQ3False											\
 )
 
 TE3GenericItem*
@@ -1144,7 +1144,7 @@ E3PtrArrayOrList_HasPtr(													\
 	Q3_ASSERT_VALID_PTR(arrayOrListInfoPtr),								\
 																			\
 	E3PtrArrayOrList_FindPtr(arrayOrListPtr, arrayOrListInfoPtr, item)		\
-	!= NULL ? kQ3True : kQ3False											\
+	!= nullptr ? kQ3True : kQ3False											\
 )
 
 

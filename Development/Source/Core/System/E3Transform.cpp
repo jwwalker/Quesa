@@ -188,7 +188,7 @@ E3TransformInfo::E3TransformInfo	(
 		: E3ShapeInfo ( newClassMetaHandler, newParent ) ,
 		matrixMethod		( (TQ3XTransformMatrixMethod)		Find_Method ( kQ3XMethodTypeTransformMatrix ) )		 
 	{
-	if ( matrixMethod == NULL )
+	if ( matrixMethod == nullptr )
 		SetAbstract () ;
 	}
 
@@ -265,7 +265,7 @@ e3transform_matrix_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Ob
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3transform_matrix_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -351,7 +351,7 @@ e3transform_rotate_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Ob
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3transform_rotate_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -481,7 +481,7 @@ e3transform_rotateaboutpoint_submit(TQ3ViewObject theView, TQ3ObjectType objectT
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3transform_rotateaboutpoint_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -556,7 +556,7 @@ e3transform_rotateaboutaxis_submit(TQ3ViewObject theView, TQ3ObjectType objectTy
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3transform_rotateaboutaxis_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -626,7 +626,7 @@ e3transform_scale_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Obj
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3transform_scale_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -696,7 +696,7 @@ e3transform_translate_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3transform_translate_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -766,7 +766,7 @@ e3transform_quaternion_submit(TQ3ViewObject theView, TQ3ObjectType objectType, T
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3transform_quaternion_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -826,7 +826,7 @@ e3transform_reset_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Obj
 	// simply resets the local->world matrix of the view to the identity.
 	Q3Matrix4x4_SetIdentity(&theMatrix);
 	
-	qd3dStatus = E3View_State_SetMatrix(theView, kQ3MatrixStateLocalToWorld, &theMatrix, NULL, NULL);
+	qd3dStatus = E3View_State_SetMatrix(theView, kQ3MatrixStateLocalToWorld, &theMatrix, nullptr, nullptr);
 
 	return(qd3dStatus);
 }
@@ -840,7 +840,7 @@ e3transform_reset_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Obj
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3transform_reset_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -911,7 +911,7 @@ e3transform_camera_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Ob
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3transform_camera_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -1023,7 +1023,7 @@ e3transform_camera_rasterize_submit(TQ3ViewObject theView, TQ3ObjectType objectT
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3transform_camera_rasterize_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -1066,7 +1066,7 @@ e3transform_metahandler(TQ3XMethodType methodType)
 			return (TQ3XFunctionPointer) kQ3True ;
 		}
 	
-	return NULL ;
+	return nullptr ;
 	}
 
 
@@ -1186,7 +1186,7 @@ E3Transform_UnregisterClass(void)
 TQ3Boolean
 E3Transform::IsOfMyClass ( TQ3Object object )
 	{
-	if ( object == NULL )
+	if ( object == nullptr )
 		return kQ3False ;
 		
 	if ( object->IsObjectValid () )
@@ -1291,7 +1291,7 @@ E3MatrixTransform_Submit(const TQ3Matrix4x4 *theMatrix, TQ3ViewObject theView)
 TQ3Boolean
 E3MatrixTransform::IsOfMyClass ( TQ3Object object )
 	{
-	if ( object == NULL )
+	if ( object == nullptr )
 		return kQ3False ;
 		
 	if ( object->IsObjectValid () )
@@ -2038,7 +2038,7 @@ E3ResetTransform_New(void)
 
 
 	// Create the object
-	theObject = E3ClassTree::CreateInstance ( kQ3TransformTypeReset, kQ3False, NULL);
+	theObject = E3ClassTree::CreateInstance ( kQ3TransformTypeReset, kQ3False, nullptr);
 
 	return(theObject);
 }
@@ -2057,7 +2057,7 @@ E3ResetTransform_Submit(TQ3ViewObject theView)
 
 
 	// Submit the object to the view
-	qd3dStatus = E3View_SubmitImmediate(theView, kQ3TransformTypeReset, NULL);
+	qd3dStatus = E3View_SubmitImmediate(theView, kQ3TransformTypeReset, nullptr);
 
 	return(qd3dStatus);
 }
@@ -2147,7 +2147,7 @@ E3RasterizeCameraTransform_New(void)
 
 
 	// Create the object
-	theObject = E3ClassTree::CreateInstance ( kQ3TransformTypeCameraRasterize, kQ3False, NULL);
+	theObject = E3ClassTree::CreateInstance ( kQ3TransformTypeCameraRasterize, kQ3False, nullptr);
 
 	return(theObject);
 }
@@ -2166,7 +2166,7 @@ E3RasterizeCameraTransform_Submit(TQ3ViewObject theView)
 
 
 	// Submit the object to the view
-	qd3dStatus = E3View_SubmitImmediate(theView, kQ3TransformTypeCameraRasterize, NULL);
+	qd3dStatus = E3View_SubmitImmediate(theView, kQ3TransformTypeCameraRasterize, nullptr);
 
 	return(qd3dStatus);
 }

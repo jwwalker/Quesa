@@ -126,7 +126,7 @@ E3Controller_New(const TQ3ControllerData *controllerData)
 
 
 	// To be implemented...
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -522,7 +522,7 @@ E3ControllerState_New(TQ3ControllerRef controllerRef)
 
 
 	// To be implemented...
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -577,7 +577,7 @@ E3Tracker_New(TQ3TrackerNotifyFunc notifyFunc)
 
 
 	// To be implemented...
-	return(NULL);
+	return(nullptr);
 }
 
 

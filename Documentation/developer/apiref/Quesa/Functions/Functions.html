@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
     "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
-<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a[name]:hover {text-decoration: inherit; font-family: inherit; font-size: inherit}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
     <title>Functions</title>
 	 <meta name="generator" content="HeaderDoc">
 </head><body bgcolor="#ffffff">
@@ -186,6 +186,32 @@ called before the Quesa library is initialised.
 </p>
 <dl><dt><i>function result</i></dt><dd>True or false as Quesa has been initialised or not.
  </dd></dl>
+<hr><a name="//Quesa/c/func/Q3LogMessage"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3LogMessage">Q3LogMessage</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( void ) Q3LogMessage (
+&nbsp;&nbsp;&nbsp;&nbsp;const char* inMessage
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Writes a message string to Quesa's log file for debugging.
+<br><br>
+The name and location of the log file is platform-dependent.  On the Mac,
+logging goes to the stderr stream, which normally appears in the console
+log.  On Windows, log messages go to a file named "Quesa.log" in the
+user's documents folder.
+<br><br>
+An application could, of course, do its own debug logging independent of
+Quesa.  With this function, you can make application and Quesa log
+messages interleave in the same log file.
+<br><br>
+You must explicitly add linefeed characters to break lines.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>inMessage</em></tt></dt><dd>A message to write to the log.</dd>
+</dl>
+</blockquote>
 <hr><a name="//Quesa/c/func/Q3ObjectHierarchy_EmptySubClassData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ObjectHierarchy_EmptySubClassData">Q3ObjectHierarchy_EmptySubClassData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ObjectHierarchy_EmptySubClassData (
@@ -276,7 +302,7 @@ Q3ObjectHierarchy_EmptySubClassData.
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
 <dl>
-<dt><tt><em>majorRevision</em></tt></dt><dd>The class name of the class to check.</dd>
+<dt><tt><em>objectClassName</em></tt></dt><dd>The class name of the class to check.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>True or false as the class is registered or not.
@@ -333,15 +359,15 @@ If the object is Shared, this operation will increment the object's edit index.
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Cleanly disposes of a Quesa object.
 <br><br>
-If theObject is not NULL, invokes Q3Object_Dispose to decrement the object
+If theObject is not nullptr, invokes Q3Object_Dispose to decrement the object
 reference count then clears the supplied pointer to prevent stale references.
 <br><br>
 Equivalent to:
 <br><br>
-if (theObject != NULL)
+if (theObject != nullptr)
 {
 Q3Object_Dispose(theObject);
-theObject = NULL;
+theObject = nullptr;
 }
 <br><br>
 <em>This function is not available in QD3D.</em>
@@ -350,7 +376,7 @@ theObject = NULL;
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
 <dl>
-<dt><tt><em>theObject</em></tt></dt><dd>The object to dispose (may be NULL).</dd>
+<dt><tt><em>theObject</em></tt></dt><dd>The object to dispose (may be nullptr).</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -559,7 +585,7 @@ The operation fails if the property does not exist or if you provide a
 buffer that is not large enough to hold the data.
 <br><br>
 If you do not know the size of the property, you may call Q3Object_GetProperty
-passing NULL for the buffer to find the size of the data, then allocate your
+passing nullptr for the buffer to find the size of the data, then allocate your
 buffer and call Q3Object_GetProperty again.
 <br><br>
 <em>This function is not available in QD3D.</em>
@@ -572,8 +598,8 @@ buffer and call Q3Object_GetProperty again.
 <dt><tt><em>propType</em></tt></dt><dd>Property type tag.</dd>
 <dt><tt><em>bufferSize</em></tt></dt><dd>Size of provided buffer in bytes.</dd>
 <dt><tt><em>actualSize</em></tt></dt><dd>Returns size of returned data in bytes.
-You may pass NULL if you do not need this information.</dd>
-<dt><tt><em>buffer</em></tt></dt><dd>Buffer to receive the property data.  May be NULL.</dd>
+You may pass nullptr if you do not need this information.</dd>
+<dt><tt><em>buffer</em></tt></dt><dd>Buffer to receive the property data.  May be nullptr.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -598,7 +624,7 @@ Most applications will not need it.
 <blockquote>
 <dl>
 <dt><tt><em>object</em></tt></dt><dd>The object.</dd>
-<dt><tt><em>set</em></tt></dt><dd>Receives a set object, or NULL.</dd>
+<dt><tt><em>set</em></tt></dt><dd>Receives a set object, or nullptr.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -624,6 +650,32 @@ is unknown.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>The top level type of the object.
  </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Object_GetWeakReference"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Object_GetWeakReference">Q3Object_GetWeakReference</a></h2>
+</td></tr></table><hr>Register a zeroing weak reference to a Quesa object.
+
+<blockquote><pre><tt>( void ) Q3Object_GetWeakReference (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object* theRefAddress
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>A reference that has been registered using this function
+will become zero after the object has been deleted.
+<br><br>
+The object being referenced is not required to be a
+reference-counted object.  If it is, getting a zeroing
+weak reference does not change the reference count.
+<br><br>
+If you are going to deallocate or reuse the given memory
+location before it becomes zero, you MUST first
+use <code>Q3Object_ReleaseWeakReference</code>.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>theRefAddress</em></tt></dt><dd>Address of an object reference.</dd>
+</dl>
+</blockquote>
 <hr><a name="//Quesa/c/func/Q3Object_IsDrawable"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Object_IsDrawable">Q3Object_IsDrawable</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Boolean ) Q3Object_IsDrawable (
@@ -708,11 +760,30 @@ callback.
 <dt><tt><em>object</em></tt></dt><dd>A Quesa object.</dd>
 <dt><tt><em>userIterator</em></tt></dt><dd>A callback function.</dd>
 <dt><tt><em>userData</em></tt></dt><dd>A pointer to be passed back to the callback
-(use NULL if none is needed).</dd>
+(use nullptr if none is needed).</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
 </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Object_ReleaseWeakReference"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Object_ReleaseWeakReference">Q3Object_ReleaseWeakReference</a></h2>
+</td></tr></table><hr>Deregister a zeroing weak reference to a Quesa object.
+
+<blockquote><pre><tt>( void ) Q3Object_ReleaseWeakReference (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object* theRefAddress
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>A reference that has been deregistered using this function
+will become no longer become zero after the object has been
+deleted.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>theRefAddress</em></tt></dt><dd>Address of an object reference.</dd>
+</dl>
+</blockquote>
 <hr><a name="//Quesa/c/func/Q3Object_RemoveProperty"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Object_RemoveProperty">Q3Object_RemoveProperty</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Object_RemoveProperty (
@@ -793,7 +864,7 @@ Most applications will not need it.
 <dt><tt><em>set</em></tt></dt><dd>A set object.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>A set object, or NULL.
+<dl><dt><i>function result</i></dt><dd>A set object, or nullptr.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Object_Submit"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Object_Submit">Q3Object_Submit</a></h2>
@@ -952,14 +1023,14 @@ The function call <code>Q3Shape_GetSet( o, &s )</code> is equivalent to
 Note that this is not the same as the attribute set of a geometry object,
 nor is in the internal set which holds elements on an object.  That is,
 after adding elements or attributes to an object, this function may still
-return the NULL set.
+return the nullptr set.
 <br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
 <dl>
 <dt><tt><em>shape</em></tt></dt><dd>The object to query.</dd>
-<dt><tt><em>theSet</em></tt></dt><dd>Receives the set of the object, or NULL.</dd>
+<dt><tt><em>theSet</em></tt></dt><dd>Receives the set of the object, or nullptr.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -1129,6 +1200,28 @@ for shared objects.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>kQ3True if locked, kQ3False if unlocked.
 </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Shared_IsLoggingRefs"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Shared_IsLoggingRefs">Q3Shared_IsLoggingRefs</a></h2>
+</td></tr></table><hr>Test whether we are logging reference count changes for an object.
+<br><br>
+
+<b>Availability:</b> This is only functional when Quesa is built with Q3_DEBUG == 1.
+<br><br>
+<br>
+<blockquote><pre><tt>( TQ3Boolean ) Q3Shared_IsLoggingRefs (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3SharedObject sharedObject
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p><br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>sharedObject</em></tt></dt><dd>The object to check.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>kQ3True if we are logging reference changes.
+</dd></dl>
 <hr><a name="//Quesa/c/func/Q3Shared_IsReferenced"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Shared_IsReferenced">Q3Shared_IsReferenced</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Boolean ) Q3Shared_IsReferenced (
@@ -1197,5 +1290,45 @@ using Q3Shared_GetEditIndex and Q3Shared_SetEditIndex.
 <dt><tt><em>inIsLocked</em></tt></dt><dd>Pass kQ3True to lock, pass kQ3False to unlock.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2011 Quesa Developers (Last Updated 3/13/2011)
+<hr><a name="//Quesa/c/func/Q3Shared_StartLoggingRefs"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Shared_StartLoggingRefs">Q3Shared_StartLoggingRefs</a></h2>
+</td></tr></table><hr>Write to the debug log whenever this object's reference count changes.
+<br><br>
+
+<b>Availability:</b> This is only functional when Quesa is built with Q3_DEBUG == 1.
+<br><br>
+<br>
+<blockquote><pre><tt>( void ) Q3Shared_StartLoggingRefs (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3SharedObject sharedObject
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p><br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>sharedObject</em></tt></dt><dd>The object to watch.</dd>
+</dl>
+</blockquote>
+<hr><a name="//Quesa/c/func/Q3Shared_StopLoggingRefs"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Shared_StopLoggingRefs">Q3Shared_StopLoggingRefs</a></h2>
+</td></tr></table><hr>Stop writing to the debug log whenever this object's reference count changes.
+<br><br>
+
+<b>Availability:</b> This is only functional when Quesa is built with Q3_DEBUG == 1.
+<br><br>
+<br>
+<blockquote><pre><tt>( void ) Q3Shared_StopLoggingRefs (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3SharedObject sharedObject
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p><br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>sharedObject</em></tt></dt><dd>The object to stop watching.</dd>
+</dl>
+</blockquote>
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
 </p></body></html>

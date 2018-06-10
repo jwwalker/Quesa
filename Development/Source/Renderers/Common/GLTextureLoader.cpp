@@ -157,7 +157,7 @@ ByteBuffer::ByteBuffer( unsigned long inInitialSize )
 	: mBuffer( static_cast<unsigned char*>( Q3Memory_Allocate( static_cast<TQ3Uns32>(inInitialSize) ) ) )
 	, mSize( inInitialSize )
 {
-	if (mBuffer == NULL)
+	if (mBuffer == nullptr)
 	{
 		mSize = 0;
 	}
@@ -166,7 +166,7 @@ ByteBuffer::ByteBuffer( unsigned long inInitialSize )
 
 ByteBuffer::~ByteBuffer()
 {
-	if (mBuffer != NULL)
+	if (mBuffer != nullptr)
 	{
 		Q3Memory_Free( &mBuffer );
 	}
@@ -571,7 +571,7 @@ static PixelConverter ChoosePixelConverter(
 								TQ3Endian inSrcByteOrder,
 								bool inPremultiplyAlpha )
 {
-	PixelConverter	theConverter = NULL;
+	PixelConverter	theConverter = nullptr;
 	
 	if (inSrcByteOrder == kQ3EndianBig)
 	{
@@ -655,17 +655,17 @@ static const TQ3Uns8*	GetImageData(
 									TQ3Uns32 inStorageOffset,
 									TQ3Uns32 inDataSize )
 {
-	const TQ3Uns8*	theData = NULL;
+	const TQ3Uns8*	theData = nullptr;
 	TQ3Uns32			sizeRead, bufferSize;
-	TQ3Uns8*	dataAddr = NULL;
+	TQ3Uns8*	dataAddr = nullptr;
 	
 	TQ3ObjectType	theType = Q3Object_GetLeafType( inStorage );
 	
 	switch (theType)
 	{
 		case kQ3StorageTypeMemory:
-			Q3MemoryStorage_GetBuffer( inStorage, &dataAddr, NULL, NULL );
-			if (dataAddr != NULL)
+			Q3MemoryStorage_GetBuffer( inStorage, &dataAddr, nullptr, nullptr );
+			if (dataAddr != nullptr)
 			{
 				theData = dataAddr + inStorageOffset;
 			}
@@ -725,7 +725,7 @@ static bool	ConvertImageFormat(
 	PixelConverter	theConverter = ChoosePixelConverter( inSrcPixelType,
 		inSrcByteOrder, inPremultiplyAlpha );
 	
-	if (theConverter != NULL)
+	if (theConverter != nullptr)
 	{
 		// Allocate memory
 		outImage.Grow( dstRowBytes * inSrcHeight );
@@ -803,7 +803,7 @@ static bool	ConvertImageForOpenGL(
 	const TQ3Uns8*	srcData = GetImageData( inStorage, inStorageOffset,
 		srcDataSize );
 	
-	if ( (srcData != NULL) &&
+	if ( (srcData != nullptr) &&
 		ConvertImageFormat( srcData, inSrcPixelType, inSrcWidth, inSrcHeight,
 			inSrcRowBytes, inSrcByteOrder, inPremultiplyAlpha, sGLFormatWork,
 			outGLInternalFormat, outGLFormat ) )
@@ -928,7 +928,7 @@ GLuint	GLTextureLoader( TQ3TextureObject inTexture,
 							TQ3Boolean inPremultiplyAlpha )
 {
 	GLuint	resultTextureName = 0;
-	Q3_ASSERT( inTexture != NULL );
+	Q3_ASSERT( inTexture != nullptr );
 	
 	try
 	{

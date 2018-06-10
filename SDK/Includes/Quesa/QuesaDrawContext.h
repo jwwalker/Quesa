@@ -394,15 +394,15 @@ typedef Q3_CALLBACK_API_C( void, TQ3GLContextDestructionCallback )(
  *      achieved by rendering to a suitably constructed Pixmap draw context.
  *
  *      If a window is supplied, its port will be obtained internally by Quesa
- *      and the grafPort field should be NULL. When rendering to a port which
+ *      and the grafPort field should be nullptr. When rendering to a port which
  *      does not correspond to a valid WindowRef (e.g., a QD port constructed
- *      from a CoreGraphics context), the window field should be NULL and the
+ *      from a CoreGraphics context), the window field should be nullptr and the
  *      port to render to supplied in the grafPort field.
  *
  *  @field drawContextData  The common state for the draw context.
  *  @field window           The window to render to.
  *  @field library          The library to use for rendering. Should be kQ3Mac2DLibraryNone.
- *  @field viewPort         The QuickDraw GX port to render to. Should be NULL.
+ *  @field viewPort         The QuickDraw GX port to render to. Should be nullptr.
  *  @field grafPort         The QuickDraw port to render to.
  */
 typedef struct TQ3MacDrawContextData {

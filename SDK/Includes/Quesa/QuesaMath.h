@@ -143,7 +143,7 @@ extern "C" {
  *
  *      Available in inline form as Q3FastVector2D_Set.
  *
- *  @param vector2D         Address of vector to set (may be NULL).
+ *  @param vector2D         Address of vector to set (may be nullptr).
  *  @param x                X coordinate to set into vector2D.
  *  @param y                Y coordinate to set into vector2D.
  *  @result                 Convenience copy of vector2D parameter.
@@ -165,7 +165,7 @@ Q3Vector2D_Set (
  *
  *      Available in inline form as Q3FastVector3D_Set.
  *
- *  @param vector3D         Address of vector to set (may be NULL).
+ *  @param vector3D         Address of vector to set (may be nullptr).
  *  @param x                X coordinate to set into vector3D.
  *  @param y                Y coordinate to set into vector3D.
  *  @param z                Z coordinate to set into vector3D.
@@ -189,7 +189,7 @@ Q3Vector3D_Set (
  *
  *      Available in inline form as Q3FastPoint2D_Set.
  *
- *  @param point2D          Address of point to set (may be NULL).
+ *  @param point2D          Address of point to set (may be nullptr).
  *  @param x                X coordinate to set into vector2D.
  *  @param y                Y coordinate to set into vector2D.
  *  @result                 Convenience copy of point2D parameter.
@@ -211,7 +211,7 @@ Q3Point2D_Set (
  *
  *      Available in inline form as Q3FastParam2D_Set.
  *
- *  @param param2D          Address of param2D to set (may be NULL).
+ *  @param param2D          Address of param2D to set (may be nullptr).
  *  @param u                U coordinate to set into param2D.
  *  @param v                V coordinate to set into param2D.
  *  @result                 Convenience copy of param2D parameter.
@@ -233,7 +233,7 @@ Q3Param2D_Set (
  *
  *      Available in inline form as Q3FastRationalPoint3D_Set.
  *
- *  @param rationalPoint3D  Address of rational point to set (may be NULL).
+ *  @param rationalPoint3D  Address of rational point to set (may be nullptr).
  *  @param x                X coordinate to set into rationalPoint3D.
  *  @param y                Y coordinate to set into rationalPoint3D.
  *  @param w                W coordinate to set into rationalPoint3D.
@@ -257,7 +257,7 @@ Q3RationalPoint3D_Set (
  *
  *      Available in inline form as Q3FastPoint3D_Set.
  *
- *  @param point3D          Address of point to set (may be NULL).
+ *  @param point3D          Address of point to set (may be nullptr).
  *  @param x                X coordinate to set into point3D.
  *  @param y                Y coordinate to set into point3D.
  *  @param z                Z coordinate to set into point3D.
@@ -306,7 +306,7 @@ Q3RationalPoint4D_Set (
  *
  *      Available in inline form as Q3FastPolarPoint_Set.
  *
- *  @param polarPoint       Address of point to set (may be NULL).
+ *  @param polarPoint       Address of point to set (may be nullptr).
  *  @param r                Radius coordinate to set into polarPoint.
  *  @param theta            Angle coordinate (in radians) to set into polarPoint.
  *  @result                 Convenience copy of polarPoint parameter.
@@ -328,7 +328,7 @@ Q3PolarPoint_Set (
  *
  *      Available in inline form as Q3FastSphericalPoint_Set.
  *
- *  @param sphericalPoint   Address of point to set (may be NULL).
+ *  @param sphericalPoint   Address of point to set (may be nullptr).
  *  @param rho              Rho coordinate to set into sphericalPoint.
  *  @param theta            Theta coordinate to set into sphericalPoint.
  *  @param phi              Phi coordinate to set into sphericalPoint.
@@ -738,8 +738,8 @@ Q3Vector3D_Dot (
  *      with an array of TQ3Booleans indicating which dot products are less than
  *      zero.
  *
- *      At least one of dotProducts or dotLessThanZero must be non-NULL, however
- *      one parameter may be set to NULL if that information is not required.
+ *      At least one of dotProducts or dotLessThanZero must be non-nullptr, however
+ *      one parameter may be set to nullptr if that information is not required.
  *
  *	@availability			This function is not available in QD3D.
  *
@@ -892,7 +892,7 @@ Q3Point3D_CrossProductTri (
  *
  *      Triangles may be omitted from processing with the usageFlags parameter,
  *      which should point to an array of TQ3Uns8 flags. If usageFlags is not
- *      NULL, only triangles whose corresponding entry in this array is 0 will
+ *      nullptr, only triangles whose corresponding entry in this array is 0 will
  *      be processed.
  *
  *      The returning vectors are normalized.

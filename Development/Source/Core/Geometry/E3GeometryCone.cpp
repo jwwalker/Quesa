@@ -94,29 +94,29 @@ e3geom_cone_copydata(const TQ3ConeData *src, TQ3ConeData *dst, TQ3Boolean isDupl
 	// copy or shared-replace the attributes
 	if (isDuplicate)
 	{
-		if (src->interiorAttributeSet != NULL)
+		if (src->interiorAttributeSet != nullptr)
 		{
 			dst->interiorAttributeSet = Q3Object_Duplicate(src->interiorAttributeSet);
-			if (dst->interiorAttributeSet == NULL) qd3dStatus = kQ3Failure;
-		} else dst->interiorAttributeSet = NULL;
+			if (dst->interiorAttributeSet == nullptr) qd3dStatus = kQ3Failure;
+		} else dst->interiorAttributeSet = nullptr;
 
-		if (src->faceAttributeSet != NULL)
+		if (src->faceAttributeSet != nullptr)
 		{
 			dst->faceAttributeSet = Q3Object_Duplicate(src->faceAttributeSet);
-			if (dst->faceAttributeSet == NULL) qd3dStatus = kQ3Failure;
-		} else dst->faceAttributeSet = NULL;
+			if (dst->faceAttributeSet == nullptr) qd3dStatus = kQ3Failure;
+		} else dst->faceAttributeSet = nullptr;
 
-		if (src->bottomAttributeSet != NULL)
+		if (src->bottomAttributeSet != nullptr)
 		{
 			dst->bottomAttributeSet = Q3Object_Duplicate(src->bottomAttributeSet);
-			if (dst->bottomAttributeSet == NULL) qd3dStatus = kQ3Failure;
-		} else dst->bottomAttributeSet = NULL;
+			if (dst->bottomAttributeSet == nullptr) qd3dStatus = kQ3Failure;
+		} else dst->bottomAttributeSet = nullptr;
 
-		if (src->coneAttributeSet != NULL)
+		if (src->coneAttributeSet != nullptr)
 		{
 			dst->coneAttributeSet = Q3Object_Duplicate(src->coneAttributeSet);
-			if (dst->coneAttributeSet == NULL) qd3dStatus = kQ3Failure;
-		} else dst->coneAttributeSet = NULL;
+			if (dst->coneAttributeSet == nullptr) qd3dStatus = kQ3Failure;
+		} else dst->coneAttributeSet = nullptr;
 	}
 	else {
 		E3Shared_Replace(&dst->interiorAttributeSet, src->interiorAttributeSet);
@@ -302,7 +302,7 @@ static void e3geom_cone_create_face( TQ3GroupObject ioGroup, const TQ3ConeData* 
 	normals   = (TQ3Vector3D *)            Q3Memory_Allocate( static_cast<TQ3Uns32>(numpoints*sizeof(TQ3Vector3D)) );
 	uvs       = (TQ3Param2D  *)            Q3Memory_Allocate( static_cast<TQ3Uns32>(numpoints * sizeof(TQ3Param2D)) );
 	triangles = (TQ3TriMeshTriangleData *) Q3Memory_Allocate( static_cast<TQ3Uns32>(numFaces*sizeof(TQ3TriMeshTriangleData)) );
-	if (points == NULL || normals == NULL || uvs == NULL || triangles == NULL)
+	if (points == nullptr || normals == nullptr || uvs == nullptr || triangles == nullptr)
 	{
 		Q3Memory_Free(&points);
 		Q3Memory_Free(&normals);
@@ -400,22 +400,22 @@ static void e3geom_cone_create_face( TQ3GroupObject ioGroup, const TQ3ConeData* 
 	// Set up TriMesh data
 	vertexAttributes[0].attributeType     = kQ3AttributeTypeNormal;
 	vertexAttributes[0].data              = normals;
-	vertexAttributes[0].attributeUseArray = NULL;
+	vertexAttributes[0].attributeUseArray = nullptr;
 
 	vertexAttributes[1].attributeType     = kQ3AttributeTypeSurfaceUV;
 	vertexAttributes[1].data              = uvs;
-	vertexAttributes[1].attributeUseArray = NULL;
+	vertexAttributes[1].attributeUseArray = nullptr;
 	
 	triMeshData.numPoints                 = numpoints;
 	triMeshData.points                    = points;
 	triMeshData.numTriangles              = numFaces;
 	triMeshData.triangles                 = triangles;
 	triMeshData.numTriangleAttributeTypes = 0;
-	triMeshData.triangleAttributeTypes    = NULL;
+	triMeshData.triangleAttributeTypes    = nullptr;
 	triMeshData.numEdges                  = 0;
-	triMeshData.edges                     = NULL;
+	triMeshData.edges                     = nullptr;
 	triMeshData.numEdgeAttributeTypes     = 0;
-	triMeshData.edgeAttributeTypes        = NULL;
+	triMeshData.edgeAttributeTypes        = nullptr;
 	triMeshData.numVertexAttributeTypes   = 2;
 	triMeshData.vertexAttributeTypes      = vertexAttributes;
 	triMeshData.triMeshAttributeSet = inData->faceAttributeSet;
@@ -428,7 +428,7 @@ static void e3geom_cone_create_face( TQ3GroupObject ioGroup, const TQ3ConeData* 
 
 	// Create the TriMesh and add to the group
 	theTriMesh = Q3TriMesh_New(&triMeshData);
-	if (theTriMesh != NULL)
+	if (theTriMesh != nullptr)
 		{
 		E3TriMesh_AddTriangleNormals(theTriMesh, kQ3OrientationStyleCounterClockwise);
 		Q3Group_AddObjectAndDispose( ioGroup, &theTriMesh );
@@ -473,7 +473,7 @@ static void e3geom_cone_create_interior( TQ3GroupObject ioGroup, const TQ3ConeDa
 		topDisk.diskAttributeSet = inData->interiorAttributeSet;
 		
 		topGeom = Q3Disk_New( &topDisk );
-		if (topGeom != NULL)
+		if (topGeom != nullptr)
 		{
 			Q3Group_AddObjectAndDispose( ioGroup, &topGeom );
 		}
@@ -494,14 +494,14 @@ static void e3geom_cone_create_interior( TQ3GroupObject ioGroup, const TQ3ConeDa
 			{ { 0, 1, 2 } }, { { 1, 3, 2 } }
 		};
 		TQ3TriMeshAttributeData	intPtAtts[2] = {
-			{ kQ3AttributeTypeNormal, NULL, NULL },
-			{ kQ3AttributeTypeSurfaceUV, NULL, NULL }
+			{ kQ3AttributeTypeNormal, nullptr, nullptr },
+			{ kQ3AttributeTypeSurfaceUV, nullptr, nullptr }
 		};
 		TQ3TriMeshAttributeData	intFaceAtts = {
-			kQ3AttributeTypeNormal, NULL, NULL
+			kQ3AttributeTypeNormal, nullptr, nullptr
 		};
 		TQ3TriMeshData	intTriMeshData;
-		TQ3GeometryObject	intGeom = NULL;
+		TQ3GeometryObject	intGeom = nullptr;
 		
 		intPtAtts[0].data = interiorPtNorms;
 		intPtAtts[1].data = interiorUVs;
@@ -513,9 +513,9 @@ static void e3geom_cone_create_interior( TQ3GroupObject ioGroup, const TQ3ConeDa
 		intTriMeshData.numTriangleAttributeTypes = 1;
 		intTriMeshData.triangleAttributeTypes = &intFaceAtts;
 		intTriMeshData.numEdges = 0;
-		intTriMeshData.edges = NULL;
+		intTriMeshData.edges = nullptr;
 		intTriMeshData.numEdgeAttributeTypes = 0;
-		intTriMeshData.edgeAttributeTypes = NULL;
+		intTriMeshData.edgeAttributeTypes = nullptr;
 		intTriMeshData.points = interiorPts;
 		intTriMeshData.numVertexAttributeTypes = 2;
 		intTriMeshData.vertexAttributeTypes = intPtAtts;
@@ -552,7 +552,7 @@ static void e3geom_cone_create_interior( TQ3GroupObject ioGroup, const TQ3ConeDa
 			Q3BoundingBox_SetFromPoints3D( &intTriMeshData.bBox, intTriMeshData.points,
 				intTriMeshData.numPoints, sizeof(TQ3Point3D) );
 			intGeom = Q3TriMesh_New( &intTriMeshData );
-			if (intGeom != NULL)
+			if (intGeom != nullptr)
 			{
 				E3TriMesh_AddTriangleNormals(intGeom, kQ3OrientationStyleCounterClockwise);
 				Q3Group_AddObjectAndDispose( ioGroup, &intGeom );
@@ -574,7 +574,7 @@ static void e3geom_cone_create_interior( TQ3GroupObject ioGroup, const TQ3ConeDa
 			Q3BoundingBox_SetFromPoints3D( &intTriMeshData.bBox, intTriMeshData.points,
 				intTriMeshData.numPoints, sizeof(TQ3Point3D) );
 			intGeom = Q3TriMesh_New( &intTriMeshData );
-			if (intGeom != NULL)
+			if (intGeom != nullptr)
 			{
 				E3TriMesh_AddTriangleNormals(intGeom, kQ3OrientationStyleCounterClockwise);
 				Q3Group_AddObjectAndDispose( ioGroup, &intGeom );
@@ -610,7 +610,7 @@ static void e3geom_cone_create_interior( TQ3GroupObject ioGroup, const TQ3ConeDa
 			Q3BoundingBox_SetFromPoints3D( &intTriMeshData.bBox, intTriMeshData.points,
 				intTriMeshData.numPoints, sizeof(TQ3Point3D) );
 			intGeom = Q3TriMesh_New( &intTriMeshData );
-			if (intGeom != NULL)
+			if (intGeom != nullptr)
 			{
 				E3TriMesh_AddTriangleNormals(intGeom, kQ3OrientationStyleCounterClockwise);
 				Q3Group_AddObjectAndDispose( ioGroup, &intGeom );
@@ -641,7 +641,7 @@ static void e3geom_cone_create_interior( TQ3GroupObject ioGroup, const TQ3ConeDa
 			Q3BoundingBox_SetFromPoints3D( &intTriMeshData.bBox, intTriMeshData.points,
 				intTriMeshData.numPoints, sizeof(TQ3Point3D) );
 			intGeom = Q3TriMesh_New( &intTriMeshData );
-			if (intGeom != NULL)
+			if (intGeom != nullptr)
 			{
 				E3TriMesh_AddTriangleNormals(intGeom, kQ3OrientationStyleCounterClockwise);
 				Q3Group_AddObjectAndDispose( ioGroup, &intGeom );
@@ -727,10 +727,10 @@ e3geom_cone_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ
 
 	// Create a group to hold the cached geometry
 	theGroup = Q3DisplayGroup_New();
-	if (theGroup == NULL)
+	if (theGroup == nullptr)
 	{
 		E3ErrorManager_PostError( kQ3ErrorOutOfMemory, kQ3False );
-		return NULL;
+		return nullptr;
 	}
 
 
@@ -745,7 +745,7 @@ e3geom_cone_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ
 
 
 	// Add the cone attributes	
-	if (geomData->coneAttributeSet != NULL)
+	if (geomData->coneAttributeSet != nullptr)
 		Q3Group_AddObject( theGroup, geomData->coneAttributeSet );
 
 
@@ -822,7 +822,7 @@ e3geom_cone_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ
 		botDisk.diskAttributeSet = geomData->bottomAttributeSet;
 		
 		botGeom = Q3Disk_New( &botDisk );
-		if (botGeom != NULL)
+		if (botGeom != nullptr)
 		{
 			Q3Group_AddObjectAndDispose(theGroup, &botGeom);
 		}
@@ -873,7 +873,7 @@ e3geom_cone_get_attribute ( E3Cone* cone )
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3geom_cone_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -959,7 +959,7 @@ E3Cone_New(const TQ3ConeData *coneData)
 
 
 
-	if (coneData == NULL)
+	if (coneData == nullptr)
 	{
 		TQ3ConeData		defaultCone = {
 			{ 0.0f, 0.0f, 0.0f },
@@ -968,7 +968,7 @@ E3Cone_New(const TQ3ConeData *coneData)
 			{ 0.0f, 0.0f, 1.0f },
 			0.0f, 1.0f, 0.0f, 1.0f,
 			kQ3EndCapNone,
-			NULL, NULL, NULL, NULL
+			nullptr, nullptr, nullptr, nullptr
 		};
 		theObject = E3ClassTree::CreateInstance ( kQ3GeometryTypeCone, kQ3False, &defaultCone ) ;
 	}
@@ -1036,10 +1036,10 @@ E3Cone_GetData(TQ3GeometryObject theCone, TQ3ConeData *coneData)
 	E3Cone* cone = (E3Cone*) theCone ;
 
 	// Copy the data out of the Cone
-	coneData->interiorAttributeSet = NULL ;
-	coneData->faceAttributeSet = NULL ;
-	coneData->bottomAttributeSet = NULL ;
-	coneData->coneAttributeSet = NULL ;
+	coneData->interiorAttributeSet = nullptr ;
+	coneData->faceAttributeSet = nullptr ;
+	coneData->bottomAttributeSet = nullptr ;
+	coneData->coneAttributeSet = nullptr ;
 	return e3geom_cone_copydata ( & cone->instanceData, coneData, kQ3False ) ;
 	}
 

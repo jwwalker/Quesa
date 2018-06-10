@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
     "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
-<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a[name]:hover {text-decoration: inherit; font-family: inherit; font-size: inherit}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
     <title>Structs</title>
 	 <meta name="generator" content="HeaderDoc">
 </head><body bgcolor="#ffffff">
@@ -29,10 +29,10 @@ typedef struct TQ3BoxData {
 <dt><tt>majorAxis</tt></dt><dd>Major axis of the box.</dd>
 <dt><tt>minorAxis</tt></dt><dd>Minor axis of the box.</dd>
 <dt><tt>faceAttributeSet</tt></dt><dd>Array of attribute set objects for the 6 faces.
-This field may be NULL, or individual sets in the
-array may be NULL.</dd>
+This field may be nullptr, or individual sets in the
+array may be nullptr.</dd>
 <dt><tt>boxAttributeSet</tt></dt><dd>Attribute set object holding attributes that apply
-to all of the faces.  May be NULL.</dd>
+to all of the faces.  May be nullptr.</dd>
 </dl>
 </blockquote>
 <hr><a name="//Quesa/c/tag/TQ3ConeData"></a>
@@ -93,9 +93,9 @@ and in the case of partial cones, determining whether
 there is an interior face.</dd>
 <dt><tt>interiorAttributeSet</tt></dt><dd>Interior attributes.  Unused by QD3D.</dd>
 <dt><tt>faceAttributeSet</tt></dt><dd>Attributes that affect the face but not the bottom.
-May be NULL.</dd>
-<dt><tt>bottomAttributeSet</tt></dt><dd>Attributes that affect the bottom end cap.  May be NULL.</dd>
-<dt><tt>coneAttributeSet</tt></dt><dd>Attributes for all parts of the cone.  May be NULL.</dd>
+May be nullptr.</dd>
+<dt><tt>bottomAttributeSet</tt></dt><dd>Attributes that affect the bottom end cap.  May be nullptr.</dd>
+<dt><tt>coneAttributeSet</tt></dt><dd>Attributes for all parts of the cone.  May be nullptr.</dd>
 </dl>
 </blockquote>
 <hr><a name="//Quesa/c/tag/TQ3CylinderData"></a>
@@ -151,12 +151,12 @@ base to the other end.  Typically 0.</dd>
 base to the other end.  Typically 1.</dd>
 <dt><tt>caps</tt></dt><dd>End cap masks, determining whether the cylinder is
 closed on one end, the other, or both.</dd>
-<dt><tt>interiorAttributeSet</tt></dt><dd>Interior attributes.  May be NULL.  Unused by QD3D.</dd>
-<dt><tt>topAttributeSet</tt></dt><dd>Attributes that affect the top end cap.  May be NULL.</dd>
+<dt><tt>interiorAttributeSet</tt></dt><dd>Interior attributes.  May be nullptr.  Unused by QD3D.</dd>
+<dt><tt>topAttributeSet</tt></dt><dd>Attributes that affect the top end cap.  May be nullptr.</dd>
 <dt><tt>faceAttributeSet</tt></dt><dd>Attributes that affect the face but not the bottom or top.
-May be NULL.</dd>
-<dt><tt>bottomAttributeSet</tt></dt><dd>Attributes that affect the bottom end cap.  May be NULL.</dd>
-<dt><tt>cylinderAttributeSet</tt></dt><dd>Attributes for all parts of the cylinder.  May be NULL.</dd>
+May be nullptr.</dd>
+<dt><tt>bottomAttributeSet</tt></dt><dd>Attributes that affect the bottom end cap.  May be nullptr.</dd>
+<dt><tt>cylinderAttributeSet</tt></dt><dd>Attributes for all parts of the cylinder.  May be nullptr.</dd>
 </dl>
 </blockquote>
 <hr><a name="//Quesa/c/tag/TQ3DiskData"></a>
@@ -208,7 +208,7 @@ range [0, 1].</dd>
 <dt><tt>vMax</tt></dt><dd>Maximum value of the v parameter, which goes from the
 perimeter to the origin.  Typically 1, must be in the
 range [0, 1].</dd>
-<dt><tt>diskAttributeSet</tt></dt><dd>Attributes for the disk.  May be NULL.</dd>
+<dt><tt>diskAttributeSet</tt></dt><dd>Attributes for the disk.  May be nullptr.</dd>
 </dl>
 </blockquote>
 <hr><a name="//Quesa/c/tag/TQ3EllipseData"></a>
@@ -243,7 +243,7 @@ ellipse covers a range of 45 degrees, including the zero angle.
 <dt><tt>minorRadius</tt></dt><dd>Another vector from the origin to a point on the curve.</dd>
 <dt><tt>uMin</tt></dt><dd>Starting value of the u parameter.  Typically 0.</dd>
 <dt><tt>uMax</tt></dt><dd>Ending value of the u parameter.  Typically 1.</dd>
-<dt><tt>ellipseAttributeSet</tt></dt><dd>Attributes for the ellipse.  May be NULL.</dd>
+<dt><tt>ellipseAttributeSet</tt></dt><dd>Attributes for the ellipse.  May be nullptr.</dd>
 </dl>
 </blockquote>
 <hr><a name="//Quesa/c/tag/TQ3EllipsoidData"></a>
@@ -296,8 +296,8 @@ south pole (origin - orientation) to the north pole
 <dt><tt>vMax</tt></dt><dd>Minimum value of the v parameter.  Typically 1.</dd>
 <dt><tt>caps</tt></dt><dd>Style of caps to be used on partial ellipsoids.</dd>
 <dt><tt>interiorAttributeSet</tt></dt><dd>Interior attributes, used for end or interior caps.
-May be NULL.</dd>
-<dt><tt>ellipsoidAttributeSet</tt></dt><dd>Attributes for the ellipsoid surface.  May be NULL.</dd>
+May be nullptr.</dd>
+<dt><tt>ellipsoidAttributeSet</tt></dt><dd>Attributes for the ellipsoid surface.  May be nullptr.</dd>
 </dl>
 </blockquote>
 <hr><a name="//Quesa/c/tag/TQ3GeneralPolygonContourData"></a>
@@ -344,7 +344,7 @@ Must be at least 1.</dd>
 which may be used by the renderer to optimize
 drawing.</dd>
 <dt><tt>generalPolygonAttributeSet</tt></dt><dd>Set of attributes for the polygon.
-May be NULL.</dd>
+May be nullptr.</dd>
 </dl>
 </blockquote>
 <hr><a name="//Quesa/c/tag/TQ3LineData"></a>
@@ -362,7 +362,7 @@ typedef struct TQ3LineData {
 <blockquote>
 <dl>
 <dt><tt>vertices</tt></dt><dd>Array of two vertices, the ends of the line.</dd>
-<dt><tt>lineAttributeSet</tt></dt><dd>Set of attributes for the line.  May be NULL.</dd>
+<dt><tt>lineAttributeSet</tt></dt><dd>Set of attributes for the line.  May be nullptr.</dd>
 </dl>
 </blockquote>
 <hr><a name="//Quesa/c/tag/TQ3MarkerData"></a>
@@ -390,7 +390,7 @@ upper left corner of the marker, in pixels.</dd>
 upper left corner of the marker, in pixels.</dd>
 <dt><tt>bitmap</tt></dt><dd>A bitmap.  Each bit corresponds to a pixel in the image.</dd>
 <dt><tt>markerAttributeSet</tt></dt><dd>Marker attributes, which can for instance modify the color
-or transparency of the 1 bits.  May be NULL.</dd>
+or transparency of the 1 bits.  May be nullptr.</dd>
 </dl>
 </blockquote>
 <hr><a name="//Quesa/c/tag/TQ3MeshContourData"></a>
@@ -440,7 +440,7 @@ for use with the <code>Q3Mesh_Set/Get/EmptyData</code> functions.
 <dl>
 <dt><tt>numFaces</tt></dt><dd>Number of faces.  Must be at least 1.</dd>
 <dt><tt>faceIndices</tt></dt><dd>Indices of the faces.</dd>
-<dt><tt>cornerAttributeSet</tt></dt><dd>Set of attributes for the corner.  <em>Should not be NULL.</em></dd>
+<dt><tt>cornerAttributeSet</tt></dt><dd>Set of attributes for the corner.  <em>Should not be nullptr.</em></dd>
 </dl>
 </blockquote>
 <hr><a name="//Quesa/c/tag/TQ3MeshData"></a>
@@ -471,11 +471,11 @@ for use with the <code>Q3Mesh_Set/Get/EmptyData</code> functions.
 <dt><tt>vertices</tt></dt><dd>Pointer to array of vertices of the mesh.</dd>
 <dt><tt>numEdges</tt></dt><dd>Number of edges in the following array.  May be 0
 if you do not want to specify any edges.</dd>
-<dt><tt>edges</tt></dt><dd>Pointer to an array of edges.  May be NULL if you
+<dt><tt>edges</tt></dt><dd>Pointer to an array of edges.  May be nullptr if you
 also specify 0 for <code>numEdges</code>.</dd>
 <dt><tt>numFaces</tt></dt><dd>Number of faces in the mesh.</dd>
 <dt><tt>faces</tt></dt><dd>Pointer to an array of faces.</dd>
-<dt><tt>meshAttributeSet</tt></dt><dd>Set of attributes for the mesh.  May be NULL.</dd>
+<dt><tt>meshAttributeSet</tt></dt><dd>Set of attributes for the mesh.  May be nullptr.</dd>
 </dl>
 </blockquote>
 <hr><a name="//Quesa/c/tag/TQ3MeshEdgeData"></a>
@@ -501,7 +501,7 @@ data structure, which is most likely not a <code>TQ3MeshEdgeData</code>.
 <blockquote>
 <dl>
 <dt><tt>vertexIndices</tt></dt><dd>Indices of the two vertices that are ends of the edge.</dd>
-<dt><tt>edgeAttributeSet</tt></dt><dd>Set of attributes for the edge.  May be NULL.</dd>
+<dt><tt>edgeAttributeSet</tt></dt><dd>Set of attributes for the edge.  May be nullptr.</dd>
 </dl>
 </blockquote>
 <hr><a name="//Quesa/c/tag/TQ3MeshFaceData"></a>
@@ -528,7 +528,7 @@ data structure, which is most likely not a <code>TQ3MeshFaceData</code>.
 <dl>
 <dt><tt>numContours</tt></dt><dd>Number of contours.  Must be at least 1.</dd>
 <dt><tt>contours</tt></dt><dd>Contours of the face.</dd>
-<dt><tt>faceAttributeSet</tt></dt><dd>Set of attributes for the face.  May be NULL.</dd>
+<dt><tt>faceAttributeSet</tt></dt><dd>Set of attributes for the face.  May be nullptr.</dd>
 </dl>
 </blockquote>
 <hr><a name="//Quesa/c/tag/TQ3MeshIterator"></a>
@@ -575,7 +575,7 @@ data structure, which is most likely not a <code>TQ3MeshVertexData</code>.
 <dt><tt>point</tt></dt><dd>Location of the vertex.</dd>
 <dt><tt>numCorners</tt></dt><dd>Number of corners in the following array.  May be 0
 if you do not want to specify any corners.</dd>
-<dt><tt>corners</tt></dt><dd>Pointer to an array of corners.  May be NULL if you
+<dt><tt>corners</tt></dt><dd>Pointer to an array of corners.  May be nullptr if you
 also specify 0 for <code>numCorners</code>.</dd>
 <dt><tt>attributeSet</tt></dt><dd>Attribute set for the vertex.</dd>
 </dl>
@@ -608,7 +608,7 @@ or equal to the order.</dd>
 of knots must equal the sum of <code>order</code>
 and <code>numPoints</code>.  The values must be
 nondecreasing.</dd>
-<dt><tt>curveAttributeSet</tt></dt><dd>Set of attributes for the curve.  May be NULL.</dd>
+<dt><tt>curveAttributeSet</tt></dt><dd>Set of attributes for the curve.  May be nullptr.</dd>
 </dl>
 </blockquote>
 <hr><a name="//Quesa/c/tag/TQ3NURBPatchData"></a>
@@ -661,8 +661,8 @@ nondecreasing.</dd>
 <dt><tt>numTrimLoops</tt></dt><dd>Number of trim loops in the following array.
 Currently this should be 0.</dd>
 <dt><tt>trimLoops</tt></dt><dd>Pointer to an array of trim loop structures.
-Currently this should be NULL.</dd>
-<dt><tt>patchAttributeSet</tt></dt><dd>Set of attributes for the patch.  May be NULL.</dd>
+Currently this should be nullptr.</dd>
+<dt><tt>patchAttributeSet</tt></dt><dd>Set of attributes for the patch.  May be nullptr.</dd>
 </dl>
 </blockquote>
 <hr><a name="//Quesa/c/tag/TQ3NURBPatchTrimCurveData"></a>
@@ -736,7 +736,7 @@ upper left corner of the marker, in pixels.</dd>
 <dt><tt>yOffset</tt></dt><dd>Vertical offset from the <code>position</code> to the
 upper left corner of the marker, in pixels.</dd>
 <dt><tt>pixmap</tt></dt><dd>A pixmap.</dd>
-<dt><tt>pixmapMarkerAttributeSet</tt></dt><dd>A set of attributes for the marker.  May be NULL.</dd>
+<dt><tt>pixmapMarkerAttributeSet</tt></dt><dd>A set of attributes for the marker.  May be nullptr.</dd>
 </dl>
 </blockquote>
 <hr><a name="//Quesa/c/tag/TQ3PointData"></a>
@@ -754,7 +754,7 @@ typedef struct TQ3PointData {
 <blockquote>
 <dl>
 <dt><tt>point</tt></dt><dd>Location of the point.</dd>
-<dt><tt>pointAttributeSet</tt></dt><dd>Set of attributes for the point.  May be NULL.</dd>
+<dt><tt>pointAttributeSet</tt></dt><dd>Set of attributes for the point.  May be nullptr.</dd>
 </dl>
 </blockquote>
 <hr><a name="//Quesa/c/tag/TQ3PolyLineData"></a>
@@ -779,8 +779,8 @@ number of line segments).  Must be at least 2.</dd>
 <dt><tt>vertices</tt></dt><dd>Pointer to an array of vertices.</dd>
 <dt><tt>segmentAttributeSet</tt></dt><dd>Pointer to an array of attribute sets, one for each
 segment.  If you do not want to assign attributes
-to any segment, this pointer may be NULL.</dd>
-<dt><tt>polyLineAttributeSet</tt></dt><dd>Set of attributes for the whole curve.  May be NULL.</dd>
+to any segment, this pointer may be nullptr.</dd>
+<dt><tt>polyLineAttributeSet</tt></dt><dd>Set of attributes for the whole curve.  May be nullptr.</dd>
 </dl>
 </blockquote>
 <hr><a name="//Quesa/c/tag/TQ3PolygonData"></a>
@@ -800,7 +800,7 @@ typedef struct TQ3PolygonData {
 <dl>
 <dt><tt>numVertices</tt></dt><dd>Number of vertices.  Must be at least 3.</dd>
 <dt><tt>vertices</tt></dt><dd>Pointer to an array of vertices.</dd>
-<dt><tt>polygonAttributeSet</tt></dt><dd>Set of attributes for the polygon.  May be NULL.</dd>
+<dt><tt>polygonAttributeSet</tt></dt><dd>Set of attributes for the polygon.  May be nullptr.</dd>
 </dl>
 </blockquote>
 <hr><a name="//Quesa/c/tag/TQ3PolyhedronData"></a>
@@ -826,11 +826,11 @@ typedef struct TQ3PolyhedronData {
 <dt><tt>vertices</tt></dt><dd>Pointer to array of vertices of the polyhedron.</dd>
 <dt><tt>numEdges</tt></dt><dd>Number of edges in the following array.  May be 0
 if you do not want to specify any edges.</dd>
-<dt><tt>edges</tt></dt><dd>Pointer to an array of edges.  May be NULL if you
+<dt><tt>edges</tt></dt><dd>Pointer to an array of edges.  May be nullptr if you
 also specify 0 for <code>numEdges</code>.</dd>
 <dt><tt>numTriangles</tt></dt><dd>Number of triangles (faces) in the polygon.</dd>
 <dt><tt>triangles</tt></dt><dd>Pointer to an array of triangles.</dd>
-<dt><tt>polyhedronAttributeSet</tt></dt><dd>Set of attributes for the polyhedron.  May be NULL.</dd>
+<dt><tt>polyhedronAttributeSet</tt></dt><dd>Set of attributes for the polyhedron.  May be nullptr.</dd>
 </dl>
 </blockquote>
 <hr><a name="//Quesa/c/tag/TQ3PolyhedronEdgeData"></a>
@@ -850,7 +850,7 @@ typedef struct TQ3PolyhedronEdgeData {
 <dl>
 <dt><tt>vertexIndices</tt></dt><dd>Indices of the two vertices that are ends of the edge.</dd>
 <dt><tt>triangleIndices</tt></dt><dd>Indices of the two triangles that contain the edge.</dd>
-<dt><tt>edgeAttributeSet</tt></dt><dd>Set of attributes for the edge.  May be NULL.</dd>
+<dt><tt>edgeAttributeSet</tt></dt><dd>Set of attributes for the edge.  May be nullptr.</dd>
 </dl>
 </blockquote>
 <hr><a name="//Quesa/c/tag/TQ3PolyhedronTriangleData"></a>
@@ -871,7 +871,7 @@ typedef struct TQ3PolyhedronTriangleData {
 <dt><tt>vertexIndices</tt></dt><dd>Indices of the 3 vertices of the triangle.</dd>
 <dt><tt>edgeFlag</tt></dt><dd>Flags indicating which edges of the triangle should
 be rendered.  See <code>TQ3PolyhedronEdgeMasks</code>.</dd>
-<dt><tt>triangleAttributeSet</tt></dt><dd>Set of attributes for the triangle.  May be NULL.</dd>
+<dt><tt>triangleAttributeSet</tt></dt><dd>Set of attributes for the triangle.  May be nullptr.</dd>
 </dl>
 </blockquote>
 <hr><a name="//Quesa/c/tag/TQ3TorusData"></a>
@@ -985,11 +985,11 @@ order, first by increasing columns and then by
 increasing rows.  The number of vertices should be
 <code>numRows</code> times <code>numColumns</code>.</dd>
 <dt><tt>facetAttributeSet</tt></dt><dd>Pointer to an array of triangle attributes.  May be
-NULL, but otherwise should point to an array of
+nullptr, but otherwise should point to an array of
 2&times;(<code>numRows</code>-1)&times;(<code>numColumns</code>-1)
 attribute sets.</dd>
 <dt><tt>triGridAttributeSet</tt></dt><dd>Set of attributes for the whole TriGrid object.
-May be NULL.</dd>
+May be nullptr.</dd>
 </dl>
 </blockquote>
 <hr><a name="//Quesa/c/tag/TQ3TriMeshAttributeData"></a>
@@ -1014,7 +1014,7 @@ enclosing <code>TQ3TriMeshData</code> structure; for
 instance, if these are vertex attributes, the number
 of members is the number of vertices.  The size of each
 member depends on the attribute type.</dd>
-<dt><tt>attributeUseArray</tt></dt><dd>For non-custom attribute types, this must be NULL.
+<dt><tt>attributeUseArray</tt></dt><dd>For non-custom attribute types, this must be nullptr.
 For custom attribute types, it can point to an array
 of 1-byte 0s and 1s, with 1s indicating which items
 have the custom attribute.</dd>
@@ -1050,24 +1050,24 @@ going to be assigning an attribute to every vertex, or every edge, or every face
 <h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
 <dl>
-<dt><tt>triMeshAttributeSet</tt></dt><dd>Set of attributes for the whole object.  May be NULL.</dd>
+<dt><tt>triMeshAttributeSet</tt></dt><dd>Set of attributes for the whole object.  May be nullptr.</dd>
 <dt><tt>numTriangles</tt></dt><dd>Number of triangles in the following array.</dd>
 <dt><tt>triangles</tt></dt><dd>Pointer to an array of triangle data.</dd>
 <dt><tt>numTriangleAttributeTypes</tt></dt><dd>Number of triangle attribute types listed in the
 following array.</dd>
 <dt><tt>triangleAttributeTypes</tt></dt><dd>Pointer to an array of attribute data for triangles (faces).
-May be NULL, if <code>numTriangleAttributeTypes</code> is 0.</dd>
+May be nullptr, if <code>numTriangleAttributeTypes</code> is 0.</dd>
 <dt><tt>numEdges</tt></dt><dd>Number of edges in the following array.</dd>
 <dt><tt>edges</tt></dt><dd>Pointer to an array of edge data.  If you do not wish to
-specify any edges, you can set this to NULL, and set
+specify any edges, you can set this to nullptr, and set
 <code>numEdges</code> to 0.</dd>
 <dt><tt>numEdgeAttributeTypes</tt></dt><dd>Number of edge attribute types in the following array.</dd>
-<dt><tt>edgeAttributeTypes</tt></dt><dd>Pointer to an array of edge attribute types.  May be NULL,
+<dt><tt>edgeAttributeTypes</tt></dt><dd>Pointer to an array of edge attribute types.  May be nullptr,
 provided that <code>numEdgeAttributeTypes</code> is 0.</dd>
 <dt><tt>numPoints</tt></dt><dd>Number of points (vertices).</dd>
 <dt><tt>points</tt></dt><dd>Pointer to an array of points.</dd>
 <dt><tt>numVertexAttributeTypes</tt></dt><dd>Number of vertex attribute types in the following array.</dd>
-<dt><tt>vertexAttributeTypes</tt></dt><dd>Pointer to an array of vertex attribute data.  May be NULL,
+<dt><tt>vertexAttributeTypes</tt></dt><dd>Pointer to an array of vertex attribute data.  May be nullptr,
 so long as <code>numVertexAttributeTypes</code> is 0.</dd>
 <dt><tt>bBox</tt></dt><dd>Bounding box of the TriMesh.</dd>
 </dl>
@@ -1123,8 +1123,8 @@ typedef struct TQ3TriangleData {
 <blockquote>
 <dl>
 <dt><tt>vertices</tt></dt><dd>The 3 vertices of the triangle.</dd>
-<dt><tt>triangleAttributeSet</tt></dt><dd>Set of attributes for the triangle.  May be NULL.</dd>
+<dt><tt>triangleAttributeSet</tt></dt><dd>Set of attributes for the triangle.  May be nullptr.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2011 Quesa Developers (Last Updated 3/13/2011)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
 </p></body></html>

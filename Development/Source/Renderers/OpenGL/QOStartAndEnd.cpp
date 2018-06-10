@@ -75,7 +75,7 @@ AdjustStencilAndDepthForShadows( TQ3RendererObject inRenderer,
 	TQ3Uns32	stencilBits = 0;
 	Q3Object_GetProperty( inDrawContext,
 		kQ3DrawContextPropertyGLStencilBufferDepth,
-		sizeof(stencilBits), NULL, &stencilBits );
+		sizeof(stencilBits), nullptr, &stencilBits );
 	
 	TQ3Uns32	depthBits = 32;
 	Q3Object_GetElement( inRenderer, kQ3ElementTypeDepthBits, &depthBits );
@@ -137,7 +137,7 @@ TQ3Status	QORenderer::Renderer::StartFrame(
 	TQ3Boolean	isShadowingRequested = kQ3False;
 	if (mNumPasses == 1){ // disable shadows because shadow and multipass is not well implemented
 		Q3Object_GetProperty( mRendererObject,
-			kQ3RendererPropertyShadows, sizeof(isShadowingRequested), NULL,
+			kQ3RendererPropertyShadows, sizeof(isShadowingRequested), nullptr,
 			&isShadowingRequested );
 		}
 	
@@ -145,7 +145,7 @@ TQ3Status	QORenderer::Renderer::StartFrame(
 	mAllowLineSmooth = true;
 	TQ3Boolean	allowSmooth;
 	if ( (kQ3Success == Q3Object_GetProperty( mRendererObject,
-		kQ3RendererPropertyAllowLineSmooth, sizeof(allowSmooth), NULL,
+		kQ3RendererPropertyAllowLineSmooth, sizeof(allowSmooth), nullptr,
 			&allowSmooth )) && (allowSmooth == kQ3False) )
 	{
 		mAllowLineSmooth = false;
@@ -169,7 +169,7 @@ TQ3Status	QORenderer::Renderer::StartFrame(
 	if (drawContextFlags != 0)
 	{
 		// If we don't have a GL context, rebuild everything
-		if (mGLContext == NULL)
+		if (mGLContext == nullptr)
 		{
 			drawContextFlags = kQ3XDrawContextValidationAll;
 		}
@@ -221,7 +221,7 @@ TQ3Status	QORenderer::Renderer::StartFrame(
 		if (drawContextFlags != kQ3XDrawContextValidationClearFlags)
 		{
 			// Dispose of the old GL context
-			if (mGLContext != NULL)
+			if (mGLContext != nullptr)
 			{
 				mPPLighting.Cleanup();
 				GLDrawContext_Destroy( &mGLContext );
@@ -231,7 +231,7 @@ TQ3Status	QORenderer::Renderer::StartFrame(
 			// And try to build a new one
 			mGLContext = GLDrawContext_New( inView, inDrawContext,
 				&mGLClearFlags );
-			if (mGLContext == NULL)
+			if (mGLContext == nullptr)
 				return(kQ3Failure);
 			
 			mTextures.UpdateTextureCache();
@@ -240,7 +240,7 @@ TQ3Status	QORenderer::Renderer::StartFrame(
 			GLUtils_CheckExtensions( &mGLExtensions );
 			TQ3Boolean	allowVBO = kQ3True;
 			Q3Object_GetProperty( mRendererObject,
-				kQ3RendererPropertyAllowVBOs, sizeof(allowVBO), NULL,
+				kQ3RendererPropertyAllowVBOs, sizeof(allowVBO), nullptr,
 				&allowVBO );
 			if (allowVBO == kQ3False)
 			{
@@ -282,7 +282,7 @@ TQ3Status	QORenderer::Renderer::StartFrame(
 	{
 		TQ3Uns32 vboCacheK = 51200;	// 50 megabytes
 		Q3Object_GetProperty( mRendererObject,
-				kQ3RendererPropertyVBOLimit, sizeof(vboCacheK), NULL,
+				kQ3RendererPropertyVBOLimit, sizeof(vboCacheK), nullptr,
 				&vboCacheK );
 		UpdateVBOCacheLimit( mGLContext, mBufferFuncs, vboCacheK );
 	}
@@ -293,7 +293,7 @@ TQ3Status	QORenderer::Renderer::StartFrame(
 	if ( isShadowing && (mGLExtensions.vertexBufferObjects == kQ3True) )
 	{
 		Q3Object_GetProperty( mRendererObject,
-				kQ3RendererPropertyShadowVBOLimit, sizeof(shadowCacheMemK), NULL,
+				kQ3RendererPropertyShadowVBOLimit, sizeof(shadowCacheMemK), nullptr,
 				&shadowCacheMemK );
 		ShadowVolMgr::StartFrame( mGLContext, mBufferFuncs, shadowCacheMemK );
 	}
@@ -371,7 +371,7 @@ void		QORenderer::Renderer::StartPass(
 	mStyleState.mBackfacing = kQ3BackfacingStyleBoth;
 	mStyleState.mFill = kQ3FillStyleFilled;
 	mStyleState.mOrientation = kQ3OrientationStyleCounterClockwise;
-	mStyleState.mHilite = CQ3ObjectRef();	// i.e., NULL
+	mStyleState.mHilite = CQ3ObjectRef();	// i.e., nullptr
 	mStyleState.mIsCastingShadows = true;
 	mStyleState.mExplicitEdges = false;
 	mLineWidth = 1.0f;
@@ -414,7 +414,7 @@ static bool IsSwapWanted( TQ3ViewObject inView )
 	CQ3ObjectRef	theDrawContext( CQ3View_GetDrawContext( inView ) );
 	TQ3Boolean		swapFlag;
 	return (kQ3Failure == Q3Object_GetProperty( theDrawContext.get(),
-		kQ3DrawContextPropertySwapBufferInEndPass, sizeof(swapFlag), NULL,
+		kQ3DrawContextPropertySwapBufferInEndPass, sizeof(swapFlag), nullptr,
 		&swapFlag )) ||
 		(swapFlag == kQ3True);
 }
@@ -479,7 +479,7 @@ TQ3ViewStatus		QORenderer::Renderer::EndPass(
 		TQ3Uns32 compareFunc = GL_LEQUAL;
 		if ( (kQ3Success == Q3Object_GetProperty( mDrawContextObject,
 			kQ3DrawContextPropertyGLDepthFunc,
-			sizeof(compareFunc), NULL, &compareFunc )) &&
+			sizeof(compareFunc), nullptr, &compareFunc )) &&
 			(compareFunc == GL_GREATER) )
 		{
 			compareFunc = GL_GEQUAL;

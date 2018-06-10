@@ -173,7 +173,7 @@ e3light_ambient_new(TQ3Object theObject, void *privateData, const void *paramDat
 
 
 	// Initialise our instance data
-	if ( lightData != NULL )
+	if ( lightData != nullptr )
 		*instanceData = *lightData ;
 
 	return(kQ3Success);
@@ -196,10 +196,10 @@ e3light_ambient_read ( TQ3FileObject theFile )
 	Q3Memory_Clear ( &lightData, sizeof ( lightData ) ) ;
 
 	// Read in the attributes
-	while ( Q3File_IsEndOfContainer ( theFile, NULL ) == kQ3False )
+	while ( Q3File_IsEndOfContainer ( theFile, nullptr ) == kQ3False )
 		{
 		TQ3Object childObject = Q3File_ReadObject ( theFile ) ;
-		if ( childObject != NULL )
+		if ( childObject != nullptr )
 			{
 			switch ( childObject->GetLeafType () )
 				{
@@ -234,9 +234,9 @@ e3light_ambient_read ( TQ3FileObject theFile )
 static TQ3Status
 e3light_ambient_traverse ( TQ3SharedObject theObject, void *data, TQ3ViewObject theView )
 	{
-	TQ3Uns32 result = Q3XView_SubmitWriteData ( theView, 0 , theObject, NULL ) ;
+	TQ3Uns32 result = Q3XView_SubmitWriteData ( theView, 0 , theObject, nullptr ) ;
 
-	result &= Q3XView_SubmitSubObjectData ( theView, (TQ3XObjectClass) E3ClassTree::GetClass ( kQ3LightData ), sizeof ( TQ3LightData ), theObject, NULL ) ;
+	result &= Q3XView_SubmitSubObjectData ( theView, (TQ3XObjectClass) E3ClassTree::GetClass ( kQ3LightData ), sizeof ( TQ3LightData ), theObject, nullptr ) ;
 
 	return (TQ3Status) result ;
 	}
@@ -261,7 +261,7 @@ e3light_ambient_metahandler ( TQ3XMethodType methodType )
 			return (TQ3XFunctionPointer) e3light_ambient_traverse ;
 		}
 	
-	return NULL ;
+	return nullptr ;
 	}
 
 
@@ -280,7 +280,7 @@ e3light_directional_new(TQ3Object theObject, void *privateData, const void *para
 
 
 	// Initialise our instance data
-	if ( lightData != NULL )
+	if ( lightData != nullptr )
 		*instanceData = *lightData ;
 
 	return(kQ3Success);
@@ -307,10 +307,10 @@ e3light_directional_read ( TQ3FileObject theFile )
 	Q3Uns32_Read ( (TQ3Uns32*) &lightData.castsShadows, theFile ) ; 
 
 	// Read in the attributes
-	while ( Q3File_IsEndOfContainer ( theFile, NULL ) == kQ3False )
+	while ( Q3File_IsEndOfContainer ( theFile, nullptr ) == kQ3False )
 		{
 		TQ3Object childObject = Q3File_ReadObject ( theFile ) ;
-		if ( childObject != NULL )
+		if ( childObject != nullptr )
 			{
 			switch ( childObject->GetLeafType () )
 				{
@@ -345,9 +345,9 @@ e3light_directional_read ( TQ3FileObject theFile )
 static TQ3Status
 e3light_directional_traverse ( TQ3SharedObject theObject, void *data, TQ3ViewObject theView )
 	{
-	TQ3Uns32 result = Q3XView_SubmitWriteData ( theView, sizeof ( TQ3DirectionalLightData ) - sizeof ( TQ3LightData ), theObject, NULL ) ;
+	TQ3Uns32 result = Q3XView_SubmitWriteData ( theView, sizeof ( TQ3DirectionalLightData ) - sizeof ( TQ3LightData ), theObject, nullptr ) ;
 
-	result &= Q3XView_SubmitSubObjectData ( theView, (TQ3XObjectClass) E3ClassTree::GetClass ( kQ3LightData ), sizeof ( TQ3LightData ), theObject, NULL ) ;
+	result &= Q3XView_SubmitSubObjectData ( theView, (TQ3XObjectClass) E3ClassTree::GetClass ( kQ3LightData ), sizeof ( TQ3LightData ), theObject, nullptr ) ;
 
 	return (TQ3Status) result ;
 	}
@@ -393,7 +393,7 @@ e3light_directional_metahandler ( TQ3XMethodType methodType )
 			return (TQ3XFunctionPointer) e3light_directional_write ;
 		}
 	
-	return NULL ;
+	return nullptr ;
 	}
 
 
@@ -412,7 +412,7 @@ e3light_point_new(TQ3Object theObject, void *privateData, const void *paramData)
 
 
 	// Initialise our instance data
-	if ( lightData != NULL )
+	if ( lightData != nullptr )
 		*instanceData = *lightData ;
 
 	return(kQ3Success);
@@ -440,10 +440,10 @@ e3light_point_read ( TQ3FileObject theFile )
 	Q3Uns32_Read ( (TQ3Uns32*) &lightData.castsShadows, theFile ) ; 
 
 	// Read in the attributes
-	while ( Q3File_IsEndOfContainer ( theFile, NULL ) == kQ3False )
+	while ( Q3File_IsEndOfContainer ( theFile, nullptr ) == kQ3False )
 		{
 		TQ3Object childObject = Q3File_ReadObject ( theFile ) ;
-		if ( childObject != NULL )
+		if ( childObject != nullptr )
 			{
 			switch ( childObject->GetLeafType () )
 				{
@@ -478,9 +478,9 @@ e3light_point_read ( TQ3FileObject theFile )
 static TQ3Status
 e3light_point_traverse ( TQ3SharedObject theObject, void *data, TQ3ViewObject theView )
 	{
-	TQ3Uns32 result = Q3XView_SubmitWriteData ( theView, sizeof ( TQ3PointLightData ) - sizeof ( TQ3LightData ), theObject, NULL ) ;
+	TQ3Uns32 result = Q3XView_SubmitWriteData ( theView, sizeof ( TQ3PointLightData ) - sizeof ( TQ3LightData ), theObject, nullptr ) ;
 
-	result &= Q3XView_SubmitSubObjectData ( theView, (TQ3XObjectClass) E3ClassTree::GetClass ( kQ3LightData ), sizeof ( TQ3LightData ), theObject, NULL ) ;
+	result &= Q3XView_SubmitSubObjectData ( theView, (TQ3XObjectClass) E3ClassTree::GetClass ( kQ3LightData ), sizeof ( TQ3LightData ), theObject, nullptr ) ;
 
 	return (TQ3Status) result ;
 	}
@@ -527,7 +527,7 @@ e3light_point_metahandler ( TQ3XMethodType methodType )
 			return (TQ3XFunctionPointer) e3light_point_write ;
 		}
 	
-	return NULL ;
+	return nullptr ;
 	}
 
 
@@ -546,7 +546,7 @@ e3light_spot_new(TQ3Object theObject, void *privateData, const void *paramData)
 
 
 	// Initialise our instance data
-	if ( lightData != NULL )
+	if ( lightData != nullptr )
 		*instanceData = *lightData ;
 
 	return(kQ3Success);
@@ -583,10 +583,10 @@ e3light_spot_read ( TQ3FileObject theFile )
 	Q3Uns32_Read ( (TQ3Uns32*) &lightData.fallOff, theFile ) ; 
 
 	// Read in the attributes
-	while ( Q3File_IsEndOfContainer ( theFile, NULL ) == kQ3False )
+	while ( Q3File_IsEndOfContainer ( theFile, nullptr ) == kQ3False )
 		{
 		TQ3Object childObject = Q3File_ReadObject ( theFile ) ;
-		if ( childObject != NULL )
+		if ( childObject != nullptr )
 			{
 			switch ( childObject->GetLeafType () )
 				{
@@ -623,9 +623,9 @@ e3light_spot_read ( TQ3FileObject theFile )
 static TQ3Status
 e3light_spot_traverse ( TQ3SharedObject theObject, void *data, TQ3ViewObject theView )
 	{
-	TQ3Uns32 result = Q3XView_SubmitWriteData ( theView, sizeof ( TQ3SpotLightData ) - sizeof ( TQ3LightData ), theObject, NULL ) ;
+	TQ3Uns32 result = Q3XView_SubmitWriteData ( theView, sizeof ( TQ3SpotLightData ) - sizeof ( TQ3LightData ), theObject, nullptr ) ;
 
-	result &= Q3XView_SubmitSubObjectData ( theView, (TQ3XObjectClass) E3ClassTree::GetClass ( kQ3LightData ), sizeof ( TQ3LightData ), theObject, NULL ) ;
+	result &= Q3XView_SubmitSubObjectData ( theView, (TQ3XObjectClass) E3ClassTree::GetClass ( kQ3LightData ), sizeof ( TQ3LightData ), theObject, nullptr ) ;
 
 	return (TQ3Status) result ;
 	}
@@ -676,7 +676,7 @@ e3light_spot_metahandler ( TQ3XMethodType methodType )
 			return (TQ3XFunctionPointer) e3light_spot_write ;
 		}
 	
-	return NULL ;
+	return nullptr ;
 	}
 
 
@@ -697,7 +697,7 @@ E3Light_RegisterClass(void)
 
 	// Register the Light classes
 	qd3dStatus = Q3_REGISTER_CLASS_WITH_MEMBER (	kQ3ClassNameLight,
-										NULL,
+										nullptr,
 										E3Light,
 										lightData ) ;
 
@@ -761,7 +761,7 @@ E3Light_UnregisterClass(void)
 TQ3Boolean
 E3Light_IsOfMyClass ( TQ3Object object )
 	{
-	if ( object == NULL )
+	if ( object == nullptr )
 		return kQ3False ;
 		
 	if ( object->IsObjectValid () )
@@ -933,7 +933,7 @@ TQ3LightObject
 E3AmbientLight_New(const TQ3LightData *lightData)
 	{
 	// Create the object
-	TQ3Object theObject = E3ClassTree::CreateInstance ( kQ3LightTypeAmbient, kQ3False, NULL ) ;
+	TQ3Object theObject = E3ClassTree::CreateInstance ( kQ3LightTypeAmbient, kQ3False, nullptr ) ;
 
 	E3AmbientLight_SetData ( theObject , lightData ) ;
 
@@ -985,7 +985,7 @@ TQ3LightObject
 E3DirectionalLight_New(const TQ3DirectionalLightData *directionalLightData)
 	{
 	// Create the object
-	TQ3Object theObject = E3ClassTree::CreateInstance ( kQ3LightTypeDirectional, kQ3False, NULL ) ;
+	TQ3Object theObject = E3ClassTree::CreateInstance ( kQ3LightTypeDirectional, kQ3False, nullptr ) ;
 	
 	E3DirectionalLight_SetData ( theObject , directionalLightData ) ;
 	
@@ -1115,7 +1115,7 @@ TQ3LightObject
 E3PointLight_New(const TQ3PointLightData *pointLightData)
 	{
 	// Create the object
-	TQ3Object theObject = E3ClassTree::CreateInstance ( kQ3LightTypePoint, kQ3False, NULL ) ;
+	TQ3Object theObject = E3ClassTree::CreateInstance ( kQ3LightTypePoint, kQ3False, nullptr ) ;
 	
 	E3PointLight_SetData ( theObject , pointLightData ) ;
 
@@ -1315,7 +1315,7 @@ TQ3LightObject
 E3SpotLight_New(const TQ3SpotLightData *spotLightData)
 	{
 	// Create the object
-	TQ3Object theObject = E3ClassTree::CreateInstance ( kQ3LightTypeSpot, kQ3False,  NULL ) ;
+	TQ3Object theObject = E3ClassTree::CreateInstance ( kQ3LightTypeSpot, kQ3False,  nullptr ) ;
 
 	E3SpotLight_SetData ( theObject , spotLightData ) ;
 

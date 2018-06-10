@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
     "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
-<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a[name]:hover {text-decoration: inherit; font-family: inherit; font-size: inherit}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
     <title>Enumerations</title>
 	 <meta name="generator" content="HeaderDoc">
 </head><body bgcolor="#ffffff">
@@ -25,5 +25,32 @@ typedef enum TQ3ShaderUVBoundary {
 <dt><a name="//Quesa/c/econst/kQ3ShaderUVBoundaryClamp"><tt>kQ3ShaderUVBoundaryClamp</tt></a></dt><dd>Clamp UV values to 0..1.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2011 Quesa Developers (Last Updated 3/13/2011)
+<hr><a name="//Quesa/c/tag/Texture&nbsp;shader&nbsp;element&nbsp;types"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Texture&nbsp;shader&nbsp;element&nbsp;types">Texture&nbsp;shader&nbsp;element&nbsp;types</a></h2>
+</td></tr></table><hr>Custom elements that may be set on texture shader objects.
+<br><br>
+<br>
+<blockquote><pre>
+enum
+{
+  kQ3ElementTypeTextureShaderAlphaTest  = Q3_OBJECT_TYPE(0xF0, 's', 'a', 't')
+};
+</pre>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p><br><br>
+</p>
+<h4>Constants</h4>
+<blockquote>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3ElementTypeTextureShaderAlphaTest"><tt>kQ3ElementTypeTextureShaderAlphaTest</tt></a></dt><dd>Normally, geometry using a texture with an alpha
+channel must be broken into triangles to be sorted by depth
+and rendered back to front.  With this element, you can
+instead treat each texel as either completely opaque or
+completely transparent, avoiding depth sorting.  The
+element value is a depth threshold, i.e., alpha less than
+the threshold is considered completely transparent.
+Data type: TQ3Float32.</dd>
+</dl>
+</blockquote>
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
 </p></body></html>

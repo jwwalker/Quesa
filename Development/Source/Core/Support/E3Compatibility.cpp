@@ -98,7 +98,7 @@ Q3AttributeClass_Register(TQ3AttributeType		attributeType,
 											sizeOfElement,
 											sizeof( OpaqueTQ3Object ) ) ;
 	if ( qd3dStatus != kQ3Success )
-		return NULL ;
+		return nullptr ;
 
 
 
@@ -130,7 +130,7 @@ Q3ElementClass_Register(TQ3ElementType			elementType,
 											sizeOfElement,
 											sizeof( OpaqueTQ3Object ) ) ;
 	if ( qd3dStatus != kQ3Success )
-		return NULL ;
+		return nullptr ;
 
 
 
@@ -320,10 +320,10 @@ Q3Pick_GetHitData(TQ3PickObject		pickObject,
 	TQ3HitData *hitDataPtr = (TQ3HitData*)hitData ;
 	hitDataPtr->part = kQ3PickPartsObject ;
 	hitDataPtr->pickID = 0;
-	hitDataPtr->path.rootGroup = NULL;
+	hitDataPtr->path.rootGroup = nullptr;
 	hitDataPtr->path.depth = 0;
-	hitDataPtr->path.positions = NULL;
-	hitDataPtr->object = NULL;
+	hitDataPtr->path.positions = nullptr;
+	hitDataPtr->object = nullptr;
 	Q3Matrix4x4_SetIdentity ( &hitDataPtr->localToWorldMatrix );
 	hitDataPtr->xyzPoint.x = 0;
 	hitDataPtr->xyzPoint.y = 0;
@@ -332,7 +332,7 @@ Q3Pick_GetHitData(TQ3PickObject		pickObject,
 	hitDataPtr->normal.x = 0;
 	hitDataPtr->normal.y = 0;
 	hitDataPtr->normal.z = 0;
-	hitDataPtr->shapePart = 0;
+	hitDataPtr->shapePart = nullptr;
 	
 	if ( Q3Pick_GetPickDetailValidMask ( pickObject , theIndex , &hitDataPtr->validMask ) == kQ3Failure )
 		return(kQ3Failure);
@@ -374,7 +374,7 @@ Q3Pick_GetHitData(TQ3PickObject		pickObject,
 			if ( hitDataPtr->shapePart )
 				{
 				Q3Object_Dispose ( hitDataPtr->shapePart ) ;
-				hitDataPtr->shapePart = NULL ;
+				hitDataPtr->shapePart = nullptr ;
 				}
 			return(kQ3Failure);
 			}
@@ -386,12 +386,12 @@ Q3Pick_GetHitData(TQ3PickObject		pickObject,
 			if ( hitDataPtr->shapePart )
 				{
 				Q3Object_Dispose ( hitDataPtr->shapePart ) ;
-				hitDataPtr->shapePart = NULL ;
+				hitDataPtr->shapePart = nullptr ;
 				}
 			if ( hitDataPtr->object )
 				{
 				Q3Object_Dispose ( hitDataPtr->object ) ;
-				hitDataPtr->object = NULL ;
+				hitDataPtr->object = nullptr ;
 				}
 			return(kQ3Failure);
 			}
@@ -439,7 +439,7 @@ EiObjectHierarchy_RegisterClassByType(TQ3ObjectType 		parentType,
 											metaHandler ,
 											instanceSize ) ;
 	if ( qd3dStatus != kQ3Success )
-		return NULL ;
+		return nullptr ;
 
 
 

@@ -241,7 +241,7 @@ Q3Transform_Submit (
  *
  *
  *  @param matrix           Initial matrix of the transform.
- *  @result                 A new transform object, or NULL on failure.
+ *  @result                 A new transform object, or nullptr on failure.
  */
 Q3_EXTERN_API_C ( TQ3TransformObject  )
 Q3MatrixTransform_New (
@@ -316,7 +316,7 @@ Q3MatrixTransform_Get (
  *      Create a transform object for rotation about the x, y, or z axis.
  *
  *  @param data             Data specifying the initial state of the transform.
- *  @result                 The new transform object, or NULL on failure.
+ *  @result                 The new transform object, or nullptr on failure.
  */
 Q3_EXTERN_API_C ( TQ3TransformObject  )
 Q3RotateTransform_New (
@@ -464,7 +464,7 @@ Q3RotateTransform_GetAngle (
  *		the x, y, or z axis.
  *
  *  @param data             Structure containing the initial state of the transform.
- *  @result                 A new rotate-about-point transform, or NULL on failure.
+ *  @result                 A new rotate-about-point transform, or nullptr on failure.
  */
 Q3_EXTERN_API_C ( TQ3TransformObject  )
 Q3RotateAboutPointTransform_New (
@@ -648,7 +648,7 @@ Q3RotateAboutPointTransform_GetAboutPoint (
  *		Note that the orientation vector must be normalized.
  *
  *  @param data             Structure specifying the initial state of the transform.
- *  @result                 A new rotate-about-axis transform object, or NULL on failure.
+ *  @result                 A new rotate-about-axis transform object, or nullptr on failure.
  */
 Q3_EXTERN_API_C ( TQ3TransformObject  )
 Q3RotateAboutAxisTransform_New (
@@ -834,7 +834,7 @@ Q3RotateAboutAxisTransform_GetOrigin (
  *		identical positive numbers.
  *
  *  @param scale            Vector specifying scale factors for each coordinate.
- *  @result                 A new scale transform object, or NULL on failure.
+ *  @result                 A new scale transform object, or nullptr on failure.
  */
 Q3_EXTERN_API_C ( TQ3TransformObject  )
 Q3ScaleTransform_New (
@@ -909,7 +909,7 @@ Q3ScaleTransform_Get (
  *      Create a new translation transform.
  *
  *  @param translate        Vector by which to translate.
- *  @result                 A new transform object, or NULL on failure.
+ *  @result                 A new transform object, or nullptr on failure.
  */
 Q3_EXTERN_API_C ( TQ3TransformObject  )
 Q3TranslateTransform_New (
@@ -984,7 +984,7 @@ Q3TranslateTransform_Get (
  *      Create a new quaternion transform object.
  *
  *  @param quaternion       Quaternion data specifying the transform.
- *  @result                 A new quaternion transform object, or NULL on failure.
+ *  @result                 A new quaternion transform object, or nullptr on failure.
  */
 Q3_EXTERN_API_C ( TQ3TransformObject  )
 Q3QuaternionTransform_New (
@@ -1062,7 +1062,7 @@ Q3QuaternionTransform_Get (
  *		modified by groups or push and pop operations.  Submitting a reset
  *      transform is a shortcut which sets the current transform to the identity.
  *
- *  @result                 A new reset transform, or NULL on failure.
+ *  @result                 A new reset transform, or nullptr on failure.
  */
 Q3_EXTERN_API_C ( TQ3TransformObject  )
 Q3ResetTransform_New (
@@ -1101,7 +1101,7 @@ Q3ResetTransform_Submit (
  *      <em>This function is not available in QD3D.</em>
  *      
  *  @param theData          The data for the camera transform object.
- *  @result                 A new camera transform object, or NULL on failure.
+ *  @result                 A new camera transform object, or nullptr on failure.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -1216,7 +1216,7 @@ Q3CameraTransform_Get (
  *
  *      <em>This function is not available in QD3D.</em>
  *      
- *  @result                 A new camera transform object, or NULL on failure.
+ *  @result                 A new camera transform object, or nullptr on failure.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 

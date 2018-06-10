@@ -184,7 +184,7 @@ namespace
 
 static inline GLvoid* BufferObPtr( GLuint offset )
 {
-	return (GLvoid*)( ((char*)NULL) + offset );
+	return (GLvoid*)( ((char*)nullptr) + offset );
 }
 
 
@@ -193,11 +193,11 @@ static ShadowVolCache* GetShadowCache( TQ3GLContext glContext )
 	ShadowVolCache*	theCache = static_cast<ShadowVolCache*>( GLGPUSharing_GetCache(
 		glContext, kShadowCacheKey ) );
 	
-	if (theCache == NULL)
+	if (theCache == nullptr)
 	{
 		theCache = new(std::nothrow) ShadowVolCache;
 		
-		if (theCache != NULL)
+		if (theCache != nullptr)
 		{
 			GLGPUSharing_AddCache( glContext, kShadowCacheKey, theCache );
 		}
@@ -227,8 +227,8 @@ ShadowVBO::ShadowVBO()
 	: mGeomObject()
 	, mLightObject()
 	, mBufferBytes( 0 )
-	, mPrev( NULL )
-	, mNext( NULL )
+	, mPrev( nullptr )
+	, mNext( nullptr )
 {
 }
 
@@ -241,8 +241,8 @@ ShadowVBO::ShadowVBO(					TQ3GeometryObject inGeom,
 	, mLocalLightPosition( inLocalLightPos )
 	, mMapKey( inGeom, inLight )
 	, mBufferBytes( 0 )
-	, mPrev( NULL )
-	, mNext( NULL )
+	, mPrev( nullptr )
+	, mNext( nullptr )
 {
 	// Leave other fields uninitialized for now
 }
@@ -343,7 +343,7 @@ ShadowVBO*	ShadowVolCache::FindVBO( TQ3GeometryObject inGeom,
 									const TQ3RationalPoint4D& inLocalLightPos,
 									const GLBufferFuncs& inFuncs )
 {
-	ShadowVBO* cachedShadow = NULL;
+	ShadowVBO* cachedShadow = nullptr;
 	
 	GeomAndLight key( inGeom, inLight );
 	
@@ -365,7 +365,7 @@ ShadowVBO*	ShadowVolCache::FindVBO( TQ3GeometryObject inGeom,
 				{
 					DeleteVBO( cachedShadow, inFuncs );
 					theShadows.erase( i );
-					cachedShadow = NULL;
+					cachedShadow = nullptr;
 					break;
 				}
 			}
@@ -525,7 +525,7 @@ void	ShadowVolMgr::StartFrame(	TQ3GLContext glContext,
 {
 	ShadowVolCache*	theCache = GetShadowCache( glContext );
 	
-	if (theCache != NULL)
+	if (theCache != nullptr)
 	{
 		theCache->SetMaxBufferSize( memLimitK * 1024LL, inFuncs );
 	}
@@ -554,11 +554,11 @@ TQ3Boolean		ShadowVolMgr::RenderShadowVolume(
 	TQ3Boolean	didRender = kQ3False;
 	ShadowVolCache*	theCache = GetShadowCache( glContext );
 	
-	if (theCache != NULL)
+	if (theCache != nullptr)
 	{
 		ShadowVBO* theVBO = theCache->FindVBO( inGeom, inLight, inLocalLightPos, inFuncs );
 		
-		if (theVBO != NULL)
+		if (theVBO != nullptr)
 		{
 			theCache->RenderVBO( theVBO, inFuncs );
 			didRender = kQ3True;
@@ -597,7 +597,7 @@ void	ShadowVolMgr::AddShadowVolume(
 {
 	ShadowVolCache*	theCache = GetShadowCache( glContext );
 	
-	if (theCache != NULL)
+	if (theCache != nullptr)
 	{
 		ShadowVBO* newVBO = new ShadowVBO( inGeom, inLight, inLocalLightPos );
 		
@@ -651,7 +651,7 @@ void	ShadowVolMgr::Flush(
 {
 	ShadowVolCache*	theCache = GetShadowCache( glContext );
 	
-	if (theCache != NULL)
+	if (theCache != nullptr)
 	{
 		theCache->FlushStaleShadows( inFuncs );
 	}

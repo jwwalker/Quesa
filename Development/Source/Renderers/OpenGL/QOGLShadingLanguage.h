@@ -286,7 +286,7 @@ public:
 					update the fragment shader program if necessary.  The
 					geometry is passed, if available, so that cartoon parameters
 					may be updated.
-		@param		inGeom		Geometry being rendered.  May be NULL.
+		@param		inGeom		Geometry being rendered.  May be nullptr.
 	*/
 	void						PreGeomSubmit( TQ3GeometryObject inGeom );
 

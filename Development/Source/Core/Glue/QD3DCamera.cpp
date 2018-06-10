@@ -514,7 +514,7 @@ Q3OrthographicCamera_New(const TQ3OrthographicCameraData *orthographicData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(orthographicData), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(orthographicData), nullptr);
 
 
 
@@ -866,7 +866,7 @@ Q3ViewPlaneCamera_New(const TQ3ViewPlaneCameraData *cameraData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(cameraData), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(cameraData), nullptr);
 
 
 
@@ -1279,7 +1279,7 @@ Q3ViewAngleAspectCamera_New(const TQ3ViewAngleAspectCameraData *cameraData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(cameraData), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(cameraData), nullptr);
 
 
 

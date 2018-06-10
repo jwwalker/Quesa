@@ -206,7 +206,7 @@ namespace
 
 static inline GLvoid* BufferObPtr( GLuint offset )
 {
-	return (GLvoid*)( ((char*)NULL) + offset );
+	return (GLvoid*)( ((char*)nullptr) + offset );
 }
 
 
@@ -215,11 +215,11 @@ static VBOCache* GetVBOCache( TQ3GLContext glContext )
 	VBOCache*	theCache = static_cast<VBOCache*>( GLGPUSharing_GetCache(
 		glContext, kVBOCacheKey ) );
 	
-	if (theCache == NULL)
+	if (theCache == nullptr)
 	{
 		theCache = new(std::nothrow) VBOCache;
 		
-		if (theCache != NULL)
+		if (theCache != nullptr)
 		{
 			GLGPUSharing_AddCache( glContext, kVBOCacheKey, theCache );
 		}
@@ -275,15 +275,15 @@ static CachedVBOVec::iterator FindVBOByGeom( CachedVBOVec& inVBOs, TQ3GeometryOb
 }
 
 GLBufferFuncs::GLBufferFuncs()
-	: glGenBuffersProc( NULL )
-	, glBindBufferProc( NULL )
-	, glDeleteBuffersProc( NULL )
-	, glIsBufferProc( NULL )
-	, glBufferDataProc( NULL )
-	, glBufferSubDataProc( NULL )
-	, glClientActiveTextureProc( NULL )
-	, glMultiTexCoord1fProc( NULL )
-	, glGetBufferParameterivProc( NULL )
+	: glGenBuffersProc( nullptr )
+	, glBindBufferProc( nullptr )
+	, glDeleteBuffersProc( nullptr )
+	, glIsBufferProc( nullptr )
+	, glBufferDataProc( nullptr )
+	, glBufferSubDataProc( nullptr )
+	, glClientActiveTextureProc( nullptr )
+	, glMultiTexCoord1fProc( nullptr )
+	, glGetBufferParameterivProc( nullptr )
 {
 }
 
@@ -302,15 +302,15 @@ void	GLBufferFuncs::Initialize( const TQ3GLExtensions& inExts )
 		GLGetProcAddress( glGetBufferParameterivProc, "glGetBufferParameteriv",
 			"glGetBufferParameterivARB" );
 
-		Q3_ASSERT( (glGenBuffersProc != NULL) &&
-			(glBindBufferProc != NULL) &&
-			(glDeleteBuffersProc != NULL) &&
-			(glIsBufferProc != NULL) &&
-			(glBufferDataProc != NULL) &&
-			(glBufferSubDataProc != NULL) &&
-			(glClientActiveTextureProc != NULL) &&
-			(glMultiTexCoord1fProc != NULL) &&
-			(glGetBufferParameterivProc != NULL) );
+		Q3_ASSERT( (glGenBuffersProc != nullptr) &&
+			(glBindBufferProc != nullptr) &&
+			(glDeleteBuffersProc != nullptr) &&
+			(glIsBufferProc != nullptr) &&
+			(glBufferDataProc != nullptr) &&
+			(glBufferSubDataProc != nullptr) &&
+			(glClientActiveTextureProc != nullptr) &&
+			(glMultiTexCoord1fProc != nullptr) &&
+			(glGetBufferParameterivProc != nullptr) );
 	}
 }
 
@@ -328,18 +328,18 @@ CachedVBO::CachedVBO( TQ3GeometryObject inGeom, GLenum inMode )
 	, mEditIndex( Q3Shared_GetEditIndex( inGeom ) )
 	, mGLMode( inMode )
 	, mBufferBytes( 0 )
-	, mPrev( NULL )
-	, mNext( NULL )
+	, mPrev( nullptr )
+	, mNext( nullptr )
 {
 	// Leave other fields uninitialized for now
 }
 
 CachedVBO::CachedVBO()
 	: mGeomObject()
-	, mSortKey( NULL )
+	, mSortKey( nullptr )
 	, mBufferBytes( 0 )
-	, mPrev( NULL )
-	, mNext( NULL )
+	, mPrev( nullptr )
+	, mNext( nullptr )
 {
 }
 
@@ -370,7 +370,7 @@ VBOCache::~VBOCache()
 
 CachedVBO*		VBOCache::FindVBOInVec( TQ3GeometryObject inGeom, CachedVBOVec& inVBOs )
 {
-	CachedVBO*	theCachedVBO = NULL;
+	CachedVBO*	theCachedVBO = nullptr;
 	
 	CachedVBOVec::iterator foundIt = FindVBOByGeom( inVBOs, inGeom );
 	
@@ -388,7 +388,7 @@ CachedVBO*		VBOCache::FindVBOInVec( TQ3GeometryObject inGeom, CachedVBOVec& inVB
 
 CachedVBOVec*	VBOCache::GetVBOVecForMode( GLenum inMode )
 {
-	CachedVBOVec* whichVec = NULL;
+	CachedVBOVec* whichVec = nullptr;
 	
 	switch (inMode)
 	{
@@ -411,22 +411,22 @@ CachedVBOVec*	VBOCache::GetVBOVecForMode( GLenum inMode )
 CachedVBO*		VBOCache::FindVBO( TQ3GeometryObject inGeom, GLenum inMode,
 									const GLBufferFuncs& inFuncs )
 {
-	CachedVBO*	theCachedVBO = NULL;
+	CachedVBO*	theCachedVBO = nullptr;
 	
 	CachedVBOVec* whichVec = GetVBOVecForMode( inMode );
 
-	if (whichVec != NULL)
+	if (whichVec != nullptr)
 	{
 		theCachedVBO = FindVBOInVec( inGeom, *whichVec );
 		
-		if ( (theCachedVBO != NULL) && theCachedVBO->IsStale() )
+		if ( (theCachedVBO != nullptr) && theCachedVBO->IsStale() )
 		{
 			CachedVBOVec::iterator foundIt = FindVBOByGeom( *whichVec, inGeom );
 			whichVec->erase( foundIt );
 			
 			DeleteVBO( theCachedVBO, inFuncs );
 			
-			theCachedVBO = NULL;
+			theCachedVBO = nullptr;
 		}
 	}
 	
@@ -454,7 +454,7 @@ void	VBOCache::AddVBO( CachedVBO* inVBO )
 {
 	CachedVBOVec* whichVec = GetVBOVecForMode( inVBO->mGLMode );
 	
-	if (whichVec != NULL)
+	if (whichVec != nullptr)
 	{
 		CachedVBOVec::iterator	placeIt = std::lower_bound( whichVec->begin(),
 			whichVec->end(), inVBO, VBOLess() );
@@ -624,7 +624,7 @@ void				UpdateVBOCacheLimit(
 {
 	VBOCache*	theCache = GetVBOCache( glContext );
 	
-	if (theCache != NULL)
+	if (theCache != nullptr)
 	{
 		theCache->SetMaxBufferSize( inMaxMemK * 1024LL, inFuncs );
 	}
@@ -652,16 +652,16 @@ TQ3Boolean			RenderCachedVBO(
 	TQ3Boolean	didRender = kQ3False;
 	VBOCache*	theCache = GetVBOCache( glContext );
 	
-	if (theCache != NULL)
+	if (theCache != nullptr)
 	{
 		CachedVBO*	theVBO = theCache->FindVBO( inGeom, inMode, inFuncs );
 		
-		if ( (theVBO == NULL) && (inMode == GL_TRIANGLE_STRIP) )
+		if ( (theVBO == nullptr) && (inMode == GL_TRIANGLE_STRIP) )
 		{
 			theVBO = theCache->FindVBO( inGeom, GL_TRIANGLES, inFuncs );
 		}
 		
-		if (theVBO != NULL)
+		if (theVBO != nullptr)
 		{
 			theCache->RenderVBO( inFuncs, theVBO );
 			theCache->RenewInUsageList( theVBO );
@@ -681,9 +681,9 @@ TQ3Boolean			RenderCachedVBO(
 	@param			inGeom			A geometry object.
 	@param			inNumPoints		Number of points (vertices).
 	@param			inPoints		Array of point locations.
-	@param			inNormals		Array of normal vectors (or NULL).
-	@param			inColors		Array of vertex colors (or NULL).
-	@param			inUVs			Array of vertex UV coordinates (or NULL).
+	@param			inNormals		Array of normal vectors (or nullptr).
+	@param			inColors		Array of vertex colors (or nullptr).
+	@param			inUVs			Array of vertex UV coordinates (or nullptr).
 	@param			inMode			OpenGL mode, e.g., GL_TRIANGLES.
 	@param			inNumIndices	Number of vertex indices to follow.
 	@param			inIndices		Array of vertex indices.
@@ -703,18 +703,18 @@ void				AddVBOToCache(
 {
 	VBOCache*	theCache = GetVBOCache( glContext );
 	
-	if (theCache != NULL)
+	if (theCache != nullptr)
 	{
 		CachedVBO*	newVBO = new CachedVBO( inGeom, inMode );
 		newVBO->mNumIndices = inNumIndices;
 		(*inFuncs.glGenBuffersProc)( 2, newVBO->mGLBufferNames );
 		
 		TQ3Uns32	vertexDataSize = static_cast<TQ3Uns32>(inNumPoints * sizeof(TQ3Point3D));
-		TQ3Uns32	normalDataSize = (inNormals == NULL)? 0 :
+		TQ3Uns32	normalDataSize = (inNormals == nullptr)? 0 :
 			static_cast<TQ3Uns32>(inNumPoints * sizeof(TQ3Vector3D));
-		TQ3Uns32	colorDataSize = (inColors == NULL)? 0 :
+		TQ3Uns32	colorDataSize = (inColors == nullptr)? 0 :
 			static_cast<TQ3Uns32>(inNumPoints * sizeof(TQ3ColorRGB));
-		TQ3Uns32	uvDataSize = (inUVs == NULL)? 0 :
+		TQ3Uns32	uvDataSize = (inUVs == nullptr)? 0 :
 			static_cast<TQ3Uns32>(inNumPoints * sizeof(TQ3Param2D));
 		TQ3Uns32	totalDataSize = vertexDataSize + normalDataSize +
 			colorDataSize + uvDataSize;
@@ -723,11 +723,11 @@ void				AddVBOToCache(
 		theCache->MakeRoom( newVBO->mBufferBytes, inFuncs );
 			
 		newVBO->mVertexBufferOffset = 0;
-		newVBO->mNormalBufferOffset = (inNormals == NULL)? kAbsentBuffer :
+		newVBO->mNormalBufferOffset = (inNormals == nullptr)? kAbsentBuffer :
 			vertexDataSize;
-		newVBO->mColorBufferOffset = (inColors == NULL)? kAbsentBuffer :
+		newVBO->mColorBufferOffset = (inColors == nullptr)? kAbsentBuffer :
 			vertexDataSize + normalDataSize;
-		newVBO->mTextureUVBufferOffset = (inUVs == NULL)? kAbsentBuffer :
+		newVBO->mTextureUVBufferOffset = (inUVs == nullptr)? kAbsentBuffer :
 			vertexDataSize + normalDataSize + colorDataSize;
 		
 		theCache->AddVBO( newVBO );
@@ -738,25 +738,25 @@ void				AddVBOToCache(
 		(*inFuncs.glBindBufferProc)( GL_ARRAY_BUFFER,
 			newVBO->mGLBufferNames[0] );
 		(*inFuncs.glBufferDataProc)( GL_ARRAY_BUFFER, totalDataSize,
-			NULL, GL_STATIC_DRAW );
+			nullptr, GL_STATIC_DRAW );
 		
 		// Then set sub-buffer data
 		dataAddr = inPoints;
 		(*inFuncs.glBufferSubDataProc)( GL_ARRAY_BUFFER, 0,
 			vertexDataSize, dataAddr );
-		if (inNormals != NULL)
+		if (inNormals != nullptr)
 		{
 			dataAddr = inNormals;
 			(*inFuncs.glBufferSubDataProc)( GL_ARRAY_BUFFER,
 				newVBO->mNormalBufferOffset, normalDataSize, dataAddr );
 		}
-		if (inColors != NULL)
+		if (inColors != nullptr)
 		{
 			dataAddr = inColors;
 			(*inFuncs.glBufferSubDataProc)( GL_ARRAY_BUFFER,
 				newVBO->mColorBufferOffset, colorDataSize, dataAddr );
 		}
-		if (inUVs != NULL)
+		if (inUVs != nullptr)
 		{
 			dataAddr = inUVs;
 			(*inFuncs.glBufferSubDataProc)( GL_ARRAY_BUFFER,
@@ -789,7 +789,7 @@ void				FlushVBOCache(
 {
 	VBOCache*	theCache = GetVBOCache( glContext );
 	
-	if (theCache != NULL)
+	if (theCache != nullptr)
 	{
 		theCache->FlushUnreferenced( inFuncs );
 	}

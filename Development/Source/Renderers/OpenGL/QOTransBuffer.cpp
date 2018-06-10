@@ -100,7 +100,7 @@ namespace
 		inline
 		bool	operator()( const TransparentBlock* x ) const
 		{
-			return x != NULL;
+			return x != nullptr;
 		}
 	};
 	
@@ -552,10 +552,10 @@ void	TransBuffer::AddBlock( TransparentBlock* ioBlock )
 		
 		for (i = 0; i < kNumOldBlocks; ++i)
 		{
-			if ( (mBlocks[i] != NULL) and ioBlock->Intersects( *mBlocks[i] ) )
+			if ( (mBlocks[i] != nullptr) and ioBlock->Intersects( *mBlocks[i] ) )
 			{
 				TransparentBlock* olderBlock = mBlocks[i];
-				mBlocks[i] = NULL;
+				mBlocks[i] = nullptr;
 				
 				// Whichever block is bigger will eat the other.
 				if (olderBlock->mPrims.size() > ioBlock->mPrims.size())
@@ -583,7 +583,7 @@ void	TransBuffer::AddBlock( TransparentBlock* ioBlock )
 
 	if (remainingOld < kNumOldBlocks)
 	{
-		// Rearrange so that non-NULL block pointers precede NULL block pointers.
+		// Rearrange so that non-nullptr block pointers precede nullptr block pointers.
 		std::partition( &mBlocks[0], &mBlocks[kNumOldBlocks], NonNullBlock() );
 		mBlocks[ remainingOld ] = ioBlock;
 		mBlocks.resize( remainingOld + 1 );
@@ -611,23 +611,23 @@ void	TransBuffer::MakeVertexPrototype(
 	TQ3ColorRGB	transparentColor = kWhiteColor;
 	bool	haveTransparentColor = false;
 
-	if (inData.vertNormal != NULL)
+	if (inData.vertNormal != nullptr)
 	{
 		outVertex.flags |= kVertexHaveNormal;
 	}
 	
-	if (inData.vertUV != NULL)
+	if (inData.vertUV != nullptr)
 	{
 		outVertex.flags |= kVertexHaveUV;
 	}
 
 	/*
-		The legacy behavior is that unless the illumination is NULL, a texture
+		The legacy behavior is that unless the illumination is nullptr, a texture
 		replaces the underlying color.
 	*/
 	if ( mRenderer.mTextures.IsTextureActive() &&
 		(mRenderer.mViewIllumination != kQ3IlluminationTypeNULL) &&
-		(inData.vertUV != NULL) )
+		(inData.vertUV != nullptr) )
 	{
 		outVertex.diffuseColor = kWhiteColor;
 		outVertex.flags |= kVertexHaveDiffuse;
@@ -636,7 +636,7 @@ void	TransBuffer::MakeVertexPrototype(
 	else
 	{
 		if (
-			(mRenderer.mGeomState.diffuseColor != NULL) &&
+			(mRenderer.mGeomState.diffuseColor != nullptr) &&
 			(
 				((outVertex.flags & kVertexHaveDiffuse) == 0) ||
 				(mRenderer.mGeomState.highlightState == kQ3On) )
@@ -655,7 +655,7 @@ void	TransBuffer::MakeVertexPrototype(
 
 	// Emissive color from geom state?
 	if (
-		(mRenderer.mGeomState.emissiveColor != NULL) &&
+		(mRenderer.mGeomState.emissiveColor != nullptr) &&
 		(mRenderer.mGeomState.emissiveColor->r +
 			mRenderer.mGeomState.emissiveColor->g +
 			mRenderer.mGeomState.emissiveColor->b > kQ3RealZero) &&
@@ -735,7 +735,7 @@ void	TransBuffer::AddTriMesh(
 	TransparentBlock* theBlock = new TransparentBlock;
 	theBlock->mPrims.reserve( inGeomData.numTriangles );
 	
-	if ((inData.faceColor == NULL) || (inData.vertColor != NULL))
+	if ((inData.faceColor == nullptr) || (inData.vertColor != nullptr))
 	{
 		theBlock->mHasUniformVertexFlags = true;
 	}
@@ -809,7 +809,7 @@ void	TransBuffer::AddTriMesh(
 		thePrim.mVerts[0].normal = mWorkCameraNormals[ vertIndices[0] ];
 		thePrim.mVerts[1].normal = mWorkCameraNormals[ vertIndices[1] ];
 		thePrim.mVerts[2].normal = mWorkCameraNormals[ vertIndices[2] ];
-		if (inData.vertUV != NULL)
+		if (inData.vertUV != nullptr)
 		{
 			thePrim.mVerts[0].uv = inData.vertUV[ vertIndices[0] ];
 			thePrim.mVerts[1].uv = inData.vertUV[ vertIndices[1] ];
@@ -1175,7 +1175,7 @@ void	TransBuffer::Render( const TransparentPrim& inPrim )
 	mRenderer.mLights.SetOnlyAmbient( inPrim.mNumVerts < 3 );
 	
 	// Maybe update fragment program.
-	mPerPixelLighting.PreGeomSubmit( NULL );
+	mPerPixelLighting.PreGeomSubmit( nullptr );
 
 	switch (inPrim.mNumVerts)
 	{
@@ -1427,7 +1427,7 @@ void	TransBuffer::RenderPrimGroup(
 		mRenderer.mLights.SetOnlyAmbient( vertsPerPrim < 3 );
 
 		// Maybe update fragment program.
-		mPerPixelLighting.PreGeomSubmit( NULL );
+		mPerPixelLighting.PreGeomSubmit( nullptr );
 
 		bool haveNormal = ((flags & kVertexHaveNormal) != 0);
 		bool haveUV = (leader.mTextureName != 0) && ((flags & kVertexHaveUV) != 0);
@@ -1535,7 +1535,7 @@ void	TransBuffer::DrawTransparency( TQ3ViewObject inView,
 		
 		mRenderGroup.clear();
 		mRenderGroup.reserve( kRenderGroupReserve );
-		const TransparentPrim* gpLeader = NULL;
+		const TransparentPrim* gpLeader = nullptr;
 
 		for (TQ3Uns32 blockNum = 0; blockNum < mBlocks.size(); ++blockNum)
 		{
@@ -1543,7 +1543,7 @@ void	TransBuffer::DrawTransparency( TQ3ViewObject inView,
 			for (TQ3Uns32 primNum = 0; primNum < block.mPrims.size(); ++primNum)
 			{
 				const TransparentPrim& thePrim( *block.mPrimPtrs[primNum] );
-				if (gpLeader == NULL)
+				if (gpLeader == nullptr)
 				{
 					gpLeader = &thePrim;
 					mRenderGroup.push_back( gpLeader );
@@ -1641,7 +1641,7 @@ void	TransBuffer::DrawDepth( TQ3ViewObject inView )
 {
 	TQ3Float32	alphaThreshold = 1.0f;
 	Q3Object_GetProperty( mRenderer.mRendererObject,
-		kQ3RendererPropertyDepthAlphaThreshold, sizeof(alphaThreshold), NULL,
+		kQ3RendererPropertyDepthAlphaThreshold, sizeof(alphaThreshold), nullptr,
 		&alphaThreshold );
 
 	if (alphaThreshold < 1.0f)
@@ -1652,7 +1652,7 @@ void	TransBuffer::DrawDepth( TQ3ViewObject inView )
 		
 		mRenderGroup.clear();
 		mRenderGroup.reserve( kRenderGroupReserve );
-		const TransparentPrim* gpLeader = NULL;
+		const TransparentPrim* gpLeader = nullptr;
 
 		for (TQ3Uns32 blockNum = 0; blockNum < mBlocks.size(); ++blockNum)
 		{
@@ -1660,7 +1660,7 @@ void	TransBuffer::DrawDepth( TQ3ViewObject inView )
 			for (TQ3Uns32 primNum = 0; primNum < block.mPrims.size(); ++primNum)
 			{
 				const TransparentPrim& thePrim( *block.mPrimPtrs[primNum] );
-				if (gpLeader == NULL)
+				if (gpLeader == nullptr)
 				{
 					gpLeader = &thePrim;
 					mRenderGroup.push_back( gpLeader );

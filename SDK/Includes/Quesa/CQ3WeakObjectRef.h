@@ -64,7 +64,7 @@ public:
 								@abstract	Default constructor.
 							*/
 							CQ3WeakObjectRef()
-									: mObject( NULL ) {}
+									: mObject( nullptr ) {}
 
 							/*
 								@function	CQ3WeakObjectRef
@@ -103,7 +103,7 @@ public:
 								@abstract	Test whether this object holds a Quesa object.
 								@result		True if it holds a non-NULL Quesa object.
 							*/
-	bool					isvalid() const { return mObject != NULL; }
+	bool					isvalid() const { return mObject != nullptr; }
 	
 							/*!
 								@function	get

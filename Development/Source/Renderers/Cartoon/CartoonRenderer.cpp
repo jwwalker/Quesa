@@ -48,7 +48,7 @@
 	----
 	The main idea of cartoon-style rendering is to use relatively few distinct
 	colors, giving a look that is somewhat "flat" but not as flat as using the
-	NULL illumination shader or using nothing but ambient light.  We also wish
+	nullptr illumination shader or using nothing but ambient light.  We also wish
 	to emphasize the outlines.
 	
 	
@@ -136,7 +136,7 @@ namespace
 	const float		kMaxContourWidth	= 2.5f;
 	const float	kMinAttenuationDenominator		= 0.00001f;
 	
-	TQ3XObjectClass	s_ParentRendererClass = NULL;
+	TQ3XObjectClass	s_ParentRendererClass = nullptr;
 
 	class StSaveStates
 	{
@@ -248,8 +248,8 @@ CCartoonRendererQuesa::CCartoonRendererQuesa( TQ3RendererObject inRenderer )
 	: QORenderer::Renderer( inRenderer )
 	, m_bInited( false )
 	, m_nLocalTextureID( 0 )
-	, m_glActiveTextureARB( NULL )
-	, m_glClientActiveTextureARB( NULL )
+	, m_glActiveTextureARB( nullptr )
+	, m_glClientActiveTextureARB( nullptr )
 	, mClientActiveTextureUnit( 0 )
 {
 	SetShadeLightness(130);
@@ -269,7 +269,7 @@ void CCartoonRendererQuesa::InitExtensions()
 
 void CCartoonRendererQuesa::SetClientActiveTextureARB(int n)
 {
-	if ( (m_glClientActiveTextureARB != NULL) &&
+	if ( (m_glClientActiveTextureARB != nullptr) &&
 		(n != mClientActiveTextureUnit) )
 	{
 		m_glClientActiveTextureARB(GL_TEXTURE0_ARB + n);
@@ -279,7 +279,7 @@ void CCartoonRendererQuesa::SetClientActiveTextureARB(int n)
 
 void CCartoonRendererQuesa::SetActiveTextureARB(int n)
 {
-	if (m_glActiveTextureARB != NULL)
+	if (m_glActiveTextureARB != nullptr)
 	{
 		m_glActiveTextureARB(GL_TEXTURE0_ARB + n);
 	}
@@ -809,8 +809,8 @@ static void GetVertexDataFromTriMesh( const TQ3TriMeshData& inData,
 	const TQ3Param2D*& outTextureCoords,
 	const TQ3Vector3D*& outVertexNormals )
 {
-	outTextureCoords = NULL;
-	outVertexNormals = NULL;
+	outTextureCoords = nullptr;
+	outVertexNormals = nullptr;
 
 	for (int attNum = 0; attNum < (int)inData.numVertexAttributeTypes; ++attNum)
 	{
@@ -835,7 +835,7 @@ static void DrawTrianglesOrStrip(
 							TQ3Uns32 inStripSize,
 							const TQ3Uns32* inStripIndices )
 {
-	if (inStripIndices != NULL)
+	if (inStripIndices != nullptr)
 	{
 		glDrawElements( GL_TRIANGLE_STRIP, inStripSize,
 			GL_UNSIGNED_INT, inStripIndices );
@@ -869,8 +869,8 @@ void CCartoonRendererQuesa::DrawArrays(
 
 		// Check for a triangle strip.
 		TQ3Uns32	stripSize = 0;
-		const TQ3Uns32*	stripArray = NULL;
-		if (inTriMesh != NULL)
+		const TQ3Uns32*	stripArray = nullptr;
+		if (inTriMesh != nullptr)
 		{
 			CETriangleStripElement_GetData( inTriMesh, &stripSize, &stripArray );
 		}
@@ -902,8 +902,8 @@ void CCartoonRendererQuesa::DrawArraysFakeMultitexture(
 		
 		// Check for a triangle strip.
 		TQ3Uns32	stripSize = 0;
-		const TQ3Uns32*	stripArray = NULL;
-		if (inTriMesh != NULL)
+		const TQ3Uns32*	stripArray = nullptr;
+		if (inTriMesh != nullptr)
 		{
 			CETriangleStripElement_GetData( inTriMesh, &stripSize, &stripArray );
 		}
@@ -944,14 +944,14 @@ void CCartoonRendererQuesa::DrawArraysFakeMultitexture(
 
 static TQ3XFunctionPointer GetParentRendererMethod(TQ3XMethodType methodType)
 {
-	if (NULL == s_ParentRendererClass)
+	if (nullptr == s_ParentRendererClass)
 	{
 		s_ParentRendererClass = Q3XObjectHierarchy_FindClassByType(kQ3RendererTypeOpenGL);	
 	}
 
-	if (NULL == s_ParentRendererClass)
+	if (nullptr == s_ParentRendererClass)
 	{
-		return 0;
+		return nullptr;
 	}
 
 	return Q3XObjectClass_GetMethod( s_ParentRendererClass, methodType );
@@ -964,7 +964,7 @@ void	CCartoonRendererQuesa::SubmitCartoonTriMesh( TQ3ViewObject theView,
 							const TQ3Vector3D* vertNormals,
 							const TQ3Param2D* texCoords )
 {
-	if ( (geomData->numTriangles == 0) || (vertNormals == NULL) )
+	if ( (geomData->numTriangles == 0) || (vertNormals == nullptr) )
 	{
 		return;
 	}
@@ -987,7 +987,7 @@ void	CCartoonRendererQuesa::SubmitCartoonTriMesh( TQ3ViewObject theView,
 	TQ3ColorRGB		whiteRGBColor = { 1.0f, 1.0f, 1.0f };
 	const float* pFloatDiffuseColor = &whiteRGBColor.r;
 	
-	if ( (mGeomState.diffuseColor != NULL) &&
+	if ( (mGeomState.diffuseColor != nullptr) &&
 		((! mTextures.IsTextureActive()) || (mViewIllumination == kQ3IlluminationTypeNULL)) )
 	{
 		pFloatDiffuseColor = &mGeomState.diffuseColor->r;
@@ -995,7 +995,7 @@ void	CCartoonRendererQuesa::SubmitCartoonTriMesh( TQ3ViewObject theView,
 
 	glColor3fv(pFloatDiffuseColor);
 
-	bool bAlreadyTextured = (texCoords != NULL) && mTextures.IsTextureActive();
+	bool bAlreadyTextured = (texCoords != nullptr) && mTextures.IsTextureActive();
 	
 	// We will use only ambient light, hence we do not need normals for OpenGL.
 	// We will only use normals to compute texture coordinates for shading.
@@ -1006,7 +1006,7 @@ void	CCartoonRendererQuesa::SubmitCartoonTriMesh( TQ3ViewObject theView,
 		DrawContours( theView, geomData, mStyleState.mBackfacing );
 	}
 	
-	if ( (m_glActiveTextureARB == NULL) && bAlreadyTextured )
+	if ( (m_glActiveTextureARB == nullptr) && bAlreadyTextured )
 	{
 		DrawArraysFakeMultitexture( inTriMesh, geomData, vertNormals, texCoords );
 	}
@@ -1023,7 +1023,7 @@ static bool IsGeomMarkedNonCartoon( TQ3Object inObject )
 {
 	TQ3Boolean	theValue = kQ3False;
 	return (kQ3Success == Q3Object_GetProperty( inObject,
-		kQ3GeometryPropertyNonCartoon, sizeof(theValue), NULL, &theValue )) &&
+		kQ3GeometryPropertyNonCartoon, sizeof(theValue), nullptr, &theValue )) &&
 		(theValue == kQ3True);
 }
 
@@ -1053,21 +1053,21 @@ CCartoonRendererQuesa::Cartoon_Geometry_Submit_TriMesh(
 	
 	// Extract vertex normals and UVs, if any, from trimesh data.
 	const TQ3Param2D*	texCoords;
-	const TQ3Vector3D*	normals = NULL;
+	const TQ3Vector3D*	normals = nullptr;
 	GetVertexDataFromTriMesh( *geomData, texCoords, normals );
 
 	// Translucent objects, objects without vertex normals, or objects marked
 	// with a special property, will be passed to the
 	// standard OpenGL renderer.
 	if ( me->mLights.IsShadowMarkingPass() || 
-		(normals == NULL) || IsGeomMarkedNonCartoon( theGeom ) ||
+		(normals == nullptr) || IsGeomMarkedNonCartoon( theGeom ) ||
 		IsGeomTransparent( me->mGeomState ) ||
 		me->mTextures.IsTextureTransparent() )
 	{
 		TQ3XRendererSubmitGeometryMethod	GLMethod =
 			(TQ3XRendererSubmitGeometryMethod)
 			GetParentRendererMethod( kQ3GeometryTypeTriMesh );
-		if (GLMethod != NULL)
+		if (GLMethod != nullptr)
 		{
 			theStatus = GLMethod( theView, privateData, theGeom, geomData );
 		}
@@ -1096,7 +1096,7 @@ static TQ3XFunctionPointer GetParentRendererSubmitGeomMethod(TQ3ObjectType geomT
 static TQ3XFunctionPointer
 cartoon_submit_geom_metahandler( TQ3ObjectType geomType )
 {
-	TQ3XFunctionPointer	theMethod = NULL;
+	TQ3XFunctionPointer	theMethod = nullptr;
 	
 	if (geomType == kQ3GeometryTypeTriMesh)
 	{
@@ -1117,7 +1117,7 @@ cartoon_interactive_nickname(unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3
     *actualDataSize = (TQ3Uns32)strlen(kQ3ClassNameRendererCartoon) + 1;
 
 	// If we have a buffer, return the nick name
-	if (dataBuffer != NULL)
+	if (dataBuffer != nullptr)
 		{
 		// Clamp the buffer size
 		if (bufferSize < *actualDataSize)
@@ -1141,19 +1141,19 @@ cartoon_new_object( TQ3Object theObject, void *privateData, void *paramData )
 	// methods have been cached.  This happens the first time such a renderer
 	// is instantiated.
 	E3ClassInfoPtr	qoClass = E3ClassTree::GetClass( kQ3RendererTypeOpenGL );
-	Q3_ASSERT( qoClass != NULL );
-	if ( (qoClass != NULL) &&
-		(qoClass->GetMethod ( kQ3XMethodTypeRendererMethodsCached ) == NULL) )
+	Q3_ASSERT( qoClass != nullptr );
+	if ( (qoClass != nullptr) &&
+		(qoClass->GetMethod ( kQ3XMethodTypeRendererMethodsCached ) == nullptr) )
 	{
 		TQ3Object	dummyRenderer = Q3Renderer_NewFromType( kQ3RendererTypeOpenGL );
 		Q3Object_CleanDispose( &dummyRenderer );
-		Q3_ASSERT( qoClass->GetMethod ( kQ3XMethodTypeRendererMethodsCached ) != NULL );
+		Q3_ASSERT( qoClass->GetMethod ( kQ3XMethodTypeRendererMethodsCached ) != nullptr );
 	}
 
 
 	TQ3Status	theStatus;
 	CCartoonRendererQuesa*	newCartooner = new(std::nothrow) CCartoonRendererQuesa( theObject );
-	if (newCartooner == NULL)
+	if (newCartooner == nullptr)
 	{
 		theStatus = kQ3Failure;
 	}
@@ -1179,7 +1179,7 @@ cartoon_delete_object( TQ3Object theObject, void *privateData )
 static TQ3XFunctionPointer
 ca_cartoon_metahandler(TQ3XMethodType methodType)
 {	
-	TQ3XFunctionPointer		theMethod = NULL;	
+	TQ3XFunctionPointer		theMethod = nullptr;	
 
 	switch(methodType)
 	{
@@ -1200,7 +1200,7 @@ ca_cartoon_metahandler(TQ3XMethodType methodType)
 			break;
 
 		case kQ3XMethodTypeRendererMethodsCached:
-			// Deliberately return NULL here, so we do not inherit from parent
+			// Deliberately return nullptr here, so we do not inherit from parent
 			break;
 		
 		default:
@@ -1220,11 +1220,11 @@ TQ3Status CartoonRenderer_Register()
 														kQ3RendererTypeCartoon,
 														kQ3ClassNameRendererCartoon,
 														ca_cartoon_metahandler,
-														NULL,
+														nullptr,
 														0,
 														sizeof(CCartoonRendererQuesa*));
 
-	return(theClass == NULL ? kQ3Failure : kQ3Success);
+	return(theClass == nullptr ? kQ3Failure : kQ3Success);
 }
 
 void CartoonRenderer_Unregister()
@@ -1233,11 +1233,11 @@ void CartoonRenderer_Unregister()
 
 	// Find the renderer class
 	theClass = Q3XObjectHierarchy_FindClassByType( kQ3RendererTypeCartoon );
-	if (theClass == NULL)
+	if (theClass == nullptr)
 		return;
 
 	// Unregister the class
 	Q3XObjectHierarchy_UnregisterClass(theClass);
 	
-	s_ParentRendererClass = NULL;
+	s_ParentRendererClass = nullptr;
 }

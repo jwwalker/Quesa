@@ -75,7 +75,7 @@ QORenderer_nickname(unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3Uns32 *ac
 
 
 	// If we have a buffer, return the nick name
-	if (dataBuffer != NULL)
+	if (dataBuffer != nullptr)
 	{
 		// Clamp the buffer size
 		if (bufferSize < *actualDataSize)
@@ -326,7 +326,7 @@ TQ3Status	QORenderer::Statics::SubmitPolyLineMethod(
 TQ3XRendererSubmitGeometryMethod QORenderer::Statics::SubmitGeometrySubMetaHandler(
     								TQ3ObjectType inGeomType )
 {
-	TQ3XRendererSubmitGeometryMethod	theMethod = NULL;
+	TQ3XRendererSubmitGeometryMethod	theMethod = nullptr;
 	
 	switch (inGeomType)
 	{
@@ -394,7 +394,7 @@ TQ3XRendererUpdateMatrixMethod
 							QORenderer::Statics::UpdateMatrixSubMetaHandler(
 									TQ3ObjectType inMatrixType )
 {
-	TQ3XRendererUpdateMatrixMethod	theMethod = NULL;
+	TQ3XRendererUpdateMatrixMethod	theMethod = nullptr;
 	
 	switch (inMatrixType)
 	{
@@ -486,7 +486,7 @@ TQ3Status	QORenderer::Statics::UpdateSurfaceShaderMethod(
 	QORenderer::Renderer*	me = *(QORenderer::Renderer**)privateData;
 	try
 	{
-		TQ3ShaderObject	theShader = (inAttShader == NULL)? NULL : *inAttShader;
+		TQ3ShaderObject	theShader = (inAttShader == nullptr)? nullptr : *inAttShader;
 		me->UpdateSurfaceShader( theShader );
 	}
 	catch (...)
@@ -506,7 +506,7 @@ TQ3Status	QORenderer::Statics::UpdateIlluminationShaderMethod(
 	QORenderer::Renderer*	me = *(QORenderer::Renderer**)privateData;
 	try
 	{
-		if (inShader != NULL)
+		if (inShader != nullptr)
 		{
 			me->UpdateIlluminationShader( *inShader );
 		}
@@ -522,7 +522,7 @@ TQ3XRendererUpdateAttributeMethod
 							QORenderer::Statics::UpdateAttributeSubMetaHandler(
 									TQ3AttributeType inAttrType )
 {
-	TQ3XRendererUpdateAttributeMethod	theMethod = NULL;
+	TQ3XRendererUpdateAttributeMethod	theMethod = nullptr;
 	
 	switch (inAttrType)
 	{
@@ -569,7 +569,7 @@ TQ3XRendererUpdateShaderMethod
 							QORenderer::Statics::UpdateShaderSubMetaHandler(
 									TQ3ObjectType inShaderType )
 {
-	TQ3XRendererUpdateShaderMethod	theMethod = NULL;
+	TQ3XRendererUpdateShaderMethod	theMethod = nullptr;
 	
 	switch (inShaderType)
 	{
@@ -689,7 +689,7 @@ TQ3XRendererUpdateStyleMethod
 							QORenderer::Statics::UpdateStyleSubMetaHandler(
 									TQ3ObjectType inStyleType )
 {
-	TQ3XRendererUpdateStyleMethod	theMethod = NULL;
+	TQ3XRendererUpdateStyleMethod	theMethod = nullptr;
 	
 	switch (inStyleType)
 	{
@@ -744,7 +744,7 @@ TQ3XRendererUpdateStyleMethod
 
 TQ3XFunctionPointer		QORenderer::Statics::MetaHandler( TQ3XMethodType inMethodType )
 {
-	TQ3XFunctionPointer		theMethod = NULL;
+	TQ3XFunctionPointer		theMethod = nullptr;
 	
 	switch (inMethodType)
 	{

@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
     "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
-<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a[name]:hover {text-decoration: inherit; font-family: inherit; font-size: inherit}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
     <title>Enumerations</title>
 	 <meta name="generator" content="HeaderDoc">
 </head><body bgcolor="#ffffff">
@@ -20,9 +20,9 @@ typedef enum TQ3PickDetailMasks {
     kQ3PickDetailMaskShapePart                  = (1 &lt;&lt; 7),
     kQ3PickDetailMaskPickPart                   = (1 &lt;&lt; 8),
     kQ3PickDetailMaskUV                         = (1 &lt;&lt; 9),
-  kQ3PickDetailMaskTriMeshFace        = (1 &lt;&lt; 10),
-   kQ3PickDetailMaskBarycentric        = (1 &lt;&lt; 11),
-   kQ3PickDetailSize32                         = 0x7FFFFFFF
+    kQ3PickDetailMaskTriMeshFace                = (1 &lt;&lt; 10),
+    kQ3PickDetailMaskBarycentric                = (1 &lt;&lt; 11),
+    kQ3PickDetailSize32                         = 0x7FFFFFFF
 } TQ3PickDetailMasks;
 </pre>
 </blockquote>
@@ -71,7 +71,7 @@ typedef enum TQ3PickSort {
     kQ3PickSortNone                             = 0,
     kQ3PickSortNearToFar                        = 1,
     kQ3PickSortFarToNear                        = 2,
-    kQ3PickSortSize32                           = 0xFFFFFFFF
+    kQ3PickSortSize32                           = 0x7FFFFFFF
 } TQ3PickSort;
 </pre>
 </blockquote>
@@ -86,5 +86,5 @@ typedef enum TQ3PickSort {
 <dt><a name="//Quesa/c/econst/kQ3PickSortFarToNear"><tt>kQ3PickSortFarToNear</tt></a></dt><dd>The pick hit list should be sorted from far to near.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2011 Quesa Developers (Last Updated 3/13/2011)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
 </p></body></html>

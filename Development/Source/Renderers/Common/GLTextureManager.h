@@ -95,7 +95,7 @@ TQ3TextureCachePtr	GLTextureMgr_GetTextureCache( TQ3GLContext glContext );
 	@abstract		Access a texture cache record by matching the texture object.
 	@param			txCache			A texture cache.
 	@param			texture			Reference to a texture object.
-	@result			Pointer to a cached texture record, or NULL if not found.
+	@result			Pointer to a cached texture record, or nullptr if not found.
 */
 TQ3CachedTexturePtr	GLTextureMgr_FindCachedTexture(
 								TQ3TextureCachePtr txCache,

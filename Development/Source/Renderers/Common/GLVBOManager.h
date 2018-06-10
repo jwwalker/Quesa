@@ -172,9 +172,9 @@ TQ3Boolean			RenderCachedVBO(
 	@param			inGeom			A geometry object.
 	@param			inNumPoints		Number of points (vertices).
 	@param			inPoints		Array of point locations.
-	@param			inNormals		Array of normal vectors (or NULL).
-	@param			inColors		Array of vertex colors (or NULL).
-	@param			inUVs			Array of vertex UV coordinates (or NULL).
+	@param			inNormals		Array of normal vectors (or nullptr).
+	@param			inColors		Array of vertex colors (or nullptr).
+	@param			inUVs			Array of vertex UV coordinates (or nullptr).
 	@param			inMode			OpenGL mode, e.g., GL_TRIANGLES.
 	@param			inNumIndices	Number of vertex indices to follow.
 	@param			inIndices		Array of vertex indices.

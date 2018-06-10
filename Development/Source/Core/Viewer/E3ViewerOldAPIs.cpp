@@ -359,7 +359,7 @@ PicHandle
 E3ViewerGetPict(TQ3ViewerObject theViewer)
 {
 
-	return(NULL);  // unimplemented
+	return(nullptr);  // unimplemented
 }
 
 
@@ -816,7 +816,7 @@ TQ3GroupObject
 E3ViewerGetGroup(TQ3ViewerObject theViewer)
 {
 
-	return(NULL);  // unimplemented
+	return(nullptr);  // unimplemented
 }
 
 
@@ -840,7 +840,7 @@ TQ3ViewObject
 E3ViewerGetView(TQ3ViewerObject theViewer)
 {
 
-	return(NULL);  // unimplemented
+	return(nullptr);  // unimplemented
 }
 
 
@@ -1093,7 +1093,7 @@ TQ3ViewerObject
 E3ViewerNew(HWND theWindow, const RECT *rect, TQ3Uns32 flags)
 {
 
-	return(NULL);  // unimplemented
+	return(nullptr);  // unimplemented
 }
 
 
@@ -1118,7 +1118,7 @@ HBITMAP
 E3ViewerGetBitmap(TQ3ViewerObject theViewer)
 {
 
-	return(NULL);	// unimplemented
+	return(nullptr);	// unimplemented
 }
 
 
@@ -1126,7 +1126,7 @@ HWND
 E3ViewerGetWindow(TQ3ViewerObject theViewer)
 {
 
-	return(NULL);	// unimplemented
+	return(nullptr);	// unimplemented
 }
 
 
@@ -1187,7 +1187,7 @@ TQ3ViewerObject
 E3ViewerNew(void* theWindow, const TQ3Area *rect, TQ3Uns32 flags)
 {
 
-	return(NULL);  // unimplemented
+	return(nullptr);  // unimplemented
 }
 
 
@@ -1212,7 +1212,7 @@ void*
 E3ViewerGetPicture(TQ3ViewerObject theViewer)
 {
 
-	return(NULL);
+	return(nullptr);
 }
 
 

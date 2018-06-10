@@ -140,7 +140,7 @@ e3drawcontext_mac_checkregions(TQ3DrawContextObject theDrawContext)
 	// for people who specified QuickDraw when they really wanted a window.
 	theLibrary = macState->theData.library;
 	if (theLibrary == kQ3Mac2DLibraryQuickDraw &&
-		theWindow  != NULL                     &&
+		theWindow  != nullptr                     &&
 		theWindow  == (WindowRef) macState->theData.grafPort)
 		theLibrary = kQ3Mac2DLibraryNone;
 
@@ -257,7 +257,7 @@ e3drawcontext_mac_new(TQ3Object theObject, void *privateData, const void *paramD
 	instanceData->data.macData.thePane   = macData->drawContextData.pane;
 
 #if !TARGET_API_MAC_OS8
-	instanceData->data.macData.displayNotificationHandler = NULL;
+	instanceData->data.macData.displayNotificationHandler = nullptr;
 	static EventHandlerUPP	sHandlerUPP = NewEventHandlerUPP(
 		e3drawcontext_mac_display_change_handler );
 	EventTypeSpec	evtSpec = {
@@ -275,7 +275,7 @@ e3drawcontext_mac_new(TQ3Object theObject, void *privateData, const void *paramD
 	// people who specified QuickDraw when they really wanted a window.
 	theLibrary = instanceData->data.macData.theData.library;
 	if (theLibrary == kQ3Mac2DLibraryQuickDraw            &&
-		instanceData->data.macData.theData.window != NULL &&
+		instanceData->data.macData.theData.window != nullptr &&
 		instanceData->data.macData.theData.window == (WindowRef)instanceData->data.macData.theData.grafPort)
 		theLibrary = kQ3Mac2DLibraryNone;
 
@@ -308,7 +308,7 @@ e3drawcontext_mac_delete(TQ3Object theObject, void *privateData)
 
 
 #if !TARGET_API_MAC_OS8
-	if (instanceData->data.macData.displayNotificationHandler != NULL)
+	if (instanceData->data.macData.displayNotificationHandler != nullptr)
 	{
 		RemoveEventHandler( instanceData->data.macData.displayNotificationHandler );
 	}
@@ -399,7 +399,7 @@ e3drawcontext_mac_get_dimensions(TQ3DrawContextObject theDrawContext, TQ3Area *t
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3drawcontext_mac_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -441,8 +441,8 @@ e3drawcontext_mac_notify_display_change()
 	Q3_ASSERT_VALID_PTR( theGlobals );
 	theGlobals->dmNotifiedChanges = kQ3True;
 #else
-	EventRef	theEvent = NULL;
-	CreateEvent( NULL, kEventClassApplication, kEventQuesaDisplayChange,
+	EventRef	theEvent = nullptr;
+	CreateEvent( nullptr, kEventClassApplication, kEventQuesaDisplayChange,
 		0.0, kEventAttributeNone, &theEvent );
 	if (theEvent)
 	{
@@ -503,14 +503,14 @@ E3MacDrawContext_RegisterClass(void)
 
 #if TARGET_RT_MAC_MACHO && (MAC_OS_X_VERSION_MIN_REQUIRED >= 1030)
 	// Register to be notified of display configuration changes
-	CGDisplayRegisterReconfigurationCallback( e3drawcontext_mac_cg_notify, NULL );
+	CGDisplayRegisterReconfigurationCallback( e3drawcontext_mac_cg_notify, nullptr );
 
 #else
 	E3GlobalsPtr			theGlobals = E3Globals_Get();
 
 	// Register our Display Manager notification callback
 	theGlobals->dmNotifyUPP = NewDMNotificationUPP(e3drawcontext_mac_dm_notify);
-	if (theGlobals->dmNotifyUPP != NULL)
+	if (theGlobals->dmNotifyUPP != nullptr)
 		{
 		ProcessSerialNumber		thePSN;
 		GetCurrentProcess(&thePSN);
@@ -542,19 +542,19 @@ E3MacDrawContext_UnregisterClass(void)
 
 
 #if TARGET_RT_MAC_MACHO && (MAC_OS_X_VERSION_MIN_REQUIRED >= 1030)
-	CGDisplayRemoveReconfigurationCallback( e3drawcontext_mac_cg_notify, NULL );
+	CGDisplayRemoveReconfigurationCallback( e3drawcontext_mac_cg_notify, nullptr );
 #else
 	E3GlobalsPtr			theGlobals = E3Globals_Get();
 	
 	// Unregister our Display Manager notification callback
-	if (theGlobals->dmNotifyUPP != NULL)
+	if (theGlobals->dmNotifyUPP != nullptr)
 		{
 		ProcessSerialNumber		thePSN;
 		GetCurrentProcess(&thePSN);
 		DMRemoveNotifyProc(theGlobals->dmNotifyUPP, &thePSN);
 
 		DisposeDMNotificationUPP(theGlobals->dmNotifyUPP);
-		theGlobals->dmNotifyUPP = NULL;
+		theGlobals->dmNotifyUPP = nullptr;
 		}
 #endif
 
@@ -596,7 +596,7 @@ E3MacDrawContext_NewWithWindow(TQ3ObjectType drawContextType, void *drawContextT
 
 	// Check we have a suitable target for the draw context
 	if (drawContextType != kQ3DrawContextTypeMacintosh)
-		return(NULL);
+		return(nullptr);
 
 
 
@@ -616,8 +616,8 @@ E3MacDrawContext_NewWithWindow(TQ3ObjectType drawContextType, void *drawContextT
 	macDrawContextData.drawContextData = drawContextData;
 	macDrawContextData.window          = (WindowRef) drawContextTarget;
 	macDrawContextData.library         = kQ3Mac2DLibraryNone;
-	macDrawContextData.viewPort        = NULL;
-	macDrawContextData.grafPort        = NULL;
+	macDrawContextData.viewPort        = nullptr;
+	macDrawContextData.grafPort        = nullptr;
 	
 
 

@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
     "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
-<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a[name]:hover {text-decoration: inherit; font-family: inherit; font-size: inherit}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
     <title>QuesaView.h</title>
 	 <meta name="generator" content="HeaderDoc">
 </head><body bgcolor="#ffffff">
@@ -295,7 +295,8 @@ Must be called within a submitting loop.
 <blockquote>
 <dl>
 <dt><tt><em>view</em></tt></dt><dd>The view to query.</dd>
-<dt><tt><em>attributeSet</em></tt></dt><dd>Receives the current attribute state set.</dd>
+<dt><tt><em>attributeSet</em></tt></dt><dd>Receives the current attribute state set.
+Dispose the reference when you are done with it.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -363,7 +364,8 @@ The reference count of the camera is incremented.
 <blockquote>
 <dl>
 <dt><tt><em>view</em></tt></dt><dd>The view to query.</dd>
-<dt><tt><em>camera</em></tt></dt><dd>Receives the camera associated with the view.</dd>
+<dt><tt><em>camera</em></tt></dt><dd>Receives the camera associated with the view.
+Dispose the reference when you are done with it.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -406,7 +408,8 @@ The reference count of the attribute set is incremented.
 <blockquote>
 <dl>
 <dt><tt><em>view</em></tt></dt><dd>The view to query.</dd>
-<dt><tt><em>attributeSet</em></tt></dt><dd>Receives the default attribute set.</dd>
+<dt><tt><em>attributeSet</em></tt></dt><dd>Receives the default attribute set.
+Dispose the reference when you are done with it.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -427,7 +430,8 @@ The reference count of the draw context is incremented.
 <blockquote>
 <dl>
 <dt><tt><em>view</em></tt></dt><dd>The view to query.</dd>
-<dt><tt><em>drawContext</em></tt></dt><dd>Receives the draw context associated with the view.</dd>
+<dt><tt><em>drawContext</em></tt></dt><dd>Receives the draw context associated with the view.
+Dispose the reference when you are done with it.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -555,7 +559,8 @@ The reference count of the light group is incremented.
 <blockquote>
 <dl>
 <dt><tt><em>view</em></tt></dt><dd>The view to query.</dd>
-<dt><tt><em>lightGroup</em></tt></dt><dd>Receives the light group associated with the view.</dd>
+<dt><tt><em>lightGroup</em></tt></dt><dd>Receives the light group associated with the view.
+Dispose the reference when you are done with it.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -676,7 +681,8 @@ The reference count of the renderer is incremented.
 <blockquote>
 <dl>
 <dt><tt><em>view</em></tt></dt><dd>The view to query.</dd>
-<dt><tt><em>renderer</em></tt></dt><dd>Receives the renderer associated with the view.</dd>
+<dt><tt><em>renderer</em></tt></dt><dd>Receives the renderer associated with the view.
+Dispose the reference when you are done with it.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -806,7 +812,7 @@ origin and will fill the supplied window.
 <dt><tt><em>drawContextTarget</em></tt></dt><dd>The window/etc reference for the draw context.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>The new view object, or NULL on failure.
+<dl><dt><i>function result</i></dt><dd>The new view object, or nullptr on failure.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3View_SetCamera"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_SetCamera">Q3View_SetCamera</a></h2>
@@ -1193,8 +1199,6 @@ May only be called within a view submitting loop.
 <dt><tt>endFrameData</tt></dt><dd>The application-specific data passed to Q3View_SetEndFrameMethod.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>Success or failure of the callback.
- </dd></dl>
 <hr><a name="//Quesa/c/tdef/TQ3ViewIdleMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3ViewIdleMethod">TQ3ViewIdleMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,           TQ3ViewIdleMethod</b>) (<BR>
@@ -1258,5 +1262,5 @@ typedef enum TQ3ViewStatus {
 <dt><a name="//Quesa/c/econst/kQ3ViewStatusCancelled"><tt>kQ3ViewStatusCancelled</tt></a></dt><dd>Submit loop was cancelled.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2011 Quesa Developers (Last Updated 3/13/2011)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
 </p></body></html>

@@ -190,10 +190,10 @@ e3nameelement_traverse (TQ3Object object, TQ3StringObject *string, TQ3ViewObject
 {
 #pragma unused(object)
 
-	if (string == NULL || *string == NULL)
+	if (string == nullptr || *string == nullptr)
 		return kQ3Success;
 
-	if (Q3XView_SubmitWriteData(view, 0, NULL, NULL) == kQ3Failure)
+	if (Q3XView_SubmitWriteData(view, 0, nullptr, nullptr) == kQ3Failure)
 		return kQ3Failure;
 
 	return Q3Object_Submit(*string, view);
@@ -213,7 +213,7 @@ e3nameelement_readdata (TQ3Object object, TQ3FileObject file)
 	TQ3StringObject	string;
 
 	string = Q3File_ReadObject(file);
-	if (string == NULL) 
+	if (string == nullptr) 
 		return kQ3Failure;
 		
 	status = Q3Shape_AddElement(object, kQ3ObjectTypeCustomElementName, &string);
@@ -234,7 +234,7 @@ e3nameelement_copyadd (TQ3StringObject *source, TQ3StringObject *dest)
 {
 	*dest = Q3Shared_GetReference(*source);
 
-	return (*dest != NULL) ? kQ3Success : kQ3Failure;
+	return (*dest != nullptr) ? kQ3Success : kQ3Failure;
 }
 
 
@@ -249,7 +249,7 @@ e3nameelement_copyduplicate( TQ3StringObject *source, TQ3StringObject *dest)
 {
 	*dest = Q3Object_Duplicate(*source);
 
-	return (*dest != NULL) ? kQ3Success : kQ3Failure;
+	return (*dest != nullptr) ? kQ3Success : kQ3Failure;
 }
 
 
@@ -265,7 +265,7 @@ e3nameelement_copyreplace (TQ3StringObject *source, TQ3StringObject *dest)
 	TQ3StringObject	temp;
 	
 	temp = Q3Shared_GetReference(*source);
-	if (temp == NULL) 
+	if (temp == nullptr) 
 		return kQ3Failure;
 
 	if (*dest)
@@ -286,9 +286,9 @@ e3nameelement_copyreplace (TQ3StringObject *source, TQ3StringObject *dest)
 static TQ3Status
 e3nameelement_delete (TQ3StringObject *string)
 {
-	if (*string != NULL) {
+	if (*string != nullptr) {
 		Q3Object_Dispose(*string);
-		*string = NULL;
+		*string = nullptr;
 	}
 
 	return kQ3Success;
@@ -303,7 +303,7 @@ e3nameelement_delete (TQ3StringObject *string)
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3nameelement_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -353,13 +353,13 @@ e3urlelement_traverse (TQ3Object object, TCEUrlDataPrivate *urlData, TQ3ViewObje
 #pragma unused(object)
 
 
-	if (urlData == NULL || urlData->url == NULL)
+	if (urlData == nullptr || urlData->url == nullptr)
 		return kQ3Success;
 
 	size = Q3Size_Pad(static_cast<TQ3Size>(strlen(urlData->url) + 1));
 	size += static_cast<TQ3Uns32>(sizeof(TQ3Uns32));
 
-	if (Q3XView_SubmitWriteData (view, size, urlData, NULL) == kQ3Failure)
+	if (Q3XView_SubmitWriteData (view, size, urlData, nullptr) == kQ3Failure)
 		return kQ3Failure;
 
 	if (urlData->description) {
@@ -409,7 +409,7 @@ e3urlelement_readdata (TQ3Object object, TQ3FileObject file)
 	if (Q3Uns32_Read ((TQ3Uns32*)&urlData.options, file) == kQ3Failure)
 		return kQ3Failure;
 
-	if (Q3File_IsEndOfContainer(file, NULL) == kQ3False) {
+	if (Q3File_IsEndOfContainer(file, nullptr) == kQ3False) {
 		urlData.description = Q3File_ReadObject(file);
 	}
 
@@ -427,7 +427,7 @@ static TQ3Status
 e3urlelement_copyadd (TCEUrlDataPrivate *source, TCEUrlDataPrivate *dest)
 {
 	dest->url = (char*)Q3Memory_Allocate(static_cast<TQ3Uns32>(strlen(source->url) + 1));
-	if (dest->url == NULL)
+	if (dest->url == nullptr)
 		return kQ3Failure;
 
 	strcpy (dest->url, source->url);
@@ -439,13 +439,13 @@ e3urlelement_copyadd (TCEUrlDataPrivate *source, TCEUrlDataPrivate *dest)
 		// it doesn't matter much, since the strings being copied are
 		// short-lived.
 		dest->description = Q3Object_Duplicate( source->description );
-		if (dest->description == NULL) {
+		if (dest->description == nullptr) {
 			return kQ3Failure;
 		}
 		
 	} else {
 
-		dest->description = NULL;
+		dest->description = nullptr;
 	}
 		
 	dest->options = source->options;
@@ -463,7 +463,7 @@ e3urlelement_copyadd (TCEUrlDataPrivate *source, TCEUrlDataPrivate *dest)
 static TQ3Status
 e3urlelement_copyreplace (TCEUrlDataPrivate *source, TCEUrlDataPrivate *dest)
 {
-	TQ3StringObject	string = NULL;
+	TQ3StringObject	string = nullptr;
 
 	if (Q3Memory_Reallocate(&dest->url, static_cast<TQ3Uns32>(strlen(source->url) + 1)) == kQ3Failure)
 		return kQ3Failure;
@@ -473,7 +473,7 @@ e3urlelement_copyreplace (TCEUrlDataPrivate *source, TCEUrlDataPrivate *dest)
 	if (source->description) {  // optional
 
 		string = Q3Shared_GetReference (source->description);
-		if (string == NULL) {
+		if (string == nullptr) {
 			return kQ3Failure;
 		}
 		
@@ -485,7 +485,7 @@ e3urlelement_copyreplace (TCEUrlDataPrivate *source, TCEUrlDataPrivate *dest)
 		
 	} else {
 
-		dest->description = NULL;
+		dest->description = nullptr;
 	}
 		
 	dest->options = source->options;
@@ -503,16 +503,16 @@ e3urlelement_copyreplace (TCEUrlDataPrivate *source, TCEUrlDataPrivate *dest)
 static TQ3Status
 e3urlelement_delete (TCEUrlDataPrivate *urlData)
 {
-	if (urlData->url != NULL) {
+	if (urlData->url != nullptr) {
 	
 		Q3Memory_Free (&urlData->url);
-		urlData->url = NULL;
+		urlData->url = nullptr;
 	}
 	
-	if (urlData->description != NULL) {
+	if (urlData->description != nullptr) {
 	
 		Q3Object_Dispose (urlData->description);
-		urlData->description = NULL;
+		urlData->description = nullptr;
 	}
 
 	return kQ3Success;
@@ -527,7 +527,7 @@ e3urlelement_delete (TCEUrlDataPrivate *urlData)
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3urlelement_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -677,7 +677,7 @@ e3wireelement_delete(QTAtomContainer *atom)
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3wireelement_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
 
 
@@ -732,14 +732,14 @@ strip_element_copyadd( const TCETriangleStripPrivate* fromAPIElement,
 	
 	if (toInternalElement->indexCount == 0)
 	{
-		toInternalElement->indexArray = NULL;
+		toInternalElement->indexArray = nullptr;
 		status = kQ3Success;
 	}
 	else
 	{
 		toInternalElement->indexArray = static_cast<TQ3Uns32*>( Q3Memory_Allocate(
 			static_cast<TQ3Uns32>(toInternalElement->indexCount * sizeof(TQ3Uns32)) ) );
-		if (toInternalElement->indexArray != NULL)
+		if (toInternalElement->indexArray != nullptr)
 		{
 			Q3Memory_Copy( fromAPIElement->indexArray,
 				const_cast<TQ3Uns32*>( toInternalElement->indexArray ),
@@ -760,7 +760,7 @@ strip_element_copyadd( const TCETriangleStripPrivate* fromAPIElement,
 static TQ3Status
 strip_element_delete( TCETriangleStripPrivate* internalElement )
 {
-	if (internalElement->indexArray != NULL)
+	if (internalElement->indexArray != nullptr)
 	{
 		Q3Memory_Free( &internalElement->indexArray );
 	}
@@ -795,7 +795,7 @@ strip_element_traverse( TQ3Object object, TCETriangleStripPrivate *data,
 {
 #pragma unused(object)
 	TQ3Status	status = Q3XView_SubmitWriteData( view,
-		static_cast<TQ3Uns32>((data->indexCount + 1) * sizeof(TQ3Uns32)), data, NULL );
+		static_cast<TQ3Uns32>((data->indexCount + 1) * sizeof(TQ3Uns32)), data, nullptr );
 	return status;
 }
 
@@ -852,7 +852,7 @@ strip_element_readdata( TQ3Object parentObject, TQ3FileObject theFile )
 		else
 		{
 			status = E3TriangleStripElement_SetData( parentObject,
-					numIndices, NULL );
+					numIndices, nullptr );
 		}
 	}
 	
@@ -869,7 +869,7 @@ strip_element_readdata( TQ3Object parentObject, TQ3FileObject theFile )
 static TQ3XFunctionPointer
 strip_element_metahandler(TQ3XMethodType methodType)
 {
-	TQ3XFunctionPointer		theMethod = NULL;
+	TQ3XFunctionPointer		theMethod = nullptr;
 
 	switch (methodType)
 	{
@@ -916,7 +916,7 @@ alphatest_element_traverse( TQ3Object object, TQ3Float32 *data,
 {
 #pragma unused(object)
 	TQ3Status	status = Q3XView_SubmitWriteData( view,
-		sizeof(TQ3Float32), data, NULL );
+		sizeof(TQ3Float32), data, nullptr );
 	return status;
 }
 
@@ -948,7 +948,7 @@ static TQ3Status alphatest_element_readdata(
 static TQ3XFunctionPointer
 e3alphatestelement_metahandler(TQ3XMethodType methodType)
 {
-	TQ3XFunctionPointer		theMethod = NULL;
+	TQ3XFunctionPointer		theMethod = nullptr;
 
 	switch (methodType)
 	{
@@ -973,11 +973,11 @@ e3alphatestelement_metahandler(TQ3XMethodType methodType)
 static TQ3Status
 SpecularElement_delete( TQ3TextureObject *textureOb )
 {
-	if (*textureOb != NULL)
+	if (*textureOb != nullptr)
 	{
-		Q3_ASSERT( (*textureOb != NULL) && (*textureOb)->IsObjectValid() );
+		Q3_ASSERT( (*textureOb != nullptr) && (*textureOb)->IsObjectValid() );
 		Q3Object_Dispose(*textureOb);
-		*textureOb = NULL;
+		*textureOb = nullptr;
 	}
 
 	return kQ3Success;
@@ -989,21 +989,21 @@ SpecularElement_CopyAdd( const TQ3TextureObject* inFromAPIElement,
 {
 	*ioToInternal = Q3Shared_GetReference( *inFromAPIElement );
 	
-	return (*ioToInternal != NULL) ? kQ3Success : kQ3Failure;
+	return (*ioToInternal != nullptr) ? kQ3Success : kQ3Failure;
 }
 
 static TQ3Status
 SpecularElement_CopyReplace( const TQ3TextureObject* inFromAPIElement,
 							TQ3TextureObject* ioToInternal )
 {
-	if (*ioToInternal != NULL)
+	if (*ioToInternal != nullptr)
 	{
 		Q3_ASSERT( (*ioToInternal)->IsObjectValid() );
 		Q3Object_Dispose( *ioToInternal );
 	}
 	*ioToInternal = Q3Shared_GetReference( *inFromAPIElement );
 	
-	return (*ioToInternal != NULL) ? kQ3Success : kQ3Failure;
+	return (*ioToInternal != nullptr) ? kQ3Success : kQ3Failure;
 }
 
 static TQ3Status
@@ -1019,7 +1019,7 @@ SpecularElement_CopyDuplicate( TQ3TextureObject *source, TQ3TextureObject *dest 
 {
 	*dest = Q3Object_Duplicate(*source);
 
-	return (*dest != NULL) ? kQ3Success : kQ3Failure;
+	return (*dest != nullptr) ? kQ3Success : kQ3Failure;
 }
 
 static TQ3Status
@@ -1027,11 +1027,11 @@ SpecularElement_traverse( TQ3Object object, TQ3TextureObject *texture, TQ3ViewOb
 {
 #pragma unused(object)
 
-	if (texture == NULL || *texture == NULL)
+	if (texture == nullptr || *texture == nullptr)
 		return kQ3Success;
 
 	// No immediate data
-	if (Q3XView_SubmitWriteData(view, 0, NULL, NULL) == kQ3Failure)
+	if (Q3XView_SubmitWriteData(view, 0, nullptr, nullptr) == kQ3Failure)
 		return kQ3Failure;
 
 	// submit child object
@@ -1044,7 +1044,7 @@ SpecularElement_readdata( TQ3Object parentObject, TQ3FileObject file )
 	TQ3TextureObject	texture;
 
 	texture = Q3File_ReadObject(file);
-	if (texture == NULL) 
+	if (texture == nullptr) 
 		return kQ3Failure;
 
 	E3SpecularMapElement_Set( parentObject, texture );
@@ -1055,7 +1055,7 @@ SpecularElement_readdata( TQ3Object parentObject, TQ3FileObject file )
 
 static TQ3XFunctionPointer SpecularMetaHandler( TQ3XMethodType methodType )
 {
-	TQ3XFunctionPointer		theMethod = NULL;
+	TQ3XFunctionPointer		theMethod = nullptr;
 	
 	switch (methodType)
 	{
@@ -1123,7 +1123,7 @@ E3CustomElements_RegisterClass(void)
 	
 	if (qd3dStatus == kQ3Success)
 	{
-		if (NULL == Q3XElementClass_Register( &sTriangleStripElementType,
+		if (nullptr == Q3XElementClass_Register( &sTriangleStripElementType,
 			kQ3ClassNameCustomElementTriangleStrip,
 			sizeof(TCETriangleStripPrivate),
 			strip_element_metahandler ))
@@ -1146,7 +1146,7 @@ E3CustomElements_RegisterClass(void)
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = Q3_REGISTER_CLASS (	
 					kQ3ClassNameCustomElementDepthBits,
-					NULL,
+					nullptr,
 					E3BitDepthElement ) ;
 
 	if (qd3dStatus == kQ3Success)
@@ -1202,21 +1202,21 @@ E3CustomElements_UnregisterClass(void)
 //=============================================================================
 //      E3NameElement_SetData : : Attach a name to an object.
 //-----------------------------------------------------------------------------
-//		Note :	Passing NULL for the name parameter removes the Name Element
+//		Note :	Passing nullptr for the name parameter removes the Name Element
 //				from the object, if one is present.
 //-----------------------------------------------------------------------------
 TQ3Status
 E3NameElement_SetData(TQ3Object object, const char *name)
 {
 	TQ3Status status;
-	TQ3StringObject	string = NULL;
+	TQ3StringObject	string = nullptr;
 
-	if (name == NULL)
+	if (name == nullptr)
 		return object->ClearElement( kQ3ObjectTypeCustomElementName );
 
 
 	string = E3CString_New(name);
-	if (string == NULL)
+	if (string == nullptr)
 		return kQ3Failure;
 				
 	status = object->AddElement( kQ3ObjectTypeCustomElementName, &string );
@@ -1239,12 +1239,12 @@ TQ3Status
 E3NameElement_GetData(TQ3Object object, char **name)
 {
 	TQ3Status status;
-	TQ3StringObject	string = NULL;
+	TQ3StringObject	string = nullptr;
 
 
 
 	// Initialise a return value
-	*name = NULL;
+	*name = nullptr;
 
 	
 	if (Q3Object_ContainsElement(object, kQ3ObjectTypeCustomElementName)) {
@@ -1276,12 +1276,12 @@ E3NameElement_GetData(TQ3Object object, char **name)
 TQ3Status	E3NameElement_PeekData(TQ3Object object, const char **name)
 {
 	TQ3Status status;
-	TQ3StringObject	string = NULL;
+	TQ3StringObject	string = nullptr;
 
 
 
 	// Initialise a return value
-	*name = NULL;
+	*name = nullptr;
 
 
 	status = object->GetElement( kQ3ObjectTypeCustomElementName, &string );
@@ -1306,7 +1306,7 @@ E3NameElement_EmptyData(char **name)
 {
 
 
-	// Frees name and sets it to NULL
+	// Frees name and sets it to nullptr
 	return Q3CString_EmptyData(name);
 }
 
@@ -1317,7 +1317,7 @@ E3NameElement_EmptyData(char **name)
 //=============================================================================
 //      E3UrlElement_SetData : Set the URL for an object.
 //-----------------------------------------------------------------------------
-//		Note :	Passing NULL for the name parameter removes the URL Element
+//		Note :	Passing nullptr for the name parameter removes the URL Element
 //				from the object, if one is present.
 //-----------------------------------------------------------------------------
 #pragma mark -
@@ -1326,10 +1326,10 @@ E3UrlElement_SetData(TQ3Object object, TCEUrlData *urlData)
 {
 	TQ3Status 			status;
 	TCEUrlDataPrivate  	urlDataPrivate;
-	TQ3StringObject		string = NULL;
+	TQ3StringObject		string = nullptr;
 
 	// That's what QD3D does: you can't hold a description without url
-	if (urlData == NULL || urlData->url == NULL ||urlData->url[0] == '\0')
+	if (urlData == nullptr || urlData->url == nullptr ||urlData->url[0] == '\0')
 		return Q3Object_ClearElement(object, kQ3ObjectTypeCustomElementUrl);
 
 
@@ -1339,13 +1339,13 @@ E3UrlElement_SetData(TQ3Object object, TCEUrlData *urlData)
 
 	urlDataPrivate.url = urlData->url;
 	urlDataPrivate.options = urlData->options;
-	urlDataPrivate.description = NULL;
+	urlDataPrivate.description = nullptr;
 
-	if (urlData->description != NULL) {
+	if (urlData->description != nullptr) {
 
 		string = Q3CString_New (urlData->description);
 
-		if (string == NULL)
+		if (string == nullptr)
 			return kQ3Failure;
 		else
 			urlDataPrivate.description = string;
@@ -1353,7 +1353,7 @@ E3UrlElement_SetData(TQ3Object object, TCEUrlData *urlData)
 
 	status = Q3Object_AddElement(object, kQ3ObjectTypeCustomElementUrl, &urlDataPrivate);
 		
-	if (string != NULL)
+	if (string != nullptr)
 		Q3Object_Dispose(string);
 
 	return status;
@@ -1376,7 +1376,7 @@ E3UrlElement_GetData(TQ3Object object, TCEUrlData **urlData)
 
 
 	// Initialise a return value
-	*urlData = NULL;
+	*urlData = nullptr;
 
 
 	if (Q3Object_ContainsElement(object, kQ3ObjectTypeCustomElementUrl)) {
@@ -1397,7 +1397,7 @@ E3UrlElement_GetData(TQ3Object object, TCEUrlData **urlData)
 	strcpy ((**urlData).url, urlDataPrivate.url);
 	
 	(**urlData).options = urlDataPrivate.options;
-	(**urlData).description = NULL;
+	(**urlData).description = nullptr;
 
 	if (urlDataPrivate.description) {
 	
@@ -1469,7 +1469,7 @@ E3WireElement_GetData(TQ3Object object, QTAtomContainer *wireData)
 
 
 	// Initialise a return value
-	*wireData = NULL;
+	*wireData = nullptr;
 
 
 
@@ -1497,7 +1497,7 @@ E3WireElement_EmptyData(QTAtomContainer *wireData)
 
 
 	// Reset the pointer
-	*wireData = NULL;
+	*wireData = nullptr;
 
 	return(kQ3Success);
 }
@@ -1515,7 +1515,7 @@ E3WireElement_EmptyData(QTAtomContainer *wireData)
 				already provided a triangle strip for a TriMesh, the renderer
 				will compute one, but this can take a little time.
 				
-				You can pass 0 for inNumIndices and NULL for inIndices to
+				You can pass 0 for inNumIndices and nullptr for inIndices to
 				indicate that you want to avoid using a triangle strip, perhaps
 				because there is no efficient strip for this geometry.
 				
@@ -1618,7 +1618,7 @@ void		E3TriangleStripElement_Remove( TQ3Object ioObject )
 	@function	E3SpecularMapElement_Copy
 	@abstract	Retrieve a specular map texture from an object.
 	@param		shader		An object, normally a surface shader.
-	@result		A new reference to a texture, or NULL.
+	@result		A new reference to a texture, or nullptr.
 */
 TQ3TextureObject	E3SpecularMapElement_Copy( TQ3ShaderObject shader )
 {
@@ -1626,7 +1626,7 @@ TQ3TextureObject	E3SpecularMapElement_Copy( TQ3ShaderObject shader )
 	TQ3Status status = Q3Object_GetElement( shader, kQ3ObjectTypeCustomElementSpecularMap, &theTexture );
 	if (status == kQ3Failure)
 	{
-		theTexture = NULL;
+		theTexture = nullptr;
 	}
 	return theTexture;
 }
@@ -1635,11 +1635,11 @@ TQ3TextureObject	E3SpecularMapElement_Copy( TQ3ShaderObject shader )
 	@function	E3SpecularMapElement_Set
 	@abstract	Set or remove a specular map.
 	@param		shader		A surface shader.
-	@param		texture		A texture object, or NULL to remove.
+	@param		texture		A texture object, or nullptr to remove.
 */
 void	E3SpecularMapElement_Set( TQ3ShaderObject shader, TQ3TextureObject texture )
 {
-	if (texture == NULL)
+	if (texture == nullptr)
 	{
 		Q3Object_ClearElement( shader, kQ3ObjectTypeCustomElementSpecularMap );
 	}

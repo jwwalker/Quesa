@@ -1,6 +1,6 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
     "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
-<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a[name]:hover {text-decoration: inherit; font-family: inherit; font-size: inherit}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
     <title>QuesaMemory.h</title>
 	 <meta name="generator" content="HeaderDoc">
 </head><body bgcolor="#ffffff">
@@ -134,7 +134,7 @@ will be called for you.
 <blockquote>
 <dl>
 <dt><tt><em>fileName</em></tt></dt><dd>Name of memory dump file.</dd>
-<dt><tt><em>memo</em></tt></dt><dd>Text written at start of dump for identification. May be NULL.</dd>
+<dt><tt><em>memo</em></tt></dt><dd>Text written at start of dump for identification. May be nullptr.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -164,7 +164,7 @@ In non-debug builds, this function does nothing.
 Takes a pointer to a pointer, which points to a block of previously
 allocated memory.
 <br><br>
-After freeing the memory, the supplied pointer will be reset to NULL
+After freeing the memory, the supplied pointer will be reset to nullptr
 to prevent future dereferences.
 <br><br>
 Note that you <em>must</em> pass a pointer to a pointer, and not
@@ -181,6 +181,17 @@ after disposal.
 <dt><tt><em>thePtr</em></tt></dt><dd>A pointer to the pointer to free.</dd>
 </dl>
 </blockquote>
+<hr><a name="//Quesa/c/func/Q3Memory_GetObjectCount"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Memory_GetObjectCount">Q3Memory_GetObjectCount</a></h2>
+</td></tr></table><hr>Get a count of Quesa objects currently in existence.
+
+<blockquote><pre><tt>( TQ3Int32 ) Q3Memory_GetObjectCount (void);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Unlike <code>Q3Memory_CountRecords</code>, this function works
+even in non-debug builds.
+</p>
+<dl><dt><i>function result</i></dt><dd>Number of Quesa objects.
+</dd></dl>
 <hr><a name="//Quesa/c/func/Q3Memory_GetStatistics"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Memory_GetStatistics">Q3Memory_GetStatistics</a></h2>
 </td></tr></table><hr>Get information about Quesa memory usage.
@@ -249,20 +260,20 @@ Sets theSize bytes from thePtr to theValue.
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>This function can be used to iterate through the list
 of Quesa objects that were created while recording was
-turned on.  Pass NULL to get the first object in the list.
-When it returns NULL, you have reached the end.
+turned on.  Pass nullptr to get the first object in the list.
+When it returns nullptr, you have reached the end.
 <br><br>
 Example:
 <br><br>
 <blockquote><pre><code>
-TQ3Object	leaked = NULL;
-while (NULL != (leaked = Q3Memory_NextRecordedObject( leaked )))
+TQ3Object	leaked = nullptr;
+while (nullptr != (leaked = Q3Memory_NextRecordedObject( leaked )))
 {
 &nbsp;&nbsp;	// do something nondestructive to the object
 }
 </code></pre></blockquote>
 <br><br>
-In non-debug builds, this function always returns NULL.
+In non-debug builds, this function always returns nullptr.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
@@ -270,10 +281,10 @@ In non-debug builds, this function always returns NULL.
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
 <dl>
-<dt><tt><em>inObject</em></tt></dt><dd>NULL or a recorded object.</dd>
+<dt><tt><em>inObject</em></tt></dt><dd>nullptr or a recorded object.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>Next recorded object, or NULL.
+<dl><dt><i>function result</i></dt><dd>Next recorded object, or nullptr.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Memory_Reallocate"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Memory_Reallocate">Q3Memory_Reallocate</a></h2>
@@ -291,10 +302,10 @@ Implements the same behaviour as realloc, allowing memory to
 be allocated, freed, or resized with a single call. See the
 documentation for realloc for the exact specification.
 Unlike some implementations of realloc, passing a size of zero
-frees the memory and returns NULL.
+frees the memory and returns nullptr.
 <br><br>
 Note that like Q3Memory_Free, a pointer to the pointer is
-passed to allow it to be set to NULL after disposal, and to
+passed to allow it to be set to nullptr after disposal, and to
 allow it to be changed when resized.
 <br><br>
 <em>This function is not available in QD3D.</em>
@@ -347,12 +358,12 @@ In non-debug builds, this function does nothing.
 <br><br>
 The slab will be grown as required, and the specified number of items
 will be appended to the end of the slab. A pointer to the newly-added
-items within the slab will be returned, or NULL on failure.
+items within the slab will be returned, or nullptr on failure.
 <br><br>
 The slab may move in memory when it is grown, and any existing pointers
 into the slab should be invalidated.
 <br><br><br>
-If itemData is non-NULL, it is assumed to point to a contiguous block
+If itemData is non-nullptr, it is assumed to point to a contiguous block
 of item data. This data is copied into the slab to initialise the new
 items.
 <br><br>
@@ -367,7 +378,7 @@ be left uninitialised.
 <dl>
 <dt><tt><em>theSlab</em></tt></dt><dd>The slab to update.</dd>
 <dt><tt><em>numItems</em></tt></dt><dd>The number of items to append.</dd>
-<dt><tt><em>itemData</em></tt></dt><dd>The data to initialise the new items, or NULL.</dd>
+<dt><tt><em>itemData</em></tt></dt><dd>The data to initialise the new items, or nullptr.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>A pointer to the first newly-added item within the slab.
@@ -430,8 +441,8 @@ which can be obtained with Q3SlabMemory_GetCount.
 A slab may be created with an initial number of allocated items, which can
 be optionally initialised with supplied data.
 <br><br>
-Either numItems or itemData may be 0 (or NULL, respectively), however if
-itemData is non-NULL then numItems should be non-zero.
+Either numItems or itemData may be 0 (or nullptr, respectively), however if
+itemData is non-nullptr then numItems should be non-zero.
 <br><br>
 The itemSize parameter must be non-zero.
 <br><br>
@@ -443,7 +454,7 @@ The itemSize parameter must be non-zero.
 <dl>
 <dt><tt><em>itemSize</em></tt></dt><dd>The size of each item within the slab.</dd>
 <dt><tt><em>numitems</em></tt></dt><dd>The initial number of items in the slab.</dd>
-<dt><tt><em>itemData</em></tt></dt><dd>The data to initialise the new items, or NULL.</dd>
+<dt><tt><em>itemData</em></tt></dt><dd>The data to initialise the new items, or nullptr.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>The new slab object.
@@ -508,5 +519,5 @@ Initialize to kQ3MemoryStatisticsStructureVersion.</dd>
 ("high-water mark").</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2011 Quesa Developers (Last Updated 3/13/2011)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
 </p></body></html>
