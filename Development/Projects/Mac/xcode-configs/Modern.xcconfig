@@ -35,6 +35,7 @@ GCC_C_LANGUAGE_STANDARD = gnu11
 GCC_ENABLE_PASCAL_STRINGS = NO
 CLANG_CXX_LANGUAGE_STANDARD = gnu++11
 CLANG_CXX_LIBRARY = libc++
+CLANG_ENABLE_OBJC_WEAK = YES
 
 
 
@@ -49,6 +50,8 @@ CLANG_CXX_LIBRARY = libc++
 //   If you do not define QUESA_SUPPORT_QUICKTIME here, then Quesa.h will set it
 //   to 0 in 64-bit mode and 1 in 32-bit mode.
 QUESA_PREPROCESSOR_DEFS_LEGACY = QUESA_SUPPORT_QUICKTIME=0
+
+ENABLE_STRICT_OBJC_MSGSEND = YES
 
 
 // Custom build settings:
