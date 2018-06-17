@@ -10,7 +10,7 @@
     	GLUtils_CheckExtensions.
 
     COPYRIGHT:
-        Copyright (c) 2007-2016, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -204,7 +204,44 @@ void				FlushVBOCache(
 									TQ3GLContext glContext,
 									const GLBufferFuncs& inFuncs );
 
+#if 0//Q3_DEBUG
 
+/*!
+	@function		RecordVBO
+	@abstract		For debugging, record a VBO allocation.
+	@param			inBufferName		The ID number of the buffer.
+	@param			inGeom				The geometry owning the VBO.
+	@param			inBytes				Size of the buffer in bytes.
+	@param			inKind				Normal = 0, normal secondary = 1,
+										shadow = 2, shadow secondary = 3
+*/
+void				RecordVBO(
+									GLuint inBufferName,
+									TQ3GeometryObject inGeom,
+									TQ3Uns32 inBytes,
+									int inKind );
+
+/*!
+	@function		ForgetVBO
+	@abstract		Remove a VBO previously passed to RecordVBO.
+	@param			inBufferName		The ID number of the buffer.
+*/
+void				ForgetVBO(		GLuint inBufferName );
+
+/*!
+	@function		DumpVBOs
+	@abstract		List the contents of the VBO recording to the debug
+					log.
+*/
+void				DumpVBOs( void );
+
+#else
+
+	#define RecordVBO(...)
+	#define ForgetVBO(...)
+	#define DumpVBOs(...)
+
+#endif
 //=============================================================================
 //		C++ postamble
 //-----------------------------------------------------------------------------
