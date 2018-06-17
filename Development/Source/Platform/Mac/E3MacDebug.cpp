@@ -5,7 +5,7 @@
         Mac debug implementation.
 
     COPYRIGHT:
-        Copyright (c) 1999-2015, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -104,7 +104,7 @@ E3Assert(const char *srcFile, TQ3Uns32 lineNum, const char *theAssertion)
 //      E3IsValidPtr : Check a pointer for validity.
 //-----------------------------------------------------------------------------
 TQ3Boolean
-E3IsValidPtr(void *thePtr)
+E3IsValidPtr(const void *thePtr)
 {
 
 

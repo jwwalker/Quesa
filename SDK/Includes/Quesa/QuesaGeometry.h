@@ -8,7 +8,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2016, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -150,10 +150,17 @@ typedef enum TQ3PolyhedronEdgeMasks {
 						that this geometry should be rendered normally.
 						
 						Data type: TQ3Boolean.  Default value: kQ3False.
+	@constant	kQ3GeometryPropertyCustomTextureCoordinates
+						This property, attached to a TriMesh, can be used to provide
+						nonstandard texture coordinates to an OpenGL Shading Language
+						vertex shader.
+						
+						Data type: TQ3CustomTextureCoordinates (variable length).
 */
 enum
 {
-	kQ3GeometryPropertyNonCartoon					= Q3_OBJECT_TYPE('n', 'c', 'a', 'r')
+	kQ3GeometryPropertyNonCartoon                   = Q3_OBJECT_TYPE('n', 'c', 'a', 'r'),
+	kQ3GeometryPropertyCustomTextureCoordinates     = Q3_OBJECT_TYPE('t', 'e', 'x', 'c')
 };
 
 
@@ -1189,6 +1196,36 @@ typedef struct TQ3TriMeshData {
     TQ3BoundingBox                              bBox;
 } TQ3TriMeshData;
 
+
+
+
+
+#ifdef _MSC_VER
+	#pragma warning( push )
+	#pragma warning( disable : 4200 )
+#endif
+/*!
+	@struct		TQ3CustomTextureCoordinates
+	@abstract	Data of kQ3GeometryPropertyCustomTextureCoordinates.
+	@field		numPoints		Number of points (vertices) in the TriMesh.
+	@field		coordsPerPoint	Number of floating-point coordinates per point.
+								Must be 1, 2, 3, or 4.
+	@field		textureUnit		Texture unit to which the coordinates will be
+								provided.  Enter simply 1, for example, not
+								GL_TEXTURE1.
+	@field		coords			Array of coordinate data.  The number of values
+								here must be numPoints * coordsPerPoint.
+*/
+typedef struct TQ3CustomTextureCoordinates
+{
+	TQ3Uns32	numPoints;
+	TQ3Uns32	coordsPerPoint;
+	TQ3Uns32	textureUnit;
+	TQ3Float32	coords[];
+} TQ3CustomTextureCoordinates;
+#ifdef _MSC_VER
+	#pragma warning( pop )
+#endif
 
 
 

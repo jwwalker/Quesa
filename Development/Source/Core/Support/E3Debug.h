@@ -5,7 +5,7 @@
         Debugging routines.
 
     COPYRIGHT:
-        Copyright (c) 1999-2015, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -69,7 +69,7 @@ void		E3Assert(const char *srcFile, TQ3Uns32 lineNum,
 
 
 // Check a pointer for validity
-TQ3Boolean	E3IsValidPtr(void *thePtr);
+TQ3Boolean	E3IsValidPtr(const void *thePtr);
 
 
 // Write something to a log file
@@ -77,7 +77,21 @@ void		E3LogMessage( const char* inMessage );
 
 
 // Close the log file.
-void		E3CloseLog();
+void		E3CloseLog( void );
+
+/*!
+	@function	E3GetLogStream
+	
+	@abstract	Create or retrieve a file stream for a log file.
+	
+	@discussion	The log will be created in the user's Documents folder.
+	
+	@param		inCreate	Whether to create and open the log stream if it is
+							not already open.
+	
+	@result		A stream for the log.
+*/
+FILE*	E3GetLogStream( bool inCreate );
 
 
 
@@ -86,19 +100,25 @@ void		E3CloseLog();
 //-----------------------------------------------------------------------------
 // Check to see if a pointer is valid
 #if Q3_DEBUG
-	#define Q3_VALID_PTR(_thePtr)				E3IsValidPtr((void *) (_thePtr))
+	#define Q3_VALID_PTR(_thePtr)				E3IsValidPtr((const void *) (_thePtr))
 #else
 	#define Q3_VALID_PTR(_thePtr)				(_thePtr != nullptr)
 #endif
 
+// Write to the log file.  Unlike Q3_MESSAGE_FMT, this writes even if Q3_DEBUG is off.
+#define	Q3_LOG_FMT(...)		do {	\
+								char msg_[1024];	\
+								snprintf( msg_, sizeof(msg_), __VA_ARGS__ );	\
+								strncat( msg_, "\n", 1 );	\
+								E3LogMessage( msg_ );	\
+							} while (0)
 
 
 
 
 //=============================================================================
-//		Assertion macros
+//		Assertion and message macros
 //-----------------------------------------------------------------------------
-#if Q3_DEBUG
 	// Generate an assertion error if a test fails
 	#define Q3_ASSERT(_theTest)													\
 				((_theTest) ?													\
@@ -106,11 +126,30 @@ void		E3CloseLog();
 					E3Assert(__FILE__, __LINE__, #_theTest)						\
 				)
 
+
+	#define Q3_ASSERT_FMT( _condition, ... ) \
+		do { \
+			if ( ! (_condition) ) \
+			{ \
+				char _xBuf[1024]; \
+				char _yBuf[1024]; \
+				snprintf( _yBuf, sizeof(_yBuf), "" __VA_ARGS__ ); \
+				snprintf( _xBuf, sizeof(_xBuf), "%s %s", #_condition, _yBuf ); \
+				E3Assert( __FILE__, __LINE__, _xBuf );					\
+			} \
+		} while (false)
+
 	#define	Q3_ASSERT_MESSAGE(_condition, _message)								\
 				((_condition) ?													\
 					((void) 0) :												\
 					E3Assert(__FILE__, __LINE__, (_message))					\
 				)
+
+	// Generates an assertion error for a bad pointer
+	#define Q3_ASSERT_VALID_PTR(_thePtr)										\
+				Q3_ASSERT(Q3_VALID_PTR(_thePtr))
+
+#if Q3_DEBUG
 	
 	#define	Q3_MESSAGE( _msg )	E3LogMessage( _msg )
 	
@@ -121,9 +160,6 @@ void		E3CloseLog();
 										E3LogMessage( msg_ );	\
 									} while (0)
 
-	// Generates an assertion error for a bad pointer
-	#define Q3_ASSERT_VALID_PTR(_thePtr)										\
-				Q3_ASSERT(Q3_VALID_PTR(_thePtr))
 
 	#if Q3_VALIDATE_DRAW_ELEMENTS
 		#define	Q3_CHECK_DRAW_ELEMENTS( _numPts, _numIndices, _indexArray )	\
@@ -132,20 +168,10 @@ void		E3CloseLog();
 		#define	Q3_CHECK_DRAW_ELEMENTS( _numPts, _numIndices, _indexArray )
 	#endif
 #else
-	// Do nothing
-	#define Q3_ASSERT(_theTest)													\
-				((void) 0)
-
-	#define	Q3_ASSERT_MESSAGE(_condition, _message)		((void) 0)
-	
 	#define	Q3_MESSAGE( _msg )
 	
 	#define	Q3_MESSAGE_FMT(...)
 
-	// Do nothing
-	#define Q3_ASSERT_VALID_PTR(_thePtr)										\
-				((void) 0)
-	
 	#define	Q3_CHECK_DRAW_ELEMENTS( _numPts, _numIndices, _indexArray )
 #endif
 

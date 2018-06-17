@@ -5,7 +5,7 @@
         Quesa OpenGL shadow volume caching.
        
     COPYRIGHT:
-        Copyright (c) 2011-2016, Quesa Developers. All rights reserved.
+        Copyright (c) 2011-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -46,10 +46,11 @@
 //-----------------------------------------------------------------------------
 #include "GLShadowVolumeManager.h"
 #include "GLGPUSharing.h"
+#include "GLVBOManager.h"
 #include "CQ3WeakObjectRef.h"
 #include "GLUtils.h"
 #include "E3Main.h"
-#include "GLVBOManager.h"
+#include "E3CustomElements.h"
 
 #include <vector>
 #include <algorithm>
@@ -65,6 +66,8 @@ namespace
 	const TQ3Uns32	kShadowCacheKey	= Q3_FOUR_CHARACTER_CONSTANT('s', 'v', 'c', 'k');
 	
 	const TQ3Uns32	kAbsentBuffer	= 0xFFFFFFFFU;
+
+	const TQ3Uns32	kMaxSecondaryTexCoords = 16;
 }
 
 #ifndef GL_ARRAY_BUFFER
@@ -73,7 +76,11 @@ namespace
 	#define GL_STATIC_DRAW                  0x88E4
 #endif
 
+#ifndef GL_ARB_multitexture
+	#define GL_TEXTURE0_ARB                   0x84C0
+#endif
 
+//#define VALIDATE_COUNTS		1
 
 
 //=============================================================================
@@ -92,15 +99,19 @@ namespace
 namespace
 {
 	typedef std::pair< TQ3GeometryObject, TQ3LightObject >	GeomAndLight;
-
-	typedef std::vector< class ShadowVBO* >					ShadowVec;
-	typedef std::vector< GeomAndLight >						GeomLightVec;
-
-	typedef std::map< GeomAndLight, ShadowVec >				GeomLightToShadows;
 	
+	typedef std::map< GeomAndLight, class ShadowVBO* >		GeomLightToShadow;
+		
 	const TQ3RationalPoint4D	kDummyPoint = { 0.0f, 0.0f, 0.0f, 0.0f };
 	
 	const float					kMaxLightDistSq	= 7.0e-6f;
+
+	struct SecondaryTexCoord
+	{
+		TQ3Uns32		mGLBufferName;
+		GLint			mCoordsPerVertex;
+		GLenum			mTextureUnit;
+	};
 
 	/*!
 		@class		ShadowVBO
@@ -122,13 +133,16 @@ namespace
 
 		CQ3WeakObjectRef	mLightObject;
 		TQ3RationalPoint4D	mLocalLightPosition;	// w is 0 or 1
-
+		
 		GeomAndLight		mMapKey;
 
 		TQ3Uns32			mNumTriIndices;
 		TQ3Uns32			mNumQuadIndices;
 		GLuint				mGLBufferNames[2];	// 0 is array, 1 is index
 		TQ3Uns32			mBufferBytes;
+
+		TQ3Uns32			mNumSecondaryTexCoords;
+		SecondaryTexCoord	mSecondaryTexCoord[kMaxSecondaryTexCoords];
 	
 	private:
 		ShadowVBO*			mPrev;
@@ -162,13 +176,17 @@ namespace
 		void				AddVBO( ShadowVBO* inVBO );
 		void				FlushStaleShadows( const GLBufferFuncs& inFuncs );
 		void				MakeRoom( TQ3Uns32 inBytesNeeded, const GLBufferFuncs& inFuncs );
-		void				AddBytes( TQ3Uns32 inBytes );
 		void				PurgeDownToSize( long long inTargetSize, const GLBufferFuncs& inFuncs );
 		void				SetMaxBufferSize( long long inBufferSize, const GLBufferFuncs& inFuncs );
 	
+	#if VALIDATE_COUNTS
+		void				ValidateByteCount() const;
+		void				ValidateShadowCount() const;
+	#endif
+	
 	private:
 		
-		GeomLightToShadows			mGeomLightToShadows;
+		GeomLightToShadow			mGeomLightToShadows;
 		ShadowVBO					mListOldEnd;
 		ShadowVBO					mListNewEnd;
 		long long					mTotalBytes;
@@ -176,7 +194,14 @@ namespace
 	};
 }
 
-
+#if VALIDATE_COUNTS
+	#define VALIDATE_COUNT(cache)	do {\
+										cache->ValidateByteCount();		\
+										cache->ValidateShadowCount();	\
+									} while (false)
+#else
+	#define VALIDATE_COUNT(cache)
+#endif
 
 //=============================================================================
 //		Internal functions
@@ -232,6 +257,10 @@ ShadowVBO::ShadowVBO()
 {
 }
 
+#if 0//Q3_DEBUG
+static long sShadowVBOCount = 0;
+#endif
+
 ShadowVBO::ShadowVBO(					TQ3GeometryObject inGeom,
 										TQ3LightObject inLight,
 										const TQ3RationalPoint4D& inLocalLightPos )
@@ -241,14 +270,17 @@ ShadowVBO::ShadowVBO(					TQ3GeometryObject inGeom,
 	, mLocalLightPosition( inLocalLightPos )
 	, mMapKey( inGeom, inLight )
 	, mBufferBytes( 0 )
+	, mNumSecondaryTexCoords( 0 )
 	, mPrev( nullptr )
 	, mNext( nullptr )
 {
 	// Leave other fields uninitialized for now
+	//Q3_MESSAGE_FMT("ShadowVBO created, %ld", ++sShadowVBOCount );
 }
 
 ShadowVBO::~ShadowVBO()
 {
+	//Q3_MESSAGE_FMT("ShadowVBO destroyed, %ld", --sShadowVBOCount);
 }
 
 bool	ShadowVBO::IsStale() const
@@ -275,6 +307,7 @@ ShadowVolCache::ShadowVolCache()
 {
 	mListOldEnd.mNext = &mListNewEnd;
 	mListNewEnd.mPrev = &mListOldEnd;
+	VALIDATE_COUNT(this);
 }
 
 ShadowVolCache::~ShadowVolCache()
@@ -287,13 +320,39 @@ ShadowVolCache::~ShadowVolCache()
 	
 	while (listItem != &mListNewEnd)
 	{
-		listItem->mPrev->mNext = listItem->mNext;
-		listItem->mNext->mPrev = listItem->mPrev;
-		delete listItem;
-		listItem = mListOldEnd.mNext;
+		ShadowVBO* toDelete = listItem;
+		listItem = listItem->mNext;
+		delete toDelete;
 	}
 }
 
+#if VALIDATE_COUNTS
+void	ShadowVolCache::ValidateByteCount() const
+{
+	long long trueTotal = 0;
+	ShadowVBO* listPtr;
+	for (listPtr = mListOldEnd.mNext; listPtr != &mListNewEnd; listPtr = listPtr->mNext)
+	{
+		trueTotal += listPtr->mBufferBytes;
+	}
+	Q3_ASSERT_FMT( trueTotal == mTotalBytes, "Actual shadow VBO byte count %lld != nominal %lld",
+		 trueTotal, mTotalBytes );
+}
+
+void	ShadowVolCache::ValidateShadowCount() const
+{
+	size_t listCount = 0;
+	ShadowVBO* listPtr;
+	for (listPtr = mListOldEnd.mNext; listPtr != &mListNewEnd; listPtr = listPtr->mNext)
+	{
+		++listCount;
+	}
+	
+	size_t mapCount = mGeomLightToShadows.size();
+	Q3_ASSERT_FMT( mapCount == listCount, "Shadow cache list has %d shadows, "
+		"map has %d shadows", (int)listCount, (int)mapCount );
+}
+#endif
 
 void	ShadowVolCache::DeleteVBO( ShadowVBO* inCachedVBO, const GLBufferFuncs& inFuncs )
 {
@@ -301,6 +360,13 @@ void	ShadowVolCache::DeleteVBO( ShadowVBO* inCachedVBO, const GLBufferFuncs& inF
 	if ( inCachedVBO->mNumTriIndices + inCachedVBO->mNumQuadIndices > 0)
 	{
 		(*inFuncs.glDeleteBuffersProc)( 2, inCachedVBO->mGLBufferNames );
+		ForgetVBO( inCachedVBO->mGLBufferNames[0] );
+		ForgetVBO( inCachedVBO->mGLBufferNames[1] );
+	}
+	for (TQ3Uns32 i = 0; i < inCachedVBO->mNumSecondaryTexCoords; ++i)
+	{
+		(*inFuncs.glDeleteBuffersProc)( 1, &inCachedVBO->mSecondaryTexCoord[i].mGLBufferName );
+		ForgetVBO( inCachedVBO->mSecondaryTexCoord[i].mGLBufferName );
 	}
 	
 	// Remove the record from the doubly-linked list.
@@ -315,18 +381,16 @@ void	ShadowVolCache::DeleteVBO( ShadowVBO* inCachedVBO, const GLBufferFuncs& inF
 
 void	ShadowVolCache::AddVBO( ShadowVBO* inVBO )
 {
+	VALIDATE_COUNT(this);
+	
 	// Add the new record to our map
 	GeomAndLight key( inVBO->mGeomObject.get(), inVBO->mLightObject.get() );
 	
-	GeomLightToShadows::iterator found = mGeomLightToShadows.find( key );
+	GeomLightToShadow::iterator found = mGeomLightToShadows.find( key );
 	
-	if (found == mGeomLightToShadows.end())
-	{
-		mGeomLightToShadows[ key ] = ShadowVec();
-		found = mGeomLightToShadows.find( key );
-	}
+	Q3_ASSERT_FMT( found == mGeomLightToShadows.end(), "Adding shadow VBO without deleting a stale one" );
 	
-	found->second.push_back( inVBO );
+	mGeomLightToShadows[ key ] = inVBO;
 
 	// Insert the new record at the new end of a doubly-linked list.
 	inVBO->mNext = &mListNewEnd;
@@ -335,6 +399,10 @@ void	ShadowVolCache::AddVBO( ShadowVBO* inVBO )
 	mListNewEnd.mPrev = inVBO;
 	
 	mTotalBytes += inVBO->mBufferBytes;
+	
+	VALIDATE_COUNT(this);
+	
+	//Q3_MESSAGE_FMT("Shadow cache %lld bytes", mTotalBytes );
 }
 
 
@@ -344,33 +412,25 @@ ShadowVBO*	ShadowVolCache::FindVBO( TQ3GeometryObject inGeom,
 									const GLBufferFuncs& inFuncs )
 {
 	ShadowVBO* cachedShadow = nullptr;
+	VALIDATE_COUNT(this);
 	
 	GeomAndLight key( inGeom, inLight );
 	
-	GeomLightToShadows::iterator found = mGeomLightToShadows.find( key );
+	GeomLightToShadow::iterator found = mGeomLightToShadows.find( key );
 	
 	if (found != mGeomLightToShadows.end())
 	{
-		ShadowVec& theShadows( found->second );
+		cachedShadow = found->second;
 		
-		// Linear search for a light position that is close enough.
-		ShadowVec::iterator endIt = theShadows.end();
-		for (ShadowVec::iterator i = theShadows.begin(); i != endIt; ++i)
+		if ( cachedShadow->IsStale() ||
+			(! IsSameLightPosition( cachedShadow->mLocalLightPosition, inLocalLightPos )) )
 		{
-			if (IsSameLightPosition( (*i)->mLocalLightPosition, inLocalLightPos ))
-			{
-				cachedShadow = *i;
-				
-				if (cachedShadow->IsStale())
-				{
-					DeleteVBO( cachedShadow, inFuncs );
-					theShadows.erase( i );
-					cachedShadow = nullptr;
-					break;
-				}
-			}
+			DeleteVBO( cachedShadow, inFuncs );
+			mGeomLightToShadows.erase( found );
+			cachedShadow = nullptr;
 		}
 	}
+	VALIDATE_COUNT(this);
 	
 	return cachedShadow;
 }
@@ -381,6 +441,20 @@ void	ShadowVolCache::RenderVBO( ShadowVBO* inCachedVBO, const GLBufferFuncs& inF
 	{
 		(*inFuncs.glBindBufferProc)( GL_ARRAY_BUFFER, inCachedVBO->mGLBufferNames[0] );
 		glVertexPointer( 4, GL_FLOAT, 0, BufferObPtr( 0 ) );
+
+		TQ3Uns32 i;
+		if (inCachedVBO->mNumSecondaryTexCoords > 0)
+		{
+			for (i = 0; i < inCachedVBO->mNumSecondaryTexCoords; ++i)
+			{
+				(*inFuncs.glBindBufferProc)( GL_ARRAY_BUFFER, inCachedVBO->mSecondaryTexCoord[i].mGLBufferName );
+				(*inFuncs.glClientActiveTextureProc)( inCachedVBO->mSecondaryTexCoord[i].mTextureUnit );
+				glEnableClientState( GL_TEXTURE_COORD_ARRAY );
+				glTexCoordPointer( inCachedVBO->mSecondaryTexCoord[i].mCoordsPerVertex, GL_FLOAT, 0,
+					BufferObPtr( 0 ) );
+			}
+			(*inFuncs.glClientActiveTextureProc)( GL_TEXTURE0_ARB );
+		}
 
 		(*inFuncs.glBindBufferProc)( GL_ELEMENT_ARRAY_BUFFER,
 			inCachedVBO->mGLBufferNames[1] );
@@ -400,6 +474,17 @@ void	ShadowVolCache::RenderVBO( ShadowVBO* inCachedVBO, const GLBufferFuncs& inF
 
 		(*inFuncs.glBindBufferProc)( GL_ARRAY_BUFFER, 0 );
 		(*inFuncs.glBindBufferProc)( GL_ELEMENT_ARRAY_BUFFER, 0 );
+
+		if (inCachedVBO->mNumSecondaryTexCoords > 0)
+		{
+			for (i = 0; i < inCachedVBO->mNumSecondaryTexCoords; ++i)
+			{
+				(*inFuncs.glClientActiveTextureProc)( inCachedVBO->mSecondaryTexCoord[i].mTextureUnit );
+				glDisableClientState( GL_TEXTURE_COORD_ARRAY );
+				(*inFuncs.glMultiTexCoord1fProc)( inCachedVBO->mSecondaryTexCoord[i].mTextureUnit, 0.0f );
+			}
+			(*inFuncs.glClientActiveTextureProc)( GL_TEXTURE0_ARB );
+		}
 	}
 	
 	// Remove the record from the doubly-linked list.
@@ -411,51 +496,33 @@ void	ShadowVolCache::RenderVBO( ShadowVBO* inCachedVBO, const GLBufferFuncs& inF
 	inCachedVBO->mPrev = mListNewEnd.mPrev;
 	inCachedVBO->mPrev->mNext = inCachedVBO;
 	mListNewEnd.mPrev = inCachedVBO;
+	VALIDATE_COUNT(this);
 }
 
 void	ShadowVolCache::FlushStaleShadows( const GLBufferFuncs& inFuncs )
 {
-	GeomLightVec toFlush;
-	ShadowVec staleShadows;
+	VALIDATE_COUNT(this);
+	GeomLightToShadow::iterator endMap = mGeomLightToShadows.end();
+	GeomLightToShadow::iterator i = mGeomLightToShadows.begin();
 	
-	GeomLightToShadows::iterator endMap = mGeomLightToShadows.end();
-	for (GeomLightToShadows::iterator i = mGeomLightToShadows.begin();
-		i != endMap; ++i)
+	while (i != endMap)
 	{
-		ShadowVec& theShadows( i->second );
-		// Find the first stale shadow
-		ShadowVec::iterator endVec = theShadows.end();
-		ShadowVec::iterator first;
-		for (first = theShadows.begin(); first != endVec; ++first)
+		// Get next iterator now, in case we invalidate the current one.
+		GeomLightToShadow::iterator next = i;
+		++next;
+		
+		ShadowVBO* theShadow = i->second;
+		
+		if (theShadow->IsStale())
 		{
-			if ((*first)->IsStale())
-			{
-				break;
-			}
+			DeleteVBO( theShadow, inFuncs );
+			mGeomLightToShadows.erase( i );
 		}
-		if (first != endVec)
-		{
-			// As we go, delete stale ones and move the good ones to the left.
-			// The algorithm is similar to std::remove_if.
-			DeleteVBO( *first, inFuncs );
-			
-			ShadowVec::iterator j;
-			
-			for (j = first, ++j; j != endVec; ++j)
-			{
-				if ((*j)->IsStale())
-				{
-					DeleteVBO( *j, inFuncs );
-				}
-				else
-				{
-					*first = *j;
-					++first;
-				}
-			}
-			theShadows.erase( first, endVec );
-		}
+		
+		i = next;
 	}
+
+	VALIDATE_COUNT(this);
 }
 
 
@@ -472,32 +539,20 @@ void	ShadowVolCache::MakeRoom( TQ3Uns32 inBytesNeeded, const GLBufferFuncs& inFu
 
 void	ShadowVolCache::PurgeDownToSize( long long inTargetSize, const GLBufferFuncs& inFuncs )
 {
+	VALIDATE_COUNT(this);
 	while ( (mTotalBytes > inTargetSize) && (mListOldEnd.mNext != &mListNewEnd) )
 	{
 		// Find the least recently used VBO from the doubly-linked list
 		ShadowVBO* oldestVBO = mListOldEnd.mNext;
 		
 		// Remove it from the map index
-		GeomLightToShadows::iterator found = mGeomLightToShadows.find( oldestVBO->mMapKey );
-		if (found != mGeomLightToShadows.end())
-		{
-			ShadowVec& theShadows( found->second );
-			ShadowVec::iterator foundShadow = std::find( theShadows.begin(),
-				theShadows.end(), oldestVBO );
-			if (foundShadow != theShadows.end())
-			{
-				theShadows.erase( foundShadow );
-				if (theShadows.empty())
-				{
-					mGeomLightToShadows.erase( found );
-				}
-			}
-		}
+		mGeomLightToShadows.erase( oldestVBO->mMapKey );
 		
 		// Remove it from the doubly linked list, remove the VBOs, update
 		// mTotalBytes, and delete the ShadowVBO record.
 		DeleteVBO( oldestVBO, inFuncs );
 	}
+	VALIDATE_COUNT(this);
 }
 
 void	ShadowVolCache::SetMaxBufferSize( long long inBufferSize, const GLBufferFuncs& inFuncs )
@@ -569,6 +624,102 @@ TQ3Boolean		ShadowVolMgr::RenderShadowVolume(
 }
 
 /*!
+	@function		AddSecondaryTextureCoordsToVBO
+	@abstract		Add an array of secondary texture coordinates to an
+					already-cached VBO, as an optional follow-up to
+					AddVBOToCache.
+	@param			inCache				A VBO cache.
+	@param			ioVBO				A new VBO object not yet added to the cache.
+	@param			inTextureUnit		A texture unit to which we should supply
+										the array, e.g., GL_TEXTURE1_ARB.
+	@param			inNumPoints			Number of points (vertices).
+	@param			inNumCoordsPerPoint	Number of floating-point values for each
+										vertex.  Must be 1, 2, 3, or 4.
+	@param			inInfiniteLight		Whether the light is infinite (directional).
+	@param			inData				Array of data.  The number of floating-point
+										values should be inNumPoints * inNumCoordsPerPoint.
+*/
+static void			AddSecondaryTextureCoordsToVBO(
+									const GLBufferFuncs& inFuncs,
+									ShadowVolCache* inCache,
+									ShadowVBO* ioVBO,
+									GLenum inTextureUnit,
+									TQ3Uns32 inNumPoints,
+									TQ3Uns32 inNumCoordsPerPoint,
+									bool inInfiniteLight,
+									const float* inData )
+{
+	if ( (ioVBO != nullptr) && (ioVBO->mNumSecondaryTexCoords < kMaxSecondaryTexCoords) )
+	{
+		TQ3Uns32	coordIndex = ioVBO->mNumSecondaryTexCoords;
+		ioVBO->mNumSecondaryTexCoords += 1;
+		SecondaryTexCoord& theCoord( ioVBO->mSecondaryTexCoord[ coordIndex ] );
+		(*inFuncs.glGenBuffersProc)( 1, &theCoord.mGLBufferName );
+		theCoord.mCoordsPerVertex = (GLint) inNumCoordsPerPoint;
+		theCoord.mTextureUnit = inTextureUnit;
+		
+		TQ3Uns32 finitePointDataSize = inNumPoints * inNumCoordsPerPoint * sizeof(float);
+		TQ3Uns32 infinitePointDataSize;
+		if (inInfiniteLight)
+		{
+			infinitePointDataSize = inNumCoordsPerPoint * sizeof(float);
+		}
+		else // finite light, each finite point has a matching infinite point
+		{
+			infinitePointDataSize = finitePointDataSize;
+		}
+		TQ3Uns32 dataSize = finitePointDataSize + infinitePointDataSize;
+		ioVBO->mBufferBytes += dataSize;
+		inCache->MakeRoom( dataSize, inFuncs );
+		
+		std::vector<float> zeroBuf( infinitePointDataSize / sizeof(float) );
+		
+		(*inFuncs.glBindBufferProc)( GL_ARRAY_BUFFER, theCoord.mGLBufferName );
+		(*inFuncs.glBufferDataProc)( GL_ARRAY_BUFFER, dataSize,
+			nullptr, GL_STATIC_DRAW );
+		(*inFuncs.glBufferSubDataProc)( GL_ARRAY_BUFFER, 0, finitePointDataSize,
+			inData );
+		(*inFuncs.glBufferSubDataProc)( GL_ARRAY_BUFFER, finitePointDataSize,
+			infinitePointDataSize, &zeroBuf[0] );
+		RecordVBO( theCoord.mGLBufferName, ioVBO->mGeomObject.get(), dataSize, 3 );
+		
+		(*inFuncs.glBindBufferProc)( GL_ARRAY_BUFFER, 0 );
+	}
+}
+
+/*!
+	@function		HandleSecondaryTextureCoords
+	@abstract		Check for secondary texture coordinates attached to the geometry.
+	@param			inGeom				A geometry object.
+	@param			inCache				A VBO cache.
+	@param			ioVBO				A new VBO object not yet added to the cache.
+	@param			inInfiniteLight		Whether the light is infinite (directional).
+*/
+static void HandleSecondaryTextureCoords(
+									TQ3GeometryObject inGeom,
+									const GLBufferFuncs& inFuncs,
+									ShadowVolCache* inCache,
+									ShadowVBO* ioVBO,
+									bool inInfiniteLight )
+{
+	TQ3Uns32 bufSize;
+	if ( (kQ3Success == Q3Object_GetProperty( inGeom,
+		kQ3GeometryPropertyCustomTextureCoordinates, 0, &bufSize, nullptr )) &&
+		((bufSize % 4) == 0) &&
+		bufSize >= sizeof(TQ3CustomTextureCoordinates) )
+	{
+		std::vector<TQ3Uns8>	buffer( bufSize );
+		Q3Object_GetProperty( inGeom, kQ3GeometryPropertyCustomTextureCoordinates,
+			bufSize, nullptr, &buffer[0] );
+		TQ3CustomTextureCoordinates* tcRec(
+			reinterpret_cast<TQ3CustomTextureCoordinates*>( &buffer[0] ) );
+		GLenum textureUnit = GL_TEXTURE0_ARB + tcRec->textureUnit;
+		AddSecondaryTextureCoordsToVBO( inFuncs, inCache, ioVBO, textureUnit,
+			tcRec->numPoints, tcRec->coordsPerPoint, inInfiniteLight, tcRec->coords );
+	}
+}
+
+/*!
 	@function	AddShadowVolume
 	@abstract	Add a shadow volume mesh to the cache.  Do not call this unless
 				RenderCachedShadowVolume has just returned false.
@@ -599,6 +750,7 @@ void	ShadowVolMgr::AddShadowVolume(
 	
 	if (theCache != nullptr)
 	{
+		VALIDATE_COUNT(theCache);
 		ShadowVBO* newVBO = new ShadowVBO( inGeom, inLight, inLocalLightPos );
 		
 		newVBO->mNumTriIndices = inNumTriIndices;
@@ -619,7 +771,14 @@ void	ShadowVolMgr::AddShadowVolume(
 			(*inFuncs.glBufferDataProc)( GL_ARRAY_BUFFER,
 				inNumPoints * sizeof(TQ3RationalPoint4D),
 				inPoints, GL_STATIC_DRAW );
+			GLenum error = glGetError();
+			if (error == GL_OUT_OF_MEMORY)
+			{
+				DumpVBOs();
+				Q3_ASSERT_FMT( false, "Failed to allocate shadow VBO");
+			}
 			(*inFuncs.glBindBufferProc)( GL_ARRAY_BUFFER, 0 );
+			RecordVBO( newVBO->mGLBufferNames[0], inGeom, inNumPoints * sizeof(TQ3RationalPoint4D), 2 );
 			
 			// Index data into elements buffer.
 			(*inFuncs.glBindBufferProc)( GL_ELEMENT_ARRAY_BUFFER,
@@ -628,9 +787,14 @@ void	ShadowVolMgr::AddShadowVolume(
 				(inNumTriIndices + inNumQuadIndices) * sizeof(GLuint),
 				inVertIndices, GL_STATIC_DRAW );
 			(*inFuncs.glBindBufferProc)( GL_ELEMENT_ARRAY_BUFFER, 0 );
+			RecordVBO( newVBO->mGLBufferNames[1], inGeom, (inNumTriIndices + inNumQuadIndices) * sizeof(GLuint), 2 );
+			
+			HandleSecondaryTextureCoords( inGeom, inFuncs, theCache, newVBO,
+				inLocalLightPos.w == 0.0f );
 		}
 		
 		theCache->AddVBO( newVBO );
+		VALIDATE_COUNT(theCache);
 	}
 }
 
