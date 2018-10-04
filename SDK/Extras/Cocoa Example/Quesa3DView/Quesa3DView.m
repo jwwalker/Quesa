@@ -5,7 +5,7 @@
         NSView subclass to display a quesa draw context.
 
     COPYRIGHT:
-        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -96,18 +96,21 @@
 
 - (id)initWithFrame:(NSRect)frameRect
 {
-	[super initWithFrame:frameRect];
-    qd3dView = NULL;
-    drawContext = NULL;
-	
-	// Listen for frame changes to myself, so that the aspect ratio can be
-	// kept up to date.
-	[self setPostsFrameChangedNotifications: YES];
-	[[NSNotificationCenter defaultCenter]
-		addObserver: self
-		selector: @selector(frameChanged:)
-		name: NSViewFrameDidChangeNotification
-		object: self ];
+	self = [super initWithFrame:frameRect];
+	if (self != nil)
+	{
+		qd3dView = NULL;
+		drawContext = NULL;
+		
+		// Listen for frame changes to myself, so that the aspect ratio can be
+		// kept up to date.
+		[self setPostsFrameChangedNotifications: YES];
+		[[NSNotificationCenter defaultCenter]
+			addObserver: self
+			selector: @selector(frameChanged:)
+			name: NSViewFrameDidChangeNotification
+			object: self ];
+	}
 
     return self;
 }
