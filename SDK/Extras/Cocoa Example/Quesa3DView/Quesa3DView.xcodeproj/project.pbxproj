@@ -251,6 +251,8 @@
 /* Begin PBXProject section */
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+			};
 			buildConfigurationList = B1FFA3480906B1A30010DA99 /* Build configuration list for PBXProject "Quesa3DView" */;
 			compatibilityVersion = "Xcode 3.0";
 			developmentRegion = English;
@@ -318,7 +320,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "cd \"$CONFIGURATION_BUILD_DIR\"\n\n# Make a symbolic link in the configuration build directory, pointing to the right version of Quesa.\necho \"ln -h -f -s \" \"../../../../../Libraries/Mac/Framework_Modern/$CONFIGURATION/Quesa.framework\" Quesa.framework\nln -h -f -s \"../../../../../Libraries/Mac/Framework_Modern/$CONFIGURATION/Quesa.framework/\" Quesa.framework\n";
+			shellScript = "cd \"$CONFIGURATION_BUILD_DIR\"\n\n# Make a symbolic link in the configuration build directory, pointing to the right version of Quesa.\necho \"ln -h -f -s \" \"$PROJECT_DIR/../../../Libraries/Mac/Framework_Modern/$CONFIGURATION/Quesa.framework\" Quesa.framework\nln -h -f -s \"$PROJECT_DIR/../../../Libraries/Mac/Framework_Modern/$CONFIGURATION/Quesa.framework/\" Quesa.framework\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -382,16 +384,13 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BE13530F0C3C190300B20B60 /* project.xcconfig */;
 			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
 			};
 			name = Release;
 		};
 		BE1352A40C3C14F400B20B60 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ONLY_ACTIVE_ARCH = YES;
 				WARNING_CFLAGS = (
 					"-Wmost",
 					"-Wno-four-char-constants",
@@ -403,6 +402,7 @@
 		BE1352A50C3C14F400B20B60 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ONLY_ACTIVE_ARCH = YES;
 			};
 			name = Release;
 		};

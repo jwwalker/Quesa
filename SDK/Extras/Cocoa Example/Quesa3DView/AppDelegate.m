@@ -98,7 +98,7 @@ static TQ3ShaderObject createTextureFromFile(NSString * fileName)
 
 	NSLog(@"createTextureFromFile:fileName:[%@]", fileName);
 
-	theImage = [NSBitmapImageRep imageRepWithContentsOfFile: fileName];
+	theImage = (NSBitmapImageRep*) [NSBitmapImageRep imageRepWithContentsOfFile: fileName];
 
 	if (theImage)
 	{
