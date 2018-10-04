@@ -1,17 +1,18 @@
 // Architectures
-ARCHS = i386 x86_64
+ARCHS = x86_64
 ONLY_ACTIVE_ARCH = NO
 SDKROOT = macosx
 
 // Deployment
-MACOSX_DEPLOYMENT_TARGET = 10.6
+MACOSX_DEPLOYMENT_TARGET = 10.7
 
 // Compiler version
 GCC_VERSION =
 
 // Search Paths
 FSP_QUESA = "$(SRCROOT)/../../../Libraries/Mac/Framework_Modern/Debug"
-FRAMEWORK_SEARCH_PATHS = $(FSP_QUESA) $(SDKROOT)/Library/Frameworks
+FRAMEWORK_SEARCH_PATHS = $(FSP_QUESA)
+ALWAYS_SEARCH_USER_PATHS = NO
 
 // Build Options
 DEBUG_INFORMATION_FORMAT = dwarf
