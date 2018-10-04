@@ -313,8 +313,6 @@
 		BE806FD10BCDCCEA008CD86A /* QOGLShadingLanguage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE806FCC0BCDCCEA008CD86A /* QOGLShadingLanguage.cpp */; };
 		BE8528D118D9043400D37D00 /* QOShaderProgramCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8528CF18D9043400D37D00 /* QOShaderProgramCache.cpp */; };
 		BE8528D218D9043400D37D00 /* QOShaderProgramCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8528CF18D9043400D37D00 /* QOShaderProgramCache.cpp */; };
-		BE8528D318D9043400D37D00 /* QOShaderProgramCache.h in Headers */ = {isa = PBXBuildFile; fileRef = BE8528D018D9043400D37D00 /* QOShaderProgramCache.h */; };
-		BE8779570F9F7937007F104E /* Quesa.r in Rez */ = {isa = PBXBuildFile; fileRef = BE8779560F9F7937007F104E /* Quesa.r */; };
 		BE8D58CA0B7D3EA2007ACFE4 /* OptimizedTriMeshElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D58C80B7D3EA2007ACFE4 /* OptimizedTriMeshElement.cpp */; };
 		BE8D58CE0B7D3EA2007ACFE4 /* OptimizedTriMeshElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D58C80B7D3EA2007ACFE4 /* OptimizedTriMeshElement.cpp */; };
 		BE98E73B09F764A60040CE1B /* E3CocoaStackCrawl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE98E73A09F764A60040CE1B /* E3CocoaStackCrawl.cpp */; };
@@ -562,6 +560,7 @@
 		BE0D64FA0C0D0FFC00D3D79C /* QOCalcTriMeshEdges.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = QOCalcTriMeshEdges.cpp; sourceTree = "<group>"; };
 		BE0D64FB0C0D0FFC00D3D79C /* QOCalcTriMeshEdges.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QOCalcTriMeshEdges.h; sourceTree = "<group>"; };
 		BE0D64FC0C0D0FFC00D3D79C /* QOShadowMarker.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = QOShadowMarker.cpp; sourceTree = "<group>"; };
+		BE11DD721D5A9DA20013C5ED /* CQ3WeakObjectRef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CQ3WeakObjectRef.h; sourceTree = "<group>"; };
 		BE2AF1F015B78A2A00400670 /* Legacy.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Legacy.xcconfig; sourceTree = "<group>"; };
 		BE2AF1F115B78BE700400670 /* Modern.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Modern.xcconfig; sourceTree = "<group>"; };
 		BE2AF20115B791B300400670 /* Legacy-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Legacy-Debug.xcconfig"; sourceTree = "<group>"; };
@@ -626,7 +625,6 @@
 		BE806FCC0BCDCCEA008CD86A /* QOGLShadingLanguage.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = QOGLShadingLanguage.cpp; sourceTree = "<group>"; };
 		BE8528CF18D9043400D37D00 /* QOShaderProgramCache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QOShaderProgramCache.cpp; sourceTree = "<group>"; };
 		BE8528D018D9043400D37D00 /* QOShaderProgramCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QOShaderProgramCache.h; sourceTree = "<group>"; };
-		BE8779560F9F7937007F104E /* Quesa.r */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.rez; name = Quesa.r; path = Resources/Quesa.r; sourceTree = "<group>"; };
 		BE8D58C80B7D3EA2007ACFE4 /* OptimizedTriMeshElement.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = OptimizedTriMeshElement.cpp; sourceTree = "<group>"; };
 		BE8D58C90B7D3EA2007ACFE4 /* OptimizedTriMeshElement.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = OptimizedTriMeshElement.h; sourceTree = "<group>"; };
 		BE98E73A09F764A60040CE1B /* E3CocoaStackCrawl.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = E3CocoaStackCrawl.cpp; path = ../../Source/Platform/Cocoa/E3CocoaStackCrawl.cpp; sourceTree = SOURCE_ROOT; };
@@ -1065,6 +1063,7 @@
 			children = (
 				BE392D070B6D0CCA00A351AC /* CQ3ObjectRef_Gets.h */,
 				BEDC045708A57B8100FB3A82 /* CQ3ObjectRef.h */,
+				BE11DD721D5A9DA20013C5ED /* CQ3WeakObjectRef.h */,
 				BE7F276D0B7C0D9000933ED1 /* Q3GroupIterator.h */,
 				AB83B5D8055E72B90034F56A /* Quesa.h */,
 				AB83B5D9055E72B90034F56A /* QuesaCamera.h */,
@@ -1107,7 +1106,6 @@
 		AB83B959055E77870034F56A /* Mac */ = {
 			isa = PBXGroup;
 			children = (
-				BE8779560F9F7937007F104E /* Quesa.r */,
 				AB83B95B055E77870034F56A /* E3MacDebug.cpp */,
 				AB83B95C055E77870034F56A /* E3MacDrawContext.cpp */,
 				AB83B95D055E77870034F56A /* E3MacErrors.cpp */,
@@ -1253,7 +1251,6 @@
 				BE392D090B6D0CCA00A351AC /* CQ3ObjectRef_Gets.h in Headers */,
 				BE7F276E0B7C0D9000933ED1 /* Q3GroupIterator.h in Headers */,
 				BE097F3B156DCE85009AACEF /* QuesaMathOperators.hpp in Headers */,
-				BE8528D318D9043400D37D00 /* QOShaderProgramCache.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1330,7 +1327,6 @@
 			isa = PBXRezBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BE8779570F9F7937007F104E /* Quesa.r in Rez */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1702,7 +1698,6 @@
 					"Q3_VALIDATE_DRAW_ELEMENTS=1",
 				);
 				GCC_WARN_PROTOTYPE_CONVERSION = YES;
-				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = org.Quesa.Quesa;
 			};
 			name = Debug;
@@ -1712,7 +1707,6 @@
 			baseConfigurationReference = BE499C9A0F145E950060DF4E /* Quesa-framework.xcconfig */;
 			buildSettings = {
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = org.Quesa.Quesa;
 			};
 			name = Release;
