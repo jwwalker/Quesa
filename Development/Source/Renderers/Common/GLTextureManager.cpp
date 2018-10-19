@@ -13,7 +13,7 @@
     	performance optimization.
 
     COPYRIGHT:
-        Copyright (c) 1999-2016, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -329,8 +329,10 @@ TQ3TextureCachePtr	GLTextureMgr_GetTextureCache( TQ3GLContext glContext )
 			theCache = newCache;
 		}
 	}
-	
+
+#if Q3_DEBUG
 	Q3_ASSERT( IsValidTextureCache( theCache ) );
+#endif
 	
 	return theCache;
 }

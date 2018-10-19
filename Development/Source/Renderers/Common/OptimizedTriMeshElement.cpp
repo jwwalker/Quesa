@@ -5,7 +5,7 @@
         Source for a custom element to hold an optimized version of a TriMesh.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -314,7 +314,9 @@ void			SetCachedOptimizedTriMesh( TQ3GeometryObject ioTriMesh,
 	TQ3Status	theStatus =
 #endif
 	Q3Object_AddElement( ioTriMesh, sCacheOptimizedTriMeshElementType, &theData );
+#if Q3_DEBUG
 	Q3_ASSERT( theStatus == kQ3Success );
+#endif
 	
 	// Adding an element bumps the edit index, set it back.
 	Q3Shared_SetEditIndex( ioTriMesh, editIndex );
