@@ -5,7 +5,7 @@
         Header file for E3Main.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2016, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -277,7 +277,6 @@ public :
 	// Locate a class
 	inline E3ClassInfoPtr		GetClass ( void ) const
 											{
-												Q3_ASSERT( this != nullptr );
 												return theClass;
 											}
 								

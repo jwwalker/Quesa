@@ -5,7 +5,7 @@
         Quesa memory manager.
 
     COPYRIGHT:
-        Copyright (c) 1999-2015, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -522,7 +522,6 @@ E3Memory_Reallocate(void **thePtr, TQ3Uns32 newSize)
 		{
 		// Check it looks OK
 		Q3_ASSERT_VALID_PTR(realPtr);
-		Q3_ASSERT( E3Memory_IsValidBlock( realPtr ) );
 		}
 
 

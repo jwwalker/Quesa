@@ -5,7 +5,7 @@
         Quesa 3DMF Binary Writer.
 
     COPYRIGHT:
-        Copyright (c) 1999-2015, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -562,7 +562,9 @@ e3ffw_3DMF_write_objects(TE3FFormatW3DMF_Data *instanceData, TQ3FileObject theFi
 				//instanceData->baseData.currentStoragePosition = Q3Size_Pad(instanceData->baseData.currentStoragePosition);
 				// Due to the TriMesh compression scheme, things can end up on unpadded
 				// boundaries.
+	#if Q3_DEBUG
 				Q3_ASSERT(pos+instanceData->stack[i].size == instanceData->baseData.currentStoragePosition);
+	#endif
 				}
 			//call deletedata if any
 			if (instanceData->stack[i].theObject != nullptr && Q3Object_IsType(instanceData->stack[i].theObject, kQ3ObjectTypeShared))
