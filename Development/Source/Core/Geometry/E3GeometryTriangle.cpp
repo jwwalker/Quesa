@@ -5,7 +5,7 @@
         Implementation of Quesa Triangle geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2016, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -139,11 +139,12 @@ e3geom_triangle_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 	// Copy the data from fromObject to toObject
 	qd3dStatus = Q3Triangle_GetData(fromObject, toInstanceData);
 	
+	TQ3AttributeSet atts = toInstanceData->triangleAttributeSet;
 	if ( (qd3dStatus == kQ3Success) &&
-		(toInstanceData->triangleAttributeSet != nullptr) )
+		(atts != nullptr) )
 	{
-		dupSet = Q3Object_Duplicate( toInstanceData->triangleAttributeSet );
-		Q3Object_Dispose( toInstanceData->triangleAttributeSet );
+		dupSet = Q3Object_Duplicate( atts );
+		Q3Object_Dispose( atts );
 		toInstanceData->triangleAttributeSet = dupSet;
 		if (dupSet == nullptr)
 		{

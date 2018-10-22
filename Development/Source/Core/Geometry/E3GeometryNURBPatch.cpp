@@ -5,7 +5,7 @@
         Implementation of Quesa NURB Patch geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -117,12 +117,13 @@ e3geom_patch_copydata(const TQ3NURBPatchData *src, TQ3NURBPatchData *dst, TQ3Boo
 	// Copy all trim loops.
 	// This is complicated because we have several layers of nested arrays.
 	dst->numTrimLoops = src->numTrimLoops;
-	if (src->numTrimLoops)
+	TQ3NURBPatchTrimLoopData* srcLoops = src->trimLoops;
+	if ( (src->numTrimLoops > 0) && (srcLoops != nullptr) )
 	{
 		// Copy TrimLoops, basic data.
 		theSize = static_cast<TQ3Uns32>(sizeof(TQ3NURBPatchTrimLoopData) * src->numTrimLoops);
-		dst->trimLoops = (TQ3NURBPatchTrimLoopData *) Q3Memory_Allocate( theSize );
-		Q3Memory_Copy( src->trimLoops, dst->trimLoops, theSize );
+		TQ3NURBPatchTrimLoopData * dstLoops = dst->trimLoops = (TQ3NURBPatchTrimLoopData *) Q3Memory_Allocate( theSize );
+		Q3Memory_Copy( srcLoops, dstLoops, theSize );
 
 		// Now iterate over trim loop curves, copy them.
 		for (i=0; i < src->numTrimLoops; i++) {
@@ -162,7 +163,8 @@ e3geom_patch_copydata(const TQ3NURBPatchData *src, TQ3NURBPatchData *dst, TQ3Boo
 	{
 		if (src->patchAttributeSet != nullptr)
 		{
-			dst->patchAttributeSet = Q3Object_Duplicate(src->patchAttributeSet);
+			TQ3AttributeSet srcAtts = src->patchAttributeSet;
+			dst->patchAttributeSet = Q3Object_Duplicate(srcAtts);
 			if (dst->patchAttributeSet == nullptr) qd3dStatus = kQ3Failure;
 		} else dst->patchAttributeSet = nullptr;
 
@@ -1240,7 +1242,7 @@ e3geom_nurbpatch_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 				break;
 		}
 	}
-	
+	Q3_ASSERT( normals != nullptr );
 	
 	
 	// set up the attributes

@@ -5,7 +5,7 @@
         Quesa tessellator functions.
 
     COPYRIGHT:
-        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -278,9 +278,13 @@ e3tessellate_attribute_get(const TQ3Vertex3D *theVertex, E3CombinedAttribute *th
 
 	// Grab the attribute data
 	typeMask   = 1 << (theType - 1);
-	qd3dStatus = Q3AttributeSet_Get(theVertex->attributeSet, theType, theData);
-	if (qd3dStatus == kQ3Success)
-		theState->attributeMask |= typeMask;
+	TQ3AttributeSet vertAtts = theVertex->attributeSet;
+	if (vertAtts != nullptr)
+	{
+		qd3dStatus = Q3AttributeSet_Get(vertAtts, theType, theData);
+		if (qd3dStatus == kQ3Success)
+			theState->attributeMask |= typeMask;
+	}
 }
 
 
@@ -345,8 +349,9 @@ e3tessellate_attribute_set(const TQ3Vertex3D *theVertex, const E3CombinedAttribu
 
 	// Add the attribute data if it's present
 	typeMask = 1 << (theType - 1);
-	if (theState->attributeMask & typeMask)
-		Q3AttributeSet_Add(theVertex->attributeSet, theType, theData);
+	TQ3AttributeSet atts = theVertex->attributeSet;
+	if ( ((theState->attributeMask & typeMask) != 0) && (atts != nullptr) )
+		Q3AttributeSet_Add(atts, theType, theData);
 }
 
 
@@ -845,8 +850,9 @@ e3tessellate_dispose_state(E3TessellateState *theState)
 	// Dispose of the tessellator state
 	for (n = 0; n < theState->numTempVertices; n++)
 		{
-		if (theState->tempVertexList[n]->attributeSet != nullptr)
-			Q3Object_Dispose(theState->tempVertexList[n]->attributeSet);
+		TQ3AttributeSet atts = theState->tempVertexList[n]->attributeSet;
+		if (atts != nullptr)
+			Q3Object_Dispose( atts );
 		
 		Q3Memory_Free(&theState->tempVertexList[n]);
 		}

@@ -5,7 +5,7 @@
         Implementation of Quesa Cone geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -83,6 +83,7 @@ static TQ3Status
 e3geom_cone_copydata(const TQ3ConeData *src, TQ3ConeData *dst, TQ3Boolean isDuplicate)
 {
 	TQ3Status		qd3dStatus = kQ3Success;
+	TQ3AttributeSet atts;
 
 	// copy raw data
 	const TQ3Uns32 theSize = sizeof(TQ3Point3D)	// origin
@@ -94,27 +95,31 @@ e3geom_cone_copydata(const TQ3ConeData *src, TQ3ConeData *dst, TQ3Boolean isDupl
 	// copy or shared-replace the attributes
 	if (isDuplicate)
 	{
-		if (src->interiorAttributeSet != nullptr)
+		atts = src->interiorAttributeSet;
+		if (atts != nullptr)
 		{
-			dst->interiorAttributeSet = Q3Object_Duplicate(src->interiorAttributeSet);
+			dst->interiorAttributeSet = Q3Object_Duplicate( atts );
 			if (dst->interiorAttributeSet == nullptr) qd3dStatus = kQ3Failure;
 		} else dst->interiorAttributeSet = nullptr;
 
-		if (src->faceAttributeSet != nullptr)
+		atts = src->faceAttributeSet;
+		if (atts != nullptr)
 		{
-			dst->faceAttributeSet = Q3Object_Duplicate(src->faceAttributeSet);
+			dst->faceAttributeSet = Q3Object_Duplicate(atts);
 			if (dst->faceAttributeSet == nullptr) qd3dStatus = kQ3Failure;
 		} else dst->faceAttributeSet = nullptr;
 
+		atts = src->bottomAttributeSet;
 		if (src->bottomAttributeSet != nullptr)
 		{
-			dst->bottomAttributeSet = Q3Object_Duplicate(src->bottomAttributeSet);
+			dst->bottomAttributeSet = Q3Object_Duplicate( atts );
 			if (dst->bottomAttributeSet == nullptr) qd3dStatus = kQ3Failure;
 		} else dst->bottomAttributeSet = nullptr;
 
-		if (src->coneAttributeSet != nullptr)
+		atts = src->coneAttributeSet;
+		if (atts != nullptr)
 		{
-			dst->coneAttributeSet = Q3Object_Duplicate(src->coneAttributeSet);
+			dst->coneAttributeSet = Q3Object_Duplicate(atts);
 			if (dst->coneAttributeSet == nullptr) qd3dStatus = kQ3Failure;
 		} else dst->coneAttributeSet = nullptr;
 	}
@@ -745,8 +750,9 @@ e3geom_cone_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ
 
 
 	// Add the cone attributes	
-	if (geomData->coneAttributeSet != nullptr)
-		Q3Group_AddObject( theGroup, geomData->coneAttributeSet );
+	TQ3AttributeSet atts = geomData->coneAttributeSet;
+	if (atts != nullptr)
+		Q3Group_AddObject( theGroup, atts );
 
 
 

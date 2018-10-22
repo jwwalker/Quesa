@@ -1,5 +1,9 @@
 /*! @header QuesaDrawContext.h
         Declares the Quesa draw context objects.
+        
+	@ignore	_Nullable
+	@ignore _Nonnull
+	@ignore	_Null_unspecified
  */
 /*  NAME:
         QuesaDrawContext.h
@@ -8,7 +12,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -341,7 +345,7 @@ typedef struct TQ3PixmapDrawContextData {
 */
 typedef struct TQ3AcceleratedOffscreenPropertyData
 {
-	TQ3Object		masterDrawContext;
+	TQ3Object _Nonnull		masterDrawContext;
 	TQ3Boolean		copyFromPixmapAtFrameStart;
 	TQ3Boolean		copyToPixmapAtFrameEnd;
 } TQ3AcceleratedOffscreenPropertyData;
@@ -366,7 +370,7 @@ typedef struct TQ3AcceleratedOffscreenPropertyData
 							context being destroyed.
 */
 typedef Q3_CALLBACK_API_C( void, TQ3GLContextDestructionCallback )(
-	TQ3DrawContextObject inQuesaDC );
+	TQ3DrawContextObject _Nonnull inQuesaDC );
 
 
 
@@ -394,23 +398,23 @@ typedef Q3_CALLBACK_API_C( void, TQ3GLContextDestructionCallback )(
  *      achieved by rendering to a suitably constructed Pixmap draw context.
  *
  *      If a window is supplied, its port will be obtained internally by Quesa
- *      and the grafPort field should be nullptr. When rendering to a port which
+ *      and the grafPort field should be NULL. When rendering to a port which
  *      does not correspond to a valid WindowRef (e.g., a QD port constructed
- *      from a CoreGraphics context), the window field should be nullptr and the
+ *      from a CoreGraphics context), the window field should be NULL and the
  *      port to render to supplied in the grafPort field.
  *
  *  @field drawContextData  The common state for the draw context.
  *  @field window           The window to render to.
  *  @field library          The library to use for rendering. Should be kQ3Mac2DLibraryNone.
- *  @field viewPort         The QuickDraw GX port to render to. Should be nullptr.
+ *  @field viewPort         The QuickDraw GX port to render to. Should be NULL.
  *  @field grafPort         The QuickDraw port to render to.
  */
 typedef struct TQ3MacDrawContextData {
     TQ3DrawContextData                          drawContextData;
-    WindowRef                                   window;
+    WindowRef _Nullable                                   window;
     TQ3MacDrawContext2DLibrary                  library;
-    gxViewPort                                  viewPort;
-    CGrafPtr                                    grafPort;
+    gxViewPort _Nullable                                  viewPort;
+    CGrafPtr _Nullable                                   grafPort;
 } TQ3MacDrawContextData;
 
 #endif // QUESA_OS_MACINTOSH
@@ -575,7 +579,7 @@ typedef struct TQ3XDrawContextData {
  */
 typedef struct TQ3CocoaDrawContextData {
     TQ3DrawContextData                          drawContextData;
-    void                                        *nsView;
+    void                                        * _Nonnull nsView;
 } TQ3CocoaDrawContextData;
 
 #endif // QUESA_OS_COCOA
@@ -600,7 +604,7 @@ typedef struct TQ3CocoaDrawContextData {
  */
 Q3_EXTERN_API_C ( TQ3ObjectType  )
 Q3DrawContext_GetType (
-    TQ3DrawContextObject          drawContext
+    TQ3DrawContextObject _Nonnull          drawContext
 );
 
 
@@ -617,8 +621,8 @@ Q3DrawContext_GetType (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3DrawContext_SetData (
-    TQ3DrawContextObject          context,
-    const TQ3DrawContextData      *contextData
+    TQ3DrawContextObject _Nonnull          context,
+    const TQ3DrawContextData      * _Nonnull contextData
 );
 
 
@@ -635,8 +639,8 @@ Q3DrawContext_SetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3DrawContext_GetData (
-    TQ3DrawContextObject          context,
-    TQ3DrawContextData            *contextData
+    TQ3DrawContextObject _Nonnull          context,
+    TQ3DrawContextData          * _Nonnull contextData
 );
 
 
@@ -653,8 +657,8 @@ Q3DrawContext_GetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3DrawContext_SetClearImageColor (
-    TQ3DrawContextObject          context,
-    const TQ3ColorARGB            *color
+    TQ3DrawContextObject _Nonnull            context,
+    const TQ3ColorARGB            * _Nonnull color
 );
 
 
@@ -671,8 +675,8 @@ Q3DrawContext_SetClearImageColor (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3DrawContext_GetClearImageColor (
-    TQ3DrawContextObject          context,
-    TQ3ColorARGB                  *color
+    TQ3DrawContextObject _Nonnull            context,
+    TQ3ColorARGB                  * _Nonnull color
 );
 
 
@@ -693,8 +697,8 @@ Q3DrawContext_GetClearImageColor (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3DrawContext_SetPane (
-    TQ3DrawContextObject          context,
-    const TQ3Area                 *pane
+    TQ3DrawContextObject _Nonnull            context,
+    const TQ3Area                 * _Nonnull pane
 );
 
 
@@ -719,8 +723,8 @@ Q3DrawContext_SetPane (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3DrawContext_GetPane (
-    TQ3DrawContextObject          context,
-    TQ3Area                       *pane
+    TQ3DrawContextObject _Nonnull            context,
+    TQ3Area                       * _Nonnull pane
 );
 
 
@@ -737,7 +741,7 @@ Q3DrawContext_GetPane (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3DrawContext_SetPaneState (
-    TQ3DrawContextObject          context,
+    TQ3DrawContextObject _Nonnull          context,
     TQ3Boolean                    state
 );
 
@@ -755,8 +759,8 @@ Q3DrawContext_SetPaneState (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3DrawContext_GetPaneState (
-    TQ3DrawContextObject          context,
-    TQ3Boolean                    *state
+    TQ3DrawContextObject _Nonnull            context,
+    TQ3Boolean                    * _Nonnull state
 );
 
 
@@ -773,7 +777,7 @@ Q3DrawContext_GetPaneState (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3DrawContext_SetClearImageMethod (
-    TQ3DrawContextObject          context,
+    TQ3DrawContextObject _Nonnull         context,
     TQ3DrawContextClearImageMethod method
 );
 
@@ -791,8 +795,8 @@ Q3DrawContext_SetClearImageMethod (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3DrawContext_GetClearImageMethod (
-    TQ3DrawContextObject            context,
-    TQ3DrawContextClearImageMethod *method
+    TQ3DrawContextObject _Nonnull             context,
+    TQ3DrawContextClearImageMethod * _Nonnull method
 );
 
 
@@ -814,8 +818,8 @@ Q3DrawContext_GetClearImageMethod (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3DrawContext_SetMask (
-    TQ3DrawContextObject          context,
-    const TQ3Bitmap               *mask
+    TQ3DrawContextObject _Nonnull            context,
+    const TQ3Bitmap               * _Nonnull mask
 );
 
 
@@ -832,8 +836,8 @@ Q3DrawContext_SetMask (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3DrawContext_GetMask (
-    TQ3DrawContextObject          context,
-    TQ3Bitmap                     *mask
+    TQ3DrawContextObject _Nonnull         	 context,
+    TQ3Bitmap                     * _Nonnull mask
 );
 
 
@@ -850,7 +854,7 @@ Q3DrawContext_GetMask (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3DrawContext_SetMaskState (
-    TQ3DrawContextObject          context,
+    TQ3DrawContextObject _Nonnull       context,
     TQ3Boolean                    state
 );
 
@@ -868,8 +872,8 @@ Q3DrawContext_SetMaskState (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3DrawContext_GetMaskState (
-    TQ3DrawContextObject          context,
-    TQ3Boolean                    *state
+    TQ3DrawContextObject _Nonnull            context,
+    TQ3Boolean                    * _Nonnull state
 );
 
 
@@ -890,7 +894,7 @@ Q3DrawContext_GetMaskState (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3DrawContext_SetDoubleBufferState (
-    TQ3DrawContextObject          context,
+    TQ3DrawContextObject _Nonnull         context,
     TQ3Boolean                    state
 );
 
@@ -908,8 +912,8 @@ Q3DrawContext_SetDoubleBufferState (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3DrawContext_GetDoubleBufferState (
-    TQ3DrawContextObject          context,
-    TQ3Boolean                    *state
+    TQ3DrawContextObject  _Nonnull context,
+    TQ3Boolean        * _Nonnull   state
 );
 
 
@@ -929,9 +933,9 @@ Q3DrawContext_GetDoubleBufferState (
  *  @param contextData      The data for the pixmap draw context object.
  *  @result                 The new draw context object.
  */
-Q3_EXTERN_API_C ( TQ3DrawContextObject  )
+Q3_EXTERN_API_C ( TQ3DrawContextObject _Nonnull  )
 Q3PixmapDrawContext_New (
-    const TQ3PixmapDrawContextData *contextData
+    const TQ3PixmapDrawContextData * _Nonnull contextData
 );
 
 
@@ -948,8 +952,8 @@ Q3PixmapDrawContext_New (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3PixmapDrawContext_SetPixmap (
-    TQ3DrawContextObject          drawContext,
-    const TQ3Pixmap               *pixmap
+    TQ3DrawContextObject _Nonnull         drawContext,
+    const TQ3Pixmap               * _Nonnull pixmap
 );
 
 
@@ -966,8 +970,8 @@ Q3PixmapDrawContext_SetPixmap (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3PixmapDrawContext_GetPixmap (
-    TQ3DrawContextObject          drawContext,
-    TQ3Pixmap                     *pixmap
+    TQ3DrawContextObject _Nonnull            drawContext,
+    TQ3Pixmap                     * _Nonnull pixmap
 );
 
 
@@ -991,9 +995,9 @@ Q3PixmapDrawContext_GetPixmap (
  *  @param drawContextData  The data for the Mac draw context object.
  *  @result                 The new draw context object.
  */
-Q3_EXTERN_API_C ( TQ3DrawContextObject  )
+Q3_EXTERN_API_C ( TQ3DrawContextObject _Nonnull  )
 Q3MacDrawContext_New (
-    const TQ3MacDrawContextData   *drawContextData
+    const TQ3MacDrawContextData   * _Nonnull drawContextData
 );
 
 
@@ -1010,8 +1014,8 @@ Q3MacDrawContext_New (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3MacDrawContext_SetWindow (
-    TQ3DrawContextObject          drawContext,
-    WindowRef                     window
+    TQ3DrawContextObject _Nonnull         drawContext,
+    WindowRef _Nonnull                    window
 );
 
 
@@ -1028,8 +1032,8 @@ Q3MacDrawContext_SetWindow (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3MacDrawContext_GetWindow (
-    TQ3DrawContextObject          drawContext,
-    WindowRef                     *window
+    TQ3DrawContextObject _Nonnull           drawContext,
+    WindowRef _Nullable                    * _Nonnull window
 );
 
 
@@ -1046,8 +1050,8 @@ Q3MacDrawContext_GetWindow (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3MacDrawContext_SetGXViewPort (
-    TQ3DrawContextObject          drawContext,
-    gxViewPort                    viewPort
+    TQ3DrawContextObject _Nonnull          drawContext,
+    gxViewPort _Nonnull                    viewPort
 );
 
 
@@ -1064,8 +1068,8 @@ Q3MacDrawContext_SetGXViewPort (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3MacDrawContext_GetGXViewPort (
-    TQ3DrawContextObject          drawContext,
-    gxViewPort                    *viewPort
+    TQ3DrawContextObject _Nonnull            drawContext,
+    gxViewPort _Nullable                    * _Nonnull viewPort
 );
 
 
@@ -1082,8 +1086,8 @@ Q3MacDrawContext_GetGXViewPort (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3MacDrawContext_SetGrafPort (
-    TQ3DrawContextObject          drawContext,
-    CGrafPtr                      grafPort
+    TQ3DrawContextObject _Nonnull          drawContext,
+    CGrafPtr _Nonnull                      grafPort
 );
 
 
@@ -1100,8 +1104,8 @@ Q3MacDrawContext_SetGrafPort (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3MacDrawContext_GetGrafPort (
-    TQ3DrawContextObject          drawContext,
-    CGrafPtr                      *grafPort
+    TQ3DrawContextObject _Nonnull         drawContext,
+    CGrafPtr _Nonnull * _Nonnull          grafPort
 );
 
 
@@ -1118,7 +1122,7 @@ Q3MacDrawContext_GetGrafPort (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3MacDrawContext_Set2DLibrary (
-    TQ3DrawContextObject          drawContext,
+    TQ3DrawContextObject _Nonnull         drawContext,
     TQ3MacDrawContext2DLibrary    library
 );
 
@@ -1136,8 +1140,8 @@ Q3MacDrawContext_Set2DLibrary (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3MacDrawContext_Get2DLibrary (
-    TQ3DrawContextObject          drawContext,
-    TQ3MacDrawContext2DLibrary    *library
+    TQ3DrawContextObject _Nonnull          drawContext,
+    TQ3MacDrawContext2DLibrary    * _Nonnull library
 );
 
 #endif // QUESA_OS_MACINTOSH
@@ -1558,9 +1562,9 @@ Q3DDSurfaceDrawContext_GetDirectDrawSurface (
  *  @param drawContextData  The data for the Cocoa draw context object.
  *  @result                 The new draw context object.
  */
-Q3_EXTERN_API_C ( TQ3DrawContextObject  )
+Q3_EXTERN_API_C ( TQ3DrawContextObject _Nonnull  )
 Q3CocoaDrawContext_New (
-    const TQ3CocoaDrawContextData *drawContextData
+    const TQ3CocoaDrawContextData * _Nonnull drawContextData
 );
 
 
@@ -1579,8 +1583,8 @@ Q3CocoaDrawContext_New (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3CocoaDrawContext_SetNSView (
-    TQ3DrawContextObject          drawContext,
-    void                          *nsView
+    TQ3DrawContextObject _Nonnull         drawContext,
+    void * _Nonnull                       nsView
 );
 
 
@@ -1599,8 +1603,8 @@ Q3CocoaDrawContext_SetNSView (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3CocoaDrawContext_GetNSView (
-    TQ3DrawContextObject          drawContext,
-    void                          **nsView
+    TQ3DrawContextObject _Nonnull         drawContext,
+    void  * _Nullable * _Nonnull          nsView
 );
 
 #endif // QUESA_OS_COCOA

@@ -1,5 +1,9 @@
 /*! @header QuesaMemory.h
         Declares the Quesa memory manager.
+         
+	@ignore	_Nullable
+	@ignore _Nonnull
+	@ignore	_Null_unspecified
  */
 /*  NAME:
         QuesaMemory.h
@@ -8,7 +12,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2016, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -124,7 +128,7 @@ typedef struct TQ3MemoryStatistics
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-Q3_EXTERN_API_C ( void * )
+Q3_EXTERN_API_C ( void * _Nonnull )
 Q3Memory_Allocate (
     TQ3Uns32                      theSize
 );
@@ -148,7 +152,7 @@ Q3Memory_Allocate (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-Q3_EXTERN_API_C ( void * )
+Q3_EXTERN_API_C ( void * _Nonnull )
 Q3Memory_AllocateClear (
     TQ3Uns32                      theSize
 );
@@ -166,7 +170,7 @@ Q3Memory_AllocateClear (
  *      Takes a pointer to a pointer, which points to a block of previously
  *      allocated memory.
  *
- *      After freeing the memory, the supplied pointer will be reset to nullptr
+ *      After freeing the memory, the supplied pointer will be reset to NULL
  *      to prevent future dereferences.
  *
  *      Note that you <em>must</em> pass a pointer to a pointer, and not
@@ -185,7 +189,7 @@ Q3Memory_AllocateClear (
 
 Q3_EXTERN_API_C ( void )
 Q3Memory_Free (
-    void                          **thePtr
+    void                          * _Nullable * _Nonnull thePtr
 );
 
 #undef  Q3Memory_Free
@@ -224,7 +228,7 @@ Q3Memory_Free (
 
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Memory_Reallocate (
-    void                          **thePtr,
+    void                          * _Nullable * _Nonnull thePtr,
     TQ3Uns32                      newSize
 );
 
@@ -253,7 +257,7 @@ Q3Memory_Reallocate (
 
 Q3_EXTERN_API_C ( void  )
 Q3Memory_Initialize (
-    void                          *thePtr,
+    void                          * _Nonnull thePtr,
     TQ3Uns32                      theSize,
     TQ3Uns8                       theValue
 );
@@ -279,7 +283,7 @@ Q3Memory_Initialize (
 
 Q3_EXTERN_API_C ( void  )
 Q3Memory_Clear (
-    void                          *thePtr,
+    void                          * _Nonnull thePtr,
     TQ3Uns32                      theSize
 );
 
@@ -307,8 +311,8 @@ Q3Memory_Clear (
 
 Q3_EXTERN_API_C ( void  )
 Q3Memory_Copy (
-    const void                    *srcPtr,
-    void                          *dstPtr,
+    const void                    * _Nonnull srcPtr,
+    void                          * _Nonnull dstPtr,
     TQ3Uns32                      theSize
 );
 
@@ -441,8 +445,8 @@ Q3Memory_CountRecords(
  *      Example:
  *
  *          <blockquote><pre><code>
- *          TQ3Object	leaked = nullptr;
- *          while (nullptr != (leaked = Q3Memory_NextRecordedObject( leaked )))
+ *          TQ3Object	leaked = NULL;
+ *          while (NULL != (leaked = Q3Memory_NextRecordedObject( leaked )))
  *          {
  *          &nbsp;&nbsp;	// do something nondestructive to the object
  *          }
@@ -452,14 +456,14 @@ Q3Memory_CountRecords(
  *
  *      <em>This function is not available in QD3D.</em>
  *
- *	@param inObject         nullptr or a recorded object.
- *  @result                 Next recorded object, or nullptr.
+ *	@param inObject         NULL or a recorded object.
+ *  @result                 Next recorded object, or NULL.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-Q3_EXTERN_API_C ( TQ3Object )
+Q3_EXTERN_API_C ( TQ3Object _Nullable )
 Q3Memory_NextRecordedObject(
-    TQ3Object                     inObject
+    TQ3Object _Nullable                    inObject
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -490,8 +494,8 @@ Q3Memory_NextRecordedObject(
 
 Q3_EXTERN_API_C ( TQ3Status )
 Q3Memory_DumpRecording(
-    const char                    *fileName,
-    const char                    *memo
+    const char                    * _Nonnull fileName,
+    const char                    * _Nullable memo
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -520,7 +524,7 @@ Q3Memory_DumpRecording(
 
 Q3_EXTERN_API_C ( TQ3Status )
 Q3Memory_GetStatistics(
-	TQ3MemoryStatistics*	info
+	TQ3MemoryStatistics* _Nonnull	info
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -566,11 +570,11 @@ Q3Memory_GetObjectCount();
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-Q3_EXTERN_API_C ( TQ3SlabObject )
+Q3_EXTERN_API_C ( TQ3SlabObject _Nullable )
 Q3SlabMemory_New(
     TQ3Uns32                      itemSize,
     TQ3Uns32                      numItems,
-    const void                    *itemData
+    const void                    * _Nullable itemData
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -596,9 +600,9 @@ Q3SlabMemory_New(
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-Q3_EXTERN_API_C ( void * )
+Q3_EXTERN_API_C ( void * _Nullable )
 Q3SlabMemory_GetData(
-    TQ3SlabObject                 theSlab,
+    TQ3SlabObject _Nonnull                theSlab,
     TQ3Uns32                      itemIndex
 );
 
@@ -636,11 +640,11 @@ Q3SlabMemory_GetData(
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-Q3_EXTERN_API_C ( void * )
+Q3_EXTERN_API_C ( void * _Nullable )
 Q3SlabMemory_AppendData(
-    TQ3SlabObject                 theSlab,
+    TQ3SlabObject _Nonnull                theSlab,
     TQ3Uns32                      numItems,
-    const void                    *itemData
+    const void                    * _Nullable itemData
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -661,7 +665,7 @@ Q3SlabMemory_AppendData(
 
 Q3_EXTERN_API_C ( TQ3Uns32 )
 Q3SlabMemory_GetCount(
-    TQ3SlabObject                 theSlab
+    TQ3SlabObject _Nonnull                theSlab
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -690,7 +694,7 @@ Q3SlabMemory_GetCount(
 
 Q3_EXTERN_API_C ( TQ3Status )
 Q3SlabMemory_SetCount(
-    TQ3SlabObject                 theSlab,
+    TQ3SlabObject _Nonnull                theSlab,
     TQ3Uns32                      numItems
 );
 

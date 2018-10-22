@@ -5,7 +5,7 @@
         Implementation of Quesa Cylinder geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -83,6 +83,7 @@ static TQ3Status
 e3geom_cylinder_copydata(const TQ3CylinderData *src, TQ3CylinderData *dst, TQ3Boolean isDuplicate)
 {
 	TQ3Status		qd3dStatus = kQ3Success;
+	TQ3AttributeSet atts;
 
 	// copy raw data
 	const TQ3Uns32 theSize = sizeof(TQ3Point3D)	// origin
@@ -94,33 +95,38 @@ e3geom_cylinder_copydata(const TQ3CylinderData *src, TQ3CylinderData *dst, TQ3Bo
 	// copy or shared-replace the attributes
 	if (isDuplicate)
 	{
-		if (src->interiorAttributeSet != nullptr)
+		atts = src->interiorAttributeSet;
+		if (atts != nullptr)
 		{
-			dst->interiorAttributeSet = Q3Object_Duplicate(src->interiorAttributeSet);
+			dst->interiorAttributeSet = Q3Object_Duplicate(atts);
 			if (dst->interiorAttributeSet == nullptr) qd3dStatus = kQ3Failure;
 		} else dst->interiorAttributeSet = nullptr;
 
-		if (src->faceAttributeSet != nullptr)
+		atts = src->faceAttributeSet;
+		if (atts != nullptr)
 		{
-			dst->faceAttributeSet = Q3Object_Duplicate(src->faceAttributeSet);
+			dst->faceAttributeSet = Q3Object_Duplicate(atts);
 			if (dst->faceAttributeSet == nullptr) qd3dStatus = kQ3Failure;
 		} else dst->faceAttributeSet = nullptr;
 
-		if (src->topAttributeSet != nullptr)
+		atts = src->topAttributeSet;
+		if (atts != nullptr)
 		{
-			dst->topAttributeSet = Q3Object_Duplicate(src->topAttributeSet);
+			dst->topAttributeSet = Q3Object_Duplicate(atts);
 			if (dst->topAttributeSet == nullptr) qd3dStatus = kQ3Failure;
 		} else dst->topAttributeSet = nullptr;
 
-		if (src->bottomAttributeSet != nullptr)
+		atts = src->bottomAttributeSet;
+		if (atts != nullptr)
 		{
-			dst->bottomAttributeSet = Q3Object_Duplicate(src->bottomAttributeSet);
+			dst->bottomAttributeSet = Q3Object_Duplicate(atts);
 			if (dst->bottomAttributeSet == nullptr) qd3dStatus = kQ3Failure;
 		} else dst->bottomAttributeSet = nullptr;
 
-		if (src->cylinderAttributeSet != nullptr)
+		atts = src->cylinderAttributeSet;
+		if (atts != nullptr)
 		{
-			dst->cylinderAttributeSet = Q3Object_Duplicate(src->cylinderAttributeSet);
+			dst->cylinderAttributeSet = Q3Object_Duplicate(atts);
 			if (dst->cylinderAttributeSet == nullptr) qd3dStatus = kQ3Failure;
 		} else dst->cylinderAttributeSet = nullptr;
 	}
@@ -360,8 +366,9 @@ e3geom_cylinder_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, cons
 
 
 	// Add the cone attributes	
-	if (geomData->cylinderAttributeSet != nullptr)
-		Q3Group_AddObject( theGroup, geomData->cylinderAttributeSet );
+	TQ3AttributeSet atts = geomData->cylinderAttributeSet;
+	if (atts != nullptr)
+		Q3Group_AddObject( theGroup, atts );
 
 
 

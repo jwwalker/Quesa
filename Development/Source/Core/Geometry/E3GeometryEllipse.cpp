@@ -139,8 +139,9 @@ e3geom_ellipse_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 	if ( (qd3dStatus == kQ3Success) &&
 		(toInstanceData->ellipseAttributeSet != nullptr) )
 	{
-		dupSet = Q3Object_Duplicate( toInstanceData->ellipseAttributeSet );
-		Q3Object_Dispose( toInstanceData->ellipseAttributeSet );
+		TQ3AttributeSet srcAtts = toInstanceData->ellipseAttributeSet;
+		dupSet = Q3Object_Duplicate( srcAtts );
+		Q3Object_Dispose( srcAtts );
 		toInstanceData->ellipseAttributeSet = dupSet;
 		if (dupSet == nullptr)
 		{

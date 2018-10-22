@@ -1,5 +1,9 @@
 /*! @header QuesaPick.h
         Declares the Quesa pick objects.
+          
+	@ignore	_Nullable
+	@ignore _Nonnull
+	@ignore	_Null_unspecified
  */
 /*  NAME:
         QuesaPick.h
@@ -8,7 +12,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2016, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -296,9 +300,9 @@ typedef struct TQ3WorldRayPickData {
  *  @field positions        Array of group positions leading to the picked object.
  */
 typedef struct TQ3HitPath {
-    TQ3GroupObject                              rootGroup;
+    TQ3GroupObject _Nullable                             rootGroup;
     TQ3Uns32                                    depth;
-    TQ3GroupPosition                            *positions;
+    TQ3GroupPosition _Nonnull                           * _Nullable positions;
 } TQ3HitPath;
 
 
@@ -327,7 +331,7 @@ typedef struct TQ3HitPath {
  */
 Q3_EXTERN_API_C ( TQ3ObjectType  )
 Q3Pick_GetType (
-    TQ3PickObject                 pick
+    TQ3PickObject _Nonnull                pick
 );
 
 
@@ -344,8 +348,8 @@ Q3Pick_GetType (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Pick_GetData (
-    TQ3PickObject                 pick,
-    TQ3PickData                   *data
+    TQ3PickObject _Nonnull                pick,
+    TQ3PickData                   * _Nonnull data
 );
 
 
@@ -362,8 +366,8 @@ Q3Pick_GetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Pick_SetData (
-    TQ3PickObject                 pick,
-    const TQ3PickData             *data
+    TQ3PickObject _Nonnull                pick,
+    const TQ3PickData             * _Nonnull data
 );
 
 
@@ -380,8 +384,8 @@ Q3Pick_SetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Pick_GetVertexTolerance (
-    TQ3PickObject                 pick,
-    float                         *vertexTolerance
+    TQ3PickObject _Nonnull                pick,
+    float                         * _Nonnull vertexTolerance
 );
 
 
@@ -398,8 +402,8 @@ Q3Pick_GetVertexTolerance (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Pick_GetEdgeTolerance (
-    TQ3PickObject                 pick,
-    float                         *edgeTolerance
+    TQ3PickObject _Nonnull                pick,
+    float                         * _Nonnull edgeTolerance
 );
 
 
@@ -416,8 +420,8 @@ Q3Pick_GetEdgeTolerance (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Pick_GetFaceTolerance (
-    TQ3PickObject                 pick,
-    float                         *faceTolerance
+    TQ3PickObject _Nonnull                pick,
+    float                         * _Nonnull faceTolerance
 );
 
 
@@ -439,7 +443,7 @@ Q3Pick_GetFaceTolerance (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Pick_SetVertexTolerance (
-    TQ3PickObject                 pick,
+    TQ3PickObject _Nonnull                pick,
     float                         vertexTolerance
 );
 
@@ -462,7 +466,7 @@ Q3Pick_SetVertexTolerance (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Pick_SetEdgeTolerance (
-    TQ3PickObject                 pick,
+    TQ3PickObject _Nonnull                pick,
     float                         edgeTolerance
 );
 
@@ -485,7 +489,7 @@ Q3Pick_SetEdgeTolerance (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Pick_SetFaceTolerance (
-    TQ3PickObject                 pick,
+    TQ3PickObject _Nonnull                pick,
     float                         faceTolerance
 );
 
@@ -503,8 +507,8 @@ Q3Pick_SetFaceTolerance (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Pick_GetNumHits (
-    TQ3PickObject                 pick,
-    TQ3Uns32                      *numHits
+    TQ3PickObject _Nonnull                pick,
+    TQ3Uns32                      * _Nonnull numHits
 );
 
 
@@ -520,7 +524,7 @@ Q3Pick_GetNumHits (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Pick_EmptyHitList (
-    TQ3PickObject                 pick
+    TQ3PickObject _Nonnull                pick
 );
 
 
@@ -541,9 +545,9 @@ Q3Pick_EmptyHitList (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Pick_GetPickDetailValidMask (
-    TQ3PickObject                 pick,
+    TQ3PickObject _Nonnull                pick,
     TQ3Uns32                      index,
-    TQ3PickDetail                 *pickDetailValidMask
+    TQ3PickDetail                 * _Nonnull pickDetailValidMask
 );
 
 
@@ -568,10 +572,10 @@ Q3Pick_GetPickDetailValidMask (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Pick_GetPickDetailData (
-    TQ3PickObject                 pick,
+    TQ3PickObject _Nonnull                pick,
     TQ3Uns32                      index,
     TQ3PickDetail                 pickDetailValue,
-    void                          *detailData
+    void                          * _Nonnull detailData
 );
 
 
@@ -587,7 +591,7 @@ Q3Pick_GetPickDetailData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3HitPath_EmptyData (
-    TQ3HitPath                    *hitPath
+    TQ3HitPath                    * _Nonnull hitPath
 );
 
 
@@ -604,9 +608,9 @@ Q3HitPath_EmptyData (
  *  @param data             The data for the pick object.
  *  @result                 The new pick object.
  */
-Q3_EXTERN_API_C ( TQ3PickObject  )
+Q3_EXTERN_API_C ( TQ3PickObject _Nonnull )
 Q3WindowPointPick_New (
-    const TQ3WindowPointPickData  *data
+    const TQ3WindowPointPickData  * _Nonnull data
 );
 
 
@@ -623,8 +627,8 @@ Q3WindowPointPick_New (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3WindowPointPick_GetPoint (
-    TQ3PickObject                 pick,
-    TQ3Point2D                    *point
+    TQ3PickObject _Nonnull                pick,
+    TQ3Point2D                    * _Nonnull point
 );
 
 
@@ -641,8 +645,8 @@ Q3WindowPointPick_GetPoint (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3WindowPointPick_SetPoint (
-    TQ3PickObject                 pick,
-    const TQ3Point2D              *point
+    TQ3PickObject _Nonnull                pick,
+    const TQ3Point2D              * _Nonnull point
 );
 
 
@@ -659,8 +663,8 @@ Q3WindowPointPick_SetPoint (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3WindowPointPick_GetData (
-    TQ3PickObject                 pick,
-    TQ3WindowPointPickData        *data
+    TQ3PickObject _Nonnull                pick,
+    TQ3WindowPointPickData        * _Nonnull data
 );
 
 
@@ -677,8 +681,8 @@ Q3WindowPointPick_GetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3WindowPointPick_SetData (
-    TQ3PickObject                 pick,
-    const TQ3WindowPointPickData  *data
+    TQ3PickObject _Nonnull                pick,
+    const TQ3WindowPointPickData  * _Nonnull data
 );
 
 
@@ -695,9 +699,9 @@ Q3WindowPointPick_SetData (
  *  @param data             The data for the pick object.
  *  @result                 The new pick object.
  */
-Q3_EXTERN_API_C ( TQ3PickObject  )
+Q3_EXTERN_API_C ( TQ3PickObject _Nonnull )
 Q3WindowRectPick_New (
-    const TQ3WindowRectPickData   *data
+    const TQ3WindowRectPickData   * _Nonnull data
 );
 
 
@@ -714,8 +718,8 @@ Q3WindowRectPick_New (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3WindowRectPick_GetRect (
-    TQ3PickObject                 pick,
-    TQ3Area                       *rect
+    TQ3PickObject _Nonnull                pick,
+    TQ3Area                       * _Nonnull rect
 );
 
 
@@ -732,8 +736,8 @@ Q3WindowRectPick_GetRect (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3WindowRectPick_SetRect (
-    TQ3PickObject                 pick,
-    const TQ3Area                 *rect
+    TQ3PickObject _Nonnull                pick,
+    const TQ3Area                 * _Nonnull rect
 );
 
 
@@ -750,8 +754,8 @@ Q3WindowRectPick_SetRect (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3WindowRectPick_GetData (
-    TQ3PickObject                 pick,
-    TQ3WindowRectPickData         *data
+    TQ3PickObject _Nonnull                pick,
+    TQ3WindowRectPickData         * _Nonnull data
 );
 
 
@@ -768,8 +772,8 @@ Q3WindowRectPick_GetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3WindowRectPick_SetData (
-    TQ3PickObject                 pick,
-    const TQ3WindowRectPickData   *data
+    TQ3PickObject _Nonnull                pick,
+    const TQ3WindowRectPickData   * _Nonnull data
 );
 
 
@@ -786,9 +790,9 @@ Q3WindowRectPick_SetData (
  *  @param data             The data for the pick object.
  *  @result                 The new pick object.
  */
-Q3_EXTERN_API_C ( TQ3PickObject  )
+Q3_EXTERN_API_C ( TQ3PickObject _Nonnull )
 Q3WorldRayPick_New (
-    const TQ3WorldRayPickData     *data
+    const TQ3WorldRayPickData     * _Nonnull data
 );
 
 
@@ -805,8 +809,8 @@ Q3WorldRayPick_New (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3WorldRayPick_GetRay (
-    TQ3PickObject                 pick,
-    TQ3Ray3D                      *ray
+    TQ3PickObject _Nonnull                pick,
+    TQ3Ray3D                      * _Nonnull ray
 );
 
 
@@ -824,8 +828,8 @@ Q3WorldRayPick_GetRay (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3WorldRayPick_SetRay (
-    TQ3PickObject                 pick,
-    const TQ3Ray3D                *ray
+    TQ3PickObject _Nonnull                pick,
+    const TQ3Ray3D                * _Nonnull ray
 );
 
 
@@ -842,8 +846,8 @@ Q3WorldRayPick_SetRay (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3WorldRayPick_GetData (
-    TQ3PickObject                 pick,
-    TQ3WorldRayPickData           *data
+    TQ3PickObject _Nonnull                pick,
+    TQ3WorldRayPickData           * _Nonnull data
 );
 
 
@@ -860,8 +864,8 @@ Q3WorldRayPick_GetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3WorldRayPick_SetData (
-    TQ3PickObject                 pick,
-    const TQ3WorldRayPickData     *data
+    TQ3PickObject _Nonnull                pick,
+    const TQ3WorldRayPickData     * _Nonnull data
 );
 
 /*!
@@ -880,7 +884,7 @@ Q3WorldRayPick_SetData (
  */
 Q3_EXTERN_API_C ( TQ3ObjectType  )
 Q3ShapePart_GetType (
-    TQ3ShapePartObject            shapePartObject
+    TQ3ShapePartObject _Nonnull           shapePartObject
 );
 
 
@@ -900,7 +904,7 @@ Q3ShapePart_GetType (
  */
 Q3_EXTERN_API_C ( TQ3ObjectType  )
 Q3MeshPart_GetType (
-    TQ3MeshPartObject             meshPartObject
+    TQ3MeshPartObject _Nonnull            meshPartObject
 );
 
 
@@ -917,8 +921,8 @@ Q3MeshPart_GetType (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ShapePart_GetShape (
-    TQ3ShapePartObject            shapePartObject,
-    TQ3ShapeObject                *shapeObject
+    TQ3ShapePartObject _Nonnull           shapePartObject,
+    TQ3ShapeObject _Nonnull               * _Nonnull shapeObject
 );
 
 
@@ -935,8 +939,8 @@ Q3ShapePart_GetShape (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3MeshPart_GetComponent (
-    TQ3MeshPartObject             meshPartObject,
-    TQ3MeshComponent              *component
+    TQ3MeshPartObject _Nonnull            meshPartObject,
+    TQ3MeshComponent _Nonnull             * _Nonnull component
 );
 
 
@@ -953,8 +957,8 @@ Q3MeshPart_GetComponent (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3MeshFacePart_GetFace (
-    TQ3MeshFacePartObject         meshFacePartObject,
-    TQ3MeshFace                   *face
+    TQ3MeshFacePartObject _Nonnull        meshFacePartObject,
+    TQ3MeshFace _Nonnull                  * _Nonnull face
 );
 
 
@@ -971,8 +975,8 @@ Q3MeshFacePart_GetFace (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3MeshEdgePart_GetEdge (
-    TQ3MeshEdgePartObject         meshEdgePartObject,
-    TQ3MeshEdge                   *edge
+    TQ3MeshEdgePartObject _Nonnull        meshEdgePartObject,
+    TQ3MeshEdge _Nonnull                  * _Nonnull edge
 );
 
 
@@ -989,8 +993,8 @@ Q3MeshEdgePart_GetEdge (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3MeshVertexPart_GetVertex (
-    TQ3MeshVertexPartObject       meshVertexPartObject,
-    TQ3MeshVertex                 *vertex
+    TQ3MeshVertexPartObject _Nonnull      meshVertexPartObject,
+    TQ3MeshVertex _Nonnull                * _Nonnull vertex
 );
 
 

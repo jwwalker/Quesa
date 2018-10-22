@@ -1,5 +1,9 @@
 /*! @header QuesaView.h
         Declares the Quesa view object.
+          
+	@ignore	_Nullable
+	@ignore _Nonnull
+	@ignore	_Null_unspecified
  */
 /*  NAME:
         QuesaView.h
@@ -8,7 +12,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -128,8 +132,8 @@ typedef enum TQ3ViewStatus {
  *  @result                 Success or failure of the callback.
  */
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3ViewIdleMethod)(
-                            TQ3ViewObject       theView,
-                            const void          *idlerData);
+                            TQ3ViewObject _Nonnull      theView,
+                            const void          * _Nonnull idlerData);
 
 
 /*!
@@ -145,8 +149,8 @@ typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3ViewIdleMethod)(
  *  @result                     Success or failure of the callback.
  */
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3ViewIdleProgressMethod)(
-                            TQ3ViewObject       theView,
-                            const void          *idlerData,
+                            TQ3ViewObject _Nonnull      theView,
+                            const void          * _Nonnull idlerData,
                             TQ3Uns32            progressCurrent,
                             TQ3Uns32            progressCompleted);
 
@@ -161,8 +165,8 @@ typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3ViewIdleProgressMethod)(
  *  @param endFrameData     The application-specific data passed to Q3View_SetEndFrameMethod.
  */
 typedef Q3_CALLBACK_API_C(void,                TQ3ViewEndFrameMethod)(
-                            TQ3ViewObject       theView,
-                            void                *endFrameData);
+                            TQ3ViewObject _Nonnull      theView,
+                            void                * _Nonnull endFrameData);
 
 
 
@@ -179,7 +183,7 @@ typedef Q3_CALLBACK_API_C(void,                TQ3ViewEndFrameMethod)(
  *
  *  @result                 The new view object.
  */
-Q3_EXTERN_API_C ( TQ3ViewObject  )
+Q3_EXTERN_API_C ( TQ3ViewObject _Nonnull )
 Q3View_New (
     void
 );
@@ -215,10 +219,10 @@ Q3View_New (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-Q3_EXTERN_API_C ( TQ3ViewObject  )
+Q3_EXTERN_API_C ( TQ3ViewObject _Nullable )
 Q3View_NewWithDefaults (
     TQ3ObjectType                 drawContextType,
-    void                          *drawContextTarget
+    void                          * _Nonnull drawContextTarget
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -236,7 +240,7 @@ Q3View_NewWithDefaults (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_Cancel (
-    TQ3ViewObject                 view
+    TQ3ViewObject _Nonnull                view
 );
 
 
@@ -257,7 +261,7 @@ Q3View_Cancel (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_SetRendererByType (
-    TQ3ViewObject                 view,
+    TQ3ViewObject _Nonnull                view,
     TQ3ObjectType                 theType
 );
 
@@ -277,8 +281,8 @@ Q3View_SetRendererByType (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_SetRenderer (
-    TQ3ViewObject                 view,
-    TQ3RendererObject             renderer
+    TQ3ViewObject _Nonnull                view,
+    TQ3RendererObject _Nullable            renderer
 );
 
 
@@ -298,8 +302,8 @@ Q3View_SetRenderer (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetRenderer (
-    TQ3ViewObject                 view,
-    TQ3RendererObject             *renderer
+    TQ3ViewObject _Nonnull                view,
+    TQ3RendererObject _Nonnull            * _Nonnull renderer
 );
 
 
@@ -315,7 +319,7 @@ Q3View_GetRenderer (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_StartRendering (
-    TQ3ViewObject                 view
+    TQ3ViewObject _Nonnull                view
 );
 
 
@@ -334,7 +338,7 @@ Q3View_StartRendering (
  */
 Q3_EXTERN_API_C ( TQ3ViewStatus  )
 Q3View_EndRendering (
-    TQ3ViewObject                 view
+    TQ3ViewObject _Nonnull                view
 );
 
 
@@ -353,7 +357,7 @@ Q3View_EndRendering (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_Flush (
-    TQ3ViewObject                 view
+    TQ3ViewObject _Nonnull                view
 );
 
 
@@ -372,7 +376,7 @@ Q3View_Flush (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_Sync (
-    TQ3ViewObject                 view
+    TQ3ViewObject _Nonnull                view
 );
 
 
@@ -389,7 +393,7 @@ Q3View_Sync (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_StartBoundingBox (
-    TQ3ViewObject                 view,
+    TQ3ViewObject _Nonnull                view,
     TQ3ComputeBounds              computeBounds
 );
 
@@ -410,8 +414,8 @@ Q3View_StartBoundingBox (
  */
 Q3_EXTERN_API_C ( TQ3ViewStatus  )
 Q3View_EndBoundingBox (
-    TQ3ViewObject                 view,
-    TQ3BoundingBox                *theBounds
+    TQ3ViewObject _Nonnull                view,
+    TQ3BoundingBox                * _Nonnull theBounds
 );
 
 
@@ -428,7 +432,7 @@ Q3View_EndBoundingBox (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_StartBoundingSphere (
-    TQ3ViewObject                 view,
+    TQ3ViewObject _Nonnull                view,
     TQ3ComputeBounds              computeBounds
 );
 
@@ -449,8 +453,8 @@ Q3View_StartBoundingSphere (
  */
 Q3_EXTERN_API_C ( TQ3ViewStatus  )
 Q3View_EndBoundingSphere (
-    TQ3ViewObject                 view,
-    TQ3BoundingSphere             *theBounds
+    TQ3ViewObject _Nonnull                view,
+    TQ3BoundingSphere             * _Nonnull theBounds
 );
 
 
@@ -467,8 +471,8 @@ Q3View_EndBoundingSphere (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_StartPicking (
-    TQ3ViewObject                 view,
-    TQ3PickObject                 pick
+    TQ3ViewObject _Nonnull                view,
+    TQ3PickObject _Nonnull                pick
 );
 
 
@@ -487,7 +491,7 @@ Q3View_StartPicking (
  */
 Q3_EXTERN_API_C ( TQ3ViewStatus  )
 Q3View_EndPicking (
-    TQ3ViewObject                 view
+    TQ3ViewObject _Nonnull                view
 );
 
 
@@ -507,8 +511,8 @@ Q3View_EndPicking (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetCamera (
-    TQ3ViewObject                 view,
-    TQ3CameraObject               *camera
+    TQ3ViewObject _Nonnull                view,
+    TQ3CameraObject _Nonnull              * _Nonnull camera
 );
 
 
@@ -527,8 +531,8 @@ Q3View_GetCamera (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_SetCamera (
-    TQ3ViewObject                 view,
-    TQ3CameraObject               camera
+    TQ3ViewObject _Nonnull                view,
+    TQ3CameraObject _Nonnull              camera
 );
 
 
@@ -547,8 +551,8 @@ Q3View_SetCamera (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_SetLightGroup (
-    TQ3ViewObject                 view,
-    TQ3GroupObject                lightGroup
+    TQ3ViewObject _Nonnull                view,
+    TQ3GroupObject _Nonnull               lightGroup
 );
 
 
@@ -568,8 +572,8 @@ Q3View_SetLightGroup (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetLightGroup (
-    TQ3ViewObject                 view,
-    TQ3GroupObject                *lightGroup
+    TQ3ViewObject _Nonnull                view,
+    TQ3GroupObject _Nonnull               * _Nonnull lightGroup
 );
 
 
@@ -607,9 +611,9 @@ Q3View_GetLightGroup (
 
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_AddLight (
-    TQ3ViewObject                 theView,
+    TQ3ViewObject _Nonnull                theView,
     TQ3ObjectType                 lightType,
-    void                          *lightData
+    void                          * _Nonnull lightData
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -632,9 +636,9 @@ Q3View_AddLight (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_SetIdleMethod (
-    TQ3ViewObject                 view,
-    TQ3ViewIdleMethod             idleMethod,
-    const void                    *idleData
+    TQ3ViewObject _Nonnull                view,
+    TQ3ViewIdleMethod _Nullable            idleMethod,
+    const void                    * _Nonnull idleData
 );
 
 
@@ -658,9 +662,9 @@ Q3View_SetIdleMethod (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_SetIdleProgressMethod (
-    TQ3ViewObject                 view,
-    TQ3ViewIdleProgressMethod     idleMethod,
-    const void                    *idleData
+    TQ3ViewObject _Nonnull                view,
+    TQ3ViewIdleProgressMethod _Nullable     idleMethod,
+    const void                    * _Nonnull idleData
 );
 
 
@@ -678,9 +682,9 @@ Q3View_SetIdleProgressMethod (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_SetEndFrameMethod (
-    TQ3ViewObject                 view,
-    TQ3ViewEndFrameMethod         endFrame,
-    void                          *endFrameData
+    TQ3ViewObject _Nonnull                view,
+    TQ3ViewEndFrameMethod _Nullable        endFrame,
+    void                          * _Nonnull endFrameData
 );
 
 
@@ -696,7 +700,7 @@ Q3View_SetEndFrameMethod (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Push_Submit (
-    TQ3ViewObject                 view
+    TQ3ViewObject _Nonnull                view
 );
 
 
@@ -712,7 +716,7 @@ Q3Push_Submit (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Pop_Submit (
-    TQ3ViewObject                 view
+    TQ3ViewObject _Nonnull                view
 );
 
 
@@ -725,7 +729,7 @@ Q3Pop_Submit (
  *
  *  @result                 The new push state operator.
  */
-Q3_EXTERN_API_C ( TQ3StateOperatorObject  )
+Q3_EXTERN_API_C ( TQ3StateOperatorObject _Nonnull )
 Q3Push_New (
     void
 );
@@ -740,7 +744,7 @@ Q3Push_New (
  *
  *  @result                 The new pop state operator.
  */
-Q3_EXTERN_API_C ( TQ3StateOperatorObject  )
+Q3_EXTERN_API_C ( TQ3StateOperatorObject _Nonnull )
 Q3Pop_New (
     void
 );
@@ -759,8 +763,8 @@ Q3Pop_New (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3StateOperator_Submit (
-    TQ3StateOperatorObject        stateOperator,
-    TQ3ViewObject                 view
+    TQ3StateOperatorObject _Nonnull       stateOperator,
+    TQ3ViewObject _Nonnull                view
 );
 
 
@@ -785,8 +789,8 @@ Q3StateOperator_Submit (
  */
 Q3_EXTERN_API_C ( TQ3Boolean  )
 Q3View_IsBoundingBoxVisible (
-    TQ3ViewObject                 view,
-    const TQ3BoundingBox          *bbox
+    TQ3ViewObject _Nonnull                view,
+    const TQ3BoundingBox          * _Nonnull bbox
 );
 
 
@@ -806,7 +810,7 @@ Q3View_IsBoundingBoxVisible (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_AllowAllGroupCulling (
-    TQ3ViewObject                 view,
+    TQ3ViewObject _Nonnull                view,
     TQ3Boolean                    allowCulling
 );
 
@@ -831,9 +835,9 @@ Q3View_AllowAllGroupCulling (
 
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_TransformLocalToWorld (
-    TQ3ViewObject                 theView,
-    const TQ3Point3D              *localPoint,
-    TQ3Point3D                    *worldPoint
+    TQ3ViewObject _Nonnull                theView,
+    const TQ3Point3D              * _Nonnull localPoint,
+    TQ3Point3D                    * _Nonnull worldPoint
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -859,9 +863,9 @@ Q3View_TransformLocalToWorld (
 
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_TransformLocalToWindow (
-    TQ3ViewObject                 theView,
-    const TQ3Point3D              *localPoint,
-    TQ3Point2D                    *windowPoint
+    TQ3ViewObject _Nonnull                theView,
+    const TQ3Point3D              * _Nonnull localPoint,
+    TQ3Point2D                    * _Nonnull windowPoint
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -887,9 +891,9 @@ Q3View_TransformLocalToWindow (
 
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_TransformWorldToWindow (
-    TQ3ViewObject                 theView,
-    const TQ3Point3D              *worldPoint,
-    TQ3Point2D                    *windowPoint
+    TQ3ViewObject _Nonnull                theView,
+    const TQ3Point3D              * _Nonnull worldPoint,
+    TQ3Point2D                    * _Nonnull windowPoint
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -910,8 +914,8 @@ Q3View_TransformWorldToWindow (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_SetDrawContext (
-    TQ3ViewObject                 view,
-    TQ3DrawContextObject          drawContext
+    TQ3ViewObject _Nonnull                view,
+    TQ3DrawContextObject _Nonnull         drawContext
 );
 
 
@@ -931,8 +935,8 @@ Q3View_SetDrawContext (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetDrawContext (
-    TQ3ViewObject                 view,
-    TQ3DrawContextObject          *drawContext
+    TQ3ViewObject _Nonnull                view,
+    TQ3DrawContextObject _Nonnull         * _Nonnull drawContext
 );
 
 
@@ -950,8 +954,8 @@ Q3View_GetDrawContext (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetLocalToWorldMatrixState (
-    TQ3ViewObject                 view,
-    TQ3Matrix4x4                  *matrix
+    TQ3ViewObject _Nonnull                view,
+    TQ3Matrix4x4                  * _Nonnull matrix
 );
 
 
@@ -984,8 +988,8 @@ Q3View_GetLocalToWorldMatrixState (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetWorldToFrustumMatrixState (
-    TQ3ViewObject                 view,
-    TQ3Matrix4x4                  *matrix
+    TQ3ViewObject _Nonnull                view,
+    TQ3Matrix4x4                  * _Nonnull matrix
 );
 
 
@@ -1008,8 +1012,8 @@ Q3View_GetWorldToFrustumMatrixState (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetFrustumToWindowMatrixState (
-    TQ3ViewObject                 view,
-    TQ3Matrix4x4                  *matrix
+    TQ3ViewObject _Nonnull                view,
+    TQ3Matrix4x4                  * _Nonnull matrix
 );
 
 
@@ -1027,8 +1031,8 @@ Q3View_GetFrustumToWindowMatrixState (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetBackfacingStyleState (
-    TQ3ViewObject                 view,
-    TQ3BackfacingStyle            *backfacingStyle
+    TQ3ViewObject _Nonnull                view,
+    TQ3BackfacingStyle            * _Nonnull backfacingStyle
 );
 
 
@@ -1046,8 +1050,8 @@ Q3View_GetBackfacingStyleState (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetInterpolationStyleState (
-    TQ3ViewObject                 view,
-    TQ3InterpolationStyle         *interpolationType
+    TQ3ViewObject _Nonnull                view,
+    TQ3InterpolationStyle         * _Nonnull interpolationType
 );
 
 
@@ -1065,8 +1069,8 @@ Q3View_GetInterpolationStyleState (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetFillStyleState (
-    TQ3ViewObject                 view,
-    TQ3FillStyle                  *fillStyle
+    TQ3ViewObject _Nonnull                view,
+    TQ3FillStyle                  * _Nonnull fillStyle
 );
 
 
@@ -1084,8 +1088,8 @@ Q3View_GetFillStyleState (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetHighlightStyleState (
-    TQ3ViewObject                 view,
-    TQ3AttributeSet               *highlightStyle
+    TQ3ViewObject _Nonnull                view,
+    TQ3AttributeSet _Nullable              * _Nonnull highlightStyle
 );
 
 
@@ -1103,8 +1107,8 @@ Q3View_GetHighlightStyleState (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetSubdivisionStyleState (
-    TQ3ViewObject                 view,
-    TQ3SubdivisionStyleData       *subdivisionStyle
+    TQ3ViewObject _Nonnull                view,
+    TQ3SubdivisionStyleData       * _Nonnull subdivisionStyle
 );
 
 
@@ -1122,8 +1126,8 @@ Q3View_GetSubdivisionStyleState (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetOrientationStyleState (
-    TQ3ViewObject                 view,
-    TQ3OrientationStyle           *fontFacingDirectionStyle
+    TQ3ViewObject _Nonnull                view,
+    TQ3OrientationStyle           * _Nonnull fontFacingDirectionStyle
 );
 
 
@@ -1145,8 +1149,8 @@ Q3View_GetOrientationStyleState (
 
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetCastShadowsStyleState (
-    TQ3ViewObject                 view,
-    TQ3Boolean                    *castShadows
+    TQ3ViewObject _Nonnull                view,
+    TQ3Boolean                    * _Nonnull castShadows
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -1166,8 +1170,8 @@ Q3View_GetCastShadowsStyleState (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetReceiveShadowsStyleState (
-    TQ3ViewObject                 view,
-    TQ3Boolean                    *receiveShadows
+    TQ3ViewObject _Nonnull                view,
+    TQ3Boolean                    * _Nonnull receiveShadows
 );
 
 
@@ -1185,8 +1189,8 @@ Q3View_GetReceiveShadowsStyleState (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetPickIDStyleState (
-    TQ3ViewObject                 view,
-    TQ3Uns32                      *pickIDStyle
+    TQ3ViewObject _Nonnull                view,
+    TQ3Uns32                      * _Nonnull pickIDStyle
 );
 
 
@@ -1204,8 +1208,8 @@ Q3View_GetPickIDStyleState (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetPickPartsStyleState (
-    TQ3ViewObject                 view,
-    TQ3PickParts                  *pickPartsStyle
+    TQ3ViewObject _Nonnull                view,
+    TQ3PickParts                  * _Nonnull pickPartsStyle
 );
 
 
@@ -1223,8 +1227,8 @@ Q3View_GetPickPartsStyleState (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetAntiAliasStyleState (
-    TQ3ViewObject                 view,
-    TQ3AntiAliasStyleData         *antiAliasData
+    TQ3ViewObject _Nonnull                view,
+    TQ3AntiAliasStyleData         * _Nonnull antiAliasData
 );
 
 
@@ -1246,8 +1250,8 @@ Q3View_GetAntiAliasStyleState (
 
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetFogStyleState (
-    TQ3ViewObject                 view,
-    TQ3FogStyleData               *fogData
+    TQ3ViewObject _Nonnull                view,
+    TQ3FogStyleData               * _Nonnull fogData
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -1269,8 +1273,8 @@ Q3View_GetFogStyleState (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetDefaultAttributeSet (
-    TQ3ViewObject                 view,
-    TQ3AttributeSet               *attributeSet
+    TQ3ViewObject _Nonnull                view,
+    TQ3AttributeSet _Nonnull              * _Nonnull attributeSet
 );
 
 
@@ -1289,8 +1293,8 @@ Q3View_GetDefaultAttributeSet (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_SetDefaultAttributeSet (
-    TQ3ViewObject                 view,
-    TQ3AttributeSet               attributeSet
+    TQ3ViewObject _Nonnull                view,
+    TQ3AttributeSet _Nonnull              attributeSet
 );
 
 
@@ -1308,8 +1312,8 @@ Q3View_SetDefaultAttributeSet (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetAttributeSetState (
-    TQ3ViewObject                 view,
-    TQ3AttributeSet               *attributeSet
+    TQ3ViewObject _Nonnull                view,
+    TQ3AttributeSet  _Nonnull             * _Nonnull attributeSet
 );
 
 
@@ -1333,9 +1337,9 @@ Q3View_GetAttributeSetState (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetAttributeState (
-    TQ3ViewObject                 view,
+    TQ3ViewObject _Nonnull                view,
     TQ3AttributeType              attributeType,
-    void                          *data
+    void                          * _Nonnull data
 );
 
 

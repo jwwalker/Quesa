@@ -1,5 +1,9 @@
 /*! @header Quesa.h
         Declares the fundamental Quesa types and functions.
+        
+	@ignore	_Nullable
+	@ignore _Nonnull
+	@ignore	_Null_unspecified
  */
 /*  NAME:
         Quesa.h
@@ -8,7 +12,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2016, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -72,6 +76,9 @@
 
 #endif
 
+#ifndef __has_feature
+#define __has_feature(x) 0
+#endif
 
 
 
@@ -285,6 +292,20 @@
 #endif
 
 
+// Nullability pointer qualifiers (probably Clang only)
+#if !__has_feature(nullability)
+#ifndef _Nullable
+#define _Nullable
+#endif
+#ifndef _Nonnull
+#define _Nonnull
+#endif
+#ifndef _Null_unspecified
+#define _Null_unspecified
+#endif
+#endif
+
+
 
 
 //=============================================================================
@@ -391,7 +412,7 @@ typedef TQ3Int32                                TQ3ObjectType;
  *      Miscellaneous constants
  *
  *  @constant kQ3StringMaximumLength    Maximum length of TQ3ObjectClassNameString.
- *  @constant kQ3ArrayIndexNULL         nullptr array index.
+ *  @constant kQ3ArrayIndexNULL         NULL array index.
  */
 enum {
     kQ3StringMaximumLength                      = 1024,
@@ -857,7 +878,7 @@ typedef void                                    *TQ3ControllerRef;
 typedef Q3_CALLBACK_API_C(void,                TQ3XFunctionPointer)(
                             void);
 
-typedef Q3_CALLBACK_API_C(TQ3XFunctionPointer, TQ3XMetaHandler)(
+typedef Q3_CALLBACK_API_C(TQ3XFunctionPointer _Nullable, TQ3XMetaHandler)(
                             TQ3XMethodType      methodType);
 
 
@@ -919,9 +940,11 @@ typedef TQ3Object                               TQ3PickObject;
 	@result		Pass kQ3Failure if you want to stop iterating.
 */
 typedef Q3_CALLBACK_API_C(TQ3Status, TQ3PropertyIterator)
-										(TQ3Object object,
+										(TQ3Object _Nonnull object,
 										TQ3ObjectType propType,
-										void *userData);
+										void * _Nullable userData);
+
+
 
 // Geometric types
 /*!
@@ -1238,7 +1261,7 @@ typedef struct TQ3ColorRGBA {
  */
 typedef struct TQ3Vertex3D {
     TQ3Point3D                                  point;
-    TQ3AttributeSet                             attributeSet;
+    TQ3AttributeSet _Nullable                   attributeSet;
 } TQ3Vertex3D;
 
 
@@ -1286,7 +1309,7 @@ typedef struct TQ3Matrix4x4 {
  *  @field byteOrder        The order in which bytes in a word are addressed within the image data.
  */
 typedef struct TQ3Pixmap {
-    void                                        *image;
+    void* _Nonnull								image;
     TQ3Uns32                                    width;
     TQ3Uns32                                    height;
     TQ3Uns32                                    rowBytes;
@@ -1313,7 +1336,7 @@ typedef struct TQ3Pixmap {
  *  @field byteOrder        The order in which bytes in a word are addressed within the image data.
  */
 typedef struct TQ3StoragePixmap {
-    TQ3StorageObject                            image;
+    TQ3StorageObject _Nonnull                   image;
     TQ3Uns32                                    width;
     TQ3Uns32                                    height;
     TQ3Uns32                                    rowBytes;
@@ -1338,7 +1361,7 @@ typedef struct TQ3StoragePixmap {
  *  @field bitOrder         The order in which bits in a byte are addressed within the image data.
  */
 typedef struct TQ3Bitmap {
-    TQ3Uns8                                     *image;
+    TQ3Uns8* _Nullable 							image;
     TQ3Uns32                                    width;
     TQ3Uns32                                    height;
     TQ3Uns32                                    rowBytes;
@@ -1385,7 +1408,7 @@ typedef struct TQ3MipmapImage {
  *  @field mipmaps          Up to 32 mip-map image specifications.
  */
 typedef struct TQ3Mipmap {
-    TQ3StorageObject                            image;
+    TQ3StorageObject _Nonnull                   image;
     TQ3Boolean                                  useMipmapping;
     TQ3PixelType                                pixelType;
     TQ3Endian                                   bitOrder;
@@ -1411,9 +1434,9 @@ typedef struct TQ3Mipmap {
  *  @field pixelType           The pixel format of the image data. The format must be appropriate for pixelSize.
  */
 typedef struct TQ3CompressedPixmap {
-    TQ3StorageObject                            compressedImage;
+    TQ3StorageObject _Nonnull                            compressedImage;
     TQ3Endian                                   imageDescByteOrder;
-    TQ3StorageObject                            imageDesc;
+    TQ3StorageObject _Nonnull                            imageDesc;
     TQ3Boolean                                  makeMipmaps;
     TQ3Uns32                                    width;
     TQ3Uns32                                    height;
@@ -1499,7 +1522,7 @@ typedef struct TQ3BoundingSphere {
  */
 typedef struct TQ3SubClassData {
     TQ3Uns32                                    numClasses;
-    TQ3ObjectType                               *classTypes;
+    TQ3ObjectType* _Nullable					classTypes;
 } TQ3SubClassData;
 
 
@@ -1518,6 +1541,10 @@ typedef struct TQ3SubClassData {
  *      Only Q3IsInitialized, Q3GetVersion, and Q3GetReleaseVersion may be
  *      called before the Quesa library is initialised.
  *
+ *		Quesa initialization is reference counted.  Therefore, for example,
+ *		if you have called Q3Initialize twice, you must also call Q3Exit
+ *		twice in order for Quesa to really shut down.
+ *
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -1533,6 +1560,10 @@ Q3Initialize (
  *  @discussion
  *      Shuts down Quesa, and releases any resources allocated by the library.
  *
+ *		Quesa initialization is reference counted.  Therefore, for example,
+ *		if you have called Q3Initialize twice, you must also call Q3Exit
+ *		twice in order for Quesa to really shut down.
+ *
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -1546,7 +1577,7 @@ Q3Exit (
  *  @function
  *      Q3IsInitialized
  *  @discussion
- *      Tests to see if Quesa has been initialised or not.
+ *      Tests to see if Quesa has been initialised and not shut down.
  *
  *  @result                 True or false as Quesa has been initialised or not.
  */
@@ -1579,8 +1610,8 @@ Q3IsInitialized (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3GetVersion (
-    TQ3Uns32                      *majorRevision,
-    TQ3Uns32                      *minorRevision
+    TQ3Uns32                      * _Nonnull majorRevision,
+    TQ3Uns32                      * _Nonnull minorRevision
 );
 
 
@@ -1610,7 +1641,7 @@ Q3GetVersion (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3GetReleaseVersion (
-    TQ3Uns32                      *releaseRevision
+    TQ3Uns32                      * _Nonnull releaseRevision
 );
 
 
@@ -1635,7 +1666,7 @@ Q3GetReleaseVersion (
 	@param	inMessage		A message to write to the log.
 */
 Q3_EXTERN_API_C( void )
-Q3LogMessage( const char* inMessage );
+Q3LogMessage( const char* _Nonnull inMessage );
 
 
 
@@ -1657,8 +1688,8 @@ Q3LogMessage( const char* inMessage );
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ObjectHierarchy_GetTypeFromString (
-    const TQ3ObjectClassNameString      objectClassString,
-    TQ3ObjectType                 *objectClassType
+    const TQ3ObjectClassNameString _Nonnull      objectClassString,
+    TQ3ObjectType                 * _Nonnull objectClassType
 );
 
 
@@ -1676,7 +1707,7 @@ Q3ObjectHierarchy_GetTypeFromString (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ObjectHierarchy_GetStringFromType (
     TQ3ObjectType                 objectClassType,
-    TQ3ObjectClassNameString      objectClassString
+    TQ3ObjectClassNameString _Nonnull      objectClassString
 );
 
 
@@ -1708,7 +1739,7 @@ Q3ObjectHierarchy_IsTypeRegistered (
  */
 Q3_EXTERN_API_C ( TQ3Boolean  )
 Q3ObjectHierarchy_IsNameRegistered (
-    const char                    *objectClassName
+    const char                    * _Nonnull objectClassName
 );
 
 
@@ -1729,7 +1760,7 @@ Q3ObjectHierarchy_IsNameRegistered (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ObjectHierarchy_GetSubClassData (
     TQ3ObjectType                 objectClassType,
-    TQ3SubClassData               *subClassData
+    TQ3SubClassData               * _Nonnull subClassData
 );
 
 
@@ -1746,7 +1777,7 @@ Q3ObjectHierarchy_GetSubClassData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ObjectHierarchy_EmptySubClassData (
-    TQ3SubClassData               *subClassData
+    TQ3SubClassData               * _Nonnull subClassData
 );
 
 
@@ -1770,12 +1801,13 @@ Q3ObjectHierarchy_EmptySubClassData (
  *      When used on a non-reference-counted object such as a view or pick,
  *      the object is deleted immediately.
  *
- *  @param object           The object to dispose.
+ *  @param object           The object to dispose.  (If this is NULL, the function
+ *							does nothing and returns kQ3Failure.)
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Object_Dispose (
-    TQ3Object                     object
+    TQ3Object _Nullable                     object
 );
 
 
@@ -1786,27 +1818,27 @@ Q3Object_Dispose (
  *  @discussion
  *      Cleanly disposes of a Quesa object.
  *
- *      If theObject is not nullptr, invokes Q3Object_Dispose to decrement the object
+ *      If theObject is not NULL, invokes Q3Object_Dispose to decrement the object
  *      reference count then clears the supplied pointer to prevent stale references.
  *
  *      Equivalent to:
  *
- *          if (theObject != nullptr)
+ *          if (theObject != NULL)
  *              {
  *              Q3Object_Dispose(theObject);
- *              theObject = nullptr;
+ *              theObject = NULL;
  *              }
  *      
  *      <em>This function is not available in QD3D.</em>
  *      
- *  @param theObject        The object to dispose (may be nullptr).
+ *  @param theObject        The object to dispose (may be NULL).
  *  @result                 Success or failure of the operation.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Object_CleanDispose (
-    TQ3Object                     *theObject
+    TQ3Object _Nullable                     * _Nonnull theObject
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -1832,7 +1864,7 @@ Q3Object_CleanDispose (
  *	@param			theRefAddress	Address of an object reference.
 */
 Q3_EXTERN_API_C( void )
-Q3Object_GetWeakReference( TQ3Object* theRefAddress );
+Q3Object_GetWeakReference( TQ3Object _Nonnull * _Nonnull theRefAddress );
 
 
 /*!
@@ -1845,7 +1877,7 @@ Q3Object_GetWeakReference( TQ3Object* theRefAddress );
  *	@param			theRefAddress	Address of an object reference.
 */
 Q3_EXTERN_API_C( void )
-Q3Object_ReleaseWeakReference( TQ3Object* theRefAddress );
+Q3Object_ReleaseWeakReference( TQ3Object _Nullable * _Nonnull theRefAddress );
 
 
 
@@ -1860,9 +1892,9 @@ Q3Object_ReleaseWeakReference( TQ3Object* theRefAddress );
  *  @param object           The object to duplicate.
  *  @result                 A new copy of the object.
  */
-Q3_EXTERN_API_C ( TQ3Object  )
+Q3_EXTERN_API_C ( TQ3Object _Nonnull  )
 Q3Object_Duplicate (
-    TQ3Object                     object
+    TQ3Object _Nonnull                    object
 );
 
 
@@ -1882,8 +1914,8 @@ Q3Object_Duplicate (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Object_Submit (
-    TQ3Object                     object,
-    TQ3ViewObject                 view
+    TQ3Object _Nonnull                     object,
+    TQ3ViewObject _Nonnull                 view
 );
 
 
@@ -1901,7 +1933,7 @@ Q3Object_Submit (
  */
 Q3_EXTERN_API_C ( TQ3Boolean  )
 Q3Object_IsDrawable (
-    TQ3Object                     object
+    TQ3Object _Nonnull                     object
 );
 
 
@@ -1919,8 +1951,8 @@ Q3Object_IsDrawable (
  */
 Q3_EXTERN_API_C ( TQ3Boolean  )
 Q3Object_IsWritable (
-    TQ3Object                     object,
-    TQ3FileObject                 theFile
+    TQ3Object _Nonnull                     object,
+    TQ3FileObject _Nonnull                 theFile
 );
 
 
@@ -1940,7 +1972,7 @@ Q3Object_IsWritable (
  */
 Q3_EXTERN_API_C ( TQ3ObjectType  )
 Q3Object_GetType (
-    TQ3Object                     object
+    TQ3Object _Nonnull                     object
 );
 
 
@@ -1960,7 +1992,7 @@ Q3Object_GetType (
  */
 Q3_EXTERN_API_C ( TQ3ObjectType  )
 Q3Object_GetLeafType (
-    TQ3Object                     object
+    TQ3Object _Nonnull                     object
 );
 
 
@@ -1982,7 +2014,7 @@ Q3Object_GetLeafType (
  */
 Q3_EXTERN_API_C ( TQ3Boolean  )
 Q3Object_IsType (
-    TQ3Object                     object,
+    TQ3Object _Nonnull                     object,
     TQ3ObjectType                 theType
 );
 
@@ -2008,9 +2040,9 @@ Q3Object_IsType (
 
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Object_AddElement (
-    TQ3Object                     object,
+    TQ3Object _Nonnull                     object,
     TQ3ElementType                theType,
-    const void                    *data
+    const void                    * _Nonnull data
 );
 
 #endif
@@ -2036,9 +2068,9 @@ Q3Object_AddElement (
 
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Object_GetElement (
-    TQ3Object                     object,
+    TQ3Object _Nonnull            object,
     TQ3ElementType                theType,
-    void                          *data
+    void * _Nonnull               data
 );
 
 #endif
@@ -2063,7 +2095,7 @@ Q3Object_GetElement (
 
 Q3_EXTERN_API_C ( TQ3Boolean  )
 Q3Object_ContainsElement (
-    TQ3Object                object,
+    TQ3Object _Nonnull                object,
     TQ3ElementType           theType
 );
 
@@ -2094,8 +2126,8 @@ Q3Object_ContainsElement (
 
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Object_GetNextElementType (
-    TQ3Object                object,
-    TQ3ElementType           *theType
+    TQ3Object _Nonnull                object,
+    TQ3ElementType*	_Nonnull 		theType
 );
 
 #endif
@@ -2121,7 +2153,7 @@ Q3Object_GetNextElementType (
 
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Object_EmptyElements (
-    TQ3Object                object
+    TQ3Object _Nonnull                object
 );
 
 #endif
@@ -2148,7 +2180,7 @@ Q3Object_EmptyElements (
 
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Object_ClearElement (
-    TQ3Object               object,
+    TQ3Object _Nonnull               object,
     TQ3ElementType          theType
 );
 
@@ -2169,15 +2201,15 @@ Q3Object_ClearElement (
  *      <em>This function is not available in QD3D.</em>
  *
  *  @param	object    		The object.
- *  @param	set             Receives a set object, or nullptr.
+ *  @param	set             Receives a set object, or NULL.
  *	@result		Success or failure of the operation.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Object_GetSet (
-    TQ3Object               object,
-    TQ3SetObject*			set
+    TQ3Object _Nonnull                    object,
+    TQ3SetObject _Nullable * _Nonnull	  set
 );
 
 #endif
@@ -2194,7 +2226,7 @@ Q3Object_GetSet (
  *		buffer that is not large enough to hold the data.
  *
  *		If you do not know the size of the property, you may call Q3Object_GetProperty
- *		passing nullptr for the buffer to find the size of the data, then allocate your
+ *		passing NULL for the buffer to find the size of the data, then allocate your
  *		buffer and call Q3Object_GetProperty again.
  *      
  *      <em>This function is not available in QD3D.</em>
@@ -2203,19 +2235,19 @@ Q3Object_GetSet (
  *	@param	propType		Property type tag.
  *	@param	bufferSize		Size of provided buffer in bytes.
  *	@param	actualSize		Returns size of returned data in bytes.
- *							You may pass nullptr if you do not need this information.
- *	@param	buffer			Buffer to receive the property data.  May be nullptr.
+ *							You may pass NULL if you do not need this information.
+ *	@param	buffer			Buffer to receive the property data.  May be NULL.
  *	@result		Success or failure of the operation.
 */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Object_GetProperty(
-	TQ3Object				object,
+	TQ3Object _Nonnull				object,
 	TQ3ObjectType			propType,
 	TQ3Uns32				bufferSize,
-	TQ3Uns32*				actualSize,
-	void*					buffer );
+	TQ3Uns32* _Nullable				actualSize,
+	void* _Nullable					buffer );
 
 #endif
 
@@ -2237,7 +2269,7 @@ Q3Object_GetProperty(
 
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Object_RemoveProperty(
-	TQ3Object				object,
+	TQ3Object _Nonnull				object,
 	TQ3ObjectType			propType );
 
 #endif
@@ -2272,10 +2304,10 @@ Q3Object_RemoveProperty(
 
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Object_SetProperty(
-	TQ3Object				object,
+	TQ3Object _Nonnull				object,
 	TQ3ObjectType			propType,
 	TQ3Uns32				dataSize,
-	const void*				data );
+	const void* _Nonnull				data );
 
 #endif
 
@@ -2291,16 +2323,16 @@ Q3Object_SetProperty(
 	@param		object			A Quesa object.
 	@param		userIterator	A callback function.
 	@param		userData		A pointer to be passed back to the callback
-								(use nullptr if none is needed).
+								(use NULL if none is needed).
 	@result		Success or failure of the operation.
 */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Object_IterateProperties(
-	TQ3Object				object,
-	TQ3PropertyIterator		userIterator,
-	void*					userData );
+	TQ3Object _Nonnull				object,
+	TQ3PropertyIterator _Nonnull		userIterator,
+	void* _Nullable					userData );
 
 #endif
 
@@ -2319,14 +2351,14 @@ Q3Object_IterateProperties(
  *
  *  @param	object    		The object.
  *	@param	set				A set object.
- *  @result                 A set object, or nullptr.
+ *  @result                 A set object, or NULL.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Object_SetSet (
-    TQ3Object               object,
-    TQ3SetObject			set
+    TQ3Object _Nonnull               object,
+    TQ3SetObject _Nullable			set
 );
 
 #endif
@@ -2354,7 +2386,7 @@ Q3Object_SetSet (
  */
 Q3_EXTERN_API_C ( TQ3ObjectType  )
 Q3Shared_GetType (
-    TQ3SharedObject               sharedObject
+    TQ3SharedObject _Nonnull               sharedObject
 );
 
 
@@ -2368,9 +2400,9 @@ Q3Shared_GetType (
  *  @param sharedObject     The object whose reference count should be incremented.
  *  @result                 The object whose reference count has been incremented.
  */
-Q3_EXTERN_API_C ( TQ3SharedObject  )
+Q3_EXTERN_API_C ( TQ3SharedObject _Nonnull  )
 Q3Shared_GetReference (
-    TQ3SharedObject               sharedObject
+    TQ3SharedObject _Nonnull               sharedObject
 );
 
 
@@ -2389,7 +2421,7 @@ Q3Shared_GetReference (
  */
 Q3_EXTERN_API_C ( TQ3Boolean  )
 Q3Shared_IsReferenced (
-    TQ3SharedObject               sharedObject
+    TQ3SharedObject _Nonnull               sharedObject
 );
 
 
@@ -2413,7 +2445,7 @@ Q3Shared_IsReferenced (
 
 Q3_EXTERN_API_C ( TQ3Uns32 )
 Q3Shared_GetReferenceCount (
-	TQ3SharedObject               sharedObject
+	TQ3SharedObject _Nonnull               sharedObject
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -2435,7 +2467,7 @@ Q3Shared_GetReferenceCount (
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
 Q3_EXTERN_API_C( void )
-Q3Shared_StartLoggingRefs( TQ3SharedObject sharedObject );
+Q3Shared_StartLoggingRefs( TQ3SharedObject _Nonnull sharedObject );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -2455,7 +2487,7 @@ Q3Shared_StartLoggingRefs( TQ3SharedObject sharedObject );
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
 Q3_EXTERN_API_C( void )
-Q3Shared_StopLoggingRefs( TQ3SharedObject sharedObject );
+Q3Shared_StopLoggingRefs( TQ3SharedObject _Nonnull sharedObject );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -2476,7 +2508,7 @@ Q3Shared_StopLoggingRefs( TQ3SharedObject sharedObject );
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
 Q3_EXTERN_API_C( TQ3Boolean )
-Q3Shared_IsLoggingRefs( TQ3SharedObject sharedObject );
+Q3Shared_IsLoggingRefs( TQ3SharedObject _Nonnull sharedObject );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
@@ -2496,7 +2528,7 @@ Q3Shared_IsLoggingRefs( TQ3SharedObject sharedObject );
  */
 Q3_EXTERN_API_C ( TQ3Uns32  )
 Q3Shared_GetEditIndex (
-    TQ3SharedObject               sharedObject
+    TQ3SharedObject _Nonnull               sharedObject
 );
 
 
@@ -2516,7 +2548,7 @@ Q3Shared_GetEditIndex (
 */
 Q3_EXTERN_API_C( void )
 Q3Shared_SetEditIndex(
-	TQ3SharedObject inObject,
+	TQ3SharedObject _Nonnull inObject,
 	TQ3Uns32 inEditIndex
 );
 
@@ -2536,7 +2568,7 @@ Q3Shared_SetEditIndex(
 	@param		inIsLocked		Pass kQ3True to lock, pass kQ3False to unlock.
 */
 Q3_EXTERN_API_C( void )
-Q3Shared_SetEditIndexLocked( TQ3SharedObject inObject, TQ3Boolean inIsLocked );
+Q3Shared_SetEditIndexLocked( TQ3SharedObject _Nonnull inObject, TQ3Boolean inIsLocked );
 
 
 
@@ -2548,7 +2580,7 @@ Q3Shared_SetEditIndexLocked( TQ3SharedObject inObject, TQ3Boolean inIsLocked );
 	@result		kQ3True if locked, kQ3False if unlocked.
 */
 Q3_EXTERN_API_C( TQ3Boolean )
-Q3Shared_IsEditIndexLocked( TQ3SharedObject inObject );
+Q3Shared_IsEditIndexLocked( TQ3SharedObject _Nonnull inObject );
 
 
 
@@ -2567,7 +2599,7 @@ Q3Shared_IsEditIndexLocked( TQ3SharedObject inObject );
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Shared_Edited (
-    TQ3SharedObject               sharedObject
+    TQ3SharedObject _Nonnull               sharedObject
 );
 
 
@@ -2593,7 +2625,7 @@ Q3Shared_Edited (
  */
 Q3_EXTERN_API_C ( TQ3ObjectType  )
 Q3Shape_GetType (
-    TQ3ShapeObject                shape
+    TQ3ShapeObject _Nonnull                shape
 );
 
 
@@ -2609,16 +2641,16 @@ Q3Shape_GetType (
  *      Note that this is not the same as the attribute set of a geometry object,
  *		nor is in the internal set which holds elements on an object.  That is,
  *		after adding elements or attributes to an object, this function may still
- *		return the nullptr set.
+ *		return the NULL set.
  *
  *  @param shape            The object to query.
- *  @param theSet           Receives the set of the object, or nullptr.
+ *  @param theSet           Receives the set of the object, or NULL.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Shape_GetSet (
-    TQ3ShapeObject                shape,
-    TQ3SetObject                  *theSet
+    TQ3ShapeObject _Nonnull                shape,
+    TQ3SetObject _Nullable * _Nonnull theSet
 );
 
 
@@ -2639,8 +2671,8 @@ Q3Shape_GetSet (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Shape_SetSet (
-    TQ3ShapeObject                shape,
-    TQ3SetObject                  theSet
+    TQ3ShapeObject _Nonnull                shape,
+    TQ3SetObject _Nonnull                  theSet
 );
 
 
@@ -2658,9 +2690,9 @@ Q3Shape_SetSet (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Shape_AddElement (
-    TQ3ShapeObject                shape,
+    TQ3ShapeObject _Nonnull                shape,
     TQ3ElementType                theType,
-    const void                    *data
+    const void * _Nonnull data
 );
 
 
@@ -2678,9 +2710,9 @@ Q3Shape_AddElement (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Shape_GetElement (
-    TQ3ShapeObject                shape,
+    TQ3ShapeObject _Nonnull                shape,
     TQ3ElementType                theType,
-    void                          *data
+    void * _Nonnull				 data
 );
 
 
@@ -2697,7 +2729,7 @@ Q3Shape_GetElement (
  */
 Q3_EXTERN_API_C ( TQ3Boolean  )
 Q3Shape_ContainsElement (
-    TQ3ShapeObject                shape,
+    TQ3ShapeObject _Nonnull                shape,
     TQ3ElementType                theType
 );
 
@@ -2720,8 +2752,8 @@ Q3Shape_ContainsElement (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Shape_GetNextElementType (
-    TQ3ShapeObject                shape,
-    TQ3ElementType                *theType
+    TQ3ShapeObject _Nonnull                shape,
+    TQ3ElementType * _Nonnull theType
 );
 
 
@@ -2737,7 +2769,7 @@ Q3Shape_GetNextElementType (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Shape_EmptyElements (
-    TQ3ShapeObject                shape
+    TQ3ShapeObject _Nonnull                shape
 );
 
 
@@ -2754,7 +2786,7 @@ Q3Shape_EmptyElements (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Shape_ClearElement (
-    TQ3ShapeObject                shape,
+    TQ3ShapeObject _Nonnull                shape,
     TQ3ElementType                theType
 );
 
@@ -2781,7 +2813,7 @@ Q3Shape_ClearElement (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Bitmap_Empty (
-    TQ3Bitmap                     *bitmap
+    TQ3Bitmap                     * _Nonnull bitmap
 );
 
 
@@ -2824,7 +2856,7 @@ Q3Bitmap_GetImageSize (
 
 Q3_EXTERN_API_C ( TQ3Boolean  )
 Q3Bitmap_GetBit (
-    const TQ3Bitmap               *theBitmap,
+    const TQ3Bitmap               * _Nonnull theBitmap,
     TQ3Uns32                      x,
     TQ3Uns32                      y
 );
@@ -2851,7 +2883,7 @@ Q3Bitmap_GetBit (
 
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Bitmap_SetBit (
-    TQ3Bitmap                     *theBitmap,
+    TQ3Bitmap                     * _Nonnull theBitmap,
     TQ3Uns32                      x,
     TQ3Uns32                      y,
     TQ3Boolean                    theState

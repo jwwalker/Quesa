@@ -5,7 +5,7 @@
         Implementation of Quesa Marker geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -188,11 +188,12 @@ e3geom_marker_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 	// Copy the data from fromObject to toObject
 	qd3dStatus = Q3Marker_GetData(fromObject, toInstanceData);
 	
+	TQ3AttributeSet srcAtts = toInstanceData->markerAttributeSet;
 	if ( (qd3dStatus == kQ3Success) &&
-		(toInstanceData->markerAttributeSet != nullptr) )
+		(srcAtts != nullptr) )
 	{
-		dupSet = Q3Object_Duplicate( toInstanceData->markerAttributeSet );
-		Q3Object_Dispose( toInstanceData->markerAttributeSet );
+		dupSet = Q3Object_Duplicate( srcAtts );
+		Q3Object_Dispose( srcAtts );
 		toInstanceData->markerAttributeSet = dupSet;
 		if (dupSet == nullptr)
 		{
@@ -237,8 +238,9 @@ e3geom_marker_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const 
 	// behaviour was the same for both geometries (or only for bitmaps).
 	Q3ColorRGB_Set(&theColour, 1.0f, 1.0f, 1.0f);
 	
-	if (geomData->markerAttributeSet != nullptr)
-		Q3AttributeSet_Get(geomData->markerAttributeSet, kQ3AttributeTypeDiffuseColor, &theColour);
+	TQ3AttributeSet atts = geomData->markerAttributeSet;
+	if (atts != nullptr)
+		Q3AttributeSet_Get(atts, kQ3AttributeTypeDiffuseColor, &theColour);
 	
 	thePixel = (                         0x0001 << 15) |
 			   (((TQ3Uns16) (theColour.r * 31)) << 10) |

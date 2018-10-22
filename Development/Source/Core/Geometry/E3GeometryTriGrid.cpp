@@ -5,7 +5,7 @@
         Implementation of Quesa TriGrid geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -87,6 +87,7 @@ e3geom_trigrid_copydata(const TQ3TriGridData *src, TQ3TriGridData *dst, TQ3Boole
 	TQ3Uns32	qtyFacets;		// how many triangles we have
 	TQ3Uns32	theSize;
 	TQ3Uns32	i;
+	TQ3AttributeSet	atts;
 		
 	qtyVerts = src->numRows * src->numColumns;
 	qtyFacets = 2 * (src->numRows-1) * (src->numColumns-1);
@@ -113,20 +114,27 @@ e3geom_trigrid_copydata(const TQ3TriGridData *src, TQ3TriGridData *dst, TQ3Boole
 	if (isDuplicate)
 	{
 	
-		for(i=0; i< qtyVerts; i++){
-			if(src->vertices[i].attributeSet != nullptr)
-				dst->vertices[i].attributeSet = Q3Object_Duplicate(src->vertices[i].attributeSet);
+		for (i=0; i< qtyVerts; i++)
+		{
+			atts = src->vertices[i].attributeSet;
+			if (atts != nullptr)
+				dst->vertices[i].attributeSet = Q3Object_Duplicate( atts );
 			}
 			
 		if (src->facetAttributeSet != nullptr)
 		{
 			// facetAttributeSet is actually an array of attribute sets
 			dst->facetAttributeSet = (TQ3AttributeSet *) Q3Memory_AllocateClear( static_cast<TQ3Uns32>(sizeof(TQ3AttributeSet) * qtyFacets) );
-			if (dst->facetAttributeSet != nullptr) {
-				for (i=0; i<qtyFacets; i++) {
-					if(src->facetAttributeSet[i] != nullptr){
-						dst->facetAttributeSet[i] = Q3Object_Duplicate(src->facetAttributeSet[i]);
-						if (dst->facetAttributeSet[i] == nullptr){
+			if (dst->facetAttributeSet != nullptr)
+			{
+				for (i=0; i<qtyFacets; i++)
+				{
+					atts = src->facetAttributeSet[i];
+					if (atts != nullptr)
+					{
+						dst->facetAttributeSet[i] = Q3Object_Duplicate( atts );
+						if (dst->facetAttributeSet[i] == nullptr)
+						{
 							qd3dStatus = kQ3Failure;
 							break;
 							}
@@ -135,9 +143,10 @@ e3geom_trigrid_copydata(const TQ3TriGridData *src, TQ3TriGridData *dst, TQ3Boole
 			}
 		}
 
-		if (src->triGridAttributeSet != nullptr)
+		atts = src->triGridAttributeSet;
+		if (atts != nullptr)
 		{
-			dst->triGridAttributeSet = Q3Object_Duplicate(src->triGridAttributeSet);
+			dst->triGridAttributeSet = Q3Object_Duplicate( atts );
 			if (dst->triGridAttributeSet == nullptr) qd3dStatus = kQ3Failure;
 		}
 	}
@@ -306,14 +315,28 @@ e3geom_trigrid_addtriangle(TQ3GroupObject			group,
 	//
 	// We ensure there is a triangle normal for each face, to allow efficient
 	// culling even if no normal has been defined.
-	if (geomData->facetAttributeSet != nullptr && geomData->facetAttributeSet[tnum] != nullptr)
-		triangleData.triangleAttributeSet = Q3Shared_GetReference( geomData->facetAttributeSet[tnum] );
-	else
-		triangleData.triangleAttributeSet = Q3AttributeSet_New();
-
-	if (triangleData.triangleAttributeSet != nullptr)
+	if (geomData->facetAttributeSet != nullptr)
+	{
+		TQ3AttributeSet facetAtts = geomData->facetAttributeSet[tnum];
+		
+		if (facetAtts != nullptr)
 		{
-		if (!Q3AttributeSet_Contains(triangleData.triangleAttributeSet, kQ3AttributeTypeNormal))
+			triangleData.triangleAttributeSet = Q3Shared_GetReference( facetAtts );
+		}
+		else
+		{
+			triangleData.triangleAttributeSet = Q3AttributeSet_New();
+		}
+	}
+	else
+	{
+		triangleData.triangleAttributeSet = Q3AttributeSet_New();
+	}
+
+	TQ3AttributeSet triAtts = triangleData.triangleAttributeSet;
+	if (triAtts != nullptr)
+		{
+		if (!Q3AttributeSet_Contains(triAtts, kQ3AttributeTypeNormal))
 			{
 			// Calculate the triangle normal
 			//
@@ -331,7 +354,7 @@ e3geom_trigrid_addtriangle(TQ3GroupObject			group,
 			if (theOrientation == kQ3OrientationStyleClockwise)
 				Q3Vector3D_Negate(&theNormal, &theNormal);
 
-			Q3AttributeSet_Add(triangleData.triangleAttributeSet, kQ3AttributeTypeNormal, &theNormal);
+			Q3AttributeSet_Add(triAtts, kQ3AttributeTypeNormal, &theNormal);
 			}
 		}
 
@@ -408,8 +431,9 @@ e3geom_trigrid_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const
 		if (theGroup == nullptr)
 			return(nullptr);
 		
-		if (geomData->triGridAttributeSet != nullptr)
-			Q3Group_AddObject( theGroup, geomData->triGridAttributeSet );
+		TQ3AttributeSet atts = geomData->triGridAttributeSet;
+		if (atts != nullptr)
+			Q3Group_AddObject( theGroup, atts );
 
 		// Add a bunch of triangles to the group
 		for (row=0; row < geomData->numRows-1; row++) {

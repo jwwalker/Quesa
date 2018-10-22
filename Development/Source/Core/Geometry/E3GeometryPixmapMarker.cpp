@@ -400,8 +400,9 @@ e3geom_pixmapmarker_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 	if ( (qd3dStatus == kQ3Success) &&
 		(toInstanceData->pixmapMarkerAttributeSet != nullptr) )
 	{
-		dupSet = Q3Object_Duplicate( toInstanceData->pixmapMarkerAttributeSet );
-		Q3Object_Dispose( toInstanceData->pixmapMarkerAttributeSet );
+		TQ3AttributeSet srcAtts = toInstanceData->pixmapMarkerAttributeSet;
+		dupSet = Q3Object_Duplicate( srcAtts );
+		Q3Object_Dispose( srcAtts );
 		toInstanceData->pixmapMarkerAttributeSet = dupSet;
 		if (dupSet == nullptr)
 		{

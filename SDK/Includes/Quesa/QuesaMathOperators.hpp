@@ -9,7 +9,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2016, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -136,11 +136,27 @@ inline TQ3Point3D operator+( const TQ3Point3D& inPt, const TQ3Vector3D& inVec )
 	return theSum;
 }
 
+// pt = pt + vector [2D]
+inline TQ3Point2D operator+( const TQ3Point2D& inPt, const TQ3Vector2D& inVec )
+{
+	TQ3Point2D theSum;
+	Q3FastPoint2D_Vector2D_Add( &inPt, &inVec, &theSum );
+	return theSum;
+}
+
 // pt = pt - vector
 inline TQ3Point3D operator-( const TQ3Point3D& inPt, const TQ3Vector3D& inVec )
 {
 	TQ3Point3D theSum;
 	Q3FastPoint3D_Vector3D_Subtract( &inPt, &inVec, &theSum );
+	return theSum;
+}
+
+// pt = pt - vector [2D]
+inline TQ3Point2D operator-( const TQ3Point2D& inPt, const TQ3Vector2D& inVec )
+{
+	TQ3Point2D theSum;
+	Q3FastPoint2D_Vector2D_Subtract( &inPt, &inVec, &theSum );
 	return theSum;
 }
 
@@ -168,11 +184,27 @@ inline TQ3Vector3D operator+( const TQ3Vector3D& inA, const TQ3Vector3D& inB )
 	return result;
 }
 
+// vector = vector + vector [2D]
+inline TQ3Vector2D operator+( const TQ3Vector2D& inA, const TQ3Vector2D& inB )
+{
+	TQ3Vector2D result;
+	Q3FastVector2D_Add( &inA, &inB, &result );
+	return result;
+}
+
 // vector = vector - vector
 inline TQ3Vector3D operator-( const TQ3Vector3D& inA, const TQ3Vector3D& inB )
 {
 	TQ3Vector3D result;
 	Q3FastVector3D_Subtract( &inA, &inB, &result );
+	return result;
+}
+
+// vector = vector - vector [2D]
+inline TQ3Vector2D operator-( const TQ3Vector2D& inA, const TQ3Vector2D& inB )
+{
+	TQ3Vector2D result;
+	Q3FastVector2D_Subtract( &inA, &inB, &result );
 	return result;
 }
 
@@ -208,15 +240,15 @@ inline TQ3Point3D& operator-=( TQ3Point3D& ioA, const TQ3Vector3D& inB )
 inline TQ3Point3D operator+( const TQ3Point3D& inA, const TQ3Point3D& inB )
 {
 	TQ3Point3D result;
-	Q3FastVector3D_Add( (TQ3Vector3D*)&inA, (TQ3Vector3D*)&inB, (TQ3Vector3D*)&result );
+	Q3FastVector3D_Add( (const TQ3Vector3D*)&inA, (const TQ3Vector3D*)&inB, (TQ3Vector3D*)&result );
 	return result;
 }
 
-// pt = pt + pt (useful for weighted averages)
+// pt = pt + pt (useful for weighted averages) [2D]
 inline TQ3Point2D operator+( const TQ3Point2D& inA, const TQ3Point2D& inB )
 {
 	TQ3Point2D result;
-	Q3FastVector2D_Add( (TQ3Vector2D*)&inA, (TQ3Vector2D*)&inB, (TQ3Vector2D*)&result );
+	Q3FastVector2D_Add( (const TQ3Vector2D*)&inA, (const TQ3Vector2D*)&inB, (TQ3Vector2D*)&result );
 	return result;
 }
 
@@ -248,6 +280,14 @@ inline TQ3Point3D operator*( const TQ3Point3D& inPt, const TQ3Matrix4x4& inMat )
 	return result;
 }
 
+// pt * matrix (transform rational point)
+inline TQ3RationalPoint4D operator*( const TQ3RationalPoint4D& inPt, const TQ3Matrix4x4& inMat )
+{
+	TQ3RationalPoint4D result;
+	Q3RationalPoint4D_Transform( &inPt, &inMat, &result );
+	return result;
+}
+
 // pt *= matrix (transform point)
 inline TQ3Point3D& operator*=( TQ3Point3D& ioPt, const TQ3Matrix4x4& inMat )
 {
@@ -274,6 +314,18 @@ inline TQ3Vector3D& operator*=( TQ3Vector3D& ioVec, const TQ3Matrix4x4& inMat )
 //      Common Functions
 //-----------------------------------------------------------------------------
 
+inline TQ3RationalPoint4D Q3ToRational4D( const TQ3Point3D& inPt )
+{
+	TQ3RationalPoint4D result = { inPt.x, inPt.y, inPt.z, 1.0f };
+	return result;
+}
+
+inline TQ3RationalPoint4D Q3ToRational4D( const TQ3Vector3D& inVec )
+{
+	TQ3RationalPoint4D result = { inVec.x, inVec.y, inVec.z, 0.0f };
+	return result;
+}
+
 inline TQ3Vector3D Q3Cross3D( const TQ3Vector3D& inA, const TQ3Vector3D& inB )
 {
 	TQ3Vector3D result;
@@ -284,6 +336,11 @@ inline TQ3Vector3D Q3Cross3D( const TQ3Vector3D& inA, const TQ3Vector3D& inB )
 inline float Q3Dot3D( const TQ3Vector3D& inA, const TQ3Vector3D& inB )
 {
 	return Q3FastVector3D_Dot( &inA, &inB );
+}
+
+inline float Q3Dot2D( const TQ3Vector2D& inA, const TQ3Vector2D& inB )
+{
+	return Q3FastVector2D_Dot( &inA, &inB );
 }
 
 inline TQ3Vector3D Q3Normalize3D( const TQ3Vector3D& inVec )

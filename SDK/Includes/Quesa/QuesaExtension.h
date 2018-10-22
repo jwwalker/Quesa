@@ -1,5 +1,9 @@
 /*! @header QuesaExtension.h
         Declares the Quesa extension interface.
+        
+	@ignore	_Nullable
+	@ignore _Nonnull
+	@ignore	_Null_unspecified
  */
 /*  NAME:
         QuesaExtension.h
@@ -8,7 +12,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -176,33 +180,33 @@ typedef TQ3Uns32 TQ3XObjectClassVersion;
 
 // Class methods
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XObjectClassRegisterMethod)(
-                            TQ3XObjectClass     objectClass,
-                            void                *classPrivate);
+                            TQ3XObjectClass _Nonnull     objectClass,
+                            void                * _Null_unspecified classPrivate);
 
 typedef Q3_CALLBACK_API_C(void,                TQ3XObjectClassReplaceMethod)(
-                            TQ3XObjectClass     oldObjectClass,
-                            void                *oldClassPrivate,
-                            TQ3XObjectClass     newObjectClass,
-                            void                *newClassPrivate);
+                            TQ3XObjectClass _Nonnull     oldObjectClass,
+                            void                * _Null_unspecified oldClassPrivate,
+                            TQ3XObjectClass _Nonnull     newObjectClass,
+                            void                * _Null_unspecified newClassPrivate);
 
 typedef Q3_CALLBACK_API_C(void,                TQ3XObjectClassUnregisterMethod)(
-                            TQ3XObjectClass     objectClass,
-                            void                *classPrivate);
+                            TQ3XObjectClass _Nonnull     objectClass,
+                            void                * _Null_unspecified classPrivate);
 
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XObjectNewMethod)(
-                            TQ3Object           object,
-                            void                *privateData,
-                            void                *parameters);
+                            TQ3Object _Nonnull          object,
+                            void                * _Null_unspecified privateData,
+                            void                * _Null_unspecified parameters);
 
 typedef Q3_CALLBACK_API_C(void,                TQ3XObjectDeleteMethod)(
-                            TQ3Object           object,
-                            void                *privateData);
+                            TQ3Object _Nonnull           object,
+                            void                * _Null_unspecified privateData);
 
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XObjectDuplicateMethod)(
-                            TQ3Object           fromObject,
-                            const void          *fromPrivateData,
-                            TQ3Object           toObject,
-                            const void          *toPrivateData);
+                            TQ3Object _Nonnull           fromObject,
+                            const void          * _Null_unspecified fromPrivateData,
+                            TQ3Object _Nonnull           toObject,
+                            const void          * _Null_unspecified toPrivateData);
 
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XSharedLibraryRegister)(
                             void);
@@ -218,8 +222,8 @@ typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XSharedLibraryRegister)(
  *	@result                 Success or failure of the operation.
 */
 typedef Q3_CALLBACK_API_C(TQ3Status,	TQ3XViewSubmitRetainedMethod)(
-							TQ3ViewObject		theView,
-							TQ3Object			theObject);
+							TQ3ViewObject _Nonnull		theView,
+							TQ3Object _Nonnull			theObject);
 
 /*!
  *	@typedef
@@ -232,9 +236,9 @@ typedef Q3_CALLBACK_API_C(TQ3Status,	TQ3XViewSubmitRetainedMethod)(
  *	@result                 Success or failure of the operation.
 */
 typedef Q3_CALLBACK_API_C(TQ3Status,	TQ3XViewSubmitImmediateMethod)(
-							TQ3ViewObject		theView,
+							TQ3ViewObject _Nonnull		theView,
 							TQ3ObjectType		objectType,
-							const void			*objectData);
+							const void			* _Nullable objectData);
 
 
 /*!
@@ -252,7 +256,7 @@ typedef Q3_CALLBACK_API_C(TQ3Status,	TQ3XViewSubmitImmediateMethod)(
  *  @field sharedLibrary       Platform-specific shared library reference.
  */
 typedef struct TQ3XSharedLibraryInfo {
-    TQ3XSharedLibraryRegister       registerFunction;
+    TQ3XSharedLibraryRegister _Nonnull       registerFunction;
     TQ3Uns32                        sharedLibrary;
 } TQ3XSharedLibraryInfo;
 
@@ -310,13 +314,13 @@ typedef struct TQ3XSharedLibraryInfo {
  *  @param instanceSize          The size of the instance data for the class, if any.
  *  @result                      The new class reference.
  */
-Q3_EXTERN_API_C ( TQ3XObjectClass  )
+Q3_EXTERN_API_C ( TQ3XObjectClass _Nonnull  )
 Q3XObjectHierarchy_RegisterClass (
     TQ3ObjectType                 parentType,
-    TQ3ObjectType                 *objectType,
-    const char                    *objectName,
-    TQ3XMetaHandler               metaHandler,
-    TQ3XMetaHandler               virtualMetaHandler,
+    TQ3ObjectType * _Nonnull      objectType,
+    const char * _Nonnull         objectName,
+    TQ3XMetaHandler _Nonnull      metaHandler,
+    TQ3XMetaHandler _Nullable     virtualMetaHandler,
     TQ3Uns32                      methodsSize,
     TQ3Uns32                      instanceSize
 );
@@ -337,7 +341,7 @@ Q3XObjectHierarchy_RegisterClass (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3XObjectHierarchy_UnregisterClass (
-    TQ3XObjectClass               objectClass
+    TQ3XObjectClass _Nonnull               objectClass
 );
 
 
@@ -352,9 +356,9 @@ Q3XObjectHierarchy_UnregisterClass (
  *  @param methodType       The method type to retrieve.
  *  @result                 The function pointer for the method.
  */
-Q3_EXTERN_API_C ( TQ3XFunctionPointer  )
+Q3_EXTERN_API_C ( TQ3XFunctionPointer _Nullable )
 Q3XObjectClass_GetMethod (
-    TQ3XObjectClass               objectClass,
+    TQ3XObjectClass _Nonnull               objectClass,
     TQ3XMethodType                methodType
 );
 
@@ -370,10 +374,10 @@ Q3XObjectClass_GetMethod (
  *  @param parameters       The parameter data for the NewMethod method.
  *  @result                 A new instance of the class.
  */
-Q3_EXTERN_API_C ( TQ3Object  )
+Q3_EXTERN_API_C ( TQ3Object _Nonnull  )
 Q3XObjectHierarchy_NewObject (
-    TQ3XObjectClass               objectClass,
-    void                          *parameters
+    TQ3XObjectClass _Nonnull               objectClass,
+    void * _Null_unspecified               parameters
 );
 
 
@@ -392,7 +396,7 @@ Q3XObjectHierarchy_NewObject (
  */
 Q3_EXTERN_API_C ( TQ3ObjectType  )
 Q3XObjectClass_GetLeafType (
-    TQ3XObjectClass               objectClass
+    TQ3XObjectClass _Nonnull               objectClass
 );
 
 
@@ -412,7 +416,7 @@ Q3XObjectClass_GetLeafType (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3XObjectHierarchy_GetClassVersion (
     TQ3ObjectType                 objectClassType,
-    TQ3XObjectClassVersion        *version
+    TQ3XObjectClassVersion * _Nonnull version
 );
 
 
@@ -429,8 +433,8 @@ Q3XObjectHierarchy_GetClassVersion (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3XObjectClass_GetType (
-    TQ3XObjectClass               objectClass,
-    TQ3ObjectType                 *theType
+    TQ3XObjectClass _Nonnull               objectClass,
+    TQ3ObjectType * _Nonnull               theType
 );
 
 
@@ -444,7 +448,7 @@ Q3XObjectClass_GetType (
  *  @param theType          The class type.
  *  @result                 The class registered under theType, or nullptr.
  */
-Q3_EXTERN_API_C ( TQ3XObjectClass  )
+Q3_EXTERN_API_C ( TQ3XObjectClass _Nullable  )
 Q3XObjectHierarchy_FindClassByType (
     TQ3ObjectType                 theType
 );
@@ -464,10 +468,10 @@ Q3XObjectHierarchy_FindClassByType (
  *  @param targetObject     The object to query.
  *  @result                 A pointer to the private instance data.
  */
-Q3_EXTERN_API_C ( void * )
+Q3_EXTERN_API_C ( void * _Nullable )
 Q3XObjectClass_GetPrivate (
-    TQ3XObjectClass               objectClass,
-    TQ3Object                     targetObject
+    TQ3XObjectClass _Nonnull               objectClass,
+    TQ3Object _Nonnull                     targetObject
 );
 
 
@@ -481,9 +485,9 @@ Q3XObjectClass_GetPrivate (
  *  @param object           The object to query.
  *  @result                 The class of the object.
  */
-Q3_EXTERN_API_C ( TQ3XObjectClass  )
+Q3_EXTERN_API_C ( TQ3XObjectClass _Nonnull  )
 Q3XObject_GetClass (
-    TQ3Object                     object
+    TQ3Object _Nonnull                     object
 );
 
 
@@ -504,7 +508,7 @@ Q3XObject_GetClass (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3XSharedLibrary_Register (
-    TQ3XSharedLibraryInfo         *sharedLibraryInfo
+    TQ3XSharedLibraryInfo         * _Nonnull sharedLibraryInfo
 );
 
 

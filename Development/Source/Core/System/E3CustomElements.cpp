@@ -1341,9 +1341,10 @@ E3UrlElement_SetData(TQ3Object object, TCEUrlData *urlData)
 	urlDataPrivate.options = urlData->options;
 	urlDataPrivate.description = nullptr;
 
-	if (urlData->description != nullptr) {
+	char* desc = urlData->description;
+	if (desc != nullptr) {
 
-		string = Q3CString_New (urlData->description);
+		string = Q3CString_New( desc );
 
 		if (string == nullptr)
 			return kQ3Failure;

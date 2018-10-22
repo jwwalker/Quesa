@@ -5,7 +5,7 @@
 		Implementation of Quesa Mesh geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -2472,10 +2472,10 @@ e3meshFace_CreateFromExtData(
 	return(kQ3Success);
 
 //failure_5:
-	while (iSave > 0)
-		e3meshContour_Destroy(&contours[--iSave]);
+//	while (iSave > 0)
+//		e3meshContour_Destroy(&contours[--iSave]);
 
-	e3meshContourArray_Destroy(&facePtr->contourArrayOrList.array, nullptr);
+//	e3meshContourArray_Destroy(&facePtr->contourArrayOrList.array, nullptr);
 failure_4:
 
 failure_3:
@@ -3917,6 +3917,7 @@ e3geom_mesh_cache_new_as_polys(const TE3MeshData * meshPtr)
 								}
 							else
 								{
+								TQ3AttributeSet curVertAtts = currentVertex->attributeSet;
 								if((1 + numObjectsToDelete) > allocatedObjectsToDelete)
 									{
 									if(Q3Memory_Reallocate(&objectsToDelete, (allocatedObjectsToDelete + _MESH_AS_POLYS_OBJECTS_TO_DELETE_GROW)*sizeof(TQ3Object)) != kQ3Success)
@@ -3928,7 +3929,7 @@ e3geom_mesh_cache_new_as_polys(const TE3MeshData * meshPtr)
 								objectsToDelete[numObjectsToDelete] = currentVertex->attributeSet;
 								numObjectsToDelete++;
 								
-								Q3AttributeSet_Inherit((*vertexHdl)->attributeSet, cornerPtr->attributeSet, currentVertex->attributeSet);
+								Q3AttributeSet_Inherit((*vertexHdl)->attributeSet, cornerPtr->attributeSet, curVertAtts);
 								}
 							}
 						else

@@ -5,7 +5,7 @@
         Implementation of Quesa Box geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -186,6 +186,7 @@ e3geom_box_duplicate (	E3Box* fromBox, const void *fromPrivateData,
 	{
 #pragma unused(fromPrivateData)
 #pragma unused(toPrivateData)
+	TQ3AttributeSet atts;
 
 
 
@@ -205,8 +206,9 @@ e3geom_box_duplicate (	E3Box* fromBox, const void *fromPrivateData,
 
 
 	// Duplicate the attribute sets
-	if ( fromBox->instanceData.boxAttributeSet != nullptr )
-		toBox->instanceData.boxAttributeSet = Q3Object_Duplicate ( fromBox->instanceData.boxAttributeSet ) ;
+	atts = fromBox->instanceData.boxAttributeSet;
+	if ( atts != nullptr )
+		toBox->instanceData.boxAttributeSet = Q3Object_Duplicate( atts );
 
 	if ( fromBox->instanceData.faceAttributeSet != nullptr )
 		{
@@ -217,12 +219,15 @@ e3geom_box_duplicate (	E3Box* fromBox, const void *fromPrivateData,
 			{
 			// duplicate the face attributes
 			for ( TQ3Uns32 n = 0 ; n < 6 ; ++n )
-				if ( fromBox->instanceData.faceAttributeSet [ n ] != nullptr )
-					toBox->instanceData.faceAttributeSet [ n ] = Q3Object_Duplicate ( fromBox->instanceData.faceAttributeSet [ n ] ) ;
+			{
+				atts = fromBox->instanceData.faceAttributeSet[ n ];
+				if ( atts != nullptr )
+					toBox->instanceData.faceAttributeSet [ n ] = Q3Object_Duplicate( atts );
 				else
 					toBox->instanceData.faceAttributeSet [ n ] = nullptr ;
 			}
 		}
+	}
 		
 	return kQ3Success ;
 	}
@@ -515,8 +520,9 @@ e3geom_box_cache_new( TQ3ViewObject theView, TQ3GeometryObject theGeom,
 
 
 	// Add the box attributes	
-	if (inBoxData->boxAttributeSet != nullptr)
-		Q3Group_AddObject( theGroup, inBoxData->boxAttributeSet );
+	TQ3AttributeSet atts = inBoxData->boxAttributeSet;
+	if (atts != nullptr)
+		Q3Group_AddObject( theGroup, atts );
 
 
 

@@ -1,5 +1,9 @@
 /*! @header QuesaGroup.h
         Declares the Quesa group objects.
+         
+	@ignore	_Nullable
+	@ignore _Nonnull
+	@ignore	_Null_unspecified
  */
 /*  NAME:
         QuesaGroup.h
@@ -8,7 +12,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -153,109 +157,109 @@ typedef TQ3Uns32                                TQ3DisplayGroupState;
 
 // Group methods
 typedef Q3_CALLBACK_API_C(TQ3Boolean,          TQ3XGroupAcceptObjectMethod)(
-                            TQ3GroupObject      theGroup,
-                            TQ3Object           theObject);
+                            TQ3GroupObject _Nonnull     theGroup,
+                            TQ3Object _Nonnull          theObject);
 
-typedef Q3_CALLBACK_API_C(TQ3GroupPosition,    TQ3XGroupAddObjectMethod)(
-                            TQ3GroupObject      theGroup,
-                            TQ3Object           theObject);
+typedef Q3_CALLBACK_API_C(TQ3GroupPosition _Nonnull,    TQ3XGroupAddObjectMethod)(
+                            TQ3GroupObject _Nonnull     theGroup,
+                            TQ3Object _Nonnull          theObject);
 
-typedef Q3_CALLBACK_API_C(TQ3GroupPosition,    TQ3XGroupAddObjectBeforeMethod)(
-                            TQ3GroupObject      theGroup,
-                            TQ3GroupPosition    thePosition,
-                            TQ3Object           theObject);
+typedef Q3_CALLBACK_API_C(TQ3GroupPosition _Nonnull,    TQ3XGroupAddObjectBeforeMethod)(
+                            TQ3GroupObject _Nonnull     theGroup,
+                            TQ3GroupPosition _Nonnull   thePosition,
+                            TQ3Object _Nonnull          theObject);
 
-typedef Q3_CALLBACK_API_C(TQ3GroupPosition,    TQ3XGroupAddObjectAfterMethod)(
-                            TQ3GroupObject      theGroup,
-                            TQ3GroupPosition    thePosition,
-                            TQ3Object           theObject);
+typedef Q3_CALLBACK_API_C(TQ3GroupPosition _Nonnull,    TQ3XGroupAddObjectAfterMethod)(
+                            TQ3GroupObject _Nonnull     theGroup,
+                            TQ3GroupPosition  _Nonnull  thePosition,
+                            TQ3Object _Nonnull          theObject);
 
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XGroupSetPositionObjectMethod)(
-                            TQ3GroupObject      theGroup,
-                            TQ3GroupPosition    thePosition,
-                            TQ3Object           theObject);
+                            TQ3GroupObject _Nonnull     theGroup,
+                            TQ3GroupPosition _Nonnull   thePosition,
+                            TQ3Object _Nonnull          theObject);
 
-typedef Q3_CALLBACK_API_C(TQ3Object,           TQ3XGroupRemovePositionMethod)(
-                            TQ3GroupObject      theGroup,
-                            TQ3GroupPosition    thePosition);
+typedef Q3_CALLBACK_API_C(TQ3Object _Nonnull,           TQ3XGroupRemovePositionMethod)(
+                            TQ3GroupObject _Nonnull     theGroup,
+                            TQ3GroupPosition _Nonnull   thePosition);
 
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XGroupGetFirstPositionOfTypeMethod)(
-                            TQ3GroupObject      theGroup,
+                            TQ3GroupObject _Nonnull     theGroup,
                             TQ3ObjectType       theType,
-                            TQ3GroupPosition    *thePosition);
+                            TQ3GroupPosition _Nullable   * _Nonnull thePosition);
 
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XGroupGetLastPositionOfTypeMethod)(
-                            TQ3GroupObject      theGroup,
+                            TQ3GroupObject  _Nonnull    theGroup,
                             TQ3ObjectType       theType,
-                            TQ3GroupPosition    *thePosition);
+                            TQ3GroupPosition _Nullable   * _Nonnull thePosition);
 
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XGroupGetNextPositionOfTypeMethod)(
-                            TQ3GroupObject      theGroup,
+                            TQ3GroupObject _Nonnull     theGroup,
                             TQ3ObjectType       theType,
-                            TQ3GroupPosition    *thePosition);
+                            TQ3GroupPosition _Nullable   * _Nonnull thePosition);
 
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XGroupGetPrevPositionOfTypeMethod)(
-                            TQ3GroupObject      theGroup,
+                            TQ3GroupObject _Nonnull     theGroup,
                             TQ3ObjectType       theType,
-                            TQ3GroupPosition    *thePosition);
+                            TQ3GroupPosition _Nullable   * _Nonnull thePosition);
 
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XGroupCountObjectsOfTypeMethod)(
-                            TQ3GroupObject      theGroup,
+                            TQ3GroupObject _Nonnull     theGroup,
                             TQ3ObjectType       theType,
-                            TQ3Uns32            *numObjects);
+                            TQ3Uns32            * _Nonnull numObjects);
 
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XGroupEmptyObjectsOfTypeMethod)(
-                            TQ3GroupObject      theGroup,
+                            TQ3GroupObject _Nonnull     theGroup,
                             TQ3ObjectType       theType);
 
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XGroupGetFirstObjectPositionMethod)(
-                            TQ3GroupObject      theGroup,
-                            TQ3Object           theObject,
-                            TQ3GroupPosition    *thePosition);
+                            TQ3GroupObject _Nonnull     theGroup,
+                            TQ3Object _Nonnull          theObject,
+                            TQ3GroupPosition _Nullable   * _Nonnull thePosition);
 
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XGroupGetLastObjectPositionMethod)(
-                            TQ3GroupObject      theGroup,
-                            TQ3Object           theObject,
-                            TQ3GroupPosition    *thePosition);
+                            TQ3GroupObject _Nonnull     theGroup,
+                            TQ3Object _Nonnull          theObject,
+                            TQ3GroupPosition _Nullable   * _Nonnull thePosition);
 
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XGroupGetNextObjectPositionMethod)(
-                            TQ3GroupObject      theGroup,
-                            TQ3Object           theObject,
-                            TQ3GroupPosition    *thePosition);
+                            TQ3GroupObject _Nonnull     theGroup,
+                            TQ3Object _Nonnull          theObject,
+                            TQ3GroupPosition _Nullable   * _Nonnull thePosition);
 
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XGroupGetPrevObjectPositionMethod)(
-                            TQ3GroupObject      theGroup,
-                            TQ3Object           theObject,
-                            TQ3GroupPosition    *thePosition);
+                            TQ3GroupObject _Nonnull     theGroup,
+                            TQ3Object _Nonnull          theObject,
+                            TQ3GroupPosition _Nullable   * _Nonnull thePosition);
 
 typedef TQ3Uns32                            TQ3XMethodTypeGroupPositionSize;
 
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XGroupPositionNewMethod)(
-                            void                *thePosition,
-                            TQ3Object           theObject,
-                            const void          *initData);
+                            void                * _Nonnull thePosition,
+                            TQ3Object _Nonnull          theObject,
+                            const void          * _Nonnull initData);
 
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XGroupPositionCopyMethod)(
-                            void                *srcPosition,
-                            void                *dstPosition);
+                            void                * _Nonnull srcPosition,
+                            void                * _Nonnull dstPosition);
 
 typedef Q3_CALLBACK_API_C(void,                TQ3XGroupPositionDeleteMethod)(
-                            void                *thePosition);
+                            void                * _Nonnull thePosition);
 
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XGroupStartIterateMethod)(
-                            TQ3GroupObject      theGroup,
-                            TQ3GroupPosition    *thePosition,
-                            TQ3Object           *theObject,
-                            TQ3ViewObject       theView);
+                            TQ3GroupObject _Nonnull     theGroup,
+                            TQ3GroupPosition _Nullable   * _Nonnull thePosition,
+                            TQ3Object _Nullable          * _Nonnull theObject,
+                            TQ3ViewObject _Nonnull      theView);
 
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XGroupEndIterateMethod)(
-                            TQ3GroupObject      theGroup,
-                            TQ3GroupPosition    *thePosition,
-                            TQ3Object           *theObject,
-                            TQ3ViewObject       theView);
+                            TQ3GroupObject _Nonnull     theGroup,
+                            TQ3GroupPosition _Nullable   * _Nonnull thePosition,
+                            TQ3Object _Nullable          * _Nonnull theObject,
+                            TQ3ViewObject _Nonnull      theView);
 
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XGroupEndReadMethod)(
-                            TQ3GroupObject      theGroup);
+                            TQ3GroupObject _Nonnull     theGroup);
 
 
 
@@ -275,7 +279,7 @@ typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XGroupEndReadMethod)(
  *
  *  @result                 Newly created group, or nullptr.
  */
-Q3_EXTERN_API_C ( TQ3GroupObject  )
+Q3_EXTERN_API_C ( TQ3GroupObject _Nullable  )
 Q3Group_New (
     void
 );
@@ -297,7 +301,7 @@ Q3Group_New (
  */
 Q3_EXTERN_API_C ( TQ3ObjectType  )
 Q3Group_GetType (
-    TQ3GroupObject                group
+    TQ3GroupObject _Nonnull               group
 );
 
 
@@ -323,10 +327,10 @@ Q3Group_GetType (
  *  @param object           Object to be added.
  *  @result                 Resulting position of <code>object</code> in <code>group</code>.
  */
-Q3_EXTERN_API_C ( TQ3GroupPosition  )
+Q3_EXTERN_API_C ( TQ3GroupPosition _Nonnull  )
 Q3Group_AddObject (
-    TQ3GroupObject                group,
-    TQ3Object                     object
+    TQ3GroupObject _Nonnull               group,
+    TQ3Object _Nonnull                    object
 );
 
 
@@ -358,10 +362,10 @@ Q3Group_AddObject (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-Q3_EXTERN_API_C ( TQ3GroupPosition  )
+Q3_EXTERN_API_C ( TQ3GroupPosition _Nullable  )
 Q3Group_AddObjectAndDispose (
-    TQ3GroupObject                theGroup,
-    TQ3Object                     *theObject
+    TQ3GroupObject _Nonnull               theGroup,
+    TQ3Object _Nullable        * _Nonnull theObject
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -388,11 +392,11 @@ Q3Group_AddObjectAndDispose (
  *  @param object           Object to be added.
  *  @result                 Resulting position of <code>object</code> in <code>group</code>.
  */
-Q3_EXTERN_API_C ( TQ3GroupPosition  )
+Q3_EXTERN_API_C ( TQ3GroupPosition _Nonnull )
 Q3Group_AddObjectBefore (
-    TQ3GroupObject                group,
-    TQ3GroupPosition              position,
-    TQ3Object                     object
+    TQ3GroupObject _Nonnull               group,
+    TQ3GroupPosition _Nonnull             position,
+    TQ3Object _Nonnull                    object
 );
 
 
@@ -417,11 +421,11 @@ Q3Group_AddObjectBefore (
  *  @param object           Object to be added.
  *  @result                 Resulting position of <code>object</code> in <code>group</code>.
  */
-Q3_EXTERN_API_C ( TQ3GroupPosition  )
+Q3_EXTERN_API_C ( TQ3GroupPosition _Nonnull )
 Q3Group_AddObjectAfter (
-    TQ3GroupObject                group,
-    TQ3GroupPosition              position,
-    TQ3Object                     object
+    TQ3GroupObject _Nonnull               group,
+    TQ3GroupPosition _Nonnull             position,
+    TQ3Object _Nonnull                    object
 );
 
 
@@ -446,9 +450,9 @@ Q3Group_AddObjectAfter (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Group_GetPositionObject (
-    TQ3GroupObject                group,
-    TQ3GroupPosition              position,
-    TQ3Object                     *object
+    TQ3GroupObject _Nonnull               group,
+    TQ3GroupPosition _Nonnull             position,
+    TQ3Object _Nullable        * _Nonnull object
 );
 
 
@@ -473,9 +477,9 @@ Q3Group_GetPositionObject (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Group_SetPositionObject (
-    TQ3GroupObject                group,
-    TQ3GroupPosition              position,
-    TQ3Object                     object
+    TQ3GroupObject _Nonnull               group,
+    TQ3GroupPosition _Nonnull             position,
+    TQ3Object _Nonnull                    object
 );
 
 
@@ -497,10 +501,10 @@ Q3Group_SetPositionObject (
  *  @param position         Position of object to remove.
  *  @result                 Object that was removed.
  */
-Q3_EXTERN_API_C ( TQ3Object  )
+Q3_EXTERN_API_C ( TQ3Object _Nonnull )
 Q3Group_RemovePosition (
-    TQ3GroupObject                group,
-    TQ3GroupPosition              position
+    TQ3GroupObject _Nonnull               group,
+    TQ3GroupPosition _Nonnull             position
 );
 
 
@@ -520,8 +524,8 @@ Q3Group_RemovePosition (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Group_GetFirstPosition (
-    TQ3GroupObject                group,
-    TQ3GroupPosition              *position
+    TQ3GroupObject _Nonnull               group,
+    TQ3GroupPosition _Nonnull             * _Nonnull position
 );
 
 
@@ -541,8 +545,8 @@ Q3Group_GetFirstPosition (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Group_GetLastPosition (
-    TQ3GroupObject                group,
-    TQ3GroupPosition              *position
+    TQ3GroupObject _Nonnull               group,
+    TQ3GroupPosition _Nullable             * _Nonnull position
 );
 
 
@@ -563,8 +567,8 @@ Q3Group_GetLastPosition (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Group_GetNextPosition (
-    TQ3GroupObject                group,
-    TQ3GroupPosition              *position
+    TQ3GroupObject _Nonnull               group,
+    TQ3GroupPosition _Nullable             * _Nonnull position
 );
 
 
@@ -586,8 +590,8 @@ Q3Group_GetNextPosition (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Group_GetPreviousPosition (
-    TQ3GroupObject                group,
-    TQ3GroupPosition              *position
+    TQ3GroupObject _Nonnull               group,
+    TQ3GroupPosition _Nullable             * _Nonnull position
 );
 
 
@@ -608,8 +612,8 @@ Q3Group_GetPreviousPosition (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Group_CountObjects (
-    TQ3GroupObject                group,
-    TQ3Uns32                      *nObjects
+    TQ3GroupObject _Nonnull               group,
+    TQ3Uns32                      * _Nonnull nObjects
 );
 
 
@@ -628,7 +632,7 @@ Q3Group_CountObjects (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Group_EmptyObjects (
-    TQ3GroupObject                group
+    TQ3GroupObject _Nonnull               group
 );
 
 
@@ -649,9 +653,9 @@ Q3Group_EmptyObjects (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Group_GetFirstPositionOfType (
-    TQ3GroupObject                group,
+    TQ3GroupObject _Nonnull               group,
     TQ3ObjectType                 isType,
-    TQ3GroupPosition              *position
+    TQ3GroupPosition _Nullable             * _Nonnull position
 );
 
 
@@ -672,9 +676,9 @@ Q3Group_GetFirstPositionOfType (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Group_GetLastPositionOfType (
-    TQ3GroupObject                group,
+    TQ3GroupObject _Nonnull               group,
     TQ3ObjectType                 isType,
-    TQ3GroupPosition              *position
+    TQ3GroupPosition _Nullable             *_Nonnull position
 );
 
 
@@ -697,9 +701,9 @@ Q3Group_GetLastPositionOfType (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Group_GetNextPositionOfType (
-    TQ3GroupObject                group,
+    TQ3GroupObject _Nonnull               group,
     TQ3ObjectType                 isType,
-    TQ3GroupPosition              *position
+    TQ3GroupPosition _Nullable             * _Nonnull position
 );
 
 
@@ -722,9 +726,9 @@ Q3Group_GetNextPositionOfType (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Group_GetPreviousPositionOfType (
-    TQ3GroupObject                group,
+    TQ3GroupObject _Nonnull               group,
     TQ3ObjectType                 isType,
-    TQ3GroupPosition              *position
+    TQ3GroupPosition _Nullable             * _Nonnull position
 );
 
 
@@ -746,9 +750,9 @@ Q3Group_GetPreviousPositionOfType (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Group_CountObjectsOfType (
-    TQ3GroupObject                group,
+    TQ3GroupObject _Nonnull               group,
     TQ3ObjectType                 isType,
-    TQ3Uns32                      *nObjects
+    TQ3Uns32                      * _Nonnull nObjects
 );
 
 
@@ -769,7 +773,7 @@ Q3Group_CountObjectsOfType (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Group_EmptyObjectsOfType (
-    TQ3GroupObject                group,
+    TQ3GroupObject _Nonnull               group,
     TQ3ObjectType                 isType
 );
 
@@ -797,9 +801,9 @@ Q3Group_EmptyObjectsOfType (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Group_GetFirstObjectPosition (
-    TQ3GroupObject                group,
-    TQ3Object                     object,
-    TQ3GroupPosition              *position
+    TQ3GroupObject _Nonnull               group,
+    TQ3Object _Nonnull                    object,
+    TQ3GroupPosition _Nullable             * _Nonnull position
 );
 
 
@@ -826,9 +830,9 @@ Q3Group_GetFirstObjectPosition (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Group_GetLastObjectPosition (
-    TQ3GroupObject                group,
-    TQ3Object                     object,
-    TQ3GroupPosition              *position
+    TQ3GroupObject _Nonnull               group,
+    TQ3Object _Nonnull                    object,
+    TQ3GroupPosition _Nullable             * _Nonnull position
 );
 
 
@@ -851,9 +855,9 @@ Q3Group_GetLastObjectPosition (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Group_GetNextObjectPosition (
-    TQ3GroupObject                group,
-    TQ3Object                     object,
-    TQ3GroupPosition              *position
+    TQ3GroupObject _Nonnull               group,
+    TQ3Object _Nonnull                    object,
+    TQ3GroupPosition _Nullable             * _Nonnull position
 );
 
 
@@ -876,9 +880,9 @@ Q3Group_GetNextObjectPosition (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Group_GetPreviousObjectPosition (
-    TQ3GroupObject                group,
-    TQ3Object                     object,
-    TQ3GroupPosition              *position
+    TQ3GroupObject _Nonnull               group,
+    TQ3Object _Nonnull                    object,
+    TQ3GroupPosition _Nullable             * _Nonnull position
 );
 
 
@@ -906,7 +910,7 @@ Q3Group_GetPreviousObjectPosition (
  *
  *  @result                 Newly created group, or nullptr.
  */
-Q3_EXTERN_API_C ( TQ3GroupObject  )
+Q3_EXTERN_API_C ( TQ3GroupObject _Nullable )
 Q3DisplayGroup_New (
     void
 );
@@ -929,7 +933,7 @@ Q3DisplayGroup_New (
  */
 Q3_EXTERN_API_C ( TQ3ObjectType  )
 Q3DisplayGroup_GetType (
-    TQ3GroupObject                group
+    TQ3GroupObject _Nonnull               group
 );
 
 
@@ -966,8 +970,8 @@ Q3DisplayGroup_GetType (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3DisplayGroup_GetState (
-    TQ3GroupObject                group,
-    TQ3DisplayGroupState          *state
+    TQ3GroupObject _Nonnull               group,
+    TQ3DisplayGroupState          * _Nonnull state
 );
 
 
@@ -1004,7 +1008,7 @@ Q3DisplayGroup_GetState (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3DisplayGroup_SetState (
-    TQ3GroupObject                group,
+    TQ3GroupObject _Nonnull               group,
     TQ3DisplayGroupState          state
 );
 
@@ -1031,8 +1035,8 @@ Q3DisplayGroup_SetState (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3DisplayGroup_Submit (
-    TQ3GroupObject                group,
-    TQ3ViewObject                 view
+    TQ3GroupObject _Nonnull               group,
+    TQ3ViewObject _Nonnull                view
 );
 
 
@@ -1054,8 +1058,8 @@ Q3DisplayGroup_Submit (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3DisplayGroup_SetAndUseBoundingBox (
-    TQ3GroupObject                group,
-    const TQ3BoundingBox          *bBox
+    TQ3GroupObject _Nonnull               group,
+    const TQ3BoundingBox          * _Nonnull bBox
 );
 
 
@@ -1075,8 +1079,8 @@ Q3DisplayGroup_SetAndUseBoundingBox (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3DisplayGroup_GetBoundingBox (
-    TQ3GroupObject                group,
-    TQ3BoundingBox                *bBox
+    TQ3GroupObject _Nonnull               group,
+    TQ3BoundingBox                * _Nonnull bBox
 );
 
 
@@ -1096,7 +1100,7 @@ Q3DisplayGroup_GetBoundingBox (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3DisplayGroup_RemoveBoundingBox (
-    TQ3GroupObject                group
+    TQ3GroupObject _Nonnull               group
 );
 
 
@@ -1128,9 +1132,9 @@ Q3DisplayGroup_RemoveBoundingBox (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3DisplayGroup_CalcAndUseBoundingBox (
-    TQ3GroupObject                group,
+    TQ3GroupObject _Nonnull               group,
     TQ3ComputeBounds              computeBounds,
-    TQ3ViewObject                 view
+    TQ3ViewObject _Nonnull                view
 );
 
 
@@ -1166,7 +1170,7 @@ Q3DisplayGroup_CalcAndUseBoundingBox (
  *
  *  @result                 Newly created ordered display group, or nullptr.
  */
-Q3_EXTERN_API_C ( TQ3GroupObject  )
+Q3_EXTERN_API_C ( TQ3GroupObject _Nullable )
 Q3OrderedDisplayGroup_New (
     void
 );
@@ -1193,7 +1197,7 @@ Q3OrderedDisplayGroup_New (
  *
  *  @result                 Newly created proxy display group, or nullptr.
  */
-Q3_EXTERN_API_C ( TQ3GroupObject  )
+Q3_EXTERN_API_C ( TQ3GroupObject _Nullable )
 Q3IOProxyDisplayGroup_New (
     void
 );
@@ -1214,7 +1218,7 @@ Q3IOProxyDisplayGroup_New (
  *
  *  @result                 Newly created light group, or nullptr.
  */
-Q3_EXTERN_API_C ( TQ3GroupObject  )
+Q3_EXTERN_API_C ( TQ3GroupObject _Nullable )
 Q3LightGroup_New (
     void
 );
@@ -1232,7 +1236,7 @@ Q3LightGroup_New (
  *
  *  @result                 Newly created information group, or nullptr.
  */
-Q3_EXTERN_API_C ( TQ3GroupObject  )
+Q3_EXTERN_API_C ( TQ3GroupObject _Nullable )
 Q3InfoGroup_New (
     void
 );
@@ -1259,10 +1263,10 @@ Q3InfoGroup_New (
  *  @param position         Position of desired data.
  *  @result                 Pointer to private data, or nullptr.
  */
-Q3_EXTERN_API_C ( void * )
+Q3_EXTERN_API_C ( void * _Nullable )
 Q3XGroup_GetPositionPrivate (
-    TQ3GroupObject                group,
-    TQ3GroupPosition              position
+    TQ3GroupObject _Nonnull               group,
+    TQ3GroupPosition _Nonnull             position
 );
 
 
