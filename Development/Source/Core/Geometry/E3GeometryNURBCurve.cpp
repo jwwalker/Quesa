@@ -5,7 +5,7 @@
         Implementation of Quesa NURB Curve geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -102,9 +102,10 @@ e3geom_curve_copydata(const TQ3NURBCurveData *src, TQ3NURBCurveData *dst, TQ3Boo
 	// copy or shared-replace the attributes
 	if (isDuplicate)
 	{
-		if (src->curveAttributeSet != nullptr)
+		TQ3AttributeSet srcAtts = src->curveAttributeSet;
+		if (srcAtts != nullptr)
 		{
-			dst->curveAttributeSet = Q3Object_Duplicate(src->curveAttributeSet);
+			dst->curveAttributeSet = Q3Object_Duplicate( srcAtts );
 			if (dst->curveAttributeSet == nullptr) qd3dStatus = kQ3Failure;
 		} else dst->curveAttributeSet = nullptr;
 
@@ -760,20 +761,14 @@ e3geom_nurbcurve_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 		switch( subdivisionData.method ) {
 			case kQ3SubdivisionMethodScreenSpace:
 				e3geom_nurbcurve_screen_subdiv( &theVertices, &numPoints, subdivU, geomData, theView ) ;
-				if( theVertices == nullptr )
-					return(nullptr);
 				break ;
 			
 			case kQ3SubdivisionMethodWorldSpace:
 				e3geom_nurbcurve_world_subdiv( &theVertices, &numPoints, subdivU, geomData, theView ) ;
-				if( theVertices == nullptr )
-					return(nullptr);
 				break ;
 			
 			case kQ3SubdivisionMethodConstant:
 				e3geom_nurbcurve_constant_subdiv( &theVertices, &numPoints, subdivU, geomData ) ;
-				if( theVertices == nullptr )
-					return(nullptr);
 				break ;
 			
 			default:
@@ -781,6 +776,9 @@ e3geom_nurbcurve_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, con
 				break;
 			}
 		}
+
+	if ( theVertices == nullptr )
+		return(nullptr);
 
 
 

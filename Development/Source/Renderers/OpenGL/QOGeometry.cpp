@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2015, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -473,46 +473,47 @@ void	QORenderer::Renderer::CalcVertexState(
 	const TQ3Param2D*	uvParam = nullptr;
 	
 	// See what's in the attribute set for the vertex
-	if (inSrcVertex.attributeSet != nullptr)
+	TQ3AttributeSet atts = inSrcVertex.attributeSet;
+	if (atts != nullptr)
 	{
 		TQ3XAttributeMask	theMask = Q3XAttributeSet_GetMask(
-			inSrcVertex.attributeSet );
+			atts );
 		
 		if ( (theMask & kQ3XAttributeMaskNormal) != 0 )
 		{
 			normalVector = (const TQ3Vector3D*) Q3XAttributeSet_GetPointer(
-				inSrcVertex.attributeSet, kQ3AttributeTypeNormal );
+				atts, kQ3AttributeTypeNormal );
 		}
 		
 		if ( (theMask & kQ3XAttributeMaskDiffuseColor) != 0 )
 		{
 			diffuseColor = (const TQ3ColorRGB*) Q3XAttributeSet_GetPointer(
-				inSrcVertex.attributeSet, kQ3AttributeTypeDiffuseColor );
+				atts, kQ3AttributeTypeDiffuseColor );
 		}
 		
 		if ( (theMask & kQ3XAttributeMaskTransparencyColor) != 0 )
 		{
 			transparentColor = (const TQ3ColorRGB*) Q3XAttributeSet_GetPointer(
-				inSrcVertex.attributeSet, kQ3AttributeTypeTransparencyColor );
+				atts, kQ3AttributeTypeTransparencyColor );
 		}
 		
 		if ( (theMask & kQ3XAttributeMaskEmissiveColor) != 0 )
 		{
 			emissiveColor = (const TQ3ColorRGB*) Q3XAttributeSet_GetPointer(
-				inSrcVertex.attributeSet, kQ3AttributeTypeEmissiveColor );
+				atts, kQ3AttributeTypeEmissiveColor );
 		}
 		
 		if ( (theMask & kQ3XAttributeMaskSurfaceUV) != 0 )
 		{
 			uvParam = (const TQ3Param2D*) Q3XAttributeSet_GetPointer(
-				inSrcVertex.attributeSet, kQ3AttributeTypeSurfaceUV );
+				atts, kQ3AttributeTypeSurfaceUV );
 		}
 		
 		if ( (uvParam == nullptr) &&
 			((theMask & kQ3XAttributeMaskShadingUV) != 0) )
 		{
 			uvParam = (const TQ3Param2D*) Q3XAttributeSet_GetPointer(
-				inSrcVertex.attributeSet, kQ3AttributeTypeShadingUV );
+				atts, kQ3AttributeTypeShadingUV );
 		}
 	}
 	
@@ -1864,10 +1865,11 @@ void	QORenderer::Renderer::SubmitTriangle(
 	{
 		TQ3Vector3D	triNormal;
 		TQ3Vector3D*	normalPtr = nullptr;
-		if (inGeomData->triangleAttributeSet != nullptr)
+		TQ3AttributeSet atts = inGeomData->triangleAttributeSet;
+		if (atts != nullptr)
 		{
 			normalPtr = (TQ3Vector3D *) Q3XAttributeSet_GetPointer(
-				inGeomData->triangleAttributeSet, kQ3AttributeTypeNormal );
+				atts, kQ3AttributeTypeNormal );
 		}
 		if (normalPtr != nullptr)
 		{

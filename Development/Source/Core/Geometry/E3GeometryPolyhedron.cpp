@@ -5,7 +5,7 @@
         Implementation of Quesa Pixmap Marker geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -221,6 +221,7 @@ e3geom_polyhedron_copydata( const TQ3PolyhedronData* src,
 {
 	TQ3Status	q3status = kQ3Success;
 	TQ3Uns32	n;
+	TQ3AttributeSet atts;
 	
 	
 	
@@ -265,19 +266,20 @@ e3geom_polyhedron_copydata( const TQ3PolyhedronData* src,
 	dst->numVertices = src->numVertices;
 	dst->numEdges = src->numEdges;
 	dst->numTriangles = src->numTriangles;
-	if (src->polyhedronAttributeSet == nullptr)
+	atts = src->polyhedronAttributeSet;
+	if (atts == nullptr)
 	{
 		dst->polyhedronAttributeSet = nullptr;
 	}
 	else if (isDuplicate)
 	{
-		dst->polyhedronAttributeSet = Q3Object_Duplicate( src->polyhedronAttributeSet );
+		dst->polyhedronAttributeSet = Q3Object_Duplicate( atts );
 		if (dst->polyhedronAttributeSet == nullptr)
 			q3status = kQ3Failure;
 	}
 	else
 	{
-		E3Shared_Acquire( &dst->polyhedronAttributeSet, src->polyhedronAttributeSet );
+		E3Shared_Acquire( &dst->polyhedronAttributeSet, atts );
 	}
 	
 	
@@ -286,13 +288,14 @@ e3geom_polyhedron_copydata( const TQ3PolyhedronData* src,
 	for (n = 0; n < dst->numVertices; ++n)
 	{
 		dst->vertices[n].point = src->vertices[n].point;
-		if (src->vertices[n].attributeSet == nullptr)
+		atts = src->vertices[n].attributeSet;
+		if (atts == nullptr)
 		{
 			dst->vertices[n].attributeSet = nullptr;
 		}
 		else if (isDuplicate)
 		{
-			dst->vertices[n].attributeSet = Q3Object_Duplicate( src->vertices[n].attributeSet );
+			dst->vertices[n].attributeSet = Q3Object_Duplicate( atts );
 			if (dst->vertices[n].attributeSet == nullptr)
 				q3status = kQ3Failure;
 		}
@@ -313,19 +316,20 @@ e3geom_polyhedron_copydata( const TQ3PolyhedronData* src,
 			dst->edges[n].vertexIndices[1] = src->edges[n].vertexIndices[1];
 			dst->edges[n].triangleIndices[0] = src->edges[n].triangleIndices[0];
 			dst->edges[n].triangleIndices[1] = src->edges[n].triangleIndices[1];
-			if (src->edges[n].edgeAttributeSet == nullptr)
+			atts = src->edges[n].edgeAttributeSet;
+			if (atts == nullptr)
 			{
 				dst->edges[n].edgeAttributeSet = nullptr;
 			}
 			else if (isDuplicate)
 			{
-				dst->edges[n].edgeAttributeSet = Q3Object_Duplicate( src->edges[n].edgeAttributeSet );
+				dst->edges[n].edgeAttributeSet = Q3Object_Duplicate( atts );
 				if (dst->edges[n].edgeAttributeSet == nullptr)
 					q3status = kQ3Failure;
 			}
 			else
 			{
-				E3Shared_Acquire( &dst->edges[n].edgeAttributeSet, src->edges[n].edgeAttributeSet );
+				E3Shared_Acquire( &dst->edges[n].edgeAttributeSet, atts );
 			}
 		}
 	}
@@ -339,21 +343,20 @@ e3geom_polyhedron_copydata( const TQ3PolyhedronData* src,
 		dst->triangles[n].vertexIndices[1] = src->triangles[n].vertexIndices[1];
 		dst->triangles[n].vertexIndices[2] = src->triangles[n].vertexIndices[2];
 		dst->triangles[n].edgeFlag = src->triangles[n].edgeFlag;
-		if (src->triangles[n].triangleAttributeSet == nullptr)
+		atts = src->triangles[n].triangleAttributeSet;
+		if (atts == nullptr)
 		{
 			dst->triangles[n].triangleAttributeSet = nullptr;
 		}
 		else if (isDuplicate)
 		{
-			dst->triangles[n].triangleAttributeSet = Q3Object_Duplicate(
-				src->triangles[n].triangleAttributeSet );
+			dst->triangles[n].triangleAttributeSet = Q3Object_Duplicate( atts );
 			if (dst->triangles[n].triangleAttributeSet == nullptr)
 				q3status = kQ3Failure;
 		}
 		else
 		{
-			E3Shared_Acquire( &dst->triangles[n].triangleAttributeSet,
-				src->triangles[n].triangleAttributeSet );
+			E3Shared_Acquire( &dst->triangles[n].triangleAttributeSet, atts );
 		}
 	}
 	
@@ -380,7 +383,7 @@ static TQ3Status
 e3geom_polyhedron_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 							TQ3Object toObject,   void       *toPrivateData)
 {	TQ3PolyhedronData		*toInstanceData = (TQ3PolyhedronData *) toPrivateData;
-	TQ3PolyhedronData		*fromInstanceData = (TQ3PolyhedronData *) fromPrivateData;
+	const TQ3PolyhedronData		*fromInstanceData = (const TQ3PolyhedronData *) fromPrivateData;
 	TQ3Status				qd3dStatus;
 #pragma unused(toObject)
 

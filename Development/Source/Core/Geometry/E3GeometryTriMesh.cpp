@@ -5,7 +5,7 @@
         Implementation of Quesa Pixmap Marker geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2016, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -54,6 +54,7 @@
 #include "E3ErrorManager.h"
 #include "QuesaMathOperators.hpp"
 
+#include <cstring>
 
 
 
@@ -320,9 +321,10 @@ e3geom_trimesh_copydata(const TQ3TriMeshData *src, TQ3TriMeshData *dst, TQ3Boole
 	// 1. triMeshAttributeSet
 	if (isDuplicate)
 		{
-		if (src->triMeshAttributeSet != nullptr)
+		TQ3AttributeSet srcAtts = src->triMeshAttributeSet;
+		if (srcAtts != nullptr)
 			{
-			dst->triMeshAttributeSet = Q3Object_Duplicate(src->triMeshAttributeSet);
+			dst->triMeshAttributeSet = Q3Object_Duplicate(srcAtts);
 			if (dst->triMeshAttributeSet == nullptr)
 				qd3dStatus = kQ3Failure;
 			}
@@ -771,16 +773,18 @@ e3geom_trimesh_triangle_new(TQ3ViewObject theView, const TQ3TriMeshData *theTriM
 	// a triangle normal for better performance when backface culling is on.
 	theTriangle->triangleAttributeSet = Q3AttributeSet_New();
 
-	if (theTriangle->triangleAttributeSet != nullptr)
+	TQ3AttributeSet triAtts = theTriangle->triangleAttributeSet;
+	if (triAtts != nullptr)
 		{
 		// Copy overall TriMesh attributes to the triangle.
 		// If the TriMesh has a texture shader, the triangle will get a
 		// reference to that, not a duplicate.
-		if (theTriMesh->triMeshAttributeSet != nullptr)
+		TQ3AttributeSet meshAtts = theTriMesh->triMeshAttributeSet;
+		if (meshAtts != nullptr)
 			{
-			Q3AttributeSet_Inherit( theTriMesh->triMeshAttributeSet,
-				theTriangle->triangleAttributeSet,
-				theTriangle->triangleAttributeSet );
+			Q3AttributeSet_Inherit( meshAtts,
+				triAtts,
+				triAtts );
 			}
 		
 		// Add the attributes
@@ -792,7 +796,7 @@ e3geom_trimesh_triangle_new(TQ3ViewObject theView, const TQ3TriMeshData *theTriM
 			if (theClass != nullptr)
 				{
 				attrSize = theClass->GetInstanceSize () ;
-				Q3AttributeSet_Add(theTriangle->triangleAttributeSet, attrType,
+				Q3AttributeSet_Add(triAtts, attrType,
 									(TQ3Uns8 *) theTriMesh->triangleAttributeTypes[n].data + (theIndex * attrSize));
 				}
 			}
@@ -800,7 +804,7 @@ e3geom_trimesh_triangle_new(TQ3ViewObject theView, const TQ3TriMeshData *theTriM
 
 
 		// Add the triangle normal
-		if (!Q3AttributeSet_Contains(theTriangle->triangleAttributeSet, kQ3AttributeTypeNormal))
+		if (!Q3AttributeSet_Contains(triAtts, kQ3AttributeTypeNormal))
 			{
 			// Calculate the triangle normal
 			//
@@ -826,7 +830,7 @@ e3geom_trimesh_triangle_new(TQ3ViewObject theView, const TQ3TriMeshData *theTriM
 
 
 			// Add the normal
-			Q3AttributeSet_Add(theTriangle->triangleAttributeSet, kQ3AttributeTypeNormal, &theNormal);
+			Q3AttributeSet_Add(triAtts, kQ3AttributeTypeNormal, &theNormal);
 			}
 		}
 
@@ -844,8 +848,8 @@ e3geom_trimesh_triangle_new(TQ3ViewObject theView, const TQ3TriMeshData *theTriM
 		if (theTriMesh->numVertexAttributeTypes != 0)
 			{
 			Q3_ASSERT(Q3_VALID_PTR(theTriMesh->vertexAttributeTypes));
-			theTriangle->vertices[n].attributeSet = Q3AttributeSet_New();
-			if (theTriangle->vertices[n].attributeSet != nullptr)
+			TQ3AttributeSet vertAtts = theTriangle->vertices[n].attributeSet = Q3AttributeSet_New();
+			if (vertAtts != nullptr)
 				{
 				for (m = 0; m < theTriMesh->numVertexAttributeTypes; m++)
 					{
@@ -855,7 +859,7 @@ e3geom_trimesh_triangle_new(TQ3ViewObject theView, const TQ3TriMeshData *theTriM
 					if (theClass != nullptr)
 						{
 						attrSize = theClass->GetInstanceSize () ;
-						Q3AttributeSet_Add(theTriangle->vertices[n].attributeSet, attrType,
+						Q3AttributeSet_Add(vertAtts, attrType,
 											(TQ3Uns8 *) theTriMesh->vertexAttributeTypes[m].data + (vertIndex * attrSize));
 						}
 					}

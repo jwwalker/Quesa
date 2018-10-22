@@ -5,7 +5,7 @@
         Implementation of Quesa Point geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -141,8 +141,9 @@ e3geom_point_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 	if ( (qd3dStatus == kQ3Success) &&
 		(toInstanceData->pointAttributeSet != nullptr) )
 	{
-		dupSet = Q3Object_Duplicate( toInstanceData->pointAttributeSet );
-		Q3Object_Dispose( toInstanceData->pointAttributeSet );
+		TQ3AttributeSet srcAtts = toInstanceData->pointAttributeSet;
+		dupSet = Q3Object_Duplicate( srcAtts );
+		Q3Object_Dispose( srcAtts );
 		toInstanceData->pointAttributeSet = dupSet;
 		if (dupSet == nullptr)
 		{

@@ -1,5 +1,9 @@
 /*! @header QuesaString.h
         Declares the Quesa string objects.
+          
+	@ignore	_Nullable
+	@ignore _Nonnull
+	@ignore	_Null_unspecified
  */
 /*  NAME:
         QuesaString.h
@@ -8,7 +12,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -89,7 +93,7 @@ extern "C" {
  */
 Q3_EXTERN_API_C ( TQ3ObjectType  )
 Q3String_GetType (
-    TQ3StringObject               stringObj
+    TQ3StringObject _Nonnull              stringObj
 );
 
 
@@ -100,16 +104,16 @@ Q3String_GetType (
  *  @discussion
  *      Create a new C string object.
  *
- *      Creates a string object based on a nullptr terminated string. The
+ *      Creates a string object based on a NUL terminated string. The
  *		string data is copied, and so str can be disposed of after
  *		creating the object.
  *
  *  @param str              The C string to copy.
  *  @result                 The new string object.
  */
-Q3_EXTERN_API_C ( TQ3StringObject  )
+Q3_EXTERN_API_C ( TQ3StringObject _Nonnull )
 Q3CString_New (
-    const char                    *str
+    const char                    * _Nonnull str
 );
 
 
@@ -122,7 +126,7 @@ Q3CString_New (
  *
  *      Returns the number of bytes required to store the character
  *		data in the string object. The length returned does not
- *		include the terminating nullptr byte.
+ *		include the terminating NUL byte.
  *
  *  @param stringObj        The object to test.
  *  @param length           The number of bytes needed for character data.
@@ -130,8 +134,8 @@ Q3CString_New (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3CString_GetLength (
-    TQ3StringObject               stringObj,
-    TQ3Uns32                      *length
+    TQ3StringObject _Nonnull              stringObj,
+    TQ3Uns32                      * _Nonnull length
 );
 
 
@@ -151,8 +155,8 @@ Q3CString_GetLength (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3CString_SetString (
-    TQ3StringObject               stringObj,
-    const char                    *str
+    TQ3StringObject _Nonnull              stringObj,
+    const char                    * _Nonnull str
 );
 
 
@@ -164,7 +168,7 @@ Q3CString_SetString (
  *      Return the character data of a string object.
  *
  *      The data returned must be released with a subsequent call to
- *		Q3CString_EmptyData. The data returned will be nullptr terminated.
+ *		Q3CString_EmptyData. The data returned will be NUL terminated.
  *
  *		The str parameter is overwritten, and so must not point to an
  *		existing string or a memory leak will occur. If the value of
@@ -176,8 +180,8 @@ Q3CString_SetString (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3CString_GetString (
-    TQ3StringObject               stringObj,
-    char                          **str
+    TQ3StringObject _Nonnull              stringObj,
+    char                          * _Nullable * _Nonnull str
 );
 
 
@@ -197,7 +201,7 @@ Q3CString_GetString (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3CString_EmptyData (
-    char                          **str
+    char                          * _Nullable * _Nonnull str
 );
 
 

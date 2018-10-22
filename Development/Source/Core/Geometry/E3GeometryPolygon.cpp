@@ -5,7 +5,7 @@
         Implementation of Quesa Pixmap Marker geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -160,8 +160,9 @@ e3geom_polygon_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 	if ( (qd3dStatus == kQ3Success) &&
 		(toInstanceData->polygonAttributeSet != nullptr) )
 	{
-		dupSet = Q3Object_Duplicate( toInstanceData->polygonAttributeSet );
-		Q3Object_Dispose( toInstanceData->polygonAttributeSet );
+		TQ3AttributeSet srcSet = toInstanceData->polygonAttributeSet;
+		dupSet = Q3Object_Duplicate( srcSet );
+		Q3Object_Dispose( srcSet );
 		toInstanceData->polygonAttributeSet = dupSet;
 		if (dupSet == nullptr)
 		{

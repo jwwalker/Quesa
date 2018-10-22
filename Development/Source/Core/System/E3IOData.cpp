@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2015, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -143,11 +143,12 @@ e3unknown_binary_duplicateData(const TQ3UnknownBinaryData *fromData, TQ3UnknownB
 	toData->byteOrder = fromData->byteOrder;
 
 	// Copy the contents
-	if (fromData->size != 0)
+	char * srcContents = fromData->contents;
+	if ( (fromData->size != 0) && (srcContents != nullptr) )
 		{
-		toData->contents = (char *) Q3Memory_Allocate(fromData->size);
-		if (toData->contents != nullptr)
-			Q3Memory_Copy(fromData->contents, toData->contents,fromData->size);
+		char * dstContents = toData->contents = (char *) Q3Memory_Allocate(fromData->size);
+		if (dstContents != nullptr)
+			Q3Memory_Copy(srcContents, dstContents, fromData->size);
 		else
 			qd3dStatus = kQ3Failure;
 		}

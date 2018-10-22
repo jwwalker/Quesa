@@ -5,7 +5,7 @@
         Implementation of Quesa Ellipsoid geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -86,6 +86,7 @@ static TQ3Status
 e3geom_ellipsoid_copydata(const TQ3EllipsoidData *src, TQ3EllipsoidData *dst, TQ3Boolean isDuplicate)
 {
 	TQ3Status		qd3dStatus = kQ3Success;
+	TQ3AttributeSet srcAtts;
 
 	// copy raw data
 	const TQ3Uns32 theSize = sizeof(TQ3Point3D)	// origin
@@ -99,13 +100,15 @@ e3geom_ellipsoid_copydata(const TQ3EllipsoidData *src, TQ3EllipsoidData *dst, TQ
 	{
 		if (src->interiorAttributeSet != nullptr)
 		{
-			dst->interiorAttributeSet = Q3Object_Duplicate(src->interiorAttributeSet);
+			srcAtts = src->interiorAttributeSet;
+			dst->interiorAttributeSet = Q3Object_Duplicate(srcAtts);
 			if (dst->interiorAttributeSet == nullptr) qd3dStatus = kQ3Failure;
 		} else dst->interiorAttributeSet = nullptr;
 
 		if (src->ellipsoidAttributeSet != nullptr)
 		{
-			dst->ellipsoidAttributeSet = Q3Object_Duplicate(src->ellipsoidAttributeSet);
+			srcAtts = src->ellipsoidAttributeSet;
+			dst->ellipsoidAttributeSet = Q3Object_Duplicate(srcAtts);
 			if (dst->ellipsoidAttributeSet == nullptr) qd3dStatus = kQ3Failure;
 		} else dst->ellipsoidAttributeSet = nullptr;
 	}
@@ -917,9 +920,10 @@ e3geom_ellipsoid_cache_new( TQ3ViewObject theView, TQ3GeometryObject theGeom,
 	// necessary to do this, instead of putting it in the main TriMesh, so
 	// that these attributes can be inherited by caps even if there is also
 	// an interiorAttributeSet.
-	if (geomData->ellipsoidAttributeSet != nullptr)
+	TQ3AttributeSet atts = geomData->ellipsoidAttributeSet;
+	if (atts != nullptr)
 	{
-		Q3Group_AddObject( resultGroup.get(), geomData->ellipsoidAttributeSet );
+		Q3Group_AddObject( resultGroup.get(), atts );
 	}
 	
 	

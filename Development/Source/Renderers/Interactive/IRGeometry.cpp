@@ -5,7 +5,7 @@
         Quesa interactive renderer geometry methods.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -333,24 +333,26 @@ IRGeometry_Generate_Vertex_State(TQ3InteractiveData		*instanceData,
 	colourDiffuse      = nullptr;
 	colourTransparency = nullptr;
 
-	if (srcVertex->attributeSet != nullptr)
+	TQ3AttributeSet vertAtts = srcVertex->attributeSet;
+	
+	if (vertAtts != nullptr)
 		{
-		theMask = Q3XAttributeSet_GetMask(srcVertex->attributeSet);
+		theMask = Q3XAttributeSet_GetMask(vertAtts);
 	
 		if (E3Bit_IsSet(theMask, kQ3XAttributeMaskNormal))
-			theNormal = (TQ3Vector3D *) Q3XAttributeSet_GetPointer(srcVertex->attributeSet, kQ3AttributeTypeNormal);
+			theNormal = (TQ3Vector3D *) Q3XAttributeSet_GetPointer(vertAtts, kQ3AttributeTypeNormal);
 	
 		if (E3Bit_IsSet(theMask, kQ3XAttributeMaskSurfaceUV))
-			theUV     = (TQ3Param2D  *) Q3XAttributeSet_GetPointer(srcVertex->attributeSet, kQ3AttributeTypeSurfaceUV);
+			theUV     = (TQ3Param2D  *) Q3XAttributeSet_GetPointer(vertAtts, kQ3AttributeTypeSurfaceUV);
 	
 		if (E3Bit_IsSet(theMask, kQ3XAttributeMaskShadingUV) && theUV == nullptr)
-			theUV     = (TQ3Param2D  *) Q3XAttributeSet_GetPointer(srcVertex->attributeSet, kQ3AttributeTypeShadingUV);
+			theUV     = (TQ3Param2D  *) Q3XAttributeSet_GetPointer(vertAtts, kQ3AttributeTypeShadingUV);
 	
 		if (E3Bit_IsSet(theMask, kQ3XAttributeMaskDiffuseColor))
-			colourDiffuse      = (TQ3ColorRGB *) Q3XAttributeSet_GetPointer(srcVertex->attributeSet, kQ3AttributeTypeDiffuseColor);
+			colourDiffuse      = (TQ3ColorRGB *) Q3XAttributeSet_GetPointer(vertAtts, kQ3AttributeTypeDiffuseColor);
 
 		if (E3Bit_IsSet(theMask, kQ3XAttributeMaskTransparencyColor))
-			colourTransparency = (TQ3ColorRGB *) Q3XAttributeSet_GetPointer(srcVertex->attributeSet, kQ3AttributeTypeTransparencyColor);
+			colourTransparency = (TQ3ColorRGB *) Q3XAttributeSet_GetPointer(vertAtts, kQ3AttributeTypeTransparencyColor);
 		}
 
 
@@ -736,8 +738,9 @@ IRGeometry_Submit_Triangle(TQ3ViewObject			theView,
 	// wasn't supplied we need to calculate it.
 	normalPtr = nullptr;
 
-	if (geomData->triangleAttributeSet != nullptr)
-		normalPtr = (TQ3Vector3D *) Q3XAttributeSet_GetPointer(geomData->triangleAttributeSet, kQ3AttributeTypeNormal);
+	TQ3AttributeSet atts = geomData->triangleAttributeSet;
+	if (atts != nullptr)
+		normalPtr = (TQ3Vector3D *) Q3XAttributeSet_GetPointer(atts, kQ3AttributeTypeNormal);
 
 	if (normalPtr != nullptr)
 		Q3Vector3D_Normalize(normalPtr, &triNormal);

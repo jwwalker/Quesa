@@ -1,5 +1,9 @@
 /*! @header QuesaStyle.h
         Declares the Quesa style objects.
+          
+	@ignore	_Nullable
+	@ignore _Nonnull
+	@ignore	_Null_unspecified
  */
 /*  NAME:
         QuesaStyle.h
@@ -8,7 +12,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -360,7 +364,7 @@ typedef struct TQ3FogStyleData {
  */
 Q3_EXTERN_API_C ( TQ3ObjectType  )
 Q3Style_GetType (
-    TQ3StyleObject                style
+    TQ3StyleObject _Nonnull               style
 );
 
 
@@ -377,8 +381,8 @@ Q3Style_GetType (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Style_Submit (
-    TQ3StyleObject                style,
-    TQ3ViewObject                 view
+    TQ3StyleObject _Nonnull               style,
+    TQ3ViewObject _Nonnull                view
 );
 
 
@@ -396,9 +400,9 @@ Q3Style_Submit (
  *  @param data             The subdivision style data.
  *  @result                 The new subdivision style.
  */
-Q3_EXTERN_API_C ( TQ3StyleObject  )
+Q3_EXTERN_API_C ( TQ3StyleObject _Nonnull )
 Q3SubdivisionStyle_New (
-    const TQ3SubdivisionStyleData *data
+    const TQ3SubdivisionStyleData * _Nonnull data
 );
 
 
@@ -415,8 +419,8 @@ Q3SubdivisionStyle_New (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3SubdivisionStyle_Submit (
-    const TQ3SubdivisionStyleData *data,
-    TQ3ViewObject                 view
+    const TQ3SubdivisionStyleData * _Nonnull data,
+    TQ3ViewObject _Nonnull                view
 );
 
 
@@ -433,8 +437,8 @@ Q3SubdivisionStyle_Submit (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3SubdivisionStyle_SetData (
-    TQ3StyleObject                subdiv,
-    const TQ3SubdivisionStyleData *data
+    TQ3StyleObject _Nonnull               subdiv,
+    const TQ3SubdivisionStyleData * _Nonnull data
 );
 
 
@@ -451,8 +455,8 @@ Q3SubdivisionStyle_SetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3SubdivisionStyle_GetData (
-    TQ3StyleObject                subdiv,
-    TQ3SubdivisionStyleData       *data
+    TQ3StyleObject _Nonnull               subdiv,
+    TQ3SubdivisionStyleData       * _Nonnull data
 );
 
 
@@ -470,7 +474,7 @@ Q3SubdivisionStyle_GetData (
  *  @param id               The pick ID.
  *  @result                 The new pick ID style.
  */
-Q3_EXTERN_API_C ( TQ3StyleObject  )
+Q3_EXTERN_API_C ( TQ3StyleObject _Nonnull )
 Q3PickIDStyle_New (
     TQ3Uns32                      id
 );
@@ -490,7 +494,7 @@ Q3PickIDStyle_New (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3PickIDStyle_Submit (
     TQ3Uns32                      id,
-    TQ3ViewObject                 view
+    TQ3ViewObject _Nonnull                view
 );
 
 
@@ -507,8 +511,8 @@ Q3PickIDStyle_Submit (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3PickIDStyle_Get (
-    TQ3StyleObject                pickIDObject,
-    TQ3Uns32                      *id
+    TQ3StyleObject _Nonnull               pickIDObject,
+    TQ3Uns32                      * _Nonnull id
 );
 
 
@@ -525,7 +529,7 @@ Q3PickIDStyle_Get (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3PickIDStyle_Set (
-    TQ3StyleObject                pickIDObject,
+    TQ3StyleObject _Nonnull               pickIDObject,
     TQ3Uns32                      id
 );
 
@@ -544,7 +548,7 @@ Q3PickIDStyle_Set (
  *  @param parts            The pick parts.
  *  @result                 The new pick parts style.
  */
-Q3_EXTERN_API_C ( TQ3StyleObject  )
+Q3_EXTERN_API_C ( TQ3StyleObject _Nonnull )
 Q3PickPartsStyle_New (
     TQ3PickParts                  parts
 );
@@ -564,7 +568,7 @@ Q3PickPartsStyle_New (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3PickPartsStyle_Submit (
     TQ3PickParts                  parts,
-    TQ3ViewObject                 view
+    TQ3ViewObject _Nonnull                view
 );
 
 
@@ -581,8 +585,8 @@ Q3PickPartsStyle_Submit (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3PickPartsStyle_Get (
-    TQ3StyleObject                pickPartsObject,
-    TQ3PickParts                  *parts
+    TQ3StyleObject _Nonnull               pickPartsObject,
+    TQ3PickParts                  * _Nonnull parts
 );
 
 
@@ -599,7 +603,7 @@ Q3PickPartsStyle_Get (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3PickPartsStyle_Set (
-    TQ3StyleObject                pickPartsObject,
+    TQ3StyleObject _Nonnull               pickPartsObject,
     TQ3PickParts                  parts
 );
 
@@ -621,7 +625,7 @@ Q3PickPartsStyle_Set (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS    
 
-Q3_EXTERN_API_C ( TQ3StyleObject  )
+Q3_EXTERN_API_C ( TQ3StyleObject _Nonnull )
 Q3CastShadowsStyle_New (
     TQ3Boolean                    castsShadows
 );
@@ -647,7 +651,7 @@ Q3CastShadowsStyle_New (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3CastShadowsStyle_Submit (
     TQ3Boolean                    castShadows,
-    TQ3ViewObject                 view
+    TQ3ViewObject _Nonnull                view
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -670,8 +674,8 @@ Q3CastShadowsStyle_Submit (
 
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3CastShadowsStyle_Get (
-    TQ3StyleObject                styleObject,
-    TQ3Boolean                    *castShadows
+    TQ3StyleObject _Nonnull               styleObject,
+    TQ3Boolean                    * _Nonnull castShadows
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -694,7 +698,7 @@ Q3CastShadowsStyle_Get (
 
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3CastShadowsStyle_Set (
-    TQ3StyleObject                styleObject,
+    TQ3StyleObject _Nonnull               styleObject,
     TQ3Boolean                    castShadows
 );
 
@@ -714,7 +718,7 @@ Q3CastShadowsStyle_Set (
  *  @param receiveShadows   The receive shadows style data.
  *  @result                 The new receive shadows style.
  */
-Q3_EXTERN_API_C ( TQ3StyleObject  )
+Q3_EXTERN_API_C ( TQ3StyleObject _Nonnull )
 Q3ReceiveShadowsStyle_New (
     TQ3Boolean                    receiveShadows
 );
@@ -734,7 +738,7 @@ Q3ReceiveShadowsStyle_New (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ReceiveShadowsStyle_Submit (
     TQ3Boolean                    receiveShadows,
-    TQ3ViewObject                 view
+    TQ3ViewObject _Nonnull                view
 );
 
 
@@ -751,8 +755,8 @@ Q3ReceiveShadowsStyle_Submit (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ReceiveShadowsStyle_Get (
-    TQ3StyleObject                styleObject,
-    TQ3Boolean                    *receiveShadows
+    TQ3StyleObject _Nonnull               styleObject,
+    TQ3Boolean                    * _Nonnull receiveShadows
 );
 
 
@@ -769,7 +773,7 @@ Q3ReceiveShadowsStyle_Get (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ReceiveShadowsStyle_Set (
-    TQ3StyleObject                styleObject,
+    TQ3StyleObject _Nonnull               styleObject,
     TQ3Boolean                    receiveShadows
 );
 
@@ -789,7 +793,7 @@ Q3ReceiveShadowsStyle_Set (
  *  @param fillStyle        The fill style data.
  *  @result                 The new fill style.
  */
-Q3_EXTERN_API_C ( TQ3StyleObject  )
+Q3_EXTERN_API_C ( TQ3StyleObject _Nonnull )
 Q3FillStyle_New (
     TQ3FillStyle                  fillStyle
 );
@@ -809,7 +813,7 @@ Q3FillStyle_New (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3FillStyle_Submit (
     TQ3FillStyle                  fillStyle,
-    TQ3ViewObject                 view
+    TQ3ViewObject _Nonnull                view
 );
 
 
@@ -826,8 +830,8 @@ Q3FillStyle_Submit (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3FillStyle_Get (
-    TQ3StyleObject                styleObject,
-    TQ3FillStyle                  *fillStyle
+    TQ3StyleObject _Nonnull               styleObject,
+    TQ3FillStyle                  * _Nonnull fillStyle
 );
 
 
@@ -844,7 +848,7 @@ Q3FillStyle_Get (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3FillStyle_Set (
-    TQ3StyleObject                styleObject,
+    TQ3StyleObject _Nonnull               styleObject,
     TQ3FillStyle                  fillStyle
 );
 
@@ -862,7 +866,7 @@ Q3FillStyle_Set (
  *  @param backfacingStyle  The backfacing style data.
  *  @result                 The new backfacing style.
  */
-Q3_EXTERN_API_C ( TQ3StyleObject  )
+Q3_EXTERN_API_C ( TQ3StyleObject _Nonnull )
 Q3BackfacingStyle_New (
     TQ3BackfacingStyle            backfacingStyle
 );
@@ -882,7 +886,7 @@ Q3BackfacingStyle_New (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3BackfacingStyle_Submit (
     TQ3BackfacingStyle            backfacingStyle,
-    TQ3ViewObject                 view
+    TQ3ViewObject _Nonnull                view
 );
 
 
@@ -899,8 +903,8 @@ Q3BackfacingStyle_Submit (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3BackfacingStyle_Get (
-    TQ3StyleObject                backfacingObject,
-    TQ3BackfacingStyle            *backfacingStyle
+    TQ3StyleObject _Nonnull               backfacingObject,
+    TQ3BackfacingStyle            * _Nonnull backfacingStyle
 );
 
 
@@ -917,7 +921,7 @@ Q3BackfacingStyle_Get (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3BackfacingStyle_Set (
-    TQ3StyleObject                backfacingObject,
+    TQ3StyleObject _Nonnull               backfacingObject,
     TQ3BackfacingStyle            backfacingStyle
 );
 
@@ -936,7 +940,7 @@ Q3BackfacingStyle_Set (
  *  @param interpolationStyle    The interpolation style data.
  *  @result                      The new interpolation style.
  */
-Q3_EXTERN_API_C ( TQ3StyleObject  )
+Q3_EXTERN_API_C ( TQ3StyleObject _Nonnull )
 Q3InterpolationStyle_New (
     TQ3InterpolationStyle         interpolationStyle
 );
@@ -956,7 +960,7 @@ Q3InterpolationStyle_New (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3InterpolationStyle_Submit (
     TQ3InterpolationStyle         interpolationStyle,
-    TQ3ViewObject                 view
+    TQ3ViewObject _Nonnull                view
 );
 
 
@@ -973,8 +977,8 @@ Q3InterpolationStyle_Submit (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3InterpolationStyle_Get (
-    TQ3StyleObject                interpolationObject,
-    TQ3InterpolationStyle         *interpolationStyle
+    TQ3StyleObject _Nonnull               interpolationObject,
+    TQ3InterpolationStyle         * _Nonnull interpolationStyle
 );
 
 
@@ -991,7 +995,7 @@ Q3InterpolationStyle_Get (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3InterpolationStyle_Set (
-    TQ3StyleObject                interpolationObject,
+    TQ3StyleObject _Nonnull               interpolationObject,
     TQ3InterpolationStyle         interpolationStyle
 );
 
@@ -1009,9 +1013,9 @@ Q3InterpolationStyle_Set (
  *  @param highlightAttribute    The highlight style set.
  *  @result                      The new highlight style.
  */
-Q3_EXTERN_API_C ( TQ3StyleObject  )
+Q3_EXTERN_API_C ( TQ3StyleObject _Nonnull )
 Q3HighlightStyle_New (
-    TQ3AttributeSet               highlightAttribute
+    TQ3AttributeSet _Nonnull              highlightAttribute
 );
 
 
@@ -1028,8 +1032,8 @@ Q3HighlightStyle_New (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3HighlightStyle_Submit (
-    TQ3AttributeSet               highlightAttribute,
-    TQ3ViewObject                 view
+    TQ3AttributeSet _Nonnull              highlightAttribute,
+    TQ3ViewObject _Nonnull                view
 );
 
 
@@ -1046,8 +1050,8 @@ Q3HighlightStyle_Submit (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3HighlightStyle_Get (
-    TQ3StyleObject                highlight,
-    TQ3AttributeSet               *highlightAttribute
+    TQ3StyleObject _Nonnull               highlight,
+    TQ3AttributeSet _Nonnull              * _Nonnull highlightAttribute
 );
 
 
@@ -1064,8 +1068,8 @@ Q3HighlightStyle_Get (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3HighlightStyle_Set (
-    TQ3StyleObject                highlight,
-    TQ3AttributeSet               highlightAttribute
+    TQ3StyleObject _Nonnull               highlight,
+    TQ3AttributeSet _Nonnull              highlightAttribute
 );
 
 /*!
@@ -1082,7 +1086,7 @@ Q3HighlightStyle_Set (
  *  @param frontFacingDirection    The orientation style data.
  *  @result                        The new orientation style.
  */
-Q3_EXTERN_API_C ( TQ3StyleObject  )
+Q3_EXTERN_API_C ( TQ3StyleObject _Nonnull )
 Q3OrientationStyle_New (
     TQ3OrientationStyle           frontFacingDirection
 );
@@ -1102,7 +1106,7 @@ Q3OrientationStyle_New (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3OrientationStyle_Submit (
     TQ3OrientationStyle           frontFacingDirection,
-    TQ3ViewObject                 view
+    TQ3ViewObject _Nonnull                view
 );
 
 
@@ -1119,8 +1123,8 @@ Q3OrientationStyle_Submit (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3OrientationStyle_Get (
-    TQ3StyleObject                frontFacingDirectionObject,
-    TQ3OrientationStyle           *frontFacingDirection
+    TQ3StyleObject _Nonnull               frontFacingDirectionObject,
+    TQ3OrientationStyle           * _Nonnull frontFacingDirection
 );
 
 
@@ -1137,7 +1141,7 @@ Q3OrientationStyle_Get (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3OrientationStyle_Set (
-    TQ3StyleObject                frontFacingDirectionObject,
+    TQ3StyleObject _Nonnull               frontFacingDirectionObject,
     TQ3OrientationStyle           frontFacingDirection
 );
 
@@ -1156,9 +1160,9 @@ Q3OrientationStyle_Set (
  *  @param data             The anti-alias style data.
  *  @result                 The new anti-alias style.
  */
-Q3_EXTERN_API_C ( TQ3StyleObject  )
+Q3_EXTERN_API_C ( TQ3StyleObject _Nonnull )
 Q3AntiAliasStyle_New (
-    const TQ3AntiAliasStyleData   *data
+    const TQ3AntiAliasStyleData   * _Nonnull data
 );
 
 
@@ -1175,8 +1179,8 @@ Q3AntiAliasStyle_New (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3AntiAliasStyle_Submit (
-    const TQ3AntiAliasStyleData   *data,
-    TQ3ViewObject                 view
+    const TQ3AntiAliasStyleData   * _Nonnull data,
+    TQ3ViewObject _Nonnull                view
 );
 
 
@@ -1193,8 +1197,8 @@ Q3AntiAliasStyle_Submit (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3AntiAliasStyle_GetData (
-    TQ3StyleObject                styleObject,
-    TQ3AntiAliasStyleData         *data
+    TQ3StyleObject _Nonnull               styleObject,
+    TQ3AntiAliasStyleData         * _Nonnull data
 );
 
 
@@ -1211,8 +1215,8 @@ Q3AntiAliasStyle_GetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3AntiAliasStyle_SetData (
-    TQ3StyleObject                styleObject,
-    const TQ3AntiAliasStyleData   *data
+    TQ3StyleObject _Nonnull               styleObject,
+    const TQ3AntiAliasStyleData   * _Nonnull data
 );
 
 
@@ -1230,9 +1234,9 @@ Q3AntiAliasStyle_SetData (
  *  @param data             The fog style data.
  *  @result                 The new fog style.
  */
-Q3_EXTERN_API_C ( TQ3StyleObject  )
+Q3_EXTERN_API_C ( TQ3StyleObject _Nonnull )
 Q3FogStyle_New (
-    const TQ3FogStyleData         *data
+    const TQ3FogStyleData         * _Nonnull data
 );
 
 
@@ -1249,8 +1253,8 @@ Q3FogStyle_New (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3FogStyle_Submit (
-    const TQ3FogStyleData         *data,
-    TQ3ViewObject                 view
+    const TQ3FogStyleData         * _Nonnull data,
+    TQ3ViewObject _Nonnull                view
 );
 
 
@@ -1267,8 +1271,8 @@ Q3FogStyle_Submit (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3FogStyle_GetData (
-    TQ3StyleObject                styleObject,
-    TQ3FogStyleData               *data
+    TQ3StyleObject _Nonnull               styleObject,
+    TQ3FogStyleData               * _Nonnull data
 );
 
 
@@ -1285,8 +1289,8 @@ Q3FogStyle_GetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3FogStyle_SetData (
-    TQ3StyleObject                styleObject,
-    const TQ3FogStyleData         *data
+    TQ3StyleObject _Nonnull               styleObject,
+    const TQ3FogStyleData         * _Nonnull data
 );
 
 
@@ -1307,7 +1311,7 @@ Q3FogStyle_SetData (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-Q3_EXTERN_API_C ( TQ3StyleObject  )
+Q3_EXTERN_API_C ( TQ3StyleObject _Nonnull )
 Q3LineWidthStyle_New (
     float         inWidth
 );
@@ -1333,7 +1337,7 @@ Q3LineWidthStyle_New (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3LineWidthStyle_Submit (
     float			inWidth,
-    TQ3ViewObject	view
+    TQ3ViewObject _Nonnull	view
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -1356,8 +1360,8 @@ Q3LineWidthStyle_Submit (
 
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3LineWidthStyle_GetData (
-    TQ3StyleObject			styleObject,
-    float					*outWidth
+    TQ3StyleObject	_Nonnull		styleObject,
+    float					* _Nonnull outWidth
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -1380,7 +1384,7 @@ Q3LineWidthStyle_GetData (
 
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3LineWidthStyle_SetData (
-    TQ3StyleObject		styleObject,
+    TQ3StyleObject _Nonnull		styleObject,
     float				inWidth
 );
 

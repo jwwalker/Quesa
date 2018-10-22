@@ -1,5 +1,9 @@
 /*! @header QuesaGeometry.h
         Declares the Quesa geometry objects.
+        
+	@ignore	_Nullable
+	@ignore _Nonnull
+	@ignore	_Null_unspecified
  */
 /*  NAME:
         QuesaGeometry.h
@@ -8,7 +12,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2016, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -180,18 +184,18 @@ enum
  *	@field		majorAxis			Major axis of the box.
  *	@field		minorAxis			Minor axis of the box.
  *	@field		faceAttributeSet	Array of attribute set objects for the 6 faces.
- *									This field may be nullptr, or individual sets in the
- *									array may be nullptr.
+ *									This field may be NULL, or individual sets in the
+ *									array may be NULL.
  *	@field		boxAttributeSet		Attribute set object holding attributes that apply
- *									to all of the faces.  May be nullptr.
+ *									to all of the faces.  May be NULL.
  */
 typedef struct TQ3BoxData {
     TQ3Point3D                                  origin;
     TQ3Vector3D                                 orientation;
     TQ3Vector3D                                 majorAxis;
     TQ3Vector3D                                 minorAxis;
-    TQ3AttributeSet                             *faceAttributeSet;
-    TQ3AttributeSet                             boxAttributeSet;
+    TQ3AttributeSet _Nullable * _Nullable       faceAttributeSet;
+    TQ3AttributeSet _Nullable                   boxAttributeSet;
 } TQ3BoxData;
 
 
@@ -247,10 +251,10 @@ typedef struct TQ3ConeData {
     float                                       vMin;
     float                                       vMax;
     TQ3EndCap                                   caps;
-    TQ3AttributeSet                             interiorAttributeSet;
-    TQ3AttributeSet                             faceAttributeSet;
-    TQ3AttributeSet                             bottomAttributeSet;
-    TQ3AttributeSet                             coneAttributeSet;
+    TQ3AttributeSet _Nullable                   interiorAttributeSet;
+    TQ3AttributeSet _Nullable                   faceAttributeSet;
+    TQ3AttributeSet _Nullable                   bottomAttributeSet;
+    TQ3AttributeSet _Nullable                   coneAttributeSet;
 } TQ3ConeData;
 
 
@@ -303,11 +307,11 @@ typedef struct TQ3CylinderData {
     float                                       vMin;
     float                                       vMax;
     TQ3EndCap                                   caps;
-    TQ3AttributeSet                             interiorAttributeSet;
-    TQ3AttributeSet                             topAttributeSet;
-    TQ3AttributeSet                             faceAttributeSet;
-    TQ3AttributeSet                             bottomAttributeSet;
-    TQ3AttributeSet                             cylinderAttributeSet;
+    TQ3AttributeSet _Nullable                   interiorAttributeSet;
+    TQ3AttributeSet _Nullable                   topAttributeSet;
+    TQ3AttributeSet _Nullable                   faceAttributeSet;
+    TQ3AttributeSet _Nullable                   bottomAttributeSet;
+    TQ3AttributeSet _Nullable                   cylinderAttributeSet;
 } TQ3CylinderData;
 
 
@@ -355,7 +359,7 @@ typedef struct TQ3DiskData {
     float                                       uMax;
     float                                       vMin;
     float                                       vMax;
-    TQ3AttributeSet                             diskAttributeSet;
+    TQ3AttributeSet _Nullable                   diskAttributeSet;
 } TQ3DiskData;
 
 
@@ -386,7 +390,7 @@ typedef struct TQ3EllipseData {
     TQ3Vector3D                                 minorRadius;
     float                                       uMin;
     float                                       uMax;
-    TQ3AttributeSet                             ellipseAttributeSet;
+    TQ3AttributeSet _Nullable                   ellipseAttributeSet;
 } TQ3EllipseData;
 
 
@@ -435,8 +439,8 @@ typedef struct TQ3EllipsoidData {
     float                                       vMin;
     float                                       vMax;
     TQ3EndCap                                   caps;
-    TQ3AttributeSet                             interiorAttributeSet;
-    TQ3AttributeSet                             ellipsoidAttributeSet;
+    TQ3AttributeSet _Nullable                   interiorAttributeSet;
+    TQ3AttributeSet _Nullable                   ellipsoidAttributeSet;
 } TQ3EllipsoidData;
 
 
@@ -451,7 +455,7 @@ typedef struct TQ3EllipsoidData {
  */
 typedef struct TQ3GeneralPolygonContourData {
     TQ3Uns32                                    numVertices;
-    TQ3Vertex3D                                 *vertices;
+    TQ3Vertex3D                                 * _Nonnull vertices;
 } TQ3GeneralPolygonContourData;
 
 
@@ -473,9 +477,9 @@ typedef struct TQ3GeneralPolygonContourData {
  */
 typedef struct TQ3GeneralPolygonData {
     TQ3Uns32                                    numContours;
-    TQ3GeneralPolygonContourData                *contours;
+    TQ3GeneralPolygonContourData                * _Nullable contours;
     TQ3GeneralPolygonShapeHint                  shapeHint;
-    TQ3AttributeSet                             generalPolygonAttributeSet;
+    TQ3AttributeSet _Nullable                   generalPolygonAttributeSet;
 } TQ3GeneralPolygonData;
 
 
@@ -489,7 +493,7 @@ typedef struct TQ3GeneralPolygonData {
  */
 typedef struct TQ3LineData {
     TQ3Vertex3D                                 vertices[2];
-    TQ3AttributeSet                             lineAttributeSet;
+    TQ3AttributeSet _Nullable                   lineAttributeSet;
 } TQ3LineData;
 
 
@@ -513,7 +517,7 @@ typedef struct TQ3MarkerData {
     TQ3Int32                                    xOffset;
     TQ3Int32                                    yOffset;
     TQ3Bitmap                                   bitmap;
-    TQ3AttributeSet                             markerAttributeSet;
+    TQ3AttributeSet _Nullable                   markerAttributeSet;
 } TQ3MarkerData;
 
 
@@ -574,11 +578,11 @@ typedef struct OpaqueTQ3MeshComponent           *TQ3MeshComponent;
  *		fields are not documented.
  */
 typedef struct TQ3MeshIterator {
-    void                                        *var1;
-    void                                        *var2;
-    void                                        *var3;
+    void                                        * _Null_unspecified var1;
+    void                                        * _Null_unspecified var2;
+    void                                        * _Null_unspecified var3;
     struct {
-        void                                    *field1;
+        void                                    * _Null_unspecified field1;
         char                                    field2[4];
     } var4;
 } TQ3MeshIterator;
@@ -603,8 +607,8 @@ typedef struct TQ3MeshIterator {
  */
 typedef struct TQ3MeshCornerData {
     TQ3Uns32                                    numFaces;
-    TQ3Uns32                  			        *faceIndices;
-    TQ3AttributeSet                             cornerAttributeSet;
+    TQ3Uns32                  			        * _Nonnull faceIndices;
+    TQ3AttributeSet _Nonnull                    cornerAttributeSet;
 } TQ3MeshCornerData;
 
 /*!
@@ -629,8 +633,8 @@ typedef struct TQ3MeshCornerData {
 typedef struct TQ3MeshVertexData {
     TQ3Point3D                                  point;
     TQ3Uns32                                    numCorners;
-    TQ3MeshCornerData                           *corners;
-    TQ3AttributeSet                             attributeSet;
+    TQ3MeshCornerData                           * _Nullable corners;
+    TQ3AttributeSet  _Nullable                  attributeSet;
 } TQ3MeshVertexData;
 
 /*!
@@ -651,7 +655,7 @@ typedef struct TQ3MeshVertexData {
  */
 typedef struct TQ3MeshEdgeData {
     TQ3Uns32                                    vertexIndices[2];
-    TQ3AttributeSet                             edgeAttributeSet;
+    TQ3AttributeSet _Nullable                   edgeAttributeSet;
 } TQ3MeshEdgeData;
 
 /*!
@@ -671,7 +675,7 @@ typedef struct TQ3MeshEdgeData {
  */
 typedef struct TQ3MeshContourData {
     TQ3Uns32                                    numVertices;
-    TQ3Uns32                                    *vertexIndices;
+    TQ3Uns32                                    * _Nullable vertexIndices;
 } TQ3MeshContourData;
 
 /*!
@@ -692,8 +696,8 @@ typedef struct TQ3MeshContourData {
  */
 typedef struct TQ3MeshFaceData {
     TQ3Uns32                                    numContours;
-    TQ3MeshContourData                          *contours;
-    TQ3AttributeSet                             faceAttributeSet;
+    TQ3MeshContourData                          * _Nullable contours;
+    TQ3AttributeSet _Nullable                   faceAttributeSet;
 } TQ3MeshFaceData;
 
 /*!
@@ -718,12 +722,12 @@ typedef struct TQ3MeshFaceData {
  */
 typedef struct TQ3MeshData {
     TQ3Uns32									numVertices;
-    TQ3MeshVertexData							*vertices;
+    TQ3MeshVertexData							* _Nullable vertices;
     TQ3Uns32									numEdges;
-    TQ3MeshEdgeData								*edges;
+    TQ3MeshEdgeData								* _Nullable edges;
     TQ3Uns32									numFaces;
-    TQ3MeshFaceData								*faces;
-    TQ3AttributeSet								meshAttributeSet;
+    TQ3MeshFaceData								* _Nullable faces;
+    TQ3AttributeSet _Nullable                   meshAttributeSet;
 } TQ3MeshData;
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -750,9 +754,9 @@ typedef struct TQ3MeshData {
 typedef struct TQ3NURBCurveData {
     TQ3Uns32                                    order;
     TQ3Uns32                                    numPoints;
-    TQ3RationalPoint4D                          *controlPoints;
-    float                                       *knots;
-    TQ3AttributeSet                             curveAttributeSet;
+    TQ3RationalPoint4D                          * _Nonnull controlPoints;
+    float                                       * _Nonnull knots;
+    TQ3AttributeSet _Nullable                   curveAttributeSet;
 } TQ3NURBCurveData;
 
 
@@ -776,8 +780,8 @@ typedef struct TQ3NURBCurveData {
 typedef struct TQ3NURBPatchTrimCurveData {
     TQ3Uns32                                    order;
     TQ3Uns32                                    numPoints;
-    TQ3RationalPoint3D                          *controlPoints;
-    float                                       *knots;
+    TQ3RationalPoint3D                          * _Nonnull controlPoints;
+    float                                       * _Nonnull knots;
 } TQ3NURBPatchTrimCurveData;
 
 /*!
@@ -789,7 +793,7 @@ typedef struct TQ3NURBPatchTrimCurveData {
  */
 typedef struct TQ3NURBPatchTrimLoopData {
     TQ3Uns32                                    numTrimCurves;
-    TQ3NURBPatchTrimCurveData                   *trimCurves;
+    TQ3NURBPatchTrimCurveData                   * _Nonnull trimCurves;
 } TQ3NURBPatchTrimLoopData;
 
 /*!
@@ -832,12 +836,12 @@ typedef struct TQ3NURBPatchData {
     TQ3Uns32                                    vOrder;
     TQ3Uns32                                    numRows;
     TQ3Uns32                                    numColumns;
-    TQ3RationalPoint4D                          *controlPoints;
-    float                                       *uKnots;
-    float                                       *vKnots;
+    TQ3RationalPoint4D                          * _Nonnull controlPoints;
+    float                                       * _Nonnull uKnots;
+    float                                       * _Nonnull vKnots;
     TQ3Uns32                                    numTrimLoops;
-    TQ3NURBPatchTrimLoopData                    *trimLoops;
-    TQ3AttributeSet                             patchAttributeSet;
+    TQ3NURBPatchTrimLoopData                    * _Nullable trimLoops;
+    TQ3AttributeSet _Nullable                   patchAttributeSet;
 } TQ3NURBPatchData;
 
 
@@ -859,7 +863,7 @@ typedef struct TQ3PixmapMarkerData {
     TQ3Int32                                    xOffset;
     TQ3Int32                                    yOffset;
     TQ3StoragePixmap                            pixmap;
-    TQ3AttributeSet                             pixmapMarkerAttributeSet;
+    TQ3AttributeSet _Nullable                   pixmapMarkerAttributeSet;
 } TQ3PixmapMarkerData;
 
 
@@ -872,7 +876,7 @@ typedef struct TQ3PixmapMarkerData {
  */
 typedef struct TQ3PointData {
     TQ3Point3D                                  point;
-    TQ3AttributeSet                             pointAttributeSet;
+    TQ3AttributeSet _Nullable                   pointAttributeSet;
 } TQ3PointData;
 
 
@@ -886,8 +890,8 @@ typedef struct TQ3PointData {
  */
 typedef struct TQ3PolygonData {
     TQ3Uns32                                    numVertices;
-    TQ3Vertex3D                                 *vertices;
-    TQ3AttributeSet                             polygonAttributeSet;
+    TQ3Vertex3D                                 * _Nonnull vertices;
+    TQ3AttributeSet _Nullable                   polygonAttributeSet;
 } TQ3PolygonData;
 
 
@@ -911,7 +915,7 @@ typedef TQ3Uns32                                TQ3PolyhedronEdge;
 typedef struct TQ3PolyhedronEdgeData {
     TQ3Uns32                                    vertexIndices[2];
     TQ3Uns32                                    triangleIndices[2];
-    TQ3AttributeSet                             edgeAttributeSet;
+    TQ3AttributeSet _Nullable                   edgeAttributeSet;
 } TQ3PolyhedronEdgeData;
 
 /*!
@@ -926,7 +930,7 @@ typedef struct TQ3PolyhedronEdgeData {
 typedef struct TQ3PolyhedronTriangleData {
     TQ3Uns32                                    vertexIndices[3];
     TQ3PolyhedronEdge                           edgeFlag;
-    TQ3AttributeSet                             triangleAttributeSet;
+    TQ3AttributeSet _Nullable                   triangleAttributeSet;
 } TQ3PolyhedronTriangleData;
 
 /*!
@@ -945,12 +949,12 @@ typedef struct TQ3PolyhedronTriangleData {
  */
 typedef struct TQ3PolyhedronData {
     TQ3Uns32                                    numVertices;
-    TQ3Vertex3D                                 *vertices;
+    TQ3Vertex3D                                 * _Nullable vertices;
     TQ3Uns32                                    numEdges;
-    TQ3PolyhedronEdgeData                       *edges;
+    TQ3PolyhedronEdgeData                       * _Nullable edges;
     TQ3Uns32                                    numTriangles;
-    TQ3PolyhedronTriangleData                   *triangles;
-    TQ3AttributeSet                             polyhedronAttributeSet;
+    TQ3PolyhedronTriangleData                   * _Nonnull triangles;
+    TQ3AttributeSet _Nullable                   polyhedronAttributeSet;
 } TQ3PolyhedronData;
 
 
@@ -969,9 +973,9 @@ typedef struct TQ3PolyhedronData {
  */
 typedef struct TQ3PolyLineData {
     TQ3Uns32                                    numVertices;
-    TQ3Vertex3D                                 *vertices;
-    TQ3AttributeSet                             *segmentAttributeSet;
-    TQ3AttributeSet                             polyLineAttributeSet;
+    TQ3Vertex3D                                 * _Nonnull vertices;
+    TQ3AttributeSet _Nullable                   * _Nullable segmentAttributeSet;
+    TQ3AttributeSet _Nullable                   polyLineAttributeSet;
 } TQ3PolyLineData;
 
 
@@ -1048,8 +1052,8 @@ typedef struct TQ3TorusData {
     float                                       vMin;
     float                                       vMax;
     TQ3EndCap                                   caps;
-    TQ3AttributeSet                             interiorAttributeSet;
-    TQ3AttributeSet                             torusAttributeSet;
+    TQ3AttributeSet _Nullable                   interiorAttributeSet;
+    TQ3AttributeSet _Nullable                   torusAttributeSet;
 } TQ3TorusData;
 
 
@@ -1062,7 +1066,7 @@ typedef struct TQ3TorusData {
  */
 typedef struct TQ3TriangleData {
     TQ3Vertex3D                                 vertices[3];
-    TQ3AttributeSet                             triangleAttributeSet;
+    TQ3AttributeSet _Nullable                   triangleAttributeSet;
 } TQ3TriangleData;
 
 
@@ -1090,9 +1094,9 @@ typedef struct TQ3TriangleData {
 typedef struct TQ3TriGridData {
     TQ3Uns32                                    numRows;
     TQ3Uns32                                    numColumns;
-    TQ3Vertex3D                                 *vertices;
-    TQ3AttributeSet                             *facetAttributeSet;
-    TQ3AttributeSet                             triGridAttributeSet;
+    TQ3Vertex3D                                 * _Nonnull vertices;
+    TQ3AttributeSet _Nullable                   * _Nullable facetAttributeSet;
+    TQ3AttributeSet _Nullable                   triGridAttributeSet;
 } TQ3TriGridData;
 
 
@@ -1139,8 +1143,8 @@ typedef struct TQ3TriMeshEdgeData {
  */
 typedef struct TQ3TriMeshAttributeData {
     TQ3AttributeType                            attributeType;
-    void                                        *data;
-    char                                        *attributeUseArray;
+    void                                        * _Nullable data;
+    char                                        * _Nullable attributeUseArray;
 } TQ3TriMeshAttributeData;
 
 /*!
@@ -1173,25 +1177,25 @@ typedef struct TQ3TriMeshAttributeData {
  *	@field		bBox					Bounding box of the TriMesh.
  */
 typedef struct TQ3TriMeshData {
-    TQ3AttributeSet                             triMeshAttributeSet;
+    TQ3AttributeSet _Nullable                   triMeshAttributeSet;
 
     TQ3Uns32                                    numTriangles;
-    TQ3TriMeshTriangleData                      *triangles;
+    TQ3TriMeshTriangleData                      * _Nonnull triangles;
 
     TQ3Uns32                                    numTriangleAttributeTypes;
-    TQ3TriMeshAttributeData                     *triangleAttributeTypes;
+    TQ3TriMeshAttributeData                     * _Nullable triangleAttributeTypes;
 
     TQ3Uns32                                    numEdges;
-    TQ3TriMeshEdgeData                          *edges;
+    TQ3TriMeshEdgeData                          * _Nullable edges;
 
     TQ3Uns32                                    numEdgeAttributeTypes;
-    TQ3TriMeshAttributeData                     *edgeAttributeTypes;
+    TQ3TriMeshAttributeData                     * _Nullable edgeAttributeTypes;
 
     TQ3Uns32                                    numPoints;
-    TQ3Point3D                                  *points;
+    TQ3Point3D                                  * _Nonnull points;
 
     TQ3Uns32                                    numVertexAttributeTypes;
-    TQ3TriMeshAttributeData                     *vertexAttributeTypes;
+    TQ3TriMeshAttributeData                     * _Nullable vertexAttributeTypes;
 
     TQ3BoundingBox                              bBox;
 } TQ3TriMeshData;
@@ -1480,7 +1484,7 @@ typedef struct TQ3CustomTextureCoordinates
  */
 Q3_EXTERN_API_C ( TQ3ObjectType  )
 Q3Geometry_GetType (
-    TQ3GeometryObject             geometry
+    TQ3GeometryObject _Nonnull             geometry
 );
 
 
@@ -1505,8 +1509,8 @@ Q3Geometry_GetType (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Geometry_GetAttributeSet (
-    TQ3GeometryObject             geometry,
-    TQ3AttributeSet               *attributeSet
+    TQ3GeometryObject _Nonnull             geometry,
+    TQ3AttributeSet _Nullable              * _Nonnull attributeSet
 );
 
 
@@ -1526,8 +1530,8 @@ Q3Geometry_GetAttributeSet (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Geometry_SetAttributeSet (
-    TQ3GeometryObject             geometry,
-    TQ3AttributeSet               attributeSet
+    TQ3GeometryObject _Nonnull    geometry,
+    TQ3AttributeSet _Nullable      attributeSet
 );
 
 
@@ -1549,8 +1553,8 @@ Q3Geometry_SetAttributeSet (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Geometry_Submit (
-    TQ3GeometryObject             geometry,
-    TQ3ViewObject                 view
+    TQ3GeometryObject _Nonnull             geometry,
+    TQ3ViewObject _Nonnull                 view
 );
 
 
@@ -1584,10 +1588,10 @@ Q3Geometry_Submit (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-Q3_EXTERN_API_C( TQ3Object )
+Q3_EXTERN_API_C( TQ3Object _Nullable )
 Q3Geometry_GetDecomposed (
-	TQ3GeometryObject			geometry,
-	TQ3ViewObject				view
+	TQ3GeometryObject _Nonnull			geometry,
+	TQ3ViewObject _Nonnull				view
 );
 
 #endif
@@ -1614,9 +1618,9 @@ Q3Geometry_GetDecomposed (
  *							or nullptr.
  *  @result                 A reference to the new geometry object, or nullptr on failure.
  */
-Q3_EXTERN_API_C ( TQ3GeometryObject  )
+Q3_EXTERN_API_C ( TQ3GeometryObject _Nullable  )
 Q3Box_New (
-    const TQ3BoxData              *boxData
+    const TQ3BoxData              * _Nonnull boxData
 );
 
 
@@ -1636,8 +1640,8 @@ Q3Box_New (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Box_Submit (
-    const TQ3BoxData              *boxData,
-    TQ3ViewObject                 view
+    const TQ3BoxData              * _Nonnull boxData,
+    TQ3ViewObject _Nonnull                 view
 );
 
 
@@ -1654,8 +1658,8 @@ Q3Box_Submit (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Box_SetData (
-    TQ3GeometryObject             box,
-    const TQ3BoxData              *boxData
+    TQ3GeometryObject _Nonnull               box,
+    const TQ3BoxData              * _Nonnull boxData
 );
 
 
@@ -1675,8 +1679,8 @@ Q3Box_SetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Box_GetData (
-    TQ3GeometryObject             box,
-    TQ3BoxData                    *boxData
+    TQ3GeometryObject _Nonnull               box,
+    TQ3BoxData                    * _Nonnull boxData
 );
 
 
@@ -1692,7 +1696,7 @@ Q3Box_GetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Box_EmptyData (
-    TQ3BoxData                    *boxData
+    TQ3BoxData                    * _Nonnull boxData
 );
 
 
@@ -1709,8 +1713,8 @@ Q3Box_EmptyData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Box_SetOrigin (
-    TQ3GeometryObject             box,
-    const TQ3Point3D              *origin
+    TQ3GeometryObject _Nonnull               box,
+    const TQ3Point3D              * _Nonnull origin
 );
 
 
@@ -1727,8 +1731,8 @@ Q3Box_SetOrigin (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Box_SetOrientation (
-    TQ3GeometryObject             box,
-    const TQ3Vector3D             *orientation
+    TQ3GeometryObject _Nonnull               box,
+    const TQ3Vector3D             * _Nonnull orientation
 );
 
 
@@ -1745,8 +1749,8 @@ Q3Box_SetOrientation (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Box_SetMajorAxis (
-    TQ3GeometryObject             box,
-    const TQ3Vector3D             *majorAxis
+    TQ3GeometryObject _Nonnull               box,
+    const TQ3Vector3D             * _Nonnull majorAxis
 );
 
 
@@ -1763,8 +1767,8 @@ Q3Box_SetMajorAxis (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Box_SetMinorAxis (
-    TQ3GeometryObject             box,
-    const TQ3Vector3D             *minorAxis
+    TQ3GeometryObject _Nonnull               box,
+    const TQ3Vector3D             * _Nonnull minorAxis
 );
 
 
@@ -1781,8 +1785,8 @@ Q3Box_SetMinorAxis (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Box_GetOrigin (
-    TQ3GeometryObject             box,
-    TQ3Point3D                    *origin
+    TQ3GeometryObject _Nonnull               box,
+    TQ3Point3D                    * _Nonnull origin
 );
 
 
@@ -1799,8 +1803,8 @@ Q3Box_GetOrigin (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Box_GetOrientation (
-    TQ3GeometryObject             box,
-    TQ3Vector3D                   *orientation
+    TQ3GeometryObject _Nonnull               box,
+    TQ3Vector3D                   * _Nonnull orientation
 );
 
 
@@ -1817,8 +1821,8 @@ Q3Box_GetOrientation (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Box_GetMajorAxis (
-    TQ3GeometryObject             box,
-    TQ3Vector3D                   *majorAxis
+    TQ3GeometryObject _Nonnull               box,
+    TQ3Vector3D                   * _Nonnull majorAxis
 );
 
 
@@ -1835,8 +1839,8 @@ Q3Box_GetMajorAxis (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Box_GetMinorAxis (
-    TQ3GeometryObject             box,
-    TQ3Vector3D                   *minorAxis
+    TQ3GeometryObject _Nonnull               box,
+    TQ3Vector3D                   * _Nonnull minorAxis
 );
 
 
@@ -1861,9 +1865,9 @@ Q3Box_GetMinorAxis (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Box_GetFaceAttributeSet (
-    TQ3GeometryObject             box,
+    TQ3GeometryObject _Nonnull            box,
     TQ3Uns32                      faceIndex,
-    TQ3AttributeSet               *faceAttributeSet
+    TQ3AttributeSet _Nullable             * _Nonnull faceAttributeSet
 );
 
 
@@ -1885,9 +1889,9 @@ Q3Box_GetFaceAttributeSet (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Box_SetFaceAttributeSet (
-    TQ3GeometryObject             box,
+    TQ3GeometryObject _Nonnull             box,
     TQ3Uns32                      faceIndex,
-    TQ3AttributeSet               faceAttributeSet
+    TQ3AttributeSet _Nonnull               faceAttributeSet
 );
 
 
@@ -1911,9 +1915,9 @@ Q3Box_SetFaceAttributeSet (
  *  @param coneData         Pointer to data describing the cone, or nullptr.
  *  @result                 The new cone object, or nullptr on failure.
  */
-Q3_EXTERN_API_C ( TQ3GeometryObject  )
+Q3_EXTERN_API_C ( TQ3GeometryObject _Nullable  )
 Q3Cone_New (
-    const TQ3ConeData             *coneData
+    const TQ3ConeData             * _Nullable coneData
 );
 
 
@@ -1932,8 +1936,8 @@ Q3Cone_New (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cone_Submit (
-    const TQ3ConeData             *coneData,
-    TQ3ViewObject                 view
+    const TQ3ConeData             * _Nonnull coneData,
+    TQ3ViewObject _Nonnull                 view
 );
 
 
@@ -1950,8 +1954,8 @@ Q3Cone_Submit (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cone_SetData (
-    TQ3GeometryObject             cone,
-    const TQ3ConeData             *coneData
+    TQ3GeometryObject _Nonnull             cone,
+    const TQ3ConeData             * _Nonnull coneData
 );
 
 
@@ -1970,8 +1974,8 @@ Q3Cone_SetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cone_GetData (
-    TQ3GeometryObject             cone,
-    TQ3ConeData                   *coneData
+    TQ3GeometryObject _Nonnull               cone,
+    TQ3ConeData                   * _Nonnull coneData
 );
 
 
@@ -1988,8 +1992,8 @@ Q3Cone_GetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cone_SetOrigin (
-    TQ3GeometryObject             cone,
-    const TQ3Point3D              *origin
+    TQ3GeometryObject _Nonnull               cone,
+    const TQ3Point3D              * _Nonnull origin
 );
 
 
@@ -2006,8 +2010,8 @@ Q3Cone_SetOrigin (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cone_SetOrientation (
-    TQ3GeometryObject             cone,
-    const TQ3Vector3D             *orientation
+    TQ3GeometryObject _Nonnull               cone,
+    const TQ3Vector3D             * _Nonnull orientation
 );
 
 
@@ -2024,8 +2028,8 @@ Q3Cone_SetOrientation (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cone_SetMajorRadius (
-    TQ3GeometryObject             cone,
-    const TQ3Vector3D             *majorRadius
+    TQ3GeometryObject _Nonnull             cone,
+    const TQ3Vector3D             * _Nonnull majorRadius
 );
 
 
@@ -2042,8 +2046,8 @@ Q3Cone_SetMajorRadius (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cone_SetMinorRadius (
-    TQ3GeometryObject             cone,
-    const TQ3Vector3D             *minorRadius
+    TQ3GeometryObject _Nonnull             cone,
+    const TQ3Vector3D             * _Nonnull minorRadius
 );
 
 
@@ -2060,8 +2064,8 @@ Q3Cone_SetMinorRadius (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cone_GetOrigin (
-    TQ3GeometryObject             cone,
-    TQ3Point3D                    *origin
+    TQ3GeometryObject _Nonnull               cone,
+    TQ3Point3D                    * _Nonnull origin
 );
 
 
@@ -2078,8 +2082,8 @@ Q3Cone_GetOrigin (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cone_GetOrientation (
-    TQ3GeometryObject             cone,
-    TQ3Vector3D                   *orientation
+    TQ3GeometryObject _Nonnull               cone,
+    TQ3Vector3D                   * _Nonnull orientation
 );
 
 
@@ -2096,8 +2100,8 @@ Q3Cone_GetOrientation (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cone_GetMajorRadius (
-    TQ3GeometryObject             cone,
-    TQ3Vector3D                   *majorRadius
+    TQ3GeometryObject _Nonnull             cone,
+    TQ3Vector3D                   * _Nonnull majorRadius
 );
 
 
@@ -2114,8 +2118,8 @@ Q3Cone_GetMajorRadius (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cone_GetMinorRadius (
-    TQ3GeometryObject             cone,
-    TQ3Vector3D                   *minorRadius
+    TQ3GeometryObject _Nonnull             cone,
+    TQ3Vector3D                   * _Nonnull minorRadius
 );
 
 
@@ -2134,7 +2138,7 @@ Q3Cone_GetMinorRadius (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cone_SetCaps (
-    TQ3GeometryObject             cone,
+    TQ3GeometryObject _Nonnull             cone,
     TQ3EndCap                     caps
 );
 
@@ -2153,8 +2157,8 @@ Q3Cone_SetCaps (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cone_GetCaps (
-    TQ3GeometryObject             cone,
-    TQ3EndCap                     *caps
+    TQ3GeometryObject _Nonnull             cone,
+    TQ3EndCap                     * _Nonnull caps
 );
 
 
@@ -2173,8 +2177,8 @@ Q3Cone_GetCaps (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cone_SetBottomAttributeSet (
-    TQ3GeometryObject             cone,
-    TQ3AttributeSet               bottomAttributeSet
+    TQ3GeometryObject _Nonnull             cone,
+    TQ3AttributeSet _Nullable              bottomAttributeSet
 );
 
 
@@ -2191,8 +2195,8 @@ Q3Cone_SetBottomAttributeSet (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cone_GetBottomAttributeSet (
-    TQ3GeometryObject             cone,
-    TQ3AttributeSet               *bottomAttributeSet
+    TQ3GeometryObject _Nonnull             cone,
+    TQ3AttributeSet _Nullable * _Nonnull   bottomAttributeSet
 );
 
 
@@ -2209,8 +2213,8 @@ Q3Cone_GetBottomAttributeSet (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cone_SetFaceAttributeSet (
-    TQ3GeometryObject             cone,
-    TQ3AttributeSet               faceAttributeSet
+    TQ3GeometryObject _Nonnull         	    cone,
+    TQ3AttributeSet _Nullable               faceAttributeSet
 );
 
 
@@ -2227,8 +2231,8 @@ Q3Cone_SetFaceAttributeSet (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cone_GetFaceAttributeSet (
-    TQ3GeometryObject             cone,
-    TQ3AttributeSet               *faceAttributeSet
+    TQ3GeometryObject _Nonnull            cone,
+    TQ3AttributeSet _Nullable * _Nonnull  faceAttributeSet
 );
 
 
@@ -2249,8 +2253,8 @@ Q3Cone_GetFaceAttributeSet (
 
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cone_SetInteriorAttributeSet (
-    TQ3GeometryObject             cone,
-    TQ3AttributeSet               interiorAttributeSet
+    TQ3GeometryObject _Nonnull             cone,
+    TQ3AttributeSet _Nullable              interiorAttributeSet
 );
 
 #endif	// QUESA_ALLOW_QD3D_EXTENSIONS
@@ -2273,8 +2277,8 @@ Q3Cone_SetInteriorAttributeSet (
 
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cone_GetInteriorAttributeSet (
-    TQ3GeometryObject             cone,
-    TQ3AttributeSet               *interiorAttributeSet
+    TQ3GeometryObject _Nonnull             cone,
+    TQ3AttributeSet _Nullable  * _Nonnull  interiorAttributeSet
 );
 
 #endif	// QUESA_ALLOW_QD3D_EXTENSIONS
@@ -2293,7 +2297,7 @@ Q3Cone_GetInteriorAttributeSet (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cone_EmptyData (
-    TQ3ConeData                   *coneData
+    TQ3ConeData                   * _Nonnull coneData
 );
 
 
@@ -2317,9 +2321,9 @@ Q3Cone_EmptyData (
  *  @param cylinderData     Data describing a cylinder, or nullptr.
  *  @result                 Reference to a new Cylinder geometry object, or nullptr on failure.
  */
-Q3_EXTERN_API_C ( TQ3GeometryObject  )
+Q3_EXTERN_API_C ( TQ3GeometryObject _Nullable  )
 Q3Cylinder_New (
-    const TQ3CylinderData         *cylinderData
+    const TQ3CylinderData         * _Nonnull cylinderData
 );
 
 
@@ -2338,8 +2342,8 @@ Q3Cylinder_New (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_Submit (
-    const TQ3CylinderData         *cylinderData,
-    TQ3ViewObject                 view
+    const TQ3CylinderData         * _Nonnull cylinderData,
+    TQ3ViewObject _Nonnull                 view
 );
 
 
@@ -2356,8 +2360,8 @@ Q3Cylinder_Submit (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_SetData (
-    TQ3GeometryObject             cylinder,
-    const TQ3CylinderData         *cylinderData
+    TQ3GeometryObject _Nonnull             cylinder,
+    const TQ3CylinderData         * _Nonnull cylinderData
 );
 
 
@@ -2377,8 +2381,8 @@ Q3Cylinder_SetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_GetData (
-    TQ3GeometryObject             cylinder,
-    TQ3CylinderData               *cylinderData
+    TQ3GeometryObject _Nonnull             cylinder,
+    TQ3CylinderData               * _Nonnull cylinderData
 );
 
 
@@ -2395,8 +2399,8 @@ Q3Cylinder_GetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_SetOrigin (
-    TQ3GeometryObject             cylinder,
-    const TQ3Point3D              *origin
+    TQ3GeometryObject _Nonnull               cylinder,
+    const TQ3Point3D              * _Nonnull origin
 );
 
 
@@ -2413,8 +2417,8 @@ Q3Cylinder_SetOrigin (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_SetOrientation (
-    TQ3GeometryObject             cylinder,
-    const TQ3Vector3D             *orientation
+    TQ3GeometryObject _Nonnull               cylinder,
+    const TQ3Vector3D             * _Nonnull orientation
 );
 
 
@@ -2431,8 +2435,8 @@ Q3Cylinder_SetOrientation (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_SetMajorRadius (
-    TQ3GeometryObject             cylinder,
-    const TQ3Vector3D             *majorRadius
+    TQ3GeometryObject _Nonnull               cylinder,
+    const TQ3Vector3D             * _Nonnull majorRadius
 );
 
 
@@ -2449,8 +2453,8 @@ Q3Cylinder_SetMajorRadius (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_SetMinorRadius (
-    TQ3GeometryObject             cylinder,
-    const TQ3Vector3D             *minorRadius
+    TQ3GeometryObject _Nonnull               cylinder,
+    const TQ3Vector3D             * _Nonnull minorRadius
 );
 
 
@@ -2467,8 +2471,8 @@ Q3Cylinder_SetMinorRadius (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_GetOrigin (
-    TQ3GeometryObject             cylinder,
-    TQ3Point3D                    *origin
+    TQ3GeometryObject _Nonnull               cylinder,
+    TQ3Point3D                    * _Nonnull origin
 );
 
 
@@ -2485,8 +2489,8 @@ Q3Cylinder_GetOrigin (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_GetOrientation (
-    TQ3GeometryObject             cylinder,
-    TQ3Vector3D                   *orientation
+    TQ3GeometryObject _Nonnull               cylinder,
+    TQ3Vector3D                   * _Nonnull orientation
 );
 
 
@@ -2503,8 +2507,8 @@ Q3Cylinder_GetOrientation (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_GetMajorRadius (
-    TQ3GeometryObject             cylinder,
-    TQ3Vector3D                   *majorRadius
+    TQ3GeometryObject _Nonnull              cylinder,
+    TQ3Vector3D                   * _Nonnull majorRadius
 );
 
 
@@ -2521,8 +2525,8 @@ Q3Cylinder_GetMajorRadius (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_GetMinorRadius (
-    TQ3GeometryObject             cylinder,
-    TQ3Vector3D                   *minorRadius
+    TQ3GeometryObject _Nonnull               cylinder,
+    TQ3Vector3D                   * _Nonnull minorRadius
 );
 
 
@@ -2542,7 +2546,7 @@ Q3Cylinder_GetMinorRadius (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_SetCaps (
-    TQ3GeometryObject             cylinder,
+    TQ3GeometryObject _Nonnull    cylinder,
     TQ3EndCap                     caps
 );
 
@@ -2561,8 +2565,8 @@ Q3Cylinder_SetCaps (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_GetCaps (
-    TQ3GeometryObject             cylinder,
-    TQ3EndCap                     *caps
+    TQ3GeometryObject _Nonnull               cylinder,
+    TQ3EndCap                     * _Nonnull caps
 );
 
 
@@ -2579,8 +2583,8 @@ Q3Cylinder_GetCaps (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_SetTopAttributeSet (
-    TQ3GeometryObject             cylinder,
-    TQ3AttributeSet               topAttributeSet
+    TQ3GeometryObject _Nonnull             cylinder,
+    TQ3AttributeSet _Nullable              topAttributeSet
 );
 
 
@@ -2597,8 +2601,8 @@ Q3Cylinder_SetTopAttributeSet (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_GetTopAttributeSet (
-    TQ3GeometryObject             cylinder,
-    TQ3AttributeSet               *topAttributeSet
+    TQ3GeometryObject _Nonnull             cylinder,
+    TQ3AttributeSet _Nullable * _Nonnull topAttributeSet
 );
 
 
@@ -2615,8 +2619,8 @@ Q3Cylinder_GetTopAttributeSet (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_SetBottomAttributeSet (
-    TQ3GeometryObject             cylinder,
-    TQ3AttributeSet               bottomAttributeSet
+    TQ3GeometryObject _Nonnull             cylinder,
+    TQ3AttributeSet _Nullable              bottomAttributeSet
 );
 
 
@@ -2633,8 +2637,8 @@ Q3Cylinder_SetBottomAttributeSet (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_GetBottomAttributeSet (
-    TQ3GeometryObject             cylinder,
-    TQ3AttributeSet               *bottomAttributeSet
+    TQ3GeometryObject _Nonnull             cylinder,
+    TQ3AttributeSet _Nullable               * _Nonnull bottomAttributeSet
 );
 
 
@@ -2651,8 +2655,8 @@ Q3Cylinder_GetBottomAttributeSet (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_SetFaceAttributeSet (
-    TQ3GeometryObject             cylinder,
-    TQ3AttributeSet               faceAttributeSet
+    TQ3GeometryObject _Nonnull              cylinder,
+    TQ3AttributeSet _Nullable               faceAttributeSet
 );
 
 
@@ -2669,8 +2673,8 @@ Q3Cylinder_SetFaceAttributeSet (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_GetFaceAttributeSet (
-    TQ3GeometryObject             cylinder,
-    TQ3AttributeSet               *faceAttributeSet
+    TQ3GeometryObject _Nonnull             cylinder,
+    TQ3AttributeSet _Nullable              * _Nonnull faceAttributeSet
 );
 
 
@@ -2692,8 +2696,8 @@ Q3Cylinder_GetFaceAttributeSet (
 
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_SetInteriorAttributeSet (
-    TQ3GeometryObject             cylinder,
-    TQ3AttributeSet               interiorAttributeSet
+    TQ3GeometryObject _Nonnull             cylinder,
+    TQ3AttributeSet _Nullable              interiorAttributeSet
 );
 
 #endif	// QUESA_ALLOW_QD3D_EXTENSIONS
@@ -2716,8 +2720,8 @@ Q3Cylinder_SetInteriorAttributeSet (
 
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_GetInteriorAttributeSet (
-    TQ3GeometryObject             cylinder,
-    TQ3AttributeSet               *interiorAttributeSet
+    TQ3GeometryObject _Nonnull             cylinder,
+    TQ3AttributeSet _Nullable              * _Nonnull interiorAttributeSet
 );
 
 #endif	// QUESA_ALLOW_QD3D_EXTENSIONS
@@ -2735,7 +2739,7 @@ Q3Cylinder_GetInteriorAttributeSet (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Cylinder_EmptyData (
-    TQ3CylinderData               *cylinderData
+    TQ3CylinderData               * _Nonnull cylinderData
 );
 
 
@@ -2756,12 +2760,12 @@ Q3Cylinder_EmptyData (
  *		(0, 0, 0), major radius (1, 0, 0), and minor radius (0, 1, 0).  <em>This behavior was
  *		not present in QuickDraw 3D.</em>
  *
- *  @param diskData         Data describing a disk object, or nullptr.
- *  @result                 Reference to a new Disk geometry object, or nullptr on failure.
+ *  @param diskData         Data describing a disk object, or NULL.
+ *  @result                 Reference to a new Disk geometry object, or NULL on failure.
  */
-Q3_EXTERN_API_C ( TQ3GeometryObject  )
+Q3_EXTERN_API_C ( TQ3GeometryObject _Nullable  )
 Q3Disk_New (
-    const TQ3DiskData             *diskData
+    const TQ3DiskData             * _Nullable diskData
 );
 
 
@@ -2780,8 +2784,8 @@ Q3Disk_New (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Disk_Submit (
-    const TQ3DiskData             *diskData,
-    TQ3ViewObject                 view
+    const TQ3DiskData             * _Nonnull diskData,
+    TQ3ViewObject _Nonnull        view
 );
 
 
@@ -2798,8 +2802,8 @@ Q3Disk_Submit (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Disk_SetData (
-    TQ3GeometryObject             disk,
-    const TQ3DiskData             *diskData
+    TQ3GeometryObject _Nonnull               disk,
+    const TQ3DiskData             * _Nonnull diskData
 );
 
 
@@ -2818,8 +2822,8 @@ Q3Disk_SetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Disk_GetData (
-    TQ3GeometryObject             disk,
-    TQ3DiskData                   *diskData
+    TQ3GeometryObject _Nonnull             disk,
+    TQ3DiskData                   * _Nonnull diskData
 );
 
 
@@ -2836,8 +2840,8 @@ Q3Disk_GetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Disk_SetOrigin (
-    TQ3GeometryObject             disk,
-    const TQ3Point3D              *origin
+    TQ3GeometryObject _Nonnull               disk,
+    const TQ3Point3D              * _Nonnull origin
 );
 
 
@@ -2854,8 +2858,8 @@ Q3Disk_SetOrigin (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Disk_SetMajorRadius (
-    TQ3GeometryObject             disk,
-    const TQ3Vector3D             *majorRadius
+    TQ3GeometryObject _Nonnull               disk,
+    const TQ3Vector3D             * _Nonnull majorRadius
 );
 
 
@@ -2872,8 +2876,8 @@ Q3Disk_SetMajorRadius (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Disk_SetMinorRadius (
-    TQ3GeometryObject             disk,
-    const TQ3Vector3D             *minorRadius
+    TQ3GeometryObject _Nonnull               disk,
+    const TQ3Vector3D             * _Nonnull minorRadius
 );
 
 
@@ -2890,8 +2894,8 @@ Q3Disk_SetMinorRadius (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Disk_GetOrigin (
-    TQ3GeometryObject             disk,
-    TQ3Point3D                    *origin
+    TQ3GeometryObject _Nonnull               disk,
+    TQ3Point3D                    * _Nonnull origin
 );
 
 
@@ -2908,8 +2912,8 @@ Q3Disk_GetOrigin (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Disk_GetMajorRadius (
-    TQ3GeometryObject             disk,
-    TQ3Vector3D                   *majorRadius
+    TQ3GeometryObject _Nonnull               disk,
+    TQ3Vector3D                   * _Nonnull majorRadius
 );
 
 
@@ -2926,8 +2930,8 @@ Q3Disk_GetMajorRadius (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Disk_GetMinorRadius (
-    TQ3GeometryObject             disk,
-    TQ3Vector3D                   *minorRadius
+    TQ3GeometryObject _Nonnull               disk,
+    TQ3Vector3D                   * _Nonnull minorRadius
 );
 
 
@@ -2944,7 +2948,7 @@ Q3Disk_GetMinorRadius (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Disk_EmptyData (
-    TQ3DiskData                   *diskData
+    TQ3DiskData                   * _Nonnull diskData
 );
 
 
@@ -2965,12 +2969,12 @@ Q3Disk_EmptyData (
  *		minor axis (0, 0, 1), and origin (0, 0, 0).  <em>This behavior was
  *		not present in QuickDraw 3D.</em>
  *
- *  @param ellipseData      Data describing an ellipse, or nullptr.
- *  @result                 Reference to a new Ellipse geometry object, or nullptr on failure.
+ *  @param ellipseData      Data describing an ellipse, or NULL.
+ *  @result                 Reference to a new Ellipse geometry object, or NULL on failure.
  */
-Q3_EXTERN_API_C ( TQ3GeometryObject  )
+Q3_EXTERN_API_C ( TQ3GeometryObject _Nullable  )
 Q3Ellipse_New (
-    const TQ3EllipseData          *ellipseData
+    const TQ3EllipseData          * _Nullable ellipseData
 );
 
 
@@ -2989,8 +2993,8 @@ Q3Ellipse_New (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Ellipse_Submit (
-    const TQ3EllipseData          *ellipseData,
-    TQ3ViewObject                 view
+    const TQ3EllipseData          * _Nonnull ellipseData,
+    TQ3ViewObject _Nonnull        view
 );
 
 
@@ -3007,8 +3011,8 @@ Q3Ellipse_Submit (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Ellipse_SetData (
-    TQ3GeometryObject             ellipse,
-    const TQ3EllipseData          *ellipseData
+    TQ3GeometryObject _Nonnull               ellipse,
+    const TQ3EllipseData          * _Nonnull ellipseData
 );
 
 
@@ -3028,8 +3032,8 @@ Q3Ellipse_SetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Ellipse_GetData (
-    TQ3GeometryObject             ellipse,
-    TQ3EllipseData                *ellipseData
+    TQ3GeometryObject _Nonnull               ellipse,
+    TQ3EllipseData                * _Nonnull ellipseData
 );
 
 
@@ -3046,8 +3050,8 @@ Q3Ellipse_GetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Ellipse_SetOrigin (
-    TQ3GeometryObject             ellipse,
-    const TQ3Point3D              *origin
+    TQ3GeometryObject _Nonnull             ellipse,
+    const TQ3Point3D              * _Nonnull origin
 );
 
 
@@ -3064,8 +3068,8 @@ Q3Ellipse_SetOrigin (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Ellipse_SetMajorRadius (
-    TQ3GeometryObject             ellipse,
-    const TQ3Vector3D             *majorRadius
+    TQ3GeometryObject _Nonnull             ellipse,
+    const TQ3Vector3D             * _Nonnull majorRadius
 );
 
 
@@ -3082,8 +3086,8 @@ Q3Ellipse_SetMajorRadius (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Ellipse_SetMinorRadius (
-    TQ3GeometryObject             ellipse,
-    const TQ3Vector3D             *minorRadius
+    TQ3GeometryObject _Nonnull               ellipse,
+    const TQ3Vector3D             * _Nonnull minorRadius
 );
 
 
@@ -3100,8 +3104,8 @@ Q3Ellipse_SetMinorRadius (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Ellipse_GetOrigin (
-    TQ3GeometryObject             ellipse,
-    TQ3Point3D                    *origin
+    TQ3GeometryObject _Nonnull               ellipse,
+    TQ3Point3D                    * _Nonnull origin
 );
 
 
@@ -3118,8 +3122,8 @@ Q3Ellipse_GetOrigin (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Ellipse_GetMajorRadius (
-    TQ3GeometryObject             ellipse,
-    TQ3Vector3D                   *majorRadius
+    TQ3GeometryObject _Nonnull           ellipse,
+    TQ3Vector3D                   * _Nonnull majorRadius
 );
 
 
@@ -3136,8 +3140,8 @@ Q3Ellipse_GetMajorRadius (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Ellipse_GetMinorRadius (
-    TQ3GeometryObject             ellipse,
-    TQ3Vector3D                   *minorRadius
+    TQ3GeometryObject _Nonnull              ellipse,
+    TQ3Vector3D                   * _Nonnull minorRadius
 );
 
 
@@ -3154,7 +3158,7 @@ Q3Ellipse_GetMinorRadius (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Ellipse_EmptyData (
-    TQ3EllipseData                *ellipseData
+    TQ3EllipseData                * _Nonnull ellipseData
 );
 
 
@@ -3175,12 +3179,12 @@ Q3Ellipse_EmptyData (
  *		(0, 1, 0), minor axis (0, 0, 1), and origin (0, 0, 0).  <em>This behavior was
  *		not present in QuickDraw 3D.</em>
  *
- *  @param ellipsoidData    Data describing an ellipsoid, or nullptr.
- *  @result                 Reference to a new Ellipsoid geometry object, or nullptr on failure.
+ *  @param ellipsoidData    Data describing an ellipsoid, or NULL.
+ *  @result                 Reference to a new Ellipsoid geometry object, or NULL on failure.
  */
-Q3_EXTERN_API_C ( TQ3GeometryObject  )
+Q3_EXTERN_API_C ( TQ3GeometryObject _Nullable )
 Q3Ellipsoid_New (
-    const TQ3EllipsoidData        *ellipsoidData
+    const TQ3EllipsoidData        * _Nullable ellipsoidData
 );
 
 
@@ -3199,8 +3203,8 @@ Q3Ellipsoid_New (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Ellipsoid_Submit (
-    const TQ3EllipsoidData        *ellipsoidData,
-    TQ3ViewObject                 view
+    const TQ3EllipsoidData        * _Nonnull ellipsoidData,
+    TQ3ViewObject _Nonnull        view
 );
 
 
@@ -3217,8 +3221,8 @@ Q3Ellipsoid_Submit (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Ellipsoid_SetData (
-    TQ3GeometryObject             ellipsoid,
-    const TQ3EllipsoidData        *ellipsoidData
+    TQ3GeometryObject _Nonnull             ellipsoid,
+    const TQ3EllipsoidData        * _Nonnull ellipsoidData
 );
 
 
@@ -3238,8 +3242,8 @@ Q3Ellipsoid_SetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Ellipsoid_GetData (
-    TQ3GeometryObject             ellipsoid,
-    TQ3EllipsoidData              *ellipsoidData
+    TQ3GeometryObject _Nonnull             ellipsoid,
+    TQ3EllipsoidData              * _Nonnull ellipsoidData
 );
 
 
@@ -3256,8 +3260,8 @@ Q3Ellipsoid_GetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Ellipsoid_SetOrigin (
-    TQ3GeometryObject             ellipsoid,
-    const TQ3Point3D              *origin
+    TQ3GeometryObject _Nonnull               ellipsoid,
+    const TQ3Point3D              * _Nonnull origin
 );
 
 
@@ -3274,8 +3278,8 @@ Q3Ellipsoid_SetOrigin (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Ellipsoid_SetOrientation (
-    TQ3GeometryObject             ellipsoid,
-    const TQ3Vector3D             *orientation
+    TQ3GeometryObject _Nonnull            ellipsoid,
+    const TQ3Vector3D             * _Nonnull orientation
 );
 
 
@@ -3292,8 +3296,8 @@ Q3Ellipsoid_SetOrientation (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Ellipsoid_SetMajorRadius (
-    TQ3GeometryObject             ellipsoid,
-    const TQ3Vector3D             *majorRadius
+    TQ3GeometryObject _Nonnull             ellipsoid,
+    const TQ3Vector3D             * _Nonnull majorRadius
 );
 
 
@@ -3310,8 +3314,8 @@ Q3Ellipsoid_SetMajorRadius (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Ellipsoid_SetMinorRadius (
-    TQ3GeometryObject             ellipsoid,
-    const TQ3Vector3D             *minorRadius
+    TQ3GeometryObject _Nonnull            ellipsoid,
+    const TQ3Vector3D             * _Nonnull minorRadius
 );
 
 
@@ -3328,8 +3332,8 @@ Q3Ellipsoid_SetMinorRadius (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Ellipsoid_GetOrigin (
-    TQ3GeometryObject             ellipsoid,
-    TQ3Point3D                    *origin
+    TQ3GeometryObject _Nonnull             ellipsoid,
+    TQ3Point3D                    * _Nonnull origin
 );
 
 
@@ -3346,8 +3350,8 @@ Q3Ellipsoid_GetOrigin (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Ellipsoid_GetOrientation (
-    TQ3GeometryObject             ellipsoid,
-    TQ3Vector3D                   *orientation
+    TQ3GeometryObject  _Nonnull              ellipsoid,
+    TQ3Vector3D                   * _Nonnull orientation
 );
 
 
@@ -3364,8 +3368,8 @@ Q3Ellipsoid_GetOrientation (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Ellipsoid_GetMajorRadius (
-    TQ3GeometryObject             ellipsoid,
-    TQ3Vector3D                   *majorRadius
+    TQ3GeometryObject _Nonnull               ellipsoid,
+    TQ3Vector3D                   * _Nonnull majorRadius
 );
 
 
@@ -3382,8 +3386,8 @@ Q3Ellipsoid_GetMajorRadius (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Ellipsoid_GetMinorRadius (
-    TQ3GeometryObject             ellipsoid,
-    TQ3Vector3D                   *minorRadius
+    TQ3GeometryObject _Nonnull     ellipsoid,
+    TQ3Vector3D                    * _Nonnull minorRadius
 );
 
 
@@ -3400,7 +3404,7 @@ Q3Ellipsoid_GetMinorRadius (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Ellipsoid_EmptyData (
-    TQ3EllipsoidData              *ellipsoidData
+    TQ3EllipsoidData              * _Nonnull ellipsoidData
 );
 
 
@@ -3420,9 +3424,9 @@ Q3Ellipsoid_EmptyData (
  *  @param generalPolygonData	Data describing a general polygon.
  *  @result						Reference to a new General Polygon geometry object, or nullptr on failure.
  */
-Q3_EXTERN_API_C ( TQ3GeometryObject  )
+Q3_EXTERN_API_C ( TQ3GeometryObject _Nullable  )
 Q3GeneralPolygon_New (
-    const TQ3GeneralPolygonData   *generalPolygonData
+    const TQ3GeneralPolygonData   * _Nonnull generalPolygonData
 );
 
 
@@ -3441,8 +3445,8 @@ Q3GeneralPolygon_New (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3GeneralPolygon_Submit (
-    const TQ3GeneralPolygonData   *generalPolygonData,
-    TQ3ViewObject                 view
+    const TQ3GeneralPolygonData   * _Nonnull generalPolygonData,
+    TQ3ViewObject _Nonnull        view
 );
 
 
@@ -3459,8 +3463,8 @@ Q3GeneralPolygon_Submit (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3GeneralPolygon_SetData (
-    TQ3GeometryObject             generalPolygon,
-    const TQ3GeneralPolygonData   *generalPolygonData
+    TQ3GeometryObject _Nonnull             generalPolygon,
+    const TQ3GeneralPolygonData   * _Nonnull generalPolygonData
 );
 
 
@@ -3480,8 +3484,8 @@ Q3GeneralPolygon_SetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3GeneralPolygon_GetData (
-    TQ3GeometryObject             polygon,
-    TQ3GeneralPolygonData         *generalPolygonData
+    TQ3GeometryObject _Nonnull               polygon,
+    TQ3GeneralPolygonData         * _Nonnull generalPolygonData
 );
 
 
@@ -3498,7 +3502,7 @@ Q3GeneralPolygon_GetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3GeneralPolygon_EmptyData (
-    TQ3GeneralPolygonData         *generalPolygonData
+    TQ3GeneralPolygonData         * _Nonnull generalPolygonData
 );
 
 
@@ -3514,7 +3518,7 @@ Q3GeneralPolygon_EmptyData (
  */
 Q3_EXTERN_API_C ( TQ3Uns32  )
 Q3GeneralPolygon_GetNumContours (
-    TQ3GeometryObject             generalPolygon
+    TQ3GeometryObject _Nonnull             generalPolygon
 );
 
 
@@ -3531,7 +3535,7 @@ Q3GeneralPolygon_GetNumContours (
  */
 Q3_EXTERN_API_C ( TQ3Uns32  )
 Q3GeneralPolygon_GetNumVertices (
-    TQ3GeometryObject             generalPolygon,
+    TQ3GeometryObject _Nonnull             generalPolygon,
     TQ3Uns32                      contourIndex
 );
 
@@ -3551,10 +3555,10 @@ Q3GeneralPolygon_GetNumVertices (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3GeneralPolygon_GetVertexPosition (
-    TQ3GeometryObject             generalPolygon,
+    TQ3GeometryObject _Nonnull             generalPolygon,
     TQ3Uns32                      contourIndex,
     TQ3Uns32                      pointIndex,
-    TQ3Point3D                    *position
+    TQ3Point3D                    * _Nonnull position
 );
 
 
@@ -3573,10 +3577,10 @@ Q3GeneralPolygon_GetVertexPosition (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3GeneralPolygon_SetVertexPosition (
-    TQ3GeometryObject             generalPolygon,
+    TQ3GeometryObject _Nonnull    generalPolygon,
     TQ3Uns32                      contourIndex,
     TQ3Uns32                      pointIndex,
-    const TQ3Point3D              *position
+    const TQ3Point3D              * _Nonnull position
 );
 
 
@@ -3595,10 +3599,10 @@ Q3GeneralPolygon_SetVertexPosition (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3GeneralPolygon_GetVertexAttributeSet (
-    TQ3GeometryObject             generalPolygon,
+    TQ3GeometryObject _Nonnull    generalPolygon,
     TQ3Uns32                      contourIndex,
     TQ3Uns32                      pointIndex,
-    TQ3AttributeSet               *attributeSet
+    TQ3AttributeSet _Nullable     * _Nonnull attributeSet
 );
 
 
@@ -3619,10 +3623,10 @@ Q3GeneralPolygon_GetVertexAttributeSet (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3GeneralPolygon_SetVertexAttributeSet (
-    TQ3GeometryObject             generalPolygon,
+    TQ3GeometryObject _Nonnull    generalPolygon,
     TQ3Uns32                      contourIndex,
     TQ3Uns32                      pointIndex,
-    TQ3AttributeSet               attributeSet
+    TQ3AttributeSet _Nullable     attributeSet
 );
 
 
@@ -3641,7 +3645,7 @@ Q3GeneralPolygon_SetVertexAttributeSet (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3GeneralPolygon_SetShapeHint (
-    TQ3GeometryObject             generalPolygon,
+    TQ3GeometryObject _Nonnull    generalPolygon,
     TQ3GeneralPolygonShapeHint    shapeHint
 );
 
@@ -3659,8 +3663,8 @@ Q3GeneralPolygon_SetShapeHint (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3GeneralPolygon_GetShapeHint (
-    TQ3GeometryObject             generalPolygon,
-    TQ3GeneralPolygonShapeHint    *shapeHint
+    TQ3GeometryObject _Nonnull    generalPolygon,
+    TQ3GeneralPolygonShapeHint    * _Nonnull shapeHint
 );
 
 
@@ -3680,9 +3684,9 @@ Q3GeneralPolygon_GetShapeHint (
  *  @param lineData         Data describing a line.
  *  @result                 Reference to a new Line geometry object, or nullptr on failure.
  */
-Q3_EXTERN_API_C ( TQ3GeometryObject  )
+Q3_EXTERN_API_C ( TQ3GeometryObject _Nullable  )
 Q3Line_New (
-    const TQ3LineData             *lineData
+    const TQ3LineData             * _Nonnull lineData
 );
 
 
@@ -3701,8 +3705,8 @@ Q3Line_New (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Line_Submit (
-    const TQ3LineData             *lineData,
-    TQ3ViewObject                 view
+    const TQ3LineData             * _Nonnull lineData,
+    TQ3ViewObject _Nonnull        view
 );
 
 
@@ -3722,8 +3726,8 @@ Q3Line_Submit (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Line_GetData (
-    TQ3GeometryObject             line,
-    TQ3LineData                   *lineData
+    TQ3GeometryObject _Nonnull               line,
+    TQ3LineData                   * _Nonnull lineData
 );
 
 
@@ -3740,8 +3744,8 @@ Q3Line_GetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Line_SetData (
-    TQ3GeometryObject             line,
-    const TQ3LineData             *lineData
+    TQ3GeometryObject _Nonnull               line,
+    const TQ3LineData             * _Nonnull lineData
 );
 
 
@@ -3759,9 +3763,9 @@ Q3Line_SetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Line_GetVertexPosition (
-    TQ3GeometryObject             line,
+    TQ3GeometryObject _Nonnull    line,
     TQ3Uns32                      index,
-    TQ3Point3D                    *position
+    TQ3Point3D                    * _Nonnull position
 );
 
 
@@ -3779,9 +3783,9 @@ Q3Line_GetVertexPosition (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Line_SetVertexPosition (
-    TQ3GeometryObject             line,
+    TQ3GeometryObject _Nonnull    line,
     TQ3Uns32                      index,
-    const TQ3Point3D              *position
+    const TQ3Point3D              * _Nonnull position
 );
 
 
@@ -3799,9 +3803,9 @@ Q3Line_SetVertexPosition (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Line_GetVertexAttributeSet (
-    TQ3GeometryObject             line,
+    TQ3GeometryObject _Nonnull    line,
     TQ3Uns32                      index,
-    TQ3AttributeSet               *attributeSet
+    TQ3AttributeSet _Nullable     * _Nonnull attributeSet
 );
 
 
@@ -3822,9 +3826,9 @@ Q3Line_GetVertexAttributeSet (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Line_SetVertexAttributeSet (
-    TQ3GeometryObject             line,
+    TQ3GeometryObject _Nonnull    line,
     TQ3Uns32                      index,
-    TQ3AttributeSet               attributeSet
+    TQ3AttributeSet _Nullable     attributeSet
 );
 
 
@@ -3841,7 +3845,7 @@ Q3Line_SetVertexAttributeSet (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Line_EmptyData (
-    TQ3LineData                   *lineData
+    TQ3LineData                   * _Nonnull lineData
 );
 
 
@@ -3861,9 +3865,9 @@ Q3Line_EmptyData (
  *  @param markerData       Data describing a marker.
  *  @result                 Reference to a new Marker geometry object, or nullptr on failure.
  */
-Q3_EXTERN_API_C ( TQ3GeometryObject  )
+Q3_EXTERN_API_C ( TQ3GeometryObject _Nullable )
 Q3Marker_New (
-    const TQ3MarkerData           *markerData
+    const TQ3MarkerData           * _Nonnull markerData
 );
 
 
@@ -3882,8 +3886,8 @@ Q3Marker_New (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Marker_Submit (
-    const TQ3MarkerData           *markerData,
-    TQ3ViewObject                 view
+    const TQ3MarkerData           * _Nonnull markerData,
+    TQ3ViewObject _Nonnull                 view
 );
 
 
@@ -3900,8 +3904,8 @@ Q3Marker_Submit (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Marker_SetData (
-    TQ3GeometryObject             geometry,
-    const TQ3MarkerData           *markerData
+    TQ3GeometryObject _Nonnull                geometry,
+    const TQ3MarkerData            * _Nonnull markerData
 );
 
 
@@ -3921,8 +3925,8 @@ Q3Marker_SetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Marker_GetData (
-    TQ3GeometryObject             geometry,
-    TQ3MarkerData                 *markerData
+    TQ3GeometryObject _Nonnull               geometry,
+    TQ3MarkerData                 * _Nonnull markerData
 );
 
 
@@ -3939,7 +3943,7 @@ Q3Marker_GetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Marker_EmptyData (
-    TQ3MarkerData                 *markerData
+    TQ3MarkerData                 * _Nonnull markerData
 );
 
 
@@ -3959,8 +3963,8 @@ Q3Marker_EmptyData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Marker_GetPosition (
-    TQ3GeometryObject             marker,
-    TQ3Point3D                    *location
+    TQ3GeometryObject _Nonnull               marker,
+    TQ3Point3D                    * _Nonnull location
 );
 
 
@@ -3980,8 +3984,8 @@ Q3Marker_GetPosition (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Marker_SetPosition (
-    TQ3GeometryObject             marker,
-    const TQ3Point3D              *location
+    TQ3GeometryObject _Nonnull               marker,
+    const TQ3Point3D              * _Nonnull location
 );
 
 
@@ -3999,8 +4003,8 @@ Q3Marker_SetPosition (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Marker_GetXOffset (
-    TQ3GeometryObject             marker,
-    TQ3Int32                      *xOffset
+    TQ3GeometryObject _Nonnull               marker,
+    TQ3Int32                      * _Nonnull xOffset
 );
 
 
@@ -4018,7 +4022,7 @@ Q3Marker_GetXOffset (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Marker_SetXOffset (
-    TQ3GeometryObject             marker,
+    TQ3GeometryObject _Nonnull    marker,
     TQ3Int32                      xOffset
 );
 
@@ -4037,8 +4041,8 @@ Q3Marker_SetXOffset (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Marker_GetYOffset (
-    TQ3GeometryObject             marker,
-    TQ3Int32                      *yOffset
+    TQ3GeometryObject _Nonnull    marker,
+    TQ3Int32                      * _Nonnull yOffset
 );
 
 
@@ -4056,7 +4060,7 @@ Q3Marker_GetYOffset (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Marker_SetYOffset (
-    TQ3GeometryObject             marker,
+    TQ3GeometryObject _Nonnull    marker,
     TQ3Int32                      yOffset
 );
 
@@ -4077,8 +4081,8 @@ Q3Marker_SetYOffset (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Marker_GetBitmap (
-    TQ3GeometryObject             marker,
-    TQ3Bitmap                     *bitmap
+    TQ3GeometryObject _Nonnull             marker,
+    TQ3Bitmap                     * _Nonnull bitmap
 );
 
 
@@ -4098,8 +4102,8 @@ Q3Marker_GetBitmap (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Marker_SetBitmap (
-    TQ3GeometryObject             marker,
-    const TQ3Bitmap               *bitmap
+    TQ3GeometryObject _Nonnull            marker,
+    const TQ3Bitmap               * _Nonnull bitmap
 );
 
 
@@ -4116,9 +4120,9 @@ Q3Marker_SetBitmap (
  *  @discussion
  *      Create a new empty Mesh geometry object.
  *
- *  @result                 Reference to a new Mesh geometry object, or nullptr on failure.
+ *  @result                 Reference to a new Mesh geometry object, or NULL on failure.
  */
-Q3_EXTERN_API_C ( TQ3GeometryObject  )
+Q3_EXTERN_API_C ( TQ3GeometryObject _Nullable  )
 Q3Mesh_New (
     void
 );
@@ -4146,8 +4150,8 @@ Q3Mesh_New (
 
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_SetData (
-    TQ3GeometryObject             mesh,
-    const TQ3MeshData             *meshData
+    TQ3GeometryObject _Nonnull               mesh,
+    const TQ3MeshData             * _Nonnull meshData
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -4173,8 +4177,8 @@ Q3Mesh_SetData (
 
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetData (
-    TQ3GeometryObject             mesh,
-    TQ3MeshData                   *meshData
+    TQ3GeometryObject _Nonnull               mesh,
+    TQ3MeshData                   * _Nonnull meshData
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -4196,7 +4200,7 @@ Q3Mesh_GetData (
 
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_EmptyData (
-    TQ3MeshData                   *meshData
+    TQ3MeshData                   * _Nonnull meshData
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -4213,10 +4217,10 @@ Q3Mesh_EmptyData (
  *  @param vertex           The data for the vertex.
  *  @result                 The new mesh vertex.
  */
-Q3_EXTERN_API_C ( TQ3MeshVertex  )
+Q3_EXTERN_API_C ( TQ3MeshVertex _Nonnull  )
 Q3Mesh_VertexNew (
-    TQ3GeometryObject             mesh,
-    const TQ3Vertex3D             *vertex
+    TQ3GeometryObject _Nonnull               mesh,
+    const TQ3Vertex3D             * _Nonnull vertex
 );
 
 
@@ -4233,12 +4237,12 @@ Q3Mesh_VertexNew (
  *  @param attributeSet     The attribute set for the face.
  *  @result                 The new mesh face.
  */
-Q3_EXTERN_API_C ( TQ3MeshFace  )
+Q3_EXTERN_API_C ( TQ3MeshFace _Nonnull  )
 Q3Mesh_FaceNew (
-    TQ3GeometryObject             mesh,
+    TQ3GeometryObject _Nonnull    mesh,
     TQ3Uns32                      numVertices,
-    const TQ3MeshVertex           *vertices,
-    TQ3AttributeSet               attributeSet
+    const TQ3MeshVertex _Nonnull  * _Nonnull vertices,
+    TQ3AttributeSet _Nullable     attributeSet
 );
 
 
@@ -4255,8 +4259,8 @@ Q3Mesh_FaceNew (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_VertexDelete (
-    TQ3GeometryObject             mesh,
-    TQ3MeshVertex                 vertex
+    TQ3GeometryObject _Nonnull    mesh,
+    TQ3MeshVertex _Nonnull        vertex
 );
 
 
@@ -4273,8 +4277,8 @@ Q3Mesh_VertexDelete (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_FaceDelete (
-    TQ3GeometryObject             mesh,
-    TQ3MeshFace                   face
+    TQ3GeometryObject _Nonnull            mesh,
+    TQ3MeshFace _Nonnull                  face
 );
 
 
@@ -4294,7 +4298,7 @@ Q3Mesh_FaceDelete (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_DelayUpdates (
-    TQ3GeometryObject             mesh
+    TQ3GeometryObject _Nonnull            mesh
 );
 
 
@@ -4314,7 +4318,7 @@ Q3Mesh_DelayUpdates (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_ResumeUpdates (
-    TQ3GeometryObject             mesh
+    TQ3GeometryObject _Nonnull            mesh
 );
 
 
@@ -4330,11 +4334,11 @@ Q3Mesh_ResumeUpdates (
  *  @param face             The face to convert to a contour.
  *  @result                 The new mesh contour.
  */
-Q3_EXTERN_API_C ( TQ3MeshContour  )
+Q3_EXTERN_API_C ( TQ3MeshContour _Nonnull  )
 Q3Mesh_FaceToContour (
-    TQ3GeometryObject             mesh,
-    TQ3MeshFace                   containerFace,
-    TQ3MeshFace                   face
+    TQ3GeometryObject _Nonnull            mesh,
+    TQ3MeshFace _Nonnull                  containerFace,
+    TQ3MeshFace _Nonnull                  face
 );
 
 
@@ -4349,10 +4353,10 @@ Q3Mesh_FaceToContour (
  *  @param contour          The contour to convert to a face.
  *  @result                 The new mesh face.
  */
-Q3_EXTERN_API_C ( TQ3MeshFace  )
+Q3_EXTERN_API_C ( TQ3MeshFace _Nullable  )
 Q3Mesh_ContourToFace (
-    TQ3GeometryObject             mesh,
-    TQ3MeshContour                contour
+    TQ3GeometryObject _Nonnull            mesh,
+    TQ3MeshContour _Nonnull               contour
 );
 
 
@@ -4369,8 +4373,8 @@ Q3Mesh_ContourToFace (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetNumComponents (
-    TQ3GeometryObject             mesh,
-    TQ3Uns32                      *numComponents
+    TQ3GeometryObject _Nonnull               mesh,
+    TQ3Uns32                      * _Nonnull numComponents
 );
 
 
@@ -4387,8 +4391,8 @@ Q3Mesh_GetNumComponents (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetNumEdges (
-    TQ3GeometryObject             mesh,
-    TQ3Uns32                      *numEdges
+    TQ3GeometryObject _Nonnull               mesh,
+    TQ3Uns32                      * _Nonnull numEdges
 );
 
 
@@ -4405,8 +4409,8 @@ Q3Mesh_GetNumEdges (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetNumVertices (
-    TQ3GeometryObject             mesh,
-    TQ3Uns32                      *numVertices
+    TQ3GeometryObject _Nonnull            mesh,
+    TQ3Uns32                      * _Nonnull numVertices
 );
 
 
@@ -4423,8 +4427,8 @@ Q3Mesh_GetNumVertices (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetNumFaces (
-    TQ3GeometryObject             mesh,
-    TQ3Uns32                      *numFaces
+    TQ3GeometryObject _Nonnull               mesh,
+    TQ3Uns32                      * _Nonnull numFaces
 );
 
 
@@ -4441,8 +4445,8 @@ Q3Mesh_GetNumFaces (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetNumCorners (
-    TQ3GeometryObject             mesh,
-    TQ3Uns32                      *numCorners
+    TQ3GeometryObject _Nonnull               mesh,
+    TQ3Uns32                      * _Nonnull numCorners
 );
 
 
@@ -4459,8 +4463,8 @@ Q3Mesh_GetNumCorners (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetOrientable (
-    TQ3GeometryObject             mesh,
-    TQ3Boolean                    *orientable
+    TQ3GeometryObject _Nonnull               mesh,
+    TQ3Boolean                    * _Nonnull orientable
 );
 
 
@@ -4478,9 +4482,9 @@ Q3Mesh_GetOrientable (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetComponentNumVertices (
-    TQ3GeometryObject             mesh,
-    TQ3MeshComponent              component,
-    TQ3Uns32                      *numVertices
+    TQ3GeometryObject _Nonnull            mesh,
+    TQ3MeshComponent _Nonnull             component,
+    TQ3Uns32                      * _Nonnull numVertices
 );
 
 
@@ -4498,9 +4502,9 @@ Q3Mesh_GetComponentNumVertices (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetComponentNumEdges (
-    TQ3GeometryObject             mesh,
-    TQ3MeshComponent              component,
-    TQ3Uns32                      *numEdges
+    TQ3GeometryObject _Nonnull            mesh,
+    TQ3MeshComponent _Nonnull             component,
+    TQ3Uns32                      * _Nonnull numEdges
 );
 
 
@@ -4518,9 +4522,9 @@ Q3Mesh_GetComponentNumEdges (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetComponentBoundingBox (
-    TQ3GeometryObject             mesh,
-    TQ3MeshComponent              component,
-    TQ3BoundingBox                *boundingBox
+    TQ3GeometryObject _Nonnull             mesh,
+    TQ3MeshComponent _Nonnull              component,
+    TQ3BoundingBox                * _Nonnull boundingBox
 );
 
 
@@ -4538,9 +4542,9 @@ Q3Mesh_GetComponentBoundingBox (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetComponentOrientable (
-    TQ3GeometryObject             mesh,
-    TQ3MeshComponent              component,
-    TQ3Boolean                    *orientable
+    TQ3GeometryObject _Nonnull             mesh,
+    TQ3MeshComponent _Nonnull              component,
+    TQ3Boolean                    * _Nonnull orientable
 );
 
 
@@ -4558,9 +4562,9 @@ Q3Mesh_GetComponentOrientable (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetVertexCoordinates (
-    TQ3GeometryObject             mesh,
-    TQ3MeshVertex                 vertex,
-    TQ3Point3D                    *coordinates
+    TQ3GeometryObject _Nonnull            mesh,
+    TQ3MeshVertex _Nonnull                vertex,
+    TQ3Point3D                    * _Nonnull coordinates
 );
 
 
@@ -4578,9 +4582,9 @@ Q3Mesh_GetVertexCoordinates (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetVertexIndex (
-    TQ3GeometryObject             mesh,
-    TQ3MeshVertex                 vertex,
-    TQ3Uns32                      *index
+    TQ3GeometryObject _Nonnull             mesh,
+    TQ3MeshVertex _Nonnull                vertex,
+    TQ3Uns32                      * _Nonnull index
 );
 
 
@@ -4598,9 +4602,9 @@ Q3Mesh_GetVertexIndex (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetVertexOnBoundary (
-    TQ3GeometryObject             mesh,
-    TQ3MeshVertex                 vertex,
-    TQ3Boolean                    *onBoundary
+    TQ3GeometryObject _Nonnull               mesh,
+    TQ3MeshVertex _Nonnull                   vertex,
+    TQ3Boolean                    * _Nonnull onBoundary
 );
 
 
@@ -4618,9 +4622,9 @@ Q3Mesh_GetVertexOnBoundary (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetVertexComponent (
-    TQ3GeometryObject             mesh,
-    TQ3MeshVertex                 vertex,
-    TQ3MeshComponent              *component
+    TQ3GeometryObject _Nonnull             mesh,
+    TQ3MeshVertex _Nonnull                 vertex,
+    TQ3MeshComponent _Nonnull              * _Nonnull component
 );
 
 
@@ -4638,9 +4642,9 @@ Q3Mesh_GetVertexComponent (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetVertexAttributeSet (
-    TQ3GeometryObject             mesh,
-    TQ3MeshVertex                 vertex,
-    TQ3AttributeSet               *attributeSet
+    TQ3GeometryObject _Nonnull            mesh,
+    TQ3MeshVertex _Nonnull                vertex,
+    TQ3AttributeSet _Nullable              * _Nonnull attributeSet
 );
 
 
@@ -4658,9 +4662,9 @@ Q3Mesh_GetVertexAttributeSet (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_SetVertexCoordinates (
-    TQ3GeometryObject             mesh,
-    TQ3MeshVertex                 vertex,
-    const TQ3Point3D              *coordinates
+    TQ3GeometryObject _Nonnull             mesh,
+    TQ3MeshVertex _Nonnull                vertex,
+    const TQ3Point3D              * _Nonnull coordinates
 );
 
 
@@ -4678,9 +4682,9 @@ Q3Mesh_SetVertexCoordinates (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_SetVertexAttributeSet (
-    TQ3GeometryObject             mesh,
-    TQ3MeshVertex                 vertex,
-    TQ3AttributeSet               attributeSet
+    TQ3GeometryObject _Nonnull            mesh,
+    TQ3MeshVertex _Nonnull                vertex,
+    TQ3AttributeSet _Nullable             attributeSet
 );
 
 
@@ -4698,9 +4702,9 @@ Q3Mesh_SetVertexAttributeSet (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetFaceNumVertices (
-    TQ3GeometryObject             mesh,
-    TQ3MeshFace                   face,
-    TQ3Uns32                      *numVertices
+    TQ3GeometryObject _Nonnull            mesh,
+    TQ3MeshFace _Nonnull                  face,
+    TQ3Uns32                      * _Nonnull numVertices
 );
 
 
@@ -4718,9 +4722,9 @@ Q3Mesh_GetFaceNumVertices (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetFacePlaneEquation (
-    TQ3GeometryObject             mesh,
-    TQ3MeshFace                   face,
-    TQ3PlaneEquation              *planeEquation
+    TQ3GeometryObject _Nonnull            mesh,
+    TQ3MeshFace  _Nonnull                 face,
+    TQ3PlaneEquation              * _Nonnull planeEquation
 );
 
 
@@ -4738,9 +4742,9 @@ Q3Mesh_GetFacePlaneEquation (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetFaceNumContours (
-    TQ3GeometryObject             mesh,
-    TQ3MeshFace                   face,
-    TQ3Uns32                      *numContours
+    TQ3GeometryObject _Nonnull             mesh,
+    TQ3MeshFace _Nonnull                   face,
+    TQ3Uns32                      * _Nonnull numContours
 );
 
 
@@ -4758,9 +4762,9 @@ Q3Mesh_GetFaceNumContours (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetFaceIndex (
-    TQ3GeometryObject             mesh,
-    TQ3MeshFace                   face,
-    TQ3Uns32                      *index
+    TQ3GeometryObject _Nonnull            mesh,
+    TQ3MeshFace   _Nonnull                face,
+    TQ3Uns32                      * _Nonnull index
 );
 
 
@@ -4778,9 +4782,9 @@ Q3Mesh_GetFaceIndex (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetFaceComponent (
-    TQ3GeometryObject             mesh,
-    TQ3MeshFace                   face,
-    TQ3MeshComponent              *component
+    TQ3GeometryObject _Nonnull             mesh,
+    TQ3MeshFace _Nonnull                  face,
+    TQ3MeshComponent _Nonnull             * _Nonnull component
 );
 
 
@@ -4798,9 +4802,9 @@ Q3Mesh_GetFaceComponent (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetFaceAttributeSet (
-    TQ3GeometryObject             mesh,
-    TQ3MeshFace                   face,
-    TQ3AttributeSet               *attributeSet
+    TQ3GeometryObject _Nonnull             mesh,
+    TQ3MeshFace _Nonnull                   face,
+    TQ3AttributeSet _Nullable              * _Nonnull attributeSet
 );
 
 
@@ -4818,9 +4822,9 @@ Q3Mesh_GetFaceAttributeSet (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_SetFaceAttributeSet (
-    TQ3GeometryObject             mesh,
-    TQ3MeshFace                   face,
-    TQ3AttributeSet               attributeSet
+    TQ3GeometryObject _Nonnull            mesh,
+    TQ3MeshFace _Nonnull                  face,
+    TQ3AttributeSet _Nullable             attributeSet
 );
 
 
@@ -4839,10 +4843,10 @@ Q3Mesh_SetFaceAttributeSet (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetEdgeVertices (
-    TQ3GeometryObject             mesh,
-    TQ3MeshEdge                   edge,
-    TQ3MeshVertex                 *vertex1,
-    TQ3MeshVertex                 *vertex2
+    TQ3GeometryObject _Nonnull             mesh,
+    TQ3MeshEdge _Nonnull                  edge,
+    TQ3MeshVertex _Nonnull                * _Nonnull vertex1,
+    TQ3MeshVertex _Nonnull                * _Nonnull vertex2
 );
 
 
@@ -4861,10 +4865,10 @@ Q3Mesh_GetEdgeVertices (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetEdgeFaces (
-    TQ3GeometryObject             mesh,
-    TQ3MeshEdge                   edge,
-    TQ3MeshFace                   *face1,
-    TQ3MeshFace                   *face2
+    TQ3GeometryObject _Nonnull             mesh,
+    TQ3MeshEdge _Nonnull                   edge,
+    TQ3MeshFace _Nonnull                   * _Nonnull face1,
+    TQ3MeshFace _Nonnull                   * _Nonnull face2
 );
 
 
@@ -4882,9 +4886,9 @@ Q3Mesh_GetEdgeFaces (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetEdgeOnBoundary (
-    TQ3GeometryObject             mesh,
-    TQ3MeshEdge                   edge,
-    TQ3Boolean                    *onBoundary
+    TQ3GeometryObject _Nonnull               mesh,
+    TQ3MeshEdge _Nonnull                     edge,
+    TQ3Boolean                    * _Nonnull onBoundary
 );
 
 
@@ -4902,9 +4906,9 @@ Q3Mesh_GetEdgeOnBoundary (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetEdgeComponent (
-    TQ3GeometryObject             mesh,
-    TQ3MeshEdge                   edge,
-    TQ3MeshComponent              *component
+    TQ3GeometryObject _Nonnull             mesh,
+    TQ3MeshEdge _Nonnull                   edge,
+    TQ3MeshComponent _Nonnull              * _Nonnull component
 );
 
 
@@ -4922,9 +4926,9 @@ Q3Mesh_GetEdgeComponent (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetEdgeAttributeSet (
-    TQ3GeometryObject             mesh,
-    TQ3MeshEdge                   edge,
-    TQ3AttributeSet               *attributeSet
+    TQ3GeometryObject _Nonnull             mesh,
+    TQ3MeshEdge _Nonnull                   edge,
+    TQ3AttributeSet _Nullable              * _Nonnull attributeSet
 );
 
 
@@ -4942,9 +4946,9 @@ Q3Mesh_GetEdgeAttributeSet (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_SetEdgeAttributeSet (
-    TQ3GeometryObject             mesh,
-    TQ3MeshEdge                   edge,
-    TQ3AttributeSet               attributeSet
+    TQ3GeometryObject _Nonnull             mesh,
+    TQ3MeshEdge _Nonnull                   edge,
+    TQ3AttributeSet _Nullable              attributeSet
 );
 
 
@@ -4962,9 +4966,9 @@ Q3Mesh_SetEdgeAttributeSet (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetContourFace (
-    TQ3GeometryObject             mesh,
-    TQ3MeshContour                contour,
-    TQ3MeshFace                   *face
+    TQ3GeometryObject _Nonnull             mesh,
+    TQ3MeshContour _Nonnull                contour,
+    TQ3MeshFace _Nonnull                   * _Nonnull face
 );
 
 
@@ -4982,9 +4986,9 @@ Q3Mesh_GetContourFace (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetContourNumVertices (
-    TQ3GeometryObject             mesh,
-    TQ3MeshContour                contour,
-    TQ3Uns32                      *numVertices
+    TQ3GeometryObject _Nonnull             mesh,
+    TQ3MeshContour _Nonnull                contour,
+    TQ3Uns32                      * _Nonnull numVertices
 );
 
 
@@ -5003,10 +5007,10 @@ Q3Mesh_GetContourNumVertices (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_GetCornerAttributeSet (
-    TQ3GeometryObject             mesh,
-    TQ3MeshVertex                 vertex,
-    TQ3MeshFace                   face,
-    TQ3AttributeSet               *attributeSet
+    TQ3GeometryObject _Nonnull             mesh,
+    TQ3MeshVertex _Nonnull                 vertex,
+    TQ3MeshFace _Nonnull                   face,
+    TQ3AttributeSet _Nullable            * _Nonnull attributeSet
 );
 
 
@@ -5025,10 +5029,10 @@ Q3Mesh_GetCornerAttributeSet (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Mesh_SetCornerAttributeSet (
-    TQ3GeometryObject             mesh,
-    TQ3MeshVertex                 vertex,
-    TQ3MeshFace                   face,
-    TQ3AttributeSet               attributeSet
+    TQ3GeometryObject _Nonnull             mesh,
+    TQ3MeshVertex _Nonnull                 vertex,
+    TQ3MeshFace _Nonnull                   face,
+    TQ3AttributeSet _Nullable              attributeSet
 );
 
 
@@ -5043,10 +5047,10 @@ Q3Mesh_SetCornerAttributeSet (
  *  @param iterator         Receives the mesh iterator.
  *  @result                 The first component in the mesh.
  */
-Q3_EXTERN_API_C ( TQ3MeshComponent  )
+Q3_EXTERN_API_C ( TQ3MeshComponent _Nonnull  )
 Q3Mesh_FirstMeshComponent (
-    TQ3GeometryObject             mesh,
-    TQ3MeshIterator               *iterator
+    TQ3GeometryObject _Nonnull             mesh,
+    TQ3MeshIterator               * _Nonnull iterator
 );
 
 
@@ -5060,9 +5064,9 @@ Q3Mesh_FirstMeshComponent (
  *  @param iterator         The mesh iterator.
  *  @result                 The next component in the mesh.
  */
-Q3_EXTERN_API_C ( TQ3MeshComponent  )
+Q3_EXTERN_API_C ( TQ3MeshComponent _Nonnull  )
 Q3Mesh_NextMeshComponent (
-    TQ3MeshIterator               *iterator
+    TQ3MeshIterator               * _Nonnull iterator
 );
 
 
@@ -5077,10 +5081,10 @@ Q3Mesh_NextMeshComponent (
  *  @param iterator         Receives the mesh iterator.
  *  @result                 The first vertex in the component.
  */
-Q3_EXTERN_API_C ( TQ3MeshVertex  )
+Q3_EXTERN_API_C ( TQ3MeshVertex _Nonnull  )
 Q3Mesh_FirstComponentVertex (
-    TQ3MeshComponent              component,
-    TQ3MeshIterator               *iterator
+    TQ3MeshComponent _Nonnull              component,
+    TQ3MeshIterator               * _Nonnull iterator
 );
 
 
@@ -5094,9 +5098,9 @@ Q3Mesh_FirstComponentVertex (
  *  @param iterator         The mesh iterator.
  *  @result                 The next vertex in the component.
  */
-Q3_EXTERN_API_C ( TQ3MeshVertex  )
+Q3_EXTERN_API_C ( TQ3MeshVertex _Nonnull  )
 Q3Mesh_NextComponentVertex (
-    TQ3MeshIterator               *iterator
+    TQ3MeshIterator               * _Nonnull iterator
 );
 
 
@@ -5111,10 +5115,10 @@ Q3Mesh_NextComponentVertex (
  *  @param iterator         Receives the mesh iterator.
  *  @result                 The first edge in the component.
  */
-Q3_EXTERN_API_C ( TQ3MeshEdge  )
+Q3_EXTERN_API_C ( TQ3MeshEdge _Nonnull  )
 Q3Mesh_FirstComponentEdge (
-    TQ3MeshComponent              component,
-    TQ3MeshIterator               *iterator
+    TQ3MeshComponent _Nonnull              component,
+    TQ3MeshIterator               * _Nonnull iterator
 );
 
 
@@ -5128,9 +5132,9 @@ Q3Mesh_FirstComponentEdge (
  *  @param iterator         The mesh iterator.
  *  @result                 The next edge in the component.
  */
-Q3_EXTERN_API_C ( TQ3MeshEdge  )
+Q3_EXTERN_API_C ( TQ3MeshEdge _Nonnull  )
 Q3Mesh_NextComponentEdge (
-    TQ3MeshIterator               *iterator
+    TQ3MeshIterator               * _Nonnull iterator
 );
 
 
@@ -5145,10 +5149,10 @@ Q3Mesh_NextComponentEdge (
  *  @param iterator         Receives the mesh iterator.
  *  @result                 The first vertex in the mesh.
  */
-Q3_EXTERN_API_C ( TQ3MeshVertex  )
+Q3_EXTERN_API_C ( TQ3MeshVertex _Nonnull  )
 Q3Mesh_FirstMeshVertex (
-    TQ3GeometryObject             mesh,
-    TQ3MeshIterator               *iterator
+    TQ3GeometryObject _Nonnull             mesh,
+    TQ3MeshIterator               * _Nonnull iterator
 );
 
 
@@ -5162,9 +5166,9 @@ Q3Mesh_FirstMeshVertex (
  *  @param iterator         The mesh iterator.
  *  @result                 The next vertex in the mesh.
  */
-Q3_EXTERN_API_C ( TQ3MeshVertex  )
+Q3_EXTERN_API_C ( TQ3MeshVertex _Nonnull  )
 Q3Mesh_NextMeshVertex (
-    TQ3MeshIterator               *iterator
+    TQ3MeshIterator               * _Nonnull iterator
 );
 
 
@@ -5179,10 +5183,10 @@ Q3Mesh_NextMeshVertex (
  *  @param iterator         Receives the mesh iterator.
  *  @result                 The first face in the mesh.
  */
-Q3_EXTERN_API_C ( TQ3MeshFace  )
+Q3_EXTERN_API_C ( TQ3MeshFace _Nonnull  )
 Q3Mesh_FirstMeshFace (
-    TQ3GeometryObject             mesh,
-    TQ3MeshIterator               *iterator
+    TQ3GeometryObject _Nonnull             mesh,
+    TQ3MeshIterator               * _Nonnull iterator
 );
 
 
@@ -5196,9 +5200,9 @@ Q3Mesh_FirstMeshFace (
  *  @param iterator         The mesh iterator.
  *  @result                 The next face in the mesh.
  */
-Q3_EXTERN_API_C ( TQ3MeshFace  )
+Q3_EXTERN_API_C ( TQ3MeshFace _Nonnull  )
 Q3Mesh_NextMeshFace (
-    TQ3MeshIterator               *iterator
+    TQ3MeshIterator               * _Nonnull iterator
 );
 
 
@@ -5213,10 +5217,10 @@ Q3Mesh_NextMeshFace (
  *  @param iterator         Receives the mesh iterator.
  *  @result                 The first edge in the mesh.
  */
-Q3_EXTERN_API_C ( TQ3MeshEdge  )
+Q3_EXTERN_API_C ( TQ3MeshEdge _Nonnull  )
 Q3Mesh_FirstMeshEdge (
-    TQ3GeometryObject             mesh,
-    TQ3MeshIterator               *iterator
+    TQ3GeometryObject _Nonnull             mesh,
+    TQ3MeshIterator               * _Nonnull iterator
 );
 
 
@@ -5230,9 +5234,9 @@ Q3Mesh_FirstMeshEdge (
  *  @param iterator         The mesh iterator.
  *  @result                 The next edge in the mesh.
  */
-Q3_EXTERN_API_C ( TQ3MeshEdge  )
+Q3_EXTERN_API_C ( TQ3MeshEdge _Nonnull  )
 Q3Mesh_NextMeshEdge (
-    TQ3MeshIterator               *iterator
+    TQ3MeshIterator               * _Nonnull iterator
 );
 
 
@@ -5247,10 +5251,10 @@ Q3Mesh_NextMeshEdge (
  *  @param iterator         Receives the mesh iterator.
  *  @result                 The first edge in the vertex.
  */
-Q3_EXTERN_API_C ( TQ3MeshEdge  )
+Q3_EXTERN_API_C ( TQ3MeshEdge _Nonnull  )
 Q3Mesh_FirstVertexEdge (
-    TQ3MeshVertex                 vertex,
-    TQ3MeshIterator               *iterator
+    TQ3MeshVertex _Nonnull                 vertex,
+    TQ3MeshIterator               * _Nonnull iterator
 );
 
 
@@ -5264,9 +5268,9 @@ Q3Mesh_FirstVertexEdge (
  *  @param iterator         The mesh iterator.
  *  @result                 The next edge in the vertex.
  */
-Q3_EXTERN_API_C ( TQ3MeshEdge  )
+Q3_EXTERN_API_C ( TQ3MeshEdge _Nonnull  )
 Q3Mesh_NextVertexEdge (
-    TQ3MeshIterator               *iterator
+    TQ3MeshIterator               * _Nonnull iterator
 );
 
 
@@ -5281,10 +5285,10 @@ Q3Mesh_NextVertexEdge (
  *  @param iterator         Receives the mesh iterator.
  *  @result                 The first vertex in the vertex.
  */
-Q3_EXTERN_API_C ( TQ3MeshVertex  )
+Q3_EXTERN_API_C ( TQ3MeshVertex _Nonnull  )
 Q3Mesh_FirstVertexVertex (
-    TQ3MeshVertex                 vertex,
-    TQ3MeshIterator               *iterator
+    TQ3MeshVertex _Nonnull                 vertex,
+    TQ3MeshIterator               * _Nonnull iterator
 );
 
 
@@ -5298,9 +5302,9 @@ Q3Mesh_FirstVertexVertex (
  *  @param iterator         The mesh iterator.
  *  @result                 The next vertex in the vertex.
  */
-Q3_EXTERN_API_C ( TQ3MeshVertex  )
+Q3_EXTERN_API_C ( TQ3MeshVertex _Nonnull  )
 Q3Mesh_NextVertexVertex (
-    TQ3MeshIterator               *iterator
+    TQ3MeshIterator               * _Nonnull iterator
 );
 
 
@@ -5315,10 +5319,10 @@ Q3Mesh_NextVertexVertex (
  *  @param iterator         Receives the mesh iterator.
  *  @result                 The first face in the vertex.
  */
-Q3_EXTERN_API_C ( TQ3MeshFace  )
+Q3_EXTERN_API_C ( TQ3MeshFace _Nonnull  )
 Q3Mesh_FirstVertexFace (
-    TQ3MeshVertex                 vertex,
-    TQ3MeshIterator               *iterator
+    TQ3MeshVertex _Nonnull                vertex,
+    TQ3MeshIterator               * _Nonnull iterator
 );
 
 
@@ -5332,9 +5336,9 @@ Q3Mesh_FirstVertexFace (
  *  @param iterator         The mesh iterator.
  *  @result                 The next face in the vertex.
  */
-Q3_EXTERN_API_C ( TQ3MeshFace  )
+Q3_EXTERN_API_C ( TQ3MeshFace _Nonnull  )
 Q3Mesh_NextVertexFace (
-    TQ3MeshIterator               *iterator
+    TQ3MeshIterator               * _Nonnull iterator
 );
 
 
@@ -5349,10 +5353,10 @@ Q3Mesh_NextVertexFace (
  *  @param iterator         Receives the mesh iterator.
  *  @result                 The first edge in the face.
  */
-Q3_EXTERN_API_C ( TQ3MeshEdge  )
+Q3_EXTERN_API_C ( TQ3MeshEdge _Nonnull  )
 Q3Mesh_FirstFaceEdge (
-    TQ3MeshFace                   face,
-    TQ3MeshIterator               *iterator
+    TQ3MeshFace _Nonnull                   face,
+    TQ3MeshIterator               * _Nonnull iterator
 );
 
 
@@ -5366,9 +5370,9 @@ Q3Mesh_FirstFaceEdge (
  *  @param iterator         The mesh iterator.
  *  @result                 The next edge in the face.
  */
-Q3_EXTERN_API_C ( TQ3MeshEdge  )
+Q3_EXTERN_API_C ( TQ3MeshEdge _Nonnull  )
 Q3Mesh_NextFaceEdge (
-    TQ3MeshIterator               *iterator
+    TQ3MeshIterator               * _Nonnull iterator
 );
 
 
@@ -5383,10 +5387,10 @@ Q3Mesh_NextFaceEdge (
  *  @param iterator         Receives the mesh iterator.
  *  @result                 The first vertex in the face.
  */
-Q3_EXTERN_API_C ( TQ3MeshVertex  )
+Q3_EXTERN_API_C ( TQ3MeshVertex _Nonnull  )
 Q3Mesh_FirstFaceVertex (
-    TQ3MeshFace                   face,
-    TQ3MeshIterator               *iterator
+    TQ3MeshFace _Nonnull                  face,
+    TQ3MeshIterator               * _Nonnull iterator
 );
 
 
@@ -5400,9 +5404,9 @@ Q3Mesh_FirstFaceVertex (
  *  @param iterator         The mesh iterator.
  *  @result                 The next vertex in the face.
  */
-Q3_EXTERN_API_C ( TQ3MeshVertex  )
+Q3_EXTERN_API_C ( TQ3MeshVertex _Nonnull  )
 Q3Mesh_NextFaceVertex (
-    TQ3MeshIterator               *iterator
+    TQ3MeshIterator               * _Nonnull iterator
 );
 
 
@@ -5417,10 +5421,10 @@ Q3Mesh_NextFaceVertex (
  *  @param iterator         Receives the mesh iterator.
  *  @result                 The first face in the face.
  */
-Q3_EXTERN_API_C ( TQ3MeshFace  )
+Q3_EXTERN_API_C ( TQ3MeshFace _Nonnull  )
 Q3Mesh_FirstFaceFace (
-    TQ3MeshFace                   face,
-    TQ3MeshIterator               *iterator
+    TQ3MeshFace _Nonnull                  face,
+    TQ3MeshIterator               * _Nonnull iterator
 );
 
 
@@ -5434,9 +5438,9 @@ Q3Mesh_FirstFaceFace (
  *  @param iterator         The mesh iterator.
  *  @result                 The next face in the face.
  */
-Q3_EXTERN_API_C ( TQ3MeshFace  )
+Q3_EXTERN_API_C ( TQ3MeshFace _Nonnull  )
 Q3Mesh_NextFaceFace (
-    TQ3MeshIterator               *iterator
+    TQ3MeshIterator               * _Nonnull iterator
 );
 
 
@@ -5451,10 +5455,10 @@ Q3Mesh_NextFaceFace (
  *  @param iterator         Receives the mesh iterator.
  *  @result                 The first contour in the face.
  */
-Q3_EXTERN_API_C ( TQ3MeshContour  )
+Q3_EXTERN_API_C ( TQ3MeshContour _Nonnull  )
 Q3Mesh_FirstFaceContour (
-    TQ3MeshFace                   face,
-    TQ3MeshIterator               *iterator
+    TQ3MeshFace _Nonnull                  face,
+    TQ3MeshIterator               * _Nonnull iterator
 );
 
 
@@ -5468,9 +5472,9 @@ Q3Mesh_FirstFaceContour (
  *  @param iterator         The mesh iterator.
  *  @result                 The next contour in the face.
  */
-Q3_EXTERN_API_C ( TQ3MeshContour  )
+Q3_EXTERN_API_C ( TQ3MeshContour _Nonnull  )
 Q3Mesh_NextFaceContour (
-    TQ3MeshIterator               *iterator
+    TQ3MeshIterator               * _Nonnull iterator
 );
 
 
@@ -5485,10 +5489,10 @@ Q3Mesh_NextFaceContour (
  *  @param iterator         Receives the mesh iterator.
  *  @result                 The first edge in the contour.
  */
-Q3_EXTERN_API_C ( TQ3MeshEdge  )
+Q3_EXTERN_API_C ( TQ3MeshEdge _Nonnull  )
 Q3Mesh_FirstContourEdge (
-    TQ3MeshContour                contour,
-    TQ3MeshIterator               *iterator
+    TQ3MeshContour _Nonnull               contour,
+    TQ3MeshIterator               * _Nonnull iterator
 );
 
 
@@ -5502,9 +5506,9 @@ Q3Mesh_FirstContourEdge (
  *  @param iterator         The mesh iterator.
  *  @result                 The next edge in the contour.
  */
-Q3_EXTERN_API_C ( TQ3MeshEdge  )
+Q3_EXTERN_API_C ( TQ3MeshEdge _Nonnull  )
 Q3Mesh_NextContourEdge (
-    TQ3MeshIterator               *iterator
+    TQ3MeshIterator               * _Nonnull iterator
 );
 
 
@@ -5519,10 +5523,10 @@ Q3Mesh_NextContourEdge (
  *  @param iterator         Receives the mesh iterator.
  *  @result                 The first vertex in the contour.
  */
-Q3_EXTERN_API_C ( TQ3MeshVertex  )
+Q3_EXTERN_API_C ( TQ3MeshVertex _Nonnull  )
 Q3Mesh_FirstContourVertex (
-    TQ3MeshContour                contour,
-    TQ3MeshIterator               *iterator
+    TQ3MeshContour _Nonnull               contour,
+    TQ3MeshIterator               * _Nonnull iterator
 );
 
 
@@ -5536,9 +5540,9 @@ Q3Mesh_FirstContourVertex (
  *  @param iterator         The mesh iterator.
  *  @result                 The next vertex in the contour.
  */
-Q3_EXTERN_API_C ( TQ3MeshVertex  )
+Q3_EXTERN_API_C ( TQ3MeshVertex _Nonnull  )
 Q3Mesh_NextContourVertex (
-    TQ3MeshIterator               *iterator
+    TQ3MeshIterator               * _Nonnull iterator
 );
 
 
@@ -5553,10 +5557,10 @@ Q3Mesh_NextContourVertex (
  *  @param iterator         Receives the mesh iterator.
  *  @result                 The first face in the contour.
  */
-Q3_EXTERN_API_C ( TQ3MeshFace  )
+Q3_EXTERN_API_C ( TQ3MeshFace _Nonnull  )
 Q3Mesh_FirstContourFace (
-    TQ3MeshContour                contour,
-    TQ3MeshIterator               *iterator
+    TQ3MeshContour _Nonnull               contour,
+    TQ3MeshIterator               * _Nonnull iterator
 );
 
 
@@ -5570,9 +5574,9 @@ Q3Mesh_FirstContourFace (
  *  @param iterator         The mesh iterator.
  *  @result                 The next face in the contour.
  */
-Q3_EXTERN_API_C ( TQ3MeshFace  )
+Q3_EXTERN_API_C ( TQ3MeshFace _Nonnull  )
 Q3Mesh_NextContourFace (
-    TQ3MeshIterator               *iterator
+    TQ3MeshIterator               * _Nonnull iterator
 );
 
 
@@ -5590,11 +5594,11 @@ Q3Mesh_NextContourFace (
  *      Create a new NURB curve geometry object.
  *
  *  @param curveData        Data describing a NURB curve.
- *  @result                 Reference to a new NURB curve geometry object, or nullptr on failure.
+ *  @result                 Reference to a new NURB curve geometry object, or NULL on failure.
  */
-Q3_EXTERN_API_C ( TQ3GeometryObject  )
+Q3_EXTERN_API_C ( TQ3GeometryObject _Nullable  )
 Q3NURBCurve_New (
-    const TQ3NURBCurveData        *curveData
+    const TQ3NURBCurveData        * _Nonnull curveData
 );
 
 
@@ -5613,8 +5617,8 @@ Q3NURBCurve_New (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3NURBCurve_Submit (
-    const TQ3NURBCurveData        *curveData,
-    TQ3ViewObject                 view
+    const TQ3NURBCurveData        * _Nonnull curveData,
+    TQ3ViewObject _Nonnull                 view
 );
 
 
@@ -5631,8 +5635,8 @@ Q3NURBCurve_Submit (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3NURBCurve_SetData (
-    TQ3GeometryObject             curve,
-    const TQ3NURBCurveData        *nurbCurveData
+    TQ3GeometryObject _Nonnull            curve,
+    const TQ3NURBCurveData        * _Nonnull nurbCurveData
 );
 
 
@@ -5652,8 +5656,8 @@ Q3NURBCurve_SetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3NURBCurve_GetData (
-    TQ3GeometryObject             curve,
-    TQ3NURBCurveData              *nurbCurveData
+    TQ3GeometryObject _Nonnull             curve,
+    TQ3NURBCurveData              * _Nonnull nurbCurveData
 );
 
 
@@ -5670,7 +5674,7 @@ Q3NURBCurve_GetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3NURBCurve_EmptyData (
-    TQ3NURBCurveData              *nurbCurveData
+    TQ3NURBCurveData              * _Nonnull nurbCurveData
 );
 
 
@@ -5688,9 +5692,9 @@ Q3NURBCurve_EmptyData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3NURBCurve_SetControlPoint (
-    TQ3GeometryObject             curve,
+    TQ3GeometryObject _Nonnull            curve,
     TQ3Uns32                      pointIndex,
-    const TQ3RationalPoint4D      *point4D
+    const TQ3RationalPoint4D      * _Nonnull point4D
 );
 
 
@@ -5708,9 +5712,9 @@ Q3NURBCurve_SetControlPoint (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3NURBCurve_GetControlPoint (
-    TQ3GeometryObject             curve,
+    TQ3GeometryObject _Nonnull            curve,
     TQ3Uns32                      pointIndex,
-    TQ3RationalPoint4D            *point4D
+    TQ3RationalPoint4D            * _Nonnull point4D
 );
 
 
@@ -5728,7 +5732,7 @@ Q3NURBCurve_GetControlPoint (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3NURBCurve_SetKnot (
-    TQ3GeometryObject             curve,
+    TQ3GeometryObject _Nonnull             curve,
     TQ3Uns32                      knotIndex,
     float                         knotValue
 );
@@ -5748,9 +5752,9 @@ Q3NURBCurve_SetKnot (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3NURBCurve_GetKnot (
-    TQ3GeometryObject             curve,
+    TQ3GeometryObject _Nonnull             curve,
     TQ3Uns32                      knotIndex,
-    float                         *knotValue
+    float                         * _Nonnull knotValue
 );
 
 
@@ -5770,9 +5774,9 @@ Q3NURBCurve_GetKnot (
  *  @param nurbPatchData    Data describing a NURB patch.
  *  @result                 Reference to a new NURB patch geometry object, or nullptr on failure.
  */
-Q3_EXTERN_API_C ( TQ3GeometryObject  )
+Q3_EXTERN_API_C ( TQ3GeometryObject _Nullable  )
 Q3NURBPatch_New (
-    const TQ3NURBPatchData        *nurbPatchData
+    const TQ3NURBPatchData        * _Nonnull nurbPatchData
 );
 
 
@@ -5791,8 +5795,8 @@ Q3NURBPatch_New (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3NURBPatch_Submit (
-    const TQ3NURBPatchData        *nurbPatchData,
-    TQ3ViewObject                 view
+    const TQ3NURBPatchData        * _Nonnull nurbPatchData,
+    TQ3ViewObject _Nonnull                view
 );
 
 
@@ -5809,8 +5813,8 @@ Q3NURBPatch_Submit (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3NURBPatch_SetData (
-    TQ3GeometryObject             nurbPatch,
-    const TQ3NURBPatchData        *nurbPatchData
+    TQ3GeometryObject _Nonnull            nurbPatch,
+    const TQ3NURBPatchData        * _Nonnull nurbPatchData
 );
 
 
@@ -5830,8 +5834,8 @@ Q3NURBPatch_SetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3NURBPatch_GetData (
-    TQ3GeometryObject             nurbPatch,
-    TQ3NURBPatchData              *nurbPatchData
+    TQ3GeometryObject _Nonnull             nurbPatch,
+    TQ3NURBPatchData              * _Nonnull nurbPatchData
 );
 
 
@@ -5850,10 +5854,10 @@ Q3NURBPatch_GetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3NURBPatch_SetControlPoint (
-    TQ3GeometryObject             nurbPatch,
+    TQ3GeometryObject _Nonnull             nurbPatch,
     TQ3Uns32                      rowIndex,
     TQ3Uns32                      columnIndex,
-    const TQ3RationalPoint4D      *point4D
+    const TQ3RationalPoint4D      * _Nonnull point4D
 );
 
 
@@ -5872,10 +5876,10 @@ Q3NURBPatch_SetControlPoint (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3NURBPatch_GetControlPoint (
-    TQ3GeometryObject             nurbPatch,
+    TQ3GeometryObject _Nonnull             nurbPatch,
     TQ3Uns32                      rowIndex,
     TQ3Uns32                      columnIndex,
-    TQ3RationalPoint4D            *point4D
+    TQ3RationalPoint4D            * _Nonnull point4D
 );
 
 
@@ -5893,7 +5897,7 @@ Q3NURBPatch_GetControlPoint (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3NURBPatch_SetUKnot (
-    TQ3GeometryObject             nurbPatch,
+    TQ3GeometryObject _Nonnull            nurbPatch,
     TQ3Uns32                      knotIndex,
     float                         knotValue
 );
@@ -5913,7 +5917,7 @@ Q3NURBPatch_SetUKnot (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3NURBPatch_SetVKnot (
-    TQ3GeometryObject             nurbPatch,
+    TQ3GeometryObject _Nonnull            nurbPatch,
     TQ3Uns32                      knotIndex,
     float                         knotValue
 );
@@ -5933,9 +5937,9 @@ Q3NURBPatch_SetVKnot (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3NURBPatch_GetUKnot (
-    TQ3GeometryObject             nurbPatch,
+    TQ3GeometryObject _Nonnull            nurbPatch,
     TQ3Uns32                      knotIndex,
-    float                         *knotValue
+    float                         * _Nonnull knotValue
 );
 
 
@@ -5953,9 +5957,9 @@ Q3NURBPatch_GetUKnot (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3NURBPatch_GetVKnot (
-    TQ3GeometryObject             nurbPatch,
+    TQ3GeometryObject _Nonnull             nurbPatch,
     TQ3Uns32                      knotIndex,
-    float                         *knotValue
+    float                         * _Nonnull knotValue
 );
 
 
@@ -5972,7 +5976,7 @@ Q3NURBPatch_GetVKnot (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3NURBPatch_EmptyData (
-    TQ3NURBPatchData              *nurbPatchData
+    TQ3NURBPatchData              * _Nonnull nurbPatchData
 );
 
 
@@ -5990,11 +5994,11 @@ Q3NURBPatch_EmptyData (
  *      Create a new pixmap marker geometry object.
  *
  *  @param pixmapMarkerData Data describing a pixmap marker.
- *  @result                 Reference to a new pixmap marker geometry object, or nullptr on failure.
+ *  @result                 Reference to a new pixmap marker geometry object, or NULL on failure.
  */
-Q3_EXTERN_API_C ( TQ3GeometryObject  )
+Q3_EXTERN_API_C ( TQ3GeometryObject _Nullable  )
 Q3PixmapMarker_New (
-    const TQ3PixmapMarkerData     *pixmapMarkerData
+    const TQ3PixmapMarkerData     * _Nonnull pixmapMarkerData
 );
 
 
@@ -6013,8 +6017,8 @@ Q3PixmapMarker_New (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3PixmapMarker_Submit (
-    const TQ3PixmapMarkerData     *pixmapMarkerData,
-    TQ3ViewObject                 view
+    const TQ3PixmapMarkerData     * _Nonnull pixmapMarkerData,
+    TQ3ViewObject _Nonnull                 view
 );
 
 
@@ -6031,8 +6035,8 @@ Q3PixmapMarker_Submit (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3PixmapMarker_SetData (
-    TQ3GeometryObject             geometry,
-    const TQ3PixmapMarkerData     *pixmapMarkerData
+    TQ3GeometryObject _Nonnull             geometry,
+    const TQ3PixmapMarkerData     * _Nonnull pixmapMarkerData
 );
 
 
@@ -6052,8 +6056,8 @@ Q3PixmapMarker_SetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3PixmapMarker_GetData (
-    TQ3GeometryObject             geometry,
-    TQ3PixmapMarkerData           *pixmapMarkerData
+    TQ3GeometryObject _Nonnull             geometry,
+    TQ3PixmapMarkerData           * _Nonnull pixmapMarkerData
 );
 
 
@@ -6070,7 +6074,7 @@ Q3PixmapMarker_GetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3PixmapMarker_EmptyData (
-    TQ3PixmapMarkerData           *pixmapMarkerData
+    TQ3PixmapMarkerData           * _Nonnull pixmapMarkerData
 );
 
 
@@ -6087,8 +6091,8 @@ Q3PixmapMarker_EmptyData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3PixmapMarker_GetPosition (
-    TQ3GeometryObject             pixmapMarker,
-    TQ3Point3D                    *position
+    TQ3GeometryObject  _Nonnull           pixmapMarker,
+    TQ3Point3D                    * _Nonnull position
 );
 
 
@@ -6105,8 +6109,8 @@ Q3PixmapMarker_GetPosition (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3PixmapMarker_SetPosition (
-    TQ3GeometryObject             pixmapMarker,
-    const TQ3Point3D              *position
+    TQ3GeometryObject _Nonnull            pixmapMarker,
+    const TQ3Point3D              * _Nonnull position
 );
 
 
@@ -6124,8 +6128,8 @@ Q3PixmapMarker_SetPosition (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3PixmapMarker_GetXOffset (
-    TQ3GeometryObject             pixmapMarker,
-    TQ3Int32                      *xOffset
+    TQ3GeometryObject _Nonnull            pixmapMarker,
+    TQ3Int32                      * _Nonnull xOffset
 );
 
 
@@ -6143,7 +6147,7 @@ Q3PixmapMarker_GetXOffset (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3PixmapMarker_SetXOffset (
-    TQ3GeometryObject             pixmapMarker,
+    TQ3GeometryObject _Nonnull            pixmapMarker,
     TQ3Int32                      xOffset
 );
 
@@ -6162,8 +6166,8 @@ Q3PixmapMarker_SetXOffset (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3PixmapMarker_GetYOffset (
-    TQ3GeometryObject             pixmapMarker,
-    TQ3Int32                      *yOffset
+    TQ3GeometryObject _Nonnull            pixmapMarker,
+    TQ3Int32                      * _Nonnull yOffset
 );
 
 
@@ -6181,7 +6185,7 @@ Q3PixmapMarker_GetYOffset (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3PixmapMarker_SetYOffset (
-    TQ3GeometryObject             pixmapMarker,
+    TQ3GeometryObject _Nonnull            pixmapMarker,
     TQ3Int32                      yOffset
 );
 
@@ -6200,8 +6204,8 @@ Q3PixmapMarker_SetYOffset (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3PixmapMarker_GetPixmap (
-    TQ3GeometryObject             pixmapMarker,
-    TQ3StoragePixmap              *pixmap
+    TQ3GeometryObject _Nonnull            pixmapMarker,
+    TQ3StoragePixmap              * _Nonnull pixmap
 );
 
 
@@ -6219,8 +6223,8 @@ Q3PixmapMarker_GetPixmap (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3PixmapMarker_SetPixmap (
-    TQ3GeometryObject             pixmapMarker,
-    const TQ3StoragePixmap        *pixmap
+    TQ3GeometryObject _Nonnull            pixmapMarker,
+    const TQ3StoragePixmap        * _Nonnull pixmap
 );
 
 
@@ -6240,12 +6244,12 @@ Q3PixmapMarker_SetPixmap (
  *		If you pass nullptr instead of a data pointer, you will get a point disk, at (0, 0, 0).
  *		<em>This behavior was not present in QuickDraw 3D.</em>
  *
- *  @param pointData        Data describing a point, or nullptr.
- *  @result                 Reference to a new Point geometry object, or nullptr on failure.
+ *  @param pointData        Data describing a point, or NULL.
+ *  @result                 Reference to a new Point geometry object, or NULL on failure.
  */
-Q3_EXTERN_API_C ( TQ3GeometryObject  )
+Q3_EXTERN_API_C ( TQ3GeometryObject _Nullable )
 Q3Point_New (
-    const TQ3PointData            *pointData
+    const TQ3PointData            * _Nullable pointData
 );
 
 
@@ -6264,8 +6268,8 @@ Q3Point_New (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Point_Submit (
-    const TQ3PointData            *pointData,
-    TQ3ViewObject                 view
+    const TQ3PointData         * _Nonnull pointData,
+    TQ3ViewObject _Nonnull                view
 );
 
 
@@ -6285,8 +6289,8 @@ Q3Point_Submit (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Point_GetData (
-    TQ3GeometryObject             point,
-    TQ3PointData                  *pointData
+    TQ3GeometryObject _Nonnull             point,
+    TQ3PointData                  * _Nonnull pointData
 );
 
 
@@ -6303,8 +6307,8 @@ Q3Point_GetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Point_SetData (
-    TQ3GeometryObject             point,
-    const TQ3PointData            *pointData
+    TQ3GeometryObject _Nonnull             point,
+    const TQ3PointData            * _Nonnull pointData
 );
 
 
@@ -6321,7 +6325,7 @@ Q3Point_SetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Point_EmptyData (
-    TQ3PointData                  *pointData
+    TQ3PointData                  * _Nonnull pointData
 );
 
 
@@ -6338,8 +6342,8 @@ Q3Point_EmptyData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Point_SetPosition (
-    TQ3GeometryObject             point,
-    const TQ3Point3D              *position
+    TQ3GeometryObject _Nonnull            point,
+    const TQ3Point3D              * _Nonnull position
 );
 
 
@@ -6356,8 +6360,8 @@ Q3Point_SetPosition (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Point_GetPosition (
-    TQ3GeometryObject             point,
-    TQ3Point3D                    *position
+    TQ3GeometryObject _Nonnull             point,
+    TQ3Point3D                    * _Nonnull position
 );
 
 
@@ -6377,9 +6381,9 @@ Q3Point_GetPosition (
  *  @param polygonData      Data describing a polygon.
  *  @result                 Reference to a new Polygon geometry object, or nullptr on failure.
  */
-Q3_EXTERN_API_C ( TQ3GeometryObject  )
+Q3_EXTERN_API_C ( TQ3GeometryObject _Nullable )
 Q3Polygon_New (
-    const TQ3PolygonData          *polygonData
+    const TQ3PolygonData          * _Nonnull polygonData
 );
 
 
@@ -6398,8 +6402,8 @@ Q3Polygon_New (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Polygon_Submit (
-    const TQ3PolygonData          *polygonData,
-    TQ3ViewObject                 view
+    const TQ3PolygonData          * _Nonnull polygonData,
+    TQ3ViewObject _Nonnull                view
 );
 
 
@@ -6416,8 +6420,8 @@ Q3Polygon_Submit (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Polygon_SetData (
-    TQ3GeometryObject             polygon,
-    const TQ3PolygonData          *polygonData
+    TQ3GeometryObject _Nonnull            polygon,
+    const TQ3PolygonData          * _Nonnull polygonData
 );
 
 
@@ -6437,8 +6441,8 @@ Q3Polygon_SetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Polygon_GetData (
-    TQ3GeometryObject             polygon,
-    TQ3PolygonData                *polygonData
+    TQ3GeometryObject _Nonnull            polygon,
+    TQ3PolygonData                * _Nonnull polygonData
 );
 
 
@@ -6455,7 +6459,7 @@ Q3Polygon_GetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Polygon_EmptyData (
-    TQ3PolygonData                *polygonData
+    TQ3PolygonData                * _Nonnull polygonData
 );
 
 
@@ -6473,9 +6477,9 @@ Q3Polygon_EmptyData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Polygon_GetVertexPosition (
-    TQ3GeometryObject             polygon,
+    TQ3GeometryObject _Nonnull            polygon,
     TQ3Uns32                      index,
-    TQ3Point3D                    *point
+    TQ3Point3D                    * _Nonnull point
 );
 
 
@@ -6493,9 +6497,9 @@ Q3Polygon_GetVertexPosition (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Polygon_SetVertexPosition (
-    TQ3GeometryObject             polygon,
+    TQ3GeometryObject _Nonnull            polygon,
     TQ3Uns32                      index,
-    const TQ3Point3D              *point
+    const TQ3Point3D              * _Nonnull point
 );
 
 
@@ -6513,9 +6517,9 @@ Q3Polygon_SetVertexPosition (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Polygon_GetVertexAttributeSet (
-    TQ3GeometryObject             polygon,
+    TQ3GeometryObject _Nonnull            polygon,
     TQ3Uns32                      index,
-    TQ3AttributeSet               *attributeSet
+    TQ3AttributeSet _Nullable     * _Nonnull attributeSet
 );
 
 
@@ -6533,9 +6537,9 @@ Q3Polygon_GetVertexAttributeSet (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Polygon_SetVertexAttributeSet (
-    TQ3GeometryObject             polygon,
+    TQ3GeometryObject _Nonnull            polygon,
     TQ3Uns32                      index,
-    TQ3AttributeSet               attributeSet
+    TQ3AttributeSet  _Nullable             attributeSet
 );
 
 
@@ -6555,9 +6559,9 @@ Q3Polygon_SetVertexAttributeSet (
  *  @param polyhedronData   Data describing a polyhedron.
  *  @result                 Reference to a new Polyhedron geometry object, or nullptr on failure.
  */
-Q3_EXTERN_API_C ( TQ3GeometryObject  )
+Q3_EXTERN_API_C ( TQ3GeometryObject _Nullable )
 Q3Polyhedron_New (
-    const TQ3PolyhedronData       *polyhedronData
+    const TQ3PolyhedronData       * _Nonnull polyhedronData
 );
 
 
@@ -6576,8 +6580,8 @@ Q3Polyhedron_New (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Polyhedron_Submit (
-    const TQ3PolyhedronData       *polyhedronData,
-    TQ3ViewObject                 view
+    const TQ3PolyhedronData       * _Nonnull polyhedronData,
+    TQ3ViewObject _Nonnull                view
 );
 
 
@@ -6594,8 +6598,8 @@ Q3Polyhedron_Submit (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Polyhedron_SetData (
-    TQ3GeometryObject             polyhedron,
-    const TQ3PolyhedronData       *polyhedronData
+    TQ3GeometryObject _Nonnull            polyhedron,
+    const TQ3PolyhedronData       * _Nonnull polyhedronData
 );
 
 
@@ -6615,8 +6619,8 @@ Q3Polyhedron_SetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Polyhedron_GetData (
-    TQ3GeometryObject             polyhedron,
-    TQ3PolyhedronData             *polyhedronData
+    TQ3GeometryObject  _Nonnull           polyhedron,
+    TQ3PolyhedronData             * _Nonnull polyhedronData
 );
 
 
@@ -6633,7 +6637,7 @@ Q3Polyhedron_GetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Polyhedron_EmptyData (
-    TQ3PolyhedronData             *polyhedronData
+    TQ3PolyhedronData             * _Nonnull polyhedronData
 );
 
 
@@ -6651,9 +6655,9 @@ Q3Polyhedron_EmptyData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Polyhedron_SetVertexPosition (
-    TQ3GeometryObject             polyhedron,
+    TQ3GeometryObject _Nonnull            polyhedron,
     TQ3Uns32                      index,
-    const TQ3Point3D              *point
+    const TQ3Point3D              * _Nonnull point
 );
 
 
@@ -6671,9 +6675,9 @@ Q3Polyhedron_SetVertexPosition (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Polyhedron_GetVertexPosition (
-    TQ3GeometryObject             polyhedron,
+    TQ3GeometryObject _Nonnull            polyhedron,
     TQ3Uns32                      index,
-    TQ3Point3D                    *point
+    TQ3Point3D                    * _Nonnull point
 );
 
 
@@ -6691,9 +6695,9 @@ Q3Polyhedron_GetVertexPosition (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Polyhedron_SetVertexAttributeSet (
-    TQ3GeometryObject             polyhedron,
+    TQ3GeometryObject _Nonnull             polyhedron,
     TQ3Uns32                      index,
-    TQ3AttributeSet               attributeSet
+    TQ3AttributeSet _Nullable              attributeSet
 );
 
 
@@ -6711,9 +6715,9 @@ Q3Polyhedron_SetVertexAttributeSet (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Polyhedron_GetVertexAttributeSet (
-    TQ3GeometryObject             polyhedron,
+    TQ3GeometryObject _Nonnull             polyhedron,
     TQ3Uns32                      index,
-    TQ3AttributeSet               *attributeSet
+    TQ3AttributeSet _Nullable              * _Nonnull attributeSet
 );
 
 
@@ -6731,9 +6735,9 @@ Q3Polyhedron_GetVertexAttributeSet (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Polyhedron_GetTriangleData (
-    TQ3GeometryObject             polyhedron,
+    TQ3GeometryObject _Nonnull            polyhedron,
     TQ3Uns32                      triangleIndex,
-    TQ3PolyhedronTriangleData     *triangleData
+    TQ3PolyhedronTriangleData     * _Nonnull triangleData
 );
 
 
@@ -6751,9 +6755,9 @@ Q3Polyhedron_GetTriangleData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Polyhedron_SetTriangleData (
-    TQ3GeometryObject             polyhedron,
+    TQ3GeometryObject _Nonnull            polyhedron,
     TQ3Uns32                      triangleIndex,
-    const TQ3PolyhedronTriangleData *triangleData
+    const TQ3PolyhedronTriangleData * _Nonnull triangleData
 );
 
 
@@ -6771,9 +6775,9 @@ Q3Polyhedron_SetTriangleData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Polyhedron_GetEdgeData (
-    TQ3GeometryObject             polyhedron,
+    TQ3GeometryObject _Nonnull             polyhedron,
     TQ3Uns32                      edgeIndex,
-    TQ3PolyhedronEdgeData         *edgeData
+    TQ3PolyhedronEdgeData         * _Nonnull edgeData
 );
 
 
@@ -6791,9 +6795,9 @@ Q3Polyhedron_GetEdgeData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Polyhedron_SetEdgeData (
-    TQ3GeometryObject             polyhedron,
+    TQ3GeometryObject _Nonnull            polyhedron,
     TQ3Uns32                      edgeIndex,
-    const TQ3PolyhedronEdgeData   *edgeData
+    const TQ3PolyhedronEdgeData   * _Nonnull edgeData
 );
 
 
@@ -6813,9 +6817,9 @@ Q3Polyhedron_SetEdgeData (
  *  @param polylineData     Data describing a polyline.
  *  @result                 Reference to a new Polyline geometry object, or nullptr on failure.
  */
-Q3_EXTERN_API_C ( TQ3GeometryObject  )
+Q3_EXTERN_API_C ( TQ3GeometryObject _Nullable  )
 Q3PolyLine_New (
-    const TQ3PolyLineData         *polylineData
+    const TQ3PolyLineData         * _Nonnull polylineData
 );
 
 
@@ -6834,8 +6838,8 @@ Q3PolyLine_New (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3PolyLine_Submit (
-    const TQ3PolyLineData         *polyLineData,
-    TQ3ViewObject                 view
+    const TQ3PolyLineData         * _Nonnull polyLineData,
+    TQ3ViewObject _Nonnull                view
 );
 
 
@@ -6852,8 +6856,8 @@ Q3PolyLine_Submit (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3PolyLine_SetData (
-    TQ3GeometryObject             polyLine,
-    const TQ3PolyLineData         *polyLineData
+    TQ3GeometryObject _Nonnull             polyLine,
+    const TQ3PolyLineData         * _Nonnull polyLineData
 );
 
 
@@ -6873,8 +6877,8 @@ Q3PolyLine_SetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3PolyLine_GetData (
-    TQ3GeometryObject             polyLine,
-    TQ3PolyLineData               *polyLineData
+    TQ3GeometryObject _Nonnull             polyLine,
+    TQ3PolyLineData               * _Nonnull polyLineData
 );
 
 
@@ -6891,7 +6895,7 @@ Q3PolyLine_GetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3PolyLine_EmptyData (
-    TQ3PolyLineData               *polyLineData
+    TQ3PolyLineData               * _Nonnull polyLineData
 );
 
 
@@ -6909,9 +6913,9 @@ Q3PolyLine_EmptyData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3PolyLine_GetVertexPosition (
-    TQ3GeometryObject             polyLine,
+    TQ3GeometryObject _Nonnull            polyLine,
     TQ3Uns32                      index,
-    TQ3Point3D                    *position
+    TQ3Point3D                    * _Nonnull position
 );
 
 
@@ -6929,9 +6933,9 @@ Q3PolyLine_GetVertexPosition (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3PolyLine_SetVertexPosition (
-    TQ3GeometryObject             polyLine,
+    TQ3GeometryObject _Nonnull            polyLine,
     TQ3Uns32                      index,
-    const TQ3Point3D              *position
+    const TQ3Point3D              * _Nonnull position
 );
 
 
@@ -6949,9 +6953,9 @@ Q3PolyLine_SetVertexPosition (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3PolyLine_GetVertexAttributeSet (
-    TQ3GeometryObject             polyLine,
+    TQ3GeometryObject _Nonnull            polyLine,
     TQ3Uns32                      index,
-    TQ3AttributeSet               *attributeSet
+    TQ3AttributeSet _Nullable              * _Nonnull attributeSet
 );
 
 
@@ -6969,9 +6973,9 @@ Q3PolyLine_GetVertexAttributeSet (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3PolyLine_SetVertexAttributeSet (
-    TQ3GeometryObject             polyLine,
+    TQ3GeometryObject _Nonnull            polyLine,
     TQ3Uns32                      index,
-    TQ3AttributeSet               attributeSet
+    TQ3AttributeSet _Nullable              attributeSet
 );
 
 
@@ -6989,9 +6993,9 @@ Q3PolyLine_SetVertexAttributeSet (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3PolyLine_GetSegmentAttributeSet (
-    TQ3GeometryObject             polyLine,
+    TQ3GeometryObject _Nonnull            polyLine,
     TQ3Uns32                      index,
-    TQ3AttributeSet               *attributeSet
+    TQ3AttributeSet _Nullable              * _Nonnull attributeSet
 );
 
 
@@ -7009,9 +7013,9 @@ Q3PolyLine_GetSegmentAttributeSet (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3PolyLine_SetSegmentAttributeSet (
-    TQ3GeometryObject             polyLine,
+    TQ3GeometryObject _Nonnull            polyLine,
     TQ3Uns32                      index,
-    TQ3AttributeSet               attributeSet
+    TQ3AttributeSet _Nullable              attributeSet
 );
 
 
@@ -7035,9 +7039,9 @@ Q3PolyLine_SetSegmentAttributeSet (
  *  @param torusData        Data describing a torus, or nullptr.
  *  @result                 Reference to a new Torus geometry object, or nullptr on failure.
  */
-Q3_EXTERN_API_C ( TQ3GeometryObject  )
+Q3_EXTERN_API_C ( TQ3GeometryObject _Nullable  )
 Q3Torus_New (
-    const TQ3TorusData            *torusData
+    const TQ3TorusData            * _Nullable torusData
 );
 
 
@@ -7056,8 +7060,8 @@ Q3Torus_New (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Torus_Submit (
-    const TQ3TorusData            *torusData,
-    TQ3ViewObject                 view
+    const TQ3TorusData            * _Nonnull torusData,
+    TQ3ViewObject _Nonnull                 view
 );
 
 
@@ -7074,8 +7078,8 @@ Q3Torus_Submit (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Torus_SetData (
-    TQ3GeometryObject             torus,
-    const TQ3TorusData            *torusData
+    TQ3GeometryObject _Nonnull             torus,
+    const TQ3TorusData            * _Nonnull torusData
 );
 
 
@@ -7095,8 +7099,8 @@ Q3Torus_SetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Torus_GetData (
-    TQ3GeometryObject             torus,
-    TQ3TorusData                  *torusData
+    TQ3GeometryObject _Nonnull            torus,
+    TQ3TorusData                  * _Nonnull torusData
 );
 
 
@@ -7113,8 +7117,8 @@ Q3Torus_GetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Torus_SetOrigin (
-    TQ3GeometryObject             torus,
-    const TQ3Point3D              *origin
+    TQ3GeometryObject _Nonnull             torus,
+    const TQ3Point3D              * _Nonnull origin
 );
 
 
@@ -7131,8 +7135,8 @@ Q3Torus_SetOrigin (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Torus_SetOrientation (
-    TQ3GeometryObject             torus,
-    const TQ3Vector3D             *orientation
+    TQ3GeometryObject _Nonnull            torus,
+    const TQ3Vector3D             * _Nonnull orientation
 );
 
 
@@ -7149,8 +7153,8 @@ Q3Torus_SetOrientation (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Torus_SetMajorRadius (
-    TQ3GeometryObject             torus,
-    const TQ3Vector3D             *majorRadius
+    TQ3GeometryObject _Nonnull            torus,
+    const TQ3Vector3D             * _Nonnull majorRadius
 );
 
 
@@ -7167,8 +7171,8 @@ Q3Torus_SetMajorRadius (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Torus_SetMinorRadius (
-    TQ3GeometryObject             torus,
-    const TQ3Vector3D             *minorRadius
+    TQ3GeometryObject _Nonnull            torus,
+    const TQ3Vector3D             * _Nonnull minorRadius
 );
 
 
@@ -7185,7 +7189,7 @@ Q3Torus_SetMinorRadius (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Torus_SetRatio (
-    TQ3GeometryObject             torus,
+    TQ3GeometryObject _Nonnull            torus,
     float                         ratio
 );
 
@@ -7203,8 +7207,8 @@ Q3Torus_SetRatio (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Torus_GetOrigin (
-    TQ3GeometryObject             torus,
-    TQ3Point3D                    *origin
+    TQ3GeometryObject _Nonnull            torus,
+    TQ3Point3D                    * _Nonnull origin
 );
 
 
@@ -7221,8 +7225,8 @@ Q3Torus_GetOrigin (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Torus_GetOrientation (
-    TQ3GeometryObject             torus,
-    TQ3Vector3D                   *orientation
+    TQ3GeometryObject _Nonnull            torus,
+    TQ3Vector3D                   * _Nonnull orientation
 );
 
 
@@ -7239,8 +7243,8 @@ Q3Torus_GetOrientation (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Torus_GetMajorRadius (
-    TQ3GeometryObject             torus,
-    TQ3Vector3D                   *majorRadius
+    TQ3GeometryObject _Nonnull            torus,
+    TQ3Vector3D                   * _Nonnull majorRadius
 );
 
 
@@ -7257,8 +7261,8 @@ Q3Torus_GetMajorRadius (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Torus_GetMinorRadius (
-    TQ3GeometryObject             torus,
-    TQ3Vector3D                   *minorRadius
+    TQ3GeometryObject _Nonnull            torus,
+    TQ3Vector3D                   * _Nonnull minorRadius
 );
 
 
@@ -7275,8 +7279,8 @@ Q3Torus_GetMinorRadius (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Torus_GetRatio (
-    TQ3GeometryObject             torus,
-    float                         *ratio
+    TQ3GeometryObject _Nonnull            torus,
+    float                         * _Nonnull ratio
 );
 
 
@@ -7293,7 +7297,7 @@ Q3Torus_GetRatio (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Torus_EmptyData (
-    TQ3TorusData                  *torusData
+    TQ3TorusData                  * _Nonnull torusData
 );
 
 
@@ -7313,9 +7317,9 @@ Q3Torus_EmptyData (
  *  @param triangleData     Data describing a triangle.
  *  @result                 Reference to a new Triangle geometry object, or nullptr on failure.
  */
-Q3_EXTERN_API_C ( TQ3GeometryObject  )
+Q3_EXTERN_API_C ( TQ3GeometryObject _Nullable )
 Q3Triangle_New (
-    const TQ3TriangleData         *triangleData
+    const TQ3TriangleData         * _Nonnull triangleData
 );
 
 
@@ -7334,8 +7338,8 @@ Q3Triangle_New (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Triangle_Submit (
-    const TQ3TriangleData         *triangleData,
-    TQ3ViewObject                 view
+    const TQ3TriangleData         * _Nonnull triangleData,
+    TQ3ViewObject _Nonnull                view
 );
 
 
@@ -7352,8 +7356,8 @@ Q3Triangle_Submit (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Triangle_SetData (
-    TQ3GeometryObject             triangle,
-    const TQ3TriangleData         *triangleData
+    TQ3GeometryObject _Nonnull            triangle,
+    const TQ3TriangleData         * _Nonnull triangleData
 );
 
 
@@ -7373,8 +7377,8 @@ Q3Triangle_SetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Triangle_GetData (
-    TQ3GeometryObject             triangle,
-    TQ3TriangleData               *triangleData
+    TQ3GeometryObject _Nonnull            triangle,
+    TQ3TriangleData               * _Nonnull triangleData
 );
 
 
@@ -7391,7 +7395,7 @@ Q3Triangle_GetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Triangle_EmptyData (
-    TQ3TriangleData               *triangleData
+    TQ3TriangleData               * _Nonnull triangleData
 );
 
 
@@ -7409,9 +7413,9 @@ Q3Triangle_EmptyData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Triangle_GetVertexPosition (
-    TQ3GeometryObject             triangle,
+    TQ3GeometryObject _Nonnull            triangle,
     TQ3Uns32                      index,
-    TQ3Point3D                    *point
+    TQ3Point3D                    * _Nonnull point
 );
 
 
@@ -7429,9 +7433,9 @@ Q3Triangle_GetVertexPosition (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Triangle_SetVertexPosition (
-    TQ3GeometryObject             triangle,
+    TQ3GeometryObject _Nonnull            triangle,
     TQ3Uns32                      index,
-    const TQ3Point3D              *point
+    const TQ3Point3D              * _Nonnull point
 );
 
 
@@ -7449,9 +7453,9 @@ Q3Triangle_SetVertexPosition (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Triangle_GetVertexAttributeSet (
-    TQ3GeometryObject             triangle,
+    TQ3GeometryObject _Nonnull            triangle,
     TQ3Uns32                      index,
-    TQ3AttributeSet               *attributeSet
+    TQ3AttributeSet _Nullable              * _Nonnull attributeSet
 );
 
 
@@ -7469,9 +7473,9 @@ Q3Triangle_GetVertexAttributeSet (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Triangle_SetVertexAttributeSet (
-    TQ3GeometryObject             triangle,
+    TQ3GeometryObject _Nonnull            triangle,
     TQ3Uns32                      index,
-    TQ3AttributeSet               attributeSet
+    TQ3AttributeSet _Nullable              attributeSet
 );
 
 
@@ -7491,9 +7495,9 @@ Q3Triangle_SetVertexAttributeSet (
  *  @param triGridData      Data describing a TriGrid.
  *  @result                 Reference to a new TriGrid geometry object, or nullptr on failure.
  */
-Q3_EXTERN_API_C ( TQ3GeometryObject  )
+Q3_EXTERN_API_C ( TQ3GeometryObject _Nullable  )
 Q3TriGrid_New (
-    const TQ3TriGridData          *triGridData
+    const TQ3TriGridData          * _Nonnull triGridData
 );
 
 
@@ -7512,8 +7516,8 @@ Q3TriGrid_New (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3TriGrid_Submit (
-    const TQ3TriGridData          *triGridData,
-    TQ3ViewObject                 view
+    const TQ3TriGridData          * _Nonnull triGridData,
+    TQ3ViewObject _Nonnull                view
 );
 
 
@@ -7530,8 +7534,8 @@ Q3TriGrid_Submit (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3TriGrid_SetData (
-    TQ3GeometryObject             triGrid,
-    const TQ3TriGridData          *triGridData
+    TQ3GeometryObject _Nonnull            triGrid,
+    const TQ3TriGridData          * _Nonnull triGridData
 );
 
 
@@ -7551,8 +7555,8 @@ Q3TriGrid_SetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3TriGrid_GetData (
-    TQ3GeometryObject             triGrid,
-    TQ3TriGridData                *triGridData
+    TQ3GeometryObject _Nonnull            triGrid,
+    TQ3TriGridData                * _Nonnull triGridData
 );
 
 
@@ -7569,7 +7573,7 @@ Q3TriGrid_GetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3TriGrid_EmptyData (
-    TQ3TriGridData                *triGridData
+    TQ3TriGridData                * _Nonnull triGridData
 );
 
 
@@ -7588,10 +7592,10 @@ Q3TriGrid_EmptyData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3TriGrid_GetVertexPosition (
-    TQ3GeometryObject             triGrid,
+    TQ3GeometryObject _Nonnull            triGrid,
     TQ3Uns32                      rowIndex,
     TQ3Uns32                      columnIndex,
-    TQ3Point3D                    *position
+    TQ3Point3D                    * _Nonnull position
 );
 
 
@@ -7610,10 +7614,10 @@ Q3TriGrid_GetVertexPosition (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3TriGrid_SetVertexPosition (
-    TQ3GeometryObject             triGrid,
+    TQ3GeometryObject _Nonnull            triGrid,
     TQ3Uns32                      rowIndex,
     TQ3Uns32                      columnIndex,
-    const TQ3Point3D              *position
+    const TQ3Point3D              * _Nonnull position
 );
 
 
@@ -7632,10 +7636,10 @@ Q3TriGrid_SetVertexPosition (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3TriGrid_GetVertexAttributeSet (
-    TQ3GeometryObject             triGrid,
+    TQ3GeometryObject _Nonnull            triGrid,
     TQ3Uns32                      rowIndex,
     TQ3Uns32                      columnIndex,
-    TQ3AttributeSet               *attributeSet
+    TQ3AttributeSet _Nullable              * _Nonnull attributeSet
 );
 
 
@@ -7654,10 +7658,10 @@ Q3TriGrid_GetVertexAttributeSet (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3TriGrid_SetVertexAttributeSet (
-    TQ3GeometryObject             triGrid,
+    TQ3GeometryObject _Nonnull            triGrid,
     TQ3Uns32                      rowIndex,
     TQ3Uns32                      columnIndex,
-    TQ3AttributeSet               attributeSet
+    TQ3AttributeSet _Nullable              attributeSet
 );
 
 
@@ -7675,9 +7679,9 @@ Q3TriGrid_SetVertexAttributeSet (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3TriGrid_GetFacetAttributeSet (
-    TQ3GeometryObject             triGrid,
+    TQ3GeometryObject _Nonnull             triGrid,
     TQ3Uns32                      faceIndex,
-    TQ3AttributeSet               *facetAttributeSet
+    TQ3AttributeSet _Nullable              * _Nonnull facetAttributeSet
 );
 
 
@@ -7695,9 +7699,9 @@ Q3TriGrid_GetFacetAttributeSet (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3TriGrid_SetFacetAttributeSet (
-    TQ3GeometryObject             triGrid,
+    TQ3GeometryObject _Nonnull            triGrid,
     TQ3Uns32                      faceIndex,
-    TQ3AttributeSet               facetAttributeSet
+    TQ3AttributeSet  _Nullable             facetAttributeSet
 );
 
 
@@ -7725,9 +7729,9 @@ Q3TriGrid_SetFacetAttributeSet (
  *  @param triMeshData      Data describing a TriMesh.
  *  @result                 Reference to a new TriMesh geometry object, or nullptr on failure.
  */
-Q3_EXTERN_API_C ( TQ3GeometryObject  )
+Q3_EXTERN_API_C ( TQ3GeometryObject _Nullable )
 Q3TriMesh_New (
-    const TQ3TriMeshData          *triMeshData
+    const TQ3TriMeshData          * _Nonnull triMeshData
 );
 
 
@@ -7756,9 +7760,9 @@ Q3TriMesh_New (
 	@param triMeshData      Data describing a TriMesh.
 	@result                 Reference to a new TriMesh geometry object, or nullptr on failure.
 */
-Q3_EXTERN_API_C ( TQ3GeometryObject  )
+Q3_EXTERN_API_C ( TQ3GeometryObject _Nullable )
 Q3TriMesh_New_NoCopy (
-    const TQ3TriMeshData          *triMeshData
+    const TQ3TriMeshData          * _Nonnull triMeshData
 );
 
 
@@ -7777,8 +7781,8 @@ Q3TriMesh_New_NoCopy (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3TriMesh_Submit (
-    const TQ3TriMeshData          *triMeshData,
-    TQ3ViewObject                 view
+    const TQ3TriMeshData          * _Nonnull triMeshData,
+    TQ3ViewObject _Nonnull                view
 );
 
 
@@ -7798,8 +7802,8 @@ Q3TriMesh_Submit (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3TriMesh_SetData (
-    TQ3GeometryObject             triMesh,
-    const TQ3TriMeshData          *triMeshData
+    TQ3GeometryObject _Nonnull            triMesh,
+    const TQ3TriMeshData          * _Nonnull triMeshData
 );
 
 
@@ -7819,8 +7823,8 @@ Q3TriMesh_SetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3TriMesh_GetData (
-    TQ3GeometryObject             triMesh,
-    TQ3TriMeshData                *triMeshData
+    TQ3GeometryObject _Nonnull            triMesh,
+    TQ3TriMeshData                * _Nonnull triMeshData
 );
 
 
@@ -7837,7 +7841,7 @@ Q3TriMesh_GetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3TriMesh_EmptyData (
-    TQ3TriMeshData                *triMeshData
+    TQ3TriMeshData                * _Nonnull triMeshData
 );
 
 
@@ -7873,9 +7877,9 @@ Q3TriMesh_EmptyData (
 
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3TriMesh_LockData (
-    TQ3GeometryObject             triMesh,
+    TQ3GeometryObject _Nonnull            triMesh,
     TQ3Boolean                    readOnly,
-    TQ3TriMeshData                **triMeshData
+    TQ3TriMeshData                * _Nonnull * _Nonnull triMeshData
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -7897,7 +7901,7 @@ Q3TriMesh_LockData (
 
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3TriMesh_UnlockData (
-    TQ3GeometryObject             triMesh
+    TQ3GeometryObject _Nonnull            triMesh
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -7952,9 +7956,9 @@ Q3TriMesh_UnlockData (
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
 Q3_EXTERN_API_C( TQ3Status )
-Q3TriMesh_OptimizeData( const TQ3TriMeshData* inData,
-								TQ3TriMeshData* outData,
-								TQ3Boolean* outDidChange
+Q3TriMesh_OptimizeData( const TQ3TriMeshData* _Nonnull inData,
+								TQ3TriMeshData* _Nonnull outData,
+								TQ3Boolean* _Nonnull outDidChange
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -7978,9 +7982,9 @@ Q3TriMesh_OptimizeData( const TQ3TriMeshData* inData,
 */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-Q3_EXTERN_API_C( TQ3GeometryObject )
+Q3_EXTERN_API_C( TQ3GeometryObject _Nullable )
 Q3TriMesh_Optimize(
-	TQ3GeometryObject inTriMesh
+	TQ3GeometryObject _Nonnull inTriMesh
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -8016,9 +8020,9 @@ Q3TriMesh_Optimize(
 Q3_EXTERN_API_C( TQ3Status )
 Q3TriMesh_MakeTriangleStrip(
 	TQ3Uns32 inNumTriangles,
-	const TQ3Uns32* inTriangles,
-	TQ3Uns32* outStripLength,
-	TQ3Uns32** outStrip
+	const TQ3Uns32* _Nonnull inTriangles,
+	TQ3Uns32* _Nonnull outStripLength,
+	TQ3Uns32* _Nonnull * _Nonnull outStrip
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS

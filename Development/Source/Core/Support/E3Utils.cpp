@@ -5,7 +5,7 @@
         Quesa utility functions.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -213,7 +213,8 @@ TQ3Status E3Bitmap_Replace(const TQ3Bitmap *original, TQ3Bitmap *copy, TQ3Boolea
 
 
 	// Copy the bitmap image from original to copy
-	if ( originalSize != 0 )
+	TQ3Uns8* srcImage = original->image;
+	if ( (originalSize != 0) && (srcImage != nullptr) )
 	{
 		originalData = Q3Memory_Allocate( originalSize ) ;
 
@@ -222,7 +223,7 @@ TQ3Status E3Bitmap_Replace(const TQ3Bitmap *original, TQ3Bitmap *copy, TQ3Boolea
 			return(kQ3Failure);						
 		}
 		
-		Q3Memory_Copy(original->image, originalData, originalSize );
+		Q3Memory_Copy(srcImage, originalData, originalSize );
 		copy->image = (TQ3Uns8 *) originalData;
 	}
 			
@@ -295,8 +296,9 @@ void E3Geometry_AddNormalIndicators(TQ3GroupObject group, TQ3Uns32 numPoints,
 	lineData.vertices[1].attributeSet = nullptr;
 	lineData.lineAttributeSet         = Q3AttributeSet_New();
 
-	if (lineData.lineAttributeSet != nullptr)
-		Q3AttributeSet_Add(lineData.lineAttributeSet, kQ3AttributeTypeDiffuseColor, &color);
+	TQ3AttributeSet lineAtts = lineData.lineAttributeSet;
+	if (lineAtts != nullptr)
+		Q3AttributeSet_Add(lineAtts, kQ3AttributeTypeDiffuseColor, &color);
 
 
 
@@ -312,8 +314,9 @@ void E3Geometry_AddNormalIndicators(TQ3GroupObject group, TQ3Uns32 numPoints,
 
 
 	// Clean up
-	if (lineData.lineAttributeSet != nullptr)
-		Q3Object_Dispose(lineData.lineAttributeSet);
+	TQ3AttributeSet atts = lineData.lineAttributeSet;
+	if (atts != nullptr)
+		Q3Object_Dispose( atts );
 }
 
 
@@ -620,9 +623,10 @@ E3Triangle_InterpolateHit (	TQ3ViewObject			theView,
 	Q3Matrix4x4_Transpose ( &localToWorldForNormals , &localToWorldForNormals ) ;
 	Q3Matrix4x4_Invert ( &localToWorldForNormals , &localToWorldForNormals ) ;
 
-	if (theTriangle->triangleAttributeSet != nullptr)
+	TQ3AttributeSet triAtts = theTriangle->triangleAttributeSet;
+	if (triAtts != nullptr)
 		{
-		theNormal = (TQ3Vector3D *) Q3XAttributeSet_GetPointer(theTriangle->triangleAttributeSet, kQ3AttributeTypeNormal);
+		theNormal = (TQ3Vector3D *) Q3XAttributeSet_GetPointer(triAtts, kQ3AttributeTypeNormal);
 
 		if (theNormal != nullptr)
 			Q3Vector3D_Transform(theNormal, &localToWorldForNormals, &triNormal) ;

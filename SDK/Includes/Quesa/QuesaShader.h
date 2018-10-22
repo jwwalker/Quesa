@@ -1,5 +1,9 @@
 /*! @header QuesaShader.h
         Declares the Quesa shader objects.
+          
+	@ignore	_Nullable
+	@ignore _Nonnull
+	@ignore	_Null_unspecified
  */
 /*  NAME:
         QuesaShader.h
@@ -8,7 +12,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -139,9 +143,9 @@ enum
  *  @param b                The blue component for the color.
  *  @result                 Convenience pointer to the result.
  */
-Q3_EXTERN_API_C ( TQ3ColorARGB * )
+Q3_EXTERN_API_C ( TQ3ColorARGB * _Nonnull )
 Q3ColorARGB_Set (
-    TQ3ColorARGB                  *color,
+    TQ3ColorARGB                  * _Nonnull color,
     float                         a,
     float                         r,
     float                         g,
@@ -167,11 +171,11 @@ Q3ColorARGB_Set (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-Q3_EXTERN_API_C ( TQ3ColorARGB * )
+Q3_EXTERN_API_C ( TQ3ColorARGB * _Nonnull )
 Q3ColorARGB_Add (
-    const TQ3ColorARGB            *c1,
-    const TQ3ColorARGB            *c2,
-    TQ3ColorARGB                  *result
+    const TQ3ColorARGB            * _Nonnull c1,
+    const TQ3ColorARGB            * _Nonnull c2,
+    TQ3ColorARGB                  * _Nonnull result
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -195,11 +199,11 @@ Q3ColorARGB_Add (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-Q3_EXTERN_API_C ( TQ3ColorARGB * )
+Q3_EXTERN_API_C ( TQ3ColorARGB * _Nonnull )
 Q3ColorARGB_Subtract (
-    const TQ3ColorARGB            *c1,
-    const TQ3ColorARGB            *c2,
-    TQ3ColorARGB                  *result
+    const TQ3ColorARGB            * _Nonnull c1,
+    const TQ3ColorARGB            * _Nonnull c2,
+    TQ3ColorARGB                  * _Nonnull result
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -223,11 +227,11 @@ Q3ColorARGB_Subtract (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-Q3_EXTERN_API_C ( TQ3ColorARGB * )
+Q3_EXTERN_API_C ( TQ3ColorARGB * _Nonnull )
 Q3ColorARGB_Scale (
-    const TQ3ColorARGB            *color,
+    const TQ3ColorARGB            * _Nonnull color,
     float                         scale,
-    TQ3ColorARGB                  *result
+    TQ3ColorARGB                  * _Nonnull result
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -250,10 +254,10 @@ Q3ColorARGB_Scale (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-Q3_EXTERN_API_C ( TQ3ColorARGB * )
+Q3_EXTERN_API_C ( TQ3ColorARGB * _Nonnull )
 Q3ColorARGB_Clamp (
-    const TQ3ColorARGB            *color,
-    TQ3ColorARGB                  *result
+    const TQ3ColorARGB            * _Nonnull color,
+    TQ3ColorARGB                  * _Nonnull result
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -278,12 +282,12 @@ Q3ColorARGB_Clamp (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-Q3_EXTERN_API_C ( TQ3ColorARGB * )
+Q3_EXTERN_API_C ( TQ3ColorARGB * _Nonnull )
 Q3ColorARGB_Lerp (
-    const TQ3ColorARGB            *first,
-    const TQ3ColorARGB            *last,
+    const TQ3ColorARGB            * _Nonnull first,
+    const TQ3ColorARGB            * _Nonnull last,
     float                         alpha,
-    TQ3ColorARGB                  *result
+    TQ3ColorARGB                  * _Nonnull result
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -308,10 +312,10 @@ Q3ColorARGB_Lerp (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-Q3_EXTERN_API_C ( TQ3ColorARGB * )
+Q3_EXTERN_API_C ( TQ3ColorARGB * _Nonnull )
 Q3ColorARGB_Accumulate (
-    const TQ3ColorARGB            *src,
-    TQ3ColorARGB                  *result
+    const TQ3ColorARGB            * _Nonnull src,
+    TQ3ColorARGB                  * _Nonnull result
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -335,9 +339,9 @@ Q3ColorARGB_Accumulate (
  *  @param b                The blue component for the color.
  *  @result                 Convenience pointer to the result.
  */
-Q3_EXTERN_API_C ( TQ3ColorRGB * )
+Q3_EXTERN_API_C ( TQ3ColorRGB * _Nonnull )
 Q3ColorRGB_Set (
-    TQ3ColorRGB                   *color,
+    TQ3ColorRGB                   * _Nonnull color,
     float                         r,
     float                         g,
     float                         b
@@ -358,11 +362,11 @@ Q3ColorRGB_Set (
  *  @param result           Receives the sum of c1 and c2.
  *  @result                 Convenience pointer to the result.
  */
-Q3_EXTERN_API_C ( TQ3ColorRGB * )
+Q3_EXTERN_API_C ( TQ3ColorRGB * _Nonnull )
 Q3ColorRGB_Add (
-    const TQ3ColorRGB             *c1,
-    const TQ3ColorRGB             *c2,
-    TQ3ColorRGB                   *result
+    const TQ3ColorRGB             * _Nonnull c1,
+    const TQ3ColorRGB             * _Nonnull c2,
+    TQ3ColorRGB                   * _Nonnull result
 );
 
 
@@ -380,11 +384,11 @@ Q3ColorRGB_Add (
  *  @param result           Receives c2 minus c1.
  *  @result                 Convenience pointer to the result.
  */
-Q3_EXTERN_API_C ( TQ3ColorRGB * )
+Q3_EXTERN_API_C ( TQ3ColorRGB * _Nonnull )
 Q3ColorRGB_Subtract (
-    const TQ3ColorRGB             *c1,
-    const TQ3ColorRGB             *c2,
-    TQ3ColorRGB                   *result
+    const TQ3ColorRGB             * _Nonnull c1,
+    const TQ3ColorRGB             * _Nonnull c2,
+    TQ3ColorRGB                   * _Nonnull result
 );
 
 
@@ -402,11 +406,11 @@ Q3ColorRGB_Subtract (
  *  @param result           Receives the scaled color.
  *  @result                 Convenience pointer to the result.
  */
-Q3_EXTERN_API_C ( TQ3ColorRGB * )
+Q3_EXTERN_API_C ( TQ3ColorRGB * _Nonnull )
 Q3ColorRGB_Scale (
-    const TQ3ColorRGB             *color,
+    const TQ3ColorRGB             * _Nonnull color,
     float                         scale,
-    TQ3ColorRGB                   *result
+    TQ3ColorRGB                   * _Nonnull result
 );
 
 
@@ -423,10 +427,10 @@ Q3ColorRGB_Scale (
  *  @param result           Receives the clamped color.
  *  @result                 Convenience pointer to the result.
  */
-Q3_EXTERN_API_C ( TQ3ColorRGB * )
+Q3_EXTERN_API_C ( TQ3ColorRGB * _Nonnull )
 Q3ColorRGB_Clamp (
-    const TQ3ColorRGB             *color,
-    TQ3ColorRGB                   *result
+    const TQ3ColorRGB             * _Nonnull color,
+    TQ3ColorRGB                   * _Nonnull result
 );
 
 
@@ -445,12 +449,12 @@ Q3ColorRGB_Clamp (
  *  @param result           Receives the interpolated color.
  *  @result                 Convenience pointer to the result.
  */
-Q3_EXTERN_API_C ( TQ3ColorRGB * )
+Q3_EXTERN_API_C ( TQ3ColorRGB * _Nonnull )
 Q3ColorRGB_Lerp (
-    const TQ3ColorRGB             *first,
-    const TQ3ColorRGB             *last,
+    const TQ3ColorRGB             * _Nonnull first,
+    const TQ3ColorRGB             * _Nonnull last,
     float                         alpha,
-    TQ3ColorRGB                   *result
+    TQ3ColorRGB                   * _Nonnull result
 );
 
 
@@ -469,10 +473,10 @@ Q3ColorRGB_Lerp (
  *  @param result           The color to accumulate into.
  *  @result                 Convenience pointer to the result.
  */
-Q3_EXTERN_API_C ( TQ3ColorRGB * )
+Q3_EXTERN_API_C ( TQ3ColorRGB * _Nonnull )
 Q3ColorRGB_Accumulate (
-    const TQ3ColorRGB             *src,
-    TQ3ColorRGB                   *result
+    const TQ3ColorRGB             * _Nonnull src,
+    TQ3ColorRGB                   * _Nonnull result
 );
 
 
@@ -495,10 +499,10 @@ Q3ColorRGB_Accumulate (
  *  @param luminance        Receives the luminance value for the color.
  *  @result                 Convenience pointer to the result.
  */
-Q3_EXTERN_API_C ( float * )
+Q3_EXTERN_API_C ( float * _Nonnull )
 Q3ColorRGB_Luminance (
-    const TQ3ColorRGB             *color,
-    float                         *luminance
+    const TQ3ColorRGB             * _Nonnull color,
+    float                         * _Nonnull luminance
 );
 
 
@@ -517,7 +521,7 @@ Q3ColorRGB_Luminance (
  */
 Q3_EXTERN_API_C ( TQ3ObjectType  )
 Q3Shader_GetType (
-    TQ3ShaderObject               shader
+    TQ3ShaderObject _Nonnull              shader
 );
 
 
@@ -534,8 +538,8 @@ Q3Shader_GetType (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Shader_Submit (
-    TQ3ShaderObject               shader,
-    TQ3ViewObject                 view
+    TQ3ShaderObject _Nonnull              shader,
+    TQ3ViewObject _Nonnull                view
 );
 
 
@@ -552,8 +556,8 @@ Q3Shader_Submit (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Shader_SetUVTransform (
-    TQ3ShaderObject               shader,
-    const TQ3Matrix3x3            *uvTransform
+    TQ3ShaderObject _Nonnull              shader,
+    const TQ3Matrix3x3            * _Nonnull uvTransform
 );
 
 
@@ -570,8 +574,8 @@ Q3Shader_SetUVTransform (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Shader_GetUVTransform (
-    TQ3ShaderObject               shader,
-    TQ3Matrix3x3                  *uvTransform
+    TQ3ShaderObject _Nonnull              shader,
+    TQ3Matrix3x3                  * _Nonnull uvTransform
 );
 
 
@@ -590,7 +594,7 @@ Q3Shader_GetUVTransform (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Shader_SetUBoundary (
-    TQ3ShaderObject               shader,
+    TQ3ShaderObject _Nonnull              shader,
     TQ3ShaderUVBoundary           uBoundary
 );
 
@@ -610,7 +614,7 @@ Q3Shader_SetUBoundary (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Shader_SetVBoundary (
-    TQ3ShaderObject               shader,
+    TQ3ShaderObject _Nonnull              shader,
     TQ3ShaderUVBoundary           vBoundary
 );
 
@@ -628,8 +632,8 @@ Q3Shader_SetVBoundary (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Shader_GetUBoundary (
-    TQ3ShaderObject               shader,
-    TQ3ShaderUVBoundary           *uBoundary
+    TQ3ShaderObject _Nonnull              shader,
+    TQ3ShaderUVBoundary           * _Nonnull uBoundary
 );
 
 
@@ -646,8 +650,8 @@ Q3Shader_GetUBoundary (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Shader_GetVBoundary (
-    TQ3ShaderObject               shader,
-    TQ3ShaderUVBoundary           *vBoundary
+    TQ3ShaderObject _Nonnull              shader,
+    TQ3ShaderUVBoundary           * _Nonnull vBoundary
 );
 
 
@@ -666,7 +670,7 @@ Q3Shader_GetVBoundary (
  */
 Q3_EXTERN_API_C ( TQ3ObjectType  )
 Q3IlluminationShader_GetType (
-    TQ3ShaderObject               shader
+    TQ3ShaderObject _Nonnull              shader
 );
 
 
@@ -679,7 +683,7 @@ Q3IlluminationShader_GetType (
  *
  *  @result                 The new illumination shader.
  */
-Q3_EXTERN_API_C ( TQ3ShaderObject  )
+Q3_EXTERN_API_C ( TQ3ShaderObject _Nonnull )
 Q3PhongIllumination_New (
     void
 );
@@ -694,7 +698,7 @@ Q3PhongIllumination_New (
  *
  *  @result                 The new illumination shader.
  */
-Q3_EXTERN_API_C ( TQ3ShaderObject  )
+Q3_EXTERN_API_C ( TQ3ShaderObject _Nonnull )
 Q3LambertIllumination_New (
     void
 );
@@ -705,11 +709,11 @@ Q3LambertIllumination_New (
  *  @function
  *      Q3NULLIllumination_New
  *  @discussion
- *      Create a nullptr illumination shader.
+ *      Create a NULL illumination shader.
  *
  *  @result                 The new illumination shader.
  */
-Q3_EXTERN_API_C ( TQ3ShaderObject  )
+Q3_EXTERN_API_C ( TQ3ShaderObject _Nonnull )
 Q3NULLIllumination_New (
     void
 );
@@ -730,7 +734,7 @@ Q3NULLIllumination_New (
  */
 Q3_EXTERN_API_C ( TQ3ObjectType  )
 Q3SurfaceShader_GetType (
-    TQ3SurfaceShaderObject        shader
+    TQ3SurfaceShaderObject _Nonnull       shader
 );
 
 
@@ -748,9 +752,9 @@ Q3SurfaceShader_GetType (
  *  @param texture          The texture object for the shader.
  *  @result                 The new texture shader, or nullptr.
  */
-Q3_EXTERN_API_C ( TQ3ShaderObject  )
+Q3_EXTERN_API_C ( TQ3ShaderObject _Nullable )
 Q3TextureShader_New (
-    TQ3TextureObject              texture
+    TQ3TextureObject _Nullable             texture
 );
 
 
@@ -770,8 +774,8 @@ Q3TextureShader_New (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3TextureShader_GetTexture (
-    TQ3ShaderObject               shader,
-    TQ3TextureObject              *texture
+    TQ3ShaderObject _Nonnull              shader,
+    TQ3TextureObject _Nullable              * _Nonnull texture
 );
 
 
@@ -788,8 +792,8 @@ Q3TextureShader_GetTexture (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3TextureShader_SetTexture (
-    TQ3ShaderObject               shader,
-    TQ3TextureObject              texture
+    TQ3ShaderObject _Nonnull              shader,
+    TQ3TextureObject _Nullable             texture
 );
 
 /*!
@@ -808,7 +812,7 @@ Q3TextureShader_SetTexture (
  */
 Q3_EXTERN_API_C ( TQ3ObjectType  )
 Q3Texture_GetType (
-    TQ3TextureObject              texture
+    TQ3TextureObject _Nonnull             texture
 );
 
 
@@ -825,8 +829,8 @@ Q3Texture_GetType (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Texture_GetWidth (
-    TQ3TextureObject              texture,
-    TQ3Uns32                      *width
+    TQ3TextureObject _Nonnull             texture,
+    TQ3Uns32                      * _Nonnull width
 );
 
 
@@ -843,8 +847,8 @@ Q3Texture_GetWidth (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Texture_GetHeight (
-    TQ3TextureObject              texture,
-    TQ3Uns32                      *height
+    TQ3TextureObject _Nonnull             texture,
+    TQ3Uns32                      * _Nonnull height
 );
 
 /*!
@@ -861,9 +865,9 @@ Q3Texture_GetHeight (
  *  @param pixmap           The pixmap to be used by the texture.
  *  @result                 The new pixmap texture.
  */
-Q3_EXTERN_API_C ( TQ3TextureObject  )
+Q3_EXTERN_API_C ( TQ3TextureObject _Nonnull )
 Q3PixmapTexture_New (
-    const TQ3StoragePixmap        *pixmap
+    const TQ3StoragePixmap        * _Nonnull pixmap
 );
 
 
@@ -883,8 +887,8 @@ Q3PixmapTexture_New (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3PixmapTexture_GetPixmap (
-    TQ3TextureObject              texture,
-    TQ3StoragePixmap              *pixmap
+    TQ3TextureObject _Nonnull             texture,
+    TQ3StoragePixmap              * _Nonnull pixmap
 );
 
 
@@ -901,8 +905,8 @@ Q3PixmapTexture_GetPixmap (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3PixmapTexture_SetPixmap (
-    TQ3TextureObject              texture,
-    const TQ3StoragePixmap        *pixmap
+    TQ3TextureObject _Nonnull             texture,
+    const TQ3StoragePixmap        * _Nonnull pixmap
 );
 
 /*!
@@ -919,9 +923,9 @@ Q3PixmapTexture_SetPixmap (
  *  @param mipmap           The mipmap to be used by the texture.
  *  @result                 The new mipmap texture.
  */
-Q3_EXTERN_API_C ( TQ3TextureObject  )
+Q3_EXTERN_API_C ( TQ3TextureObject _Nonnull )
 Q3MipmapTexture_New (
-    const TQ3Mipmap               *mipmap
+    const TQ3Mipmap               * _Nonnull mipmap
 );
 
 
@@ -941,8 +945,8 @@ Q3MipmapTexture_New (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3MipmapTexture_GetMipmap (
-    TQ3TextureObject              texture,
-    TQ3Mipmap                     *mipmap
+    TQ3TextureObject _Nonnull             texture,
+    TQ3Mipmap                     * _Nonnull mipmap
 );
 
 
@@ -959,8 +963,8 @@ Q3MipmapTexture_GetMipmap (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3MipmapTexture_SetMipmap (
-    TQ3TextureObject              texture,
-    const TQ3Mipmap               *mipmap
+    TQ3TextureObject _Nonnull             texture,
+    const TQ3Mipmap               * _Nonnull mipmap
 );
 
 /*!
@@ -982,7 +986,7 @@ Q3MipmapTexture_SetMipmap (
  */
 Q3_EXTERN_API_C ( TQ3TextureObject  )
 Q3CompressedPixmapTexture_New (
-    const TQ3CompressedPixmap     *compressedPixmap
+    const TQ3CompressedPixmap     * _Nonnull compressedPixmap
 );
 
 
@@ -1006,7 +1010,7 @@ Q3CompressedPixmapTexture_New (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3CompressedPixmapTexture_GetCompressedPixmap (
     TQ3TextureObject              texture,
-    TQ3CompressedPixmap           *compressedPixmap
+    TQ3CompressedPixmap           * _Nonnull compressedPixmap
 );
 
 
@@ -1026,7 +1030,7 @@ Q3CompressedPixmapTexture_GetCompressedPixmap (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3CompressedPixmapTexture_SetCompressedPixmap (
     TQ3TextureObject              texture,
-    const TQ3CompressedPixmap     *compressedPixmap
+    const TQ3CompressedPixmap     * _Nonnull compressedPixmap
 );
 
 
@@ -1049,7 +1053,7 @@ Q3CompressedPixmapTexture_SetCompressedPixmap (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3CompressedPixmapTexture_CompressImage (
-    TQ3CompressedPixmap           *compressedPixmap,
+    TQ3CompressedPixmap           * _Nonnull compressedPixmap,
     PixMapHandle                  sourcePixMap,
     CodecType                     codecType,
     CodecComponent                codecComponent,
@@ -1227,91 +1231,91 @@ Q3CompressedPixmapTexture_CompressImage (
 // Wrappers
 #ifdef __cplusplus
 
-	inline TQ3ColorARGB *Q3FastColorARGB_Set(TQ3ColorARGB *color, float a, float r, float g, float b)
+	inline TQ3ColorARGB * _Nonnull Q3FastColorARGB_Set(TQ3ColorARGB * _Nonnull color, float a, float r, float g, float b)
 	{
 		__Q3FastColorARGB_Set(color, a, r, g, b);
 		return(color);
 	}
 	
-	inline TQ3ColorARGB *Q3FastColorARGB_Add(const TQ3ColorARGB *c1, const TQ3ColorARGB *c2, TQ3ColorARGB *result)
+	inline TQ3ColorARGB * _Nonnull Q3FastColorARGB_Add(const TQ3ColorARGB * _Nonnull c1, const TQ3ColorARGB * _Nonnull c2, TQ3ColorARGB * _Nonnull result)
 	{
 		__Q3FastColorARGB_Add(c1, c2, result);
 		return(result);
 	}
 	
-	inline TQ3ColorARGB *Q3FastColorARGB_Subtract(const TQ3ColorARGB *c1, const TQ3ColorARGB *c2, TQ3ColorARGB *result)
+	inline TQ3ColorARGB * _Nonnull Q3FastColorARGB_Subtract(const TQ3ColorARGB * _Nonnull c1, const TQ3ColorARGB * _Nonnull c2, TQ3ColorARGB * _Nonnull result)
 	{
 		__Q3FastColorARGB_Subtract(c1, c2, result);
 		return(result);
 	}
 	
-	inline TQ3ColorARGB *Q3FastColorARGB_Scale(const TQ3ColorARGB *color, float scale, TQ3ColorARGB *result)
+	inline TQ3ColorARGB * _Nonnull Q3FastColorARGB_Scale(const TQ3ColorARGB * _Nonnull color, float scale, TQ3ColorARGB * _Nonnull result)
 	{
 		__Q3FastColorARGB_Scale(color, scale, result);
 		return(result);
 	}
 	
-	inline TQ3ColorARGB *Q3FastColorARGB_Clamp(const TQ3ColorARGB *color, TQ3ColorARGB *result)
+	inline TQ3ColorARGB * _Nonnull Q3FastColorARGB_Clamp(const TQ3ColorARGB * _Nonnull color, TQ3ColorARGB * _Nonnull result)
 	{
 		__Q3FastColorARGB_Clamp(color, result);
 		return(result);
 	}
 	
-	inline TQ3ColorARGB *Q3FastColorARGB_Lerp(const TQ3ColorARGB *first, const TQ3ColorARGB *last, float alpha, TQ3ColorARGB *result)
+	inline TQ3ColorARGB * _Nonnull Q3FastColorARGB_Lerp(const TQ3ColorARGB * _Nonnull first, const TQ3ColorARGB * _Nonnull last, float alpha, TQ3ColorARGB * _Nonnull result)
 	{
 		__Q3FastColorARGB_Lerp(first, last, alpha, result);
 		return(result);
 	}
 	
-	inline TQ3ColorARGB *Q3FastColorARGB_Accumulate(const TQ3ColorARGB *src, TQ3ColorARGB *result)
+	inline TQ3ColorARGB * _Nonnull Q3FastColorARGB_Accumulate(const TQ3ColorARGB * _Nonnull src, TQ3ColorARGB * _Nonnull result)
 	{
 		__Q3FastColorARGB_Accumulate(src, result);
 		return(result);
 	}
 
-	inline TQ3ColorRGB *Q3FastColorRGB_Set(TQ3ColorRGB *color, float r, float g, float b)
+	inline TQ3ColorRGB * _Nonnull Q3FastColorRGB_Set(TQ3ColorRGB * _Nonnull color, float r, float g, float b)
 	{
 		__Q3FastColorRGB_Set(color, r, g, b);
 		return(color);
 	}
 	
-	inline TQ3ColorRGB *Q3FastColorRGB_Add(const TQ3ColorRGB *c1, const TQ3ColorRGB *c2, TQ3ColorRGB *result)
+	inline TQ3ColorRGB * _Nonnull Q3FastColorRGB_Add(const TQ3ColorRGB * _Nonnull c1, const TQ3ColorRGB * _Nonnull c2, TQ3ColorRGB * _Nonnull result)
 	{
 		__Q3FastColorRGB_Add(c1, c2, result);
 		return(result);
 	}
 	
-	inline TQ3ColorRGB *Q3FastColorRGB_Subtract(const TQ3ColorRGB *c1, const TQ3ColorRGB *c2, TQ3ColorRGB *result)
+	inline TQ3ColorRGB * _Nonnull Q3FastColorRGB_Subtract(const TQ3ColorRGB * _Nonnull c1, const TQ3ColorRGB * _Nonnull c2, TQ3ColorRGB * _Nonnull result)
 	{
 		__Q3FastColorRGB_Subtract(c1, c2, result);
 		return(result);
 	}
 	
-	inline TQ3ColorRGB *Q3FastColorRGB_Scale(const TQ3ColorRGB *color, float scale, TQ3ColorRGB *result)
+	inline TQ3ColorRGB * _Nonnull Q3FastColorRGB_Scale(const TQ3ColorRGB * _Nonnull color, float scale, TQ3ColorRGB * _Nonnull result)
 	{
 		__Q3FastColorRGB_Scale(color, scale, result);
 		return(result);
 	}
 	
-	inline TQ3ColorRGB *Q3FastColorRGB_Clamp(const TQ3ColorRGB *color, TQ3ColorRGB *result)
+	inline TQ3ColorRGB * _Nonnull Q3FastColorRGB_Clamp(const TQ3ColorRGB * _Nonnull color, TQ3ColorRGB * _Nonnull result)
 	{
 		__Q3FastColorRGB_Clamp(color, result);
 		return(result);
 	}
 	
-	inline TQ3ColorRGB *Q3FastColorRGB_Lerp(const TQ3ColorRGB *first, const TQ3ColorRGB *last, float alpha, TQ3ColorRGB *result)
+	inline TQ3ColorRGB * _Nonnull Q3FastColorRGB_Lerp(const TQ3ColorRGB * _Nonnull first, const TQ3ColorRGB * _Nonnull last, float alpha, TQ3ColorRGB * _Nonnull result)
 	{
 		__Q3FastColorRGB_Lerp(first, last, alpha, result);
 		return(result);
 	}
 	
-	inline TQ3ColorRGB *Q3FastColorRGB_Accumulate(const TQ3ColorRGB *src, TQ3ColorRGB *result)
+	inline TQ3ColorRGB * _Nonnull Q3FastColorRGB_Accumulate(const TQ3ColorRGB * _Nonnull src, TQ3ColorRGB * _Nonnull result)
 	{
 		__Q3FastColorRGB_Accumulate(src, result);
 		return(result);
 	}
 	
-	inline float *Q3FastColorRGB_Luminance(const TQ3ColorRGB *color, float *luminance)
+	inline float * _Nonnull Q3FastColorRGB_Luminance(const TQ3ColorRGB * _Nonnull color, float * _Nonnull luminance)
 	{
 		__Q3FastColorRGB_Luminance(color, luminance);
 		return(luminance);

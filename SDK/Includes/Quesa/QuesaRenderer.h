@@ -2,6 +2,10 @@
         Declares the Quesa renderer objects.  It would not be unusual for a
         Quesa client program to use no function from this header except for
         <code>Q3Renderer_NewFromType</code>.
+          
+	@ignore	_Nullable
+	@ignore _Nonnull
+	@ignore	_Null_unspecified
  */
 /*  NAME:
         QuesaRenderer.h
@@ -10,7 +14,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -576,7 +580,7 @@ typedef struct TQAEngine                        TQAEngine;
  *  @param theRenderer      The renderer being destroyed.
  */
 typedef Q3_CALLBACK_API_C(void,                TQ3RaveDestroyCallback)(
-                            TQ3RendererObject   theRenderer);
+                            TQ3RendererObject _Nonnull   theRenderer);
 
 
 /*!
@@ -600,9 +604,9 @@ typedef Q3_CALLBACK_API_C(void,                TQ3RaveDestroyCallback)(
  *  @result                 Success or failure of the callback.
  */
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererGetNickNameStringMethod)(
-                            unsigned char       *dataBuffer,
+                            unsigned char       * _Nullable dataBuffer,
                             TQ3Uns32            bufferSize,
-                            TQ3Uns32            *actualDataSize);
+                            TQ3Uns32            * _Nonnull actualDataSize);
 
 
 /*!
@@ -624,11 +628,11 @@ typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererGetNickNameStringMeth
  *  @result                 Success or failure of the callback.
  */
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererGetConfigurationDataMethod)(
-                            TQ3RendererObject   theRenderer,
-                            unsigned char       *dataBuffer,
+                            TQ3RendererObject _Nonnull  theRenderer,
+                            unsigned char       * _Nullable dataBuffer,
                             TQ3Uns32            bufferSize,
-                            TQ3Uns32            *actualDataSize,
-                            void                *rendererPrivate);
+                            TQ3Uns32            * _Nonnull actualDataSize,
+                            void                * _Nonnull rendererPrivate);
 
 
 /*!
@@ -646,10 +650,10 @@ typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererGetConfigurationDataM
  *  @result                 Success or failure of the callback.
  */
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererSetConfigurationDataMethod)(
-                            TQ3RendererObject   theRenderer,
-                            unsigned char       *dataBuffer,
+                            TQ3RendererObject _Nonnull  theRenderer,
+                            unsigned char       * _Nonnull dataBuffer,
                             TQ3Uns32            bufferSize,
-                            void                *rendererPrivate);
+                            void                * _Nonnull rendererPrivate);
 
 
 /*!
@@ -670,9 +674,9 @@ typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererSetConfigurationDataM
  *  @result                 Success or failure of the callback.
  */
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererStartFrameMethod)(
-                            TQ3ViewObject           theView,
-                            void                    *rendererPrivate,
-                            TQ3DrawContextObject    theDrawContext);
+                            TQ3ViewObject _Nonnull          theView,
+                            void                    * _Nonnull rendererPrivate,
+                            TQ3DrawContextObject _Nonnull   theDrawContext);
 
 
 /*!
@@ -694,10 +698,10 @@ typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererStartFrameMethod)(
  *  @result                 Success or failure of the callback.
  */
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererStartPassMethod)(
-                            TQ3ViewObject       theView,
-                            void                *rendererPrivate,
-                            TQ3CameraObject     theCamera,
-                            TQ3GroupObject      theLights);
+                            TQ3ViewObject _Nonnull      theView,
+                            void                * _Nonnull rendererPrivate,
+                            TQ3CameraObject _Nonnull    theCamera,
+                            TQ3GroupObject _Nonnull     theLights);
 
 
 /*!
@@ -717,9 +721,9 @@ typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererStartPassMethod)(
  *  @result                 Success or failure of the callback.
  */
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererFlushFrameMethod)(
-                            TQ3ViewObject           theView,
-                            void                    *rendererPrivate,
-                            TQ3DrawContextObject    theDrawContext);
+                            TQ3ViewObject _Nonnull          theView,
+                            void                    * _Nonnull rendererPrivate,
+                            TQ3DrawContextObject _Nonnull   theDrawContext);
 
 
 /*!
@@ -742,8 +746,8 @@ typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererFlushFrameMethod)(
  *  @result                 The result for the view submit loop.
  */
 typedef Q3_CALLBACK_API_C(TQ3ViewStatus,       TQ3XRendererEndPassMethod)(
-                            TQ3ViewObject       theView,
-                            void                *rendererPrivate);
+                            TQ3ViewObject _Nonnull      theView,
+                            void                * _Nonnull rendererPrivate);
 
 
 /*!
@@ -760,9 +764,9 @@ typedef Q3_CALLBACK_API_C(TQ3ViewStatus,       TQ3XRendererEndPassMethod)(
  *  @result                 Success or failure of the callback.
  */
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererEndFrameMethod)(
-                            TQ3ViewObject           theView,
-                            void                    *rendererPrivate,
-                            TQ3DrawContextObject    theDrawContext);
+                            TQ3ViewObject _Nonnull          theView,
+                            void                    * _Nonnull rendererPrivate,
+                            TQ3DrawContextObject _Nonnull   theDrawContext);
 
 
 /*!
@@ -780,8 +784,8 @@ typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererEndFrameMethod)(
  *  @param rendererPrivate  Renderer-specific instance data.
  */
 typedef Q3_CALLBACK_API_C(void,                TQ3XRendererCancelMethod)(
-                            TQ3ViewObject       theView,
-                            void                *rendererPrivate);
+                            TQ3ViewObject _Nonnull      theView,
+                            void                * _Nonnull rendererPrivate);
 
 
 /*!
@@ -802,8 +806,8 @@ typedef Q3_CALLBACK_API_C(void,                TQ3XRendererCancelMethod)(
  *  @result                 Success or failure of the callback.
  */
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererPushMethod)(
-                            TQ3ViewObject       theView,
-                            void                *rendererPrivate);
+                            TQ3ViewObject _Nonnull      theView,
+                            void                * _Nonnull rendererPrivate);
 
 
 /*!
@@ -824,8 +828,8 @@ typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererPushMethod)(
  *  @result                 Success or failure of the callback.
  */
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererPopMethod)(
-                            TQ3ViewObject       theView,
-                            void                *rendererPrivate);
+                            TQ3ViewObject _Nonnull      theView,
+                            void                * _Nonnull rendererPrivate);
 
 
 /*!
@@ -856,9 +860,9 @@ typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererPopMethod)(
  *  @result                 The visibility of the bounding box.
  */
 typedef Q3_CALLBACK_API_C(TQ3Boolean,          TQ3XRendererIsBoundingBoxVisibleMethod)(
-                            TQ3ViewObject           theView,
-                            void                    *rendererPrivate,
-                            const TQ3BoundingBox    *theBounds);
+                            TQ3ViewObject _Nonnull          theView,
+                            void                    * _Nonnull rendererPrivate,
+                            const TQ3BoundingBox    * _Nonnull theBounds);
 
 
 /*!
@@ -886,7 +890,7 @@ typedef Q3_CALLBACK_API_C(TQ3Boolean,          TQ3XRendererIsBoundingBoxVisibleM
  *  @param geometryType     The geometry type whose submit method is requested.
  *  @result                 The submit method for geometries of type geometryType.
  */
-typedef Q3_CALLBACK_API_C(TQ3XFunctionPointer, TQ3XRendererSubmitGeometryMetaHandlerMethod)(
+typedef Q3_CALLBACK_API_C(TQ3XFunctionPointer _Nullable, TQ3XRendererSubmitGeometryMetaHandlerMethod)(
                             TQ3ObjectType       geometryType);
 
 
@@ -917,10 +921,10 @@ typedef Q3_CALLBACK_API_C(TQ3XFunctionPointer, TQ3XRendererSubmitGeometryMetaHan
  *  @result                 Success or failure of the callback.
  */
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererSubmitGeometryMethod)(
-                            TQ3ViewObject       theView,
-                            void                *rendererPrivate,
-                            TQ3GeometryObject   theGeometry,
-                            const void          *publicData);
+                            TQ3ViewObject _Nonnull      theView,
+                            void                * _Nonnull rendererPrivate,
+                            TQ3GeometryObject _Nullable  theGeometry,
+                            const void          * _Nonnull publicData);
 
 
 /*!
@@ -937,7 +941,7 @@ typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererSubmitGeometryMethod)
  *  @param cameraType       The camera type whose submit method is requested.
  *  @result                 The submit method for cameras of type cameraType.
  */
-typedef Q3_CALLBACK_API_C(TQ3XFunctionPointer, TQ3XRendererSubmitCameraMetaHandlerMethod)(
+typedef Q3_CALLBACK_API_C(TQ3XFunctionPointer _Nullable, TQ3XRendererSubmitCameraMetaHandlerMethod)(
                             TQ3ObjectType       cameraType);
 
 
@@ -959,10 +963,10 @@ typedef Q3_CALLBACK_API_C(TQ3XFunctionPointer, TQ3XRendererSubmitCameraMetaHandl
  *  @result                 Success or failure of the callback.
  */
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererSubmitCameraMethod)(
-                            TQ3ViewObject       theView,
-                            void                *rendererPrivate,
-                            TQ3CameraObject     theCamera,
-                            const void          *publicData);
+                            TQ3ViewObject _Nonnull      theView,
+                            void                * _Nonnull rendererPrivate,
+                            TQ3CameraObject _Nullable    theCamera,
+                            const void          * _Nonnull publicData);
 
 
 /*!
@@ -979,7 +983,7 @@ typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererSubmitCameraMethod)(
  *  @param lightType        The camera type whose submit method is requested.
  *  @result                 The submit method for cameras of type cameraType.
  */
-typedef Q3_CALLBACK_API_C(TQ3XFunctionPointer, TQ3XRendererSubmitLightMetaHandlerMethod)(
+typedef Q3_CALLBACK_API_C(TQ3XFunctionPointer _Nullable, TQ3XRendererSubmitLightMetaHandlerMethod)(
                             TQ3ObjectType       lightType);
 
 
@@ -1001,10 +1005,10 @@ typedef Q3_CALLBACK_API_C(TQ3XFunctionPointer, TQ3XRendererSubmitLightMetaHandle
  *  @result                 Success or failure of the callback.
  */
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererSubmitLightMethod)(
-                            TQ3ViewObject       theView,
-                            void                *rendererPrivate,
-                            TQ3LightObject      theLight,
-                            const void          *publicData);
+                            TQ3ViewObject _Nonnull      theView,
+                            void                * _Nonnull rendererPrivate,
+                            TQ3LightObject _Nullable     theLight,
+                            const void          * _Nonnull publicData);
 
 
 /*!
@@ -1021,7 +1025,7 @@ typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererSubmitLightMethod)(
  *  @param styleType        The style type whose update method is requested.
  *  @result                 The update method for styles of type styleType.
  */
-typedef Q3_CALLBACK_API_C(TQ3XFunctionPointer, TQ3XRendererUpdateStyleMetaHandlerMethod)(
+typedef Q3_CALLBACK_API_C(TQ3XFunctionPointer _Nullable, TQ3XRendererUpdateStyleMetaHandlerMethod)(
                             TQ3ObjectType       styleType);
 
 
@@ -1039,9 +1043,9 @@ typedef Q3_CALLBACK_API_C(TQ3XFunctionPointer, TQ3XRendererUpdateStyleMetaHandle
  *  @result                 Success or failure of the callback.
  */
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererUpdateStyleMethod)(
-                            TQ3ViewObject       theView,
-                            void                *rendererPrivate,
-                            const void          *publicData);
+                            TQ3ViewObject _Nonnull      theView,
+                            void                * _Nonnull rendererPrivate,
+                            const void          * _Nonnull publicData);
 
 
 /*!
@@ -1058,7 +1062,7 @@ typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererUpdateStyleMethod)(
  *  @param attributeType    The attribute type whose update method is requested.
  *  @result                 The update method for attributes of type attributeType.
  */
-typedef Q3_CALLBACK_API_C(TQ3XFunctionPointer, TQ3XRendererUpdateAttributeMetaHandlerMethod)(
+typedef Q3_CALLBACK_API_C(TQ3XFunctionPointer _Nullable, TQ3XRendererUpdateAttributeMetaHandlerMethod)(
                             TQ3AttributeType    attributeType);
 
 
@@ -1076,9 +1080,9 @@ typedef Q3_CALLBACK_API_C(TQ3XFunctionPointer, TQ3XRendererUpdateAttributeMetaHa
  *  @result                 Success or failure of the callback.
  */
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererUpdateAttributeMethod)(
-                            TQ3ViewObject       theView,
-                            void                *rendererPrivate,
-                            const void          *publicData);
+                            TQ3ViewObject _Nonnull      theView,
+                            void                * _Nonnull rendererPrivate,
+                            const void          * _Nonnull publicData);
 
 
 /*!
@@ -1095,7 +1099,7 @@ typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererUpdateAttributeMethod
  *  @param shaderType       The shader type whose update method is requested.
  *  @result                 The update method for shaders of type shaderType.
  */
-typedef Q3_CALLBACK_API_C(TQ3XFunctionPointer, TQ3XRendererUpdateShaderMetaHandlerMethod)(
+typedef Q3_CALLBACK_API_C(TQ3XFunctionPointer _Nullable, TQ3XRendererUpdateShaderMetaHandlerMethod)(
                             TQ3ObjectType       shaderType);
 
 
@@ -1113,9 +1117,9 @@ typedef Q3_CALLBACK_API_C(TQ3XFunctionPointer, TQ3XRendererUpdateShaderMetaHandl
  *  @result                 Success or failure of the callback.
  */
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererUpdateShaderMethod)(
-                            TQ3ViewObject       theView,
-                            void                *rendererPrivate,
-                            TQ3Object           *theShader);
+                            TQ3ViewObject _Nonnull      theView,
+                            void                * _Nonnull rendererPrivate,
+                            TQ3Object _Nullable          * _Nonnull theShader);
 
 
 /*!
@@ -1132,7 +1136,7 @@ typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererUpdateShaderMethod)(
  *  @param matrixType       The matrix type whose update method is requested.
  *  @result                 The update method for matrices of type matrixType.
  */
-typedef Q3_CALLBACK_API_C(TQ3XFunctionPointer, TQ3XRendererUpdateMatrixMetaHandlerMethod)(
+typedef Q3_CALLBACK_API_C(TQ3XFunctionPointer _Nullable, TQ3XRendererUpdateMatrixMetaHandlerMethod)(
                             TQ3ObjectType       matrixType);
 
 
@@ -1150,9 +1154,9 @@ typedef Q3_CALLBACK_API_C(TQ3XFunctionPointer, TQ3XRendererUpdateMatrixMetaHandl
  *  @result                 Success or failure of the callback.
  */
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererUpdateMatrixMethod)(
-                            TQ3ViewObject       theView,
-                            void                *rendererPrivate,
-                            const TQ3Matrix4x4  *theMatrix);
+                            TQ3ViewObject _Nonnull      theView,
+                            void                * _Nonnull rendererPrivate,
+                            const TQ3Matrix4x4  * _Nonnull theMatrix);
 
 
 
@@ -1173,7 +1177,7 @@ typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererUpdateMatrixMethod)(
 struct TQ3RendererPassInfo
 {
 	TQ3RendererPassType		passType;
-	TQ3LightObject			light;
+	TQ3LightObject _Nullable		light;
 };
 
 
@@ -1292,7 +1296,7 @@ typedef struct TQ3DialogAnchor {
  *  @field notUsed          Not used.
  */
 typedef struct TQ3DialogAnchor {
-    void                                        *notUsed;
+    void                                        * _Nullable notUsed;
 } TQ3DialogAnchor;
 
 #endif // QUESA_OS_COCOA
@@ -1325,10 +1329,10 @@ typedef struct TQ3DialogAnchor {
  *  @result                 Success or failure of the callback.
  */
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererModalConfigureMethod)(
-                            TQ3RendererObject   theRenderer,
+                            TQ3RendererObject _Nonnull  theRenderer,
                             TQ3DialogAnchor     dialogAnchor,
-                            TQ3Boolean          *wasCancelled,
-                            void                *rendererPrivate);
+                            TQ3Boolean          * _Nonnull wasCancelled,
+                            void                * _Nonnull rendererPrivate);
 
 
 
@@ -1365,7 +1369,7 @@ typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererModalConfigureMethod)
  *  @param rendererObjectType    The class type of the renderer to create.
  *  @result                      The new renderer object.
  */
-Q3_EXTERN_API_C ( TQ3RendererObject  )
+Q3_EXTERN_API_C ( TQ3RendererObject _Nonnull )
 Q3Renderer_NewFromType (
     TQ3ObjectType                 rendererObjectType
 );
@@ -1383,7 +1387,7 @@ Q3Renderer_NewFromType (
  */
 Q3_EXTERN_API_C ( TQ3ObjectType  )
 Q3Renderer_GetType (
-    TQ3RendererObject             renderer
+    TQ3RendererObject _Nonnull            renderer
 );
 
 
@@ -1405,7 +1409,7 @@ Q3Renderer_GetType (
  */
 Q3_EXTERN_API_C ( TQ3Boolean  )
 Q3Renderer_IsInteractive (
-    TQ3RendererObject             renderer
+    TQ3RendererObject _Nonnull            renderer
 );
 
 
@@ -1421,7 +1425,7 @@ Q3Renderer_IsInteractive (
  */
 Q3_EXTERN_API_C ( TQ3Boolean  )
 Q3Renderer_HasModalConfigure (
-    TQ3RendererObject             renderer
+    TQ3RendererObject _Nonnull            renderer
 );
 
 
@@ -1449,9 +1453,9 @@ Q3Renderer_HasModalConfigure (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Renderer_ModalConfigure (
-    TQ3RendererObject             renderer,
+    TQ3RendererObject _Nonnull            renderer,
     TQ3DialogAnchor               dialogAnchor,
-    TQ3Boolean                    *cancelled
+    TQ3Boolean                    * _Nonnull cancelled
 );
 
 
@@ -1472,7 +1476,7 @@ Q3Renderer_ModalConfigure (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3RendererClass_GetNickNameString (
     TQ3ObjectType                 rendererClassType,
-    TQ3ObjectClassNameString      rendererClassString
+    TQ3ObjectClassNameString _Nonnull     rendererClassString
 );
 
 
@@ -1502,10 +1506,10 @@ Q3RendererClass_GetNickNameString (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Renderer_GetConfigurationData (
-    TQ3RendererObject             renderer,
-    unsigned char                 *dataBuffer,
+    TQ3RendererObject _Nonnull            renderer,
+    unsigned char                 * _Nullable dataBuffer,
     TQ3Uns32                      bufferSize,
-    TQ3Uns32                      *actualDataSize
+    TQ3Uns32                      * _Nonnull actualDataSize
 );
 
 
@@ -1526,8 +1530,8 @@ Q3Renderer_GetConfigurationData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Renderer_SetConfigurationData (
-    TQ3RendererObject             renderer,
-    unsigned char                 *dataBuffer,
+    TQ3RendererObject _Nonnull            renderer,
+    unsigned char                 * _Nonnull dataBuffer,
     TQ3Uns32                      bufferSize
 );
 
@@ -1550,7 +1554,7 @@ Q3Renderer_SetConfigurationData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3InteractiveRenderer_SetCSGEquation (
-    TQ3RendererObject             renderer,
+    TQ3RendererObject _Nonnull            renderer,
     TQ3CSGEquation                equation
 );
 
@@ -1570,8 +1574,8 @@ Q3InteractiveRenderer_SetCSGEquation (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3InteractiveRenderer_GetCSGEquation (
-    TQ3RendererObject             renderer,
-    TQ3CSGEquation                *equation
+    TQ3RendererObject _Nonnull            renderer,
+    TQ3CSGEquation                * _Nonnull equation
 );
 
 
@@ -1591,7 +1595,7 @@ Q3InteractiveRenderer_GetCSGEquation (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3InteractiveRenderer_SetPreferences (
-    TQ3RendererObject             renderer,
+    TQ3RendererObject _Nonnull            renderer,
     TQ3RaveVendorID               vendorID,
     TQ3RaveEngineID               engineID
 );
@@ -1613,9 +1617,9 @@ Q3InteractiveRenderer_SetPreferences (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3InteractiveRenderer_GetPreferences (
-    TQ3RendererObject             renderer,
-    TQ3RaveVendorID               *vendorID,
-    TQ3RaveEngineID               *engineID
+    TQ3RendererObject _Nonnull            renderer,
+    TQ3RaveVendorID               * _Nonnull vendorID,
+    TQ3RaveEngineID               * _Nonnull engineID
 );
 
 
@@ -1634,7 +1638,7 @@ Q3InteractiveRenderer_GetPreferences (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3InteractiveRenderer_SetDoubleBufferBypass (
-    TQ3RendererObject             renderer,
+    TQ3RendererObject _Nonnull            renderer,
     TQ3Boolean                    bypass
 );
 
@@ -1654,8 +1658,8 @@ Q3InteractiveRenderer_SetDoubleBufferBypass (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3InteractiveRenderer_GetDoubleBufferBypass (
-    TQ3RendererObject             renderer,
-    TQ3Boolean                    *bypass
+    TQ3RendererObject _Nonnull            renderer,
+    TQ3Boolean                    * _Nonnull bypass
 );
 
 
@@ -1674,7 +1678,7 @@ Q3InteractiveRenderer_GetDoubleBufferBypass (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3InteractiveRenderer_SetRAVEContextHints (
-    TQ3RendererObject             renderer,
+    TQ3RendererObject _Nonnull            renderer,
     TQ3Uns32                      RAVEContextHints
 );
 
@@ -1694,8 +1698,8 @@ Q3InteractiveRenderer_SetRAVEContextHints (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3InteractiveRenderer_GetRAVEContextHints (
-    TQ3RendererObject             renderer,
-    TQ3Uns32                      *RAVEContextHints
+    TQ3RendererObject _Nonnull            renderer,
+    TQ3Uns32                      * _Nonnull RAVEContextHints
 );
 
 
@@ -1715,7 +1719,7 @@ Q3InteractiveRenderer_GetRAVEContextHints (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3InteractiveRenderer_SetRAVETextureFilter (
-    TQ3RendererObject             renderer,
+    TQ3RendererObject _Nonnull            renderer,
     TQ3TextureFilter              raveTextureFilterValue
 );
 
@@ -1736,8 +1740,8 @@ Q3InteractiveRenderer_SetRAVETextureFilter (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3InteractiveRenderer_GetRAVETextureFilter (
-    TQ3RendererObject             renderer,
-    TQ3TextureFilter              *raveTextureFilterValue
+    TQ3RendererObject _Nonnull            renderer,
+    TQ3TextureFilter              * _Nonnull raveTextureFilterValue
 );
 
 
@@ -1756,8 +1760,8 @@ Q3InteractiveRenderer_GetRAVETextureFilter (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3InteractiveRenderer_CountRAVEDrawContexts (
-    TQ3RendererObject             renderer,
-    TQ3Uns32                      *numRAVEContexts
+    TQ3RendererObject _Nonnull            renderer,
+    TQ3Uns32                      * _Nonnull numRAVEContexts
 );
 
 
@@ -1779,11 +1783,11 @@ Q3InteractiveRenderer_CountRAVEDrawContexts (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3InteractiveRenderer_GetRAVEDrawContexts (
-    TQ3RendererObject             renderer,
-    TQADrawContext                **raveDrawContextList,
-    TQAEngine                     **raveDrawingEnginesList,
-    TQ3Uns32                      *numRAVEContexts,
-    TQ3RaveDestroyCallback        raveDestroyCallback
+    TQ3RendererObject _Nonnull            renderer,
+    TQADrawContext                * _Nonnull * _Nonnull raveDrawContextList,
+    TQAEngine                     * _Nonnull * _Nonnull raveDrawingEnginesList,
+    TQ3Uns32                      * _Nonnull numRAVEContexts,
+    TQ3RaveDestroyCallback _Nonnull       raveDestroyCallback
 );
 
 /*!
@@ -1816,7 +1820,7 @@ Q3InteractiveRenderer_GetRAVEDrawContexts (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3XView_IdleProgress (
-    TQ3ViewObject                 view,
+    TQ3ViewObject _Nonnull                view,
     TQ3Uns32                      current,
     TQ3Uns32                      completed
 );
@@ -1836,7 +1840,7 @@ Q3XView_IdleProgress (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3XView_EndFrame (
-    TQ3ViewObject                 view
+    TQ3ViewObject _Nonnull                view
 );
 
 
@@ -1854,7 +1858,7 @@ Q3XView_EndFrame (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3XDrawContext_ClearValidationFlags (
-    TQ3DrawContextObject          drawContext
+    TQ3DrawContextObject _Nonnull         drawContext
 );
 
 
@@ -1873,8 +1877,8 @@ Q3XDrawContext_ClearValidationFlags (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3XDrawContext_GetValidationFlags (
-    TQ3DrawContextObject          drawContext,
-    TQ3XDrawContextValidation     *validationFlags
+    TQ3DrawContextObject _Nonnull         drawContext,
+    TQ3XDrawContextValidation     * _Nonnull validationFlags
 );
 
 

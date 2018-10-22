@@ -5,7 +5,7 @@
         Implementation of Quesa PolyLine geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -161,14 +161,15 @@ e3geom_polyline_copydata( const TQ3PolyLineData* src, TQ3PolyLineData* dst,
 	for (n = 0; n < dst->numVertices; ++n)
 	{
 		dst->vertices[n].point = src->vertices[n].point;
+		TQ3AttributeSet srcVAtts = src->vertices[n].attributeSet;
 		
-		if (src->vertices[n].attributeSet == nullptr)
+		if (srcVAtts == nullptr)
 		{
 			dst->vertices[n].attributeSet = nullptr;
 		}
 		else if (isDuplicate)
 		{
-			dst->vertices[n].attributeSet = Q3Object_Duplicate( src->vertices[n].attributeSet );
+			dst->vertices[n].attributeSet = Q3Object_Duplicate( srcVAtts );
 			if (dst->vertices[n].attributeSet == nullptr)
 				q3Status = kQ3Failure;
 		}
@@ -190,7 +191,8 @@ e3geom_polyline_copydata( const TQ3PolyLineData* src, TQ3PolyLineData* dst,
 			}
 			else if (isDuplicate)
 			{
-				dst->segmentAttributeSet[n] = Q3Object_Duplicate( src->segmentAttributeSet[n] );
+				TQ3AttributeSet srcAtts = src->segmentAttributeSet[n];
+				dst->segmentAttributeSet[n] = Q3Object_Duplicate( srcAtts );
 				if (dst->segmentAttributeSet[n] == nullptr)
 					q3Status = kQ3Failure;
 			}
@@ -209,7 +211,8 @@ e3geom_polyline_copydata( const TQ3PolyLineData* src, TQ3PolyLineData* dst,
 	}
 	else if (isDuplicate)
 	{
-		dst->polyLineAttributeSet = Q3Object_Duplicate( src->polyLineAttributeSet );
+		TQ3AttributeSet srcAt = src->polyLineAttributeSet;
+		dst->polyLineAttributeSet = Q3Object_Duplicate( srcAt );
 		if (dst->polyLineAttributeSet == nullptr)
 			q3Status = kQ3Failure;
 	}
@@ -241,7 +244,7 @@ static TQ3Status
 e3geom_polyline_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 						  TQ3Object toObject,   void       *toPrivateData)
 {	TQ3PolyLineData		*toInstanceData = (TQ3PolyLineData *) toPrivateData;
-	TQ3PolyLineData		*fromInstanceData = (TQ3PolyLineData *) fromPrivateData;
+	const TQ3PolyLineData		*fromInstanceData = (const TQ3PolyLineData *) fromPrivateData;
 	TQ3Status			qd3dStatus;
 #pragma unused(toObject)
 

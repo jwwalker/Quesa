@@ -5,7 +5,7 @@
         Implementation of Quesa Line geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -48,6 +48,7 @@
 #include "E3Pick.h"
 #include "E3Geometry.h"
 #include "E3GeometryLine.h"
+#include "QuesaMathOperators.hpp"
 
 
 
@@ -232,41 +233,43 @@ e3geom_line_copydata( const TQ3LineData* src, TQ3LineData* dst, TQ3Boolean isDup
 {
 	TQ3Uns32			n;
 	TQ3Status			q3status = kQ3Success;
+	TQ3AttributeSet atts;
 
 	for (n = 0; n < 2; ++n)
 	{
 		dst->vertices[n].point = src->vertices[n].point;
 		
-		
-		if (src->vertices[n].attributeSet == nullptr)
+		atts = src->vertices[n].attributeSet;
+		if (atts == nullptr)
 		{
 			dst->vertices[n].attributeSet = nullptr;
 		}
 		else if (isDuplicate)
 		{
-			dst->vertices[n].attributeSet = Q3Object_Duplicate( src->vertices[n].attributeSet );
+			dst->vertices[n].attributeSet = Q3Object_Duplicate( atts );
 			if (dst->vertices[n].attributeSet == nullptr)
 				q3status = kQ3Failure;
 		}
 		else
 		{
-			E3Shared_Acquire( &dst->vertices[n].attributeSet, src->vertices[n].attributeSet );
+			E3Shared_Acquire( &dst->vertices[n].attributeSet, atts );
 		}
 	}
 	
-	if (src->lineAttributeSet == nullptr)
+	atts = src->lineAttributeSet;
+	if (atts == nullptr)
 	{
 		dst->lineAttributeSet = nullptr;
 	}
 	else if (isDuplicate)
 	{
-		dst->lineAttributeSet = Q3Object_Duplicate( src->lineAttributeSet );
+		dst->lineAttributeSet = Q3Object_Duplicate( atts );
 		if (dst->lineAttributeSet == nullptr)
 			q3status = kQ3Failure;
 	}
 	else
 	{
-		E3Shared_Acquire( &dst->lineAttributeSet, src->lineAttributeSet );
+		E3Shared_Acquire( &dst->lineAttributeSet, atts );
 	}
 	
 	
@@ -291,7 +294,7 @@ static TQ3Status
 e3geom_line_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 					  TQ3Object toObject,   void *toPrivateData)
 {	TQ3LineData			*toInstanceData = (TQ3LineData *) toPrivateData;
-	TQ3LineData			*fromInstanceData = (TQ3LineData *) fromPrivateData;
+	const TQ3LineData			*fromInstanceData = (const TQ3LineData *) fromPrivateData;
 	TQ3Status			qd3dStatus;
 #pragma unused(toObject)
 
@@ -334,43 +337,42 @@ e3geom_line_pick_window_point(TQ3ViewObject theView, TQ3PickObject thePick, TQ3O
 
 
 	// Get the pick data
-	Q3WindowPointPick_GetData(thePick, &pickData);
+	E3WindowPointPick_GetData(thePick, &pickData);
 
 
 
 	// Transform our points
-	Q3View_TransformLocalToWindow(theView, &instanceData->vertices[0].point, &windowPoints[0]);
-	Q3View_TransformLocalToWindow(theView, &instanceData->vertices[1].point, &windowPoints[1]);
+	E3View_TransformLocalToWindow(theView, &instanceData->vertices[0].point, &windowPoints[0]);
+	E3View_TransformLocalToWindow(theView, &instanceData->vertices[1].point, &windowPoints[1]);
 
 
 
 	// Calculate the distance d along the line to its closest point to the pick point.
 	// If it's outside the range 0-1 then the closest point is before or after the
 	// bounds of the line and so we know we can't possibly have a hit.
-	Q3FastPoint2D_Subtract(&pickData.point,  &windowPoints[0], &windowStartToPick);
-	Q3FastPoint2D_Subtract(&windowPoints[1], &windowPoints[0], &windowStartToEnd);
+	windowStartToPick = pickData.point - windowPoints[0];
+	windowStartToEnd = windowPoints[1] - windowPoints[0];
 
-	float	windowLineLenSq = Q3FastVector2D_LengthSquared(&windowStartToEnd);
+	float	windowLineLenSq = Q3LengthSquared2D( windowStartToEnd );
 	if (windowLineLenSq < kQ3RealZero)
 	{
 		// Line is edge-on; we do not want to divide by 0, let's say there is no hit.
 		return(kQ3Success);
 	}
-	d = Q3FastVector2D_Dot(&windowStartToPick, &windowStartToEnd) / windowLineLenSq;
+	d = Q3Dot2D( windowStartToPick, windowStartToEnd ) / windowLineLenSq;
 	if (d < 0.0f || d > 1.0f)
 		return(kQ3Success);
 
 
 
 	// Scale the line vector by d to obtain its closest point to the pick point
-	Q3Vector2D_Scale(&windowStartToEnd, d,   &windowStartToEnd);
-	Q3Point2D_Vector2D_Add(&windowPoints[0], &windowStartToEnd, &hitXY);
+	hitXY = windowPoints[0] + d * windowStartToEnd;
 
 
 
 	// Get the distance between that point and the pick point
-	Q3Point2D_Subtract(&pickData.point, &hitXY, &windowHitToPick);
-	d = Q3Vector2D_Length(&windowHitToPick);
+	windowHitToPick = pickData.point - hitXY;
+	d = Q3Length2D( windowHitToPick );
 
 
 
@@ -380,52 +382,67 @@ e3geom_line_pick_window_point(TQ3ViewObject theView, TQ3PickObject thePick, TQ3O
 	if (d <= pickData.edgeTolerance)
 		{
 		// Create a world to window matrix
-		Q3View_GetWorldToFrustumMatrixState(theView,  &worldToFrustum);
-		Q3View_GetFrustumToWindowMatrixState(theView, &frustumToWindow);
-		Q3Matrix4x4_Multiply(&worldToFrustum, &frustumToWindow, &worldToWindow);
+		E3View_GetWorldToFrustumMatrixState(theView,  &worldToFrustum);
+		E3View_GetFrustumToWindowMatrixState(theView, &frustumToWindow);
+		worldToWindow = worldToFrustum * frustumToWindow;
 
 
 		// Calculate the intersection point on the 3D line
-		Q3View_TransformLocalToWorld(theView,  &instanceData->vertices[0].point, &worldPoints[0]);
-		Q3View_TransformLocalToWorld(theView,  &instanceData->vertices[1].point, &worldPoints[1]);
+		const TQ3Matrix4x4* localToWorld = E3View_State_GetMatrixLocalToWorld(theView);
+		worldPoints[0] = instanceData->vertices[0].point * *localToWorld;
+		worldPoints[1] = instanceData->vertices[1].point * *localToWorld;
 
-		Q3Point3D_Subtract(&worldPoints[1], &worldPoints[0], &worldStartToEnd);
-
-		divisorX = ( worldToWindow.value[0][3] * worldStartToEnd.x +
-					 worldToWindow.value[1][3] * worldStartToEnd.y +
-					 worldToWindow.value[2][3] * worldStartToEnd.z ) * hitXY.x -
-					 worldToWindow.value[0][0] * worldStartToEnd.x -
-					 worldToWindow.value[1][0] * worldStartToEnd.y -
-					 worldToWindow.value[2][0] * worldStartToEnd.z;
-					 
-		divisorY = ( worldToWindow.value[0][3] * worldStartToEnd.x +
-					 worldToWindow.value[1][3] * worldStartToEnd.y +
-					 worldToWindow.value[2][3] * worldStartToEnd.z ) * hitXY.y -
-					 worldToWindow.value[0][1] * worldStartToEnd.x -
-					 worldToWindow.value[1][1] * worldStartToEnd.y -
-					 worldToWindow.value[2][1] * worldStartToEnd.z;
+		worldStartToEnd = worldPoints[1] - worldPoints[0];
 		
-		if ( divisorX * divisorX >= divisorY * divisorY )
-			d = ( ( worldToWindow.value[0][3] * worldPoints[0].x +
-					worldToWindow.value[1][3] * worldPoints[0].y +
-					worldToWindow.value[2][3] * worldPoints[0].z +
-					worldToWindow.value[3][3] ) * hitXY.x -
-					worldToWindow.value[0][0] * worldPoints[0].x -
-					worldToWindow.value[1][0] * worldPoints[0].y -
-					worldToWindow.value[2][0] * worldPoints[0].z -
-					worldToWindow.value[3][0] ) / -divisorX;
-		else
-			d = ( ( worldToWindow.value[0][3] * worldPoints[0].x +
-					worldToWindow.value[1][3] * worldPoints[0].y +
-					worldToWindow.value[2][3] * worldPoints[0].z +
-					worldToWindow.value[3][3] ) * hitXY.y -
-					worldToWindow.value[0][1] * worldPoints[0].x -
-					worldToWindow.value[1][1] * worldPoints[0].y -
-					worldToWindow.value[2][1] * worldPoints[0].z -
-					worldToWindow.value[3][1] ) / -divisorY;
+		// We want to find a scalar t such that
+		// (worldPoints[0] + t * worldStartToEnd) * worldToWindow,
+		// when projected into 2D window space, is hitXY.  You do that
+		// projection by dividing the x coordinate by the w coordinate:
+		// hitXY.x = ((worldPoints[0] + t * worldStartToEnd) * worldToWindow).x
+		//           ----------------------------------------------------------
+		//           ((worldPoints[0] + t * worldStartToEnd) * worldToWindow).w
+		// =
+		// (worldPoints[0] * worldToWindow).x + t * (worldStartToEnd * worldToWindow).x
+		// ----------------------------------------------------------------------------
+		// (worldPoints[0] * worldToWindow).w + t * (worldStartToEnd * worldToWindow).w
+		// and there is a similar equation
+		// hitXY.y =
+		// (worldPoints[0] * worldToWindow).x + t * (worldStartToEnd * worldToWindow).y
+		// ----------------------------------------------------------------------------
+		// (worldPoints[0] * worldToWindow).w + t * (worldStartToEnd * worldToWindow).w
+		
+		// Let's do the matrix multiplications.
+		TQ3RationalPoint4D	winStart = Q3ToRational4D(worldPoints[0]) * worldToWindow;
+		TQ3RationalPoint4D winVec = Q3ToRational4D(worldStartToEnd) * worldToWindow;
+		
+		// Now our equations become
+		// hitXY.x = (winStart.x + t * winVec.x) / (winStart.w + t * winVec.w)
+		// and
+		// hitXY.y = (winStart.y + t * winVec.y) / (winStart.w + t * winVec.w) .
+		// These can be transformed into linear equations and solved for t.
+		// winStart.x + t * winVec.x = hitXY.x * (winStart.w + t * winVec.w)
+		// t * (hitXY.x * winVec.w - winVec.x) = winStart.x - hitXY.x * winStart.w
+		// t = (winStart.x - hitXY.x * winStart.w) / (hitXY.x * winVec.w - winVec.x)
+		// and similarly
+		// t = (winStart.y - hitXY.y * winStart.w) / (hitXY.y * winVec.w - winVec.y) .
+		// In general, either equation would suffice, but we do not want to divide
+		// by 0, and we expect a more accurate result if the denominator is
+		// larger in magnitude.
+		
+		divisorX = hitXY.x * winVec.w - winVec.x;
+		divisorY = hitXY.y * winVec.w - winVec.y;
+		float t;
 
-		Q3Vector3D_Scale(&worldStartToEnd, d,   &worldStartToEnd);
-		Q3Point3D_Vector3D_Add(&worldPoints[0], &worldStartToEnd, &hitXYZ);
+		if (fabsf( divisorX ) >= fabsf( divisorY ))
+		{
+			t = (winStart.x - hitXY.x * winStart.w) / divisorX;
+		}
+		else
+		{
+			t = (winStart.y - hitXY.y * winStart.w) / divisorY;
+		}
+
+		hitXYZ = worldPoints[0] + t * worldStartToEnd;
 
 
 		// Record the hit
@@ -488,20 +505,19 @@ e3geom_line_pick_world_ray(TQ3ViewObject theView, TQ3PickObject thePick, TQ3Obje
 	TQ3Status					qd3dStatus = kQ3Success;
 	TQ3Point3D					worldSegment[2];
 	TQ3Point3D					worldPoints[2];
-	TQ3Vector3D					theVector;
 	TQ3WorldRayPickData			pickData;
 	float						d;
 
 
 
 	// Get the pick data
-	Q3WorldRayPick_GetData(thePick, &pickData);
+	E3WorldRayPick_GetData(thePick, &pickData);
 
 
 
 	// Transform our points
-	Q3View_TransformLocalToWorld(theView, &instanceData->vertices[0].point, &worldPoints[0]);
-	Q3View_TransformLocalToWorld(theView, &instanceData->vertices[1].point, &worldPoints[1]);
+	E3View_TransformLocalToWorld(theView, &instanceData->vertices[0].point, &worldPoints[0]);
+	E3View_TransformLocalToWorld(theView, &instanceData->vertices[1].point, &worldPoints[1]);
 
 
 
@@ -512,8 +528,7 @@ e3geom_line_pick_world_ray(TQ3ViewObject theView, TQ3PickObject thePick, TQ3Obje
 
 
 	// Calculate the distance between the closest point and the ray
-	Q3Point3D_Subtract(&worldSegment[1], &worldSegment[0], &theVector);
-	d = Q3Vector3D_Length(&theVector);
+	d = Q3Length3D( worldSegment[1] - worldSegment[0] );
 
 
 

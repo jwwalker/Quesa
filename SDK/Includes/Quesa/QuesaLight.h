@@ -1,5 +1,9 @@
 /*! @header QuesaLight.h
         Declares the Quesa light objects.
+         
+	@ignore	_Nullable
+	@ignore _Nonnull
+	@ignore	_Null_unspecified
  */
 /*  NAME:
         QuesaLight.h
@@ -8,7 +12,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -280,7 +284,7 @@ typedef struct TQ3SpotLightData {
  */
 Q3_EXTERN_API_C ( TQ3ObjectType  )
 Q3Light_GetType (
-    TQ3LightObject                light
+    TQ3LightObject _Nonnull               light
 );
 
 
@@ -297,8 +301,8 @@ Q3Light_GetType (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Light_GetState (
-    TQ3LightObject                light,
-    TQ3Boolean                    *isOn
+    TQ3LightObject _Nonnull               light,
+    TQ3Boolean                    * _Nonnull isOn
 );
 
 
@@ -315,8 +319,8 @@ Q3Light_GetState (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Light_GetBrightness (
-    TQ3LightObject                light,
-    float                         *brightness
+    TQ3LightObject _Nonnull               light,
+    float                         * _Nonnull brightness
 );
 
 
@@ -333,8 +337,8 @@ Q3Light_GetBrightness (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Light_GetColor (
-    TQ3LightObject                light,
-    TQ3ColorRGB                   *color
+    TQ3LightObject _Nonnull               light,
+    TQ3ColorRGB                   * _Nonnull color
 );
 
 
@@ -351,7 +355,7 @@ Q3Light_GetColor (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Light_SetState (
-    TQ3LightObject                light,
+    TQ3LightObject _Nonnull               light,
     TQ3Boolean                    isOn
 );
 
@@ -369,7 +373,7 @@ Q3Light_SetState (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Light_SetBrightness (
-    TQ3LightObject                light,
+    TQ3LightObject _Nonnull               light,
     float                         brightness
 );
 
@@ -387,8 +391,8 @@ Q3Light_SetBrightness (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Light_SetColor (
-    TQ3LightObject                light,
-    const TQ3ColorRGB             *color
+    TQ3LightObject _Nonnull               light,
+    const TQ3ColorRGB             * _Nonnull color
 );
 
 
@@ -405,8 +409,8 @@ Q3Light_SetColor (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Light_GetData (
-    TQ3LightObject                light,
-    TQ3LightData                  *lightData
+    TQ3LightObject _Nonnull               light,
+    TQ3LightData                  * _Nonnull lightData
 );
 
 
@@ -423,8 +427,8 @@ Q3Light_GetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Light_SetData (
-    TQ3LightObject                light,
-    const TQ3LightData            *lightData
+    TQ3LightObject _Nonnull               light,
+    const TQ3LightData            * _Nonnull lightData
 );
 
 
@@ -442,9 +446,9 @@ Q3Light_SetData (
  *  @param lightData        The data for the light object.
  *  @result                 The new light object.
  */
-Q3_EXTERN_API_C ( TQ3LightObject  )
+Q3_EXTERN_API_C ( TQ3LightObject _Nonnull )
 Q3AmbientLight_New (
-    const TQ3LightData            *lightData
+    const TQ3LightData            * _Nonnull lightData
 );
 
 
@@ -461,8 +465,8 @@ Q3AmbientLight_New (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3AmbientLight_GetData (
-    TQ3LightObject                light,
-    TQ3LightData                  *lightData
+    TQ3LightObject _Nonnull               light,
+    TQ3LightData                  * _Nonnull lightData
 );
 
 
@@ -479,8 +483,8 @@ Q3AmbientLight_GetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3AmbientLight_SetData (
-    TQ3LightObject                light,
-    const TQ3LightData            *lightData
+    TQ3LightObject _Nonnull               light,
+    const TQ3LightData            * _Nonnull lightData
 );
 
 
@@ -499,9 +503,9 @@ Q3AmbientLight_SetData (
  *  @param directionalLightData    The data for the light object.
  *  @result                        The new light object.
  */
-Q3_EXTERN_API_C ( TQ3LightObject  )
+Q3_EXTERN_API_C ( TQ3LightObject _Nonnull )
 Q3DirectionalLight_New (
-    const TQ3DirectionalLightData *directionalLightData
+    const TQ3DirectionalLightData * _Nonnull directionalLightData
 );
 
 
@@ -518,8 +522,8 @@ Q3DirectionalLight_New (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3DirectionalLight_GetCastShadowsState (
-    TQ3LightObject                light,
-    TQ3Boolean                    *castsShadows
+    TQ3LightObject _Nonnull               light,
+    TQ3Boolean                    * _Nonnull castsShadows
 );
 
 
@@ -536,8 +540,8 @@ Q3DirectionalLight_GetCastShadowsState (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3DirectionalLight_GetDirection (
-    TQ3LightObject                light,
-    TQ3Vector3D                   *direction
+    TQ3LightObject _Nonnull               light,
+    TQ3Vector3D                   * _Nonnull direction
 );
 
 
@@ -554,7 +558,7 @@ Q3DirectionalLight_GetDirection (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3DirectionalLight_SetCastShadowsState (
-    TQ3LightObject                light,
+    TQ3LightObject _Nonnull               light,
     TQ3Boolean                    castsShadows
 );
 
@@ -572,8 +576,8 @@ Q3DirectionalLight_SetCastShadowsState (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3DirectionalLight_SetDirection (
-    TQ3LightObject                light,
-    const TQ3Vector3D             *direction
+    TQ3LightObject _Nonnull               light,
+    const TQ3Vector3D             * _Nonnull direction
 );
 
 
@@ -590,8 +594,8 @@ Q3DirectionalLight_SetDirection (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3DirectionalLight_GetData (
-    TQ3LightObject                light,
-    TQ3DirectionalLightData       *directionalLightData
+    TQ3LightObject _Nonnull               light,
+    TQ3DirectionalLightData       * _Nonnull directionalLightData
 );
 
 
@@ -608,8 +612,8 @@ Q3DirectionalLight_GetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3DirectionalLight_SetData (
-    TQ3LightObject                light,
-    const TQ3DirectionalLightData *directionalLightData
+    TQ3LightObject _Nonnull               light,
+    const TQ3DirectionalLightData * _Nonnull directionalLightData
 );
 
 
@@ -628,9 +632,9 @@ Q3DirectionalLight_SetData (
  *  @param pointLightData   The data for the light object.
  *  @result                 The new light object.
  */
-Q3_EXTERN_API_C ( TQ3LightObject  )
+Q3_EXTERN_API_C ( TQ3LightObject _Nonnull )
 Q3PointLight_New (
-    const TQ3PointLightData       *pointLightData
+    const TQ3PointLightData       * _Nonnull pointLightData
 );
 
 
@@ -647,8 +651,8 @@ Q3PointLight_New (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3PointLight_GetCastShadowsState (
-    TQ3LightObject                light,
-    TQ3Boolean                    *castsShadows
+    TQ3LightObject _Nonnull               light,
+    TQ3Boolean                    * _Nonnull castsShadows
 );
 
 
@@ -665,8 +669,8 @@ Q3PointLight_GetCastShadowsState (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3PointLight_GetAttenuation (
-    TQ3LightObject                light,
-    TQ3AttenuationType            *attenuation
+    TQ3LightObject _Nonnull               light,
+    TQ3AttenuationType            * _Nonnull attenuation
 );
 
 
@@ -686,8 +690,8 @@ Q3PointLight_GetAttenuation (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3PointLight_GetRadius (
-    TQ3LightObject                light,
-    TQ3Float32                    *radius
+    TQ3LightObject _Nonnull               light,
+    TQ3Float32                    * _Nonnull radius
 );
 
 
@@ -704,8 +708,8 @@ Q3PointLight_GetRadius (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3PointLight_GetLocation (
-    TQ3LightObject                light,
-    TQ3Point3D                    *location
+    TQ3LightObject _Nonnull               light,
+    TQ3Point3D                    * _Nonnull location
 );
 
 
@@ -722,8 +726,8 @@ Q3PointLight_GetLocation (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3PointLight_GetData (
-    TQ3LightObject                light,
-    TQ3PointLightData             *pointLightData
+    TQ3LightObject _Nonnull               light,
+    TQ3PointLightData             * _Nonnull pointLightData
 );
 
 
@@ -740,7 +744,7 @@ Q3PointLight_GetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3PointLight_SetCastShadowsState (
-    TQ3LightObject                light,
+    TQ3LightObject _Nonnull               light,
     TQ3Boolean                    castsShadows
 );
 
@@ -758,7 +762,7 @@ Q3PointLight_SetCastShadowsState (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3PointLight_SetAttenuation (
-    TQ3LightObject                light,
+    TQ3LightObject _Nonnull               light,
     TQ3AttenuationType            attenuation
 );
 
@@ -779,7 +783,7 @@ Q3PointLight_SetAttenuation (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3PointLight_SetRadius (
-    TQ3LightObject                light,
+    TQ3LightObject _Nonnull               light,
     TQ3Float32                    radius
 );
 
@@ -798,8 +802,8 @@ Q3PointLight_SetRadius (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3PointLight_SetLocation (
-    TQ3LightObject                light,
-    const TQ3Point3D              *location
+    TQ3LightObject _Nonnull               light,
+    const TQ3Point3D              * _Nonnull location
 );
 
 
@@ -816,8 +820,8 @@ Q3PointLight_SetLocation (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3PointLight_SetData (
-    TQ3LightObject                light,
-    const TQ3PointLightData       *pointLightData
+    TQ3LightObject _Nonnull               light,
+    const TQ3PointLightData       * _Nonnull pointLightData
 );
 
 
@@ -836,9 +840,9 @@ Q3PointLight_SetData (
  *  @param spotLightData    The data for the light object.
  *  @result                 The new light object.
  */
-Q3_EXTERN_API_C ( TQ3LightObject  )
+Q3_EXTERN_API_C ( TQ3LightObject _Nonnull )
 Q3SpotLight_New (
-    const TQ3SpotLightData        *spotLightData
+    const TQ3SpotLightData        * _Nonnull spotLightData
 );
 
 
@@ -855,8 +859,8 @@ Q3SpotLight_New (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3SpotLight_GetCastShadowsState (
-    TQ3LightObject                light,
-    TQ3Boolean                    *castsShadows
+    TQ3LightObject _Nonnull               light,
+    TQ3Boolean                    * _Nonnull castsShadows
 );
 
 
@@ -873,8 +877,8 @@ Q3SpotLight_GetCastShadowsState (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3SpotLight_GetAttenuation (
-    TQ3LightObject                light,
-    TQ3AttenuationType            *attenuation
+    TQ3LightObject _Nonnull               light,
+    TQ3AttenuationType            * _Nonnull attenuation
 );
 
 
@@ -891,8 +895,8 @@ Q3SpotLight_GetAttenuation (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3SpotLight_GetLocation (
-    TQ3LightObject                light,
-    TQ3Point3D                    *location
+    TQ3LightObject _Nonnull               light,
+    TQ3Point3D                    * _Nonnull location
 );
 
 
@@ -909,8 +913,8 @@ Q3SpotLight_GetLocation (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3SpotLight_GetDirection (
-    TQ3LightObject                light,
-    TQ3Vector3D                   *direction
+    TQ3LightObject _Nonnull               light,
+    TQ3Vector3D                   * _Nonnull direction
 );
 
 
@@ -927,8 +931,8 @@ Q3SpotLight_GetDirection (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3SpotLight_GetHotAngle (
-    TQ3LightObject                light,
-    float                         *hotAngle
+    TQ3LightObject _Nonnull               light,
+    float                         * _Nonnull hotAngle
 );
 
 
@@ -945,8 +949,8 @@ Q3SpotLight_GetHotAngle (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3SpotLight_GetOuterAngle (
-    TQ3LightObject                light,
-    float                         *outerAngle
+    TQ3LightObject _Nonnull               light,
+    float                         * _Nonnull outerAngle
 );
 
 
@@ -963,8 +967,8 @@ Q3SpotLight_GetOuterAngle (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3SpotLight_GetFallOff (
-    TQ3LightObject                light,
-    TQ3FallOffType                *fallOff
+    TQ3LightObject _Nonnull               light,
+    TQ3FallOffType                * _Nonnull fallOff
 );
 
 
@@ -981,8 +985,8 @@ Q3SpotLight_GetFallOff (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3SpotLight_GetData (
-    TQ3LightObject                light,
-    TQ3SpotLightData              *spotLightData
+    TQ3LightObject _Nonnull               light,
+    TQ3SpotLightData              * _Nonnull spotLightData
 );
 
 
@@ -999,7 +1003,7 @@ Q3SpotLight_GetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3SpotLight_SetCastShadowsState (
-    TQ3LightObject                light,
+    TQ3LightObject _Nonnull               light,
     TQ3Boolean                    castsShadows
 );
 
@@ -1017,7 +1021,7 @@ Q3SpotLight_SetCastShadowsState (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3SpotLight_SetAttenuation (
-    TQ3LightObject                light,
+    TQ3LightObject _Nonnull               light,
     TQ3AttenuationType            attenuation
 );
 
@@ -1035,8 +1039,8 @@ Q3SpotLight_SetAttenuation (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3SpotLight_SetLocation (
-    TQ3LightObject                light,
-    const TQ3Point3D              *location
+    TQ3LightObject _Nonnull               light,
+    const TQ3Point3D              * _Nonnull location
 );
 
 
@@ -1053,8 +1057,8 @@ Q3SpotLight_SetLocation (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3SpotLight_SetDirection (
-    TQ3LightObject                light,
-    const TQ3Vector3D             *direction
+    TQ3LightObject _Nonnull               light,
+    const TQ3Vector3D             * _Nonnull direction
 );
 
 
@@ -1071,7 +1075,7 @@ Q3SpotLight_SetDirection (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3SpotLight_SetHotAngle (
-    TQ3LightObject                light,
+    TQ3LightObject _Nonnull               light,
     float                         hotAngle
 );
 
@@ -1089,7 +1093,7 @@ Q3SpotLight_SetHotAngle (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3SpotLight_SetOuterAngle (
-    TQ3LightObject                light,
+    TQ3LightObject _Nonnull               light,
     float                         outerAngle
 );
 
@@ -1107,7 +1111,7 @@ Q3SpotLight_SetOuterAngle (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3SpotLight_SetFallOff (
-    TQ3LightObject                light,
+    TQ3LightObject _Nonnull               light,
     TQ3FallOffType                fallOff
 );
 
@@ -1125,8 +1129,8 @@ Q3SpotLight_SetFallOff (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3SpotLight_SetData (
-    TQ3LightObject                light,
-    const TQ3SpotLightData        *spotLightData
+    TQ3LightObject _Nonnull               light,
+    const TQ3SpotLightData        * _Nonnull spotLightData
 );
 
 

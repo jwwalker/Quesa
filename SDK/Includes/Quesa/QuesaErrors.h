@@ -1,5 +1,9 @@
 /*! @header QuesaErrors.h
         Declares the Quesa error manager.
+        
+	@ignore	_Nullable
+	@ignore _Nonnull
+	@ignore	_Null_unspecified
  */
 /*  NAME:
         QuesaErrors.h
@@ -8,7 +12,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -608,7 +612,7 @@ typedef Q3_CALLBACK_API_C(void,                TQ3NoticeMethod)(
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Error_Register (
-    TQ3ErrorMethod                errorPost,
+    TQ3ErrorMethod _Nullable      errorPost,
     TQ3Int32                      reference
 );
 
@@ -630,7 +634,7 @@ Q3Error_Register (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Warning_Register (
-    TQ3WarningMethod              warningPost,
+    TQ3WarningMethod _Nullable    warningPost,
     TQ3Int32                      reference
 );
 
@@ -653,7 +657,7 @@ Q3Warning_Register (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Notice_Register (
-    TQ3NoticeMethod               noticePost,
+    TQ3NoticeMethod _Nullable     noticePost,
     TQ3Int32                      reference
 );
 
@@ -676,7 +680,7 @@ Q3Notice_Register (
  */
 Q3_EXTERN_API_C ( TQ3Error  )
 Q3Error_Get (
-    TQ3Error                      *firstError
+    TQ3Error                      * _Nullable firstError
 );
 
 
@@ -718,7 +722,7 @@ Q3Error_IsFatalError (
  */
 Q3_EXTERN_API_C ( TQ3Warning  )
 Q3Warning_Get (
-    TQ3Warning                    *firstWarning
+    TQ3Warning                    * _Nullable firstWarning
 );
 
 
@@ -740,7 +744,7 @@ Q3Warning_Get (
  */
 Q3_EXTERN_API_C ( TQ3Notice  )
 Q3Notice_Get (
-    TQ3Notice                     *firstNotice
+    TQ3Notice                     * _Nullable firstNotice
 );
 
 
@@ -771,7 +775,7 @@ Q3Notice_Get (
 
 Q3_EXTERN_API_C ( TQ3Uns32  )
 Q3Error_PlatformGet (
-    TQ3Uns32                      *firstErr
+    TQ3Uns32                      * _Nullable firstErr
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -816,7 +820,7 @@ Q3Error_PlatformPost (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-Q3_EXTERN_API_C ( const char * )
+Q3_EXTERN_API_C ( const char * _Nonnull )
 Q3Error_ToString (
     TQ3Language                   theLanguage,
     TQ3Error                      theError
@@ -841,7 +845,7 @@ Q3Error_ToString (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-Q3_EXTERN_API_C ( const char * )
+Q3_EXTERN_API_C ( const char * _Nonnull )
 Q3Warning_ToString (
     TQ3Language                   theLanguage,
     TQ3Warning                    theWarning
@@ -866,7 +870,7 @@ Q3Warning_ToString (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-Q3_EXTERN_API_C ( const char * )
+Q3_EXTERN_API_C ( const char * _Nonnull )
 Q3Notice_ToString (
     TQ3Language                   theLanguage,
     TQ3Notice                     theError
@@ -900,7 +904,7 @@ Q3Notice_ToString (
  */
 Q3_EXTERN_API_C ( OSErr  )
 Q3MacintoshError_Get (
-    OSErr                         *firstMacErr
+    OSErr                         * _Nullable firstMacErr
 );
 
 #endif // QUESA_OS_MACINTOSH

@@ -1,5 +1,9 @@
 /*! @header QuesaIO.h
         Declares the Quesa IO objects.
+         
+	@ignore	_Nullable
+	@ignore _Nonnull
+	@ignore	_Null_unspecified
  */
 /*  NAME:
         QuesaIO.h
@@ -8,7 +12,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -243,7 +247,8 @@ typedef TQ3Object                               TQ3FileFormatObject;
  *	@param		view		A view object.
  *	result		Success or failure of the operation.
 */
-typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XObjectTraverseMethod)       (TQ3Object object, void *data, TQ3ViewObject view);
+typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XObjectTraverseMethod)(
+		TQ3Object _Nonnull object, void * _Nonnull data, TQ3ViewObject _Nonnull view);
 
 
 /*!
@@ -253,7 +258,8 @@ typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XObjectTraverseMethod)    
  *		The QuickDraw 3D documention mentions this method, but does not explain how it
  *		differs from <code>TQ3XObjectTraverseMethod</code>.  Quesa does not use it.
  */
-typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XObjectTraverseDataMethod)   (TQ3Object object, void *data, TQ3ViewObject view);
+typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XObjectTraverseDataMethod)(
+	TQ3Object _Nonnull object, void * _Nonnull data, TQ3ViewObject _Nonnull view);
 
 
 /*!
@@ -276,7 +282,8 @@ typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XObjectTraverseDataMethod)
  *	@param		theFile		A file object.
  *	@result		Success or failure of the operation.
  */
-typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XObjectWriteMethod)          (const void *data, TQ3FileObject theFile);
+typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XObjectWriteMethod)(
+	const void * _Nonnull data, TQ3FileObject _Nonnull theFile);
 
 
 /*!
@@ -287,7 +294,7 @@ typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XObjectWriteMethod)       
  *
  *  @param data             The data to delete.
  */
-typedef Q3_CALLBACK_API_C(void,                    TQ3XDataDeleteMethod)           (void *data);
+typedef Q3_CALLBACK_API_C(void,                    TQ3XDataDeleteMethod)(void * _Nonnull data);
 
 
 /*!
@@ -299,7 +306,7 @@ typedef Q3_CALLBACK_API_C(void,                    TQ3XDataDeleteMethod)        
  *  @param theFile          The file to read.
  *	@result                 The object(s) read from the file.
  */
-typedef Q3_CALLBACK_API_C(TQ3Object,               TQ3XObjectReadMethod)           (TQ3FileObject theFile);
+typedef Q3_CALLBACK_API_C(TQ3Object _Nullable, TQ3XObjectReadMethod)(TQ3FileObject _Nonnull theFile);
 
 
 /*!
@@ -314,7 +321,8 @@ typedef Q3_CALLBACK_API_C(TQ3Object,               TQ3XObjectReadMethod)        
  *	@param		theFile				A file object.	
  *	@result		Success or failure of the operation.
  */
-typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XObjectReadDataMethod)       (TQ3Object parentObject, TQ3FileObject theFile);
+typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XObjectReadDataMethod)(
+	TQ3Object _Nonnull parentObject, TQ3FileObject _Nonnull theFile);
 
 
 #if QUESA_ALLOW_QD3D_EXTENSIONS
@@ -329,7 +337,8 @@ typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XObjectReadDataMethod)    
  *	@param		theFile				A file object.	
  *	@result                 The new default object.
  */
-typedef Q3_CALLBACK_API_C(TQ3Object,               TQ3XObjectReadDefaultMethod)    (TQ3FileObject theFile);
+typedef Q3_CALLBACK_API_C(TQ3Object _Nullable,               TQ3XObjectReadDefaultMethod)
+(TQ3FileObject _Nonnull theFile);
 #endif
 
 /*!
@@ -342,7 +351,8 @@ typedef Q3_CALLBACK_API_C(TQ3Object,               TQ3XObjectReadDefaultMethod) 
  *  @param parentObject     The parent object.
  *  @result                 Success or failure of the callback.
  */
-typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XObjectAttachMethod)         (TQ3Object childObject, TQ3Object parentObject);
+typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XObjectAttachMethod)(
+	TQ3Object _Nonnull childObject, TQ3Object _Nonnull parentObject);
 
 
 /*!
@@ -355,7 +365,8 @@ typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XObjectAttachMethod)      
  *  @param abort            Closing due to an abort.
  *  @result                 Success or failure of the callback.
  */
-typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XFFormatCloseMethod)         (TQ3FileFormatObject format, TQ3Boolean abort);
+typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XFFormatCloseMethod)(
+	TQ3FileFormatObject _Nonnull format, TQ3Boolean abort);
 
 
 /*!
@@ -367,7 +378,8 @@ typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XFFormatCloseMethod)      
  *  @param theFile          The file to query.
  *  @result                 The file format.
  */
-typedef Q3_CALLBACK_API_C(TQ3FileMode,             TQ3XFFormatGetFormatTypeMethod) (TQ3FileObject theFile);
+typedef Q3_CALLBACK_API_C(TQ3FileMode,             TQ3XFFormatGetFormatTypeMethod)(
+	TQ3FileObject _Nonnull theFile);
 
 
 /*!
@@ -383,7 +395,8 @@ typedef Q3_CALLBACK_API_C(TQ3FileMode,             TQ3XFFormatGetFormatTypeMetho
  *										or kQ3ObjectTypeInvalid.	
  *	@result		Success or failure of the operation.
  */
-typedef Q3_CALLBACK_API_C(TQ3Boolean,              TQ3XFFormatCanReadMethod)       (TQ3StorageObject storage, TQ3ObjectType* theFileFormatFound);
+typedef Q3_CALLBACK_API_C(TQ3Boolean,              TQ3XFFormatCanReadMethod)(
+		TQ3StorageObject _Nonnull storage, TQ3ObjectType* _Nonnull theFileFormatFound);
 
 
 /*!
@@ -395,7 +408,8 @@ typedef Q3_CALLBACK_API_C(TQ3Boolean,              TQ3XFFormatCanReadMethod)    
  *  @param theFile          The file to process.
  *  @result                 Success or failure of the operation.
  */
-typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XFFormatReadHeaderMethod)    (TQ3FileObject theFile);
+typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XFFormatReadHeaderMethod)(
+	TQ3FileObject _Nonnull theFile);
 
 
 /*!
@@ -407,7 +421,8 @@ typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XFFormatReadHeaderMethod) 
  *  @param theFile          The file to process.
  *  @result                 Success or failure of the operation.
  */
-typedef Q3_CALLBACK_API_C(TQ3Object,               TQ3XFFormatReadObjectMethod)    (TQ3FileObject theFile);
+typedef Q3_CALLBACK_API_C(TQ3Object _Nullable,               TQ3XFFormatReadObjectMethod)(
+	TQ3FileObject _Nonnull theFile);
 
 
 /*!
@@ -419,7 +434,8 @@ typedef Q3_CALLBACK_API_C(TQ3Object,               TQ3XFFormatReadObjectMethod) 
  *  @param theFile          The file to process.
  *  @result                 Success or failure of the operation.
  */
-typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XFFormatSkipObjectMethod)    (TQ3FileObject theFile);
+typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XFFormatSkipObjectMethod)(
+	TQ3FileObject _Nonnull theFile);
 
 
 /*!
@@ -431,7 +447,8 @@ typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XFFormatSkipObjectMethod) 
  *  @param theFile          The file to process.
  *  @result                 The next type in the file.
  */
-typedef Q3_CALLBACK_API_C(TQ3ObjectType,           TQ3XFFormatGetNextTypeMethod)   (TQ3FileObject theFile);
+typedef Q3_CALLBACK_API_C(TQ3ObjectType,           TQ3XFFormatGetNextTypeMethod)(
+	TQ3FileObject _Nonnull theFile);
 
 
 /*!
@@ -448,11 +465,11 @@ typedef Q3_CALLBACK_API_C(TQ3ObjectType,           TQ3XFFormatGetNextTypeMethod)
  *  @result                     Success or failure of the operation.
  */
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XFileFormatSubmitObjectMethod)(
-                            TQ3ViewObject       theView,
-                            void                *fileFormatPrivate,
-                            TQ3Object			theObject,
+                            TQ3ViewObject _Nonnull      theView,
+                            void                * _Nonnull fileFormatPrivate,
+                            TQ3Object _Nonnull			theObject,
 							TQ3ObjectType		objectType,
-							const void			*objectData);
+							const void			* _Nonnull objectData);
 
 
 /*!
@@ -465,7 +482,8 @@ typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XFileFormatSubmitObjectMethod)
  *  @param data             Receives the data being read.
  *  @result                 Success or failure of the operation.
  */
-typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatFloat32ReadMethod)      (TQ3FileFormatObject format, TQ3Float32* data);
+typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatFloat32ReadMethod)(
+	TQ3FileFormatObject _Nonnull format, TQ3Float32* _Nonnull data);
 
 
 /*!
@@ -479,7 +497,8 @@ typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatFloat32ReadMethod)      (TQ3File
  *  @param data             Receives the data being read.
  *  @result                 Success or failure of the operation.
  */
-typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatFloat32ReadArrayMethod) (TQ3FileFormatObject format, TQ3Uns32 numFloats, TQ3Float32* data);
+typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatFloat32ReadArrayMethod)(
+	TQ3FileFormatObject _Nonnull format, TQ3Uns32 numFloats, TQ3Float32* _Nonnull data);
 
 
 /*!
@@ -492,7 +511,8 @@ typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatFloat32ReadArrayMethod) (TQ3File
  *  @param data             Receives the data being read.
  *  @result                 Success or failure of the operation.
  */
-typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatFloat64ReadMethod)      (TQ3FileFormatObject format, TQ3Float64* data);
+typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatFloat64ReadMethod)(
+	TQ3FileFormatObject _Nonnull format, TQ3Float64* _Nonnull data);
 
 
 /*!
@@ -505,7 +525,8 @@ typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatFloat64ReadMethod)      (TQ3File
  *  @param data             Receives the data being read.
  *  @result                 Success or failure of the operation.
  */
-typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatInt8ReadMethod)         (TQ3FileFormatObject format, TQ3Int8* data);
+typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatInt8ReadMethod)(
+	TQ3FileFormatObject _Nonnull format, TQ3Int8* _Nonnull data);
 
 
 /*!
@@ -519,7 +540,8 @@ typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatInt8ReadMethod)         (TQ3File
  *  @param data             Receives the data being read.
  *  @result                 Success or failure of the operation.
  */
-typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatInt8ReadArrayMethod)    (TQ3FileFormatObject format, TQ3Uns32 numNums, TQ3Int8* data);
+typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatInt8ReadArrayMethod)(
+	TQ3FileFormatObject _Nonnull format, TQ3Uns32 numNums, TQ3Int8* _Nonnull data);
 
 
 /*!
@@ -532,7 +554,8 @@ typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatInt8ReadArrayMethod)    (TQ3File
  *  @param data             Receives the data being read.
  *  @result                 Success or failure of the operation.
  */
-typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatInt16ReadMethod)        (TQ3FileFormatObject format, TQ3Int16* data);
+typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatInt16ReadMethod)(
+	TQ3FileFormatObject _Nonnull format, TQ3Int16* _Nonnull data);
 
 
 /*!
@@ -546,7 +569,8 @@ typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatInt16ReadMethod)        (TQ3File
  *  @param data             Receives the data being read.
  *  @result                 Success or failure of the operation.
  */
-typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatInt16ReadArrayMethod)   (TQ3FileFormatObject format, TQ3Uns32 numNums, TQ3Int16* data);
+typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatInt16ReadArrayMethod)(
+	TQ3FileFormatObject _Nonnull format, TQ3Uns32 numNums, TQ3Int16* _Nonnull data);
 
 
 /*!
@@ -559,7 +583,8 @@ typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatInt16ReadArrayMethod)   (TQ3File
  *  @param data             Receives the data being read.
  *  @result                 Success or failure of the operation.
  */
-typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatInt32ReadMethod)        (TQ3FileFormatObject format, TQ3Int32* data);
+typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatInt32ReadMethod)(
+	TQ3FileFormatObject _Nonnull format, TQ3Int32* _Nonnull data);
 
 
 /*!
@@ -573,7 +598,8 @@ typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatInt32ReadMethod)        (TQ3File
  *  @param data             Receives the data being read.
  *  @result                 Success or failure of the operation.
  */
-typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatInt32ReadArrayMethod)   (TQ3FileFormatObject format, TQ3Uns32 numNums, TQ3Int32* data);
+typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatInt32ReadArrayMethod)   (
+	TQ3FileFormatObject _Nonnull format, TQ3Uns32 numNums, TQ3Int32* _Nonnull data);
 
 
 /*!
@@ -586,7 +612,8 @@ typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatInt32ReadArrayMethod)   (TQ3File
  *  @param data             Receives the data being read.
  *  @result                 Success or failure of the operation.
  */
-typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatInt64ReadMethod)        (TQ3FileFormatObject format, TQ3Int64* data);
+typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatInt64ReadMethod)(
+	TQ3FileFormatObject _Nonnull format, TQ3Int64* _Nonnull data);
 
 
 /*!
@@ -600,7 +627,8 @@ typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatInt64ReadMethod)        (TQ3File
  *  @param length           Receives the number of bytes read.
  *  @result                 Success or failure of the operation.
  */
-typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatStringReadMethod)       (TQ3FileFormatObject format, char* data, TQ3Uns32 *length);
+typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatStringReadMethod)(
+	TQ3FileFormatObject _Nonnull format, char* _Nonnull data, TQ3Uns32 * _Nonnull length);
 
 
 /*!
@@ -614,7 +642,8 @@ typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatStringReadMethod)       (TQ3File
  *  @param length           Receives the number of bytes read.
  *  @result                 Success or failure of the operation.
  */
-typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatRawReadMethod)          (TQ3FileFormatObject format, unsigned char* data, TQ3Uns32 length);
+typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatRawReadMethod)(
+	TQ3FileFormatObject _Nonnull format, unsigned char* _Nonnull data, TQ3Uns32 length);
 
 
 /*!
@@ -627,7 +656,8 @@ typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatRawReadMethod)          (TQ3File
  *  @param data             The data to write.
  *  @result                 Success or failure of the operation.
  */
-typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatFloat32WriteMethod)(TQ3FileFormatObject format, const TQ3Float32 *data);
+typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatFloat32WriteMethod)(
+	TQ3FileFormatObject _Nonnull format, const TQ3Float32 * _Nonnull data);
 
 
 /*!
@@ -640,7 +670,8 @@ typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatFloat32WriteMethod)(TQ3FileForma
  *  @param data             The data to write.
  *  @result                 Success or failure of the operation.
  */
-typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatFloat64WriteMethod)(TQ3FileFormatObject format, const TQ3Float64 *data);
+typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatFloat64WriteMethod)(
+	TQ3FileFormatObject _Nonnull format, const TQ3Float64 * _Nonnull data);
 
 
 /*!
@@ -653,7 +684,8 @@ typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatFloat64WriteMethod)(TQ3FileForma
  *  @param data             The data to write.
  *  @result                 Success or failure of the operation.
  */
-typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatInt8WriteMethod)   (TQ3FileFormatObject format, const TQ3Int8 *data);
+typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatInt8WriteMethod)(
+	TQ3FileFormatObject _Nonnull format, const TQ3Int8 * _Nonnull data);
 
 
 /*!
@@ -666,7 +698,8 @@ typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatInt8WriteMethod)   (TQ3FileForma
  *  @param data             The data to write.
  *  @result                 Success or failure of the operation.
  */
-typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatInt16WriteMethod)  (TQ3FileFormatObject format, const TQ3Int16 *data);
+typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatInt16WriteMethod)(
+	TQ3FileFormatObject _Nonnull format, const TQ3Int16 * _Nonnull data);
 
 
 /*!
@@ -679,7 +712,8 @@ typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatInt16WriteMethod)  (TQ3FileForma
  *  @param data             The data to write.
  *  @result                 Success or failure of the operation.
  */
-typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatInt32WriteMethod)  (TQ3FileFormatObject format, const TQ3Int32 *data);
+typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatInt32WriteMethod)(
+	TQ3FileFormatObject _Nonnull format, const TQ3Int32 * _Nonnull data);
 
 
 /*!
@@ -692,7 +726,8 @@ typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatInt32WriteMethod)  (TQ3FileForma
  *  @param data             The data to write.
  *  @result                 Success or failure of the operation.
  */
-typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatInt64WriteMethod)  (TQ3FileFormatObject format, const TQ3Int64 *data);
+typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatInt64WriteMethod)(
+	TQ3FileFormatObject _Nonnull format, const TQ3Int64 * _Nonnull data);
 
 
 /*!
@@ -705,7 +740,8 @@ typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatInt64WriteMethod)  (TQ3FileForma
  *  @param data             The data to write.
  *  @result                 Success or failure of the operation.
  */
-typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatStringWriteMethod) (TQ3FileFormatObject format, const char* data);
+typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatStringWriteMethod) (
+	TQ3FileFormatObject _Nonnull format, const char* _Nonnull data);
 
 
 /*!
@@ -719,7 +755,8 @@ typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatStringWriteMethod) (TQ3FileForma
  *  @param length           The number of bytes to write.
  *  @result                 Success or failure of the operation.
  */
-typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatRawWriteMethod)    (TQ3FileFormatObject format, const unsigned char* data, TQ3Uns32 length);
+typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatRawWriteMethod)(
+	TQ3FileFormatObject _Nonnull format, const unsigned char* _Nonnull data, TQ3Uns32 length);
 
 
 /*!
@@ -732,7 +769,8 @@ typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XFFormatRawWriteMethod)    (TQ3FileForma
  *  @param idlerData        Application-specific data.
  *  @result                 Success or failure of the operation.
  */
-typedef Q3_CALLBACK_API_C(TQ3Status, TQ3FileIdleMethod) (TQ3FileObject theFile, const void *idlerData);
+typedef Q3_CALLBACK_API_C(TQ3Status, TQ3FileIdleMethod) (
+	TQ3FileObject _Nonnull theFile, const void * _Nonnull idlerData);
 
 
 /*!
@@ -755,7 +793,7 @@ typedef Q3_CALLBACK_API_C(TQ3Status, TQ3FileIdleMethod) (TQ3FileObject theFile, 
 typedef struct TQ3FFormatBaseData {
     // Initialised by Quesa
     TQ3Uns32                                    baseDataVersion;
-    TQ3StorageObject                            storage;
+    TQ3StorageObject _Nonnull                   storage;
     TQ3Uns32                                    currentStoragePosition;
     TQ3Uns32                                    logicalEOF;
 
@@ -766,9 +804,9 @@ typedef struct TQ3FFormatBaseData {
     TQ3Endian                                   byteOrder;
     TQ3Boolean                                  readInGroup;
     TQ3Int32                                    groupDeepCounter;
-    TQ3Uns32                                    *reserved1;
-    TQ3Uns32                                    *reserved2;
-    TQ3Uns32                                    *reserved3;
+    TQ3Uns32                                    * _Nonnull reserved1;
+    TQ3Uns32                                    * _Nonnull reserved2;
+    TQ3Uns32                                    * _Nonnull reserved3;
 } TQ3FFormatBaseData;
 
 
@@ -782,8 +820,8 @@ typedef struct TQ3FFormatBaseData {
  *  @field contents          The data for the object.
  */
 typedef struct TQ3UnknownTextData {
-    char                                        *objectName;
-    char                                        *contents;
+    char                                        * _Nullable objectName;
+    char                                        * _Nonnull contents;
 } TQ3UnknownTextData;
 
 
@@ -802,7 +840,7 @@ typedef struct TQ3UnknownBinaryData {
     TQ3ObjectType                               objectType;
     TQ3Size                                     size;
     TQ3Endian                                   byteOrder;
-    char                                        *contents;
+    char                                        * _Nullable contents;
 } TQ3UnknownBinaryData;
 
 
@@ -844,10 +882,10 @@ typedef struct TQ3UnknownBinaryData {
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3XView_SubmitWriteData (
-    TQ3ViewObject                 view,
+    TQ3ViewObject _Nonnull                view,
     TQ3Size                       size,
-    void                          *data,
-    TQ3XDataDeleteMethod          deleteData
+    void                          * _Nonnull data,
+    TQ3XDataDeleteMethod _Nullable         deleteData
 );
 
 
@@ -867,11 +905,11 @@ Q3XView_SubmitWriteData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3XView_SubmitSubObjectData (
-    TQ3ViewObject                 view,
-    TQ3XObjectClass               objectClass,
+    TQ3ViewObject _Nonnull                view,
+    TQ3XObjectClass _Nonnull              objectClass,
     TQ3Uns32                      size,
-    void                          *data,
-    TQ3XDataDeleteMethod          deleteData
+    void                          * _Nonnull data,
+    TQ3XDataDeleteMethod _Nonnull         deleteData
 );
 
 
@@ -888,7 +926,7 @@ Q3XView_SubmitSubObjectData (
  *
  *  @result                 The new file object.
  */
-Q3_EXTERN_API_C ( TQ3FileObject  )
+Q3_EXTERN_API_C ( TQ3FileObject _Nonnull  )
 Q3File_New (
     void
 );
@@ -907,8 +945,8 @@ Q3File_New (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3File_GetStorage (
-    TQ3FileObject                 theFile,
-    TQ3StorageObject              *storage
+    TQ3FileObject _Nonnull                theFile,
+    TQ3StorageObject _Nullable             * _Nonnull storage
 );
 
 
@@ -925,8 +963,8 @@ Q3File_GetStorage (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3File_SetStorage (
-    TQ3FileObject                 theFile,
-    TQ3StorageObject              storage
+    TQ3FileObject _Nonnull                theFile,
+    TQ3StorageObject _Nullable             storage
 );
 
 
@@ -950,8 +988,8 @@ Q3File_SetStorage (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3File_OpenRead (
-    TQ3FileObject                 theFile,
-    TQ3FileMode                   *mode
+    TQ3FileObject _Nonnull                theFile,
+    TQ3FileMode                   * _Nullable mode
 );
 
 
@@ -979,7 +1017,7 @@ Q3File_OpenRead (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3File_OpenWrite (
-    TQ3FileObject                 theFile,
+    TQ3FileObject _Nonnull                theFile,
     TQ3FileMode                   mode
 );
 
@@ -997,8 +1035,8 @@ Q3File_OpenWrite (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3File_IsOpen (
-    TQ3FileObject                 theFile,
-    TQ3Boolean                    *isOpen
+    TQ3FileObject _Nonnull                theFile,
+    TQ3Boolean                    * _Nonnull isOpen
 );
 
 
@@ -1015,8 +1053,8 @@ Q3File_IsOpen (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3File_GetMode (
-    TQ3FileObject                 theFile,
-    TQ3FileMode                   *mode
+    TQ3FileObject _Nonnull                theFile,
+    TQ3FileMode                   * _Nonnull mode
 );
 
 
@@ -1033,8 +1071,8 @@ Q3File_GetMode (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3File_GetVersion (
-    TQ3FileObject                 theFile,
-    TQ3FileVersion                *version
+    TQ3FileObject _Nonnull                theFile,
+    TQ3FileVersion                * _Nonnull version
 );
 
 
@@ -1054,7 +1092,7 @@ Q3File_GetVersion (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3File_Close (
-    TQ3FileObject                 theFile
+    TQ3FileObject _Nonnull                theFile
 );
 
 
@@ -1070,7 +1108,7 @@ Q3File_Close (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3File_Cancel (
-    TQ3FileObject                 theFile
+    TQ3FileObject _Nonnull                theFile
 );
 
 
@@ -1087,8 +1125,8 @@ Q3File_Cancel (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_StartWriting (
-    TQ3ViewObject                 view,
-    TQ3FileObject                 theFile
+    TQ3ViewObject _Nonnull                view,
+    TQ3FileObject _Nonnull                theFile
 );
 
 
@@ -1105,7 +1143,7 @@ Q3View_StartWriting (
  */
 Q3_EXTERN_API_C ( TQ3ViewStatus  )
 Q3View_EndWriting (
-    TQ3ViewObject                 view
+    TQ3ViewObject  _Nonnull               view
 );
 
 
@@ -1121,7 +1159,7 @@ Q3View_EndWriting (
  */
 Q3_EXTERN_API_C ( TQ3ObjectType  )
 Q3File_GetNextObjectType (
-    TQ3FileObject                 theFile
+    TQ3FileObject _Nonnull                theFile
 );
 
 
@@ -1138,7 +1176,7 @@ Q3File_GetNextObjectType (
  */
 Q3_EXTERN_API_C ( TQ3Boolean  )
 Q3File_IsNextObjectOfType (
-    TQ3FileObject                 theFile,
+    TQ3FileObject _Nonnull                theFile,
     TQ3ObjectType                 ofType
 );
 
@@ -1156,9 +1194,9 @@ Q3File_IsNextObjectOfType (
  *  @param theFile          The file object.
  *  @result                 The new object, or nullptr on failure.
  */
-Q3_EXTERN_API_C ( TQ3Object  )
+Q3_EXTERN_API_C ( TQ3Object _Nullable )
 Q3File_ReadObject (
-    TQ3FileObject                 theFile
+    TQ3FileObject _Nonnull                theFile
 );
 
 
@@ -1174,7 +1212,7 @@ Q3File_ReadObject (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3File_SkipObject (
-    TQ3FileObject                 theFile
+    TQ3FileObject _Nonnull                theFile
 );
 
 
@@ -1190,7 +1228,7 @@ Q3File_SkipObject (
  */
 Q3_EXTERN_API_C ( TQ3Boolean  )
 Q3File_IsEndOfData (
-    TQ3FileObject                 theFile
+    TQ3FileObject  _Nonnull               theFile
 );
 
 
@@ -1207,8 +1245,8 @@ Q3File_IsEndOfData (
  */
 Q3_EXTERN_API_C ( TQ3Boolean  )
 Q3File_IsEndOfContainer (
-    TQ3FileObject                 theFile,
-    TQ3Object                     rootObject
+    TQ3FileObject _Nonnull                theFile,
+    TQ3Object _Nonnull                    rootObject
 );
 
 
@@ -1224,7 +1262,7 @@ Q3File_IsEndOfContainer (
  */
 Q3_EXTERN_API_C ( TQ3Boolean  )
 Q3File_IsEndOfFile (
-    TQ3FileObject                 theFile
+    TQ3FileObject _Nonnull                theFile
 );
 
 
@@ -1241,8 +1279,8 @@ Q3File_IsEndOfFile (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3File_MarkAsExternalReference (
-    TQ3FileObject                 theFile,
-    TQ3SharedObject               sharedObject
+    TQ3FileObject _Nonnull                theFile,
+    TQ3SharedObject _Nonnull              sharedObject
 );
 
 
@@ -1256,9 +1294,9 @@ Q3File_MarkAsExternalReference (
  *  @param theFile          The file to query.
  *  @result                 The external objects within the file.
  */
-Q3_EXTERN_API_C ( TQ3GroupObject  )
+Q3_EXTERN_API_C ( TQ3GroupObject _Nullable )
 Q3File_GetExternalReferences (
-    TQ3FileObject                 theFile
+    TQ3FileObject _Nonnull                theFile
 );
 
 
@@ -1274,7 +1312,7 @@ Q3File_GetExternalReferences (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Shared_ClearEditTracking (
-    TQ3SharedObject               sharedObject
+    TQ3SharedObject _Nonnull              sharedObject
 );
 
 
@@ -1290,7 +1328,7 @@ Q3Shared_ClearEditTracking (
  */
 Q3_EXTERN_API_C ( TQ3Boolean  )
 Q3Shared_GetEditTrackingState (
-    TQ3SharedObject               sharedObject
+    TQ3SharedObject _Nonnull              sharedObject
 );
 
 
@@ -1307,7 +1345,7 @@ Q3Shared_GetEditTrackingState (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3File_SetReadInGroup (
-    TQ3FileObject                 theFile,
+    TQ3FileObject _Nonnull                theFile,
     TQ3FileReadGroupState         readGroupState
 );
 
@@ -1325,8 +1363,8 @@ Q3File_SetReadInGroup (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3File_GetReadInGroup (
-    TQ3FileObject                 theFile,
-    TQ3FileReadGroupState         *readGroupState
+    TQ3FileObject _Nonnull                theFile,
+    TQ3FileReadGroupState         * _Nonnull readGroupState
 );
 
 
@@ -1344,9 +1382,9 @@ Q3File_GetReadInGroup (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3File_SetIdleMethod (
-    TQ3FileObject                 theFile,
-    TQ3FileIdleMethod             idle,
-    const void                    *idleData
+    TQ3FileObject _Nonnull                theFile,
+    TQ3FileIdleMethod _Nonnull            idle,
+    const void                    * _Nullable idleData
 );
 
 
@@ -1366,7 +1404,7 @@ Q3File_SetIdleMethod (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3NewLine_Write (
-    TQ3FileObject                 theFile
+    TQ3FileObject _Nonnull                theFile
 );
 
 
@@ -1383,8 +1421,8 @@ Q3NewLine_Write (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Uns8_Read (
-    TQ3Uns8                       *data,
-    TQ3FileObject                 theFile
+    TQ3Uns8                       * _Nonnull data,
+    TQ3FileObject _Nonnull                theFile
 );
 
 
@@ -1402,7 +1440,7 @@ Q3Uns8_Read (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Uns8_Write (
     TQ3Uns8                       data,
-    TQ3FileObject                 theFile
+    TQ3FileObject _Nonnull                theFile
 );
 
 
@@ -1418,8 +1456,8 @@ Q3Uns8_Write (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Uns16_Read (
-    TQ3Uns16                      *data,
-    TQ3FileObject                 theFile
+    TQ3Uns16                      * _Nonnull data,
+    TQ3FileObject _Nonnull                theFile
 );
 
 
@@ -1437,7 +1475,7 @@ Q3Uns16_Read (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Uns16_Write (
     TQ3Uns16                      data,
-    TQ3FileObject                 theFile
+    TQ3FileObject _Nonnull                theFile
 );
 
 
@@ -1453,8 +1491,8 @@ Q3Uns16_Write (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Uns32_Read (
-    TQ3Uns32                      *data,
-    TQ3FileObject                 theFile
+    TQ3Uns32                      * _Nonnull data,
+    TQ3FileObject _Nonnull                theFile
 );
 
 
@@ -1472,7 +1510,7 @@ Q3Uns32_Read (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Uns32_Write (
     TQ3Uns32                      data,
-    TQ3FileObject                 theFile
+    TQ3FileObject _Nonnull                theFile
 );
 
 
@@ -1488,8 +1526,8 @@ Q3Uns32_Write (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Int8_Read (
-    TQ3Int8                       *data,
-    TQ3FileObject                 theFile
+    TQ3Int8                       * _Nonnull data,
+    TQ3FileObject _Nonnull                theFile
 );
 
 
@@ -1507,7 +1545,7 @@ Q3Int8_Read (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Int8_Write (
     TQ3Int8                       data,
-    TQ3FileObject                 theFile
+    TQ3FileObject _Nonnull                theFile
 );
 
 
@@ -1523,8 +1561,8 @@ Q3Int8_Write (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Int16_Read (
-    TQ3Int16                      *data,
-    TQ3FileObject                 theFile
+    TQ3Int16                      * _Nonnull data,
+    TQ3FileObject _Nonnull                theFile
 );
 
 
@@ -1542,7 +1580,7 @@ Q3Int16_Read (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Int16_Write (
     TQ3Int16                      data,
-    TQ3FileObject                 theFile
+    TQ3FileObject _Nonnull                theFile
 );
 
 
@@ -1558,8 +1596,8 @@ Q3Int16_Write (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Int32_Read (
-    TQ3Int32                      *data,
-    TQ3FileObject                 theFile
+    TQ3Int32                      * _Nonnull data,
+    TQ3FileObject _Nonnull                theFile
 );
 
 
@@ -1577,7 +1615,7 @@ Q3Int32_Read (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Int32_Write (
     TQ3Int32                      data,
-    TQ3FileObject                 theFile
+    TQ3FileObject _Nonnull                theFile
 );
 
 
@@ -1593,8 +1631,8 @@ Q3Int32_Write (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Uns64_Read (
-    TQ3Uns64                      *data,
-    TQ3FileObject                 theFile
+    TQ3Uns64                      * _Nonnull data,
+    TQ3FileObject _Nonnull                theFile
 );
 
 
@@ -1612,7 +1650,7 @@ Q3Uns64_Read (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Uns64_Write (
     TQ3Uns64                      data,
-    TQ3FileObject                 theFile
+    TQ3FileObject _Nonnull                theFile
 );
 
 
@@ -1628,8 +1666,8 @@ Q3Uns64_Write (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Int64_Read (
-    TQ3Int64                      *data,
-    TQ3FileObject                 theFile
+    TQ3Int64                      * _Nonnull data,
+    TQ3FileObject _Nonnull                theFile
 );
 
 
@@ -1647,7 +1685,7 @@ Q3Int64_Read (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Int64_Write (
     TQ3Int64                      data,
-    TQ3FileObject                 theFile
+    TQ3FileObject _Nonnull                theFile
 );
 
 
@@ -1663,8 +1701,8 @@ Q3Int64_Write (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Float32_Read (
-    TQ3Float32                    *data,
-    TQ3FileObject                 theFile
+    TQ3Float32                    * _Nonnull data,
+    TQ3FileObject _Nonnull                theFile
 );
 
 
@@ -1682,7 +1720,7 @@ Q3Float32_Read (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Float32_Write (
     TQ3Float32                    data,
-    TQ3FileObject                 theFile
+    TQ3FileObject _Nonnull                theFile
 );
 
 
@@ -1698,8 +1736,8 @@ Q3Float32_Write (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Float64_Read (
-    TQ3Float64                    *data,
-    TQ3FileObject                 theFile
+    TQ3Float64                    * _Nonnull data,
+    TQ3FileObject _Nonnull                theFile
 );
 
 
@@ -1717,7 +1755,7 @@ Q3Float64_Read (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Float64_Write (
     TQ3Float64                    data,
-    TQ3FileObject                 theFile
+    TQ3FileObject _Nonnull                theFile
 );
 
 
@@ -1767,9 +1805,9 @@ Q3Size_Pad (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3String_Read (
-    char                          *data,
-    TQ3Uns32                      *length,
-    TQ3FileObject                 theFile
+    char                          * _Nullable data,
+    TQ3Uns32                      * _Nonnull length,
+    TQ3FileObject _Nonnull                theFile
 );
 
 
@@ -1812,9 +1850,9 @@ Q3String_Read (
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3String_ReadUnlimited(
-    char                          *data,
-    TQ3Uns32                      *ioLength,
-    TQ3FileObject                 theFile
+    char                          * _Nullable data,
+    TQ3Uns32                      * _Nonnull ioLength,
+    TQ3FileObject _Nonnull                theFile
 );
 #endif
 
@@ -1838,8 +1876,8 @@ Q3String_ReadUnlimited(
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3String_Write (
-    const char                    *data,
-    TQ3FileObject                 theFile
+    const char                    * _Nonnull data,
+    TQ3FileObject _Nonnull                theFile
 );
 
 
@@ -1860,8 +1898,8 @@ Q3String_Write (
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3String_WriteUnlimited (
-    const char                    *data,
-    TQ3FileObject                 theFile
+    const char                    * _Nonnull data,
+    TQ3FileObject _Nonnull                theFile
 );
 #endif
 
@@ -1880,9 +1918,9 @@ Q3String_WriteUnlimited (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3RawData_Read (
-    unsigned char                 *data,
+    unsigned char                 * _Nonnull data,
     TQ3Uns32                      size,
-    TQ3FileObject                 theFile
+    TQ3FileObject _Nonnull                theFile
 );
 
 
@@ -1900,9 +1938,9 @@ Q3RawData_Read (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3RawData_Write (
-    const unsigned char           *data,
+    const unsigned char           * _Nonnull data,
     TQ3Uns32                      size,
-    TQ3FileObject                 theFile
+    TQ3FileObject _Nonnull                theFile
 );
 
 
@@ -1919,8 +1957,8 @@ Q3RawData_Write (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Point2D_Read (
-    TQ3Point2D                    *point2D,
-    TQ3FileObject                 theFile
+    TQ3Point2D                    * _Nonnull point2D,
+    TQ3FileObject _Nonnull                theFile
 );
 
 
@@ -1937,8 +1975,8 @@ Q3Point2D_Read (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Point2D_Write (
-    const TQ3Point2D              *point2D,
-    TQ3FileObject                 theFile
+    const TQ3Point2D              * _Nonnull point2D,
+    TQ3FileObject _Nonnull                theFile
 );
 
 
@@ -1955,8 +1993,8 @@ Q3Point2D_Write (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Point3D_Read (
-    TQ3Point3D                    *point3D,
-    TQ3FileObject                 theFile
+    TQ3Point3D                    * _Nonnull point3D,
+    TQ3FileObject _Nonnull                theFile
 );
 
 
@@ -1973,8 +2011,8 @@ Q3Point3D_Read (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Point3D_Write (
-    const TQ3Point3D              *point3D,
-    TQ3FileObject                 theFile
+    const TQ3Point3D              * _Nonnull point3D,
+    TQ3FileObject _Nonnull                theFile
 );
 
 
@@ -1991,8 +2029,8 @@ Q3Point3D_Write (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3RationalPoint3D_Read (
-    TQ3RationalPoint3D            *point3D,
-    TQ3FileObject                 theFile
+    TQ3RationalPoint3D            * _Nonnull point3D,
+    TQ3FileObject _Nonnull                theFile
 );
 
 
@@ -2009,8 +2047,8 @@ Q3RationalPoint3D_Read (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3RationalPoint3D_Write (
-    const TQ3RationalPoint3D      *point3D,
-    TQ3FileObject                 theFile
+    const TQ3RationalPoint3D      * _Nonnull point3D,
+    TQ3FileObject _Nonnull                theFile
 );
 
 
@@ -2027,8 +2065,8 @@ Q3RationalPoint3D_Write (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3RationalPoint4D_Read (
-    TQ3RationalPoint4D            *point4D,
-    TQ3FileObject                 theFile
+    TQ3RationalPoint4D            * _Nonnull point4D,
+    TQ3FileObject _Nonnull                theFile
 );
 
 
@@ -2045,8 +2083,8 @@ Q3RationalPoint4D_Read (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3RationalPoint4D_Write (
-    const TQ3RationalPoint4D      *point4D,
-    TQ3FileObject                 theFile
+    const TQ3RationalPoint4D      * _Nonnull point4D,
+    TQ3FileObject _Nonnull                theFile
 );
 
 
@@ -2063,8 +2101,8 @@ Q3RationalPoint4D_Write (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Vector2D_Read (
-    TQ3Vector2D                   *vector2D,
-    TQ3FileObject                 theFile
+    TQ3Vector2D                   * _Nonnull vector2D,
+    TQ3FileObject _Nonnull               theFile
 );
 
 
@@ -2081,8 +2119,8 @@ Q3Vector2D_Read (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Vector2D_Write (
-    const TQ3Vector2D             *vector2D,
-    TQ3FileObject                 theFile
+    const TQ3Vector2D             * _Nonnull vector2D,
+    TQ3FileObject _Nonnull               theFile
 );
 
 
@@ -2099,8 +2137,8 @@ Q3Vector2D_Write (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Vector3D_Read (
-    TQ3Vector3D                   *vector3D,
-    TQ3FileObject                 theFile
+    TQ3Vector3D                   * _Nonnull vector3D,
+    TQ3FileObject _Nonnull               theFile
 );
 
 
@@ -2117,8 +2155,8 @@ Q3Vector3D_Read (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Vector3D_Write (
-    const TQ3Vector3D             *vector3D,
-    TQ3FileObject                 theFile
+    const TQ3Vector3D             * _Nonnull vector3D,
+    TQ3FileObject _Nonnull               theFile
 );
 
 
@@ -2135,8 +2173,8 @@ Q3Vector3D_Write (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Matrix4x4_Read (
-    TQ3Matrix4x4                  *matrix4x4,
-    TQ3FileObject                 theFile
+    TQ3Matrix4x4                  * _Nonnull matrix4x4,
+    TQ3FileObject _Nonnull               theFile
 );
 
 
@@ -2153,8 +2191,8 @@ Q3Matrix4x4_Read (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Matrix4x4_Write (
-    const TQ3Matrix4x4            *matrix4x4,
-    TQ3FileObject                 theFile
+    const TQ3Matrix4x4            * _Nonnull matrix4x4,
+    TQ3FileObject _Nonnull               theFile
 );
 
 
@@ -2171,8 +2209,8 @@ Q3Matrix4x4_Write (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Tangent2D_Read (
-    TQ3Tangent2D                  *tangent2D,
-    TQ3FileObject                 theFile
+    TQ3Tangent2D                  * _Nonnull tangent2D,
+    TQ3FileObject _Nonnull               theFile
 );
 
 
@@ -2189,8 +2227,8 @@ Q3Tangent2D_Read (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Tangent2D_Write (
-    const TQ3Tangent2D            *tangent2D,
-    TQ3FileObject                 theFile
+    const TQ3Tangent2D            * _Nonnull tangent2D,
+    TQ3FileObject _Nonnull               theFile
 );
 
 
@@ -2207,8 +2245,8 @@ Q3Tangent2D_Write (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Tangent3D_Read (
-    TQ3Tangent3D                  *tangent3D,
-    TQ3FileObject                 theFile
+    TQ3Tangent3D                  * _Nonnull tangent3D,
+    TQ3FileObject _Nonnull               theFile
 );
 
 
@@ -2225,8 +2263,8 @@ Q3Tangent3D_Read (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Tangent3D_Write (
-    const TQ3Tangent3D            *tangent3D,
-    TQ3FileObject                 theFile
+    const TQ3Tangent3D            * _Nonnull tangent3D,
+    TQ3FileObject _Nonnull               theFile
 );
 
 
@@ -2243,8 +2281,8 @@ Q3Tangent3D_Write (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Comment_Write (
-    char                          *comment,
-    TQ3FileObject                 theFile
+    char                          * _Nonnull comment,
+    TQ3FileObject _Nonnull               theFile
 );
 
 
@@ -2260,7 +2298,7 @@ Q3Comment_Write (
  */
 Q3_EXTERN_API_C ( TQ3ObjectType  )
 Q3Unknown_GetType (
-    TQ3UnknownObject              unknownObject
+    TQ3UnknownObject _Nonnull             unknownObject
 );
 
 
@@ -2277,8 +2315,8 @@ Q3Unknown_GetType (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Unknown_GetDirtyState (
-    TQ3UnknownObject              unknownObject,
-    TQ3Boolean                    *isDirty
+    TQ3UnknownObject _Nonnull             unknownObject,
+    TQ3Boolean                    * _Nonnull isDirty
 );
 
 
@@ -2295,7 +2333,7 @@ Q3Unknown_GetDirtyState (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Unknown_SetDirtyState (
-    TQ3UnknownObject              unknownObject,
+    TQ3UnknownObject _Nonnull             unknownObject,
     TQ3Boolean                    isDirty
 );
 
@@ -2313,8 +2351,8 @@ Q3Unknown_SetDirtyState (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3UnknownText_GetData (
-    TQ3UnknownObject              unknownObject,
-    TQ3UnknownTextData            *unknownTextData
+    TQ3UnknownObject _Nonnull             unknownObject,
+    TQ3UnknownTextData            * _Nonnull unknownTextData
 );
 
 
@@ -2330,7 +2368,7 @@ Q3UnknownText_GetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3UnknownText_EmptyData (
-    TQ3UnknownTextData            *unknownTextData
+    TQ3UnknownTextData            * _Nonnull unknownTextData
 );
 
 
@@ -2347,8 +2385,8 @@ Q3UnknownText_EmptyData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3UnknownBinary_GetData (
-    TQ3UnknownObject              unknownObject,
-    TQ3UnknownBinaryData          *unknownBinaryData
+    TQ3UnknownObject _Nonnull             unknownObject,
+    TQ3UnknownBinaryData          * _Nonnull unknownBinaryData
 );
 
 
@@ -2364,7 +2402,7 @@ Q3UnknownBinary_GetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3UnknownBinary_EmptyData (
-    TQ3UnknownBinaryData          *unknownBinaryData
+    TQ3UnknownBinaryData          * _Nonnull unknownBinaryData
 );
 
 
@@ -2381,8 +2419,8 @@ Q3UnknownBinary_EmptyData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3UnknownBinary_GetTypeString (
-    TQ3UnknownObject              unknownObject,
-    char                          **typeString
+    TQ3UnknownObject _Nonnull             unknownObject,
+    char                          * _Nonnull * _Nonnull typeString
 );
 
 
@@ -2398,7 +2436,7 @@ Q3UnknownBinary_GetTypeString (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3UnknownBinary_EmptyTypeString (
-    char                          **typeString
+    char                          * _Nonnull * _Nonnull typeString
 );
 
 
@@ -2416,9 +2454,9 @@ Q3UnknownBinary_EmptyTypeString (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-Q3_EXTERN_API_C ( TQ3FileFormatObject  )
+Q3_EXTERN_API_C ( TQ3FileFormatObject _Nonnull )
 Q3File_GetFileFormat (
-    TQ3FileObject                 theFile
+    TQ3FileObject _Nonnull               theFile
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -2438,7 +2476,7 @@ Q3File_GetFileFormat (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-Q3_EXTERN_API_C ( TQ3FileFormatObject  )
+Q3_EXTERN_API_C ( TQ3FileFormatObject _Nullable )
 Q3FileFormat_NewFromType (
     TQ3ObjectType                 fformatObjectType
 );
@@ -2462,7 +2500,7 @@ Q3FileFormat_NewFromType (
 
 Q3_EXTERN_API_C ( TQ3ObjectType  )
 Q3FileFormat_GetType (
-    TQ3FileFormatObject           format
+    TQ3FileFormatObject _Nonnull          format
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -2484,7 +2522,7 @@ Q3FileFormat_GetType (
 
 Q3_EXTERN_API_C ( TQ3Boolean  )
 Q3FileFormat_HasModalConfigure (
-    TQ3FileFormatObject           format
+    TQ3FileFormatObject _Nonnull          format
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -2518,9 +2556,9 @@ Q3FileFormat_HasModalConfigure (
 
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_ModalConfigure (
-    TQ3FileFormatObject           format,
+    TQ3FileFormatObject _Nonnull          format,
     TQ3DialogAnchor               dialogAnchor,
-    TQ3Boolean                    *canceled
+    TQ3Boolean                    * _Nonnull canceled
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -2546,7 +2584,7 @@ Q3FileFormat_ModalConfigure (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3FileFormatClass_GetFormatNameString (
     TQ3ObjectType                 formatClassType,
-    TQ3ObjectClassNameString      formatClassString
+    TQ3ObjectClassNameString _Nonnull     formatClassString
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -2581,10 +2619,10 @@ Q3FileFormatClass_GetFormatNameString (
 
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GetConfigurationData (
-    TQ3FileFormatObject           format,
-    unsigned char                 *dataBuffer,
+    TQ3FileFormatObject _Nonnull          format,
+    unsigned char                 * _Nullable dataBuffer,
     TQ3Uns32                      bufferSize,
-    TQ3Uns32                      *actualDataSize
+    TQ3Uns32                      * _Nonnull actualDataSize
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -2611,8 +2649,8 @@ Q3FileFormat_GetConfigurationData (
 
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_SetConfigurationData (
-    TQ3RendererObject             format,
-    unsigned char                 *dataBuffer,
+    TQ3RendererObject _Nonnull            format,
+    unsigned char                 * _Nonnull dataBuffer,
     TQ3Uns32                      bufferSize
 );
 
@@ -2641,8 +2679,8 @@ Q3FileFormat_SetConfigurationData (
 
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericReadBinary_8 (
-    TQ3FileFormatObject           format,
-    TQ3Int8                       *data
+    TQ3FileFormatObject _Nonnull          format,
+    TQ3Int8                       * _Nonnull data
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -2665,8 +2703,8 @@ Q3FileFormat_GenericReadBinary_8 (
 
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericReadBinary_16 (
-    TQ3FileFormatObject           format,
-    TQ3Int16                      *data
+    TQ3FileFormatObject _Nonnull          format,
+    TQ3Int16                      * _Nonnull data
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -2689,8 +2727,8 @@ Q3FileFormat_GenericReadBinary_16 (
 
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericReadBinary_32 (
-    TQ3FileFormatObject           format,
-    TQ3Int32                      *data
+    TQ3FileFormatObject _Nonnull          format,
+    TQ3Int32                      * _Nonnull data
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -2713,8 +2751,8 @@ Q3FileFormat_GenericReadBinary_32 (
 
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericReadBinary_64 (
-    TQ3FileFormatObject           format,
-    TQ3Int64                      *data
+    TQ3FileFormatObject _Nonnull          format,
+    TQ3Int64                      * _Nonnull data
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -2738,9 +2776,9 @@ Q3FileFormat_GenericReadBinary_64 (
 
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericReadBinary_String (
-    TQ3FileFormatObject           format,
-    char                          *data,
-    TQ3Uns32                      *length
+    TQ3FileFormatObject _Nonnull          format,
+    char                          * _Nonnull data,
+    TQ3Uns32                      * _Nonnull length
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -2764,8 +2802,8 @@ Q3FileFormat_GenericReadBinary_String (
 
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericReadBinary_Raw (
-    TQ3FileFormatObject           format,
-    unsigned char                 *data,
+    TQ3FileFormatObject _Nonnull          format,
+    unsigned char                 * _Nonnull data,
     TQ3Uns32                      length
 );
 
@@ -2794,8 +2832,8 @@ Q3FileFormat_GenericReadBinary_Raw (
 
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericReadBinSwap_16 (
-    TQ3FileFormatObject           format,
-    TQ3Int16                      *data
+    TQ3FileFormatObject _Nonnull          format,
+    TQ3Int16                      * _Nonnull data
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -2818,8 +2856,8 @@ Q3FileFormat_GenericReadBinSwap_16 (
 
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericReadBinSwap_32 (
-    TQ3FileFormatObject           format,
-    TQ3Int32                      *data
+    TQ3FileFormatObject _Nonnull          format,
+    TQ3Int32                      * _Nonnull data
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -2842,8 +2880,8 @@ Q3FileFormat_GenericReadBinSwap_32 (
 
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericReadBinSwap_64 (
-    TQ3FileFormatObject           format,
-    TQ3Int64                      *data
+    TQ3FileFormatObject _Nonnull          format,
+    TQ3Int64                      * _Nonnull data
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -2870,7 +2908,7 @@ Q3FileFormat_GenericReadBinSwap_64 (
 
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericReadText_SkipBlanks (
-    TQ3FileFormatObject           format
+    TQ3FileFormatObject _Nonnull          format
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -2899,14 +2937,14 @@ Q3FileFormat_GenericReadText_SkipBlanks (
 
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericReadText_ReadUntilChars (
-    TQ3FileFormatObject           format,
-    char                          *buffer,
-    char                          *chars,
+    TQ3FileFormatObject _Nonnull          format,
+    char                          * _Nonnull buffer,
+    char                          * _Nonnull chars,
     TQ3Uns32                      numChars,
     TQ3Boolean                    blanks,
-    TQ3Int32                      *foundChar,
+    TQ3Int32                      * _Nonnull foundChar,
     TQ3Uns32                      maxLen,
-    TQ3Uns32                      *charsRead
+    TQ3Uns32                      * _Nonnull charsRead
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -2934,8 +2972,8 @@ Q3FileFormat_GenericReadText_ReadUntilChars (
 
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericWriteBinary_8 (
-    TQ3FileFormatObject           format,
-    const TQ3Int8                 *data
+    TQ3FileFormatObject _Nonnull          format,
+    const TQ3Int8                 * _Nonnull data
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -2958,8 +2996,8 @@ Q3FileFormat_GenericWriteBinary_8 (
 
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericWriteBinary_16 (
-    TQ3FileFormatObject           format,
-    const TQ3Int16                *data
+    TQ3FileFormatObject _Nonnull          format,
+    const TQ3Int16                * _Nonnull data
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -2982,8 +3020,8 @@ Q3FileFormat_GenericWriteBinary_16 (
 
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericWriteBinary_32 (
-    TQ3FileFormatObject           format,
-    const TQ3Int32                *data
+    TQ3FileFormatObject _Nonnull          format,
+    const TQ3Int32                * _Nonnull data
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -3006,8 +3044,8 @@ Q3FileFormat_GenericWriteBinary_32 (
 
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericWriteBinary_64 (
-    TQ3FileFormatObject           format,
-    const TQ3Int64                *data
+    TQ3FileFormatObject _Nonnull          format,
+    const TQ3Int64                * _Nonnull data
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -3031,9 +3069,9 @@ Q3FileFormat_GenericWriteBinary_64 (
 
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericWriteBinary_String (
-    TQ3FileFormatObject           format,
-    const char                    *data,
-    TQ3Uns32                      *length
+    TQ3FileFormatObject _Nonnull          format,
+    const char                    * _Nonnull data,
+    TQ3Uns32                      * _Nonnull length
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -3057,8 +3095,8 @@ Q3FileFormat_GenericWriteBinary_String (
 
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericWriteBinary_Raw (
-    TQ3FileFormatObject           format,
-    const unsigned char           *data,
+    TQ3FileFormatObject _Nonnull          format,
+    const unsigned char           * _Nonnull data,
     TQ3Uns32                      length
 );
 
@@ -3087,8 +3125,8 @@ Q3FileFormat_GenericWriteBinary_Raw (
 
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericWriteBinSwap_16 (
-    TQ3FileFormatObject           format,
-    const TQ3Int16                *data
+    TQ3FileFormatObject _Nonnull          format,
+    const TQ3Int16                * _Nonnull data
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -3111,8 +3149,8 @@ Q3FileFormat_GenericWriteBinSwap_16 (
 
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericWriteBinSwap_32 (
-    TQ3FileFormatObject           format,
-    const TQ3Int32                *data
+    TQ3FileFormatObject _Nonnull          format,
+    const TQ3Int32                * _Nonnull data
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -3135,8 +3173,8 @@ Q3FileFormat_GenericWriteBinSwap_32 (
 
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3FileFormat_GenericWriteBinSwap_64 (
-    TQ3FileFormatObject           format,
-    const TQ3Int64                *data
+    TQ3FileFormatObject _Nonnull          format,
+    const TQ3Int64                * _Nonnull data
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -3164,8 +3202,8 @@ Q3FileFormat_GenericWriteBinSwap_64 (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Float32_ReadArray (
 	TQ3Uns32					numFloats,
-	TQ3Float32*					floatArray,
-	TQ3FileObject            	theFile
+	TQ3Float32*	_Nonnull				floatArray,
+	TQ3FileObject _Nonnull          	theFile
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -3193,8 +3231,8 @@ Q3Float32_ReadArray (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Uns32_ReadArray (
 	TQ3Uns32					numNums,
-	TQ3Uns32*					intArray,
-	TQ3FileObject            	theFile
+	TQ3Uns32*	_Nonnull				intArray,
+	TQ3FileObject _Nonnull          	theFile
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -3222,8 +3260,8 @@ Q3Uns32_ReadArray (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Uns16_ReadArray (
 	TQ3Uns32					numNums,
-	TQ3Uns16*					intArray,
-	TQ3FileObject            	theFile
+	TQ3Uns16*	_Nonnull				intArray,
+	TQ3FileObject _Nonnull          	theFile
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -3251,8 +3289,8 @@ Q3Uns16_ReadArray (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Uns8_ReadArray (
 	TQ3Uns32					numNums,
-	TQ3Uns8*					intArray,
-	TQ3FileObject            	theFile
+	TQ3Uns8*	_Nonnull				intArray,
+	TQ3FileObject _Nonnull          	theFile
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -3272,9 +3310,9 @@ Q3Uns8_ReadArray (
  *  @param view             The view the view hints should be based on.
  *  @result                 The new view hints object.
  */
-Q3_EXTERN_API_C ( TQ3ViewHintsObject  )
+Q3_EXTERN_API_C ( TQ3ViewHintsObject _Nonnull )
 Q3ViewHints_New (
-    TQ3ViewObject                 view
+    TQ3ViewObject _Nonnull                view
 );
 
 
@@ -3291,8 +3329,8 @@ Q3ViewHints_New (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_SetRenderer (
-    TQ3ViewHintsObject            viewHints,
-    TQ3RendererObject             renderer
+    TQ3ViewHintsObject _Nonnull           viewHints,
+    TQ3RendererObject _Nonnull            renderer
 );
 
 
@@ -3309,8 +3347,8 @@ Q3ViewHints_SetRenderer (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_GetRenderer (
-    TQ3ViewHintsObject            viewHints,
-    TQ3RendererObject             *renderer
+    TQ3ViewHintsObject _Nonnull           viewHints,
+    TQ3RendererObject _Nullable            * _Nonnull renderer
 );
 
 
@@ -3327,8 +3365,8 @@ Q3ViewHints_GetRenderer (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_SetCamera (
-    TQ3ViewHintsObject            viewHints,
-    TQ3CameraObject               camera
+    TQ3ViewHintsObject _Nonnull           viewHints,
+    TQ3CameraObject _Nonnull              camera
 );
 
 
@@ -3345,8 +3383,8 @@ Q3ViewHints_SetCamera (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_GetCamera (
-    TQ3ViewHintsObject            viewHints,
-    TQ3CameraObject               *camera
+    TQ3ViewHintsObject _Nonnull           viewHints,
+    TQ3CameraObject _Nullable              * _Nonnull camera
 );
 
 
@@ -3363,8 +3401,8 @@ Q3ViewHints_GetCamera (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_SetLightGroup (
-    TQ3ViewHintsObject            viewHints,
-    TQ3GroupObject                lightGroup
+    TQ3ViewHintsObject _Nonnull           viewHints,
+    TQ3GroupObject _Nonnull               lightGroup
 );
 
 
@@ -3381,8 +3419,8 @@ Q3ViewHints_SetLightGroup (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_GetLightGroup (
-    TQ3ViewHintsObject            viewHints,
-    TQ3GroupObject                *lightGroup
+    TQ3ViewHintsObject _Nonnull           viewHints,
+    TQ3GroupObject _Nullable               * _Nonnull lightGroup
 );
 
 
@@ -3399,8 +3437,8 @@ Q3ViewHints_GetLightGroup (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_SetAttributeSet (
-    TQ3ViewHintsObject            viewHints,
-    TQ3AttributeSet               attributeSet
+    TQ3ViewHintsObject _Nonnull           viewHints,
+    TQ3AttributeSet _Nonnull              attributeSet
 );
 
 
@@ -3417,8 +3455,8 @@ Q3ViewHints_SetAttributeSet (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_GetAttributeSet (
-    TQ3ViewHintsObject            viewHints,
-    TQ3AttributeSet               *attributeSet
+    TQ3ViewHintsObject _Nonnull           viewHints,
+    TQ3AttributeSet _Nullable              * _Nonnull attributeSet
 );
 
 
@@ -3435,7 +3473,7 @@ Q3ViewHints_GetAttributeSet (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_SetDimensionsState (
-    TQ3ViewHintsObject            viewHints,
+    TQ3ViewHintsObject _Nonnull           viewHints,
     TQ3Boolean                    isValid
 );
 
@@ -3453,8 +3491,8 @@ Q3ViewHints_SetDimensionsState (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_GetDimensionsState (
-    TQ3ViewHintsObject            viewHints,
-    TQ3Boolean                    *isValid
+    TQ3ViewHintsObject _Nonnull           viewHints,
+    TQ3Boolean                    * _Nonnull isValid
 );
 
 
@@ -3472,7 +3510,7 @@ Q3ViewHints_GetDimensionsState (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_SetDimensions (
-    TQ3ViewHintsObject            viewHints,
+    TQ3ViewHintsObject _Nonnull           viewHints,
     TQ3Uns32                      width,
     TQ3Uns32                      height
 );
@@ -3492,9 +3530,9 @@ Q3ViewHints_SetDimensions (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_GetDimensions (
-    TQ3ViewHintsObject            viewHints,
-    TQ3Uns32                      *width,
-    TQ3Uns32                      *height
+    TQ3ViewHintsObject _Nonnull           viewHints,
+    TQ3Uns32                      * _Nonnull width,
+    TQ3Uns32                      * _Nonnull height
 );
 
 
@@ -3511,7 +3549,7 @@ Q3ViewHints_GetDimensions (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_SetMaskState (
-    TQ3ViewHintsObject            viewHints,
+    TQ3ViewHintsObject _Nonnull           viewHints,
     TQ3Boolean                    isValid
 );
 
@@ -3529,8 +3567,8 @@ Q3ViewHints_SetMaskState (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_GetMaskState (
-    TQ3ViewHintsObject            viewHints,
-    TQ3Boolean                    *isValid
+    TQ3ViewHintsObject _Nonnull           viewHints,
+    TQ3Boolean                    * _Nonnull isValid
 );
 
 
@@ -3547,8 +3585,8 @@ Q3ViewHints_GetMaskState (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_SetMask (
-    TQ3ViewHintsObject            viewHints,
-    const TQ3Bitmap               *mask
+    TQ3ViewHintsObject _Nonnull           viewHints,
+    const TQ3Bitmap               * _Nonnull mask
 );
 
 
@@ -3565,8 +3603,8 @@ Q3ViewHints_SetMask (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_GetMask (
-    TQ3ViewHintsObject            viewHints,
-    TQ3Bitmap                     *mask
+    TQ3ViewHintsObject _Nonnull           viewHints,
+    TQ3Bitmap                     * _Nonnull mask
 );
 
 
@@ -3583,7 +3621,7 @@ Q3ViewHints_GetMask (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_SetClearImageMethod (
-    TQ3ViewHintsObject            viewHints,
+    TQ3ViewHintsObject _Nonnull           viewHints,
     TQ3DrawContextClearImageMethod clearMethod
 );
 
@@ -3601,8 +3639,8 @@ Q3ViewHints_SetClearImageMethod (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_GetClearImageMethod (
-    TQ3ViewHintsObject            viewHints,
-    TQ3DrawContextClearImageMethod *clearMethod
+    TQ3ViewHintsObject _Nonnull           viewHints,
+    TQ3DrawContextClearImageMethod * _Nonnull clearMethod
 );
 
 
@@ -3619,8 +3657,8 @@ Q3ViewHints_GetClearImageMethod (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_SetClearImageColor (
-    TQ3ViewHintsObject            viewHints,
-    const TQ3ColorARGB            *color
+    TQ3ViewHintsObject _Nonnull           viewHints,
+    const TQ3ColorARGB            * _Nonnull color
 );
 
 
@@ -3637,8 +3675,8 @@ Q3ViewHints_SetClearImageColor (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewHints_GetClearImageColor (
-    TQ3ViewHintsObject            viewHints,
-    TQ3ColorARGB                  *color
+    TQ3ViewHintsObject _Nonnull           viewHints,
+    TQ3ColorARGB                  * _Nonnull color
 );
 
 

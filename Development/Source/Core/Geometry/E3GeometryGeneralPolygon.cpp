@@ -5,7 +5,7 @@
         Implementation of Quesa Pixmap Marker geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -146,7 +146,8 @@ e3geom_generalpolygon_copydata( const TQ3GeneralPolygonData* src,
 	}
 	else if (isDuplicate)
 	{
-		dst->generalPolygonAttributeSet = Q3Object_Duplicate( src->generalPolygonAttributeSet );
+		TQ3AttributeSet srcAtts = src->generalPolygonAttributeSet; // silence a nullability warning
+		dst->generalPolygonAttributeSet = Q3Object_Duplicate( srcAtts );
 		if (dst->generalPolygonAttributeSet == nullptr)
 			qd3dStatus = kQ3Failure;
 	}
@@ -175,15 +176,16 @@ e3geom_generalpolygon_copydata( const TQ3GeneralPolygonData* src,
 				dst->contours[ contourIndex ].vertices[vertexIndex].point =
 					src->contours[ contourIndex ].vertices[vertexIndex].point;
 				
-				if (src->contours[ contourIndex ].vertices[vertexIndex].attributeSet == nullptr)
+				TQ3AttributeSet srcAtts = src->contours[ contourIndex ].vertices[vertexIndex].attributeSet;
+				
+				if (srcAtts == nullptr)
 				{
 					dst->contours[ contourIndex ].vertices[vertexIndex].attributeSet = nullptr;
 				}
 				else if (isDuplicate)
 				{
 					dst->contours[ contourIndex ].vertices[vertexIndex].attributeSet =
-						Q3Object_Duplicate(
-							src->contours[ contourIndex ].vertices[vertexIndex].attributeSet );
+						Q3Object_Duplicate( srcAtts );
 					
 					if (dst->contours[ contourIndex ].vertices[vertexIndex].attributeSet == nullptr)
 						qd3dStatus = kQ3Failure;
@@ -219,7 +221,7 @@ static TQ3Status
 e3geom_generalpolygon_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 						  		TQ3Object toObject,   void       *toPrivateData)
 {	TQ3GeneralPolygonData		*toInstanceData = (TQ3GeneralPolygonData *) toPrivateData;
-	TQ3GeneralPolygonData		*fromInstanceData = (TQ3GeneralPolygonData *) fromPrivateData;
+	const TQ3GeneralPolygonData		*fromInstanceData = (const TQ3GeneralPolygonData *) fromPrivateData;
 	TQ3Status					qd3dStatus;
 #pragma unused(toObject)
 

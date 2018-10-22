@@ -1,5 +1,9 @@
 /*! @header QuesaCustomElements.h
         Declares the standard Quesa custom elements, most inherited from QD3D.
+        
+	@ignore	_Nullable
+	@ignore _Nonnull
+	@ignore	_Null_unspecified
  */
 /*  NAME:
         QuesaCustomElements.h
@@ -8,7 +12,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -162,8 +166,8 @@ typedef enum {
  *  @field options          Options for the URL.
  */
 typedef struct TCEUrlData {
-    char                                        *url;
-    char                                        *description;
+    char                                        * _Nonnull url;
+    char                                        * _Nullable description;
     TCEUrlOptions                               options;
 } TCEUrlData;
 
@@ -189,13 +193,13 @@ typedef struct TCEUrlData {
  *      by CENameElement_SetData.
  *
  *  @param object           The object to assign the name to.
- *  @param name             The C string to associate with the object.
+ *  @param name             The C string to associate with the object, or NULL to clear.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 CENameElement_SetData (
-    TQ3Object                     object,
-    const char                    *name
+    TQ3Object _Nonnull                     object,
+    const char * _Nullable                 name
 );
 
 
@@ -206,8 +210,8 @@ CENameElement_SetData (
  *  @discussion
  *      Get the name element for an object.
  *
- *      The name parameter will receive a C string, or nullptr if no name has
- *      been associated with the object. If a non-nullptr pointer is returned,
+ *      The name parameter will receive a C string, or NULL if no name has
+ *      been associated with the object. If a non-NULL pointer is returned,
  *      it must be disposed of with CENameElement_EmptyData.
  *
  *  @param object           The object to query.
@@ -216,8 +220,8 @@ CENameElement_SetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 CENameElement_GetData (
-    TQ3Object                     object,
-    char                          **name
+    TQ3Object _Nonnull                     object,
+    char * _Nullable * _Nonnull            name
 );
 
 
@@ -228,8 +232,8 @@ CENameElement_GetData (
  *  @discussion
  *      Get the name element for an object.
  *
- *      The name parameter will receive a C string, or nullptr if no name has
- *      been associated with the object. If a non-nullptr pointer is returned,
+ *      The name parameter will receive a C string, or NULL if no name has
+ *      been associated with the object. If a non-NULL pointer is returned,
  *      it should be considered read-only and temporary.  Unlike
  *      CENameElement_GetData, this function returns the actual string within
  *      the element, not a copy.
@@ -243,8 +247,8 @@ CENameElement_GetData (
 
 Q3_EXTERN_API_C ( TQ3Status  )
 CENameElement_PeekData (
-    TQ3Object                     object,
-    const char                    **name
+    TQ3Object _Nonnull                     object,
+    const char * _Nullable * _Nonnull      name
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
@@ -261,7 +265,7 @@ CENameElement_PeekData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 CENameElement_EmptyData (
-    char                          **name
+    char * _Nonnull * _Nonnull    name
 );
 
 
@@ -283,8 +287,8 @@ CENameElement_EmptyData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 CEUrlElement_SetData (
-    TQ3Object                     object,
-    TCEUrlData                    *urlData
+    TQ3Object _Nonnull                     object,
+    TCEUrlData * _Nonnull                  urlData
 );
 
 
@@ -295,8 +299,8 @@ CEUrlElement_SetData (
  *  @discussion
  *      Get the URL element for an object.
  *
- *      The urlData parameter will receive a pointer to the URL data, or nullptr
- *      if no URL element has been associated with the object. If a non-nullptr
+ *      The urlData parameter will receive a pointer to the URL data, or NULL
+ *      if no URL element has been associated with the object. If a non-NULL
  *      pointer is returned, it must be disposed of with CEUrlElement_EmptyData.
  *
  *  @param object           The object to retrieve the URL element from.
@@ -305,8 +309,8 @@ CEUrlElement_SetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 CEUrlElement_GetData (
-    TQ3Object                     object,
-    TCEUrlData                    **urlData
+    TQ3Object _Nonnull                     object,
+    TCEUrlData * _Nullable * _Nonnull      urlData
 );
 
 
@@ -322,7 +326,7 @@ CEUrlElement_GetData (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 CEUrlElement_EmptyData (
-    TCEUrlData                    **urlData
+    TCEUrlData * _Nullable * _Nonnull urlData
 );
 
 
@@ -356,8 +360,8 @@ CEWireElement_SetData (
  *  @discussion
  *      Get the QuickTime wired element for an object.
  *
- *      The wireData parameter will receive a QTAtomContainer, or nullptr if no
- *      wired element has been associated with the object. If a non-nullptr pointer
+ *      The wireData parameter will receive a QTAtomContainer, or NULL if no
+ *      wired element has been associated with the object. If a non-NULL pointer
  *      is returned, it must be disposed of with CEWireElement_EmptyData.
  *
  *  @param object           The object to query.
@@ -403,7 +407,7 @@ CEWireElement_EmptyData (
 				When you assign a triangle strip, the element also records the
 				current edit index of the object.
 				
-				You can pass 0 for inNumIndices and nullptr for inIndices to
+				You can pass 0 for inNumIndices and NULL for inIndices to
 				indicate that you want to avoid using a triangle strip, perhaps
 				because there is no efficient strip for this geometry.
 				
@@ -415,9 +419,9 @@ CEWireElement_EmptyData (
 */
 Q3_EXTERN_API_C ( TQ3Status )
 CETriangleStripElement_SetData(
-	TQ3Object ioObject,
+	TQ3Object _Nonnull ioObject,
 	TQ3Uns32 inNumIndices,
-	const TQ3Uns32* inIndices
+	const TQ3Uns32* _Nonnull inIndices
 );
 
 
@@ -444,9 +448,9 @@ CETriangleStripElement_SetData(
 */
 Q3_EXTERN_API_C ( TQ3Status )
 CETriangleStripElement_GetData(
-	TQ3Object inObject,
-	TQ3Uns32* outNumIndices,
-	const TQ3Uns32** outIndices
+	TQ3Object _Nonnull inObject,
+	TQ3Uns32* _Nonnull outNumIndices,
+	const TQ3Uns32* _Nullable * _Nonnull outIndices
 );
 
 
@@ -458,7 +462,7 @@ CETriangleStripElement_GetData(
 */
 Q3_EXTERN_API_C (void)
 CETriangleStripElement_Remove(
-	TQ3Object ioObject
+	TQ3Object _Nonnull ioObject
 );
 
 /*!
@@ -469,10 +473,10 @@ CETriangleStripElement_Remove(
 	@function	CESpecularMapElement_Copy
 	@abstract	Retrieve a shininess map texture from an object.
 	@param		inShader	A surface shader.
-	@result		A new reference to a texture, or nullptr.
+	@result		A new reference to a texture, or NULL.
 */
-Q3_EXTERN_API_C( TQ3TextureObject )
-CESpecularMapElement_Copy( TQ3ShaderObject inShader );
+Q3_EXTERN_API_C( TQ3TextureObject _Nullable )
+CESpecularMapElement_Copy( TQ3ShaderObject _Nonnull inShader );
 
 /*!
 	@function	CESpecularMapElement_Set
@@ -493,7 +497,7 @@ CESpecularMapElement_Copy( TQ3ShaderObject inShader );
 	@param		inTexture	A texture object, or nullptr to remove.
 */
 Q3_EXTERN_API_C( void )
-CESpecularMapElement_Set( TQ3ShaderObject ioShader, TQ3TextureObject inTexture );
+CESpecularMapElement_Set( TQ3ShaderObject _Nonnull ioShader, TQ3TextureObject _Nullable inTexture );
 
 
 // Work around a HeaderDoc bug
