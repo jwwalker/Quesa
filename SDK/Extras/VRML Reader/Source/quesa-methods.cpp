@@ -305,7 +305,7 @@ static TQ3FileMode	GetFormatType( TQ3FileObject inFile )
 */
 static TQ3Status GetNickname( char* dataBuffer, TQ3Uns32 bufferSize, TQ3Uns32* outActualSize )
 {
-	*outActualSize = strlen( kFormatNickname ) + 1;
+	*outActualSize = static_cast<TQ3Uns32>( strlen( kFormatNickname ) + 1 );
 	
 	if (dataBuffer != NULL)
 	{

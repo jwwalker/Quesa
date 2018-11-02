@@ -129,7 +129,7 @@ CQ3ObjectRef	IndexedLineSetV2ToObject( PolyValue& ioNode )
 		{
 			// FInish a PolyLine
 			TQ3PolyLineData	polyData;
-			polyData.numVertices = vertices.size();
+			polyData.numVertices = static_cast<TQ3Uns32>( vertices.size() );
 			polyData.vertices = &vertices[0];
 			polyData.segmentAttributeSet = NULL;
 			CQ3ObjectRef	polyAtts;

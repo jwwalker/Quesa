@@ -100,8 +100,8 @@ CQ3ObjectRef	PointSetV1ToObject( PolyValue& ioNode, CVRMLReader& inReader )
 		theObject = CQ3ObjectRef( Q3DisplayGroup_New() );
 		ThrowIfNullQuesaOb_( theObject );
 		
-		int		endIndex = (numPoints < 0)? thePoints.size() :
-			std::min<int>( startIndex + numPoints, thePoints.size() );
+		int		endIndex = (numPoints < 0)? static_cast<int>(thePoints.size()) :
+			std::min<int>( startIndex + numPoints, static_cast<int>(thePoints.size()) );
 
 		// In VRML 2, points are not lit.  I will take that easy way
 		// instead of worrying about normals.

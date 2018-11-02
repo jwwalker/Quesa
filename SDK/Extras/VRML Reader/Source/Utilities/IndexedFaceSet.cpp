@@ -5,7 +5,7 @@
         Code to handle IndexedFaceSet nodes in both VRML 1 and 2.
 
     COPYRIGHT:
-        Copyright (c) 2005-2015, Quesa Developers. All rights reserved.
+        Copyright (c) 2005-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -76,9 +76,9 @@ namespace
 */
 void	CIndexedFaceSet::ReverseFaceOrientations()
 {
-	for (std::vector<SFace>::iterator i = mFaces.begin(); i != mFaces.end(); ++i)
+	for (SFace& aFace : mFaces)
 	{
-		std::vector<VertIndex>&	faceVerts( i->mVertices );
+		std::vector<VertIndex>&	faceVerts( aFace.mVertices );
 		std::reverse( faceVerts.begin(), faceVerts.end() );
 	}
 }
@@ -98,9 +98,9 @@ void	CIndexedFaceSet::CalcFaceNormals()
 		TQ3Vector3D	theNormal;
 		bool	hasDegenerateFaces = false;
 		
-		for (std::vector<SFace>::iterator i = mFaces.begin(); i != mFaces.end(); ++i)
+		for (SFace& aFace : mFaces)
 		{
-			std::vector<VertIndex>&	faceVerts( i->mVertices );
+			std::vector<VertIndex>&	faceVerts( aFace.mVertices );
 			const VertIndex	faceSize = faceVerts.size();
 			if (faceSize == 3)
 			{
@@ -116,7 +116,7 @@ void	CIndexedFaceSet::CalcFaceNormals()
 				{
 					len = sqrt( lenSq );
 					theNormal *= 1.0f/len;
-					i->mNormal = mFaceNormals.size();
+					aFace.mNormal = mFaceNormals.size();
 					mFaceNormals.push_back( theNormal );
 				}
 				else
@@ -136,7 +136,7 @@ void	CIndexedFaceSet::CalcFaceNormals()
 					{
 						len = sqrt( lenSq );
 						theNormal *= 1.0f/len;
-						i->mNormal = mFaceNormals.size();
+						aFace.mNormal = mFaceNormals.size();
 						mFaceNormals.push_back( theNormal );
 					}
 					else
@@ -223,12 +223,12 @@ void	CIndexedFaceSet::CalcFaceNormals()
 					}
 					theNormal = (1.0f/bestLen) * bestCross;
 					
-					i->mNormal = mFaceNormals.size();
+					aFace.mNormal = mFaceNormals.size();
 					mFaceNormals.push_back( theNormal );
 
 					if (isSomeAnglePositive and isSomeAngleNegative)
 					{
-						i->mIsConvex = false;
+						aFace.mIsConvex = false;
 					}
 				}
 				else
@@ -337,6 +337,7 @@ void	CIndexedFaceSet::FindVerticesAtPosition()
 	}
 }
 
+
 /*!
 	@function				CalcAngleAtVertex
 	@abstract				Compute the angle that a face makes at a vertex,
@@ -350,28 +351,39 @@ float	CIndexedFaceSet::CalcAngleAtVertex( VertIndex inVertIndex ) const
 	const SVertex& theVert( mVertices[ inVertIndex ] );
 	PositionIndex cornerPos = theVert.mPosition;
 	const SFace& theFace( mFaces[ theVert.mFace ] );
-	VertIndex legIndex1 = kNoIndex;
-	VertIndex legIndex2 = kNoIndex;
-	for (unsigned int i = 0; i < theFace.mVertices.size(); ++i)
+	
+	// Find the given vertex among the vertices of this face.
+	size_t vertOnFace = SIZE_MAX;
+	const size_t kVertCount = theFace.mVertices.size();
+	size_t i;
+	for (i = 0; i < kVertCount; ++i)
 	{
-		if (theFace.mVertices[i] != inVertIndex)
+		if (theFace.mVertices[i] == inVertIndex)
 		{
-			if (legIndex1 == kNoIndex)
-			{
-				legIndex1 = theFace.mVertices[i];
-			}
-			else if (legIndex2 == kNoIndex)
-			{
-				legIndex2 = theFace.mVertices[i];
-			}
+			vertOnFace = i;
+			break;
 		}
 	}
+	
+	// Find the adjacent vertices
+	VertIndex legIndex1 = theFace.mVertices[ (vertOnFace + kVertCount - 1) % kVertCount ];
+	VertIndex legIndex2 = theFace.mVertices[ (vertOnFace + 1) % kVertCount ];
 	PositionIndex leg1pos = mVertices[ legIndex1 ].mPosition;
 	PositionIndex leg2pos = mVertices[ legIndex2 ].mPosition;
 	TQ3Vector3D leg1 = mPositions[ leg1pos ] - mPositions[ cornerPos ];
 	TQ3Vector3D leg2 = mPositions[ leg2pos ] - mPositions[ cornerPos ];
 	float angle = atan2f( Q3Length3D( Q3Cross3D( leg1, leg2 ) ),
 		Q3Dot3D( leg1, leg2 ) );
+	
+	if (fabsf( angle ) < FLT_EPSILON)
+	{
+		// The angle could be zero if one of the edges adjacent to our vertex is degenerate,
+		// which does not necessarily mean that the face as a whole is degenerate.
+		// We do not want to return zero, which could result in a zero vertex normal.
+		// Better an inaccurate vertex normal than a zero one.
+		angle = 0.01f;
+	}
+	
 	return angle;
 }
 
@@ -438,7 +450,9 @@ void	CIndexedFaceSet::CalcVertexNormals( float inCreaseCosine )
 			for (VertIndex j = mFirstVertWithNormal[i]; j != kNoIndex;
 				j = mNextVertSharingNormal[j])
 			{
-				normSum += CalcAngleAtVertex( j ) * mFaceNormals[ mVertices[j].mFace ];
+				TQ3Vector3D& theFaceNorm( mFaceNormals[ mVertices[j].mFace ] );
+				float theAngle = CalcAngleAtVertex( j );
+				normSum += theAngle * theFaceNorm;
 			}
 			vertNorm = Q3Normalize3D( normSum );
 			mVertexNormals.push_back( vertNorm );
@@ -528,9 +542,9 @@ void	CIndexedFaceSet::TriangulateConvexFace( const SFace& inFace,
 	{
 		// Make a triangle from the instances 0, i-1, and i
 		TQ3TriMeshTriangleData	aTri;
-		aTri.pointIndices[0] = mVertToPoint[ inFace.mVertices[0] ];
-		aTri.pointIndices[1] = mVertToPoint[ inFace.mVertices[i-1] ];
-		aTri.pointIndices[2] = mVertToPoint[ inFace.mVertices[i] ];
+		aTri.pointIndices[0] = static_cast<TQ3Uns32>(mVertToPoint[ inFace.mVertices[0] ]);
+		aTri.pointIndices[1] = static_cast<TQ3Uns32>(mVertToPoint[ inFace.mVertices[i-1] ]);
+		aTri.pointIndices[2] = static_cast<TQ3Uns32>(mVertToPoint[ inFace.mVertices[i] ]);
 		outTriangles.push_back( aTri );
 	}
 }
@@ -549,7 +563,7 @@ void	CIndexedFaceSet::TriangulateNonconvexFace( const SFace& inFace,
 	// and split off a triangle there.
 	while (verts.size() > 3)
 	{
-		int	numVerts = verts.size();
+		VertIndex	numVerts = verts.size();
 		VertIndex i;
 		for (i = 0; i < kNumVerts; ++i)
 		{
@@ -589,9 +603,9 @@ void	CIndexedFaceSet::TriangulateNonconvexFace( const SFace& inFace,
 				if (not isSomethingInside)
 				{
 					TQ3TriMeshTriangleData	aTri = {
-						mVertToPoint[ verts[i] ],
-						mVertToPoint[ verts[ (i+1) % kNumVerts ] ],
-						mVertToPoint[ verts[ (i+2) % kNumVerts ] ]
+						static_cast<TQ3Uns32>(mVertToPoint[ verts[i] ]),
+						static_cast<TQ3Uns32>(mVertToPoint[ verts[ (i+1) % kNumVerts ] ]),
+						static_cast<TQ3Uns32>(mVertToPoint[ verts[ (i+2) % kNumVerts ] ])
 					};
 					outTriangles.push_back( aTri );
 					
@@ -609,9 +623,9 @@ void	CIndexedFaceSet::TriangulateNonconvexFace( const SFace& inFace,
 	if (verts.size() == 3)
 	{
 		TQ3TriMeshTriangleData	lastTri = {
-			mVertToPoint[ verts[0] ],
-			mVertToPoint[ verts[ 1 ] ],
-			mVertToPoint[ verts[ 2 ] ]
+			static_cast<TQ3Uns32>(mVertToPoint[ verts[0] ]),
+			static_cast<TQ3Uns32>(mVertToPoint[ verts[ 1 ] ]),
+			static_cast<TQ3Uns32>(mVertToPoint[ verts[ 2 ] ])
 		};
 		outTriangles.push_back( lastTri );
 	}
@@ -848,7 +862,7 @@ CQ3ObjectRef	CIndexedFaceSet::CreateTriMesh() const
 	}
 	ComputeTriMeshVertexNormals( vertexNormals );
 	ComputeTriMeshVertexColors( vertexColors );
-	Q3BoundingBox_SetFromPoints3D( &bounds, &thePoints[0], thePoints.size(),
+	Q3BoundingBox_SetFromPoints3D( &bounds, &thePoints[0], static_cast<TQ3Uns32>(thePoints.size()),
 		sizeof(TQ3Point3D) );
 	ComputeTriMeshTexCoords( thePoints, bounds, vertexUVs );
 	
@@ -896,17 +910,17 @@ CQ3ObjectRef	CIndexedFaceSet::CreateTriMesh() const
 	TQ3TriMeshData		triMeshData =
 	{
 		NULL,					// triMeshAttributeSet
-		theTriangles.size(),	// numTriangles
+		static_cast<TQ3Uns32>(theTriangles.size()),	// numTriangles
 		&theTriangles[0],		// triangles
-		faceAttNum + 1,			// numTriangleAttributeTypes
+		static_cast<TQ3Uns32>(faceAttNum + 1),			// numTriangleAttributeTypes
 		faceAtts,				// triangleAttributeTypes
 		0,						// numEdges
 		NULL,					// edges
 		0,						// numEdgeAttributeTypes
 		NULL,					// edgeAttributeTypes
-		thePoints.size(),		// numPoints
+		static_cast<TQ3Uns32>(thePoints.size()),		// numPoints
 		&thePoints[0],			// points
-		vertAttNum + 1,			// numVertexAttributeTypes
+		static_cast<TQ3Uns32>(vertAttNum + 1),			// numVertexAttributeTypes
 		vertAtts,				// vertexAttributeTypes
 		bounds			// bBox
 	};

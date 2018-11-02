@@ -66,6 +66,7 @@
 		BE8D826E1328AC41009324C6 /* TransformV2ToObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D82611328AC41009324C6 /* TransformV2ToObject.cpp */; };
 		BE8D82731328AC55009324C6 /* NodeV2ToObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D82711328AC55009324C6 /* NodeV2ToObject.cpp */; };
 		BE8D82741328AC55009324C6 /* ParseVRML.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D82721328AC55009324C6 /* ParseVRML.cpp */; };
+		BE90AD3A1D9ADB7F00FF3CF4 /* error_code.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE90AD391D9ADB7F00FF3CF4 /* error_code.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -168,6 +169,7 @@
 		BE8D82611328AC41009324C6 /* TransformV2ToObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TransformV2ToObject.cpp; sourceTree = "<group>"; };
 		BE8D82711328AC55009324C6 /* NodeV2ToObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NodeV2ToObject.cpp; sourceTree = "<group>"; };
 		BE8D82721328AC55009324C6 /* ParseVRML.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ParseVRML.cpp; sourceTree = "<group>"; };
+		BE90AD391D9ADB7F00FF3CF4 /* error_code.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = error_code.cpp; path = libs/system/src/error_code.cpp; sourceTree = Boost; };
 		BE90C99F0AFBCC0F00976226 /* VRML-reader-prefix.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = "VRML-reader-prefix.h"; path = "../Source/VRML-reader-prefix.h"; sourceTree = SOURCE_ROOT; };
 		BE90C9B80AFBD2AC00976226 /* VRML-reader.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "VRML-reader.xcconfig"; sourceTree = "<group>"; };
 		BEB01A2708EF72B000A982F8 /* IndexedFaceSet.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = IndexedFaceSet.h; sourceTree = "<group>"; };
@@ -262,6 +264,7 @@
 		089C1671FE841209C02AAC07 /* External Frameworks and Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				BE90AD391D9ADB7F00FF3CF4 /* error_code.cpp */,
 				BE775A3109F809A5006C1ED3 /* Quesa.framework */,
 			);
 			name = "External Frameworks and Libraries";
@@ -633,6 +636,7 @@
 				BE8D826E1328AC41009324C6 /* TransformV2ToObject.cpp in Sources */,
 				BE8D82731328AC55009324C6 /* NodeV2ToObject.cpp in Sources */,
 				BE8D82741328AC55009324C6 /* ParseVRML.cpp in Sources */,
+				BE90AD3A1D9ADB7F00FF3CF4 /* error_code.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

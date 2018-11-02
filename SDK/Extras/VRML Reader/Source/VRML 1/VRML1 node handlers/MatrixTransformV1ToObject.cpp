@@ -78,10 +78,10 @@ CQ3ObjectRef	MatrixTransformV1ToObject( PolyValue& ioNode, CVRMLReader& inReader
 			if (matVec.size() == 16)
 			{
 				TQ3Matrix4x4	theMatrix = {{
-					matVec[0], matVec[1], matVec[2], matVec[3],
-					matVec[4], matVec[5], matVec[6], matVec[7],
-					matVec[8], matVec[9], matVec[10], matVec[11],
-					matVec[12], matVec[13], matVec[14], matVec[15]
+					static_cast<float>(matVec[0]), static_cast<float>(matVec[1]), static_cast<float>(matVec[2]), static_cast<float>(matVec[3]),
+					static_cast<float>(matVec[4]), static_cast<float>(matVec[5]), static_cast<float>(matVec[6]), static_cast<float>(matVec[7]),
+					static_cast<float>(matVec[8]), static_cast<float>(matVec[9]), static_cast<float>(matVec[10]), static_cast<float>(matVec[11]),
+					static_cast<float>(matVec[12]), static_cast<float>(matVec[13]), static_cast<float>(matVec[14]), static_cast<float>(matVec[15])
 				}};
 				theTransform = CQ3ObjectRef( Q3MatrixTransform_New( &theMatrix ) );
 				
