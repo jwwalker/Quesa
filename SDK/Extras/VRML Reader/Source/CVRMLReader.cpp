@@ -120,7 +120,7 @@ XVRMLReaderImp::XVRMLReaderImp(
 static bool StringStartsWith( const char* inMain, const char* inPrefix )
 {
 	using namespace std;
-	int	preLen = strlen( inPrefix );
+	size_t	preLen = strlen( inPrefix );
 	return 0 == memcmp( inMain, inPrefix, preLen );
 }
 
@@ -318,7 +318,7 @@ void	XVRMLReaderImp::Close( TQ3Boolean inAbort )
 		}
 		*mDebugStream << "===========" << std::endl;
 		std::string		debugText( mDebugStream->str() );
-		Q3Object_SetProperty( mBaseData->storage, kDebugTextProperty, debugText.size(),
+		Q3Object_SetProperty( mBaseData->storage, kDebugTextProperty, static_cast<TQ3Uns32>(debugText.size()),
 			debugText.data() );
 	}
 }

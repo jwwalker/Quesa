@@ -120,7 +120,7 @@ static void	MaterialV2ToObject( PolyValue& ioNode, CVRMLReader& inReader,
 		if (diffColorVec.size() == 3)
 		{
 			TQ3ColorRGB	diffColor = {
-				diffColorVec[0], diffColorVec[1], diffColorVec[2]
+				static_cast<float>(diffColorVec[0]), static_cast<float>(diffColorVec[1]), static_cast<float>(diffColorVec[2])
 			};
 			ValidateColor( diffColor, "diffuse", inReader );
 			Q3AttributeSet_Add( ioAttSet.get(), kQ3AttributeTypeDiffuseColor, &diffColor );
@@ -143,7 +143,7 @@ static void	MaterialV2ToObject( PolyValue& ioNode, CVRMLReader& inReader,
 		if (emissiveColorVec.size() == 3)
 		{
 			TQ3ColorRGB	emissiveColor = {
-				emissiveColorVec[0], emissiveColorVec[1], emissiveColorVec[2]
+				static_cast<float>(emissiveColorVec[0]), static_cast<float>(emissiveColorVec[1]), static_cast<float>(emissiveColorVec[2])
 			};
 			ValidateColor( emissiveColor, "emissive", inReader );
 			Q3AttributeSet_Add( ioAttSet.get(), kQ3AttributeTypeEmissiveColor, &emissiveColor );

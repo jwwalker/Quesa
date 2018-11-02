@@ -17,6 +17,8 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
+      <AdditionalLibraryDirectories>$(BoostDir)\products</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libboost_thread-vc141-mt-s-1_65_1.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup />

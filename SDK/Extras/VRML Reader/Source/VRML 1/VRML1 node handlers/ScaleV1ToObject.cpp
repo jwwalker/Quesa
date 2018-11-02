@@ -78,7 +78,7 @@ CQ3ObjectRef	ScaleV1ToObject( PolyValue& ioNode, CVRMLReader& inReader )
 			if (transVec.size() == 3)
 			{
 				TQ3Vector3D	scale = {
-					transVec[0], transVec[1], transVec[2]
+					static_cast<float>(transVec[0]), static_cast<float>(transVec[1]), static_cast<float>(transVec[2])
 				};
 				theTransform = CQ3ObjectRef( Q3ScaleTransform_New( &scale ) );
 				

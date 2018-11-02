@@ -136,14 +136,14 @@ CQ3ObjectRef	CreatePixelTexture( PolyValue::Dictionary& textureDict )
 					}
 					
 					CQ3ObjectRef	imageStorage( Q3MemoryStorage_New( &theImage[0],
-						theImage.size() ) );
+						static_cast<TQ3Uns32>(theImage.size()) ) );
 					ThrowIfNullQuesaOb_( imageStorage );
 					
 					TQ3StoragePixmap pixmap = {
 						imageStorage.get(),
-						imageWidth,
-						imageHeight,
-						rowBytes,
+						static_cast<TQ3Uns32>(imageWidth),
+						static_cast<TQ3Uns32>(imageHeight),
+						static_cast<TQ3Uns32>(rowBytes),
 						32,
 						(componentCount == 3)? kQ3PixelTypeRGB32 : kQ3PixelTypeARGB32,
 						kQ3EndianBig,

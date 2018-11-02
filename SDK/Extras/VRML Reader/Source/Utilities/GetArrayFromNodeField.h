@@ -122,7 +122,7 @@ template <typename T>
 void FloatVecToStructureVec( const PolyValue::FloatVec& inFloats,
 							std::vector<T>& outArray )
 {
-	const int kFloatCount = inFloats.size();
+	const size_t kFloatCount = inFloats.size();
 	const int kFloatsInStruct = sizeof(T) / sizeof(float);
 	if ( (kFloatCount % kFloatsInStruct) != 0 )
 	{

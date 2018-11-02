@@ -88,8 +88,8 @@ CQ3ObjectRef	PointSetV2ToObject( PolyValue& ioNode )
 		
 		std::vector<TQ3ColorRGB>	theColors;
 		GetNodeArray( theDict, "color", "Color", "color", theColors );
-		unsigned int		i;
-		const unsigned int kNumPoints = thePoints.size();
+		size_t		i;
+		const size_t kNumPoints = thePoints.size();
 		
 		if (theColors.size() >= kNumPoints)
 		{
