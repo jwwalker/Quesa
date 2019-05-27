@@ -8,8 +8,8 @@
 <hr><a name="//Quesa/c/tdef/TQ3ViewEndFrameMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3ViewEndFrameMethod">TQ3ViewEndFrameMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>void,                TQ3ViewEndFrameMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject       theView,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;void                *endFrameData<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull      theView,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;void                * _Nonnull endFrameData<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Application callback for Q3View_SetEndFrameMethod.
 <br><br>
@@ -23,8 +23,8 @@
 <hr><a name="//Quesa/c/tdef/TQ3ViewIdleMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3ViewIdleMethod">TQ3ViewIdleMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,           TQ3ViewIdleMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject       theView,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;const void          *idlerData<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull      theView,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;const void          * _Nonnull idlerData<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Application callback for Q3View_SetIdleMethod.
 <br><br>
@@ -40,8 +40,8 @@
 <hr><a name="//Quesa/c/tdef/TQ3ViewIdleProgressMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3ViewIdleProgressMethod">TQ3ViewIdleProgressMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,           TQ3ViewIdleProgressMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject       theView,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;const void          *idlerData,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull      theView,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;const void          * _Nonnull idlerData,<BR>
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32            progressCurrent,<BR>
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32            progressCompleted<BR>);</tt><br>
 </blockquote>
@@ -58,5 +58,5 @@
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the callback.
  </dd></dl>
-<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 5/27/2019)
 </p></body></html>

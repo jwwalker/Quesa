@@ -8,8 +8,8 @@
 <hr><a name="//Quesa/c/tdef/TQ3FileIdleMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3FileIdleMethod">TQ3FileIdleMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status, TQ3FileIdleMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;const void *idlerData<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;const void * _Nonnull idlerData<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Idle callback for reading/writing.
 <br><br>
@@ -25,7 +25,7 @@
 <hr><a name="//Quesa/c/tdef/TQ3XDataDeleteMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XDataDeleteMethod">TQ3XDataDeleteMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>void,                    TQ3XDataDeleteMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;void *data<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;void * _Nonnull data<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Delete method.
 <br><br>
@@ -40,8 +40,8 @@
 </td></tr></table><hr>Returns whether the called FileFormat is able to read the given storage.
 
 <blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Boolean,              TQ3XFFormatCanReadMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject storage,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType* theFileFormatFound<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject _Nonnull storage,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType* _Nonnull theFileFormatFound<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>This method is called for every subclass of kQ3FileFormatTypeReader from Q3File_OpenRead.
 Once found a FileFormat that returns something other than kQ3ObjectTypeInvalid in the theFileFormatFound
@@ -60,7 +60,7 @@ or kQ3ObjectTypeInvalid.</dd>
 <hr><a name="//Quesa/c/tdef/TQ3XFFormatCloseMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XFFormatCloseMethod">TQ3XFFormatCloseMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,               TQ3XFFormatCloseMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject _Nonnull format,<BR>
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean abort<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Close method.
@@ -77,9 +77,9 @@ or kQ3ObjectTypeInvalid.</dd>
 <hr><a name="//Quesa/c/tdef/TQ3XFFormatFloat32ReadArrayMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XFFormatFloat32ReadArrayMethod">TQ3XFFormatFloat32ReadArrayMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status, TQ3XFFormatFloat32ReadArrayMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject _Nonnull format,<BR>
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 numFloats,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Float32* data<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Float32* _Nonnull data<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read an array of 32-bit floats from a file.
 <br><br>
@@ -96,8 +96,8 @@ or kQ3ObjectTypeInvalid.</dd>
 <hr><a name="//Quesa/c/tdef/TQ3XFFormatFloat32ReadMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XFFormatFloat32ReadMethod">TQ3XFFormatFloat32ReadMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status, TQ3XFFormatFloat32ReadMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Float32* data<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject _Nonnull format,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Float32* _Nonnull data<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read a 32-bit float from a file.
 <br><br>
@@ -113,8 +113,8 @@ or kQ3ObjectTypeInvalid.</dd>
 <hr><a name="//Quesa/c/tdef/TQ3XFFormatFloat32WriteMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XFFormatFloat32WriteMethod">TQ3XFFormatFloat32WriteMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status, TQ3XFFormatFloat32WriteMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Float32 *data<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject _Nonnull format,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Float32 * _Nonnull data<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Write a 32-bit float to a file.
 <br><br>
@@ -130,8 +130,8 @@ or kQ3ObjectTypeInvalid.</dd>
 <hr><a name="//Quesa/c/tdef/TQ3XFFormatFloat64ReadMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XFFormatFloat64ReadMethod">TQ3XFFormatFloat64ReadMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status, TQ3XFFormatFloat64ReadMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Float64* data<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject _Nonnull format,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Float64* _Nonnull data<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read a 64-bit float from a file.
 <br><br>
@@ -147,8 +147,8 @@ or kQ3ObjectTypeInvalid.</dd>
 <hr><a name="//Quesa/c/tdef/TQ3XFFormatFloat64WriteMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XFFormatFloat64WriteMethod">TQ3XFFormatFloat64WriteMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status, TQ3XFFormatFloat64WriteMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Float64 *data<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject _Nonnull format,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Float64 * _Nonnull data<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Write a 64-bit float to a file.
 <br><br>
@@ -164,7 +164,7 @@ or kQ3ObjectTypeInvalid.</dd>
 <hr><a name="//Quesa/c/tdef/TQ3XFFormatGetFormatTypeMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XFFormatGetFormatTypeMethod">TQ3XFFormatGetFormatTypeMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3FileMode,             TQ3XFFormatGetFormatTypeMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the format type for a file.
 <br><br>
@@ -179,7 +179,7 @@ or kQ3ObjectTypeInvalid.</dd>
 <hr><a name="//Quesa/c/tdef/TQ3XFFormatGetNextTypeMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XFFormatGetNextTypeMethod">TQ3XFFormatGetNextTypeMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3ObjectType,           TQ3XFFormatGetNextTypeMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the next type from a file.
 <br><br>
@@ -194,9 +194,9 @@ or kQ3ObjectTypeInvalid.</dd>
 <hr><a name="//Quesa/c/tdef/TQ3XFFormatInt16ReadArrayMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XFFormatInt16ReadArrayMethod">TQ3XFFormatInt16ReadArrayMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status, TQ3XFFormatInt16ReadArrayMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject _Nonnull format,<BR>
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 numNums,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int16* data<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int16* _Nonnull data<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read an array of 16-bit integers from a file.
 <br><br>
@@ -213,8 +213,8 @@ or kQ3ObjectTypeInvalid.</dd>
 <hr><a name="//Quesa/c/tdef/TQ3XFFormatInt16ReadMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XFFormatInt16ReadMethod">TQ3XFFormatInt16ReadMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status, TQ3XFFormatInt16ReadMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int16* data<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject _Nonnull format,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int16* _Nonnull data<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read a 16-bit integer from a file.
 <br><br>
@@ -230,8 +230,8 @@ or kQ3ObjectTypeInvalid.</dd>
 <hr><a name="//Quesa/c/tdef/TQ3XFFormatInt16WriteMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XFFormatInt16WriteMethod">TQ3XFFormatInt16WriteMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status, TQ3XFFormatInt16WriteMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Int16 *data<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject _Nonnull format,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Int16 * _Nonnull data<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Write a 16-bit integer to a file.
 <br><br>
@@ -247,9 +247,9 @@ or kQ3ObjectTypeInvalid.</dd>
 <hr><a name="//Quesa/c/tdef/TQ3XFFormatInt32ReadArrayMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XFFormatInt32ReadArrayMethod">TQ3XFFormatInt32ReadArrayMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status, TQ3XFFormatInt32ReadArrayMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject _Nonnull format,<BR>
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 numNums,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int32* data<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int32* _Nonnull data<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read an array of 32-bit integers from a file.
 <br><br>
@@ -266,8 +266,8 @@ or kQ3ObjectTypeInvalid.</dd>
 <hr><a name="//Quesa/c/tdef/TQ3XFFormatInt32ReadMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XFFormatInt32ReadMethod">TQ3XFFormatInt32ReadMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status, TQ3XFFormatInt32ReadMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int32* data<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject _Nonnull format,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int32* _Nonnull data<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read a 32-bit integer from a file.
 <br><br>
@@ -283,8 +283,8 @@ or kQ3ObjectTypeInvalid.</dd>
 <hr><a name="//Quesa/c/tdef/TQ3XFFormatInt32WriteMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XFFormatInt32WriteMethod">TQ3XFFormatInt32WriteMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status, TQ3XFFormatInt32WriteMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Int32 *data<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject _Nonnull format,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Int32 * _Nonnull data<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Write a 32-bit integer to a file.
 <br><br>
@@ -300,8 +300,8 @@ or kQ3ObjectTypeInvalid.</dd>
 <hr><a name="//Quesa/c/tdef/TQ3XFFormatInt64ReadMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XFFormatInt64ReadMethod">TQ3XFFormatInt64ReadMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status, TQ3XFFormatInt64ReadMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int64* data<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject _Nonnull format,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int64* _Nonnull data<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read a 64-bit integer from a file.
 <br><br>
@@ -317,8 +317,8 @@ or kQ3ObjectTypeInvalid.</dd>
 <hr><a name="//Quesa/c/tdef/TQ3XFFormatInt64WriteMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XFFormatInt64WriteMethod">TQ3XFFormatInt64WriteMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status, TQ3XFFormatInt64WriteMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Int64 *data<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject _Nonnull format,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Int64 * _Nonnull data<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Write a 64-bit integer to a file.
 <br><br>
@@ -334,9 +334,9 @@ or kQ3ObjectTypeInvalid.</dd>
 <hr><a name="//Quesa/c/tdef/TQ3XFFormatInt8ReadArrayMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XFFormatInt8ReadArrayMethod">TQ3XFFormatInt8ReadArrayMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status, TQ3XFFormatInt8ReadArrayMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject _Nonnull format,<BR>
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 numNums,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int8* data<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int8* _Nonnull data<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read an array of 8-bit integers from a file.
 <br><br>
@@ -353,8 +353,8 @@ or kQ3ObjectTypeInvalid.</dd>
 <hr><a name="//Quesa/c/tdef/TQ3XFFormatInt8ReadMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XFFormatInt8ReadMethod">TQ3XFFormatInt8ReadMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status, TQ3XFFormatInt8ReadMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int8* data<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject _Nonnull format,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int8* _Nonnull data<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read an 8-bit integer from a file.
 <br><br>
@@ -370,8 +370,8 @@ or kQ3ObjectTypeInvalid.</dd>
 <hr><a name="//Quesa/c/tdef/TQ3XFFormatInt8WriteMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XFFormatInt8WriteMethod">TQ3XFFormatInt8WriteMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status, TQ3XFFormatInt8WriteMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Int8 *data<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject _Nonnull format,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Int8 * _Nonnull data<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Write a 8-bit integer to a file.
 <br><br>
@@ -387,8 +387,8 @@ or kQ3ObjectTypeInvalid.</dd>
 <hr><a name="//Quesa/c/tdef/TQ3XFFormatRawReadMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XFFormatRawReadMethod">TQ3XFFormatRawReadMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status, TQ3XFFormatRawReadMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;unsigned char* data,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject _Nonnull format,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;unsigned char* _Nonnull data,<BR>
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 length<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read a block of data from a file.
@@ -406,8 +406,8 @@ or kQ3ObjectTypeInvalid.</dd>
 <hr><a name="//Quesa/c/tdef/TQ3XFFormatRawWriteMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XFFormatRawWriteMethod">TQ3XFFormatRawWriteMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status, TQ3XFFormatRawWriteMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;const unsigned char* data,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject _Nonnull format,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;const unsigned char* _Nonnull data,<BR>
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 length<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Write a block of data to a file.
@@ -425,7 +425,7 @@ or kQ3ObjectTypeInvalid.</dd>
 <hr><a name="//Quesa/c/tdef/TQ3XFFormatReadHeaderMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XFFormatReadHeaderMethod">TQ3XFFormatReadHeaderMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,               TQ3XFFormatReadHeaderMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read the header from a file.
 <br><br>
@@ -439,8 +439,8 @@ or kQ3ObjectTypeInvalid.</dd>
  </dd></dl>
 <hr><a name="//Quesa/c/tdef/TQ3XFFormatReadObjectMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XFFormatReadObjectMethod">TQ3XFFormatReadObjectMethod</a></h2>
-</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Object,               TQ3XFFormatReadObjectMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile<BR>);</tt><br>
+</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Object _Nullable,               TQ3XFFormatReadObjectMethod</b>) (<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read an object from a file.
 <br><br>
@@ -455,7 +455,7 @@ or kQ3ObjectTypeInvalid.</dd>
 <hr><a name="//Quesa/c/tdef/TQ3XFFormatSkipObjectMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XFFormatSkipObjectMethod">TQ3XFFormatSkipObjectMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,               TQ3XFFormatSkipObjectMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Skip an object in a file.
 <br><br>
@@ -470,9 +470,9 @@ or kQ3ObjectTypeInvalid.</dd>
 <hr><a name="//Quesa/c/tdef/TQ3XFFormatStringReadMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XFFormatStringReadMethod">TQ3XFFormatStringReadMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status, TQ3XFFormatStringReadMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;char* data,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 *length<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject _Nonnull format,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;char* _Nonnull data,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 * _Nonnull length<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read a string from a file.
 <br><br>
@@ -489,8 +489,8 @@ or kQ3ObjectTypeInvalid.</dd>
 <hr><a name="//Quesa/c/tdef/TQ3XFFormatStringWriteMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XFFormatStringWriteMethod">TQ3XFFormatStringWriteMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status, TQ3XFFormatStringWriteMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;const char* data<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject _Nonnull format,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;const char* _Nonnull data<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Write a C-string to a file.
 <br><br>
@@ -506,11 +506,11 @@ or kQ3ObjectTypeInvalid.</dd>
 <hr><a name="//Quesa/c/tdef/TQ3XFileFormatSubmitObjectMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XFileFormatSubmitObjectMethod">TQ3XFileFormatSubmitObjectMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,           TQ3XFileFormatSubmitObjectMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject       theView,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;void                *fileFormatPrivate,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object			theObject,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull      theView,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;void                * _Nonnull fileFormatPrivate,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object _Nonnull			theObject,<BR>
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType		objectType,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;const void			*objectData<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;const void			* _Nonnull objectData<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit an object to a file.
 <br><br>
@@ -529,8 +529,8 @@ or kQ3ObjectTypeInvalid.</dd>
 <hr><a name="//Quesa/c/tdef/TQ3XObjectAttachMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XObjectAttachMethod">TQ3XObjectAttachMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,               TQ3XObjectAttachMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object childObject,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object parentObject<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object _Nonnull childObject,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object _Nonnull parentObject<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Attach method.
 <br><br>
@@ -549,8 +549,8 @@ or kQ3ObjectTypeInvalid.</dd>
 custom element or attribute.
 
 <blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,               TQ3XObjectReadDataMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object parentObject,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object _Nonnull parentObject,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>The method normally reads the element's data using functions such as
 <code>Q3Float32_Read</code> and <code>Q3File_ReadObject</code> (for child objects),
@@ -566,8 +566,8 @@ then adds the element data to its parent set.
  </dd></dl>
 <hr><a name="//Quesa/c/tdef/TQ3XObjectReadDefaultMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XObjectReadDefaultMethod">TQ3XObjectReadDefaultMethod</a></h2>
-</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Object,               TQ3XObjectReadDefaultMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile<BR>);</tt><br>
+</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Object _Nullable,               TQ3XObjectReadDefaultMethod</b>) (<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read method for default geometries (geometries represented with no data in 3DMF files).
 <br><br>
@@ -583,8 +583,8 @@ then adds the element data to its parent set.
  </dd></dl>
 <hr><a name="//Quesa/c/tdef/TQ3XObjectReadMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XObjectReadMethod">TQ3XObjectReadMethod</a></h2>
-</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Object,               TQ3XObjectReadMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile<BR>);</tt><br>
+</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Object _Nullable, TQ3XObjectReadMethod</b>) (<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read method.
 <br><br>
@@ -599,9 +599,9 @@ then adds the element data to its parent set.
 <hr><a name="//Quesa/c/tdef/TQ3XObjectTraverseDataMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XObjectTraverseDataMethod">TQ3XObjectTraverseDataMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,               TQ3XObjectTraverseDataMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object object,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;void *data,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object _Nonnull object,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;void * _Nonnull data,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>This is the custom object method of type <code>kQ3XMethodTypeObjectTraverseData</code>.
 The QuickDraw 3D documention mentions this method, but does not explain how it
@@ -613,9 +613,9 @@ differs from <code>TQ3XObjectTraverseMethod</code>.  Quesa does not use it.
 custom element or attribute.
 
 <blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,               TQ3XObjectTraverseMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object object,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;void *data,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object _Nonnull object,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;void * _Nonnull data,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Writing of 3DMF data is done in two phases:  traversal, which figures out which
 objects are to be written and how much space each will use, and the actual
@@ -643,8 +643,8 @@ result		Success or failure of the operation.</dd>
 custom element or attribute.
 
 <blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,               TQ3XObjectWriteMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;const void *data,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;const void * _Nonnull data,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Writing of 3DMF data is done in two phases:  traversal, which figures out which
 objects are to be written and how much space each will use, and the actual
@@ -666,5 +666,5 @@ child objects does not need to provide this method.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
-<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 5/27/2019)
 </p></body></html>

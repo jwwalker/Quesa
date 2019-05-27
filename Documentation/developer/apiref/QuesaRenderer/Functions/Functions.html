@@ -8,8 +8,8 @@
 <hr><a name="//Quesa/c/func/Q3InteractiveRenderer_CountRAVEDrawContexts"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3InteractiveRenderer_CountRAVEDrawContexts">Q3InteractiveRenderer_CountRAVEDrawContexts</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3InteractiveRenderer_CountRAVEDrawContexts (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject renderer,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 *numRAVEContexts
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject _Nonnull renderer,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 * _Nonnull numRAVEContexts
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Count the RAVE contexts for the interactive renderer.
@@ -29,8 +29,8 @@ Note - this function is deprecated, and is not fully supported in Quesa.
 <hr><a name="//Quesa/c/func/Q3InteractiveRenderer_GetCSGEquation"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3InteractiveRenderer_GetCSGEquation">Q3InteractiveRenderer_GetCSGEquation</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3InteractiveRenderer_GetCSGEquation (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject renderer,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CSGEquation *equation
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject _Nonnull renderer,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CSGEquation * _Nonnull equation
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the CSG equation from the interactive renderer.
@@ -50,8 +50,8 @@ Note - this function is deprecated, and is not fully supported in Quesa.
 <hr><a name="//Quesa/c/func/Q3InteractiveRenderer_GetDoubleBufferBypass"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3InteractiveRenderer_GetDoubleBufferBypass">Q3InteractiveRenderer_GetDoubleBufferBypass</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3InteractiveRenderer_GetDoubleBufferBypass (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject renderer,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean *bypass
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject _Nonnull renderer,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean * _Nonnull bypass
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the double-buffer bypass hint from the interactive renderer.
@@ -71,9 +71,9 @@ Note - this function is deprecated, and is not fully supported in Quesa.
 <hr><a name="//Quesa/c/func/Q3InteractiveRenderer_GetPreferences"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3InteractiveRenderer_GetPreferences">Q3InteractiveRenderer_GetPreferences</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3InteractiveRenderer_GetPreferences (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject renderer,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RaveVendorID *vendorID,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RaveEngineID *engineID
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject _Nonnull renderer,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RaveVendorID * _Nonnull vendorID,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RaveEngineID * _Nonnull engineID
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the RAVE preferences from the interactive renderer.
@@ -94,8 +94,8 @@ Note - this function is deprecated, and is not fully supported in Quesa.
 <hr><a name="//Quesa/c/func/Q3InteractiveRenderer_GetRAVEContextHints"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3InteractiveRenderer_GetRAVEContextHints">Q3InteractiveRenderer_GetRAVEContextHints</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3InteractiveRenderer_GetRAVEContextHints (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject renderer,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 *RAVEContextHints
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject _Nonnull renderer,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 * _Nonnull RAVEContextHints
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the RAVE context hints from the interactive renderer.
@@ -115,11 +115,11 @@ Note - this function is deprecated, and is not fully supported in Quesa.
 <hr><a name="//Quesa/c/func/Q3InteractiveRenderer_GetRAVEDrawContexts"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3InteractiveRenderer_GetRAVEDrawContexts">Q3InteractiveRenderer_GetRAVEDrawContexts</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3InteractiveRenderer_GetRAVEDrawContexts (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject renderer,
-&nbsp;&nbsp;&nbsp;&nbsp;TQADrawContext **raveDrawContextList,
-&nbsp;&nbsp;&nbsp;&nbsp;TQAEngine **raveDrawingEnginesList,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 *numRAVEContexts,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RaveDestroyCallback raveDestroyCallback
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject _Nonnull renderer,
+&nbsp;&nbsp;&nbsp;&nbsp;TQADrawContext * _Nonnull * _Nonnull raveDrawContextList,
+&nbsp;&nbsp;&nbsp;&nbsp;TQAEngine * _Nonnull * _Nonnull raveDrawingEnginesList,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 * _Nonnull numRAVEContexts,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RaveDestroyCallback _Nonnull raveDestroyCallback
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the RAVE contexts for the interactive renderer.
@@ -142,8 +142,8 @@ Note - this function is deprecated, and is not fully supported in Quesa.
 <hr><a name="//Quesa/c/func/Q3InteractiveRenderer_GetRAVETextureFilter"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3InteractiveRenderer_GetRAVETextureFilter">Q3InteractiveRenderer_GetRAVETextureFilter</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3InteractiveRenderer_GetRAVETextureFilter (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject renderer,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3TextureFilter *raveTextureFilterValue
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject _Nonnull renderer,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TextureFilter * _Nonnull raveTextureFilterValue
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the RAVE texture filter from the interactive renderer.
@@ -164,7 +164,7 @@ renderers do use this filter to choose OpenGL texture filtering settings.
 <hr><a name="//Quesa/c/func/Q3InteractiveRenderer_SetCSGEquation"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3InteractiveRenderer_SetCSGEquation">Q3InteractiveRenderer_SetCSGEquation</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3InteractiveRenderer_SetCSGEquation (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject renderer,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject _Nonnull renderer,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3CSGEquation equation
 );</tt><br>
 </pre></blockquote>
@@ -185,7 +185,7 @@ Note - this function is deprecated, and is not fully supported in Quesa.
 <hr><a name="//Quesa/c/func/Q3InteractiveRenderer_SetDoubleBufferBypass"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3InteractiveRenderer_SetDoubleBufferBypass">Q3InteractiveRenderer_SetDoubleBufferBypass</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3InteractiveRenderer_SetDoubleBufferBypass (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject renderer,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject _Nonnull renderer,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean bypass
 );</tt><br>
 </pre></blockquote>
@@ -206,7 +206,7 @@ Note - this function is deprecated, and is not fully supported in Quesa.
 <hr><a name="//Quesa/c/func/Q3InteractiveRenderer_SetPreferences"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3InteractiveRenderer_SetPreferences">Q3InteractiveRenderer_SetPreferences</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3InteractiveRenderer_SetPreferences (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject renderer,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject _Nonnull renderer,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3RaveVendorID vendorID,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3RaveEngineID engineID
 );</tt><br>
@@ -229,7 +229,7 @@ Note - this function is deprecated, and is not fully supported in Quesa.
 <hr><a name="//Quesa/c/func/Q3InteractiveRenderer_SetRAVEContextHints"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3InteractiveRenderer_SetRAVEContextHints">Q3InteractiveRenderer_SetRAVEContextHints</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3InteractiveRenderer_SetRAVEContextHints (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject renderer,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject _Nonnull renderer,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 RAVEContextHints
 );</tt><br>
 </pre></blockquote>
@@ -250,7 +250,7 @@ Note - this function is deprecated, and is not fully supported in Quesa.
 <hr><a name="//Quesa/c/func/Q3InteractiveRenderer_SetRAVETextureFilter"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3InteractiveRenderer_SetRAVETextureFilter">Q3InteractiveRenderer_SetRAVETextureFilter</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3InteractiveRenderer_SetRAVETextureFilter (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject renderer,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject _Nonnull renderer,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3TextureFilter raveTextureFilterValue
 );</tt><br>
 </pre></blockquote>
@@ -273,7 +273,7 @@ renderers do use this filter to choose OpenGL texture filtering settings.
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RendererClass_GetNickNameString">Q3RendererClass_GetNickNameString</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RendererClass_GetNickNameString (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType rendererClassType,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectClassNameString rendererClassString
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectClassNameString _Nonnull rendererClassString
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the "nick name" of a renderer class.
@@ -294,10 +294,10 @@ suitable for display in a menu or window.
 <hr><a name="//Quesa/c/func/Q3Renderer_GetConfigurationData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Renderer_GetConfigurationData">Q3Renderer_GetConfigurationData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Renderer_GetConfigurationData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject renderer,
-&nbsp;&nbsp;&nbsp;&nbsp;unsigned char *dataBuffer,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject _Nonnull renderer,
+&nbsp;&nbsp;&nbsp;&nbsp;unsigned char * _Nullable dataBuffer,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 bufferSize,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 *actualDataSize
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 * _Nonnull actualDataSize
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the configuration data for a renderer.
@@ -328,7 +328,7 @@ dataBuffer.
 <hr><a name="//Quesa/c/func/Q3Renderer_GetType"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Renderer_GetType">Q3Renderer_GetType</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3ObjectType ) Q3Renderer_GetType (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject renderer
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject _Nonnull renderer
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the class type of a renderer object.
@@ -345,7 +345,7 @@ dataBuffer.
 <hr><a name="//Quesa/c/func/Q3Renderer_HasModalConfigure"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Renderer_HasModalConfigure">Q3Renderer_HasModalConfigure</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Boolean ) Q3Renderer_HasModalConfigure (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject renderer
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject _Nonnull renderer
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Does a renderer have a modal configure dialog?
@@ -362,7 +362,7 @@ dataBuffer.
 <hr><a name="//Quesa/c/func/Q3Renderer_IsInteractive"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Renderer_IsInteractive">Q3Renderer_IsInteractive</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Boolean ) Q3Renderer_IsInteractive (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject renderer
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject _Nonnull renderer
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Is a renderer "interactive"?
@@ -385,9 +385,9 @@ while software-based renderers (e.g., ray-tracers) would not.
 <hr><a name="//Quesa/c/func/Q3Renderer_ModalConfigure"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Renderer_ModalConfigure">Q3Renderer_ModalConfigure</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Renderer_ModalConfigure (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject renderer,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject _Nonnull renderer,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3DialogAnchor dialogAnchor,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean *cancelled
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean * _Nonnull cancelled
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Invoke a renderer's modal configure dialog.
@@ -415,7 +415,7 @@ the application for later recall.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Renderer_NewFromType"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Renderer_NewFromType">Q3Renderer_NewFromType</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3RendererObject ) Q3Renderer_NewFromType (
+</td></tr></table><hr><blockquote><pre><tt>( TQ3RendererObject _Nonnull ) Q3Renderer_NewFromType (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType rendererObjectType
 );</tt><br>
 </pre></blockquote>
@@ -448,8 +448,8 @@ types using <code>Q3RendererClass_GetNickNameString</code>.
 <hr><a name="//Quesa/c/func/Q3Renderer_SetConfigurationData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Renderer_SetConfigurationData">Q3Renderer_SetConfigurationData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Renderer_SetConfigurationData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject renderer,
-&nbsp;&nbsp;&nbsp;&nbsp;unsigned char *dataBuffer,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject _Nonnull renderer,
+&nbsp;&nbsp;&nbsp;&nbsp;unsigned char * _Nonnull dataBuffer,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 bufferSize
 );</tt><br>
 </pre></blockquote>
@@ -472,7 +472,7 @@ Q3Renderer_GetConfigurationData.
 <hr><a name="//Quesa/c/func/Q3XDrawContext_ClearValidationFlags"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawContext_ClearValidationFlags">Q3XDrawContext_ClearValidationFlags</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawContext_ClearValidationFlags (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject drawContext
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject _Nonnull drawContext
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Clear the validation flags for a draw context.
@@ -491,8 +491,8 @@ This function should only be called from renderer plug-ins.
 <hr><a name="//Quesa/c/func/Q3XDrawContext_GetValidationFlags"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawContext_GetValidationFlags">Q3XDrawContext_GetValidationFlags</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawContext_GetValidationFlags (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject drawContext,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawContextValidation *validationFlags
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject _Nonnull drawContext,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawContextValidation * _Nonnull validationFlags
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the validation flags for a draw context.
@@ -512,7 +512,7 @@ This function should only be called from renderer plug-ins.
 <hr><a name="//Quesa/c/func/Q3XView_EndFrame"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XView_EndFrame">Q3XView_EndFrame</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XView_EndFrame (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Indicate to a view that a frame has completed.
@@ -531,7 +531,7 @@ This function should only be called from asynchronous renderer plug-ins.
 <hr><a name="//Quesa/c/func/Q3XView_IdleProgress"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XView_IdleProgress">Q3XView_IdleProgress</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XView_IdleProgress (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 current,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 completed
 );</tt><br>
@@ -561,5 +561,5 @@ This function should only be called from renderer plug-ins.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
-<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 5/27/2019)
 </p></body></html>

@@ -561,10 +561,7 @@
 		BE0D64FB0C0D0FFC00D3D79C /* QOCalcTriMeshEdges.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QOCalcTriMeshEdges.h; sourceTree = "<group>"; };
 		BE0D64FC0C0D0FFC00D3D79C /* QOShadowMarker.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = QOShadowMarker.cpp; sourceTree = "<group>"; };
 		BE11DD721D5A9DA20013C5ED /* CQ3WeakObjectRef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CQ3WeakObjectRef.h; sourceTree = "<group>"; };
-		BE2AF1F015B78A2A00400670 /* Legacy.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Legacy.xcconfig; sourceTree = "<group>"; };
 		BE2AF1F115B78BE700400670 /* Modern.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Modern.xcconfig; sourceTree = "<group>"; };
-		BE2AF20115B791B300400670 /* Legacy-Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Legacy-Debug.xcconfig"; sourceTree = "<group>"; };
-		BE2AF20215B7920A00400670 /* Legacy-Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "Legacy-Release.xcconfig"; sourceTree = "<group>"; };
 		BE392D070B6D0CCA00A351AC /* CQ3ObjectRef_Gets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CQ3ObjectRef_Gets.h; sourceTree = "<group>"; };
 		BE499C960F145E950060DF4E /* Quesa-common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Quesa-common.xcconfig"; path = "xcode-configs/Quesa-common.xcconfig"; sourceTree = SOURCE_ROOT; wrapsLines = 1; };
 		BE499C970F145E950060DF4E /* Quesa-debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Quesa-debug.xcconfig"; path = "xcode-configs/Quesa-debug.xcconfig"; sourceTree = SOURCE_ROOT; };
@@ -1135,10 +1132,7 @@
 				BE499C9A0F145E950060DF4E /* Quesa-framework.xcconfig */,
 				BE499C9B0F145E950060DF4E /* Quesa-release.xcconfig */,
 				BE499C9E0F145E950060DF4E /* Quesa-staticlibrary.xcconfig */,
-				BE2AF1F015B78A2A00400670 /* Legacy.xcconfig */,
 				BE2AF1F115B78BE700400670 /* Modern.xcconfig */,
-				BE2AF20115B791B300400670 /* Legacy-Debug.xcconfig */,
-				BE2AF20215B7920A00400670 /* Legacy-Release.xcconfig */,
 				BE5D0F5F15B79B3C00E3DBE4 /* Modern-Debug.xcconfig */,
 				BE5D0F6015B79B6500E3DBE4 /* Modern-Release.xcconfig */,
 			);
@@ -1264,7 +1258,6 @@
 				8D07F2BD0486CC7A007CD1D0 /* Headers */,
 				8D07F2C10486CC7A007CD1D0 /* Sources */,
 				8D07F2C30486CC7A007CD1D0 /* Frameworks */,
-				8D07F2C50486CC7A007CD1D0 /* Rez */,
 				BEE381D40FAE3C26000EE99A /* Update API Reference */,
 			);
 			buildRules = (
@@ -1299,17 +1292,18 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0940;
+				LastUpgradeCheck = 1020;
 			};
 			buildConfigurationList = BEDC044F08A57B3000FB3A82 /* Build configuration list for PBXProject "Quesa" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 1;
 			knownRegions = (
-				English,
-				Japanese,
-				French,
-				German,
+				fr,
+				ja,
+				en,
+				de,
+				Base,
 			);
 			mainGroup = 0867D691FE84028FC02AAC07 /* Quesa */;
 			productRefGroup = 034768DDFF38A45A11DB9C8B /* Products */;
@@ -1321,16 +1315,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXRezBuildPhase section */
-		8D07F2C50486CC7A007CD1D0 /* Rez */ = {
-			isa = PBXRezBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXRezBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
 		BEE381D40FAE3C26000EE99A /* Update API Reference */ = {
@@ -1733,8 +1717,11 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BE5D0F5F15B79B3C00E3DBE4 /* Modern-Debug.xcconfig */;
 			buildSettings = {
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				ONLY_ACTIVE_ARCH = YES;
 			};
 			name = Debug;
 		};
@@ -1742,6 +1729,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BE5D0F6015B79B6500E3DBE4 /* Modern-Release.xcconfig */;
 			buildSettings = {
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 			};

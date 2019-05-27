@@ -8,8 +8,8 @@
 <hr><a name="//Quesa/c/func/Q3FSRefStorage_Get"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FSRefStorage_Get">Q3FSRefStorage_Get</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3FSRefStorage_Get (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject storage,
-&nbsp;&nbsp;&nbsp;&nbsp;FSRef *fr
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject _Nonnull storage,
+&nbsp;&nbsp;&nbsp;&nbsp;FSRef * _Nonnull fr
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Find the FSRef associated with an FSRef storage object.
@@ -26,8 +26,8 @@
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3FSRefStorage_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FSRefStorage_New">Q3FSRefStorage_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3StorageObject ) Q3FSRefStorage_New (
-&nbsp;&nbsp;&nbsp;&nbsp;const FSRef *fr
+</td></tr></table><hr><blockquote><pre><tt>( TQ3StorageObject _Nonnull ) Q3FSRefStorage_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const FSRef * _Nonnull fr
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a storage object associated with a Mac file reference.
@@ -51,8 +51,8 @@ used interchangeably.
 <hr><a name="//Quesa/c/func/Q3FSRefStorage_Set"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FSRefStorage_Set">Q3FSRefStorage_Set</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3FSRefStorage_Set (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject storage,
-&nbsp;&nbsp;&nbsp;&nbsp;const FSRef *fr
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject _Nonnull storage,
+&nbsp;&nbsp;&nbsp;&nbsp;const FSRef * _Nonnull fr
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Change the file reference for an FSRef storage object.
@@ -72,8 +72,8 @@ The storage must be closed at the time you call this.
 <hr><a name="//Quesa/c/func/Q3FSSpecStorage_Get"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FSSpecStorage_Get">Q3FSSpecStorage_Get</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3FSSpecStorage_Get (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject storage,
-&nbsp;&nbsp;&nbsp;&nbsp;FSSpec *fs
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject _Nonnull storage,
+&nbsp;&nbsp;&nbsp;&nbsp;FSSpec * _Nonnull fs
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Find the FSSpec associated with an FSSpec storage object.
@@ -90,8 +90,8 @@ The storage must be closed at the time you call this.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3FSSpecStorage_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FSSpecStorage_New">Q3FSSpecStorage_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3StorageObject ) Q3FSSpecStorage_New (
-&nbsp;&nbsp;&nbsp;&nbsp;const FSSpec *fs
+</td></tr></table><hr><blockquote><pre><tt>( TQ3StorageObject _Nonnull ) Q3FSSpecStorage_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const FSSpec * _Nonnull fs
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a storage object associated with a Mac file specification.
@@ -115,8 +115,8 @@ used interchangeably.
 <hr><a name="//Quesa/c/func/Q3FSSpecStorage_Set"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FSSpecStorage_Set">Q3FSSpecStorage_Set</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3FSSpecStorage_Set (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject storage,
-&nbsp;&nbsp;&nbsp;&nbsp;const FSSpec *fs
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject _Nonnull storage,
+&nbsp;&nbsp;&nbsp;&nbsp;const FSSpec * _Nonnull fs
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Change the file specification for an FSSpec storage object.
@@ -136,8 +136,8 @@ The storage must be closed at the time you call this.
 <hr><a name="//Quesa/c/func/Q3FileStreamStorage_Get"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FileStreamStorage_Get">Q3FileStreamStorage_Get</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3FileStreamStorage_Get (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject theStorage,
-&nbsp;&nbsp;&nbsp;&nbsp;FILE** theStream
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject _Nonnull theStorage,
+&nbsp;&nbsp;&nbsp;&nbsp;FILE* _Nullable * _Nonnull theStream
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the stream associated with the storage.
@@ -159,8 +159,8 @@ The storage must be closed at the time you call this.
 </td></tr></table><hr>Create a storage object from a Unix-style file stream (FILE*).
 <br><br>
 
-<blockquote><pre><tt>( TQ3StorageObject ) Q3FileStreamStorage_New (
-&nbsp;&nbsp;&nbsp;&nbsp;FILE* theStream
+<blockquote><pre><tt>( TQ3StorageObject _Nonnull ) Q3FileStreamStorage_New (
+&nbsp;&nbsp;&nbsp;&nbsp;FILE* _Nonnull theStream
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>The specified stream must remain open as long as you use the
@@ -184,8 +184,8 @@ with a file stream storage object.
 <hr><a name="//Quesa/c/func/Q3FileStreamStorage_Set"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FileStreamStorage_Set">Q3FileStreamStorage_Set</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3FileStreamStorage_Set (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject theStorage,
-&nbsp;&nbsp;&nbsp;&nbsp;FILE* theStream
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject _Nonnull theStorage,
+&nbsp;&nbsp;&nbsp;&nbsp;FILE* _Nonnull theStream
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the stream associated with the storage.
@@ -205,9 +205,9 @@ with a file stream storage object.
 <hr><a name="//Quesa/c/func/Q3HandleStorage_Get"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3HandleStorage_Get">Q3HandleStorage_Get</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3HandleStorage_Get (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject storage,
-&nbsp;&nbsp;&nbsp;&nbsp;Handle *handle,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 *validSize
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject _Nonnull storage,
+&nbsp;&nbsp;&nbsp;&nbsp;Handle _Nullable * _Nonnull handle,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 * _Nonnull validSize
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get information about a Handle storage object.
@@ -225,8 +225,8 @@ with a file stream storage object.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3HandleStorage_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3HandleStorage_New">Q3HandleStorage_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3StorageObject ) Q3HandleStorage_New (
-&nbsp;&nbsp;&nbsp;&nbsp;Handle handle,
+</td></tr></table><hr><blockquote><pre><tt>( TQ3StorageObject _Nonnull ) Q3HandleStorage_New (
+&nbsp;&nbsp;&nbsp;&nbsp;Handle _Nullable handle,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 validSize
 );</tt><br>
 </pre></blockquote>
@@ -251,8 +251,8 @@ or the desired size if the Handle is nullptr.</dd>
 <hr><a name="//Quesa/c/func/Q3HandleStorage_Set"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3HandleStorage_Set">Q3HandleStorage_Set</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3HandleStorage_Set (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject storage,
-&nbsp;&nbsp;&nbsp;&nbsp;Handle handle,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject _Nonnull storage,
+&nbsp;&nbsp;&nbsp;&nbsp;Handle _Nullable handle,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 validSize
 );</tt><br>
 </pre></blockquote>
@@ -277,8 +277,8 @@ object is disposed.
 <hr><a name="//Quesa/c/func/Q3MacintoshStorage_Get"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MacintoshStorage_Get">Q3MacintoshStorage_Get</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3MacintoshStorage_Get (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject storage,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int16 *fsRefNum
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject _Nonnull storage,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int16 * _Nonnull fsRefNum
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the file reference number associated with the storage.
@@ -297,7 +297,7 @@ associated with the storage.</dd>
 <hr><a name="//Quesa/c/func/Q3MacintoshStorage_GetType"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MacintoshStorage_GetType">Q3MacintoshStorage_GetType</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3ObjectType ) Q3MacintoshStorage_GetType (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject storage
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject _Nonnull storage
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get a derived type of a Mac storage object, currently either
@@ -314,7 +314,7 @@ kQ3MacintoshStorageTypeFSSpec or kQ3ObjectTypeInvalid.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3MacintoshStorage_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MacintoshStorage_New">Q3MacintoshStorage_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3StorageObject ) Q3MacintoshStorage_New (
+</td></tr></table><hr><blockquote><pre><tt>( TQ3StorageObject _Nonnull ) Q3MacintoshStorage_New (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Int16 fsRefNum
 );</tt><br>
 </pre></blockquote>
@@ -338,7 +338,7 @@ Mac file.</dd>
 <hr><a name="//Quesa/c/func/Q3MacintoshStorage_Set"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MacintoshStorage_Set">Q3MacintoshStorage_Set</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3MacintoshStorage_Set (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject storage,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject _Nonnull storage,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Int16 fsRefNum
 );</tt><br>
 </pre></blockquote>
@@ -360,10 +360,10 @@ Mac file.</dd>
 <hr><a name="//Quesa/c/func/Q3MemoryStorage_GetBuffer"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MemoryStorage_GetBuffer">Q3MemoryStorage_GetBuffer</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3MemoryStorage_GetBuffer (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject storage,
-&nbsp;&nbsp;&nbsp;&nbsp;unsigned char **buffer,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 *validSize,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 *bufferSize
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject _Nonnull storage,
+&nbsp;&nbsp;&nbsp;&nbsp;unsigned char * _Nonnull * _Nullable buffer,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 * _Nullable validSize,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 * _Nullable bufferSize
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the data of a memory storage object.
@@ -391,7 +391,7 @@ in the storage object.</dd>
 <hr><a name="//Quesa/c/func/Q3MemoryStorage_GetType"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MemoryStorage_GetType">Q3MemoryStorage_GetType</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3ObjectType ) Q3MemoryStorage_GetType (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject storage
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject _Nonnull storage
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the type of a memory storage object.
@@ -410,8 +410,8 @@ currently either kQ3MemoryStorageTypeHandle or kQ3ObjectTypeInvalid.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3MemoryStorage_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MemoryStorage_New">Q3MemoryStorage_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3StorageObject ) Q3MemoryStorage_New (
-&nbsp;&nbsp;&nbsp;&nbsp;const unsigned char *buffer,
+</td></tr></table><hr><blockquote><pre><tt>( TQ3StorageObject _Nonnull ) Q3MemoryStorage_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const unsigned char * _Nullable buffer,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 validSize
 );</tt><br>
 </pre></blockquote>
@@ -437,8 +437,8 @@ allocated buffer.  If you passed nullptr for buffer and
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3MemoryStorage_NewBuffer"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MemoryStorage_NewBuffer">Q3MemoryStorage_NewBuffer</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3StorageObject ) Q3MemoryStorage_NewBuffer (
-&nbsp;&nbsp;&nbsp;&nbsp;unsigned char *buffer,
+</td></tr></table><hr><blockquote><pre><tt>( TQ3StorageObject _Nonnull ) Q3MemoryStorage_NewBuffer (
+&nbsp;&nbsp;&nbsp;&nbsp;unsigned char * _Nullable buffer,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 validSize,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 bufferSize
 );</tt><br>
@@ -467,8 +467,8 @@ size of an internally-allocated buffer.</dd>
 previously allocated memory.
 <br><br>
 
-<blockquote><pre><tt>( TQ3StorageObject ) Q3MemoryStorage_NewNoCopy (
-&nbsp;&nbsp;&nbsp;&nbsp;unsigned char *buffer,
+<blockquote><pre><tt>( TQ3StorageObject _Nonnull ) Q3MemoryStorage_NewNoCopy (
+&nbsp;&nbsp;&nbsp;&nbsp;unsigned char * _Nonnull buffer,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 validSize,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 bufferSize
 );</tt><br>
@@ -494,8 +494,8 @@ using Q3Memory_Allocate or Q3Memory_AllocateClear.</dd>
 <hr><a name="//Quesa/c/func/Q3MemoryStorage_Set"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MemoryStorage_Set">Q3MemoryStorage_Set</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3MemoryStorage_Set (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject storage,
-&nbsp;&nbsp;&nbsp;&nbsp;const unsigned char *buffer,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject _Nonnull storage,
+&nbsp;&nbsp;&nbsp;&nbsp;const unsigned char * _Nullable buffer,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 validSize
 );</tt><br>
 </pre></blockquote>
@@ -521,8 +521,8 @@ storage, or initial memory size if buffer was nullptr.</dd>
 <hr><a name="//Quesa/c/func/Q3MemoryStorage_SetBuffer"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MemoryStorage_SetBuffer">Q3MemoryStorage_SetBuffer</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3MemoryStorage_SetBuffer (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject storage,
-&nbsp;&nbsp;&nbsp;&nbsp;unsigned char *buffer,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject _Nonnull storage,
+&nbsp;&nbsp;&nbsp;&nbsp;unsigned char * _Nullable buffer,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 validSize,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 bufferSize
 );</tt><br>
@@ -549,8 +549,8 @@ of an internally allocated buffer.</dd>
 <hr><a name="//Quesa/c/func/Q3PathStorage_Get"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PathStorage_Get">Q3PathStorage_Get</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3PathStorage_Get (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject theStorage,
-&nbsp;&nbsp;&nbsp;&nbsp;char *pathName
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject _Nonnull theStorage,
+&nbsp;&nbsp;&nbsp;&nbsp;char * _Nonnull pathName
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Finds the path associated with a path storage object.
@@ -572,8 +572,8 @@ Be sure to allocate enough space for it.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3PathStorage_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PathStorage_New">Q3PathStorage_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3StorageObject ) Q3PathStorage_New (
-&nbsp;&nbsp;&nbsp;&nbsp;const char *pathName
+</td></tr></table><hr><blockquote><pre><tt>( TQ3StorageObject _Nonnull ) Q3PathStorage_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const char * _Nonnull pathName
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Creates a storage object of type kQ3StorageTypePath.
@@ -581,8 +581,11 @@ This type of storage is associated with a file specified by a path name,
 and is intended to replace the poorly-named "Unix path" storage.
 <br><br>
 The exact format of permissible paths is platform-dependent.  For example,
-in a Mac version of Quesa built with the Metrowerks Standard Library,
-the path is colon-separated and assumed to be in the system encoding.
+on Mac OS X, the path is slash-separated and assumed to be in the UTF-8
+character encoding.
+<br><br>
+If the file does not already exist, opening the storage for writing will
+create it.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
@@ -598,8 +601,8 @@ the path is colon-separated and assumed to be in the system encoding.
 <hr><a name="//Quesa/c/func/Q3PathStorage_Set"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PathStorage_Set">Q3PathStorage_Set</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3PathStorage_Set (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject theStorage,
-&nbsp;&nbsp;&nbsp;&nbsp;const char *pathName
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject _Nonnull theStorage,
+&nbsp;&nbsp;&nbsp;&nbsp;const char * _Nonnull pathName
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Changes the path associated with a path storage object.
@@ -619,11 +622,11 @@ the path is colon-separated and assumed to be in the system encoding.
 <hr><a name="//Quesa/c/func/Q3Storage_GetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Storage_GetData">Q3Storage_GetData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Storage_GetData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject storage,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject _Nonnull storage,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 offset,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 dataSize,
-&nbsp;&nbsp;&nbsp;&nbsp;unsigned char *data,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 *sizeRead
+&nbsp;&nbsp;&nbsp;&nbsp;unsigned char * _Nonnull data,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 * _Nonnull sizeRead
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read some data from a storage object.
@@ -648,8 +651,8 @@ the file must be open.
 <hr><a name="//Quesa/c/func/Q3Storage_GetSize"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Storage_GetSize">Q3Storage_GetSize</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Storage_GetSize (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject storage,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 *size
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject _Nonnull storage,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 * _Nonnull size
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the size of the data in a storage object.
@@ -671,7 +674,7 @@ must be open.
 <hr><a name="//Quesa/c/func/Q3Storage_GetType"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Storage_GetType">Q3Storage_GetType</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3ObjectType ) Q3Storage_GetType (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject storage
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject _Nonnull storage
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Returns the type of a storage object.
@@ -691,11 +694,11 @@ or kQ3StorageTypeWin32, provided that the object is a storage object.
 <hr><a name="//Quesa/c/func/Q3Storage_SetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Storage_SetData">Q3Storage_SetData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Storage_SetData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject storage,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject _Nonnull storage,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 offset,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 dataSize,
-&nbsp;&nbsp;&nbsp;&nbsp;const unsigned char *data,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 *sizeWritten
+&nbsp;&nbsp;&nbsp;&nbsp;const unsigned char * _Nonnull data,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 * _Nonnull sizeWritten
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Write some data to a storage object.
@@ -721,8 +724,8 @@ normally the same as dataSize.</dd>
 <hr><a name="//Quesa/c/func/Q3UnixPathStorage_Get"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3UnixPathStorage_Get">Q3UnixPathStorage_Get</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3UnixPathStorage_Get (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject storage,
-&nbsp;&nbsp;&nbsp;&nbsp;char *pathName
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject _Nonnull storage,
+&nbsp;&nbsp;&nbsp;&nbsp;char * _Nonnull pathName
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the path associated with a Unix path storage object
@@ -742,8 +745,8 @@ Be sure to allocate enough space for it.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3UnixPathStorage_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3UnixPathStorage_New">Q3UnixPathStorage_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3StorageObject ) Q3UnixPathStorage_New (
-&nbsp;&nbsp;&nbsp;&nbsp;const char *pathName
+</td></tr></table><hr><blockquote><pre><tt>( TQ3StorageObject _Nonnull ) Q3UnixPathStorage_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const char * _Nonnull pathName
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a storage object associated with a file system path.
@@ -762,8 +765,8 @@ The Quesa extension Q3PathStorage_New may be used in place of this.
 <hr><a name="//Quesa/c/func/Q3UnixPathStorage_Set"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3UnixPathStorage_Set">Q3UnixPathStorage_Set</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3UnixPathStorage_Set (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject storage,
-&nbsp;&nbsp;&nbsp;&nbsp;const char *pathName
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject _Nonnull storage,
+&nbsp;&nbsp;&nbsp;&nbsp;const char * _Nonnull pathName
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Change the path associated with a Unix path storage object.
@@ -781,8 +784,8 @@ The Quesa extension Q3PathStorage_New may be used in place of this.
 <hr><a name="//Quesa/c/func/Q3Win32Storage_Get"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Win32Storage_Get">Q3Win32Storage_Get</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Win32Storage_Get (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject storage,
-&nbsp;&nbsp;&nbsp;&nbsp;HANDLE *hFile
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject _Nonnull storage,
+&nbsp;&nbsp;&nbsp;&nbsp;HANDLE * _Nonnull hFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the file handle for a Win32 storage object.
@@ -799,7 +802,7 @@ The Quesa extension Q3PathStorage_New may be used in place of this.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Win32Storage_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Win32Storage_New">Q3Win32Storage_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3StorageObject ) Q3Win32Storage_New (
+</td></tr></table><hr><blockquote><pre><tt>( TQ3StorageObject _Nonnull ) Q3Win32Storage_New (
 &nbsp;&nbsp;&nbsp;&nbsp;HANDLE hFile
 );</tt><br>
 </pre></blockquote>
@@ -820,7 +823,7 @@ object, and it is your responsibility to close the file later.
 <hr><a name="//Quesa/c/func/Q3Win32Storage_Set"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Win32Storage_Set">Q3Win32Storage_Set</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Win32Storage_Set (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject storage,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject _Nonnull storage,
 &nbsp;&nbsp;&nbsp;&nbsp;HANDLE hFile
 );</tt><br>
 </pre></blockquote>
@@ -836,5 +839,5 @@ object, and it is your responsibility to close the file later.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
-<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 5/27/2019)
 </p></body></html>

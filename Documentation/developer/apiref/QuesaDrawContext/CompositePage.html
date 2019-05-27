@@ -7,12 +7,13 @@
 <h1><font face="Geneva,Arial,Helvtica">QuesaDrawContext.h</font></h1><br>
 <h2>Discussion</h2>
 Declares the Quesa draw context objects.
- <hr><br><h2>Functions</h2>
+<br><br>
+<hr><br><h2>Functions</h2>
 <hr><a name="//Quesa/c/func/Q3CocoaDrawContext_GetNSView"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3CocoaDrawContext_GetNSView">Q3CocoaDrawContext_GetNSView</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3CocoaDrawContext_GetNSView (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject drawContext,
-&nbsp;&nbsp;&nbsp;&nbsp;void **nsView
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject _Nonnull drawContext,
+&nbsp;&nbsp;&nbsp;&nbsp;void * _Nullable * _Nonnull nsView
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the NSView of a Cocoa draw context.
@@ -31,8 +32,8 @@ Declares the Quesa draw context objects.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3CocoaDrawContext_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3CocoaDrawContext_New">Q3CocoaDrawContext_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3DrawContextObject ) Q3CocoaDrawContext_New (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3CocoaDrawContextData *drawContextData
+</td></tr></table><hr><blockquote><pre><tt>( TQ3DrawContextObject _Nonnull ) Q3CocoaDrawContext_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3CocoaDrawContextData * _Nonnull drawContextData
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new Cocoa draw context object.
@@ -51,8 +52,8 @@ Declares the Quesa draw context objects.
 <hr><a name="//Quesa/c/func/Q3CocoaDrawContext_SetNSView"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3CocoaDrawContext_SetNSView">Q3CocoaDrawContext_SetNSView</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3CocoaDrawContext_SetNSView (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject drawContext,
-&nbsp;&nbsp;&nbsp;&nbsp;void *nsView
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject _Nonnull drawContext,
+&nbsp;&nbsp;&nbsp;&nbsp;void * _Nonnull nsView
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the NSView for a Cocoa draw context.
@@ -127,8 +128,8 @@ Declares the Quesa draw context objects.
 <hr><a name="//Quesa/c/func/Q3DrawContext_GetClearImageColor"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DrawContext_GetClearImageColor">Q3DrawContext_GetClearImageColor</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DrawContext_GetClearImageColor (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject context,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ColorARGB *color
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject _Nonnull context,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ColorARGB * _Nonnull color
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the clear image colour of a draw context.
@@ -146,8 +147,8 @@ Declares the Quesa draw context objects.
 <hr><a name="//Quesa/c/func/Q3DrawContext_GetClearImageMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DrawContext_GetClearImageMethod">Q3DrawContext_GetClearImageMethod</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DrawContext_GetClearImageMethod (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject context,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextClearImageMethod *method
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject _Nonnull context,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextClearImageMethod * _Nonnull method
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the clear image method of a draw context.
@@ -165,8 +166,8 @@ Declares the Quesa draw context objects.
 <hr><a name="//Quesa/c/func/Q3DrawContext_GetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DrawContext_GetData">Q3DrawContext_GetData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DrawContext_GetData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject context,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextData *contextData
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject _Nonnull context,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextData * _Nonnull contextData
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the common state of a draw context.
@@ -184,8 +185,8 @@ Declares the Quesa draw context objects.
 <hr><a name="//Quesa/c/func/Q3DrawContext_GetDoubleBufferState"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DrawContext_GetDoubleBufferState">Q3DrawContext_GetDoubleBufferState</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DrawContext_GetDoubleBufferState (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject context,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean *state
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject _Nonnull context,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean * _Nonnull state
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the double-buffer state of a draw context.
@@ -203,8 +204,8 @@ Declares the Quesa draw context objects.
 <hr><a name="//Quesa/c/func/Q3DrawContext_GetMask"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DrawContext_GetMask">Q3DrawContext_GetMask</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DrawContext_GetMask (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject context,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Bitmap *mask
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject _Nonnull context,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Bitmap * _Nonnull mask
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the mask of a draw context.
@@ -222,8 +223,8 @@ Declares the Quesa draw context objects.
 <hr><a name="//Quesa/c/func/Q3DrawContext_GetMaskState"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DrawContext_GetMaskState">Q3DrawContext_GetMaskState</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DrawContext_GetMaskState (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject context,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean *state
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject _Nonnull context,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean * _Nonnull state
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the mask state of a draw context.
@@ -241,8 +242,8 @@ Declares the Quesa draw context objects.
 <hr><a name="//Quesa/c/func/Q3DrawContext_GetPane"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DrawContext_GetPane">Q3DrawContext_GetPane</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DrawContext_GetPane (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject context,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Area *pane
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject _Nonnull context,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Area * _Nonnull pane
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the area within the draw context which is rendered to.
@@ -268,8 +269,8 @@ not had an explicit pane set.
 <hr><a name="//Quesa/c/func/Q3DrawContext_GetPaneState"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DrawContext_GetPaneState">Q3DrawContext_GetPaneState</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DrawContext_GetPaneState (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject context,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean *state
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject _Nonnull context,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean * _Nonnull state
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the pane state of a draw context.
@@ -287,7 +288,7 @@ not had an explicit pane set.
 <hr><a name="//Quesa/c/func/Q3DrawContext_GetType"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DrawContext_GetType">Q3DrawContext_GetType</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3ObjectType ) Q3DrawContext_GetType (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject drawContext
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject _Nonnull drawContext
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the type of a draw context.
@@ -306,8 +307,8 @@ Returns kQ3ObjectTypeInvalid if the draw context type is unknown.
 <hr><a name="//Quesa/c/func/Q3DrawContext_SetClearImageColor"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DrawContext_SetClearImageColor">Q3DrawContext_SetClearImageColor</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DrawContext_SetClearImageColor (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject context,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorARGB *color
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject _Nonnull context,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorARGB * _Nonnull color
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the clear image colour for a draw context.
@@ -325,7 +326,7 @@ Returns kQ3ObjectTypeInvalid if the draw context type is unknown.
 <hr><a name="//Quesa/c/func/Q3DrawContext_SetClearImageMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DrawContext_SetClearImageMethod">Q3DrawContext_SetClearImageMethod</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DrawContext_SetClearImageMethod (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject context,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject _Nonnull context,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextClearImageMethod method
 );</tt><br>
 </pre></blockquote>
@@ -344,8 +345,8 @@ Returns kQ3ObjectTypeInvalid if the draw context type is unknown.
 <hr><a name="//Quesa/c/func/Q3DrawContext_SetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DrawContext_SetData">Q3DrawContext_SetData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DrawContext_SetData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject context,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3DrawContextData *contextData
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject _Nonnull context,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3DrawContextData * _Nonnull contextData
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the common state for a draw context.
@@ -363,7 +364,7 @@ Returns kQ3ObjectTypeInvalid if the draw context type is unknown.
 <hr><a name="//Quesa/c/func/Q3DrawContext_SetDoubleBufferState"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DrawContext_SetDoubleBufferState">Q3DrawContext_SetDoubleBufferState</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DrawContext_SetDoubleBufferState (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject context,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject _Nonnull context,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean state
 );</tt><br>
 </pre></blockquote>
@@ -386,8 +387,8 @@ at the end of the frame.
 <hr><a name="//Quesa/c/func/Q3DrawContext_SetMask"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DrawContext_SetMask">Q3DrawContext_SetMask</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DrawContext_SetMask (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject context,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Bitmap *mask
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject _Nonnull context,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Bitmap * _Nonnull mask
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the mask for a draw context.
@@ -410,7 +411,7 @@ This feature is not currently supported by Quesa's interactive renderers.
 <hr><a name="//Quesa/c/func/Q3DrawContext_SetMaskState"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DrawContext_SetMaskState">Q3DrawContext_SetMaskState</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DrawContext_SetMaskState (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject context,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject _Nonnull context,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean state
 );</tt><br>
 </pre></blockquote>
@@ -429,8 +430,8 @@ This feature is not currently supported by Quesa's interactive renderers.
 <hr><a name="//Quesa/c/func/Q3DrawContext_SetPane"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DrawContext_SetPane">Q3DrawContext_SetPane</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DrawContext_SetPane (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject context,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Area *pane
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject _Nonnull context,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Area * _Nonnull pane
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the area within the draw context which is rendered to.
@@ -452,7 +453,7 @@ draw context (e.g., the bounds of the window).
 <hr><a name="//Quesa/c/func/Q3DrawContext_SetPaneState"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DrawContext_SetPaneState">Q3DrawContext_SetPaneState</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DrawContext_SetPaneState (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject context,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject _Nonnull context,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean state
 );</tt><br>
 </pre></blockquote>
@@ -471,8 +472,8 @@ draw context (e.g., the bounds of the window).
 <hr><a name="//Quesa/c/func/Q3MacDrawContext_Get2DLibrary"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MacDrawContext_Get2DLibrary">Q3MacDrawContext_Get2DLibrary</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3MacDrawContext_Get2DLibrary (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject drawContext,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3MacDrawContext2DLibrary *library
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject _Nonnull drawContext,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3MacDrawContext2DLibrary * _Nonnull library
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the 2D library of a Mac draw context.
@@ -490,8 +491,8 @@ draw context (e.g., the bounds of the window).
 <hr><a name="//Quesa/c/func/Q3MacDrawContext_GetGXViewPort"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MacDrawContext_GetGXViewPort">Q3MacDrawContext_GetGXViewPort</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3MacDrawContext_GetGXViewPort (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject drawContext,
-&nbsp;&nbsp;&nbsp;&nbsp;gxViewPort *viewPort
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject _Nonnull drawContext,
+&nbsp;&nbsp;&nbsp;&nbsp;gxViewPort _Nullable * _Nonnull viewPort
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the QuickDraw GX port of a Mac draw context.
@@ -509,8 +510,8 @@ draw context (e.g., the bounds of the window).
 <hr><a name="//Quesa/c/func/Q3MacDrawContext_GetGrafPort"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MacDrawContext_GetGrafPort">Q3MacDrawContext_GetGrafPort</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3MacDrawContext_GetGrafPort (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject drawContext,
-&nbsp;&nbsp;&nbsp;&nbsp;CGrafPtr *grafPort
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject _Nonnull drawContext,
+&nbsp;&nbsp;&nbsp;&nbsp;CGrafPtr _Nonnull * _Nonnull grafPort
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the Mac OS GrafPort of a Mac draw context.
@@ -528,8 +529,8 @@ draw context (e.g., the bounds of the window).
 <hr><a name="//Quesa/c/func/Q3MacDrawContext_GetWindow"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MacDrawContext_GetWindow">Q3MacDrawContext_GetWindow</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3MacDrawContext_GetWindow (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject drawContext,
-&nbsp;&nbsp;&nbsp;&nbsp;WindowRef *window
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject _Nonnull drawContext,
+&nbsp;&nbsp;&nbsp;&nbsp;WindowRef _Nullable * _Nonnull window
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the window of a Mac draw context.
@@ -546,8 +547,8 @@ draw context (e.g., the bounds of the window).
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3MacDrawContext_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MacDrawContext_New">Q3MacDrawContext_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3DrawContextObject ) Q3MacDrawContext_New (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3MacDrawContextData *drawContextData
+</td></tr></table><hr><blockquote><pre><tt>( TQ3DrawContextObject _Nonnull ) Q3MacDrawContext_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3MacDrawContextData * _Nonnull drawContextData
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new Mac draw context object.
@@ -564,7 +565,7 @@ draw context (e.g., the bounds of the window).
 <hr><a name="//Quesa/c/func/Q3MacDrawContext_Set2DLibrary"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MacDrawContext_Set2DLibrary">Q3MacDrawContext_Set2DLibrary</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3MacDrawContext_Set2DLibrary (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject drawContext,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject _Nonnull drawContext,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3MacDrawContext2DLibrary library
 );</tt><br>
 </pre></blockquote>
@@ -583,8 +584,8 @@ draw context (e.g., the bounds of the window).
 <hr><a name="//Quesa/c/func/Q3MacDrawContext_SetGXViewPort"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MacDrawContext_SetGXViewPort">Q3MacDrawContext_SetGXViewPort</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3MacDrawContext_SetGXViewPort (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject drawContext,
-&nbsp;&nbsp;&nbsp;&nbsp;gxViewPort viewPort
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject _Nonnull drawContext,
+&nbsp;&nbsp;&nbsp;&nbsp;gxViewPort _Nonnull viewPort
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the QuickDraw GX port for a Mac draw context.
@@ -602,8 +603,8 @@ draw context (e.g., the bounds of the window).
 <hr><a name="//Quesa/c/func/Q3MacDrawContext_SetGrafPort"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MacDrawContext_SetGrafPort">Q3MacDrawContext_SetGrafPort</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3MacDrawContext_SetGrafPort (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject drawContext,
-&nbsp;&nbsp;&nbsp;&nbsp;CGrafPtr grafPort
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject _Nonnull drawContext,
+&nbsp;&nbsp;&nbsp;&nbsp;CGrafPtr _Nonnull grafPort
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the Mac OS GrafPort for a Mac draw context.
@@ -621,8 +622,8 @@ draw context (e.g., the bounds of the window).
 <hr><a name="//Quesa/c/func/Q3MacDrawContext_SetWindow"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MacDrawContext_SetWindow">Q3MacDrawContext_SetWindow</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3MacDrawContext_SetWindow (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject drawContext,
-&nbsp;&nbsp;&nbsp;&nbsp;WindowRef window
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject _Nonnull drawContext,
+&nbsp;&nbsp;&nbsp;&nbsp;WindowRef _Nonnull window
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the window for a Mac draw context.
@@ -640,8 +641,8 @@ draw context (e.g., the bounds of the window).
 <hr><a name="//Quesa/c/func/Q3PixmapDrawContext_GetPixmap"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PixmapDrawContext_GetPixmap">Q3PixmapDrawContext_GetPixmap</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3PixmapDrawContext_GetPixmap (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject drawContext,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Pixmap *pixmap
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject _Nonnull drawContext,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Pixmap * _Nonnull pixmap
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the pixmap of a pixmap draw context.
@@ -658,8 +659,8 @@ draw context (e.g., the bounds of the window).
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3PixmapDrawContext_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PixmapDrawContext_New">Q3PixmapDrawContext_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3DrawContextObject ) Q3PixmapDrawContext_New (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3PixmapDrawContextData *contextData
+</td></tr></table><hr><blockquote><pre><tt>( TQ3DrawContextObject _Nonnull ) Q3PixmapDrawContext_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3PixmapDrawContextData * _Nonnull contextData
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new Pixmap draw context object.
@@ -676,8 +677,8 @@ draw context (e.g., the bounds of the window).
 <hr><a name="//Quesa/c/func/Q3PixmapDrawContext_SetPixmap"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PixmapDrawContext_SetPixmap">Q3PixmapDrawContext_SetPixmap</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3PixmapDrawContext_SetPixmap (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject drawContext,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Pixmap *pixmap
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject _Nonnull drawContext,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Pixmap * _Nonnull pixmap
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the pixmap for a pixmap draw context.
@@ -1027,7 +1028,7 @@ purpose of the function, and its parameters/result, have been assumed.
 kQ3DrawContextPropertyGLDestroyCallback.
 
 <blockquote><tt>typedef Q3_CALLBACK_API_C (<b>void, TQ3GLContextDestructionCallback</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject inQuesaDC<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject _Nonnull inQuesaDC<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>If this function pointer is set as a property on a draw context,
 it will be called when an OpenGL context is just about to be
@@ -1053,7 +1054,7 @@ context being destroyed.</dd>
 
 <blockquote><pre>
 typedef struct TQ3AcceleratedOffscreenPropertyData {
-    TQ3Object    masterDrawContext;
+    TQ3Object _Nonnull    masterDrawContext;
     TQ3Boolean    copyFromPixmapAtFrameStart;
     TQ3Boolean    copyToPixmapAtFrameEnd;
 } TQ3AcceleratedOffscreenPropertyData;
@@ -1089,7 +1090,7 @@ last pass of each frame.</dd>
 </td></tr></table><hr><blockquote><pre>
 typedef struct TQ3CocoaDrawContextData {
     TQ3DrawContextData                          drawContextData;
-    void                                        *nsView;
+    void                                        * _Nonnull nsView;
 } TQ3CocoaDrawContextData;
 </pre>
 </blockquote>
@@ -1189,10 +1190,10 @@ renderers.
 </td></tr></table><hr><blockquote><pre>
 typedef struct TQ3MacDrawContextData {
     TQ3DrawContextData                          drawContextData;
-    WindowRef                                   window;
+    WindowRef _Nullable                                   window;
     TQ3MacDrawContext2DLibrary                  library;
-    gxViewPort                                  viewPort;
-    CGrafPtr                                    grafPort;
+    gxViewPort _Nullable                                  viewPort;
+    CGrafPtr _Nullable                                   grafPort;
 } TQ3MacDrawContextData;
 </pre>
 </blockquote>
@@ -1205,9 +1206,9 @@ valid. Rendering to an off-screen buffer (e.g., a GWorld) should be
 achieved by rendering to a suitably constructed Pixmap draw context.
 <br><br>
 If a window is supplied, its port will be obtained internally by Quesa
-and the grafPort field should be nullptr. When rendering to a port which
+and the grafPort field should be NULL. When rendering to a port which
 does not correspond to a valid WindowRef (e.g., a QD port constructed
-from a CoreGraphics context), the window field should be nullptr and the
+from a CoreGraphics context), the window field should be NULL and the
 port to render to supplied in the grafPort field.
 <br><br>
 </p>
@@ -1217,7 +1218,7 @@ port to render to supplied in the grafPort field.
 <dt><tt>drawContextData</tt></dt><dd>The common state for the draw context.</dd>
 <dt><tt>window</tt></dt><dd>The window to render to.</dd>
 <dt><tt>library</tt></dt><dd>The library to use for rendering. Should be kQ3Mac2DLibraryNone.</dd>
-<dt><tt>viewPort</tt></dt><dd>The QuickDraw GX port to render to. Should be nullptr.</dd>
+<dt><tt>viewPort</tt></dt><dd>The QuickDraw GX port to render to. Should be NULL.</dd>
 <dt><tt>grafPort</tt></dt><dd>The QuickDraw port to render to.</dd>
 </dl>
 </blockquote>
@@ -1500,5 +1501,5 @@ the library field should be set to kQ3Mac2DLibraryNone.
 <dt><a name="//Quesa/c/econst/kQ3Mac2DLibraryQuickDrawGX"><tt>kQ3Mac2DLibraryQuickDrawGX</tt></a></dt><dd>Renderers should use QuickDraw GX in the final stage of rendering.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 5/27/2019)
 </p></body></html>

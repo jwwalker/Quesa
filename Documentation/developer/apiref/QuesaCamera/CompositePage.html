@@ -7,12 +7,13 @@
 <h1><font face="Geneva,Arial,Helvtica">QuesaCamera.h</font></h1><br>
 <h2>Discussion</h2>
 Declares the Quesa camera objects.
- <hr><br><h2>Functions</h2>
+<br><br>
+<hr><br><h2>Functions</h2>
 <hr><a name="//Quesa/c/func/Q3Camera_GetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Camera_GetData">Q3Camera_GetData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Camera_GetData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraData *cameraData
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nonnull camera,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraData * _Nonnull cameraData
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the common state of a camera.
@@ -30,8 +31,8 @@ Declares the Quesa camera objects.
 <hr><a name="//Quesa/c/func/Q3Camera_GetPlacement"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Camera_GetPlacement">Q3Camera_GetPlacement</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Camera_GetPlacement (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraPlacement *placement
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nonnull camera,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraPlacement * _Nonnull placement
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the placement of a camera.
@@ -49,8 +50,8 @@ Declares the Quesa camera objects.
 <hr><a name="//Quesa/c/func/Q3Camera_GetRange"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Camera_GetRange">Q3Camera_GetRange</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Camera_GetRange (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraRange *range
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nonnull camera,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraRange * _Nonnull range
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the range of a camera.
@@ -68,7 +69,7 @@ Declares the Quesa camera objects.
 <hr><a name="//Quesa/c/func/Q3Camera_GetType"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Camera_GetType">Q3Camera_GetType</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3ObjectType ) Q3Camera_GetType (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nonnull camera
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the type of a camera.
@@ -89,8 +90,8 @@ is unknown.
 <hr><a name="//Quesa/c/func/Q3Camera_GetViewPort"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Camera_GetViewPort">Q3Camera_GetViewPort</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Camera_GetViewPort (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraViewPort *viewPort
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nonnull camera,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraViewPort * _Nonnull viewPort
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the view port of a camera.
@@ -108,8 +109,8 @@ is unknown.
 <hr><a name="//Quesa/c/func/Q3Camera_GetViewToFrustum"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Camera_GetViewToFrustum">Q3Camera_GetViewToFrustum</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Camera_GetViewToFrustum (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix4x4 *viewToFrustum
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nonnull camera,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix4x4 * _Nonnull viewToFrustum
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the view-to-frustum matrix of a camera.
@@ -134,8 +135,8 @@ The frustum coordinate system ranges from 0.0 to -1.0 in z, and from
 <hr><a name="//Quesa/c/func/Q3Camera_GetWorldToFrustum"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Camera_GetWorldToFrustum">Q3Camera_GetWorldToFrustum</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Camera_GetWorldToFrustum (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix4x4 *worldToFrustum
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nonnull camera,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix4x4 * _Nonnull worldToFrustum
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the world-to-frustum matrix of a camera.
@@ -159,8 +160,8 @@ information.
 <hr><a name="//Quesa/c/func/Q3Camera_GetWorldToView"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Camera_GetWorldToView">Q3Camera_GetWorldToView</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Camera_GetWorldToView (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix4x4 *worldToView
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nonnull camera,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix4x4 * _Nonnull worldToView
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the world-to-view matrix of a camera.
@@ -186,8 +187,8 @@ and the camera up vector placed along the +y axis.
 <br><br>
 
 <blockquote><pre><tt>( TQ3Boolean ) Q3Camera_IsBoundingBoxVisible (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3BoundingBox *bbox
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nonnull camera,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3BoundingBox * _Nonnull bbox
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>The bounding box (assumed to be in world coordinates) is tested for
@@ -210,8 +211,8 @@ submitting loop.
 <hr><a name="//Quesa/c/func/Q3Camera_SetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Camera_SetData">Q3Camera_SetData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Camera_SetData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3CameraData *cameraData
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nonnull camera,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3CameraData * _Nonnull cameraData
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the common state for a camera.
@@ -229,8 +230,8 @@ submitting loop.
 <hr><a name="//Quesa/c/func/Q3Camera_SetPlacement"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Camera_SetPlacement">Q3Camera_SetPlacement</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Camera_SetPlacement (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3CameraPlacement *placement
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nonnull camera,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3CameraPlacement * _Nonnull placement
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the placement for a camera.
@@ -248,8 +249,8 @@ submitting loop.
 <hr><a name="//Quesa/c/func/Q3Camera_SetRange"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Camera_SetRange">Q3Camera_SetRange</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Camera_SetRange (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3CameraRange *range
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nonnull camera,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3CameraRange * _Nonnull range
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the range for a camera.
@@ -267,8 +268,8 @@ submitting loop.
 <hr><a name="//Quesa/c/func/Q3Camera_SetViewPort"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Camera_SetViewPort">Q3Camera_SetViewPort</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Camera_SetViewPort (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3CameraViewPort *viewPort
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nonnull camera,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3CameraViewPort * _Nonnull viewPort
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the view port for a camera.
@@ -286,8 +287,8 @@ submitting loop.
 <hr><a name="//Quesa/c/func/Q3OrthographicCamera_GetBottom"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3OrthographicCamera_GetBottom">Q3OrthographicCamera_GetBottom</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3OrthographicCamera_GetBottom (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
-&nbsp;&nbsp;&nbsp;&nbsp;float *bottom
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nonnull camera,
+&nbsp;&nbsp;&nbsp;&nbsp;float * _Nonnull bottom
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the bottom side of the viewing frustum of an orthographic camera.
@@ -305,8 +306,8 @@ submitting loop.
 <hr><a name="//Quesa/c/func/Q3OrthographicCamera_GetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3OrthographicCamera_GetData">Q3OrthographicCamera_GetData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3OrthographicCamera_GetData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3OrthographicCameraData *cameraData
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nonnull camera,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3OrthographicCameraData * _Nonnull cameraData
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the data for an orthographic camera.
@@ -324,8 +325,8 @@ submitting loop.
 <hr><a name="//Quesa/c/func/Q3OrthographicCamera_GetLeft"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3OrthographicCamera_GetLeft">Q3OrthographicCamera_GetLeft</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3OrthographicCamera_GetLeft (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
-&nbsp;&nbsp;&nbsp;&nbsp;float *left
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nonnull camera,
+&nbsp;&nbsp;&nbsp;&nbsp;float * _Nonnull left
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the left side of the viewing frustum of an orthographic camera.
@@ -343,8 +344,8 @@ submitting loop.
 <hr><a name="//Quesa/c/func/Q3OrthographicCamera_GetRight"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3OrthographicCamera_GetRight">Q3OrthographicCamera_GetRight</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3OrthographicCamera_GetRight (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
-&nbsp;&nbsp;&nbsp;&nbsp;float *right
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nonnull camera,
+&nbsp;&nbsp;&nbsp;&nbsp;float * _Nonnull right
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the right side of the viewing frustum of an orthographic camera.
@@ -362,8 +363,8 @@ submitting loop.
 <hr><a name="//Quesa/c/func/Q3OrthographicCamera_GetTop"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3OrthographicCamera_GetTop">Q3OrthographicCamera_GetTop</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3OrthographicCamera_GetTop (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
-&nbsp;&nbsp;&nbsp;&nbsp;float *top
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nonnull camera,
+&nbsp;&nbsp;&nbsp;&nbsp;float * _Nonnull top
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the top side of the viewing frustum of an orthographic camera.
@@ -380,8 +381,8 @@ submitting loop.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3OrthographicCamera_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3OrthographicCamera_New">Q3OrthographicCamera_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3CameraObject ) Q3OrthographicCamera_New (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3OrthographicCameraData *orthographicData
+</td></tr></table><hr><blockquote><pre><tt>( TQ3CameraObject _Nonnull ) Q3OrthographicCamera_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3OrthographicCameraData * _Nonnull orthographicData
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new orthographic camera object.
@@ -398,7 +399,7 @@ submitting loop.
 <hr><a name="//Quesa/c/func/Q3OrthographicCamera_SetBottom"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3OrthographicCamera_SetBottom">Q3OrthographicCamera_SetBottom</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3OrthographicCamera_SetBottom (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nonnull camera,
 &nbsp;&nbsp;&nbsp;&nbsp;float bottom
 );</tt><br>
 </pre></blockquote>
@@ -417,8 +418,8 @@ submitting loop.
 <hr><a name="//Quesa/c/func/Q3OrthographicCamera_SetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3OrthographicCamera_SetData">Q3OrthographicCamera_SetData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3OrthographicCamera_SetData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3OrthographicCameraData *cameraData
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nonnull camera,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3OrthographicCameraData * _Nonnull cameraData
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the data for an orthographic camera.
@@ -436,7 +437,7 @@ submitting loop.
 <hr><a name="//Quesa/c/func/Q3OrthographicCamera_SetLeft"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3OrthographicCamera_SetLeft">Q3OrthographicCamera_SetLeft</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3OrthographicCamera_SetLeft (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nonnull camera,
 &nbsp;&nbsp;&nbsp;&nbsp;float left
 );</tt><br>
 </pre></blockquote>
@@ -455,7 +456,7 @@ submitting loop.
 <hr><a name="//Quesa/c/func/Q3OrthographicCamera_SetRight"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3OrthographicCamera_SetRight">Q3OrthographicCamera_SetRight</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3OrthographicCamera_SetRight (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nonnull camera,
 &nbsp;&nbsp;&nbsp;&nbsp;float right
 );</tt><br>
 </pre></blockquote>
@@ -474,7 +475,7 @@ submitting loop.
 <hr><a name="//Quesa/c/func/Q3OrthographicCamera_SetTop"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3OrthographicCamera_SetTop">Q3OrthographicCamera_SetTop</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3OrthographicCamera_SetTop (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nonnull camera,
 &nbsp;&nbsp;&nbsp;&nbsp;float top
 );</tt><br>
 </pre></blockquote>
@@ -493,8 +494,8 @@ submitting loop.
 <hr><a name="//Quesa/c/func/Q3ViewAngleAspectCamera_GetAspectRatio"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewAngleAspectCamera_GetAspectRatio">Q3ViewAngleAspectCamera_GetAspectRatio</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ViewAngleAspectCamera_GetAspectRatio (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
-&nbsp;&nbsp;&nbsp;&nbsp;float *aspectRatioXToY
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nonnull camera,
+&nbsp;&nbsp;&nbsp;&nbsp;float * _Nonnull aspectRatioXToY
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the aspect ratio of a view angle aspect camera.
@@ -516,8 +517,8 @@ horizontal.
 <hr><a name="//Quesa/c/func/Q3ViewAngleAspectCamera_GetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewAngleAspectCamera_GetData">Q3ViewAngleAspectCamera_GetData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ViewAngleAspectCamera_GetData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewAngleAspectCameraData *cameraData
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nonnull camera,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewAngleAspectCameraData * _Nonnull cameraData
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the data for a view angle aspect camera.
@@ -535,8 +536,8 @@ horizontal.
 <hr><a name="//Quesa/c/func/Q3ViewAngleAspectCamera_GetFOV"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewAngleAspectCamera_GetFOV">Q3ViewAngleAspectCamera_GetFOV</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ViewAngleAspectCamera_GetFOV (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
-&nbsp;&nbsp;&nbsp;&nbsp;float *fov
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nonnull camera,
+&nbsp;&nbsp;&nbsp;&nbsp;float * _Nonnull fov
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the field of view of a view angle aspect camera.
@@ -555,8 +556,8 @@ The field of view is specified in radians.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3ViewAngleAspectCamera_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewAngleAspectCamera_New">Q3ViewAngleAspectCamera_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3CameraObject ) Q3ViewAngleAspectCamera_New (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ViewAngleAspectCameraData *cameraData
+</td></tr></table><hr><blockquote><pre><tt>( TQ3CameraObject _Nonnull ) Q3ViewAngleAspectCamera_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ViewAngleAspectCameraData * _Nonnull cameraData
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new view angle aspect camera object.
@@ -573,7 +574,7 @@ The field of view is specified in radians.
 <hr><a name="//Quesa/c/func/Q3ViewAngleAspectCamera_SetAspectRatio"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewAngleAspectCamera_SetAspectRatio">Q3ViewAngleAspectCamera_SetAspectRatio</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ViewAngleAspectCamera_SetAspectRatio (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nonnull camera,
 &nbsp;&nbsp;&nbsp;&nbsp;float aspectRatioXToY
 );</tt><br>
 </pre></blockquote>
@@ -596,8 +597,8 @@ horizontal.
 <hr><a name="//Quesa/c/func/Q3ViewAngleAspectCamera_SetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewAngleAspectCamera_SetData">Q3ViewAngleAspectCamera_SetData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ViewAngleAspectCamera_SetData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ViewAngleAspectCameraData *cameraData
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nonnull camera,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ViewAngleAspectCameraData * _Nonnull cameraData
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the data for a view angle aspect camera.
@@ -615,7 +616,7 @@ horizontal.
 <hr><a name="//Quesa/c/func/Q3ViewAngleAspectCamera_SetFOV"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewAngleAspectCamera_SetFOV">Q3ViewAngleAspectCamera_SetFOV</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ViewAngleAspectCamera_SetFOV (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nonnull camera,
 &nbsp;&nbsp;&nbsp;&nbsp;float fov
 );</tt><br>
 </pre></blockquote>
@@ -636,8 +637,8 @@ The field of view is specified in radians.
 <hr><a name="//Quesa/c/func/Q3ViewPlaneCamera_GetCenterX"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewPlaneCamera_GetCenterX">Q3ViewPlaneCamera_GetCenterX</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ViewPlaneCamera_GetCenterX (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
-&nbsp;&nbsp;&nbsp;&nbsp;float *centerXOnViewPlane
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nonnull camera,
+&nbsp;&nbsp;&nbsp;&nbsp;float * _Nonnull centerXOnViewPlane
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the x coordinate of the view rectangle center of a view plane camera.
@@ -658,8 +659,8 @@ origin in x is at the returned coordinate.
 <hr><a name="//Quesa/c/func/Q3ViewPlaneCamera_GetCenterY"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewPlaneCamera_GetCenterY">Q3ViewPlaneCamera_GetCenterY</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ViewPlaneCamera_GetCenterY (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
-&nbsp;&nbsp;&nbsp;&nbsp;float *centerYOnViewPlane
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nonnull camera,
+&nbsp;&nbsp;&nbsp;&nbsp;float * _Nonnull centerYOnViewPlane
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the y coordinate of the view rectangle center of a view plane camera.
@@ -680,8 +681,8 @@ origin in y is at the returned coordinate.
 <hr><a name="//Quesa/c/func/Q3ViewPlaneCamera_GetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewPlaneCamera_GetData">Q3ViewPlaneCamera_GetData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ViewPlaneCamera_GetData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewPlaneCameraData *cameraData
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nonnull camera,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewPlaneCameraData * _Nonnull cameraData
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the data for a view plane camera.
@@ -699,8 +700,8 @@ origin in y is at the returned coordinate.
 <hr><a name="//Quesa/c/func/Q3ViewPlaneCamera_GetHalfHeight"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewPlaneCamera_GetHalfHeight">Q3ViewPlaneCamera_GetHalfHeight</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ViewPlaneCamera_GetHalfHeight (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
-&nbsp;&nbsp;&nbsp;&nbsp;float *halfHeightAtViewPlane
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nonnull camera,
+&nbsp;&nbsp;&nbsp;&nbsp;float * _Nonnull halfHeightAtViewPlane
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the half-height of the view rectangle of a view plane camera.
@@ -721,8 +722,8 @@ whose height is twice the returned half-height.
 <hr><a name="//Quesa/c/func/Q3ViewPlaneCamera_GetHalfWidth"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewPlaneCamera_GetHalfWidth">Q3ViewPlaneCamera_GetHalfWidth</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ViewPlaneCamera_GetHalfWidth (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
-&nbsp;&nbsp;&nbsp;&nbsp;float *halfWidthAtViewPlane
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nonnull camera,
+&nbsp;&nbsp;&nbsp;&nbsp;float * _Nonnull halfWidthAtViewPlane
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the half-width of the view rectangle of a view plane camera.
@@ -743,8 +744,8 @@ whose width is twice the returned half-width.
 <hr><a name="//Quesa/c/func/Q3ViewPlaneCamera_GetViewPlane"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewPlaneCamera_GetViewPlane">Q3ViewPlaneCamera_GetViewPlane</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ViewPlaneCamera_GetViewPlane (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
-&nbsp;&nbsp;&nbsp;&nbsp;float *viewPlane
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nonnull camera,
+&nbsp;&nbsp;&nbsp;&nbsp;float * _Nonnull viewPlane
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the view plane distance of a view plane camera.
@@ -764,8 +765,8 @@ from the camera location.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3ViewPlaneCamera_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewPlaneCamera_New">Q3ViewPlaneCamera_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3CameraObject ) Q3ViewPlaneCamera_New (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ViewPlaneCameraData *cameraData
+</td></tr></table><hr><blockquote><pre><tt>( TQ3CameraObject _Nonnull ) Q3ViewPlaneCamera_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ViewPlaneCameraData * _Nonnull cameraData
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new view plane camera object.
@@ -782,7 +783,7 @@ from the camera location.
 <hr><a name="//Quesa/c/func/Q3ViewPlaneCamera_SetCenterX"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewPlaneCamera_SetCenterX">Q3ViewPlaneCamera_SetCenterX</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ViewPlaneCamera_SetCenterX (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nonnull camera,
 &nbsp;&nbsp;&nbsp;&nbsp;float centerXOnViewPlane
 );</tt><br>
 </pre></blockquote>
@@ -804,7 +805,7 @@ origin in x is at the specified coordinate.
 <hr><a name="//Quesa/c/func/Q3ViewPlaneCamera_SetCenterY"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewPlaneCamera_SetCenterY">Q3ViewPlaneCamera_SetCenterY</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ViewPlaneCamera_SetCenterY (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nonnull camera,
 &nbsp;&nbsp;&nbsp;&nbsp;float centerYOnViewPlane
 );</tt><br>
 </pre></blockquote>
@@ -826,8 +827,8 @@ origin in y is at the specified coordinate.
 <hr><a name="//Quesa/c/func/Q3ViewPlaneCamera_SetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewPlaneCamera_SetData">Q3ViewPlaneCamera_SetData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ViewPlaneCamera_SetData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ViewPlaneCameraData *cameraData
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nonnull camera,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ViewPlaneCameraData * _Nonnull cameraData
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the data for a view plane camera.
@@ -845,7 +846,7 @@ origin in y is at the specified coordinate.
 <hr><a name="//Quesa/c/func/Q3ViewPlaneCamera_SetHalfHeight"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewPlaneCamera_SetHalfHeight">Q3ViewPlaneCamera_SetHalfHeight</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ViewPlaneCamera_SetHalfHeight (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nonnull camera,
 &nbsp;&nbsp;&nbsp;&nbsp;float halfHeightAtViewPlane
 );</tt><br>
 </pre></blockquote>
@@ -867,7 +868,7 @@ whose height is twice the specified half-height.
 <hr><a name="//Quesa/c/func/Q3ViewPlaneCamera_SetHalfWidth"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewPlaneCamera_SetHalfWidth">Q3ViewPlaneCamera_SetHalfWidth</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ViewPlaneCamera_SetHalfWidth (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nonnull camera,
 &nbsp;&nbsp;&nbsp;&nbsp;float halfWidthAtViewPlane
 );</tt><br>
 </pre></blockquote>
@@ -889,7 +890,7 @@ whose width is twice the specified half-width.
 <hr><a name="//Quesa/c/func/Q3ViewPlaneCamera_SetViewPlane"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewPlaneCamera_SetViewPlane">Q3ViewPlaneCamera_SetViewPlane</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ViewPlaneCamera_SetViewPlane (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nonnull camera,
 &nbsp;&nbsp;&nbsp;&nbsp;float viewPlane
 );</tt><br>
 </pre></blockquote>
@@ -1114,5 +1115,5 @@ extends from the camera position through the four edges of this rectangle.
 <dt><tt>centerYOnViewPlane</tt></dt><dd>The y-center of the rectangle on the view plane.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 5/27/2019)
 </p></body></html>

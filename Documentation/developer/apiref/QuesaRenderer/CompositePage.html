@@ -9,12 +9,13 @@
 Declares the Quesa renderer objects.  It would not be unusual for a
 Quesa client program to use no function from this header except for
 <code>Q3Renderer_NewFromType</code>.
- <hr><br><h2>Functions</h2>
+<br><br>
+<hr><br><h2>Functions</h2>
 <hr><a name="//Quesa/c/func/Q3InteractiveRenderer_CountRAVEDrawContexts"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3InteractiveRenderer_CountRAVEDrawContexts">Q3InteractiveRenderer_CountRAVEDrawContexts</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3InteractiveRenderer_CountRAVEDrawContexts (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject renderer,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 *numRAVEContexts
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject _Nonnull renderer,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 * _Nonnull numRAVEContexts
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Count the RAVE contexts for the interactive renderer.
@@ -34,8 +35,8 @@ Note - this function is deprecated, and is not fully supported in Quesa.
 <hr><a name="//Quesa/c/func/Q3InteractiveRenderer_GetCSGEquation"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3InteractiveRenderer_GetCSGEquation">Q3InteractiveRenderer_GetCSGEquation</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3InteractiveRenderer_GetCSGEquation (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject renderer,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CSGEquation *equation
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject _Nonnull renderer,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CSGEquation * _Nonnull equation
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the CSG equation from the interactive renderer.
@@ -55,8 +56,8 @@ Note - this function is deprecated, and is not fully supported in Quesa.
 <hr><a name="//Quesa/c/func/Q3InteractiveRenderer_GetDoubleBufferBypass"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3InteractiveRenderer_GetDoubleBufferBypass">Q3InteractiveRenderer_GetDoubleBufferBypass</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3InteractiveRenderer_GetDoubleBufferBypass (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject renderer,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean *bypass
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject _Nonnull renderer,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean * _Nonnull bypass
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the double-buffer bypass hint from the interactive renderer.
@@ -76,9 +77,9 @@ Note - this function is deprecated, and is not fully supported in Quesa.
 <hr><a name="//Quesa/c/func/Q3InteractiveRenderer_GetPreferences"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3InteractiveRenderer_GetPreferences">Q3InteractiveRenderer_GetPreferences</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3InteractiveRenderer_GetPreferences (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject renderer,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RaveVendorID *vendorID,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RaveEngineID *engineID
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject _Nonnull renderer,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RaveVendorID * _Nonnull vendorID,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RaveEngineID * _Nonnull engineID
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the RAVE preferences from the interactive renderer.
@@ -99,8 +100,8 @@ Note - this function is deprecated, and is not fully supported in Quesa.
 <hr><a name="//Quesa/c/func/Q3InteractiveRenderer_GetRAVEContextHints"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3InteractiveRenderer_GetRAVEContextHints">Q3InteractiveRenderer_GetRAVEContextHints</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3InteractiveRenderer_GetRAVEContextHints (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject renderer,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 *RAVEContextHints
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject _Nonnull renderer,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 * _Nonnull RAVEContextHints
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the RAVE context hints from the interactive renderer.
@@ -120,11 +121,11 @@ Note - this function is deprecated, and is not fully supported in Quesa.
 <hr><a name="//Quesa/c/func/Q3InteractiveRenderer_GetRAVEDrawContexts"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3InteractiveRenderer_GetRAVEDrawContexts">Q3InteractiveRenderer_GetRAVEDrawContexts</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3InteractiveRenderer_GetRAVEDrawContexts (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject renderer,
-&nbsp;&nbsp;&nbsp;&nbsp;TQADrawContext **raveDrawContextList,
-&nbsp;&nbsp;&nbsp;&nbsp;TQAEngine **raveDrawingEnginesList,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 *numRAVEContexts,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RaveDestroyCallback raveDestroyCallback
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject _Nonnull renderer,
+&nbsp;&nbsp;&nbsp;&nbsp;TQADrawContext * _Nonnull * _Nonnull raveDrawContextList,
+&nbsp;&nbsp;&nbsp;&nbsp;TQAEngine * _Nonnull * _Nonnull raveDrawingEnginesList,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 * _Nonnull numRAVEContexts,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RaveDestroyCallback _Nonnull raveDestroyCallback
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the RAVE contexts for the interactive renderer.
@@ -147,8 +148,8 @@ Note - this function is deprecated, and is not fully supported in Quesa.
 <hr><a name="//Quesa/c/func/Q3InteractiveRenderer_GetRAVETextureFilter"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3InteractiveRenderer_GetRAVETextureFilter">Q3InteractiveRenderer_GetRAVETextureFilter</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3InteractiveRenderer_GetRAVETextureFilter (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject renderer,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3TextureFilter *raveTextureFilterValue
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject _Nonnull renderer,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TextureFilter * _Nonnull raveTextureFilterValue
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the RAVE texture filter from the interactive renderer.
@@ -169,7 +170,7 @@ renderers do use this filter to choose OpenGL texture filtering settings.
 <hr><a name="//Quesa/c/func/Q3InteractiveRenderer_SetCSGEquation"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3InteractiveRenderer_SetCSGEquation">Q3InteractiveRenderer_SetCSGEquation</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3InteractiveRenderer_SetCSGEquation (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject renderer,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject _Nonnull renderer,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3CSGEquation equation
 );</tt><br>
 </pre></blockquote>
@@ -190,7 +191,7 @@ Note - this function is deprecated, and is not fully supported in Quesa.
 <hr><a name="//Quesa/c/func/Q3InteractiveRenderer_SetDoubleBufferBypass"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3InteractiveRenderer_SetDoubleBufferBypass">Q3InteractiveRenderer_SetDoubleBufferBypass</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3InteractiveRenderer_SetDoubleBufferBypass (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject renderer,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject _Nonnull renderer,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean bypass
 );</tt><br>
 </pre></blockquote>
@@ -211,7 +212,7 @@ Note - this function is deprecated, and is not fully supported in Quesa.
 <hr><a name="//Quesa/c/func/Q3InteractiveRenderer_SetPreferences"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3InteractiveRenderer_SetPreferences">Q3InteractiveRenderer_SetPreferences</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3InteractiveRenderer_SetPreferences (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject renderer,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject _Nonnull renderer,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3RaveVendorID vendorID,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3RaveEngineID engineID
 );</tt><br>
@@ -234,7 +235,7 @@ Note - this function is deprecated, and is not fully supported in Quesa.
 <hr><a name="//Quesa/c/func/Q3InteractiveRenderer_SetRAVEContextHints"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3InteractiveRenderer_SetRAVEContextHints">Q3InteractiveRenderer_SetRAVEContextHints</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3InteractiveRenderer_SetRAVEContextHints (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject renderer,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject _Nonnull renderer,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 RAVEContextHints
 );</tt><br>
 </pre></blockquote>
@@ -255,7 +256,7 @@ Note - this function is deprecated, and is not fully supported in Quesa.
 <hr><a name="//Quesa/c/func/Q3InteractiveRenderer_SetRAVETextureFilter"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3InteractiveRenderer_SetRAVETextureFilter">Q3InteractiveRenderer_SetRAVETextureFilter</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3InteractiveRenderer_SetRAVETextureFilter (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject renderer,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject _Nonnull renderer,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3TextureFilter raveTextureFilterValue
 );</tt><br>
 </pre></blockquote>
@@ -278,7 +279,7 @@ renderers do use this filter to choose OpenGL texture filtering settings.
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RendererClass_GetNickNameString">Q3RendererClass_GetNickNameString</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RendererClass_GetNickNameString (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType rendererClassType,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectClassNameString rendererClassString
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectClassNameString _Nonnull rendererClassString
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the "nick name" of a renderer class.
@@ -299,10 +300,10 @@ suitable for display in a menu or window.
 <hr><a name="//Quesa/c/func/Q3Renderer_GetConfigurationData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Renderer_GetConfigurationData">Q3Renderer_GetConfigurationData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Renderer_GetConfigurationData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject renderer,
-&nbsp;&nbsp;&nbsp;&nbsp;unsigned char *dataBuffer,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject _Nonnull renderer,
+&nbsp;&nbsp;&nbsp;&nbsp;unsigned char * _Nullable dataBuffer,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 bufferSize,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 *actualDataSize
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 * _Nonnull actualDataSize
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the configuration data for a renderer.
@@ -333,7 +334,7 @@ dataBuffer.
 <hr><a name="//Quesa/c/func/Q3Renderer_GetType"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Renderer_GetType">Q3Renderer_GetType</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3ObjectType ) Q3Renderer_GetType (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject renderer
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject _Nonnull renderer
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the class type of a renderer object.
@@ -350,7 +351,7 @@ dataBuffer.
 <hr><a name="//Quesa/c/func/Q3Renderer_HasModalConfigure"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Renderer_HasModalConfigure">Q3Renderer_HasModalConfigure</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Boolean ) Q3Renderer_HasModalConfigure (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject renderer
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject _Nonnull renderer
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Does a renderer have a modal configure dialog?
@@ -367,7 +368,7 @@ dataBuffer.
 <hr><a name="//Quesa/c/func/Q3Renderer_IsInteractive"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Renderer_IsInteractive">Q3Renderer_IsInteractive</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Boolean ) Q3Renderer_IsInteractive (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject renderer
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject _Nonnull renderer
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Is a renderer "interactive"?
@@ -390,9 +391,9 @@ while software-based renderers (e.g., ray-tracers) would not.
 <hr><a name="//Quesa/c/func/Q3Renderer_ModalConfigure"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Renderer_ModalConfigure">Q3Renderer_ModalConfigure</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Renderer_ModalConfigure (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject renderer,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject _Nonnull renderer,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3DialogAnchor dialogAnchor,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean *cancelled
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean * _Nonnull cancelled
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Invoke a renderer's modal configure dialog.
@@ -420,7 +421,7 @@ the application for later recall.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Renderer_NewFromType"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Renderer_NewFromType">Q3Renderer_NewFromType</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3RendererObject ) Q3Renderer_NewFromType (
+</td></tr></table><hr><blockquote><pre><tt>( TQ3RendererObject _Nonnull ) Q3Renderer_NewFromType (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType rendererObjectType
 );</tt><br>
 </pre></blockquote>
@@ -453,8 +454,8 @@ types using <code>Q3RendererClass_GetNickNameString</code>.
 <hr><a name="//Quesa/c/func/Q3Renderer_SetConfigurationData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Renderer_SetConfigurationData">Q3Renderer_SetConfigurationData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Renderer_SetConfigurationData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject renderer,
-&nbsp;&nbsp;&nbsp;&nbsp;unsigned char *dataBuffer,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject _Nonnull renderer,
+&nbsp;&nbsp;&nbsp;&nbsp;unsigned char * _Nonnull dataBuffer,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 bufferSize
 );</tt><br>
 </pre></blockquote>
@@ -477,7 +478,7 @@ Q3Renderer_GetConfigurationData.
 <hr><a name="//Quesa/c/func/Q3XDrawContext_ClearValidationFlags"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawContext_ClearValidationFlags">Q3XDrawContext_ClearValidationFlags</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawContext_ClearValidationFlags (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject drawContext
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject _Nonnull drawContext
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Clear the validation flags for a draw context.
@@ -496,8 +497,8 @@ This function should only be called from renderer plug-ins.
 <hr><a name="//Quesa/c/func/Q3XDrawContext_GetValidationFlags"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XDrawContext_GetValidationFlags">Q3XDrawContext_GetValidationFlags</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XDrawContext_GetValidationFlags (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject drawContext,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawContextValidation *validationFlags
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject _Nonnull drawContext,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDrawContextValidation * _Nonnull validationFlags
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the validation flags for a draw context.
@@ -517,7 +518,7 @@ This function should only be called from renderer plug-ins.
 <hr><a name="//Quesa/c/func/Q3XView_EndFrame"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XView_EndFrame">Q3XView_EndFrame</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XView_EndFrame (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Indicate to a view that a frame has completed.
@@ -536,7 +537,7 @@ This function should only be called from asynchronous renderer plug-ins.
 <hr><a name="//Quesa/c/func/Q3XView_IdleProgress"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XView_IdleProgress">Q3XView_IdleProgress</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XView_IdleProgress (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 current,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 completed
 );</tt><br>
@@ -590,7 +591,7 @@ pass the event to the system unhandled.
 <hr><a name="//Quesa/c/tdef/TQ3RaveDestroyCallback"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3RaveDestroyCallback">TQ3RaveDestroyCallback</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>void,                TQ3RaveDestroyCallback</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject   theRenderer<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject _Nonnull   theRenderer<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>RAVE destroy callback.
 <br><br>
@@ -605,8 +606,8 @@ Not supported in Quesa.
 <hr><a name="//Quesa/c/tdef/TQ3XRendererCancelMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XRendererCancelMethod">TQ3XRendererCancelMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>void,                TQ3XRendererCancelMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject       theView,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;void                *rendererPrivate<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull      theView,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;void                * _Nonnull rendererPrivate<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Cancel the current rendering frame.
 <br><br>
@@ -625,9 +626,9 @@ This method is required.
 <hr><a name="//Quesa/c/tdef/TQ3XRendererEndFrameMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XRendererEndFrameMethod">TQ3XRendererEndFrameMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,           TQ3XRendererEndFrameMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject           theView,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;void                    *rendererPrivate,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject    theDrawContext<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull          theView,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;void                    * _Nonnull rendererPrivate,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject _Nonnull   theDrawContext<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Invoked by Q3View_Sync via Q3View_EndRendering to end the current frame.
 <br><br>
@@ -646,8 +647,8 @@ This method is optional and should only be implemented by asynchronous renderers
 <hr><a name="//Quesa/c/tdef/TQ3XRendererEndPassMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XRendererEndPassMethod">TQ3XRendererEndPassMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3ViewStatus,       TQ3XRendererEndPassMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject       theView,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;void                *rendererPrivate<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull      theView,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;void                * _Nonnull rendererPrivate<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Invoked by Q3View_EndRendering to end the current pass.
 <br><br>
@@ -672,9 +673,9 @@ This method is required.
 <hr><a name="//Quesa/c/tdef/TQ3XRendererFlushFrameMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XRendererFlushFrameMethod">TQ3XRendererFlushFrameMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,           TQ3XRendererFlushFrameMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject           theView,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;void                    *rendererPrivate,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject    theDrawContext<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull          theView,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;void                    * _Nonnull rendererPrivate,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject _Nonnull   theDrawContext<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Invoked by Q3View_Flush to flush rendering.
 <br><br>
@@ -696,11 +697,11 @@ This method is optional and should only be implemented by asynchronous renderers
 <hr><a name="//Quesa/c/tdef/TQ3XRendererGetConfigurationDataMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XRendererGetConfigurationDataMethod">TQ3XRendererGetConfigurationDataMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,           TQ3XRendererGetConfigurationDataMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject   theRenderer,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;unsigned char       *dataBuffer,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject _Nonnull  theRenderer,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;unsigned char       * _Nullable dataBuffer,<BR>
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32            bufferSize,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32            *actualDataSize,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;void                *rendererPrivate<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32            * _Nonnull actualDataSize,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;void                * _Nonnull rendererPrivate<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the renderer configuration data.
 <br><br>
@@ -724,9 +725,9 @@ This method is optional.
 <hr><a name="//Quesa/c/tdef/TQ3XRendererGetNickNameStringMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XRendererGetNickNameStringMethod">TQ3XRendererGetNickNameStringMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,           TQ3XRendererGetNickNameStringMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;unsigned char       *dataBuffer,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;unsigned char       * _Nullable dataBuffer,<BR>
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32            bufferSize,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32            *actualDataSize<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32            * _Nonnull actualDataSize<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the renderer "nick name".
 <br><br>
@@ -755,9 +756,9 @@ This method is optional.
 <br><br>
 
 <blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Boolean,          TQ3XRendererIsBoundingBoxVisibleMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject           theView,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;void                    *rendererPrivate,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3BoundingBox    *theBounds<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull          theView,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;void                    * _Nonnull rendererPrivate,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3BoundingBox    * _Nonnull theBounds<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Renderers should return a TQ3Boolean indicating whether the bounding
 box would affect the current rendering pass.  This method is used for
@@ -787,10 +788,10 @@ if the method returned true.
 <hr><a name="//Quesa/c/tdef/TQ3XRendererModalConfigureMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XRendererModalConfigureMethod">TQ3XRendererModalConfigureMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,           TQ3XRendererModalConfigureMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject   theRenderer,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject _Nonnull  theRenderer,<BR>
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3DialogAnchor     dialogAnchor,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean          *wasCancelled,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;void                *rendererPrivate<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean          * _Nonnull wasCancelled,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;void                * _Nonnull rendererPrivate<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Display a modal configure dialog for the renderer.
 <br><br>
@@ -816,8 +817,8 @@ This method is optional.
 <hr><a name="//Quesa/c/tdef/TQ3XRendererPopMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XRendererPopMethod">TQ3XRendererPopMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,           TQ3XRendererPopMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject       theView,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;void                *rendererPrivate<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull      theView,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;void                * _Nonnull rendererPrivate<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Pop the current renderer state.
 <br><br>
@@ -840,8 +841,8 @@ This method is optional.
 <hr><a name="//Quesa/c/tdef/TQ3XRendererPushMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XRendererPushMethod">TQ3XRendererPushMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,           TQ3XRendererPushMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject       theView,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;void                *rendererPrivate<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull      theView,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;void                * _Nonnull rendererPrivate<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Push the current renderer state.
 <br><br>
@@ -864,10 +865,10 @@ This method is optional.
 <hr><a name="//Quesa/c/tdef/TQ3XRendererSetConfigurationDataMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XRendererSetConfigurationDataMethod">TQ3XRendererSetConfigurationDataMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,           TQ3XRendererSetConfigurationDataMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject   theRenderer,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;unsigned char       *dataBuffer,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject _Nonnull  theRenderer,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;unsigned char       * _Nonnull dataBuffer,<BR>
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32            bufferSize,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;void                *rendererPrivate<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;void                * _Nonnull rendererPrivate<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the renderer configuration data.
 <br><br>
@@ -887,9 +888,9 @@ This method is optional.
 <hr><a name="//Quesa/c/tdef/TQ3XRendererStartFrameMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XRendererStartFrameMethod">TQ3XRendererStartFrameMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,           TQ3XRendererStartFrameMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject           theView,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;void                    *rendererPrivate,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject    theDrawContext<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull          theView,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;void                    * _Nonnull rendererPrivate,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject _Nonnull   theDrawContext<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Invoked by Q3View_StartRendering to start a new frame.
 <br><br>
@@ -912,10 +913,10 @@ This method is required.
 <hr><a name="//Quesa/c/tdef/TQ3XRendererStartPassMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XRendererStartPassMethod">TQ3XRendererStartPassMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,           TQ3XRendererStartPassMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject       theView,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;void                *rendererPrivate,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject     theCamera,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject      theLights<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull      theView,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;void                * _Nonnull rendererPrivate,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nonnull    theCamera,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject _Nonnull     theLights<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Invoked by Q3View_StartRendering to start a new pass.
 <br><br>
@@ -938,7 +939,7 @@ This method is required.
  </dd></dl>
 <hr><a name="//Quesa/c/tdef/TQ3XRendererSubmitCameraMetaHandlerMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XRendererSubmitCameraMetaHandlerMethod">TQ3XRendererSubmitCameraMetaHandlerMethod</a></h2>
-</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3XFunctionPointer, TQ3XRendererSubmitCameraMetaHandlerMethod</b>) (<BR>
+</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3XFunctionPointer _Nullable, TQ3XRendererSubmitCameraMetaHandlerMethod</b>) (<BR>
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType       cameraType<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Return the submit method for a camera type.
@@ -959,10 +960,10 @@ This method is optional.
 <hr><a name="//Quesa/c/tdef/TQ3XRendererSubmitCameraMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XRendererSubmitCameraMethod">TQ3XRendererSubmitCameraMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,           TQ3XRendererSubmitCameraMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject       theView,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;void                *rendererPrivate,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject     theCamera,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;const void          *publicData<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull      theView,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;void                * _Nonnull rendererPrivate,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nullable    theCamera,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;const void          * _Nonnull publicData<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submits a camera object for rendering.
 <br><br>
@@ -984,7 +985,7 @@ This method is required.
  </dd></dl>
 <hr><a name="//Quesa/c/tdef/TQ3XRendererSubmitGeometryMetaHandlerMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XRendererSubmitGeometryMetaHandlerMethod">TQ3XRendererSubmitGeometryMetaHandlerMethod</a></h2>
-</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3XFunctionPointer, TQ3XRendererSubmitGeometryMetaHandlerMethod</b>) (<BR>
+</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3XFunctionPointer _Nullable, TQ3XRendererSubmitGeometryMetaHandlerMethod</b>) (<BR>
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType       geometryType<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Return the submit method for a geometry type.
@@ -1016,10 +1017,10 @@ This method is required.
 <hr><a name="//Quesa/c/tdef/TQ3XRendererSubmitGeometryMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XRendererSubmitGeometryMethod">TQ3XRendererSubmitGeometryMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,           TQ3XRendererSubmitGeometryMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject       theView,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;void                *rendererPrivate,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GeometryObject   theGeometry,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;const void          *publicData<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull      theView,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;void                * _Nonnull rendererPrivate,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GeometryObject _Nullable  theGeometry,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;const void          * _Nonnull publicData<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submits a geometry object for rendering.
 <br><br>
@@ -1050,7 +1051,7 @@ This method is required.
  </dd></dl>
 <hr><a name="//Quesa/c/tdef/TQ3XRendererSubmitLightMetaHandlerMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XRendererSubmitLightMetaHandlerMethod">TQ3XRendererSubmitLightMetaHandlerMethod</a></h2>
-</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3XFunctionPointer, TQ3XRendererSubmitLightMetaHandlerMethod</b>) (<BR>
+</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3XFunctionPointer _Nullable, TQ3XRendererSubmitLightMetaHandlerMethod</b>) (<BR>
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType       lightType<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Return the submit method for a light type.
@@ -1071,10 +1072,10 @@ This method is optional.
 <hr><a name="//Quesa/c/tdef/TQ3XRendererSubmitLightMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XRendererSubmitLightMethod">TQ3XRendererSubmitLightMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,           TQ3XRendererSubmitLightMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject       theView,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;void                *rendererPrivate,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject      theLight,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;const void          *publicData<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull      theView,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;void                * _Nonnull rendererPrivate,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject _Nullable     theLight,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;const void          * _Nonnull publicData<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submits a light object for rendering.
 <br><br>
@@ -1096,7 +1097,7 @@ This method is required.
  </dd></dl>
 <hr><a name="//Quesa/c/tdef/TQ3XRendererUpdateAttributeMetaHandlerMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XRendererUpdateAttributeMetaHandlerMethod">TQ3XRendererUpdateAttributeMetaHandlerMethod</a></h2>
-</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3XFunctionPointer, TQ3XRendererUpdateAttributeMetaHandlerMethod</b>) (<BR>
+</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3XFunctionPointer _Nullable, TQ3XRendererUpdateAttributeMetaHandlerMethod</b>) (<BR>
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeType    attributeType<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Return the update method for an attribute type.
@@ -1117,9 +1118,9 @@ This method is optional.
 <hr><a name="//Quesa/c/tdef/TQ3XRendererUpdateAttributeMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XRendererUpdateAttributeMethod">TQ3XRendererUpdateAttributeMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,           TQ3XRendererUpdateAttributeMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject       theView,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;void                *rendererPrivate,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;const void          *publicData<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull      theView,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;void                * _Nonnull rendererPrivate,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;const void          * _Nonnull publicData<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Update the the state of an attribute while rendering.
 <br><br>
@@ -1137,7 +1138,7 @@ This method is optional.
  </dd></dl>
 <hr><a name="//Quesa/c/tdef/TQ3XRendererUpdateMatrixMetaHandlerMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XRendererUpdateMatrixMetaHandlerMethod">TQ3XRendererUpdateMatrixMetaHandlerMethod</a></h2>
-</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3XFunctionPointer, TQ3XRendererUpdateMatrixMetaHandlerMethod</b>) (<BR>
+</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3XFunctionPointer _Nullable, TQ3XRendererUpdateMatrixMetaHandlerMethod</b>) (<BR>
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType       matrixType<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Return the update method for a matrix type.
@@ -1158,9 +1159,9 @@ This method is optional.
 <hr><a name="//Quesa/c/tdef/TQ3XRendererUpdateMatrixMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XRendererUpdateMatrixMethod">TQ3XRendererUpdateMatrixMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,           TQ3XRendererUpdateMatrixMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject       theView,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;void                *rendererPrivate,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix4x4  *theMatrix<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull      theView,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;void                * _Nonnull rendererPrivate,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix4x4  * _Nonnull theMatrix<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Update the the state of a matrix while rendering.
 <br><br>
@@ -1178,7 +1179,7 @@ This method is optional.
  </dd></dl>
 <hr><a name="//Quesa/c/tdef/TQ3XRendererUpdateShaderMetaHandlerMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XRendererUpdateShaderMetaHandlerMethod">TQ3XRendererUpdateShaderMetaHandlerMethod</a></h2>
-</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3XFunctionPointer, TQ3XRendererUpdateShaderMetaHandlerMethod</b>) (<BR>
+</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3XFunctionPointer _Nullable, TQ3XRendererUpdateShaderMetaHandlerMethod</b>) (<BR>
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType       shaderType<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Return the update method for a shader type.
@@ -1199,9 +1200,9 @@ This method is optional.
 <hr><a name="//Quesa/c/tdef/TQ3XRendererUpdateShaderMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XRendererUpdateShaderMethod">TQ3XRendererUpdateShaderMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,           TQ3XRendererUpdateShaderMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject       theView,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;void                *rendererPrivate,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object           *theShader<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull      theView,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;void                * _Nonnull rendererPrivate,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object _Nullable          * _Nonnull theShader<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Update the the state of a shader while rendering.
 <br><br>
@@ -1219,7 +1220,7 @@ This method is optional.
  </dd></dl>
 <hr><a name="//Quesa/c/tdef/TQ3XRendererUpdateStyleMetaHandlerMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XRendererUpdateStyleMetaHandlerMethod">TQ3XRendererUpdateStyleMetaHandlerMethod</a></h2>
-</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3XFunctionPointer, TQ3XRendererUpdateStyleMetaHandlerMethod</b>) (<BR>
+</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3XFunctionPointer _Nullable, TQ3XRendererUpdateStyleMetaHandlerMethod</b>) (<BR>
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType       styleType<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Return the update method for a style type.
@@ -1240,9 +1241,9 @@ This method is optional.
 <hr><a name="//Quesa/c/tdef/TQ3XRendererUpdateStyleMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XRendererUpdateStyleMethod">TQ3XRendererUpdateStyleMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,           TQ3XRendererUpdateStyleMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject       theView,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;void                *rendererPrivate,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;const void          *publicData<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull      theView,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;void                * _Nonnull rendererPrivate,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;const void          * _Nonnull publicData<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Update the the state of a style while rendering.
 <br><br>
@@ -1323,7 +1324,7 @@ dialog state to the renderer.
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3DialogAnchor">TQ3DialogAnchor</a></h2>
 </td></tr></table><hr><blockquote><pre>
 typedef struct TQ3DialogAnchor {
-    void                                        *notUsed;
+    void                                        * _Nullable notUsed;
 } TQ3DialogAnchor;
 </pre>
 </blockquote>
@@ -1348,7 +1349,7 @@ renderer may set on the renderer object.
 <blockquote><pre>
 struct TQ3RendererPassInfo {
     TQ3RendererPassType    passType;
-    TQ3LightObject      light;
+    TQ3LightObject _Nullable    light;
 } ;
 </pre>
 </blockquote>
@@ -1857,5 +1858,5 @@ enum {
 <br><br>
 The data for the attribute is a single TQ3CSGObjectID.
  </p>
-<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 5/27/2019)
 </p></body></html>

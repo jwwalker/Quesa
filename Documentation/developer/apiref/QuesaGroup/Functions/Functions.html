@@ -8,9 +8,9 @@
 <hr><a name="//Quesa/c/func/Q3DisplayGroup_CalcAndUseBoundingBox"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DisplayGroup_CalcAndUseBoundingBox">Q3DisplayGroup_CalcAndUseBoundingBox</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DisplayGroup_CalcAndUseBoundingBox (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject _Nonnull group,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3ComputeBounds computeBounds,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Calculate and use a bounding box on the given group.
@@ -43,8 +43,8 @@ This function must not be called within a submitting loop.
 <hr><a name="//Quesa/c/func/Q3DisplayGroup_GetBoundingBox"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DisplayGroup_GetBoundingBox">Q3DisplayGroup_GetBoundingBox</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DisplayGroup_GetBoundingBox (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3BoundingBox *bBox
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject _Nonnull group,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3BoundingBox * _Nonnull bBox
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the bounding box of a group.
@@ -65,8 +65,8 @@ been set or calculated.  If not, kQ3Failure is returned.
 <hr><a name="//Quesa/c/func/Q3DisplayGroup_GetState"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DisplayGroup_GetState">Q3DisplayGroup_GetState</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DisplayGroup_GetState (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3DisplayGroupState *state
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject _Nonnull group,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DisplayGroupState * _Nonnull state
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the state flags of a display group.
@@ -104,7 +104,7 @@ other flags are clear.
 <hr><a name="//Quesa/c/func/Q3DisplayGroup_GetType"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DisplayGroup_GetType">Q3DisplayGroup_GetType</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3ObjectType ) Q3DisplayGroup_GetType (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject _Nonnull group
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the specific type of a display group.
@@ -125,7 +125,7 @@ group, <code>kQ3DisplayGroupTypeIOProxy</code> for an I/O Proxy group, and
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3DisplayGroup_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DisplayGroup_New">Q3DisplayGroup_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3GroupObject ) Q3DisplayGroup_New (void);</tt><br>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3GroupObject _Nullable ) Q3DisplayGroup_New (void);</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new display group.
 <br><br>
@@ -145,7 +145,7 @@ See also <code>Q3OrderedDisplayGroup_New</code> and <code>Q3IOProxyDisplayGroup_
 <hr><a name="//Quesa/c/func/Q3DisplayGroup_RemoveBoundingBox"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DisplayGroup_RemoveBoundingBox">Q3DisplayGroup_RemoveBoundingBox</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DisplayGroup_RemoveBoundingBox (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject _Nonnull group
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Remove the bounding box from a group.
@@ -166,8 +166,8 @@ flag.  If not, it does nothing (and returns <code>kQ3Success</code> anyway).
 <hr><a name="//Quesa/c/func/Q3DisplayGroup_SetAndUseBoundingBox"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DisplayGroup_SetAndUseBoundingBox">Q3DisplayGroup_SetAndUseBoundingBox</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DisplayGroup_SetAndUseBoundingBox (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3BoundingBox *bBox
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject _Nonnull group,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3BoundingBox * _Nonnull bBox
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Sets a bounding box for a display group.
@@ -190,7 +190,7 @@ for culling.
 <hr><a name="//Quesa/c/func/Q3DisplayGroup_SetState"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DisplayGroup_SetState">Q3DisplayGroup_SetState</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DisplayGroup_SetState (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject _Nonnull group,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3DisplayGroupState state
 );</tt><br>
 </pre></blockquote>
@@ -229,8 +229,8 @@ other flags are clear.
 <hr><a name="//Quesa/c/func/Q3DisplayGroup_Submit"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DisplayGroup_Submit">Q3DisplayGroup_Submit</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DisplayGroup_Submit (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject _Nonnull group,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit a display group.
@@ -256,9 +256,9 @@ objects in a display group, and submit them with this function.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Group_AddObject"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Group_AddObject">Q3Group_AddObject</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3GroupPosition ) Q3Group_AddObject (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object object
+</td></tr></table><hr><blockquote><pre><tt>( TQ3GroupPosition _Nonnull ) Q3Group_AddObject (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject _Nonnull group,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object _Nonnull object
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Append an object to a group.
@@ -286,10 +286,10 @@ returns nullptr.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Group_AddObjectAfter"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Group_AddObjectAfter">Q3Group_AddObjectAfter</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3GroupPosition ) Q3Group_AddObjectAfter (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupPosition position,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object object
+</td></tr></table><hr><blockquote><pre><tt>( TQ3GroupPosition _Nonnull ) Q3Group_AddObjectAfter (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject _Nonnull group,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupPosition _Nonnull position,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object _Nonnull object
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Insert an object into a group after a specified position.
@@ -316,9 +316,9 @@ returns nullptr.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Group_AddObjectAndDispose"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Group_AddObjectAndDispose">Q3Group_AddObjectAndDispose</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3GroupPosition ) Q3Group_AddObjectAndDispose (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject theGroup,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object *theObject
+</td></tr></table><hr><blockquote><pre><tt>( TQ3GroupPosition _Nullable ) Q3Group_AddObjectAndDispose (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject _Nonnull theGroup,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object _Nullable * _Nonnull theObject
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Add an object to a group, and then dispose of it.
@@ -350,10 +350,10 @@ theObject = nullptr;
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Group_AddObjectBefore"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Group_AddObjectBefore">Q3Group_AddObjectBefore</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3GroupPosition ) Q3Group_AddObjectBefore (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupPosition position,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object object
+</td></tr></table><hr><blockquote><pre><tt>( TQ3GroupPosition _Nonnull ) Q3Group_AddObjectBefore (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject _Nonnull group,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupPosition _Nonnull position,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object _Nonnull object
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Insert an object into a group before a specified position.
@@ -381,8 +381,8 @@ returns nullptr.
 <hr><a name="//Quesa/c/func/Q3Group_CountObjects"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Group_CountObjects">Q3Group_CountObjects</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Group_CountObjects (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 *nObjects
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject _Nonnull group,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 * _Nonnull nObjects
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Determine how many objects are in a group.
@@ -404,9 +404,9 @@ to get the total number of objects in the hierarchy.
 <hr><a name="//Quesa/c/func/Q3Group_CountObjectsOfType"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Group_CountObjectsOfType">Q3Group_CountObjectsOfType</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Group_CountObjectsOfType (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject _Nonnull group,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType isType,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 *nObjects
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 * _Nonnull nObjects
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Determine how many objects of a certain type are in a group.
@@ -429,7 +429,7 @@ to consider the entire hierarchy.
 <hr><a name="//Quesa/c/func/Q3Group_EmptyObjects"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Group_EmptyObjects">Q3Group_EmptyObjects</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Group_EmptyObjects (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject _Nonnull group
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Remove all object references from the group.
@@ -449,7 +449,7 @@ group.  (The group itself is not disposed of.)
 <hr><a name="//Quesa/c/func/Q3Group_EmptyObjectsOfType"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Group_EmptyObjectsOfType">Q3Group_EmptyObjectsOfType</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Group_EmptyObjectsOfType (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject _Nonnull group,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType isType
 );</tt><br>
 </pre></blockquote>
@@ -472,9 +472,9 @@ even if this call leaves it empty.)
 <hr><a name="//Quesa/c/func/Q3Group_GetFirstObjectPosition"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Group_GetFirstObjectPosition">Q3Group_GetFirstObjectPosition</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Group_GetFirstObjectPosition (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object object,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupPosition *position
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject _Nonnull group,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object _Nonnull object,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupPosition _Nullable * _Nonnull position
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the first position of an object within a group.
@@ -502,8 +502,8 @@ whether you found a valid object position.
 <hr><a name="//Quesa/c/func/Q3Group_GetFirstPosition"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Group_GetFirstPosition">Q3Group_GetFirstPosition</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Group_GetFirstPosition (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupPosition *position
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject _Nonnull group,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupPosition _Nonnull * _Nonnull position
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the first position in a group.
@@ -524,9 +524,9 @@ to iterate over all members of a group.
 <hr><a name="//Quesa/c/func/Q3Group_GetFirstPositionOfType"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Group_GetFirstPositionOfType">Q3Group_GetFirstPositionOfType</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Group_GetFirstPositionOfType (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject _Nonnull group,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType isType,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupPosition *position
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupPosition _Nullable * _Nonnull position
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the position of the first object of a given type.
@@ -548,9 +548,9 @@ to iterate over all group members of a certain type.
 <hr><a name="//Quesa/c/func/Q3Group_GetLastObjectPosition"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Group_GetLastObjectPosition">Q3Group_GetLastObjectPosition</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Group_GetLastObjectPosition (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object object,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupPosition *position
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject _Nonnull group,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object _Nonnull object,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupPosition _Nullable * _Nonnull position
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the last position of an object within a group.
@@ -578,8 +578,8 @@ whether you found a valid object position.
 <hr><a name="//Quesa/c/func/Q3Group_GetLastPosition"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Group_GetLastPosition">Q3Group_GetLastPosition</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Group_GetLastPosition (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupPosition *position
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject _Nonnull group,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupPosition _Nullable * _Nonnull position
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the last position in a group.
@@ -600,9 +600,9 @@ to iterate backwards over all members of a group.
 <hr><a name="//Quesa/c/func/Q3Group_GetLastPositionOfType"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Group_GetLastPositionOfType">Q3Group_GetLastPositionOfType</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Group_GetLastPositionOfType (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject _Nonnull group,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType isType,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupPosition *position
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupPosition _Nullable *_Nonnull position
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the position of the last object of a given type.
@@ -624,9 +624,9 @@ to iterate backwards over all group members of a certain type.
 <hr><a name="//Quesa/c/func/Q3Group_GetNextObjectPosition"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Group_GetNextObjectPosition">Q3Group_GetNextObjectPosition</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Group_GetNextObjectPosition (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object object,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupPosition *position
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject _Nonnull group,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object _Nonnull object,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupPosition _Nullable * _Nonnull position
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Advance to the position of the next reference to a given object
@@ -650,8 +650,8 @@ to iterate over all occurrences of an object within a group.
 <hr><a name="//Quesa/c/func/Q3Group_GetNextPosition"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Group_GetNextPosition">Q3Group_GetNextPosition</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Group_GetNextPosition (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupPosition *position
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject _Nonnull group,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupPosition _Nullable * _Nonnull position
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Advance to the next position in a group.
@@ -673,9 +673,9 @@ in the group, <code>*position</code> is set to nullptr.
 <hr><a name="//Quesa/c/func/Q3Group_GetNextPositionOfType"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Group_GetNextPositionOfType">Q3Group_GetNextPositionOfType</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Group_GetNextPositionOfType (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject _Nonnull group,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType isType,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupPosition *position
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupPosition _Nullable * _Nonnull position
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Advance to the position of the next object of a certain type.
@@ -699,9 +699,9 @@ in the group, <code>*position</code> is set to nullptr.
 <hr><a name="//Quesa/c/func/Q3Group_GetPositionObject"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Group_GetPositionObject">Q3Group_GetPositionObject</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Group_GetPositionObject (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupPosition position,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object *object
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject _Nonnull group,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupPosition _Nonnull position,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object _Nullable * _Nonnull object
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the object located at a certain position in a group.
@@ -727,9 +727,9 @@ Sets *object to nullptr if there is no object at the given position.
 <hr><a name="//Quesa/c/func/Q3Group_GetPreviousObjectPosition"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Group_GetPreviousObjectPosition">Q3Group_GetPreviousObjectPosition</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Group_GetPreviousObjectPosition (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object object,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupPosition *position
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject _Nonnull group,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object _Nonnull object,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupPosition _Nullable * _Nonnull position
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Step back to the position of the previous reference to a given object
@@ -753,8 +753,8 @@ to iterate in reverse over all occurrences of an object within a group.
 <hr><a name="//Quesa/c/func/Q3Group_GetPreviousPosition"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Group_GetPreviousPosition">Q3Group_GetPreviousPosition</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Group_GetPreviousPosition (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupPosition *position
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject _Nonnull group,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupPosition _Nullable * _Nonnull position
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Step back to the previous position in a group.
@@ -777,9 +777,9 @@ is set to nullptr.
 <hr><a name="//Quesa/c/func/Q3Group_GetPreviousPositionOfType"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Group_GetPreviousPositionOfType">Q3Group_GetPreviousPositionOfType</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Group_GetPreviousPositionOfType (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject _Nonnull group,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType isType,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupPosition *position
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupPosition _Nullable * _Nonnull position
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Step back to the position of the previous object of a certain type.
@@ -803,7 +803,7 @@ in the group, <code>*position</code> is set to nullptr.
 <hr><a name="//Quesa/c/func/Q3Group_GetType"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Group_GetType">Q3Group_GetType</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3ObjectType ) Q3Group_GetType (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject _Nonnull group
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Return the type of a group.
@@ -823,7 +823,7 @@ kQ3GroupTypeDisplay, kQ3GroupTypeInfo, or kQ3GroupTypeLight.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Group_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Group_New">Q3Group_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3GroupObject ) Q3Group_New (void);</tt><br>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3GroupObject _Nullable ) Q3Group_New (void);</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new generic group.
 <br><br>
@@ -835,9 +835,9 @@ some error occurs during creation, this returns nullptr.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Group_RemovePosition"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Group_RemovePosition">Q3Group_RemovePosition</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Object ) Q3Group_RemovePosition (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupPosition position
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Object _Nonnull ) Q3Group_RemovePosition (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject _Nonnull group,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupPosition _Nonnull position
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Remove an object from a group.
@@ -862,9 +862,9 @@ is invalid.
 <hr><a name="//Quesa/c/func/Q3Group_SetPositionObject"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Group_SetPositionObject">Q3Group_SetPositionObject</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Group_SetPositionObject (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupPosition position,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object object
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject _Nonnull group,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupPosition _Nonnull position,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object _Nonnull object
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Sets the object at a specified position in a group.
@@ -889,7 +889,7 @@ dispose of your own reference if you no longer need it.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3IOProxyDisplayGroup_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3IOProxyDisplayGroup_New">Q3IOProxyDisplayGroup_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3GroupObject ) Q3IOProxyDisplayGroup_New (void);</tt><br>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3GroupObject _Nullable ) Q3IOProxyDisplayGroup_New (void);</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new generic group.
 <br><br>
@@ -910,7 +910,7 @@ some error occurs during creation, this returns nullptr.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3InfoGroup_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3InfoGroup_New">Q3InfoGroup_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3GroupObject ) Q3InfoGroup_New (void);</tt><br>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3GroupObject _Nullable ) Q3InfoGroup_New (void);</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new information group.
 <br><br>
@@ -922,7 +922,7 @@ object.  If some error occurs during creation, this returns nullptr.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3LightGroup_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3LightGroup_New">Q3LightGroup_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3GroupObject ) Q3LightGroup_New (void);</tt><br>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3GroupObject _Nullable ) Q3LightGroup_New (void);</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new light group.
 <br><br>
@@ -937,7 +937,7 @@ some error occurs during creation, this returns nullptr.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3OrderedDisplayGroup_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3OrderedDisplayGroup_New">Q3OrderedDisplayGroup_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3GroupObject ) Q3OrderedDisplayGroup_New (void);</tt><br>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3GroupObject _Nullable ) Q3OrderedDisplayGroup_New (void);</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new ordered display group.
 <br><br>
@@ -965,9 +965,9 @@ If some error occurs during creation, this returns nullptr.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3XGroup_GetPositionPrivate"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XGroup_GetPositionPrivate">Q3XGroup_GetPositionPrivate</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( void * ) Q3XGroup_GetPositionPrivate (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject group,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupPosition position
+</td></tr></table><hr><blockquote><pre><tt>( void * _Nullable ) Q3XGroup_GetPositionPrivate (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject _Nonnull group,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupPosition _Nonnull position
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the private data stored in a group at the given position.
@@ -985,5 +985,5 @@ pointer, which is stored in a group at the given position.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Pointer to private data, or nullptr.
  </dd></dl>
-<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 5/27/2019)
 </p></body></html>

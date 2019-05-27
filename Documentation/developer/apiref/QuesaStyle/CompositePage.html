@@ -7,12 +7,13 @@
 <h1><font face="Geneva,Arial,Helvtica">QuesaStyle.h</font></h1><br>
 <h2>Discussion</h2>
 Declares the Quesa style objects.
- <hr><br><h2>Functions</h2>
+<br><br>
+<hr><br><h2>Functions</h2>
 <hr><a name="//Quesa/c/func/Q3AntiAliasStyle_GetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3AntiAliasStyle_GetData">Q3AntiAliasStyle_GetData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3AntiAliasStyle_GetData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject styleObject,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3AntiAliasStyleData *data
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject _Nonnull styleObject,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AntiAliasStyleData * _Nonnull data
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the data from an anti-alias style.
@@ -29,8 +30,8 @@ Declares the Quesa style objects.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3AntiAliasStyle_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3AntiAliasStyle_New">Q3AntiAliasStyle_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3StyleObject ) Q3AntiAliasStyle_New (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3AntiAliasStyleData *data
+</td></tr></table><hr><blockquote><pre><tt>( TQ3StyleObject _Nonnull ) Q3AntiAliasStyle_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3AntiAliasStyleData * _Nonnull data
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create an anti-alias style.
@@ -47,8 +48,8 @@ Declares the Quesa style objects.
 <hr><a name="//Quesa/c/func/Q3AntiAliasStyle_SetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3AntiAliasStyle_SetData">Q3AntiAliasStyle_SetData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3AntiAliasStyle_SetData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject styleObject,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3AntiAliasStyleData *data
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject _Nonnull styleObject,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3AntiAliasStyleData * _Nonnull data
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the data for an anti-alias style.
@@ -66,8 +67,8 @@ Declares the Quesa style objects.
 <hr><a name="//Quesa/c/func/Q3AntiAliasStyle_Submit"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3AntiAliasStyle_Submit">Q3AntiAliasStyle_Submit</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3AntiAliasStyle_Submit (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3AntiAliasStyleData *data,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3AntiAliasStyleData * _Nonnull data,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit an anti-alias style to a view.
@@ -85,8 +86,8 @@ Declares the Quesa style objects.
 <hr><a name="//Quesa/c/func/Q3BackfacingStyle_Get"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3BackfacingStyle_Get">Q3BackfacingStyle_Get</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3BackfacingStyle_Get (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject backfacingObject,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3BackfacingStyle *backfacingStyle
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject _Nonnull backfacingObject,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3BackfacingStyle * _Nonnull backfacingStyle
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the data from a backfacing style.
@@ -103,7 +104,7 @@ Declares the Quesa style objects.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3BackfacingStyle_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3BackfacingStyle_New">Q3BackfacingStyle_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3StyleObject ) Q3BackfacingStyle_New (
+</td></tr></table><hr><blockquote><pre><tt>( TQ3StyleObject _Nonnull ) Q3BackfacingStyle_New (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3BackfacingStyle backfacingStyle
 );</tt><br>
 </pre></blockquote>
@@ -121,7 +122,7 @@ Declares the Quesa style objects.
 <hr><a name="//Quesa/c/func/Q3BackfacingStyle_Set"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3BackfacingStyle_Set">Q3BackfacingStyle_Set</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3BackfacingStyle_Set (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject backfacingObject,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject _Nonnull backfacingObject,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3BackfacingStyle backfacingStyle
 );</tt><br>
 </pre></blockquote>
@@ -141,7 +142,7 @@ Declares the Quesa style objects.
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3BackfacingStyle_Submit">Q3BackfacingStyle_Submit</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3BackfacingStyle_Submit (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3BackfacingStyle backfacingStyle,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit a backfacing style to a view.
@@ -159,8 +160,8 @@ Declares the Quesa style objects.
 <hr><a name="//Quesa/c/func/Q3CastShadowsStyle_Get"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3CastShadowsStyle_Get">Q3CastShadowsStyle_Get</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3CastShadowsStyle_Get (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject styleObject,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean *castShadows
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject _Nonnull styleObject,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean * _Nonnull castShadows
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the data from a cast shadows style.
@@ -179,7 +180,7 @@ Declares the Quesa style objects.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3CastShadowsStyle_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3CastShadowsStyle_New">Q3CastShadowsStyle_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3StyleObject ) Q3CastShadowsStyle_New (
+</td></tr></table><hr><blockquote><pre><tt>( TQ3StyleObject _Nonnull ) Q3CastShadowsStyle_New (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean castsShadows
 );</tt><br>
 </pre></blockquote>
@@ -199,7 +200,7 @@ Declares the Quesa style objects.
 <hr><a name="//Quesa/c/func/Q3CastShadowsStyle_Set"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3CastShadowsStyle_Set">Q3CastShadowsStyle_Set</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3CastShadowsStyle_Set (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject styleObject,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject _Nonnull styleObject,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean castShadows
 );</tt><br>
 </pre></blockquote>
@@ -221,7 +222,7 @@ Declares the Quesa style objects.
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3CastShadowsStyle_Submit">Q3CastShadowsStyle_Submit</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3CastShadowsStyle_Submit (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean castShadows,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit a cast shadows style to a view.
@@ -241,8 +242,8 @@ Declares the Quesa style objects.
 <hr><a name="//Quesa/c/func/Q3FillStyle_Get"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FillStyle_Get">Q3FillStyle_Get</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3FillStyle_Get (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject styleObject,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FillStyle *fillStyle
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject _Nonnull styleObject,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FillStyle * _Nonnull fillStyle
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the data from a fill style.
@@ -259,7 +260,7 @@ Declares the Quesa style objects.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3FillStyle_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FillStyle_New">Q3FillStyle_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3StyleObject ) Q3FillStyle_New (
+</td></tr></table><hr><blockquote><pre><tt>( TQ3StyleObject _Nonnull ) Q3FillStyle_New (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3FillStyle fillStyle
 );</tt><br>
 </pre></blockquote>
@@ -277,7 +278,7 @@ Declares the Quesa style objects.
 <hr><a name="//Quesa/c/func/Q3FillStyle_Set"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FillStyle_Set">Q3FillStyle_Set</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3FillStyle_Set (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject styleObject,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject _Nonnull styleObject,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3FillStyle fillStyle
 );</tt><br>
 </pre></blockquote>
@@ -297,7 +298,7 @@ Declares the Quesa style objects.
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FillStyle_Submit">Q3FillStyle_Submit</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3FillStyle_Submit (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3FillStyle fillStyle,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit a fill style to a view.
@@ -315,8 +316,8 @@ Declares the Quesa style objects.
 <hr><a name="//Quesa/c/func/Q3FogStyle_GetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FogStyle_GetData">Q3FogStyle_GetData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3FogStyle_GetData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject styleObject,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FogStyleData *data
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject _Nonnull styleObject,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FogStyleData * _Nonnull data
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the data from a fog style.
@@ -333,8 +334,8 @@ Declares the Quesa style objects.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3FogStyle_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FogStyle_New">Q3FogStyle_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3StyleObject ) Q3FogStyle_New (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3FogStyleData *data
+</td></tr></table><hr><blockquote><pre><tt>( TQ3StyleObject _Nonnull ) Q3FogStyle_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3FogStyleData * _Nonnull data
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a fog style.
@@ -351,8 +352,8 @@ Declares the Quesa style objects.
 <hr><a name="//Quesa/c/func/Q3FogStyle_SetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FogStyle_SetData">Q3FogStyle_SetData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3FogStyle_SetData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject styleObject,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3FogStyleData *data
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject _Nonnull styleObject,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3FogStyleData * _Nonnull data
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the data for a fog style.
@@ -370,8 +371,8 @@ Declares the Quesa style objects.
 <hr><a name="//Quesa/c/func/Q3FogStyle_Submit"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FogStyle_Submit">Q3FogStyle_Submit</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3FogStyle_Submit (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3FogStyleData *data,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3FogStyleData * _Nonnull data,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit a fog style to a view.
@@ -389,8 +390,8 @@ Declares the Quesa style objects.
 <hr><a name="//Quesa/c/func/Q3HighlightStyle_Get"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3HighlightStyle_Get">Q3HighlightStyle_Get</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3HighlightStyle_Get (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject highlight,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet *highlightAttribute
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject _Nonnull highlight,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet _Nonnull * _Nonnull highlightAttribute
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the data from a highlight style.
@@ -407,8 +408,8 @@ Declares the Quesa style objects.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3HighlightStyle_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3HighlightStyle_New">Q3HighlightStyle_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3StyleObject ) Q3HighlightStyle_New (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet highlightAttribute
+</td></tr></table><hr><blockquote><pre><tt>( TQ3StyleObject _Nonnull ) Q3HighlightStyle_New (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet _Nonnull highlightAttribute
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a highlight style.
@@ -425,8 +426,8 @@ Declares the Quesa style objects.
 <hr><a name="//Quesa/c/func/Q3HighlightStyle_Set"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3HighlightStyle_Set">Q3HighlightStyle_Set</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3HighlightStyle_Set (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject highlight,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet highlightAttribute
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject _Nonnull highlight,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet _Nonnull highlightAttribute
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the data for a highlight style.
@@ -444,8 +445,8 @@ Declares the Quesa style objects.
 <hr><a name="//Quesa/c/func/Q3HighlightStyle_Submit"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3HighlightStyle_Submit">Q3HighlightStyle_Submit</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3HighlightStyle_Submit (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet highlightAttribute,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet _Nonnull highlightAttribute,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit a highlight style to a view.
@@ -463,8 +464,8 @@ Declares the Quesa style objects.
 <hr><a name="//Quesa/c/func/Q3InterpolationStyle_Get"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3InterpolationStyle_Get">Q3InterpolationStyle_Get</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3InterpolationStyle_Get (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject interpolationObject,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3InterpolationStyle *interpolationStyle
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject _Nonnull interpolationObject,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3InterpolationStyle * _Nonnull interpolationStyle
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the data from an interpolation style.
@@ -481,7 +482,7 @@ Declares the Quesa style objects.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3InterpolationStyle_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3InterpolationStyle_New">Q3InterpolationStyle_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3StyleObject ) Q3InterpolationStyle_New (
+</td></tr></table><hr><blockquote><pre><tt>( TQ3StyleObject _Nonnull ) Q3InterpolationStyle_New (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3InterpolationStyle interpolationStyle
 );</tt><br>
 </pre></blockquote>
@@ -499,7 +500,7 @@ Declares the Quesa style objects.
 <hr><a name="//Quesa/c/func/Q3InterpolationStyle_Set"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3InterpolationStyle_Set">Q3InterpolationStyle_Set</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3InterpolationStyle_Set (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject interpolationObject,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject _Nonnull interpolationObject,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3InterpolationStyle interpolationStyle
 );</tt><br>
 </pre></blockquote>
@@ -519,7 +520,7 @@ Declares the Quesa style objects.
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3InterpolationStyle_Submit">Q3InterpolationStyle_Submit</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3InterpolationStyle_Submit (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3InterpolationStyle interpolationStyle,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit an interpolation style to a view.
@@ -537,8 +538,8 @@ Declares the Quesa style objects.
 <hr><a name="//Quesa/c/func/Q3LineWidthStyle_GetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3LineWidthStyle_GetData">Q3LineWidthStyle_GetData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3LineWidthStyle_GetData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject styleObject,
-&nbsp;&nbsp;&nbsp;&nbsp;float *outWidth
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject _Nonnull styleObject,
+&nbsp;&nbsp;&nbsp;&nbsp;float * _Nonnull outWidth
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get width from a line width style.
@@ -557,7 +558,7 @@ Declares the Quesa style objects.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3LineWidthStyle_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3LineWidthStyle_New">Q3LineWidthStyle_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3StyleObject ) Q3LineWidthStyle_New (
+</td></tr></table><hr><blockquote><pre><tt>( TQ3StyleObject _Nonnull ) Q3LineWidthStyle_New (
 &nbsp;&nbsp;&nbsp;&nbsp;float inWidth
 );</tt><br>
 </pre></blockquote>
@@ -577,7 +578,7 @@ Declares the Quesa style objects.
 <hr><a name="//Quesa/c/func/Q3LineWidthStyle_SetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3LineWidthStyle_SetData">Q3LineWidthStyle_SetData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3LineWidthStyle_SetData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject styleObject,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject _Nonnull styleObject,
 &nbsp;&nbsp;&nbsp;&nbsp;float inWidth
 );</tt><br>
 </pre></blockquote>
@@ -599,7 +600,7 @@ Declares the Quesa style objects.
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3LineWidthStyle_Submit">Q3LineWidthStyle_Submit</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3LineWidthStyle_Submit (
 &nbsp;&nbsp;&nbsp;&nbsp;float inWidth,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit a line width style to a view.
@@ -619,8 +620,8 @@ Declares the Quesa style objects.
 <hr><a name="//Quesa/c/func/Q3OrientationStyle_Get"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3OrientationStyle_Get">Q3OrientationStyle_Get</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3OrientationStyle_Get (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject frontFacingDirectionObject,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3OrientationStyle *frontFacingDirection
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject _Nonnull frontFacingDirectionObject,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3OrientationStyle * _Nonnull frontFacingDirection
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the data from an orientation style.
@@ -637,7 +638,7 @@ Declares the Quesa style objects.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3OrientationStyle_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3OrientationStyle_New">Q3OrientationStyle_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3StyleObject ) Q3OrientationStyle_New (
+</td></tr></table><hr><blockquote><pre><tt>( TQ3StyleObject _Nonnull ) Q3OrientationStyle_New (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3OrientationStyle frontFacingDirection
 );</tt><br>
 </pre></blockquote>
@@ -655,7 +656,7 @@ Declares the Quesa style objects.
 <hr><a name="//Quesa/c/func/Q3OrientationStyle_Set"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3OrientationStyle_Set">Q3OrientationStyle_Set</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3OrientationStyle_Set (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject frontFacingDirectionObject,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject _Nonnull frontFacingDirectionObject,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3OrientationStyle frontFacingDirection
 );</tt><br>
 </pre></blockquote>
@@ -675,7 +676,7 @@ Declares the Quesa style objects.
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3OrientationStyle_Submit">Q3OrientationStyle_Submit</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3OrientationStyle_Submit (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3OrientationStyle frontFacingDirection,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit an orientation style to a view.
@@ -693,8 +694,8 @@ Declares the Quesa style objects.
 <hr><a name="//Quesa/c/func/Q3PickIDStyle_Get"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PickIDStyle_Get">Q3PickIDStyle_Get</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3PickIDStyle_Get (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject pickIDObject,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 *id
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject _Nonnull pickIDObject,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 * _Nonnull id
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the data from a pick ID style.
@@ -711,7 +712,7 @@ Declares the Quesa style objects.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3PickIDStyle_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PickIDStyle_New">Q3PickIDStyle_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3StyleObject ) Q3PickIDStyle_New (
+</td></tr></table><hr><blockquote><pre><tt>( TQ3StyleObject _Nonnull ) Q3PickIDStyle_New (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 id
 );</tt><br>
 </pre></blockquote>
@@ -729,7 +730,7 @@ Declares the Quesa style objects.
 <hr><a name="//Quesa/c/func/Q3PickIDStyle_Set"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PickIDStyle_Set">Q3PickIDStyle_Set</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3PickIDStyle_Set (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject pickIDObject,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject _Nonnull pickIDObject,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 id
 );</tt><br>
 </pre></blockquote>
@@ -749,7 +750,7 @@ Declares the Quesa style objects.
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PickIDStyle_Submit">Q3PickIDStyle_Submit</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3PickIDStyle_Submit (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 id,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit a pick ID style to a view.
@@ -767,8 +768,8 @@ Declares the Quesa style objects.
 <hr><a name="//Quesa/c/func/Q3PickPartsStyle_Get"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PickPartsStyle_Get">Q3PickPartsStyle_Get</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3PickPartsStyle_Get (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject pickPartsObject,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickParts *parts
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject _Nonnull pickPartsObject,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickParts * _Nonnull parts
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the data from a pick parts style.
@@ -785,7 +786,7 @@ Declares the Quesa style objects.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3PickPartsStyle_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PickPartsStyle_New">Q3PickPartsStyle_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3StyleObject ) Q3PickPartsStyle_New (
+</td></tr></table><hr><blockquote><pre><tt>( TQ3StyleObject _Nonnull ) Q3PickPartsStyle_New (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3PickParts parts
 );</tt><br>
 </pre></blockquote>
@@ -803,7 +804,7 @@ Declares the Quesa style objects.
 <hr><a name="//Quesa/c/func/Q3PickPartsStyle_Set"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PickPartsStyle_Set">Q3PickPartsStyle_Set</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3PickPartsStyle_Set (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject pickPartsObject,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject _Nonnull pickPartsObject,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3PickParts parts
 );</tt><br>
 </pre></blockquote>
@@ -823,7 +824,7 @@ Declares the Quesa style objects.
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PickPartsStyle_Submit">Q3PickPartsStyle_Submit</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3PickPartsStyle_Submit (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3PickParts parts,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit a pick parts style to a view.
@@ -841,8 +842,8 @@ Declares the Quesa style objects.
 <hr><a name="//Quesa/c/func/Q3ReceiveShadowsStyle_Get"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ReceiveShadowsStyle_Get">Q3ReceiveShadowsStyle_Get</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ReceiveShadowsStyle_Get (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject styleObject,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean *receiveShadows
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject _Nonnull styleObject,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean * _Nonnull receiveShadows
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the data from a receive shadows style.
@@ -859,7 +860,7 @@ Declares the Quesa style objects.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3ReceiveShadowsStyle_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ReceiveShadowsStyle_New">Q3ReceiveShadowsStyle_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3StyleObject ) Q3ReceiveShadowsStyle_New (
+</td></tr></table><hr><blockquote><pre><tt>( TQ3StyleObject _Nonnull ) Q3ReceiveShadowsStyle_New (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean receiveShadows
 );</tt><br>
 </pre></blockquote>
@@ -877,7 +878,7 @@ Declares the Quesa style objects.
 <hr><a name="//Quesa/c/func/Q3ReceiveShadowsStyle_Set"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ReceiveShadowsStyle_Set">Q3ReceiveShadowsStyle_Set</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ReceiveShadowsStyle_Set (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject styleObject,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject _Nonnull styleObject,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean receiveShadows
 );</tt><br>
 </pre></blockquote>
@@ -897,7 +898,7 @@ Declares the Quesa style objects.
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ReceiveShadowsStyle_Submit">Q3ReceiveShadowsStyle_Submit</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ReceiveShadowsStyle_Submit (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean receiveShadows,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit a receive shadows style to a view.
@@ -915,7 +916,7 @@ Declares the Quesa style objects.
 <hr><a name="//Quesa/c/func/Q3Style_GetType"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Style_GetType">Q3Style_GetType</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3ObjectType ) Q3Style_GetType (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject style
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject _Nonnull style
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the type of a style object.
@@ -932,8 +933,8 @@ Declares the Quesa style objects.
 <hr><a name="//Quesa/c/func/Q3Style_Submit"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Style_Submit">Q3Style_Submit</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Style_Submit (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject style,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject _Nonnull style,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit a style to a view.
@@ -951,8 +952,8 @@ Declares the Quesa style objects.
 <hr><a name="//Quesa/c/func/Q3SubdivisionStyle_GetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SubdivisionStyle_GetData">Q3SubdivisionStyle_GetData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3SubdivisionStyle_GetData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject subdiv,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3SubdivisionStyleData *data
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject _Nonnull subdiv,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3SubdivisionStyleData * _Nonnull data
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the data from a subdivision style.
@@ -969,8 +970,8 @@ Declares the Quesa style objects.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3SubdivisionStyle_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SubdivisionStyle_New">Q3SubdivisionStyle_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3StyleObject ) Q3SubdivisionStyle_New (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3SubdivisionStyleData *data
+</td></tr></table><hr><blockquote><pre><tt>( TQ3StyleObject _Nonnull ) Q3SubdivisionStyle_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3SubdivisionStyleData * _Nonnull data
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a subdivision style.
@@ -987,8 +988,8 @@ Declares the Quesa style objects.
 <hr><a name="//Quesa/c/func/Q3SubdivisionStyle_SetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SubdivisionStyle_SetData">Q3SubdivisionStyle_SetData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3SubdivisionStyle_SetData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject subdiv,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3SubdivisionStyleData *data
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject _Nonnull subdiv,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3SubdivisionStyleData * _Nonnull data
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the data for a subdivision style.
@@ -1006,8 +1007,8 @@ Declares the Quesa style objects.
 <hr><a name="//Quesa/c/func/Q3SubdivisionStyle_Submit"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SubdivisionStyle_Submit">Q3SubdivisionStyle_Submit</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3SubdivisionStyle_Submit (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3SubdivisionStyleData *data,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3SubdivisionStyleData * _Nonnull data,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit a subdivision style to a view.
@@ -1328,5 +1329,5 @@ than the specified size in world-space.</dd>
 than the specified size in pixels.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 5/27/2019)
 </p></body></html>

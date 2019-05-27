@@ -13,8 +13,8 @@ typedef struct TQ3BoxData {
     TQ3Vector3D                                 orientation;
     TQ3Vector3D                                 majorAxis;
     TQ3Vector3D                                 minorAxis;
-    TQ3AttributeSet                             *faceAttributeSet;
-    TQ3AttributeSet                             boxAttributeSet;
+    TQ3AttributeSet _Nullable * _Nullable       faceAttributeSet;
+    TQ3AttributeSet _Nullable                   boxAttributeSet;
 } TQ3BoxData;
 </pre>
 </blockquote>
@@ -29,10 +29,10 @@ typedef struct TQ3BoxData {
 <dt><tt>majorAxis</tt></dt><dd>Major axis of the box.</dd>
 <dt><tt>minorAxis</tt></dt><dd>Minor axis of the box.</dd>
 <dt><tt>faceAttributeSet</tt></dt><dd>Array of attribute set objects for the 6 faces.
-This field may be nullptr, or individual sets in the
-array may be nullptr.</dd>
+This field may be NULL, or individual sets in the
+array may be NULL.</dd>
 <dt><tt>boxAttributeSet</tt></dt><dd>Attribute set object holding attributes that apply
-to all of the faces.  May be nullptr.</dd>
+to all of the faces.  May be NULL.</dd>
 </dl>
 </blockquote>
 <hr><a name="//Quesa/c/tag/TQ3ConeData"></a>
@@ -48,10 +48,10 @@ typedef struct TQ3ConeData {
     float                                       vMin;
     float                                       vMax;
     TQ3EndCap                                   caps;
-    TQ3AttributeSet                             interiorAttributeSet;
-    TQ3AttributeSet                             faceAttributeSet;
-    TQ3AttributeSet                             bottomAttributeSet;
-    TQ3AttributeSet                             coneAttributeSet;
+    TQ3AttributeSet _Nullable                   interiorAttributeSet;
+    TQ3AttributeSet _Nullable                   faceAttributeSet;
+    TQ3AttributeSet _Nullable                   bottomAttributeSet;
+    TQ3AttributeSet _Nullable                   coneAttributeSet;
 } TQ3ConeData;
 </pre>
 </blockquote>
@@ -98,6 +98,32 @@ May be nullptr.</dd>
 <dt><tt>coneAttributeSet</tt></dt><dd>Attributes for all parts of the cone.  May be nullptr.</dd>
 </dl>
 </blockquote>
+<hr><a name="//Quesa/c/tag/TQ3CustomTextureCoordinates"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3CustomTextureCoordinates">TQ3CustomTextureCoordinates</a></h2>
+</td></tr></table><hr>Data of kQ3GeometryPropertyCustomTextureCoordinates.
+
+<blockquote><pre>
+typedef struct TQ3CustomTextureCoordinates {
+    TQ3Uns32  numPoints;
+    TQ3Uns32  coordsPerPoint;
+    TQ3Uns32  textureUnit;
+    TQ3Float32  coords[];
+} TQ3CustomTextureCoordinates;
+</pre>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt>numPoints</tt></dt><dd>Number of points (vertices) in the TriMesh.</dd>
+<dt><tt>coordsPerPoint</tt></dt><dd>Number of floating-point coordinates per point.
+Must be 1, 2, 3, or 4.</dd>
+<dt><tt>textureUnit</tt></dt><dd>Texture unit to which the coordinates will be
+provided.  Enter simply 1, for example, not
+GL_TEXTURE1.</dd>
+<dt><tt>coords</tt></dt><dd>Array of coordinate data.  The number of values
+here must be numPoints * coordsPerPoint.</dd>
+</dl>
+</blockquote>
 <hr><a name="//Quesa/c/tag/TQ3CylinderData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3CylinderData">TQ3CylinderData</a></h2>
 </td></tr></table><hr><blockquote><pre>
@@ -111,11 +137,11 @@ typedef struct TQ3CylinderData {
     float                                       vMin;
     float                                       vMax;
     TQ3EndCap                                   caps;
-    TQ3AttributeSet                             interiorAttributeSet;
-    TQ3AttributeSet                             topAttributeSet;
-    TQ3AttributeSet                             faceAttributeSet;
-    TQ3AttributeSet                             bottomAttributeSet;
-    TQ3AttributeSet                             cylinderAttributeSet;
+    TQ3AttributeSet _Nullable                   interiorAttributeSet;
+    TQ3AttributeSet _Nullable                   topAttributeSet;
+    TQ3AttributeSet _Nullable                   faceAttributeSet;
+    TQ3AttributeSet _Nullable                   bottomAttributeSet;
+    TQ3AttributeSet _Nullable                   cylinderAttributeSet;
 } TQ3CylinderData;
 </pre>
 </blockquote>
@@ -170,7 +196,7 @@ typedef struct TQ3DiskData {
     float                                       uMax;
     float                                       vMin;
     float                                       vMax;
-    TQ3AttributeSet                             diskAttributeSet;
+    TQ3AttributeSet _Nullable                   diskAttributeSet;
 } TQ3DiskData;
 </pre>
 </blockquote>
@@ -220,7 +246,7 @@ typedef struct TQ3EllipseData {
     TQ3Vector3D                                 minorRadius;
     float                                       uMin;
     float                                       uMax;
-    TQ3AttributeSet                             ellipseAttributeSet;
+    TQ3AttributeSet _Nullable                   ellipseAttributeSet;
 } TQ3EllipseData;
 </pre>
 </blockquote>
@@ -259,8 +285,8 @@ typedef struct TQ3EllipsoidData {
     float                                       vMin;
     float                                       vMax;
     TQ3EndCap                                   caps;
-    TQ3AttributeSet                             interiorAttributeSet;
-    TQ3AttributeSet                             ellipsoidAttributeSet;
+    TQ3AttributeSet _Nullable                   interiorAttributeSet;
+    TQ3AttributeSet _Nullable                   ellipsoidAttributeSet;
 } TQ3EllipsoidData;
 </pre>
 </blockquote>
@@ -305,7 +331,7 @@ May be nullptr.</dd>
 </td></tr></table><hr><blockquote><pre>
 typedef struct TQ3GeneralPolygonContourData {
     TQ3Uns32                                    numVertices;
-    TQ3Vertex3D                                 *vertices;
+    TQ3Vertex3D                                 * _Nonnull vertices;
 } TQ3GeneralPolygonContourData;
 </pre>
 </blockquote>
@@ -324,9 +350,9 @@ Used within the <code>TQ3GeneralPolygonData</code> structure.
 </td></tr></table><hr><blockquote><pre>
 typedef struct TQ3GeneralPolygonData {
     TQ3Uns32                                    numContours;
-    TQ3GeneralPolygonContourData                *contours;
+    TQ3GeneralPolygonContourData                * _Nullable contours;
     TQ3GeneralPolygonShapeHint                  shapeHint;
-    TQ3AttributeSet                             generalPolygonAttributeSet;
+    TQ3AttributeSet _Nullable                   generalPolygonAttributeSet;
 } TQ3GeneralPolygonData;
 </pre>
 </blockquote>
@@ -352,7 +378,7 @@ May be nullptr.</dd>
 </td></tr></table><hr><blockquote><pre>
 typedef struct TQ3LineData {
     TQ3Vertex3D                                 vertices[2];
-    TQ3AttributeSet                             lineAttributeSet;
+    TQ3AttributeSet _Nullable                   lineAttributeSet;
 } TQ3LineData;
 </pre>
 </blockquote>
@@ -373,7 +399,7 @@ typedef struct TQ3MarkerData {
     TQ3Int32                                    xOffset;
     TQ3Int32                                    yOffset;
     TQ3Bitmap                                   bitmap;
-    TQ3AttributeSet                             markerAttributeSet;
+    TQ3AttributeSet _Nullable                   markerAttributeSet;
 } TQ3MarkerData;
 </pre>
 </blockquote>
@@ -398,7 +424,7 @@ or transparency of the 1 bits.  May be nullptr.</dd>
 </td></tr></table><hr><blockquote><pre>
 typedef struct TQ3MeshContourData {
     TQ3Uns32                                    numVertices;
-    TQ3Uns32                                    *vertexIndices;
+    TQ3Uns32                                    * _Nullable vertexIndices;
 } TQ3MeshContourData;
 </pre>
 </blockquote>
@@ -423,8 +449,8 @@ data structure, which is most likely not a <code>TQ3MeshContourData</code>.
 </td></tr></table><hr><blockquote><pre>
 typedef struct TQ3MeshCornerData {
     TQ3Uns32                                    numFaces;
-    TQ3Uns32                                *faceIndices;
-    TQ3AttributeSet                             cornerAttributeSet;
+    TQ3Uns32                                * _Nonnull faceIndices;
+    TQ3AttributeSet _Nonnull                    cornerAttributeSet;
 } TQ3MeshCornerData;
 </pre>
 </blockquote>
@@ -448,12 +474,12 @@ for use with the <code>Q3Mesh_Set/Get/EmptyData</code> functions.
 </td></tr></table><hr><blockquote><pre>
 typedef struct TQ3MeshData {
     TQ3Uns32                  numVertices;
-    TQ3MeshVertexData              *vertices;
+    TQ3MeshVertexData              * _Nullable vertices;
     TQ3Uns32                  numEdges;
-    TQ3MeshEdgeData                *edges;
+    TQ3MeshEdgeData                * _Nullable edges;
     TQ3Uns32                  numFaces;
-    TQ3MeshFaceData                *faces;
-    TQ3AttributeSet                meshAttributeSet;
+    TQ3MeshFaceData                * _Nullable faces;
+    TQ3AttributeSet _Nullable                   meshAttributeSet;
 } TQ3MeshData;
 </pre>
 </blockquote>
@@ -483,7 +509,7 @@ also specify 0 for <code>numEdges</code>.</dd>
 </td></tr></table><hr><blockquote><pre>
 typedef struct TQ3MeshEdgeData {
     TQ3Uns32                                    vertexIndices[2];
-    TQ3AttributeSet                             edgeAttributeSet;
+    TQ3AttributeSet _Nullable                   edgeAttributeSet;
 } TQ3MeshEdgeData;
 </pre>
 </blockquote>
@@ -509,8 +535,8 @@ data structure, which is most likely not a <code>TQ3MeshEdgeData</code>.
 </td></tr></table><hr><blockquote><pre>
 typedef struct TQ3MeshFaceData {
     TQ3Uns32                                    numContours;
-    TQ3MeshContourData                          *contours;
-    TQ3AttributeSet                             faceAttributeSet;
+    TQ3MeshContourData                          * _Nullable contours;
+    TQ3AttributeSet _Nullable                   faceAttributeSet;
 } TQ3MeshFaceData;
 </pre>
 </blockquote>
@@ -535,11 +561,11 @@ data structure, which is most likely not a <code>TQ3MeshFaceData</code>.
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3MeshIterator">TQ3MeshIterator</a></h2>
 </td></tr></table><hr><blockquote><pre>
 typedef struct TQ3MeshIterator {
-    void                                        *var1;
-    void                                        *var2;
-    void                                        *var3;
+    void                                        * _Null_unspecified var1;
+    void                                        * _Null_unspecified var2;
+    void                                        * _Null_unspecified var3;
     struct {
-    void                                    *field1;
+    void                                    * _Null_unspecified field1;
     char                                    field2[4];
     
 } var4;
@@ -555,8 +581,8 @@ fields are not documented.
 typedef struct TQ3MeshVertexData {
     TQ3Point3D                                  point;
     TQ3Uns32                                    numCorners;
-    TQ3MeshCornerData                           *corners;
-    TQ3AttributeSet                             attributeSet;
+    TQ3MeshCornerData                           * _Nullable corners;
+    TQ3AttributeSet  _Nullable                  attributeSet;
 } TQ3MeshVertexData;
 </pre>
 </blockquote>
@@ -586,9 +612,9 @@ also specify 0 for <code>numCorners</code>.</dd>
 typedef struct TQ3NURBCurveData {
     TQ3Uns32                                    order;
     TQ3Uns32                                    numPoints;
-    TQ3RationalPoint4D                          *controlPoints;
-    float                                       *knots;
-    TQ3AttributeSet                             curveAttributeSet;
+    TQ3RationalPoint4D                          * _Nonnull controlPoints;
+    float                                       * _Nonnull knots;
+    TQ3AttributeSet _Nullable                   curveAttributeSet;
 } TQ3NURBCurveData;
 </pre>
 </blockquote>
@@ -619,12 +645,12 @@ typedef struct TQ3NURBPatchData {
     TQ3Uns32                                    vOrder;
     TQ3Uns32                                    numRows;
     TQ3Uns32                                    numColumns;
-    TQ3RationalPoint4D                          *controlPoints;
-    float                                       *uKnots;
-    float                                       *vKnots;
+    TQ3RationalPoint4D                          * _Nonnull controlPoints;
+    float                                       * _Nonnull uKnots;
+    float                                       * _Nonnull vKnots;
     TQ3Uns32                                    numTrimLoops;
-    TQ3NURBPatchTrimLoopData                    *trimLoops;
-    TQ3AttributeSet                             patchAttributeSet;
+    TQ3NURBPatchTrimLoopData                    * _Nullable trimLoops;
+    TQ3AttributeSet _Nullable                   patchAttributeSet;
 } TQ3NURBPatchData;
 </pre>
 </blockquote>
@@ -671,8 +697,8 @@ Currently this should be nullptr.</dd>
 typedef struct TQ3NURBPatchTrimCurveData {
     TQ3Uns32                                    order;
     TQ3Uns32                                    numPoints;
-    TQ3RationalPoint3D                          *controlPoints;
-    float                                       *knots;
+    TQ3RationalPoint3D                          * _Nonnull controlPoints;
+    float                                       * _Nonnull knots;
 } TQ3NURBPatchTrimCurveData;
 </pre>
 </blockquote>
@@ -699,7 +725,7 @@ nondecreasing.</dd>
 </td></tr></table><hr><blockquote><pre>
 typedef struct TQ3NURBPatchTrimLoopData {
     TQ3Uns32                                    numTrimCurves;
-    TQ3NURBPatchTrimCurveData                   *trimCurves;
+    TQ3NURBPatchTrimCurveData                   * _Nonnull trimCurves;
 } TQ3NURBPatchTrimLoopData;
 </pre>
 </blockquote>
@@ -720,7 +746,7 @@ typedef struct TQ3PixmapMarkerData {
     TQ3Int32                                    xOffset;
     TQ3Int32                                    yOffset;
     TQ3StoragePixmap                            pixmap;
-    TQ3AttributeSet                             pixmapMarkerAttributeSet;
+    TQ3AttributeSet _Nullable                   pixmapMarkerAttributeSet;
 } TQ3PixmapMarkerData;
 </pre>
 </blockquote>
@@ -744,7 +770,7 @@ upper left corner of the marker, in pixels.</dd>
 </td></tr></table><hr><blockquote><pre>
 typedef struct TQ3PointData {
     TQ3Point3D                                  point;
-    TQ3AttributeSet                             pointAttributeSet;
+    TQ3AttributeSet _Nullable                   pointAttributeSet;
 } TQ3PointData;
 </pre>
 </blockquote>
@@ -762,9 +788,9 @@ typedef struct TQ3PointData {
 </td></tr></table><hr><blockquote><pre>
 typedef struct TQ3PolyLineData {
     TQ3Uns32                                    numVertices;
-    TQ3Vertex3D                                 *vertices;
-    TQ3AttributeSet                             *segmentAttributeSet;
-    TQ3AttributeSet                             polyLineAttributeSet;
+    TQ3Vertex3D                                 * _Nonnull vertices;
+    TQ3AttributeSet _Nullable                   * _Nullable segmentAttributeSet;
+    TQ3AttributeSet _Nullable                   polyLineAttributeSet;
 } TQ3PolyLineData;
 </pre>
 </blockquote>
@@ -788,8 +814,8 @@ to any segment, this pointer may be nullptr.</dd>
 </td></tr></table><hr><blockquote><pre>
 typedef struct TQ3PolygonData {
     TQ3Uns32                                    numVertices;
-    TQ3Vertex3D                                 *vertices;
-    TQ3AttributeSet                             polygonAttributeSet;
+    TQ3Vertex3D                                 * _Nonnull vertices;
+    TQ3AttributeSet _Nullable                   polygonAttributeSet;
 } TQ3PolygonData;
 </pre>
 </blockquote>
@@ -808,12 +834,12 @@ typedef struct TQ3PolygonData {
 </td></tr></table><hr><blockquote><pre>
 typedef struct TQ3PolyhedronData {
     TQ3Uns32                                    numVertices;
-    TQ3Vertex3D                                 *vertices;
+    TQ3Vertex3D                                 * _Nullable vertices;
     TQ3Uns32                                    numEdges;
-    TQ3PolyhedronEdgeData                       *edges;
+    TQ3PolyhedronEdgeData                       * _Nullable edges;
     TQ3Uns32                                    numTriangles;
-    TQ3PolyhedronTriangleData                   *triangles;
-    TQ3AttributeSet                             polyhedronAttributeSet;
+    TQ3PolyhedronTriangleData                   * _Nonnull triangles;
+    TQ3AttributeSet _Nullable                   polyhedronAttributeSet;
 } TQ3PolyhedronData;
 </pre>
 </blockquote>
@@ -839,7 +865,7 @@ also specify 0 for <code>numEdges</code>.</dd>
 typedef struct TQ3PolyhedronEdgeData {
     TQ3Uns32                                    vertexIndices[2];
     TQ3Uns32                                    triangleIndices[2];
-    TQ3AttributeSet                             edgeAttributeSet;
+    TQ3AttributeSet _Nullable                   edgeAttributeSet;
 } TQ3PolyhedronEdgeData;
 </pre>
 </blockquote>
@@ -859,7 +885,7 @@ typedef struct TQ3PolyhedronEdgeData {
 typedef struct TQ3PolyhedronTriangleData {
     TQ3Uns32                                    vertexIndices[3];
     TQ3PolyhedronEdge                           edgeFlag;
-    TQ3AttributeSet                             triangleAttributeSet;
+    TQ3AttributeSet _Nullable                   triangleAttributeSet;
 } TQ3PolyhedronTriangleData;
 </pre>
 </blockquote>
@@ -888,8 +914,8 @@ typedef struct TQ3TorusData {
     float                                       vMin;
     float                                       vMax;
     TQ3EndCap                                   caps;
-    TQ3AttributeSet                             interiorAttributeSet;
-    TQ3AttributeSet                             torusAttributeSet;
+    TQ3AttributeSet _Nullable                   interiorAttributeSet;
+    TQ3AttributeSet _Nullable                   torusAttributeSet;
 } TQ3TorusData;
 </pre>
 </blockquote>
@@ -963,9 +989,9 @@ Normally 1, must be in interval [0, 1].</dd>
 typedef struct TQ3TriGridData {
     TQ3Uns32                                    numRows;
     TQ3Uns32                                    numColumns;
-    TQ3Vertex3D                                 *vertices;
-    TQ3AttributeSet                             *facetAttributeSet;
-    TQ3AttributeSet                             triGridAttributeSet;
+    TQ3Vertex3D                                 * _Nonnull vertices;
+    TQ3AttributeSet _Nullable                   * _Nullable facetAttributeSet;
+    TQ3AttributeSet _Nullable                   triGridAttributeSet;
 } TQ3TriGridData;
 </pre>
 </blockquote>
@@ -997,8 +1023,8 @@ May be nullptr.</dd>
 </td></tr></table><hr><blockquote><pre>
 typedef struct TQ3TriMeshAttributeData {
     TQ3AttributeType                            attributeType;
-    void                                        *data;
-    char                                        *attributeUseArray;
+    void                                        * _Nullable data;
+    char                                        * _Nullable attributeUseArray;
 } TQ3TriMeshAttributeData;
 </pre>
 </blockquote>
@@ -1024,19 +1050,19 @@ have the custom attribute.</dd>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3TriMeshData">TQ3TriMeshData</a></h2>
 </td></tr></table><hr><blockquote><pre>
 typedef struct TQ3TriMeshData {
-    TQ3AttributeSet                             triMeshAttributeSet;
+    TQ3AttributeSet _Nullable                   triMeshAttributeSet;
     TQ3Uns32                                    numTriangles;
-    TQ3TriMeshTriangleData                      *triangles;
+    TQ3TriMeshTriangleData                      * _Nonnull triangles;
     TQ3Uns32                                    numTriangleAttributeTypes;
-    TQ3TriMeshAttributeData                     *triangleAttributeTypes;
+    TQ3TriMeshAttributeData                     * _Nullable triangleAttributeTypes;
     TQ3Uns32                                    numEdges;
-    TQ3TriMeshEdgeData                          *edges;
+    TQ3TriMeshEdgeData                          * _Nullable edges;
     TQ3Uns32                                    numEdgeAttributeTypes;
-    TQ3TriMeshAttributeData                     *edgeAttributeTypes;
+    TQ3TriMeshAttributeData                     * _Nullable edgeAttributeTypes;
     TQ3Uns32                                    numPoints;
-    TQ3Point3D                                  *points;
+    TQ3Point3D                                  * _Nonnull points;
     TQ3Uns32                                    numVertexAttributeTypes;
-    TQ3TriMeshAttributeData                     *vertexAttributeTypes;
+    TQ3TriMeshAttributeData                     * _Nullable vertexAttributeTypes;
     TQ3BoundingBox                              bBox;
 } TQ3TriMeshData;
 </pre>
@@ -1113,7 +1139,7 @@ typedef struct TQ3TriMeshTriangleData {
 </td></tr></table><hr><blockquote><pre>
 typedef struct TQ3TriangleData {
     TQ3Vertex3D                                 vertices[3];
-    TQ3AttributeSet                             triangleAttributeSet;
+    TQ3AttributeSet _Nullable                   triangleAttributeSet;
 } TQ3TriangleData;
 </pre>
 </blockquote>
@@ -1126,5 +1152,5 @@ typedef struct TQ3TriangleData {
 <dt><tt>triangleAttributeSet</tt></dt><dd>Set of attributes for the triangle.  May be nullptr.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 5/27/2019)
 </p></body></html>

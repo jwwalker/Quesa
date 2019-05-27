@@ -69,7 +69,7 @@ dialog state to the renderer.
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3DialogAnchor">TQ3DialogAnchor</a></h2>
 </td></tr></table><hr><blockquote><pre>
 typedef struct TQ3DialogAnchor {
-    void                                        *notUsed;
+    void                                        * _Nullable notUsed;
 } TQ3DialogAnchor;
 </pre>
 </blockquote>
@@ -94,7 +94,7 @@ renderer may set on the renderer object.
 <blockquote><pre>
 struct TQ3RendererPassInfo {
     TQ3RendererPassType    passType;
-    TQ3LightObject      light;
+    TQ3LightObject _Nullable    light;
 } ;
 </pre>
 </blockquote>
@@ -110,5 +110,5 @@ the light, so do not dispose it.
 of type kQ3RendererPassNonShadow.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 5/27/2019)
 </p></body></html>

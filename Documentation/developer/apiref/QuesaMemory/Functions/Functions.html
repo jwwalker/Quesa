@@ -7,7 +7,7 @@
 <h1><font face="Geneva,Arial,Helvtica">Functions</font></h1><br>
 <hr><a name="//Quesa/c/func/Q3Memory_Allocate"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Memory_Allocate">Q3Memory_Allocate</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( void * ) Q3Memory_Allocate (
+</td></tr></table><hr><blockquote><pre><tt>( void * _Nonnull ) Q3Memory_Allocate (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 theSize
 );</tt><br>
 </pre></blockquote>
@@ -29,7 +29,7 @@ The initial contents of the block are undefined.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Memory_AllocateClear"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Memory_AllocateClear">Q3Memory_AllocateClear</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( void * ) Q3Memory_AllocateClear (
+</td></tr></table><hr><blockquote><pre><tt>( void * _Nonnull ) Q3Memory_AllocateClear (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 theSize
 );</tt><br>
 </pre></blockquote>
@@ -51,7 +51,7 @@ The pointer returned must be disposed of with Q3Memory_Free.
 <hr><a name="//Quesa/c/func/Q3Memory_Clear"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Memory_Clear">Q3Memory_Clear</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( void ) Q3Memory_Clear (
-&nbsp;&nbsp;&nbsp;&nbsp;void *thePtr,
+&nbsp;&nbsp;&nbsp;&nbsp;void * _Nonnull thePtr,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 theSize
 );</tt><br>
 </pre></blockquote>
@@ -72,8 +72,8 @@ Sets theSize bytes from thePtr to 0.
 <hr><a name="//Quesa/c/func/Q3Memory_Copy"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Memory_Copy">Q3Memory_Copy</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( void ) Q3Memory_Copy (
-&nbsp;&nbsp;&nbsp;&nbsp;const void *srcPtr,
-&nbsp;&nbsp;&nbsp;&nbsp;void *dstPtr,
+&nbsp;&nbsp;&nbsp;&nbsp;const void * _Nonnull srcPtr,
+&nbsp;&nbsp;&nbsp;&nbsp;void * _Nonnull dstPtr,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 theSize
 );</tt><br>
 </pre></blockquote>
@@ -110,8 +110,8 @@ In non-debug builds, this function returns 0.
 <hr><a name="//Quesa/c/func/Q3Memory_DumpRecording"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Memory_DumpRecording">Q3Memory_DumpRecording</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Memory_DumpRecording (
-&nbsp;&nbsp;&nbsp;&nbsp;const char *fileName,
-&nbsp;&nbsp;&nbsp;&nbsp;const char *memo
+&nbsp;&nbsp;&nbsp;&nbsp;const char * _Nonnull fileName,
+&nbsp;&nbsp;&nbsp;&nbsp;const char * _Nullable memo
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Write a text file listing Quesa objects that were created when
@@ -152,7 +152,7 @@ In non-debug builds, this function does nothing.
 <hr><a name="//Quesa/c/func/Q3Memory_Free"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Memory_Free">Q3Memory_Free</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>#undef Q3Memory_Free #define Q3Memory_Free Q3Memory_Free_ (void)&nbsp;(
-&nbsp;&nbsp;&nbsp;&nbsp;Q3Memory_Free ( void **thePtr
+&nbsp;&nbsp;&nbsp;&nbsp;Q3Memory_Free ( void * _Nullable * _Nonnull thePtr
 );
 </tt><br>
 </pre></blockquote>
@@ -161,7 +161,7 @@ In non-debug builds, this function does nothing.
 Takes a pointer to a pointer, which points to a block of previously
 allocated memory.
 <br><br>
-After freeing the memory, the supplied pointer will be reset to nullptr
+After freeing the memory, the supplied pointer will be reset to NULL
 to prevent future dereferences.
 <br><br>
 Note that you <em>must</em> pass a pointer to a pointer, and not
@@ -195,7 +195,7 @@ even in non-debug builds.
 <br><br>
 
 <blockquote><pre><tt>( TQ3Status ) Q3Memory_GetStatistics (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3MemoryStatistics* info
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3MemoryStatistics* _Nonnull info
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Retrieve debugging statistics about memory allocations by Quesa.
@@ -218,7 +218,7 @@ the structureVersion field to kQ3MemoryStatisticsStructureVersion.</dd>
 <hr><a name="//Quesa/c/func/Q3Memory_Initialize"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Memory_Initialize">Q3Memory_Initialize</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( void ) Q3Memory_Initialize (
-&nbsp;&nbsp;&nbsp;&nbsp;void *thePtr,
+&nbsp;&nbsp;&nbsp;&nbsp;void * _Nonnull thePtr,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 theSize,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns8 theValue
 );</tt><br>
@@ -251,8 +251,8 @@ Sets theSize bytes from thePtr to theValue.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Memory_NextRecordedObject"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Memory_NextRecordedObject">Q3Memory_NextRecordedObject</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Object ) Q3Memory_NextRecordedObject (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object inObject
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Object _Nullable ) Q3Memory_NextRecordedObject (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object _Nullable inObject
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>This function can be used to iterate through the list
@@ -263,8 +263,8 @@ When it returns nullptr, you have reached the end.
 Example:
 <br><br>
 <blockquote><pre><code>
-TQ3Object	leaked = nullptr;
-while (nullptr != (leaked = Q3Memory_NextRecordedObject( leaked )))
+TQ3Object	leaked = NULL;
+while (NULL != (leaked = Q3Memory_NextRecordedObject( leaked )))
 {
 &nbsp;&nbsp;	// do something nondestructive to the object
 }
@@ -278,17 +278,17 @@ In non-debug builds, this function always returns nullptr.
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
 <dl>
-<dt><tt><em>inObject</em></tt></dt><dd>nullptr or a recorded object.</dd>
+<dt><tt><em>inObject</em></tt></dt><dd>NULL or a recorded object.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>Next recorded object, or nullptr.
+<dl><dt><i>function result</i></dt><dd>Next recorded object, or NULL.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Memory_Reallocate"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Memory_Reallocate">Q3Memory_Reallocate</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>#undef Q3Memory_Reallocate #define Q3Memory_Reallocate Q3Memory_Reallocate_ (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Status
 )&nbsp;(
-&nbsp;&nbsp;&nbsp;&nbsp;Q3Memory_Reallocate ( void **thePtr,
+&nbsp;&nbsp;&nbsp;&nbsp;Q3Memory_Reallocate ( void * _Nullable * _Nonnull thePtr,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 newSize
 );
 </tt><br>
@@ -345,10 +345,10 @@ In non-debug builds, this function does nothing.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3SlabMemory_AppendData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SlabMemory_AppendData">Q3SlabMemory_AppendData</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( void * ) Q3SlabMemory_AppendData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3SlabObject theSlab,
+</td></tr></table><hr><blockquote><pre><tt>( void * _Nullable ) Q3SlabMemory_AppendData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3SlabObject _Nonnull theSlab,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 numItems,
-&nbsp;&nbsp;&nbsp;&nbsp;const void *itemData
+&nbsp;&nbsp;&nbsp;&nbsp;const void * _Nullable itemData
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Append items to the end of a slab.
@@ -383,7 +383,7 @@ be left uninitialised.
 <hr><a name="//Quesa/c/func/Q3SlabMemory_GetCount"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SlabMemory_GetCount">Q3SlabMemory_GetCount</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Uns32 ) Q3SlabMemory_GetCount (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3SlabObject theSlab
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3SlabObject _Nonnull theSlab
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the number of items within a slab.
@@ -401,8 +401,8 @@ be left uninitialised.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3SlabMemory_GetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SlabMemory_GetData">Q3SlabMemory_GetData</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( void * ) Q3SlabMemory_GetData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3SlabObject theSlab,
+</td></tr></table><hr><blockquote><pre><tt>( void * _Nullable ) Q3SlabMemory_GetData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3SlabObject _Nonnull theSlab,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 itemIndex
 );</tt><br>
 </pre></blockquote>
@@ -427,10 +427,10 @@ which can be obtained with Q3SlabMemory_GetCount.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3SlabMemory_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SlabMemory_New">Q3SlabMemory_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3SlabObject ) Q3SlabMemory_New (
+</td></tr></table><hr><blockquote><pre><tt>( TQ3SlabObject _Nullable ) Q3SlabMemory_New (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 itemSize,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 numItems,
-&nbsp;&nbsp;&nbsp;&nbsp;const void *itemData
+&nbsp;&nbsp;&nbsp;&nbsp;const void * _Nullable itemData
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new memory slab object.
@@ -459,7 +459,7 @@ The itemSize parameter must be non-zero.
 <hr><a name="//Quesa/c/func/Q3SlabMemory_SetCount"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SlabMemory_SetCount">Q3SlabMemory_SetCount</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3SlabMemory_SetCount (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3SlabObject theSlab,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3SlabObject _Nonnull theSlab,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 numItems
 );</tt><br>
 </pre></blockquote>
@@ -483,5 +483,5 @@ into the slab should be invalidated.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
-<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 5/27/2019)
 </p></body></html>

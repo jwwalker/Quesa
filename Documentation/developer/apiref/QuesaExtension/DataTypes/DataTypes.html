@@ -17,7 +17,7 @@ typedef TQ3Uns32 TQ3XObjectClassVersion;
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XSharedLibraryInfo">TQ3XSharedLibraryInfo</a></h2>
 </td></tr></table><hr><blockquote><pre>
 typedef struct TQ3XSharedLibraryInfo {
-    TQ3XSharedLibraryRegister       registerFunction;
+    TQ3XSharedLibraryRegister _Nonnull       registerFunction;
     TQ3Uns32                        sharedLibrary;
 } TQ3XSharedLibraryInfo;
 </pre>
@@ -41,9 +41,9 @@ with the appropriate call to Q3XSharedLibrary_Register.
 </td></tr></table><hr>Method type that a view object uses when an immediate object is submitted.
 
 <blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,	TQ3XViewSubmitImmediateMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject		theView,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull		theView,<BR>
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType		objectType,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;const void			*objectData<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;const void			* _Nullable objectData<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
@@ -59,8 +59,8 @@ with the appropriate call to Q3XSharedLibrary_Register.
 </td></tr></table><hr>Method type that a view object uses when a retained object is submitted.
 
 <blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,	TQ3XViewSubmitRetainedMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject		theView,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object			theObject<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull		theView,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object _Nonnull			theObject<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
@@ -70,5 +70,5 @@ with the appropriate call to Q3XSharedLibrary_Register.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
 </dd></dl>
-<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 5/27/2019)
 </p></body></html>

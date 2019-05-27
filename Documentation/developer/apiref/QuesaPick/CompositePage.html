@@ -7,11 +7,12 @@
 <h1><font face="Geneva,Arial,Helvtica">QuesaPick.h</font></h1><br>
 <h2>Discussion</h2>
 Declares the Quesa pick objects.
- <hr><br><h2>Functions</h2>
+<br><br>
+<hr><br><h2>Functions</h2>
 <hr><a name="//Quesa/c/func/Q3HitPath_EmptyData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3HitPath_EmptyData">Q3HitPath_EmptyData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3HitPath_EmptyData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3HitPath *hitPath
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3HitPath * _Nonnull hitPath
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Release the memory allocated by a previous call to Q3Pick_GetPickDetailData.
@@ -28,8 +29,8 @@ Declares the Quesa pick objects.
 <hr><a name="//Quesa/c/func/Q3MeshEdgePart_GetEdge"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MeshEdgePart_GetEdge">Q3MeshEdgePart_GetEdge</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3MeshEdgePart_GetEdge (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3MeshEdgePartObject meshEdgePartObject,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3MeshEdge *edge
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3MeshEdgePartObject _Nonnull meshEdgePartObject,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3MeshEdge _Nonnull * _Nonnull edge
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the mesh edge that corresponds to a mesh edge part.
@@ -47,8 +48,8 @@ Declares the Quesa pick objects.
 <hr><a name="//Quesa/c/func/Q3MeshFacePart_GetFace"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MeshFacePart_GetFace">Q3MeshFacePart_GetFace</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3MeshFacePart_GetFace (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3MeshFacePartObject meshFacePartObject,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3MeshFace *face
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3MeshFacePartObject _Nonnull meshFacePartObject,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3MeshFace _Nonnull * _Nonnull face
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the mesh face that corresponds to a mesh face part.
@@ -66,8 +67,8 @@ Declares the Quesa pick objects.
 <hr><a name="//Quesa/c/func/Q3MeshPart_GetComponent"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MeshPart_GetComponent">Q3MeshPart_GetComponent</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3MeshPart_GetComponent (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3MeshPartObject meshPartObject,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3MeshComponent *component
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3MeshPartObject _Nonnull meshPartObject,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3MeshComponent _Nonnull * _Nonnull component
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the mesh component that contains a mesh part object.
@@ -85,7 +86,7 @@ Declares the Quesa pick objects.
 <hr><a name="//Quesa/c/func/Q3MeshPart_GetType"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MeshPart_GetType">Q3MeshPart_GetType</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3ObjectType ) Q3MeshPart_GetType (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3MeshPartObject meshPartObject
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3MeshPartObject _Nonnull meshPartObject
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the type of a mesh part object.
@@ -106,8 +107,8 @@ returns kQ3ObjectTypeInvalid.
 <hr><a name="//Quesa/c/func/Q3MeshVertexPart_GetVertex"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MeshVertexPart_GetVertex">Q3MeshVertexPart_GetVertex</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3MeshVertexPart_GetVertex (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3MeshVertexPartObject meshVertexPartObject,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3MeshVertex *vertex
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3MeshVertexPartObject _Nonnull meshVertexPartObject,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3MeshVertex _Nonnull * _Nonnull vertex
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the mesh vertex that corresponds to a mesh vertex part.
@@ -125,7 +126,7 @@ returns kQ3ObjectTypeInvalid.
 <hr><a name="//Quesa/c/func/Q3Pick_EmptyHitList"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Pick_EmptyHitList">Q3Pick_EmptyHitList</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Pick_EmptyHitList (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickObject pick
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickObject _Nonnull pick
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Empty the hit list of a pick object.
@@ -142,8 +143,8 @@ returns kQ3ObjectTypeInvalid.
 <hr><a name="//Quesa/c/func/Q3Pick_GetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Pick_GetData">Q3Pick_GetData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Pick_GetData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickObject pick,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickData *data
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickObject _Nonnull pick,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickData * _Nonnull data
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the common state of a pick object.
@@ -161,8 +162,8 @@ returns kQ3ObjectTypeInvalid.
 <hr><a name="//Quesa/c/func/Q3Pick_GetEdgeTolerance"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Pick_GetEdgeTolerance">Q3Pick_GetEdgeTolerance</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Pick_GetEdgeTolerance (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickObject pick,
-&nbsp;&nbsp;&nbsp;&nbsp;float *edgeTolerance
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickObject _Nonnull pick,
+&nbsp;&nbsp;&nbsp;&nbsp;float * _Nonnull edgeTolerance
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the edge tolerance of a pick object.
@@ -180,8 +181,8 @@ returns kQ3ObjectTypeInvalid.
 <hr><a name="//Quesa/c/func/Q3Pick_GetFaceTolerance"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Pick_GetFaceTolerance">Q3Pick_GetFaceTolerance</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Pick_GetFaceTolerance (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickObject pick,
-&nbsp;&nbsp;&nbsp;&nbsp;float *faceTolerance
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickObject _Nonnull pick,
+&nbsp;&nbsp;&nbsp;&nbsp;float * _Nonnull faceTolerance
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the face tolerance of a pick object.
@@ -199,8 +200,8 @@ returns kQ3ObjectTypeInvalid.
 <hr><a name="//Quesa/c/func/Q3Pick_GetNumHits"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Pick_GetNumHits">Q3Pick_GetNumHits</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Pick_GetNumHits (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickObject pick,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 *numHits
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickObject _Nonnull pick,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 * _Nonnull numHits
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the number of hits of a pick object.
@@ -218,10 +219,10 @@ returns kQ3ObjectTypeInvalid.
 <hr><a name="//Quesa/c/func/Q3Pick_GetPickDetailData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Pick_GetPickDetailData">Q3Pick_GetPickDetailData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Pick_GetPickDetailData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickObject pick,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickObject _Nonnull pick,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 index,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3PickDetail pickDetailValue,
-&nbsp;&nbsp;&nbsp;&nbsp;void *detailData
+&nbsp;&nbsp;&nbsp;&nbsp;void * _Nonnull detailData
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the data for a pick result.
@@ -247,9 +248,9 @@ pick results is returned by Q3Pick_GetNumHits.
 <hr><a name="//Quesa/c/func/Q3Pick_GetPickDetailValidMask"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Pick_GetPickDetailValidMask">Q3Pick_GetPickDetailValidMask</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Pick_GetPickDetailValidMask (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickObject pick,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickObject _Nonnull pick,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 index,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickDetail *pickDetailValidMask
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickDetail * _Nonnull pickDetailValidMask
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the available data mask for a pick result.
@@ -271,7 +272,7 @@ pick results is returned by Q3Pick_GetNumHits.
 <hr><a name="//Quesa/c/func/Q3Pick_GetType"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Pick_GetType">Q3Pick_GetType</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3ObjectType ) Q3Pick_GetType (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickObject pick
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickObject _Nonnull pick
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the type of a pick object.
@@ -290,8 +291,8 @@ Returns kQ3ObjectTypeInvalid if the pick type is unknown.
 <hr><a name="//Quesa/c/func/Q3Pick_GetVertexTolerance"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Pick_GetVertexTolerance">Q3Pick_GetVertexTolerance</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Pick_GetVertexTolerance (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickObject pick,
-&nbsp;&nbsp;&nbsp;&nbsp;float *vertexTolerance
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickObject _Nonnull pick,
+&nbsp;&nbsp;&nbsp;&nbsp;float * _Nonnull vertexTolerance
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the vertex tolerance of a pick object.
@@ -309,8 +310,8 @@ Returns kQ3ObjectTypeInvalid if the pick type is unknown.
 <hr><a name="//Quesa/c/func/Q3Pick_SetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Pick_SetData">Q3Pick_SetData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Pick_SetData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickObject pick,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3PickData *data
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickObject _Nonnull pick,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3PickData * _Nonnull data
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the common state of a pick object.
@@ -328,7 +329,7 @@ Returns kQ3ObjectTypeInvalid if the pick type is unknown.
 <hr><a name="//Quesa/c/func/Q3Pick_SetEdgeTolerance"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Pick_SetEdgeTolerance">Q3Pick_SetEdgeTolerance</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Pick_SetEdgeTolerance (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickObject pick,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickObject _Nonnull pick,
 &nbsp;&nbsp;&nbsp;&nbsp;float edgeTolerance
 );</tt><br>
 </pre></blockquote>
@@ -352,7 +353,7 @@ pick.
 <hr><a name="//Quesa/c/func/Q3Pick_SetFaceTolerance"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Pick_SetFaceTolerance">Q3Pick_SetFaceTolerance</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Pick_SetFaceTolerance (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickObject pick,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickObject _Nonnull pick,
 &nbsp;&nbsp;&nbsp;&nbsp;float faceTolerance
 );</tt><br>
 </pre></blockquote>
@@ -376,7 +377,7 @@ pick.
 <hr><a name="//Quesa/c/func/Q3Pick_SetVertexTolerance"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Pick_SetVertexTolerance">Q3Pick_SetVertexTolerance</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Pick_SetVertexTolerance (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickObject pick,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickObject _Nonnull pick,
 &nbsp;&nbsp;&nbsp;&nbsp;float vertexTolerance
 );</tt><br>
 </pre></blockquote>
@@ -400,8 +401,8 @@ pick.
 <hr><a name="//Quesa/c/func/Q3ShapePart_GetShape"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ShapePart_GetShape">Q3ShapePart_GetShape</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ShapePart_GetShape (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShapePartObject shapePartObject,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShapeObject *shapeObject
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShapePartObject _Nonnull shapePartObject,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShapeObject _Nonnull * _Nonnull shapeObject
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the shape object that contains a shape part object.
@@ -419,7 +420,7 @@ pick.
 <hr><a name="//Quesa/c/func/Q3ShapePart_GetType"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ShapePart_GetType">Q3ShapePart_GetType</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3ObjectType ) Q3ShapePart_GetType (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShapePartObject shapePartObject
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShapePartObject _Nonnull shapePartObject
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the type of a shape part object.
@@ -436,8 +437,8 @@ pick.
 <hr><a name="//Quesa/c/func/Q3WindowPointPick_GetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3WindowPointPick_GetData">Q3WindowPointPick_GetData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3WindowPointPick_GetData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickObject pick,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3WindowPointPickData *data
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickObject _Nonnull pick,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3WindowPointPickData * _Nonnull data
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the data of a window-point pick object.
@@ -455,8 +456,8 @@ pick.
 <hr><a name="//Quesa/c/func/Q3WindowPointPick_GetPoint"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3WindowPointPick_GetPoint">Q3WindowPointPick_GetPoint</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3WindowPointPick_GetPoint (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickObject pick,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point2D *point
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickObject _Nonnull pick,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point2D * _Nonnull point
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the pick point of a window-point pick object.
@@ -473,8 +474,8 @@ pick.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3WindowPointPick_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3WindowPointPick_New">Q3WindowPointPick_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3PickObject ) Q3WindowPointPick_New (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3WindowPointPickData *data
+</td></tr></table><hr><blockquote><pre><tt>( TQ3PickObject _Nonnull ) Q3WindowPointPick_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3WindowPointPickData * _Nonnull data
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new window-point pick object.
@@ -491,8 +492,8 @@ pick.
 <hr><a name="//Quesa/c/func/Q3WindowPointPick_SetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3WindowPointPick_SetData">Q3WindowPointPick_SetData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3WindowPointPick_SetData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickObject pick,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3WindowPointPickData *data
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickObject _Nonnull pick,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3WindowPointPickData * _Nonnull data
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the data for a window-point pick object.
@@ -510,8 +511,8 @@ pick.
 <hr><a name="//Quesa/c/func/Q3WindowPointPick_SetPoint"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3WindowPointPick_SetPoint">Q3WindowPointPick_SetPoint</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3WindowPointPick_SetPoint (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickObject pick,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point2D *point
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickObject _Nonnull pick,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point2D * _Nonnull point
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the pick point of a window-point pick object.
@@ -529,8 +530,8 @@ pick.
 <hr><a name="//Quesa/c/func/Q3WindowRectPick_GetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3WindowRectPick_GetData">Q3WindowRectPick_GetData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3WindowRectPick_GetData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickObject pick,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3WindowRectPickData *data
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickObject _Nonnull pick,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3WindowRectPickData * _Nonnull data
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the data of a window-rect pick object.
@@ -548,8 +549,8 @@ pick.
 <hr><a name="//Quesa/c/func/Q3WindowRectPick_GetRect"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3WindowRectPick_GetRect">Q3WindowRectPick_GetRect</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3WindowRectPick_GetRect (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickObject pick,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Area *rect
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickObject _Nonnull pick,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Area * _Nonnull rect
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the pick rect of a window-rect pick object.
@@ -566,8 +567,8 @@ pick.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3WindowRectPick_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3WindowRectPick_New">Q3WindowRectPick_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3PickObject ) Q3WindowRectPick_New (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3WindowRectPickData *data
+</td></tr></table><hr><blockquote><pre><tt>( TQ3PickObject _Nonnull ) Q3WindowRectPick_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3WindowRectPickData * _Nonnull data
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new window-rect pick object.
@@ -584,8 +585,8 @@ pick.
 <hr><a name="//Quesa/c/func/Q3WindowRectPick_SetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3WindowRectPick_SetData">Q3WindowRectPick_SetData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3WindowRectPick_SetData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickObject pick,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3WindowRectPickData *data
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickObject _Nonnull pick,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3WindowRectPickData * _Nonnull data
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the data of a window-rect pick object.
@@ -603,8 +604,8 @@ pick.
 <hr><a name="//Quesa/c/func/Q3WindowRectPick_SetRect"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3WindowRectPick_SetRect">Q3WindowRectPick_SetRect</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3WindowRectPick_SetRect (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickObject pick,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Area *rect
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickObject _Nonnull pick,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Area * _Nonnull rect
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the pick rect of a window-rect pick object.
@@ -622,8 +623,8 @@ pick.
 <hr><a name="//Quesa/c/func/Q3WorldRayPick_GetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3WorldRayPick_GetData">Q3WorldRayPick_GetData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3WorldRayPick_GetData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickObject pick,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3WorldRayPickData *data
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickObject _Nonnull pick,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3WorldRayPickData * _Nonnull data
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the data of a world-ray pick object.
@@ -641,8 +642,8 @@ pick.
 <hr><a name="//Quesa/c/func/Q3WorldRayPick_GetRay"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3WorldRayPick_GetRay">Q3WorldRayPick_GetRay</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3WorldRayPick_GetRay (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickObject pick,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Ray3D *ray
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickObject _Nonnull pick,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Ray3D * _Nonnull ray
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the pick ray of a world-ray pick object.
@@ -659,8 +660,8 @@ pick.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3WorldRayPick_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3WorldRayPick_New">Q3WorldRayPick_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3PickObject ) Q3WorldRayPick_New (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3WorldRayPickData *data
+</td></tr></table><hr><blockquote><pre><tt>( TQ3PickObject _Nonnull ) Q3WorldRayPick_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3WorldRayPickData * _Nonnull data
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new world-ray pick object.
@@ -677,8 +678,8 @@ pick.
 <hr><a name="//Quesa/c/func/Q3WorldRayPick_SetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3WorldRayPick_SetData">Q3WorldRayPick_SetData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3WorldRayPick_SetData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickObject pick,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3WorldRayPickData *data
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickObject _Nonnull pick,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3WorldRayPickData * _Nonnull data
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the data of a world-ray pick object.
@@ -696,8 +697,8 @@ pick.
 <hr><a name="//Quesa/c/func/Q3WorldRayPick_SetRay"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3WorldRayPick_SetRay">Q3WorldRayPick_SetRay</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3WorldRayPick_SetRay (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickObject pick,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Ray3D *ray
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickObject _Nonnull pick,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Ray3D * _Nonnull ray
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the pick ray of a world-ray pick object.
@@ -728,9 +729,9 @@ for enumerated constants that can be combined in this data type.
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3HitPath">TQ3HitPath</a></h2>
 </td></tr></table><hr><blockquote><pre>
 typedef struct TQ3HitPath {
-    TQ3GroupObject                              rootGroup;
+    TQ3GroupObject _Nullable                             rootGroup;
     TQ3Uns32                                    depth;
-    TQ3GroupPosition                            *positions;
+    TQ3GroupPosition _Nonnull                           * _Nullable positions;
 } TQ3HitPath;
 </pre>
 </blockquote>
@@ -959,5 +960,5 @@ typedef enum TQ3PickSort {
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>This value can be placed in the <code>numHitsToReturn</code> field of the
 <code>TQ3PickData</code> structure to indicate that we want information
 about all hits.</p>
-<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 5/27/2019)
 </p></body></html>

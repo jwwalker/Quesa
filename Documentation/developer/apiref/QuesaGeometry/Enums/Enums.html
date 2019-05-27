@@ -13,7 +13,8 @@
 <blockquote><pre>
 enum
 {
-  kQ3GeometryPropertyNonCartoon          = Q3_OBJECT_TYPE('n', 'c', 'a', 'r')
+  kQ3GeometryPropertyNonCartoon                   = Q3_OBJECT_TYPE('n', 'c', 'a', 'r'),
+  kQ3GeometryPropertyCustomTextureCoordinates     = Q3_OBJECT_TYPE('t', 'e', 'x', 'c')
 };
 </pre>
 </blockquote>
@@ -27,6 +28,11 @@ quantized per-pixel lighting mode of the OpenGL renderer
 that this geometry should be rendered normally.
 <br><br>
 Data type: TQ3Boolean.  Default value: kQ3False.</dd>
+<dt><a name="//Quesa/c/econst/kQ3GeometryPropertyCustomTextureCoordinates"><tt>kQ3GeometryPropertyCustomTextureCoordinates</tt></a></dt><dd>This property, attached to a TriMesh, can be used to provide
+nonstandard texture coordinates to an OpenGL Shading Language
+vertex shader.
+<br><br>
+Data type: TQ3CustomTextureCoordinates (variable length).</dd>
 </dl>
 </blockquote>
 <hr><a name="//Quesa/c/tag/Nurb Limits"></a>
@@ -101,5 +107,5 @@ rendered.
 <dt><a name="//Quesa/c/econst/kQ3PolyhedronEdgeAll"><tt>kQ3PolyhedronEdgeAll</tt></a></dt><dd>Render all the edges.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 5/27/2019)
 </p></body></html>

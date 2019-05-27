@@ -7,7 +7,7 @@
 <h1><font face="Geneva,Arial,Helvtica">Functions</font></h1><br>
 <hr><a name="//Quesa/c/func/Q3Pop_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Pop_New">Q3Pop_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3StateOperatorObject ) Q3Pop_New (void);</tt><br>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3StateOperatorObject _Nonnull ) Q3Pop_New (void);</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a pop state operator.
 <br><br>
@@ -17,7 +17,7 @@
 <hr><a name="//Quesa/c/func/Q3Pop_Submit"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Pop_Submit">Q3Pop_Submit</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Pop_Submit (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit a pop state operator to a view.
@@ -33,7 +33,7 @@
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Push_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Push_New">Q3Push_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3StateOperatorObject ) Q3Push_New (void);</tt><br>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3StateOperatorObject _Nonnull ) Q3Push_New (void);</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a push state operator.
 <br><br>
@@ -43,7 +43,7 @@
 <hr><a name="//Quesa/c/func/Q3Push_Submit"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Push_Submit">Q3Push_Submit</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Push_Submit (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit a push state operator to a view.
@@ -60,8 +60,8 @@
 <hr><a name="//Quesa/c/func/Q3StateOperator_Submit"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3StateOperator_Submit">Q3StateOperator_Submit</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3StateOperator_Submit (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StateOperatorObject stateOperator,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StateOperatorObject _Nonnull stateOperator,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit a state operator to a view.
@@ -79,9 +79,9 @@
 <hr><a name="//Quesa/c/func/Q3View_AddLight"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_AddLight">Q3View_AddLight</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3View_AddLight (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject theView,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull theView,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType lightType,
-&nbsp;&nbsp;&nbsp;&nbsp;void *lightData
+&nbsp;&nbsp;&nbsp;&nbsp;void * _Nonnull lightData
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Add a light to a view's light group.
@@ -118,7 +118,7 @@ so the caller must dispose of it to release their reference.
 <hr><a name="//Quesa/c/func/Q3View_AllowAllGroupCulling"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_AllowAllGroupCulling">Q3View_AllowAllGroupCulling</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3View_AllowAllGroupCulling (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean allowCulling
 );</tt><br>
 </pre></blockquote>
@@ -140,7 +140,7 @@ boxes are not visible.
 <hr><a name="//Quesa/c/func/Q3View_Cancel"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_Cancel">Q3View_Cancel</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3View_Cancel (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Cancel a submit loop.
@@ -157,8 +157,8 @@ boxes are not visible.
 <hr><a name="//Quesa/c/func/Q3View_EndBoundingBox"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_EndBoundingBox">Q3View_EndBoundingBox</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3ViewStatus ) Q3View_EndBoundingBox (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3BoundingBox *theBounds
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3BoundingBox * _Nonnull theBounds
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>End a bounding loop.
@@ -179,8 +179,8 @@ the submit loop in that case.
 <hr><a name="//Quesa/c/func/Q3View_EndBoundingSphere"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_EndBoundingSphere">Q3View_EndBoundingSphere</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3ViewStatus ) Q3View_EndBoundingSphere (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3BoundingSphere *theBounds
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3BoundingSphere * _Nonnull theBounds
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>End a bounding loop.
@@ -201,7 +201,7 @@ the submit loop in that case.
 <hr><a name="//Quesa/c/func/Q3View_EndPicking"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_EndPicking">Q3View_EndPicking</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3ViewStatus ) Q3View_EndPicking (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>End a picking loop.
@@ -221,7 +221,7 @@ the submit loop in that case.
 <hr><a name="//Quesa/c/func/Q3View_EndRendering"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_EndRendering">Q3View_EndRendering</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3ViewStatus ) Q3View_EndRendering (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>End a rendering loop.
@@ -241,7 +241,7 @@ the submit loop in that case.
 <hr><a name="//Quesa/c/func/Q3View_Flush"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_Flush">Q3View_Flush</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3View_Flush (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Flush the output from within a rendering loop.
@@ -261,8 +261,8 @@ May or may not update the draw context - behaviour is renderer-dependent.
 <hr><a name="//Quesa/c/func/Q3View_GetAntiAliasStyleState"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_GetAntiAliasStyleState">Q3View_GetAntiAliasStyleState</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3View_GetAntiAliasStyleState (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3AntiAliasStyleData *antiAliasData
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AntiAliasStyleData * _Nonnull antiAliasData
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the current anti-alias style state from a view.
@@ -281,8 +281,8 @@ Must be called within a submitting loop.
 <hr><a name="//Quesa/c/func/Q3View_GetAttributeSetState"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_GetAttributeSetState">Q3View_GetAttributeSetState</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3View_GetAttributeSetState (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet *attributeSet
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet _Nonnull * _Nonnull attributeSet
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the current attribute state set from a view.
@@ -301,9 +301,9 @@ Dispose the reference when you are done with it.</dd>
 <hr><a name="//Quesa/c/func/Q3View_GetAttributeState"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_GetAttributeState">Q3View_GetAttributeState</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3View_GetAttributeState (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeType attributeType,
-&nbsp;&nbsp;&nbsp;&nbsp;void *data
+&nbsp;&nbsp;&nbsp;&nbsp;void * _Nonnull data
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the current state of an attribute from a view.
@@ -328,8 +328,8 @@ and then extract data with <code>Q3AttributeSet_Get</code>.
 <hr><a name="//Quesa/c/func/Q3View_GetBackfacingStyleState"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_GetBackfacingStyleState">Q3View_GetBackfacingStyleState</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3View_GetBackfacingStyleState (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3BackfacingStyle *backfacingStyle
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3BackfacingStyle * _Nonnull backfacingStyle
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the current backfacing style state from a view.
@@ -348,8 +348,8 @@ Must be called within a submitting loop.
 <hr><a name="//Quesa/c/func/Q3View_GetCamera"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_GetCamera">Q3View_GetCamera</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3View_GetCamera (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject *camera
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nonnull * _Nonnull camera
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the camera from a view.
@@ -370,8 +370,8 @@ Dispose the reference when you are done with it.</dd>
 <hr><a name="//Quesa/c/func/Q3View_GetCastShadowsStyleState"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_GetCastShadowsStyleState">Q3View_GetCastShadowsStyleState</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3View_GetCastShadowsStyleState (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean *castShadows
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean * _Nonnull castShadows
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the current cast shadows style state from a view.
@@ -392,8 +392,8 @@ Must be called within a submitting loop.
 <hr><a name="//Quesa/c/func/Q3View_GetDefaultAttributeSet"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_GetDefaultAttributeSet">Q3View_GetDefaultAttributeSet</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3View_GetDefaultAttributeSet (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet *attributeSet
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet _Nonnull * _Nonnull attributeSet
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the default attribute set from a view.
@@ -414,8 +414,8 @@ Dispose the reference when you are done with it.</dd>
 <hr><a name="//Quesa/c/func/Q3View_GetDrawContext"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_GetDrawContext">Q3View_GetDrawContext</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3View_GetDrawContext (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject *drawContext
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject _Nonnull * _Nonnull drawContext
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the draw context from a view.
@@ -436,8 +436,8 @@ Dispose the reference when you are done with it.</dd>
 <hr><a name="//Quesa/c/func/Q3View_GetFillStyleState"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_GetFillStyleState">Q3View_GetFillStyleState</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3View_GetFillStyleState (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FillStyle *fillStyle
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FillStyle * _Nonnull fillStyle
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the current fill style state from a view.
@@ -456,8 +456,8 @@ Must be called within a submitting loop.
 <hr><a name="//Quesa/c/func/Q3View_GetFogStyleState"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_GetFogStyleState">Q3View_GetFogStyleState</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3View_GetFogStyleState (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FogStyleData *fogData
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FogStyleData * _Nonnull fogData
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the current fog style associated with a view.
@@ -478,8 +478,8 @@ Must be called within a submitting loop.
 <hr><a name="//Quesa/c/func/Q3View_GetFrustumToWindowMatrixState"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_GetFrustumToWindowMatrixState">Q3View_GetFrustumToWindowMatrixState</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3View_GetFrustumToWindowMatrixState (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix4x4 *matrix
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix4x4 * _Nonnull matrix
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the frustum-to-window matrix state from a view.
@@ -503,8 +503,8 @@ coordinates.
 <hr><a name="//Quesa/c/func/Q3View_GetHighlightStyleState"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_GetHighlightStyleState">Q3View_GetHighlightStyleState</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3View_GetHighlightStyleState (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet *highlightStyle
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet _Nullable * _Nonnull highlightStyle
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the current highlight style state from a view.
@@ -523,8 +523,8 @@ Must be called within a submitting loop.
 <hr><a name="//Quesa/c/func/Q3View_GetInterpolationStyleState"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_GetInterpolationStyleState">Q3View_GetInterpolationStyleState</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3View_GetInterpolationStyleState (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3InterpolationStyle *interpolationType
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3InterpolationStyle * _Nonnull interpolationType
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the current interpolation style state from a view.
@@ -543,8 +543,8 @@ Must be called within a submitting loop.
 <hr><a name="//Quesa/c/func/Q3View_GetLightGroup"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_GetLightGroup">Q3View_GetLightGroup</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3View_GetLightGroup (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject *lightGroup
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject _Nonnull * _Nonnull lightGroup
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the light group from a view.
@@ -565,8 +565,8 @@ Dispose the reference when you are done with it.</dd>
 <hr><a name="//Quesa/c/func/Q3View_GetLocalToWorldMatrixState"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_GetLocalToWorldMatrixState">Q3View_GetLocalToWorldMatrixState</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3View_GetLocalToWorldMatrixState (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix4x4 *matrix
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix4x4 * _Nonnull matrix
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the local-to-world matrix state from a view.
@@ -585,8 +585,8 @@ Must be called within a submitting loop.
 <hr><a name="//Quesa/c/func/Q3View_GetOrientationStyleState"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_GetOrientationStyleState">Q3View_GetOrientationStyleState</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3View_GetOrientationStyleState (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3OrientationStyle *fontFacingDirectionStyle
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3OrientationStyle * _Nonnull fontFacingDirectionStyle
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the current orientation style state from a view.
@@ -605,8 +605,8 @@ Must be called within a submitting loop.
 <hr><a name="//Quesa/c/func/Q3View_GetPickIDStyleState"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_GetPickIDStyleState">Q3View_GetPickIDStyleState</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3View_GetPickIDStyleState (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 *pickIDStyle
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 * _Nonnull pickIDStyle
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the current pick ID style state from a view.
@@ -625,8 +625,8 @@ Must be called within a submitting loop.
 <hr><a name="//Quesa/c/func/Q3View_GetPickPartsStyleState"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_GetPickPartsStyleState">Q3View_GetPickPartsStyleState</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3View_GetPickPartsStyleState (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickParts *pickPartsStyle
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickParts * _Nonnull pickPartsStyle
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the current pick parts style state from a view.
@@ -645,8 +645,8 @@ Must be called within a submitting loop.
 <hr><a name="//Quesa/c/func/Q3View_GetReceiveShadowsStyleState"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_GetReceiveShadowsStyleState">Q3View_GetReceiveShadowsStyleState</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3View_GetReceiveShadowsStyleState (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean *receiveShadows
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean * _Nonnull receiveShadows
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the current receive shadows style state from a view.
@@ -665,8 +665,8 @@ Must be called within a submitting loop.
 <hr><a name="//Quesa/c/func/Q3View_GetRenderer"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_GetRenderer">Q3View_GetRenderer</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3View_GetRenderer (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject *renderer
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject _Nonnull * _Nonnull renderer
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the renderer from a view.
@@ -687,8 +687,8 @@ Dispose the reference when you are done with it.</dd>
 <hr><a name="//Quesa/c/func/Q3View_GetSubdivisionStyleState"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_GetSubdivisionStyleState">Q3View_GetSubdivisionStyleState</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3View_GetSubdivisionStyleState (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3SubdivisionStyleData *subdivisionStyle
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3SubdivisionStyleData * _Nonnull subdivisionStyle
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the current subdivision style state from a view.
@@ -707,8 +707,8 @@ Must be called within a submitting loop.
 <hr><a name="//Quesa/c/func/Q3View_GetWorldToFrustumMatrixState"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_GetWorldToFrustumMatrixState">Q3View_GetWorldToFrustumMatrixState</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3View_GetWorldToFrustumMatrixState (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix4x4 *matrix
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix4x4 * _Nonnull matrix
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the world-to-frustum matrix state from a view.
@@ -745,8 +745,8 @@ Q3Camera_GetWorldToFrustum instead.
 <br><br>
 
 <blockquote><pre><tt>( TQ3Boolean ) Q3View_IsBoundingBoxVisible (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3BoundingBox *bbox
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3BoundingBox * _Nonnull bbox
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>The bounding box (assumed to be in local coordinates) is tested for
@@ -768,7 +768,7 @@ rendering loop of client code or within a renderer.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3View_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_New">Q3View_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3ViewObject ) Q3View_New (void);</tt><br>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ViewObject _Nonnull ) Q3View_New (void);</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new view.
 <br><br>
@@ -777,9 +777,9 @@ rendering loop of client code or within a renderer.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3View_NewWithDefaults"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_NewWithDefaults">Q3View_NewWithDefaults</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3ViewObject ) Q3View_NewWithDefaults (
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ViewObject _Nullable ) Q3View_NewWithDefaults (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType drawContextType,
-&nbsp;&nbsp;&nbsp;&nbsp;void *drawContextTarget
+&nbsp;&nbsp;&nbsp;&nbsp;void * _Nonnull drawContextTarget
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a view with a default camera, light group, renderer, and
@@ -814,8 +814,8 @@ origin and will fill the supplied window.
 <hr><a name="//Quesa/c/func/Q3View_SetCamera"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_SetCamera">Q3View_SetCamera</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3View_SetCamera (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nonnull camera
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the camera for a view.
@@ -835,8 +835,8 @@ The reference count of the camera will be incremented by the view.
 <hr><a name="//Quesa/c/func/Q3View_SetDefaultAttributeSet"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_SetDefaultAttributeSet">Q3View_SetDefaultAttributeSet</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3View_SetDefaultAttributeSet (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet attributeSet
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet _Nonnull attributeSet
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the default attribute set for a view.
@@ -856,8 +856,8 @@ The reference count of the attribute set will be incremented by the view.
 <hr><a name="//Quesa/c/func/Q3View_SetDrawContext"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_SetDrawContext">Q3View_SetDrawContext</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3View_SetDrawContext (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject drawContext
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject _Nonnull drawContext
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the draw context for a view.
@@ -877,9 +877,9 @@ The reference count of the draw context will be incremented by the view.
 <hr><a name="//Quesa/c/func/Q3View_SetEndFrameMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_SetEndFrameMethod">Q3View_SetEndFrameMethod</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3View_SetEndFrameMethod (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewEndFrameMethod endFrame,
-&nbsp;&nbsp;&nbsp;&nbsp;void *endFrameData
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewEndFrameMethod _Nullable endFrame,
+&nbsp;&nbsp;&nbsp;&nbsp;void * _Nonnull endFrameData
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the end frame method for view submit operations.
@@ -898,9 +898,9 @@ The reference count of the draw context will be incremented by the view.
 <hr><a name="//Quesa/c/func/Q3View_SetIdleMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_SetIdleMethod">Q3View_SetIdleMethod</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3View_SetIdleMethod (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewIdleMethod idleMethod,
-&nbsp;&nbsp;&nbsp;&nbsp;const void *idleData
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewIdleMethod _Nullable idleMethod,
+&nbsp;&nbsp;&nbsp;&nbsp;const void * _Nonnull idleData
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the idle method for view submit operations.
@@ -922,9 +922,9 @@ periodically during a submit loop.
 <hr><a name="//Quesa/c/func/Q3View_SetIdleProgressMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_SetIdleProgressMethod">Q3View_SetIdleProgressMethod</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3View_SetIdleProgressMethod (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewIdleProgressMethod idleMethod,
-&nbsp;&nbsp;&nbsp;&nbsp;const void *idleData
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewIdleProgressMethod _Nullable idleMethod,
+&nbsp;&nbsp;&nbsp;&nbsp;const void * _Nonnull idleData
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the idle progress method for view submit operations.
@@ -949,8 +949,8 @@ to the application, to update the user interface during a render.
 <hr><a name="//Quesa/c/func/Q3View_SetLightGroup"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_SetLightGroup">Q3View_SetLightGroup</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3View_SetLightGroup (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject lightGroup
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject _Nonnull lightGroup
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the light group for a view.
@@ -970,8 +970,8 @@ The reference count of the light group will be incremented by the view.
 <hr><a name="//Quesa/c/func/Q3View_SetRenderer"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_SetRenderer">Q3View_SetRenderer</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3View_SetRenderer (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject renderer
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject _Nullable renderer
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the renderer for a view.
@@ -991,7 +991,7 @@ The reference count of the renderer will be incremented by the view.
 <hr><a name="//Quesa/c/func/Q3View_SetRendererByType"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_SetRendererByType">Q3View_SetRendererByType</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3View_SetRendererByType (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType theType
 );</tt><br>
 </pre></blockquote>
@@ -1014,7 +1014,7 @@ renderer.
 <hr><a name="//Quesa/c/func/Q3View_StartBoundingBox"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_StartBoundingBox">Q3View_StartBoundingBox</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3View_StartBoundingBox (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3ComputeBounds computeBounds
 );</tt><br>
 </pre></blockquote>
@@ -1033,7 +1033,7 @@ renderer.
 <hr><a name="//Quesa/c/func/Q3View_StartBoundingSphere"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_StartBoundingSphere">Q3View_StartBoundingSphere</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3View_StartBoundingSphere (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3ComputeBounds computeBounds
 );</tt><br>
 </pre></blockquote>
@@ -1052,8 +1052,8 @@ renderer.
 <hr><a name="//Quesa/c/func/Q3View_StartPicking"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_StartPicking">Q3View_StartPicking</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3View_StartPicking (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickObject pick
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3PickObject _Nonnull pick
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Start a picking loop.
@@ -1071,7 +1071,7 @@ renderer.
 <hr><a name="//Quesa/c/func/Q3View_StartRendering"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_StartRendering">Q3View_StartRendering</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3View_StartRendering (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Start a rendering loop.
@@ -1088,7 +1088,7 @@ renderer.
 <hr><a name="//Quesa/c/func/Q3View_Sync"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_Sync">Q3View_Sync</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3View_Sync (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Flush the previous rendering loop to the draw context.
@@ -1108,9 +1108,9 @@ be called after a call to Q3View_EndRendering.
 <hr><a name="//Quesa/c/func/Q3View_TransformLocalToWindow"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_TransformLocalToWindow">Q3View_TransformLocalToWindow</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3View_TransformLocalToWindow (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject theView,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D *localPoint,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point2D *windowPoint
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull theView,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D * _Nonnull localPoint,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point2D * _Nonnull windowPoint
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Transforms a point from local to window (pixel) coordinates.
@@ -1133,9 +1133,9 @@ May only be called within a view submitting loop.
 <hr><a name="//Quesa/c/func/Q3View_TransformLocalToWorld"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_TransformLocalToWorld">Q3View_TransformLocalToWorld</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3View_TransformLocalToWorld (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject theView,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D *localPoint,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point3D *worldPoint
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull theView,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D * _Nonnull localPoint,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point3D * _Nonnull worldPoint
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Transforms a point from local to world coordinates.
@@ -1158,9 +1158,9 @@ May only be called within a view submitting loop.
 <hr><a name="//Quesa/c/func/Q3View_TransformWorldToWindow"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_TransformWorldToWindow">Q3View_TransformWorldToWindow</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3View_TransformWorldToWindow (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject theView,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D *worldPoint,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point2D *windowPoint
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull theView,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D * _Nonnull worldPoint,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point2D * _Nonnull windowPoint
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Transforms a point from world to window (pixel) coordinates.
@@ -1180,5 +1180,5 @@ May only be called within a view submitting loop.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
-<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 5/27/2019)
 </p></body></html>
