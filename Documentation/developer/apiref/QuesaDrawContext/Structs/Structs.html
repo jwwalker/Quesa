@@ -11,7 +11,7 @@
 
 <blockquote><pre>
 typedef struct TQ3AcceleratedOffscreenPropertyData {
-    TQ3Object    masterDrawContext;
+    TQ3Object _Nonnull    masterDrawContext;
     TQ3Boolean    copyFromPixmapAtFrameStart;
     TQ3Boolean    copyToPixmapAtFrameEnd;
 } TQ3AcceleratedOffscreenPropertyData;
@@ -47,7 +47,7 @@ last pass of each frame.</dd>
 </td></tr></table><hr><blockquote><pre>
 typedef struct TQ3CocoaDrawContextData {
     TQ3DrawContextData                          drawContextData;
-    void                                        *nsView;
+    void                                        * _Nonnull nsView;
 } TQ3CocoaDrawContextData;
 </pre>
 </blockquote>
@@ -147,10 +147,10 @@ renderers.
 </td></tr></table><hr><blockquote><pre>
 typedef struct TQ3MacDrawContextData {
     TQ3DrawContextData                          drawContextData;
-    WindowRef                                   window;
+    WindowRef _Nullable                                   window;
     TQ3MacDrawContext2DLibrary                  library;
-    gxViewPort                                  viewPort;
-    CGrafPtr                                    grafPort;
+    gxViewPort _Nullable                                  viewPort;
+    CGrafPtr _Nullable                                   grafPort;
 } TQ3MacDrawContextData;
 </pre>
 </blockquote>
@@ -163,9 +163,9 @@ valid. Rendering to an off-screen buffer (e.g., a GWorld) should be
 achieved by rendering to a suitably constructed Pixmap draw context.
 <br><br>
 If a window is supplied, its port will be obtained internally by Quesa
-and the grafPort field should be nullptr. When rendering to a port which
+and the grafPort field should be NULL. When rendering to a port which
 does not correspond to a valid WindowRef (e.g., a QD port constructed
-from a CoreGraphics context), the window field should be nullptr and the
+from a CoreGraphics context), the window field should be NULL and the
 port to render to supplied in the grafPort field.
 <br><br>
 </p>
@@ -175,7 +175,7 @@ port to render to supplied in the grafPort field.
 <dt><tt>drawContextData</tt></dt><dd>The common state for the draw context.</dd>
 <dt><tt>window</tt></dt><dd>The window to render to.</dd>
 <dt><tt>library</tt></dt><dd>The library to use for rendering. Should be kQ3Mac2DLibraryNone.</dd>
-<dt><tt>viewPort</tt></dt><dd>The QuickDraw GX port to render to. Should be nullptr.</dd>
+<dt><tt>viewPort</tt></dt><dd>The QuickDraw GX port to render to. Should be NULL.</dd>
 <dt><tt>grafPort</tt></dt><dd>The QuickDraw port to render to.</dd>
 </dl>
 </blockquote>
@@ -279,5 +279,5 @@ of the fields have been assumed.
 <dt><tt>colorMapData</tt></dt><dd>The X11 color map data.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 5/27/2019)
 </p></body></html>

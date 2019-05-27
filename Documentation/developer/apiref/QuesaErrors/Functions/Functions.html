@@ -8,7 +8,7 @@
 <hr><a name="//Quesa/c/func/Q3Error_Get"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Error_Get">Q3Error_Get</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Error ) Q3Error_Get (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Error *firstError
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Error * _Nullable firstError
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Retrieve latest error codes from Quesa.
@@ -52,7 +52,7 @@ should quit without calling any other Quesa routines.
 <hr><a name="//Quesa/c/func/Q3Error_PlatformGet"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Error_PlatformGet">Q3Error_PlatformGet</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Uns32 ) Q3Error_PlatformGet (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 *firstErr
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 * _Nullable firstErr
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Gets platform-specific error codes.
@@ -101,7 +101,7 @@ Normally this would be used only by Quesa plug-ins, not by application code.
 <hr><a name="//Quesa/c/func/Q3Error_Register"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Error_Register">Q3Error_Register</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Error_Register (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ErrorMethod errorPost,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ErrorMethod _Nullable errorPost,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Int32 reference
 );</tt><br>
 </pre></blockquote>
@@ -123,7 +123,7 @@ Your callback should not call Quesa except for Error Manager routines.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Error_ToString"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Error_ToString">Q3Error_ToString</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( const char * ) Q3Error_ToString (
+</td></tr></table><hr><blockquote><pre><tt>( const char * _Nonnull ) Q3Error_ToString (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Language theLanguage,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Error theError
 );</tt><br>
@@ -146,7 +146,7 @@ Currently only English is supported.</dd>
 <hr><a name="//Quesa/c/func/Q3MacintoshError_Get"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MacintoshError_Get">Q3MacintoshError_Get</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( OSErr ) Q3MacintoshError_Get (
-&nbsp;&nbsp;&nbsp;&nbsp;OSErr *firstMacErr
+&nbsp;&nbsp;&nbsp;&nbsp;OSErr * _Nullable firstMacErr
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Retrieve the most recent Macintosh error code, and optionally also the oldest
@@ -169,7 +169,7 @@ don't need that information.</dd>
 <hr><a name="//Quesa/c/func/Q3Notice_Get"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Notice_Get">Q3Notice_Get</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Notice ) Q3Notice_Get (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Notice *firstNotice
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Notice * _Nullable firstNotice
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Retrieve latest notice codes from Quesa.
@@ -192,7 +192,7 @@ don't need that information.</dd>
 <hr><a name="//Quesa/c/func/Q3Notice_Register"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Notice_Register">Q3Notice_Register</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Notice_Register (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3NoticeMethod noticePost,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3NoticeMethod _Nullable noticePost,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Int32 reference
 );</tt><br>
 </pre></blockquote>
@@ -215,7 +215,7 @@ Your callback should not call Quesa except for Error Manager routines.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Notice_ToString"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Notice_ToString">Q3Notice_ToString</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( const char * ) Q3Notice_ToString (
+</td></tr></table><hr><blockquote><pre><tt>( const char * _Nonnull ) Q3Notice_ToString (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Language theLanguage,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Notice theError
 );</tt><br>
@@ -238,7 +238,7 @@ Currently only English is supported.</dd>
 <hr><a name="//Quesa/c/func/Q3Warning_Get"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Warning_Get">Q3Warning_Get</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Warning ) Q3Warning_Get (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Warning *firstWarning
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Warning * _Nullable firstWarning
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Retrieve latest warning codes from Quesa.
@@ -261,7 +261,7 @@ don't need that information.</dd>
 <hr><a name="//Quesa/c/func/Q3Warning_Register"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Warning_Register">Q3Warning_Register</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Warning_Register (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3WarningMethod warningPost,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3WarningMethod _Nullable warningPost,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Int32 reference
 );</tt><br>
 </pre></blockquote>
@@ -283,7 +283,7 @@ Your callback should not call Quesa except for Error Manager routines.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Warning_ToString"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Warning_ToString">Q3Warning_ToString</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( const char * ) Q3Warning_ToString (
+</td></tr></table><hr><blockquote><pre><tt>( const char * _Nonnull ) Q3Warning_ToString (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Language theLanguage,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Warning theWarning
 );</tt><br>
@@ -303,5 +303,5 @@ Currently only English is supported.</dd>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Text version of the warning code, as a NUL-terminated string.
  </dd></dl>
-<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 5/27/2019)
 </p></body></html>

@@ -8,8 +8,8 @@
 <hr><a name="//Quesa/c/func/Q3Comment_Write"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Comment_Write">Q3Comment_Write</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Comment_Write (
-&nbsp;&nbsp;&nbsp;&nbsp;char *comment,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+&nbsp;&nbsp;&nbsp;&nbsp;char * _Nonnull comment,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Write a comment to a file.
@@ -28,7 +28,7 @@
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FileFormatClass_GetFormatNameString">Q3FileFormatClass_GetFormatNameString</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3FileFormatClass_GetFormatNameString (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType formatClassType,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectClassNameString formatClassString
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectClassNameString _Nonnull formatClassString
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the user-visible name of a file format.
@@ -50,8 +50,8 @@ The user visible name is suitable for display in a menu or window.
 <hr><a name="//Quesa/c/func/Q3FileFormat_GenericReadBinSwap_16"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FileFormat_GenericReadBinSwap_16">Q3FileFormat_GenericReadBinSwap_16</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3FileFormat_GenericReadBinSwap_16 (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int16 *data
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject _Nonnull format,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int16 * _Nonnull data
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read and endian swap a TQ3Int16 from a file format.
@@ -71,8 +71,8 @@ The user visible name is suitable for display in a menu or window.
 <hr><a name="//Quesa/c/func/Q3FileFormat_GenericReadBinSwap_32"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FileFormat_GenericReadBinSwap_32">Q3FileFormat_GenericReadBinSwap_32</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3FileFormat_GenericReadBinSwap_32 (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int32 *data
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject _Nonnull format,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int32 * _Nonnull data
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read and endian swap a TQ3Int32 from a file format.
@@ -92,8 +92,8 @@ The user visible name is suitable for display in a menu or window.
 <hr><a name="//Quesa/c/func/Q3FileFormat_GenericReadBinSwap_64"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FileFormat_GenericReadBinSwap_64">Q3FileFormat_GenericReadBinSwap_64</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3FileFormat_GenericReadBinSwap_64 (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int64 *data
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject _Nonnull format,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int64 * _Nonnull data
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read and endian swap a TQ3Int64 from a file format.
@@ -113,8 +113,8 @@ The user visible name is suitable for display in a menu or window.
 <hr><a name="//Quesa/c/func/Q3FileFormat_GenericReadBinary_16"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FileFormat_GenericReadBinary_16">Q3FileFormat_GenericReadBinary_16</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3FileFormat_GenericReadBinary_16 (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int16 *data
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject _Nonnull format,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int16 * _Nonnull data
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read a TQ3Int16 from a file format.
@@ -134,8 +134,8 @@ The user visible name is suitable for display in a menu or window.
 <hr><a name="//Quesa/c/func/Q3FileFormat_GenericReadBinary_32"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FileFormat_GenericReadBinary_32">Q3FileFormat_GenericReadBinary_32</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3FileFormat_GenericReadBinary_32 (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int32 *data
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject _Nonnull format,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int32 * _Nonnull data
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read a TQ3Int32 from a file format.
@@ -155,8 +155,8 @@ The user visible name is suitable for display in a menu or window.
 <hr><a name="//Quesa/c/func/Q3FileFormat_GenericReadBinary_64"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FileFormat_GenericReadBinary_64">Q3FileFormat_GenericReadBinary_64</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3FileFormat_GenericReadBinary_64 (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int64 *data
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject _Nonnull format,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int64 * _Nonnull data
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read a TQ3Int64 from a file format.
@@ -176,8 +176,8 @@ The user visible name is suitable for display in a menu or window.
 <hr><a name="//Quesa/c/func/Q3FileFormat_GenericReadBinary_8"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FileFormat_GenericReadBinary_8">Q3FileFormat_GenericReadBinary_8</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3FileFormat_GenericReadBinary_8 (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int8 *data
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject _Nonnull format,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int8 * _Nonnull data
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read a TQ3Int8 from a file format.
@@ -197,8 +197,8 @@ The user visible name is suitable for display in a menu or window.
 <hr><a name="//Quesa/c/func/Q3FileFormat_GenericReadBinary_Raw"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FileFormat_GenericReadBinary_Raw">Q3FileFormat_GenericReadBinary_Raw</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3FileFormat_GenericReadBinary_Raw (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,
-&nbsp;&nbsp;&nbsp;&nbsp;unsigned char *data,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject _Nonnull format,
+&nbsp;&nbsp;&nbsp;&nbsp;unsigned char * _Nonnull data,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 length
 );</tt><br>
 </pre></blockquote>
@@ -220,9 +220,9 @@ The user visible name is suitable for display in a menu or window.
 <hr><a name="//Quesa/c/func/Q3FileFormat_GenericReadBinary_String"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FileFormat_GenericReadBinary_String">Q3FileFormat_GenericReadBinary_String</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3FileFormat_GenericReadBinary_String (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,
-&nbsp;&nbsp;&nbsp;&nbsp;char *data,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 *length
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject _Nonnull format,
+&nbsp;&nbsp;&nbsp;&nbsp;char * _Nonnull data,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 * _Nonnull length
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read a string from a file format.
@@ -243,14 +243,14 @@ The user visible name is suitable for display in a menu or window.
 <hr><a name="//Quesa/c/func/Q3FileFormat_GenericReadText_ReadUntilChars"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FileFormat_GenericReadText_ReadUntilChars">Q3FileFormat_GenericReadText_ReadUntilChars</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3FileFormat_GenericReadText_ReadUntilChars (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,
-&nbsp;&nbsp;&nbsp;&nbsp;char *buffer,
-&nbsp;&nbsp;&nbsp;&nbsp;char *chars,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject _Nonnull format,
+&nbsp;&nbsp;&nbsp;&nbsp;char * _Nonnull buffer,
+&nbsp;&nbsp;&nbsp;&nbsp;char * _Nonnull chars,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 numChars,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean blanks,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int32 *foundChar,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int32 * _Nonnull foundChar,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 maxLen,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 *charsRead
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 * _Nonnull charsRead
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read until characters have been found from a file format.
@@ -276,7 +276,7 @@ The user visible name is suitable for display in a menu or window.
 <hr><a name="//Quesa/c/func/Q3FileFormat_GenericReadText_SkipBlanks"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FileFormat_GenericReadText_SkipBlanks">Q3FileFormat_GenericReadText_SkipBlanks</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3FileFormat_GenericReadText_SkipBlanks (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject _Nonnull format
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read and discard whitespace from a file format.
@@ -295,8 +295,8 @@ The user visible name is suitable for display in a menu or window.
 <hr><a name="//Quesa/c/func/Q3FileFormat_GenericWriteBinSwap_16"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FileFormat_GenericWriteBinSwap_16">Q3FileFormat_GenericWriteBinSwap_16</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3FileFormat_GenericWriteBinSwap_16 (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Int16 *data
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject _Nonnull format,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Int16 * _Nonnull data
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Endian swap and write a TQ3Int16 to a file format.
@@ -316,8 +316,8 @@ The user visible name is suitable for display in a menu or window.
 <hr><a name="//Quesa/c/func/Q3FileFormat_GenericWriteBinSwap_32"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FileFormat_GenericWriteBinSwap_32">Q3FileFormat_GenericWriteBinSwap_32</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3FileFormat_GenericWriteBinSwap_32 (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Int32 *data
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject _Nonnull format,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Int32 * _Nonnull data
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Endian swap and write a TQ3Int32 to a file format.
@@ -337,8 +337,8 @@ The user visible name is suitable for display in a menu or window.
 <hr><a name="//Quesa/c/func/Q3FileFormat_GenericWriteBinSwap_64"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FileFormat_GenericWriteBinSwap_64">Q3FileFormat_GenericWriteBinSwap_64</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3FileFormat_GenericWriteBinSwap_64 (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Int64 *data
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject _Nonnull format,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Int64 * _Nonnull data
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Endian swap and write a TQ3Int64 to a file format.
@@ -358,8 +358,8 @@ The user visible name is suitable for display in a menu or window.
 <hr><a name="//Quesa/c/func/Q3FileFormat_GenericWriteBinary_16"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FileFormat_GenericWriteBinary_16">Q3FileFormat_GenericWriteBinary_16</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3FileFormat_GenericWriteBinary_16 (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Int16 *data
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject _Nonnull format,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Int16 * _Nonnull data
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Write a TQ3Int16 to a file format.
@@ -379,8 +379,8 @@ The user visible name is suitable for display in a menu or window.
 <hr><a name="//Quesa/c/func/Q3FileFormat_GenericWriteBinary_32"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FileFormat_GenericWriteBinary_32">Q3FileFormat_GenericWriteBinary_32</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3FileFormat_GenericWriteBinary_32 (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Int32 *data
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject _Nonnull format,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Int32 * _Nonnull data
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Write a TQ3Int32 to a file format.
@@ -400,8 +400,8 @@ The user visible name is suitable for display in a menu or window.
 <hr><a name="//Quesa/c/func/Q3FileFormat_GenericWriteBinary_64"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FileFormat_GenericWriteBinary_64">Q3FileFormat_GenericWriteBinary_64</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3FileFormat_GenericWriteBinary_64 (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Int64 *data
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject _Nonnull format,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Int64 * _Nonnull data
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Write a TQ3Int64 to a file format.
@@ -421,8 +421,8 @@ The user visible name is suitable for display in a menu or window.
 <hr><a name="//Quesa/c/func/Q3FileFormat_GenericWriteBinary_8"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FileFormat_GenericWriteBinary_8">Q3FileFormat_GenericWriteBinary_8</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3FileFormat_GenericWriteBinary_8 (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Int8 *data
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject _Nonnull format,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Int8 * _Nonnull data
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Write a TQ3Int8 to a file format.
@@ -442,8 +442,8 @@ The user visible name is suitable for display in a menu or window.
 <hr><a name="//Quesa/c/func/Q3FileFormat_GenericWriteBinary_Raw"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FileFormat_GenericWriteBinary_Raw">Q3FileFormat_GenericWriteBinary_Raw</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3FileFormat_GenericWriteBinary_Raw (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,
-&nbsp;&nbsp;&nbsp;&nbsp;const unsigned char *data,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject _Nonnull format,
+&nbsp;&nbsp;&nbsp;&nbsp;const unsigned char * _Nonnull data,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 length
 );</tt><br>
 </pre></blockquote>
@@ -465,9 +465,9 @@ The user visible name is suitable for display in a menu or window.
 <hr><a name="//Quesa/c/func/Q3FileFormat_GenericWriteBinary_String"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FileFormat_GenericWriteBinary_String">Q3FileFormat_GenericWriteBinary_String</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3FileFormat_GenericWriteBinary_String (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,
-&nbsp;&nbsp;&nbsp;&nbsp;const char *data,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 *length
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject _Nonnull format,
+&nbsp;&nbsp;&nbsp;&nbsp;const char * _Nonnull data,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 * _Nonnull length
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Write a string to a file format.
@@ -488,10 +488,10 @@ The user visible name is suitable for display in a menu or window.
 <hr><a name="//Quesa/c/func/Q3FileFormat_GetConfigurationData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FileFormat_GetConfigurationData">Q3FileFormat_GetConfigurationData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3FileFormat_GetConfigurationData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,
-&nbsp;&nbsp;&nbsp;&nbsp;unsigned char *dataBuffer,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject _Nonnull format,
+&nbsp;&nbsp;&nbsp;&nbsp;unsigned char * _Nullable dataBuffer,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 bufferSize,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 *actualDataSize
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 * _Nonnull actualDataSize
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the configuration data for a file format.
@@ -522,7 +522,7 @@ dataBuffer.
 <hr><a name="//Quesa/c/func/Q3FileFormat_GetType"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FileFormat_GetType">Q3FileFormat_GetType</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3ObjectType ) Q3FileFormat_GetType (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject _Nonnull format
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the type of a file format.
@@ -541,7 +541,7 @@ dataBuffer.
 <hr><a name="//Quesa/c/func/Q3FileFormat_HasModalConfigure"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FileFormat_HasModalConfigure">Q3FileFormat_HasModalConfigure</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Boolean ) Q3FileFormat_HasModalConfigure (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject _Nonnull format
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Does a file format have a modal configure dialog?
@@ -560,9 +560,9 @@ dataBuffer.
 <hr><a name="//Quesa/c/func/Q3FileFormat_ModalConfigure"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FileFormat_ModalConfigure">Q3FileFormat_ModalConfigure</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3FileFormat_ModalConfigure (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject format,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileFormatObject _Nonnull format,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3DialogAnchor dialogAnchor,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean *canceled
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean * _Nonnull canceled
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Invoke a file format's modal configure dialog.
@@ -592,7 +592,7 @@ the application for later recall.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3FileFormat_NewFromType"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FileFormat_NewFromType">Q3FileFormat_NewFromType</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3FileFormatObject ) Q3FileFormat_NewFromType (
+</td></tr></table><hr><blockquote><pre><tt>( TQ3FileFormatObject _Nullable ) Q3FileFormat_NewFromType (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType fformatObjectType
 );</tt><br>
 </pre></blockquote>
@@ -612,8 +612,8 @@ the application for later recall.
 <hr><a name="//Quesa/c/func/Q3FileFormat_SetConfigurationData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FileFormat_SetConfigurationData">Q3FileFormat_SetConfigurationData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3FileFormat_SetConfigurationData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject format,
-&nbsp;&nbsp;&nbsp;&nbsp;unsigned char *dataBuffer,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject _Nonnull format,
+&nbsp;&nbsp;&nbsp;&nbsp;unsigned char * _Nonnull dataBuffer,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 bufferSize
 );</tt><br>
 </pre></blockquote>
@@ -638,7 +638,7 @@ Q3FileFormat_GetConfigurationData.
 <hr><a name="//Quesa/c/func/Q3File_Cancel"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3File_Cancel">Q3File_Cancel</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3File_Cancel (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Cancel a read/write operation on a file.
@@ -655,7 +655,7 @@ Q3FileFormat_GetConfigurationData.
 <hr><a name="//Quesa/c/func/Q3File_Close"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3File_Close">Q3File_Close</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3File_Close (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Close a file object.
@@ -675,8 +675,8 @@ Q3File_Close.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3File_GetExternalReferences"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3File_GetExternalReferences">Q3File_GetExternalReferences</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3GroupObject ) Q3File_GetExternalReferences (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+</td></tr></table><hr><blockquote><pre><tt>( TQ3GroupObject _Nullable ) Q3File_GetExternalReferences (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the external references of a file.
@@ -692,8 +692,8 @@ Q3File_Close.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3File_GetFileFormat"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3File_GetFileFormat">Q3File_GetFileFormat</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3FileFormatObject ) Q3File_GetFileFormat (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+</td></tr></table><hr><blockquote><pre><tt>( TQ3FileFormatObject _Nonnull ) Q3File_GetFileFormat (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the file format used to process a file.
@@ -712,8 +712,8 @@ Q3File_Close.
 <hr><a name="//Quesa/c/func/Q3File_GetMode"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3File_GetMode">Q3File_GetMode</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3File_GetMode (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileMode *mode
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileMode * _Nonnull mode
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Determine the mode of an open file object.
@@ -731,7 +731,7 @@ Q3File_Close.
 <hr><a name="//Quesa/c/func/Q3File_GetNextObjectType"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3File_GetNextObjectType">Q3File_GetNextObjectType</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3ObjectType ) Q3File_GetNextObjectType (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the type of the next object in a file.
@@ -748,8 +748,8 @@ Q3File_Close.
 <hr><a name="//Quesa/c/func/Q3File_GetReadInGroup"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3File_GetReadInGroup">Q3File_GetReadInGroup</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3File_GetReadInGroup (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileReadGroupState *readGroupState
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileReadGroupState * _Nonnull readGroupState
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the group reading state for a file.
@@ -767,8 +767,8 @@ Q3File_Close.
 <hr><a name="//Quesa/c/func/Q3File_GetStorage"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3File_GetStorage">Q3File_GetStorage</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3File_GetStorage (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject *storage
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject _Nullable * _Nonnull storage
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the storage object for a file.
@@ -786,8 +786,8 @@ Q3File_Close.
 <hr><a name="//Quesa/c/func/Q3File_GetVersion"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3File_GetVersion">Q3File_GetVersion</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3File_GetVersion (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileVersion *version
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileVersion * _Nonnull version
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the file format version of an open file.
@@ -805,8 +805,8 @@ Q3File_Close.
 <hr><a name="//Quesa/c/func/Q3File_IsEndOfContainer"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3File_IsEndOfContainer">Q3File_IsEndOfContainer</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Boolean ) Q3File_IsEndOfContainer (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object rootObject
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object _Nonnull rootObject
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Has the end of the current container in a file been reached?
@@ -824,7 +824,7 @@ Q3File_Close.
 <hr><a name="//Quesa/c/func/Q3File_IsEndOfData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3File_IsEndOfData">Q3File_IsEndOfData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Boolean ) Q3File_IsEndOfData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Has the end of the data within a file been reached?
@@ -841,7 +841,7 @@ Q3File_Close.
 <hr><a name="//Quesa/c/func/Q3File_IsEndOfFile"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3File_IsEndOfFile">Q3File_IsEndOfFile</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Boolean ) Q3File_IsEndOfFile (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Has the end of a file been reached?
@@ -858,7 +858,7 @@ Q3File_Close.
 <hr><a name="//Quesa/c/func/Q3File_IsNextObjectOfType"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3File_IsNextObjectOfType">Q3File_IsNextObjectOfType</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Boolean ) Q3File_IsNextObjectOfType (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType ofType
 );</tt><br>
 </pre></blockquote>
@@ -877,8 +877,8 @@ Q3File_Close.
 <hr><a name="//Quesa/c/func/Q3File_IsOpen"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3File_IsOpen">Q3File_IsOpen</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3File_IsOpen (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean *isOpen
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean * _Nonnull isOpen
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Determines whether a file object is open.
@@ -896,8 +896,8 @@ Q3File_Close.
 <hr><a name="//Quesa/c/func/Q3File_MarkAsExternalReference"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3File_MarkAsExternalReference">Q3File_MarkAsExternalReference</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3File_MarkAsExternalReference (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3SharedObject sharedObject
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3SharedObject _Nonnull sharedObject
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Mark an object within a file as being an external reference.
@@ -914,7 +914,7 @@ Q3File_Close.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3File_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3File_New">Q3File_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3FileObject ) Q3File_New (void);</tt><br>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3FileObject _Nonnull ) Q3File_New (void);</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new file object.
 <br><br>
@@ -924,8 +924,8 @@ Q3File_Close.
 <hr><a name="//Quesa/c/func/Q3File_OpenRead"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3File_OpenRead">Q3File_OpenRead</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3File_OpenRead (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileMode *mode
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileMode * _Nullable mode
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Open a file object for reading.
@@ -950,7 +950,7 @@ Pass nullptr if you don't need this information.</dd>
 <hr><a name="//Quesa/c/func/Q3File_OpenWrite"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3File_OpenWrite">Q3File_OpenWrite</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3File_OpenWrite (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3FileMode mode
 );</tt><br>
 </pre></blockquote>
@@ -979,8 +979,8 @@ using the mode kQ3FileModeNormal + kQ3FileModeSwap.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3File_ReadObject"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3File_ReadObject">Q3File_ReadObject</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Object ) Q3File_ReadObject (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Object _Nullable ) Q3File_ReadObject (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read an object from a 3DMF file.
@@ -1000,9 +1000,9 @@ the typical usage of this function and any special requirements.
 <hr><a name="//Quesa/c/func/Q3File_SetIdleMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3File_SetIdleMethod">Q3File_SetIdleMethod</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3File_SetIdleMethod (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileIdleMethod idle,
-&nbsp;&nbsp;&nbsp;&nbsp;const void *idleData
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileIdleMethod _Nonnull idle,
+&nbsp;&nbsp;&nbsp;&nbsp;const void * _Nullable idleData
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the idle method for a file.
@@ -1021,7 +1021,7 @@ the typical usage of this function and any special requirements.
 <hr><a name="//Quesa/c/func/Q3File_SetReadInGroup"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3File_SetReadInGroup">Q3File_SetReadInGroup</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3File_SetReadInGroup (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3FileReadGroupState readGroupState
 );</tt><br>
 </pre></blockquote>
@@ -1040,8 +1040,8 @@ the typical usage of this function and any special requirements.
 <hr><a name="//Quesa/c/func/Q3File_SetStorage"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3File_SetStorage">Q3File_SetStorage</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3File_SetStorage (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject storage
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject _Nullable storage
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the storage objectfor a file.
@@ -1059,7 +1059,7 @@ the typical usage of this function and any special requirements.
 <hr><a name="//Quesa/c/func/Q3File_SkipObject"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3File_SkipObject">Q3File_SkipObject</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3File_SkipObject (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Skip the next object in a file.
@@ -1076,8 +1076,8 @@ the typical usage of this function and any special requirements.
 <hr><a name="//Quesa/c/func/Q3Float32_Read"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Float32_Read">Q3Float32_Read</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Float32_Read (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Float32 *data,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Float32 * _Nonnull data,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read a TQ3Float32 from a file.
@@ -1094,8 +1094,8 @@ the typical usage of this function and any special requirements.
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Float32_ReadArray">Q3Float32_ReadArray</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Float32_ReadArray (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 numFloats,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Float32* floatArray,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Float32* _Nonnull floatArray,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read an array of 32-bit floating point numbers from a file object.
@@ -1120,7 +1120,7 @@ Q3Float32_Read repeatedly.
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Float32_Write">Q3Float32_Write</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Float32_Write (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Float32 data,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Write a TQ3Float32 to a file.
@@ -1138,8 +1138,8 @@ Q3Float32_Read repeatedly.
 <hr><a name="//Quesa/c/func/Q3Float64_Read"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Float64_Read">Q3Float64_Read</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Float64_Read (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Float64 *data,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Float64 * _Nonnull data,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read a TQ3Float64 from a file.
@@ -1156,7 +1156,7 @@ Q3Float32_Read repeatedly.
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Float64_Write">Q3Float64_Write</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Float64_Write (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Float64 data,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Write a TQ3Float64 to a file.
@@ -1174,8 +1174,8 @@ Q3Float32_Read repeatedly.
 <hr><a name="//Quesa/c/func/Q3Int16_Read"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Int16_Read">Q3Int16_Read</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Int16_Read (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int16 *data,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int16 * _Nonnull data,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read a TQ3Int16 from a file.
@@ -1192,7 +1192,7 @@ Q3Float32_Read repeatedly.
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Int16_Write">Q3Int16_Write</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Int16_Write (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Int16 data,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Write a TQ3Int16 to a file.
@@ -1210,8 +1210,8 @@ Q3Float32_Read repeatedly.
 <hr><a name="//Quesa/c/func/Q3Int32_Read"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Int32_Read">Q3Int32_Read</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Int32_Read (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int32 *data,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int32 * _Nonnull data,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read a TQ3Int32 from a file.
@@ -1228,7 +1228,7 @@ Q3Float32_Read repeatedly.
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Int32_Write">Q3Int32_Write</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Int32_Write (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Int32 data,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Write a TQ3Int32 to a file.
@@ -1246,8 +1246,8 @@ Q3Float32_Read repeatedly.
 <hr><a name="//Quesa/c/func/Q3Int64_Read"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Int64_Read">Q3Int64_Read</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Int64_Read (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int64 *data,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int64 * _Nonnull data,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read a TQ3Int64 from a file.
@@ -1264,7 +1264,7 @@ Q3Float32_Read repeatedly.
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Int64_Write">Q3Int64_Write</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Int64_Write (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Int64 data,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Write a TQ3Int64 to a file.
@@ -1282,8 +1282,8 @@ Q3Float32_Read repeatedly.
 <hr><a name="//Quesa/c/func/Q3Int8_Read"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Int8_Read">Q3Int8_Read</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Int8_Read (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int8 *data,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int8 * _Nonnull data,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read a TQ3Int8 from a file.
@@ -1300,7 +1300,7 @@ Q3Float32_Read repeatedly.
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Int8_Write">Q3Int8_Write</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Int8_Write (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Int8 data,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Write a TQ3Int8 to a file.
@@ -1318,8 +1318,8 @@ Q3Float32_Read repeatedly.
 <hr><a name="//Quesa/c/func/Q3Matrix4x4_Read"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Matrix4x4_Read">Q3Matrix4x4_Read</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Matrix4x4_Read (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix4x4 *matrix4x4,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix4x4 * _Nonnull matrix4x4,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read a TQ3Matrix4x4 from a file.
@@ -1337,8 +1337,8 @@ Q3Float32_Read repeatedly.
 <hr><a name="//Quesa/c/func/Q3Matrix4x4_Write"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Matrix4x4_Write">Q3Matrix4x4_Write</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Matrix4x4_Write (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix4x4 *matrix4x4,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix4x4 * _Nonnull matrix4x4,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Write a TQ3Matrix4x4 to a file.
@@ -1356,7 +1356,7 @@ Q3Float32_Read repeatedly.
 <hr><a name="//Quesa/c/func/Q3NewLine_Write"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3NewLine_Write">Q3NewLine_Write</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3NewLine_Write (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Write a newline to a file.
@@ -1373,8 +1373,8 @@ Q3Float32_Read repeatedly.
 <hr><a name="//Quesa/c/func/Q3Point2D_Read"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Point2D_Read">Q3Point2D_Read</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Point2D_Read (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point2D *point2D,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point2D * _Nonnull point2D,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read a TQ3Point2D from a file.
@@ -1392,8 +1392,8 @@ Q3Float32_Read repeatedly.
 <hr><a name="//Quesa/c/func/Q3Point2D_Write"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Point2D_Write">Q3Point2D_Write</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Point2D_Write (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point2D *point2D,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point2D * _Nonnull point2D,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Write a TQ3Point2D to a file.
@@ -1411,8 +1411,8 @@ Q3Float32_Read repeatedly.
 <hr><a name="//Quesa/c/func/Q3Point3D_Read"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Point3D_Read">Q3Point3D_Read</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Point3D_Read (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point3D *point3D,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point3D * _Nonnull point3D,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read a TQ3Point3D from a file.
@@ -1430,8 +1430,8 @@ Q3Float32_Read repeatedly.
 <hr><a name="//Quesa/c/func/Q3Point3D_Write"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Point3D_Write">Q3Point3D_Write</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Point3D_Write (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D *point3D,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D * _Nonnull point3D,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Write a TQ3Point3D to a file.
@@ -1449,8 +1449,8 @@ Q3Float32_Read repeatedly.
 <hr><a name="//Quesa/c/func/Q3RationalPoint3D_Read"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RationalPoint3D_Read">Q3RationalPoint3D_Read</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RationalPoint3D_Read (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RationalPoint3D *point3D,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RationalPoint3D * _Nonnull point3D,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read a TQ3RationalPoint3D from a file.
@@ -1468,8 +1468,8 @@ Q3Float32_Read repeatedly.
 <hr><a name="//Quesa/c/func/Q3RationalPoint3D_Write"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RationalPoint3D_Write">Q3RationalPoint3D_Write</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RationalPoint3D_Write (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RationalPoint3D *point3D,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RationalPoint3D * _Nonnull point3D,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Write a TQ3RationalPoint3D to a file.
@@ -1487,8 +1487,8 @@ Q3Float32_Read repeatedly.
 <hr><a name="//Quesa/c/func/Q3RationalPoint4D_Read"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RationalPoint4D_Read">Q3RationalPoint4D_Read</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RationalPoint4D_Read (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RationalPoint4D *point4D,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RationalPoint4D * _Nonnull point4D,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read a TQ3RationalPoint4D from a file.
@@ -1506,8 +1506,8 @@ Q3Float32_Read repeatedly.
 <hr><a name="//Quesa/c/func/Q3RationalPoint4D_Write"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RationalPoint4D_Write">Q3RationalPoint4D_Write</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RationalPoint4D_Write (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RationalPoint4D *point4D,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RationalPoint4D * _Nonnull point4D,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Write a TQ3RationalPoint4D to a file.
@@ -1525,9 +1525,9 @@ Q3Float32_Read repeatedly.
 <hr><a name="//Quesa/c/func/Q3RawData_Read"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RawData_Read">Q3RawData_Read</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RawData_Read (
-&nbsp;&nbsp;&nbsp;&nbsp;unsigned char *data,
+&nbsp;&nbsp;&nbsp;&nbsp;unsigned char * _Nonnull data,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 size,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read a block of data from a file.
@@ -1546,9 +1546,9 @@ Q3Float32_Read repeatedly.
 <hr><a name="//Quesa/c/func/Q3RawData_Write"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RawData_Write">Q3RawData_Write</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RawData_Write (
-&nbsp;&nbsp;&nbsp;&nbsp;const unsigned char *data,
+&nbsp;&nbsp;&nbsp;&nbsp;const unsigned char * _Nonnull data,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 size,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Write a block of data to a file.
@@ -1567,7 +1567,7 @@ Q3Float32_Read repeatedly.
 <hr><a name="//Quesa/c/func/Q3Shared_ClearEditTracking"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Shared_ClearEditTracking">Q3Shared_ClearEditTracking</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Shared_ClearEditTracking (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3SharedObject sharedObject
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3SharedObject _Nonnull sharedObject
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Clear the edit tracking state of a shared object.
@@ -1584,7 +1584,7 @@ Q3Float32_Read repeatedly.
 <hr><a name="//Quesa/c/func/Q3Shared_GetEditTrackingState"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Shared_GetEditTrackingState">Q3Shared_GetEditTrackingState</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Boolean ) Q3Shared_GetEditTrackingState (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3SharedObject sharedObject
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3SharedObject _Nonnull sharedObject
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the edit tracking state of a shared object.
@@ -1620,9 +1620,9 @@ In other words, this rounds a number up to a multiple of 4.
 <hr><a name="//Quesa/c/func/Q3String_Read"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3String_Read">Q3String_Read</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3String_Read (
-&nbsp;&nbsp;&nbsp;&nbsp;char *data,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 *length,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+&nbsp;&nbsp;&nbsp;&nbsp;char * _Nullable data,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 * _Nonnull length,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read a C string from a file.
@@ -1655,9 +1655,9 @@ not including the terminating NUL character.</dd>
 <hr><a name="//Quesa/c/func/Q3String_ReadUnlimited"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3String_ReadUnlimited">Q3String_ReadUnlimited</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3String_ReadUnlimited (
-&nbsp;&nbsp;&nbsp;&nbsp;char *data,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 *ioLength,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+&nbsp;&nbsp;&nbsp;&nbsp;char * _Nullable data,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 * _Nonnull ioLength,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read a NUL-terminated string (C string) from a file.
@@ -1700,8 +1700,8 @@ buffer.</dd>
 <hr><a name="//Quesa/c/func/Q3String_Write"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3String_Write">Q3String_Write</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3String_Write (
-&nbsp;&nbsp;&nbsp;&nbsp;const char *data,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+&nbsp;&nbsp;&nbsp;&nbsp;const char * _Nonnull data,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Write a NUL-terminated string (C string) to a file.
@@ -1725,8 +1725,8 @@ NUL byte, exceeds <code>kQ3StringMaximumLength</code>, then the error
 <hr><a name="//Quesa/c/func/Q3String_WriteUnlimited"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3String_WriteUnlimited">Q3String_WriteUnlimited</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3String_WriteUnlimited (
-&nbsp;&nbsp;&nbsp;&nbsp;const char *data,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+&nbsp;&nbsp;&nbsp;&nbsp;const char * _Nonnull data,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Write a NUL-terminated string (C string) to a file.  If necessary it writes
@@ -1747,8 +1747,8 @@ up to 3 more pad bytes to make the total number of bytes a multiple of 4.
 <hr><a name="//Quesa/c/func/Q3Tangent2D_Read"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Tangent2D_Read">Q3Tangent2D_Read</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Tangent2D_Read (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Tangent2D *tangent2D,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Tangent2D * _Nonnull tangent2D,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read a TQ3Tangent2D from a file.
@@ -1766,8 +1766,8 @@ up to 3 more pad bytes to make the total number of bytes a multiple of 4.
 <hr><a name="//Quesa/c/func/Q3Tangent2D_Write"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Tangent2D_Write">Q3Tangent2D_Write</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Tangent2D_Write (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Tangent2D *tangent2D,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Tangent2D * _Nonnull tangent2D,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Write a TQ3Tangent2D to a file.
@@ -1785,8 +1785,8 @@ up to 3 more pad bytes to make the total number of bytes a multiple of 4.
 <hr><a name="//Quesa/c/func/Q3Tangent3D_Read"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Tangent3D_Read">Q3Tangent3D_Read</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Tangent3D_Read (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Tangent3D *tangent3D,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Tangent3D * _Nonnull tangent3D,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read a TQ3Tangent3D from a file.
@@ -1804,8 +1804,8 @@ up to 3 more pad bytes to make the total number of bytes a multiple of 4.
 <hr><a name="//Quesa/c/func/Q3Tangent3D_Write"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Tangent3D_Write">Q3Tangent3D_Write</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Tangent3D_Write (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Tangent3D *tangent3D,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Tangent3D * _Nonnull tangent3D,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Write a TQ3Tangent3D to a file.
@@ -1823,7 +1823,7 @@ up to 3 more pad bytes to make the total number of bytes a multiple of 4.
 <hr><a name="//Quesa/c/func/Q3UnknownBinary_EmptyData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3UnknownBinary_EmptyData">Q3UnknownBinary_EmptyData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3UnknownBinary_EmptyData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3UnknownBinaryData *unknownBinaryData
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3UnknownBinaryData * _Nonnull unknownBinaryData
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Release the data of an unknown binary object.
@@ -1840,7 +1840,7 @@ up to 3 more pad bytes to make the total number of bytes a multiple of 4.
 <hr><a name="//Quesa/c/func/Q3UnknownBinary_EmptyTypeString"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3UnknownBinary_EmptyTypeString">Q3UnknownBinary_EmptyTypeString</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3UnknownBinary_EmptyTypeString (
-&nbsp;&nbsp;&nbsp;&nbsp;char **typeString
+&nbsp;&nbsp;&nbsp;&nbsp;char * _Nonnull * _Nonnull typeString
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Release the type string of an unknown binary object.
@@ -1857,8 +1857,8 @@ up to 3 more pad bytes to make the total number of bytes a multiple of 4.
 <hr><a name="//Quesa/c/func/Q3UnknownBinary_GetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3UnknownBinary_GetData">Q3UnknownBinary_GetData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3UnknownBinary_GetData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3UnknownObject unknownObject,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3UnknownBinaryData *unknownBinaryData
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3UnknownObject _Nonnull unknownObject,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3UnknownBinaryData * _Nonnull unknownBinaryData
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the data from an unknown binary object.
@@ -1876,8 +1876,8 @@ up to 3 more pad bytes to make the total number of bytes a multiple of 4.
 <hr><a name="//Quesa/c/func/Q3UnknownBinary_GetTypeString"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3UnknownBinary_GetTypeString">Q3UnknownBinary_GetTypeString</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3UnknownBinary_GetTypeString (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3UnknownObject unknownObject,
-&nbsp;&nbsp;&nbsp;&nbsp;char **typeString
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3UnknownObject _Nonnull unknownObject,
+&nbsp;&nbsp;&nbsp;&nbsp;char * _Nonnull * _Nonnull typeString
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the type string of an unknown binary object.
@@ -1895,7 +1895,7 @@ up to 3 more pad bytes to make the total number of bytes a multiple of 4.
 <hr><a name="//Quesa/c/func/Q3UnknownText_EmptyData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3UnknownText_EmptyData">Q3UnknownText_EmptyData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3UnknownText_EmptyData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3UnknownTextData *unknownTextData
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3UnknownTextData * _Nonnull unknownTextData
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Release the data of an unknown text object.
@@ -1912,8 +1912,8 @@ up to 3 more pad bytes to make the total number of bytes a multiple of 4.
 <hr><a name="//Quesa/c/func/Q3UnknownText_GetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3UnknownText_GetData">Q3UnknownText_GetData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3UnknownText_GetData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3UnknownObject unknownObject,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3UnknownTextData *unknownTextData
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3UnknownObject _Nonnull unknownObject,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3UnknownTextData * _Nonnull unknownTextData
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the data from an unknown text object.
@@ -1931,8 +1931,8 @@ up to 3 more pad bytes to make the total number of bytes a multiple of 4.
 <hr><a name="//Quesa/c/func/Q3Unknown_GetDirtyState"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Unknown_GetDirtyState">Q3Unknown_GetDirtyState</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Unknown_GetDirtyState (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3UnknownObject unknownObject,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean *isDirty
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3UnknownObject _Nonnull unknownObject,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean * _Nonnull isDirty
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the dirty state of an unknown object.
@@ -1950,7 +1950,7 @@ up to 3 more pad bytes to make the total number of bytes a multiple of 4.
 <hr><a name="//Quesa/c/func/Q3Unknown_GetType"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Unknown_GetType">Q3Unknown_GetType</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3ObjectType ) Q3Unknown_GetType (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3UnknownObject unknownObject
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3UnknownObject _Nonnull unknownObject
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the type of an unknown object.
@@ -1967,7 +1967,7 @@ up to 3 more pad bytes to make the total number of bytes a multiple of 4.
 <hr><a name="//Quesa/c/func/Q3Unknown_SetDirtyState"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Unknown_SetDirtyState">Q3Unknown_SetDirtyState</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Unknown_SetDirtyState (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3UnknownObject unknownObject,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3UnknownObject _Nonnull unknownObject,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean isDirty
 );</tt><br>
 </pre></blockquote>
@@ -1986,8 +1986,8 @@ up to 3 more pad bytes to make the total number of bytes a multiple of 4.
 <hr><a name="//Quesa/c/func/Q3Uns16_Read"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Uns16_Read">Q3Uns16_Read</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Uns16_Read (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns16 *data,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns16 * _Nonnull data,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read a TQ3Uns16 from a file.
@@ -2004,8 +2004,8 @@ up to 3 more pad bytes to make the total number of bytes a multiple of 4.
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Uns16_ReadArray">Q3Uns16_ReadArray</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Uns16_ReadArray (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 numNums,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns16* intArray,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns16* _Nonnull intArray,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read an array of 16-bit unsigned integers from a file object.
@@ -2030,7 +2030,7 @@ Q3Uns16_Read repeatedly.
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Uns16_Write">Q3Uns16_Write</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Uns16_Write (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns16 data,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Write a TQ3Uns16 to a file.
@@ -2048,8 +2048,8 @@ Q3Uns16_Read repeatedly.
 <hr><a name="//Quesa/c/func/Q3Uns32_Read"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Uns32_Read">Q3Uns32_Read</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Uns32_Read (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 *data,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 * _Nonnull data,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read a TQ3Uns32 from a file.
@@ -2066,8 +2066,8 @@ Q3Uns16_Read repeatedly.
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Uns32_ReadArray">Q3Uns32_ReadArray</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Uns32_ReadArray (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 numNums,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32* intArray,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32* _Nonnull intArray,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read an array of 32-bit unsigned integers from a file object.
@@ -2092,7 +2092,7 @@ Q3Uns32_Read repeatedly.
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Uns32_Write">Q3Uns32_Write</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Uns32_Write (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 data,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Write a TQ3Uns32 to a file.
@@ -2110,8 +2110,8 @@ Q3Uns32_Read repeatedly.
 <hr><a name="//Quesa/c/func/Q3Uns64_Read"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Uns64_Read">Q3Uns64_Read</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Uns64_Read (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns64 *data,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns64 * _Nonnull data,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read a TQ3Uns64 from a file.
@@ -2128,7 +2128,7 @@ Q3Uns32_Read repeatedly.
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Uns64_Write">Q3Uns64_Write</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Uns64_Write (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns64 data,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Write a TQ3Uns64 to a file.
@@ -2146,8 +2146,8 @@ Q3Uns32_Read repeatedly.
 <hr><a name="//Quesa/c/func/Q3Uns8_Read"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Uns8_Read">Q3Uns8_Read</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Uns8_Read (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns8 *data,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns8 * _Nonnull data,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read a TQ3Uns8 from a file.
@@ -2166,8 +2166,8 @@ Q3Uns32_Read repeatedly.
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Uns8_ReadArray">Q3Uns8_ReadArray</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Uns8_ReadArray (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 numNums,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns8* intArray,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns8* _Nonnull intArray,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read an array of 8-bit unsigned integers from a file object.
@@ -2192,7 +2192,7 @@ Q3Uns8_Read repeatedly.
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Uns8_Write">Q3Uns8_Write</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Uns8_Write (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns8 data,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Write a TQ3Uns8 to a file.
@@ -2210,8 +2210,8 @@ Q3Uns8_Read repeatedly.
 <hr><a name="//Quesa/c/func/Q3Vector2D_Read"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Vector2D_Read">Q3Vector2D_Read</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Vector2D_Read (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector2D *vector2D,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector2D * _Nonnull vector2D,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read a TQ3Vector2D from a file.
@@ -2229,8 +2229,8 @@ Q3Uns8_Read repeatedly.
 <hr><a name="//Quesa/c/func/Q3Vector2D_Write"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Vector2D_Write">Q3Vector2D_Write</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Vector2D_Write (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector2D *vector2D,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector2D * _Nonnull vector2D,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Write a TQ3Vector2D to a file.
@@ -2248,8 +2248,8 @@ Q3Uns8_Read repeatedly.
 <hr><a name="//Quesa/c/func/Q3Vector3D_Read"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Vector3D_Read">Q3Vector3D_Read</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Vector3D_Read (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector3D *vector3D,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector3D * _Nonnull vector3D,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Read a TQ3Vector3D from a file.
@@ -2267,8 +2267,8 @@ Q3Uns8_Read repeatedly.
 <hr><a name="//Quesa/c/func/Q3Vector3D_Write"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Vector3D_Write">Q3Vector3D_Write</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Vector3D_Write (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D *vector3D,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D * _Nonnull vector3D,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Write a TQ3Vector3D to a file.
@@ -2286,8 +2286,8 @@ Q3Uns8_Read repeatedly.
 <hr><a name="//Quesa/c/func/Q3ViewHints_GetAttributeSet"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewHints_GetAttributeSet">Q3ViewHints_GetAttributeSet</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ViewHints_GetAttributeSet (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewHintsObject viewHints,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet *attributeSet
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewHintsObject _Nonnull viewHints,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet _Nullable * _Nonnull attributeSet
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the attribute set from a view hints object.
@@ -2305,8 +2305,8 @@ Q3Uns8_Read repeatedly.
 <hr><a name="//Quesa/c/func/Q3ViewHints_GetCamera"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewHints_GetCamera">Q3ViewHints_GetCamera</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ViewHints_GetCamera (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewHintsObject viewHints,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject *camera
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewHintsObject _Nonnull viewHints,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nullable * _Nonnull camera
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the camera from a view hints object.
@@ -2324,8 +2324,8 @@ Q3Uns8_Read repeatedly.
 <hr><a name="//Quesa/c/func/Q3ViewHints_GetClearImageColor"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewHints_GetClearImageColor">Q3ViewHints_GetClearImageColor</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ViewHints_GetClearImageColor (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewHintsObject viewHints,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ColorARGB *color
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewHintsObject _Nonnull viewHints,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ColorARGB * _Nonnull color
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the clear image color from a view hints object.
@@ -2343,8 +2343,8 @@ Q3Uns8_Read repeatedly.
 <hr><a name="//Quesa/c/func/Q3ViewHints_GetClearImageMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewHints_GetClearImageMethod">Q3ViewHints_GetClearImageMethod</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ViewHints_GetClearImageMethod (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewHintsObject viewHints,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextClearImageMethod *clearMethod
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewHintsObject _Nonnull viewHints,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextClearImageMethod * _Nonnull clearMethod
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the clear image method from a view hints object.
@@ -2362,9 +2362,9 @@ Q3Uns8_Read repeatedly.
 <hr><a name="//Quesa/c/func/Q3ViewHints_GetDimensions"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewHints_GetDimensions">Q3ViewHints_GetDimensions</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ViewHints_GetDimensions (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewHintsObject viewHints,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 *width,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 *height
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewHintsObject _Nonnull viewHints,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 * _Nonnull width,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 * _Nonnull height
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the dimensions of a view hints object.
@@ -2383,8 +2383,8 @@ Q3Uns8_Read repeatedly.
 <hr><a name="//Quesa/c/func/Q3ViewHints_GetDimensionsState"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewHints_GetDimensionsState">Q3ViewHints_GetDimensionsState</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ViewHints_GetDimensionsState (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewHintsObject viewHints,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean *isValid
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewHintsObject _Nonnull viewHints,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean * _Nonnull isValid
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the dimension state of a view hints object.
@@ -2402,8 +2402,8 @@ Q3Uns8_Read repeatedly.
 <hr><a name="//Quesa/c/func/Q3ViewHints_GetLightGroup"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewHints_GetLightGroup">Q3ViewHints_GetLightGroup</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ViewHints_GetLightGroup (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewHintsObject viewHints,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject *lightGroup
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewHintsObject _Nonnull viewHints,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject _Nullable * _Nonnull lightGroup
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the light group from a view hints object.
@@ -2421,8 +2421,8 @@ Q3Uns8_Read repeatedly.
 <hr><a name="//Quesa/c/func/Q3ViewHints_GetMask"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewHints_GetMask">Q3ViewHints_GetMask</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ViewHints_GetMask (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewHintsObject viewHints,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Bitmap *mask
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewHintsObject _Nonnull viewHints,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Bitmap * _Nonnull mask
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the mask from a view hints object.
@@ -2440,8 +2440,8 @@ Q3Uns8_Read repeatedly.
 <hr><a name="//Quesa/c/func/Q3ViewHints_GetMaskState"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewHints_GetMaskState">Q3ViewHints_GetMaskState</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ViewHints_GetMaskState (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewHintsObject viewHints,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean *isValid
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewHintsObject _Nonnull viewHints,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean * _Nonnull isValid
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the mask state from a view hints object.
@@ -2459,8 +2459,8 @@ Q3Uns8_Read repeatedly.
 <hr><a name="//Quesa/c/func/Q3ViewHints_GetRenderer"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewHints_GetRenderer">Q3ViewHints_GetRenderer</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ViewHints_GetRenderer (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewHintsObject viewHints,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject *renderer
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewHintsObject _Nonnull viewHints,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject _Nullable * _Nonnull renderer
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the renderer from a view hints object.
@@ -2477,8 +2477,8 @@ Q3Uns8_Read repeatedly.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3ViewHints_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewHints_New">Q3ViewHints_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3ViewHintsObject ) Q3ViewHints_New (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ViewHintsObject _Nonnull ) Q3ViewHints_New (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new view hints object.
@@ -2495,8 +2495,8 @@ Q3Uns8_Read repeatedly.
 <hr><a name="//Quesa/c/func/Q3ViewHints_SetAttributeSet"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewHints_SetAttributeSet">Q3ViewHints_SetAttributeSet</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ViewHints_SetAttributeSet (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewHintsObject viewHints,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet attributeSet
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewHintsObject _Nonnull viewHints,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet _Nonnull attributeSet
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the attribute set for a view hints object.
@@ -2514,8 +2514,8 @@ Q3Uns8_Read repeatedly.
 <hr><a name="//Quesa/c/func/Q3ViewHints_SetCamera"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewHints_SetCamera">Q3ViewHints_SetCamera</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ViewHints_SetCamera (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewHintsObject viewHints,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject camera
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewHintsObject _Nonnull viewHints,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nonnull camera
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the camera for a view hints object.
@@ -2533,8 +2533,8 @@ Q3Uns8_Read repeatedly.
 <hr><a name="//Quesa/c/func/Q3ViewHints_SetClearImageColor"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewHints_SetClearImageColor">Q3ViewHints_SetClearImageColor</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ViewHints_SetClearImageColor (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewHintsObject viewHints,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorARGB *color
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewHintsObject _Nonnull viewHints,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorARGB * _Nonnull color
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the clear image color of a view hints object.
@@ -2552,7 +2552,7 @@ Q3Uns8_Read repeatedly.
 <hr><a name="//Quesa/c/func/Q3ViewHints_SetClearImageMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewHints_SetClearImageMethod">Q3ViewHints_SetClearImageMethod</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ViewHints_SetClearImageMethod (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewHintsObject viewHints,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewHintsObject _Nonnull viewHints,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextClearImageMethod clearMethod
 );</tt><br>
 </pre></blockquote>
@@ -2571,7 +2571,7 @@ Q3Uns8_Read repeatedly.
 <hr><a name="//Quesa/c/func/Q3ViewHints_SetDimensions"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewHints_SetDimensions">Q3ViewHints_SetDimensions</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ViewHints_SetDimensions (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewHintsObject viewHints,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewHintsObject _Nonnull viewHints,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 width,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 height
 );</tt><br>
@@ -2592,7 +2592,7 @@ Q3Uns8_Read repeatedly.
 <hr><a name="//Quesa/c/func/Q3ViewHints_SetDimensionsState"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewHints_SetDimensionsState">Q3ViewHints_SetDimensionsState</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ViewHints_SetDimensionsState (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewHintsObject viewHints,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewHintsObject _Nonnull viewHints,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean isValid
 );</tt><br>
 </pre></blockquote>
@@ -2611,8 +2611,8 @@ Q3Uns8_Read repeatedly.
 <hr><a name="//Quesa/c/func/Q3ViewHints_SetLightGroup"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewHints_SetLightGroup">Q3ViewHints_SetLightGroup</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ViewHints_SetLightGroup (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewHintsObject viewHints,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject lightGroup
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewHintsObject _Nonnull viewHints,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject _Nonnull lightGroup
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the light group for a view hints object.
@@ -2630,8 +2630,8 @@ Q3Uns8_Read repeatedly.
 <hr><a name="//Quesa/c/func/Q3ViewHints_SetMask"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewHints_SetMask">Q3ViewHints_SetMask</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ViewHints_SetMask (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewHintsObject viewHints,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Bitmap *mask
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewHintsObject _Nonnull viewHints,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Bitmap * _Nonnull mask
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the mask of a view hints object.
@@ -2649,7 +2649,7 @@ Q3Uns8_Read repeatedly.
 <hr><a name="//Quesa/c/func/Q3ViewHints_SetMaskState"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewHints_SetMaskState">Q3ViewHints_SetMaskState</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ViewHints_SetMaskState (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewHintsObject viewHints,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewHintsObject _Nonnull viewHints,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean isValid
 );</tt><br>
 </pre></blockquote>
@@ -2668,8 +2668,8 @@ Q3Uns8_Read repeatedly.
 <hr><a name="//Quesa/c/func/Q3ViewHints_SetRenderer"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ViewHints_SetRenderer">Q3ViewHints_SetRenderer</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ViewHints_SetRenderer (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewHintsObject viewHints,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject renderer
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewHintsObject _Nonnull viewHints,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject _Nonnull renderer
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the renderer for a view hints object.
@@ -2687,7 +2687,7 @@ Q3Uns8_Read repeatedly.
 <hr><a name="//Quesa/c/func/Q3View_EndWriting"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_EndWriting">Q3View_EndWriting</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3ViewStatus ) Q3View_EndWriting (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>End a writing loop.
@@ -2705,8 +2705,8 @@ Note that the result is a TQ3ViewStatus, not a TQ3Status.
 <hr><a name="//Quesa/c/func/Q3View_StartWriting"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_StartWriting">Q3View_StartWriting</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3View_StartWriting (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject theFile
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Start a writing loop.
@@ -2724,11 +2724,11 @@ Note that the result is a TQ3ViewStatus, not a TQ3Status.
 <hr><a name="//Quesa/c/func/Q3XView_SubmitSubObjectData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XView_SubmitSubObjectData">Q3XView_SubmitSubObjectData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XView_SubmitSubObjectData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3XObjectClass objectClass,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XObjectClass _Nonnull objectClass,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 size,
-&nbsp;&nbsp;&nbsp;&nbsp;void *data,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDataDeleteMethod deleteData
+&nbsp;&nbsp;&nbsp;&nbsp;void * _Nonnull data,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDataDeleteMethod _Nonnull deleteData
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit a sub-object to a view for writing.
@@ -2749,10 +2749,10 @@ Note that the result is a TQ3ViewStatus, not a TQ3Status.
 <hr><a name="//Quesa/c/func/Q3XView_SubmitWriteData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XView_SubmitWriteData">Q3XView_SubmitWriteData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XView_SubmitWriteData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Size size,
-&nbsp;&nbsp;&nbsp;&nbsp;void *data,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDataDeleteMethod deleteData
+&nbsp;&nbsp;&nbsp;&nbsp;void * _Nonnull data,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDataDeleteMethod _Nullable deleteData
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit data to a view for writing.
@@ -2769,5 +2769,5 @@ Note that the result is a TQ3ViewStatus, not a TQ3Status.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
-<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 5/27/2019)
 </p></body></html>

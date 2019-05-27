@@ -294,20 +294,32 @@ e3pick_hit_duplicate_path(TQ3HitPath *pickedPath, TQ3HitPath *newPath)
 
 
 
+	TQ3GroupPosition * srcPositions = pickedPath->positions;
+	if (srcPositions == nullptr)
+	{
+		return kQ3Failure;
+	}
+	TQ3GroupObject srcRoot = pickedPath->rootGroup;
+	if (srcRoot == nullptr)
+	{
+		return kQ3Failure;
+	}
+
 	// Duplicate the position array. Note that we assume group positions
 	// are simple objects and are not reference counted - this will cause
 	// a memory leak if this is ever changed.
 	theSize            = static_cast<TQ3Uns32>(pickedPath->depth * sizeof(TQ3GroupPosition));
-	newPath->positions = (TQ3GroupPosition *) Q3Memory_Allocate(theSize);
-	if (newPath->positions == nullptr)
+	TQ3GroupPosition * dstPositions = newPath->positions = (TQ3GroupPosition *) Q3Memory_Allocate(theSize);
+	if (dstPositions == nullptr)
 		return(kQ3Failure);
 
-	Q3Memory_Copy(pickedPath->positions, newPath->positions, theSize);
+
+	Q3Memory_Copy(srcPositions, dstPositions, theSize);
 
 
 
 	// Finish off the new hit path structure
-	newPath->rootGroup = Q3Shared_GetReference(pickedPath->rootGroup);
+	newPath->rootGroup = Q3Shared_GetReference( srcRoot );
 	newPath->depth     = pickedPath->depth;
 	
 	return(kQ3Success);

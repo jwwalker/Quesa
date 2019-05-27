@@ -7,11 +7,12 @@
 <h1><font face="Geneva,Arial,Helvtica">QuesaCustomElements.h</font></h1><br>
 <h2>Discussion</h2>
 Declares the standard Quesa custom elements, most inherited from QD3D.
- <hr><br><h2>Functions</h2>
+<br><br>
+<hr><br><h2>Functions</h2>
 <hr><a name="//Quesa/c/func/CENameElement_EmptyData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CENameElement_EmptyData">CENameElement_EmptyData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) CENameElement_EmptyData (
-&nbsp;&nbsp;&nbsp;&nbsp;char **name
+&nbsp;&nbsp;&nbsp;&nbsp;char * _Nonnull * _Nonnull name
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Release the data returned by CENameElement_GetData.
@@ -28,14 +29,14 @@ Declares the standard Quesa custom elements, most inherited from QD3D.
 <hr><a name="//Quesa/c/func/CENameElement_GetData "></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CENameElement_GetData ">CENameElement_GetData </a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) CENameElement_GetData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object object,
-&nbsp;&nbsp;&nbsp;&nbsp;char **name
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object _Nonnull object,
+&nbsp;&nbsp;&nbsp;&nbsp;char * _Nullable * _Nonnull name
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the name element for an object.
 <br><br>
-The name parameter will receive a C string, or nullptr if no name has
-been associated with the object. If a non-nullptr pointer is returned,
+The name parameter will receive a C string, or NULL if no name has
+been associated with the object. If a non-NULL pointer is returned,
 it must be disposed of with CENameElement_EmptyData.
 <br><br>
 </p>
@@ -53,14 +54,14 @@ it must be disposed of with CENameElement_EmptyData.
 </td></tr></table><hr><b>Availability:</b> This function is not available in QD3D.
 <br>
 <blockquote><pre><tt>( TQ3Status ) CENameElement_PeekData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object object,
-&nbsp;&nbsp;&nbsp;&nbsp;const char **name
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object _Nonnull object,
+&nbsp;&nbsp;&nbsp;&nbsp;const char * _Nullable * _Nonnull name
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the name element for an object.
 <br><br>
-The name parameter will receive a C string, or nullptr if no name has
-been associated with the object. If a non-nullptr pointer is returned,
+The name parameter will receive a C string, or NULL if no name has
+been associated with the object. If a non-NULL pointer is returned,
 it should be considered read-only and temporary.  Unlike
 CENameElement_GetData, this function returns the actual string within
 the element, not a copy.
@@ -78,8 +79,8 @@ the element, not a copy.
 <hr><a name="//Quesa/c/func/CENameElement_SetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CENameElement_SetData">CENameElement_SetData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) CENameElement_SetData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object object,
-&nbsp;&nbsp;&nbsp;&nbsp;const char *name
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object _Nonnull object,
+&nbsp;&nbsp;&nbsp;&nbsp;const char * _Nullable name
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the name element for an object.
@@ -92,7 +93,7 @@ by CENameElement_SetData.
 <blockquote>
 <dl>
 <dt><tt><em>object</em></tt></dt><dd>The object to assign the name to.</dd>
-<dt><tt><em>name</em></tt></dt><dd>The C string to associate with the object.</dd>
+<dt><tt><em>name</em></tt></dt><dd>The C string to associate with the object, or NULL to clear.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -101,8 +102,8 @@ by CENameElement_SetData.
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CESpecularMapElement_Copy">CESpecularMapElement_Copy</a></h2>
 </td></tr></table><hr>Retrieve a shininess map texture from an object.
 
-<blockquote><pre><tt>( TQ3TextureObject ) CESpecularMapElement_Copy (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShaderObject inShader
+<blockquote><pre><tt>( TQ3TextureObject _Nullable ) CESpecularMapElement_Copy (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShaderObject _Nonnull inShader
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
@@ -111,15 +112,15 @@ by CENameElement_SetData.
 <dt><tt><em>inShader</em></tt></dt><dd>A surface shader.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>A new reference to a texture, or nullptr.
+<dl><dt><i>function result</i></dt><dd>A new reference to a texture, or NULL.
 </dd></dl>
 <hr><a name="//Quesa/c/func/CESpecularMapElement_Set"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CESpecularMapElement_Set">CESpecularMapElement_Set</a></h2>
 </td></tr></table><hr>Set or remove a shininess map.
 
 <blockquote><pre><tt>( void ) CESpecularMapElement_Set (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShaderObject ioShader,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3TextureObject inTexture
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShaderObject _Nonnull ioShader,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TextureObject _Nullable inTexture
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>The specular map texture must be an RGBA texture.
@@ -147,9 +148,9 @@ enabled.
 </td></tr></table><hr>Get a triangle strip for the object.
 
 <blockquote><pre><tt>( TQ3Status ) CETriangleStripElement_GetData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object inObject,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32* outNumIndices,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Uns32** outIndices
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object _Nonnull inObject,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32* _Nonnull outNumIndices,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Uns32* _Nullable * _Nonnull outIndices
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Triangle strips are used by the OpenGL renderer as a speed
@@ -180,7 +181,7 @@ read-only and temporary.
 </td></tr></table><hr>Remove a triangle strip element if it exists.
 
 <blockquote><pre><tt>(void) CETriangleStripElement_Remove (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object ioObject
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object _Nonnull ioObject
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
@@ -194,9 +195,9 @@ read-only and temporary.
 </td></tr></table><hr>Set a triangle strip for the object.
 
 <blockquote><pre><tt>( TQ3Status ) CETriangleStripElement_SetData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object ioObject,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object _Nonnull ioObject,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 inNumIndices,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Uns32* inIndices
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Uns32* _Nonnull inIndices
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Triangle strips are used by the OpenGL renderer as a speed
@@ -207,7 +208,7 @@ will compute one, but this can take a little time.
 When you assign a triangle strip, the element also records the
 current edit index of the object.
 <br><br>
-You can pass 0 for inNumIndices and nullptr for inIndices to
+You can pass 0 for inNumIndices and NULL for inIndices to
 indicate that you want to avoid using a triangle strip, perhaps
 because there is no efficient strip for this geometry.
 <br><br>
@@ -226,7 +227,7 @@ because there is no efficient strip for this geometry.
 <hr><a name="//Quesa/c/func/CEUrlElement_EmptyData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CEUrlElement_EmptyData">CEUrlElement_EmptyData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) CEUrlElement_EmptyData (
-&nbsp;&nbsp;&nbsp;&nbsp;TCEUrlData **urlData
+&nbsp;&nbsp;&nbsp;&nbsp;TCEUrlData * _Nullable * _Nonnull urlData
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Release the data returned by CEUrlElement_GetData.
@@ -243,14 +244,14 @@ because there is no efficient strip for this geometry.
 <hr><a name="//Quesa/c/func/CEUrlElement_GetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CEUrlElement_GetData">CEUrlElement_GetData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) CEUrlElement_GetData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object object,
-&nbsp;&nbsp;&nbsp;&nbsp;TCEUrlData **urlData
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object _Nonnull object,
+&nbsp;&nbsp;&nbsp;&nbsp;TCEUrlData * _Nullable * _Nonnull urlData
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the URL element for an object.
 <br><br>
-The urlData parameter will receive a pointer to the URL data, or nullptr
-if no URL element has been associated with the object. If a non-nullptr
+The urlData parameter will receive a pointer to the URL data, or NULL
+if no URL element has been associated with the object. If a non-NULL
 pointer is returned, it must be disposed of with CEUrlElement_EmptyData.
 <br><br>
 </p>
@@ -266,8 +267,8 @@ pointer is returned, it must be disposed of with CEUrlElement_EmptyData.
 <hr><a name="//Quesa/c/func/CEUrlElement_SetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CEUrlElement_SetData">CEUrlElement_SetData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) CEUrlElement_SetData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object object,
-&nbsp;&nbsp;&nbsp;&nbsp;TCEUrlData *urlData
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object _Nonnull object,
+&nbsp;&nbsp;&nbsp;&nbsp;TCEUrlData * _Nonnull urlData
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the URL element for an object.
@@ -310,8 +311,8 @@ The URL element data will be copied by CEUrlElement_SetData.
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the QuickTime wired element for an object.
 <br><br>
-The wireData parameter will receive a QTAtomContainer, or nullptr if no
-wired element has been associated with the object. If a non-nullptr pointer
+The wireData parameter will receive a QTAtomContainer, or NULL if no
+wired element has been associated with the object. If a non-NULL pointer
 is returned, it must be disposed of with CEWireElement_EmptyData.
 <br><br>
 </p>
@@ -397,8 +398,8 @@ CETriangleStripElement_SetData, CETriangleStripElement_GetData.
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TCEUrlData">TCEUrlData</a></h2>
 </td></tr></table><hr><blockquote><pre>
 typedef struct TCEUrlData {
-    char                                        *url;
-    char                                        *description;
+    char                                        * _Nonnull url;
+    char                                        * _Nullable description;
     TCEUrlOptions                               options;
 } TCEUrlData;
 </pre>
@@ -435,5 +436,5 @@ typedef enum {
 <dt><a name="//Quesa/c/econst/kCEUrlOptionUseMap"><tt>kCEUrlOptionUseMap</tt></a></dt><dd>Map option set (meaning unknown).</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 5/27/2019)
 </p></body></html>

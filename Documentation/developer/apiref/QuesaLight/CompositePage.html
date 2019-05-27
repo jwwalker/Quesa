@@ -7,12 +7,13 @@
 <h1><font face="Geneva,Arial,Helvtica">QuesaLight.h</font></h1><br>
 <h2>Discussion</h2>
 Declares the Quesa light objects.
- <hr><br><h2>Functions</h2>
+<br><br>
+<hr><br><h2>Functions</h2>
 <hr><a name="//Quesa/c/func/Q3AmbientLight_GetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3AmbientLight_GetData">Q3AmbientLight_GetData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3AmbientLight_GetData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightData *lightData
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject _Nonnull light,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightData * _Nonnull lightData
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the data for an ambient light.
@@ -29,8 +30,8 @@ Declares the Quesa light objects.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3AmbientLight_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3AmbientLight_New">Q3AmbientLight_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3LightObject ) Q3AmbientLight_New (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3LightData *lightData
+</td></tr></table><hr><blockquote><pre><tt>( TQ3LightObject _Nonnull ) Q3AmbientLight_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3LightData * _Nonnull lightData
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new ambient light object.
@@ -47,8 +48,8 @@ Declares the Quesa light objects.
 <hr><a name="//Quesa/c/func/Q3AmbientLight_SetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3AmbientLight_SetData">Q3AmbientLight_SetData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3AmbientLight_SetData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3LightData *lightData
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject _Nonnull light,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3LightData * _Nonnull lightData
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the data for an ambient light.
@@ -66,8 +67,8 @@ Declares the Quesa light objects.
 <hr><a name="//Quesa/c/func/Q3DirectionalLight_GetCastShadowsState"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DirectionalLight_GetCastShadowsState">Q3DirectionalLight_GetCastShadowsState</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DirectionalLight_GetCastShadowsState (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean *castsShadows
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject _Nonnull light,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean * _Nonnull castsShadows
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the cast-shadow state of a directional light.
@@ -85,8 +86,8 @@ Declares the Quesa light objects.
 <hr><a name="//Quesa/c/func/Q3DirectionalLight_GetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DirectionalLight_GetData">Q3DirectionalLight_GetData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DirectionalLight_GetData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3DirectionalLightData *directionalLightData
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject _Nonnull light,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DirectionalLightData * _Nonnull directionalLightData
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the data for a directional light.
@@ -104,8 +105,8 @@ Declares the Quesa light objects.
 <hr><a name="//Quesa/c/func/Q3DirectionalLight_GetDirection"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DirectionalLight_GetDirection">Q3DirectionalLight_GetDirection</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DirectionalLight_GetDirection (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector3D *direction
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject _Nonnull light,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector3D * _Nonnull direction
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the direction of a directional light.
@@ -122,8 +123,8 @@ Declares the Quesa light objects.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3DirectionalLight_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DirectionalLight_New">Q3DirectionalLight_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3LightObject ) Q3DirectionalLight_New (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3DirectionalLightData *directionalLightData
+</td></tr></table><hr><blockquote><pre><tt>( TQ3LightObject _Nonnull ) Q3DirectionalLight_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3DirectionalLightData * _Nonnull directionalLightData
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new directional light object.
@@ -140,7 +141,7 @@ Declares the Quesa light objects.
 <hr><a name="//Quesa/c/func/Q3DirectionalLight_SetCastShadowsState"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DirectionalLight_SetCastShadowsState">Q3DirectionalLight_SetCastShadowsState</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DirectionalLight_SetCastShadowsState (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject _Nonnull light,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean castsShadows
 );</tt><br>
 </pre></blockquote>
@@ -159,8 +160,8 @@ Declares the Quesa light objects.
 <hr><a name="//Quesa/c/func/Q3DirectionalLight_SetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DirectionalLight_SetData">Q3DirectionalLight_SetData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DirectionalLight_SetData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3DirectionalLightData *directionalLightData
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject _Nonnull light,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3DirectionalLightData * _Nonnull directionalLightData
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the data for a directional light.
@@ -178,8 +179,8 @@ Declares the Quesa light objects.
 <hr><a name="//Quesa/c/func/Q3DirectionalLight_SetDirection"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DirectionalLight_SetDirection">Q3DirectionalLight_SetDirection</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3DirectionalLight_SetDirection (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D *direction
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject _Nonnull light,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D * _Nonnull direction
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the direction of a directional light.
@@ -197,8 +198,8 @@ Declares the Quesa light objects.
 <hr><a name="//Quesa/c/func/Q3Light_GetBrightness"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Light_GetBrightness">Q3Light_GetBrightness</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Light_GetBrightness (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
-&nbsp;&nbsp;&nbsp;&nbsp;float *brightness
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject _Nonnull light,
+&nbsp;&nbsp;&nbsp;&nbsp;float * _Nonnull brightness
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the brightness of a light.
@@ -216,8 +217,8 @@ Declares the Quesa light objects.
 <hr><a name="//Quesa/c/func/Q3Light_GetColor"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Light_GetColor">Q3Light_GetColor</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Light_GetColor (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ColorRGB *color
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject _Nonnull light,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ColorRGB * _Nonnull color
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the color of a light.
@@ -235,8 +236,8 @@ Declares the Quesa light objects.
 <hr><a name="//Quesa/c/func/Q3Light_GetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Light_GetData">Q3Light_GetData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Light_GetData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightData *lightData
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject _Nonnull light,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightData * _Nonnull lightData
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the common state of a light.
@@ -254,8 +255,8 @@ Declares the Quesa light objects.
 <hr><a name="//Quesa/c/func/Q3Light_GetState"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Light_GetState">Q3Light_GetState</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Light_GetState (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean *isOn
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject _Nonnull light,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean * _Nonnull isOn
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the on/off state of a light.
@@ -273,7 +274,7 @@ Declares the Quesa light objects.
 <hr><a name="//Quesa/c/func/Q3Light_GetType"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Light_GetType">Q3Light_GetType</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3ObjectType ) Q3Light_GetType (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject _Nonnull light
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the type of a light.
@@ -292,7 +293,7 @@ Returns kQ3ObjectTypeInvalid if the light type is unknown.
 <hr><a name="//Quesa/c/func/Q3Light_SetBrightness"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Light_SetBrightness">Q3Light_SetBrightness</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Light_SetBrightness (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject _Nonnull light,
 &nbsp;&nbsp;&nbsp;&nbsp;float brightness
 );</tt><br>
 </pre></blockquote>
@@ -311,8 +312,8 @@ Returns kQ3ObjectTypeInvalid if the light type is unknown.
 <hr><a name="//Quesa/c/func/Q3Light_SetColor"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Light_SetColor">Q3Light_SetColor</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Light_SetColor (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorRGB *color
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject _Nonnull light,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorRGB * _Nonnull color
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the color of a light.
@@ -330,8 +331,8 @@ Returns kQ3ObjectTypeInvalid if the light type is unknown.
 <hr><a name="//Quesa/c/func/Q3Light_SetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Light_SetData">Q3Light_SetData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Light_SetData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3LightData *lightData
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject _Nonnull light,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3LightData * _Nonnull lightData
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the common state for a light.
@@ -349,7 +350,7 @@ Returns kQ3ObjectTypeInvalid if the light type is unknown.
 <hr><a name="//Quesa/c/func/Q3Light_SetState"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Light_SetState">Q3Light_SetState</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Light_SetState (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject _Nonnull light,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean isOn
 );</tt><br>
 </pre></blockquote>
@@ -368,8 +369,8 @@ Returns kQ3ObjectTypeInvalid if the light type is unknown.
 <hr><a name="//Quesa/c/func/Q3PointLight_GetAttenuation"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PointLight_GetAttenuation">Q3PointLight_GetAttenuation</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3PointLight_GetAttenuation (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttenuationType *attenuation
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject _Nonnull light,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttenuationType * _Nonnull attenuation
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the attenuation of a point light.
@@ -387,8 +388,8 @@ Returns kQ3ObjectTypeInvalid if the light type is unknown.
 <hr><a name="//Quesa/c/func/Q3PointLight_GetCastShadowsState"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PointLight_GetCastShadowsState">Q3PointLight_GetCastShadowsState</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3PointLight_GetCastShadowsState (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean *castsShadows
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject _Nonnull light,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean * _Nonnull castsShadows
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the cast-shadow state of a point light.
@@ -406,8 +407,8 @@ Returns kQ3ObjectTypeInvalid if the light type is unknown.
 <hr><a name="//Quesa/c/func/Q3PointLight_GetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PointLight_GetData">Q3PointLight_GetData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3PointLight_GetData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3PointLightData *pointLightData
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject _Nonnull light,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3PointLightData * _Nonnull pointLightData
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the data for a point light.
@@ -425,8 +426,8 @@ Returns kQ3ObjectTypeInvalid if the light type is unknown.
 <hr><a name="//Quesa/c/func/Q3PointLight_GetLocation"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PointLight_GetLocation">Q3PointLight_GetLocation</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3PointLight_GetLocation (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point3D *location
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject _Nonnull light,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point3D * _Nonnull location
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the location of a point light.
@@ -444,8 +445,8 @@ Returns kQ3ObjectTypeInvalid if the light type is unknown.
 <hr><a name="//Quesa/c/func/Q3PointLight_GetRadius"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PointLight_GetRadius">Q3PointLight_GetRadius</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3PointLight_GetRadius (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Float32 *radius
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject _Nonnull light,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Float32 * _Nonnull radius
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the radius of a point light.
@@ -465,8 +466,8 @@ The unit is related with the scale of the scene.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3PointLight_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PointLight_New">Q3PointLight_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3LightObject ) Q3PointLight_New (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3PointLightData *pointLightData
+</td></tr></table><hr><blockquote><pre><tt>( TQ3LightObject _Nonnull ) Q3PointLight_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3PointLightData * _Nonnull pointLightData
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new point light object.
@@ -483,7 +484,7 @@ The unit is related with the scale of the scene.
 <hr><a name="//Quesa/c/func/Q3PointLight_SetAttenuation"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PointLight_SetAttenuation">Q3PointLight_SetAttenuation</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3PointLight_SetAttenuation (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject _Nonnull light,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3AttenuationType attenuation
 );</tt><br>
 </pre></blockquote>
@@ -502,7 +503,7 @@ The unit is related with the scale of the scene.
 <hr><a name="//Quesa/c/func/Q3PointLight_SetCastShadowsState"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PointLight_SetCastShadowsState">Q3PointLight_SetCastShadowsState</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3PointLight_SetCastShadowsState (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject _Nonnull light,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean castsShadows
 );</tt><br>
 </pre></blockquote>
@@ -521,8 +522,8 @@ The unit is related with the scale of the scene.
 <hr><a name="//Quesa/c/func/Q3PointLight_SetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PointLight_SetData">Q3PointLight_SetData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3PointLight_SetData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3PointLightData *pointLightData
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject _Nonnull light,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3PointLightData * _Nonnull pointLightData
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the data for a point light.
@@ -540,8 +541,8 @@ The unit is related with the scale of the scene.
 <hr><a name="//Quesa/c/func/Q3PointLight_SetLocation"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PointLight_SetLocation">Q3PointLight_SetLocation</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3PointLight_SetLocation (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D *location
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject _Nonnull light,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D * _Nonnull location
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the location of a point light.
@@ -559,7 +560,7 @@ The unit is related with the scale of the scene.
 <hr><a name="//Quesa/c/func/Q3PointLight_SetRadius"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PointLight_SetRadius">Q3PointLight_SetRadius</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3PointLight_SetRadius (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject _Nonnull light,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Float32 radius
 );</tt><br>
 </pre></blockquote>
@@ -581,8 +582,8 @@ The unit is related with the scale of the scene.
 <hr><a name="//Quesa/c/func/Q3SpotLight_GetAttenuation"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SpotLight_GetAttenuation">Q3SpotLight_GetAttenuation</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3SpotLight_GetAttenuation (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttenuationType *attenuation
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject _Nonnull light,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttenuationType * _Nonnull attenuation
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the attenuation of a spot light.
@@ -600,8 +601,8 @@ The unit is related with the scale of the scene.
 <hr><a name="//Quesa/c/func/Q3SpotLight_GetCastShadowsState"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SpotLight_GetCastShadowsState">Q3SpotLight_GetCastShadowsState</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3SpotLight_GetCastShadowsState (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean *castsShadows
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject _Nonnull light,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean * _Nonnull castsShadows
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the cast-shadow state of a spot light.
@@ -619,8 +620,8 @@ The unit is related with the scale of the scene.
 <hr><a name="//Quesa/c/func/Q3SpotLight_GetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SpotLight_GetData">Q3SpotLight_GetData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3SpotLight_GetData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3SpotLightData *spotLightData
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject _Nonnull light,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3SpotLightData * _Nonnull spotLightData
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the data for a spot light.
@@ -638,8 +639,8 @@ The unit is related with the scale of the scene.
 <hr><a name="//Quesa/c/func/Q3SpotLight_GetDirection"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SpotLight_GetDirection">Q3SpotLight_GetDirection</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3SpotLight_GetDirection (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector3D *direction
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject _Nonnull light,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector3D * _Nonnull direction
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the direction of a spot light.
@@ -657,8 +658,8 @@ The unit is related with the scale of the scene.
 <hr><a name="//Quesa/c/func/Q3SpotLight_GetFallOff"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SpotLight_GetFallOff">Q3SpotLight_GetFallOff</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3SpotLight_GetFallOff (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3FallOffType *fallOff
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject _Nonnull light,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FallOffType * _Nonnull fallOff
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the fall off of a spot light.
@@ -676,8 +677,8 @@ The unit is related with the scale of the scene.
 <hr><a name="//Quesa/c/func/Q3SpotLight_GetHotAngle"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SpotLight_GetHotAngle">Q3SpotLight_GetHotAngle</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3SpotLight_GetHotAngle (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
-&nbsp;&nbsp;&nbsp;&nbsp;float *hotAngle
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject _Nonnull light,
+&nbsp;&nbsp;&nbsp;&nbsp;float * _Nonnull hotAngle
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the hot angle of a spot light.
@@ -695,8 +696,8 @@ The unit is related with the scale of the scene.
 <hr><a name="//Quesa/c/func/Q3SpotLight_GetLocation"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SpotLight_GetLocation">Q3SpotLight_GetLocation</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3SpotLight_GetLocation (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point3D *location
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject _Nonnull light,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point3D * _Nonnull location
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the location of a spot light.
@@ -714,8 +715,8 @@ The unit is related with the scale of the scene.
 <hr><a name="//Quesa/c/func/Q3SpotLight_GetOuterAngle"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SpotLight_GetOuterAngle">Q3SpotLight_GetOuterAngle</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3SpotLight_GetOuterAngle (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
-&nbsp;&nbsp;&nbsp;&nbsp;float *outerAngle
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject _Nonnull light,
+&nbsp;&nbsp;&nbsp;&nbsp;float * _Nonnull outerAngle
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the outer angle of a spot light.
@@ -732,8 +733,8 @@ The unit is related with the scale of the scene.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3SpotLight_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SpotLight_New">Q3SpotLight_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3LightObject ) Q3SpotLight_New (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3SpotLightData *spotLightData
+</td></tr></table><hr><blockquote><pre><tt>( TQ3LightObject _Nonnull ) Q3SpotLight_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3SpotLightData * _Nonnull spotLightData
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new spot light object.
@@ -750,7 +751,7 @@ The unit is related with the scale of the scene.
 <hr><a name="//Quesa/c/func/Q3SpotLight_SetAttenuation"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SpotLight_SetAttenuation">Q3SpotLight_SetAttenuation</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3SpotLight_SetAttenuation (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject _Nonnull light,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3AttenuationType attenuation
 );</tt><br>
 </pre></blockquote>
@@ -769,7 +770,7 @@ The unit is related with the scale of the scene.
 <hr><a name="//Quesa/c/func/Q3SpotLight_SetCastShadowsState"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SpotLight_SetCastShadowsState">Q3SpotLight_SetCastShadowsState</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3SpotLight_SetCastShadowsState (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject _Nonnull light,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean castsShadows
 );</tt><br>
 </pre></blockquote>
@@ -788,8 +789,8 @@ The unit is related with the scale of the scene.
 <hr><a name="//Quesa/c/func/Q3SpotLight_SetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SpotLight_SetData">Q3SpotLight_SetData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3SpotLight_SetData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3SpotLightData *spotLightData
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject _Nonnull light,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3SpotLightData * _Nonnull spotLightData
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the data for a spot light.
@@ -807,8 +808,8 @@ The unit is related with the scale of the scene.
 <hr><a name="//Quesa/c/func/Q3SpotLight_SetDirection"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SpotLight_SetDirection">Q3SpotLight_SetDirection</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3SpotLight_SetDirection (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D *direction
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject _Nonnull light,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D * _Nonnull direction
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the direction of a spot light.
@@ -826,7 +827,7 @@ The unit is related with the scale of the scene.
 <hr><a name="//Quesa/c/func/Q3SpotLight_SetFallOff"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SpotLight_SetFallOff">Q3SpotLight_SetFallOff</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3SpotLight_SetFallOff (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject _Nonnull light,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3FallOffType fallOff
 );</tt><br>
 </pre></blockquote>
@@ -845,7 +846,7 @@ The unit is related with the scale of the scene.
 <hr><a name="//Quesa/c/func/Q3SpotLight_SetHotAngle"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SpotLight_SetHotAngle">Q3SpotLight_SetHotAngle</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3SpotLight_SetHotAngle (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject _Nonnull light,
 &nbsp;&nbsp;&nbsp;&nbsp;float hotAngle
 );</tt><br>
 </pre></blockquote>
@@ -864,8 +865,8 @@ The unit is related with the scale of the scene.
 <hr><a name="//Quesa/c/func/Q3SpotLight_SetLocation"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SpotLight_SetLocation">Q3SpotLight_SetLocation</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3SpotLight_SetLocation (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D *location
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject _Nonnull light,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D * _Nonnull location
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the location for a spot light.
@@ -883,7 +884,7 @@ The unit is related with the scale of the scene.
 <hr><a name="//Quesa/c/func/Q3SpotLight_SetOuterAngle"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SpotLight_SetOuterAngle">Q3SpotLight_SetOuterAngle</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3SpotLight_SetOuterAngle (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject light,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject _Nonnull light,
 &nbsp;&nbsp;&nbsp;&nbsp;float outerAngle
 );</tt><br>
 </pre></blockquote>
@@ -1105,5 +1106,5 @@ f(x) = 2 * x * x * x - 3 * x * x + 1.
 (This fall-off type did not exist in QD3D.)</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 5/27/2019)
 </p></body></html>

@@ -110,9 +110,9 @@ typedef TQ3Int32                                TQ3ObjectType;
 </td></tr></table><hr>Callback used by Q3Object_IterateProperties.
 
 <blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status, TQ3PropertyIterator</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object object,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object _Nonnull object,<BR>
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType propType,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;void *userData<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;void * _Nullable userData<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
@@ -182,5 +182,5 @@ typedef TQ3Uns32                                TQ3XMethodType;
 typedef struct OpaqueTQ3XObjectClass            *TQ3XObjectClass;
 </pre>
 </blockquote>
-<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 5/27/2019)
 </p></body></html>

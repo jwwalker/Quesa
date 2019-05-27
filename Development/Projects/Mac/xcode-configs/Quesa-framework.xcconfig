@@ -1,10 +1,11 @@
 // The base path where build products will be placed during a build for a given configuration.
-CONFIGURATION_BUILD_DIR = $(PROJECT_DIR)/../../../SDK/Libraries/Mac/Framework_$(PROJECT_NICKNAME)/$(CONFIGURATION)
+//CONFIGURATION_BUILD_DIR = $(PROJECT_DIR)/../../../SDK/Libraries/Mac/Framework_$(PROJECT_NICKNAME)/$(CONFIGURATION)
 
 // Build as Framework.
 LIBRARY_STYLE = DYNAMIC
 WRAPPER_EXTENSION = framework
 INSTALL_PATH = @executable_path/../Frameworks/
+SKIP_INSTALL = YES
 
 // Info.plist.  Preprocess it so that the version placeholder is replaced with the actual version.
 INFOPLIST_FILE = ../../Source/Platform/Mac/Resources/Info.plist

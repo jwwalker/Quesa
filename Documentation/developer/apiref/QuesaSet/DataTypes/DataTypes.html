@@ -16,8 +16,8 @@ typedef TQ3ElementType                          TQ3AttributeType;
 <hr><a name="//Quesa/c/tdef/TQ3XAttributeCopyInheritMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XAttributeCopyInheritMethod">TQ3XAttributeCopyInheritMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,           TQ3XAttributeCopyInheritMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;const void          *fromInternalAttribute,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;void                *toInternalAttribute<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;const void          * _Nonnull fromInternalAttribute,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;void                * _Nonnull toInternalAttribute<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>If your custom attribute supports inheritance, this method is called to
 copy attribute data from a parent set to a child set.
@@ -34,7 +34,7 @@ copy attribute data from a parent set to a child set.
 <hr><a name="//Quesa/c/tdef/TQ3XAttributeDefaultMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XAttributeDefaultMethod">TQ3XAttributeDefaultMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,           TQ3XAttributeDefaultMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;void                *internalAttribute<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;void                * _Nonnull internalAttribute<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>This method does not appear to be mentioned in the QuickDraw 3D documentation,
 and is not currently used in Quesa.
@@ -51,7 +51,7 @@ report whether a custom attribute supports inheritance.
 <hr><a name="//Quesa/c/tdef/TQ3XAttributeIsDefaultMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XAttributeIsDefaultMethod">TQ3XAttributeIsDefaultMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Boolean,          TQ3XAttributeIsDefaultMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;void                *internalAttribute<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;void                * _Nonnull internalAttribute<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>This method does not appear to be mentioned in the QuickDraw 3D documentation,
 and is not currently used in Quesa.
@@ -59,8 +59,8 @@ and is not currently used in Quesa.
 <hr><a name="//Quesa/c/tdef/TQ3XElementCopyAddMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XElementCopyAddMethod">TQ3XElementCopyAddMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,           TQ3XElementCopyAddMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;const void          *fromAPIElement,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;void                *toInternalElement<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;const void          * _Nonnull fromAPIElement,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;void                * _Nonnull toInternalElement<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>This method is called to add a new element to a set, as by <code>Q3Set_Add</code> or
 <code>Q3Shape_AddElement</code>.  On entry, <code>toInternalElement</code> points to an uninitialized
@@ -79,8 +79,8 @@ is the size you provided when registering the class.
 <hr><a name="//Quesa/c/tdef/TQ3XElementCopyDuplicateMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XElementCopyDuplicateMethod">TQ3XElementCopyDuplicateMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,           TQ3XElementCopyDuplicateMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;const void          *fromInternalElement,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;void                *toInternalElement<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;const void          * _Nonnull fromInternalElement,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;void                * _Nonnull toInternalElement<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>This method is called when <code>Q3Object_Duplicate</code> is used on a set or attribute set. 
 <br><br>
@@ -96,8 +96,8 @@ is the size you provided when registering the class.
 <hr><a name="//Quesa/c/tdef/TQ3XElementCopyGetMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XElementCopyGetMethod">TQ3XElementCopyGetMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,           TQ3XElementCopyGetMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;const void          *fromInternalElement,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;void                *toAPIElement<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;const void          * _Nonnull fromInternalElement,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;void                * _Nonnull toAPIElement<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>This method is called to copy element data out of a set, as by <code>Q3Set_Get</code> or
 <code>Q3Shape_GetElement</code>.  If you do not provide this method, the default action is
@@ -115,8 +115,8 @@ a memory copy of <code>sizeOfElement</code> bytes.
 <hr><a name="//Quesa/c/tdef/TQ3XElementCopyReplaceMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XElementCopyReplaceMethod">TQ3XElementCopyReplaceMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,           TQ3XElementCopyReplaceMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;const void          *fromAPIElement,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;void                *toInternalElement<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;const void          * _Nonnull fromAPIElement,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;void                * _Nonnull toInternalElement<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>This method is called to replace an existing element in a set, as by <code>Q3Set_Add</code> or
 <code>Q3Shape_AddElement</code>.  On entry, <code>toInternalElement</code> points to existing element data,
@@ -134,7 +134,7 @@ which you may need to dispose before replacing by new data.
 <hr><a name="//Quesa/c/tdef/TQ3XElementDeleteMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XElementDeleteMethod">TQ3XElementDeleteMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,           TQ3XElementDeleteMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;void                *internalElement<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;void                * _Nonnull internalElement<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>This method is called to delete element data from a set or attribute set. 
 <br><br>
@@ -146,5 +146,5 @@ which you may need to dispose before replacing by new data.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the method.
 </dd></dl>
-<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 5/27/2019)
 </p></body></html>

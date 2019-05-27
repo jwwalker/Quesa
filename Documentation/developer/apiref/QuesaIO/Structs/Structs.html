@@ -11,7 +11,7 @@
 typedef struct TQ3FFormatBaseData {
     // Initialised by Quesa
     TQ3Uns32                                    baseDataVersion;
-    TQ3StorageObject                            storage;
+    TQ3StorageObject _Nonnull                   storage;
     TQ3Uns32                                    currentStoragePosition;
     TQ3Uns32                                    logicalEOF;
     // Initialised by the importer
@@ -20,9 +20,9 @@ typedef struct TQ3FFormatBaseData {
     TQ3Endian                                   byteOrder;
     TQ3Boolean                                  readInGroup;
     TQ3Int32                                    groupDeepCounter;
-    TQ3Uns32                                    *reserved1;
-    TQ3Uns32                                    *reserved2;
-    TQ3Uns32                                    *reserved3;
+    TQ3Uns32                                    * _Nonnull reserved1;
+    TQ3Uns32                                    * _Nonnull reserved2;
+    TQ3Uns32                                    * _Nonnull reserved3;
 } TQ3FFormatBaseData;
 </pre>
 </blockquote>
@@ -51,7 +51,7 @@ typedef struct TQ3UnknownBinaryData {
     TQ3ObjectType                               objectType;
     TQ3Size                                     size;
     TQ3Endian                                   byteOrder;
-    char                                        *contents;
+    char                                        * _Nullable contents;
 } TQ3UnknownBinaryData;
 </pre>
 </blockquote>
@@ -71,8 +71,8 @@ typedef struct TQ3UnknownBinaryData {
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3UnknownTextData">TQ3UnknownTextData</a></h2>
 </td></tr></table><hr><blockquote><pre>
 typedef struct TQ3UnknownTextData {
-    char                                        *objectName;
-    char                                        *contents;
+    char                                        * _Nullable objectName;
+    char                                        * _Nonnull contents;
 } TQ3UnknownTextData;
 </pre>
 </blockquote>
@@ -86,5 +86,5 @@ typedef struct TQ3UnknownTextData {
 <dt><tt>contents</tt></dt><dd>The data for the object.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 5/27/2019)
 </p></body></html>

@@ -7,12 +7,13 @@
 <h1><font face="Geneva,Arial,Helvtica">QuesaTransform.h</font></h1><br>
 <h2>Discussion</h2>
 Declares the Quesa transform functions.
- <hr><br><h2>Functions</h2>
+<br><br>
+<hr><br><h2>Functions</h2>
 <hr><a name="//Quesa/c/func/Q3CameraTransform_Get"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3CameraTransform_Get">Q3CameraTransform_Get</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3CameraTransform_Get (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject theTransform,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraTransformData *theData
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject _Nonnull theTransform,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraTransformData * _Nonnull theData
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the data of a camera transform object.
@@ -31,8 +32,8 @@ Declares the Quesa transform functions.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3CameraTransform_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3CameraTransform_New">Q3CameraTransform_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3TransformObject ) Q3CameraTransform_New (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3CameraTransformData *theData
+</td></tr></table><hr><blockquote><pre><tt>( TQ3TransformObject _Nullable ) Q3CameraTransform_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3CameraTransformData * _Nonnull theData
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new camera transform object.
@@ -51,8 +52,8 @@ Declares the Quesa transform functions.
 <hr><a name="//Quesa/c/func/Q3CameraTransform_Set"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3CameraTransform_Set">Q3CameraTransform_Set</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3CameraTransform_Set (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject theTransform,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3CameraTransformData *theData
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject _Nonnull theTransform,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3CameraTransformData * _Nonnull theData
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the data of a camera transform object.
@@ -72,8 +73,8 @@ Declares the Quesa transform functions.
 <hr><a name="//Quesa/c/func/Q3CameraTransform_Submit"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3CameraTransform_Submit">Q3CameraTransform_Submit</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3CameraTransform_Submit (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3CameraTransformData *theData,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject theView
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3CameraTransformData * _Nonnull theData,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull theView
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit a camera transform in immediate mode. Should only be called
@@ -94,8 +95,8 @@ within a submitting loop.
 <hr><a name="//Quesa/c/func/Q3MatrixTransform_Get"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MatrixTransform_Get">Q3MatrixTransform_Get</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3MatrixTransform_Get (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix4x4 *matrix
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject _Nonnull transform,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix4x4 * _Nonnull matrix
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the matrix of a matrix transform.
@@ -112,8 +113,8 @@ within a submitting loop.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3MatrixTransform_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MatrixTransform_New">Q3MatrixTransform_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3TransformObject ) Q3MatrixTransform_New (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix4x4 *matrix
+</td></tr></table><hr><blockquote><pre><tt>( TQ3TransformObject _Nullable ) Q3MatrixTransform_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix4x4 * _Nonnull matrix
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new matrix transform.
@@ -130,8 +131,8 @@ within a submitting loop.
 <hr><a name="//Quesa/c/func/Q3MatrixTransform_Set"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MatrixTransform_Set">Q3MatrixTransform_Set</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3MatrixTransform_Set (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix4x4 *matrix
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject _Nonnull transform,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix4x4 * _Nonnull matrix
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Change the matrix of a matrix transform.
@@ -149,8 +150,8 @@ within a submitting loop.
 <hr><a name="//Quesa/c/func/Q3MatrixTransform_Submit"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MatrixTransform_Submit">Q3MatrixTransform_Submit</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3MatrixTransform_Submit (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix4x4 *matrix,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix4x4 * _Nonnull matrix,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit a matrix transform in immediate mode.
@@ -169,8 +170,8 @@ Should only be used within a submitting loop.
 <hr><a name="//Quesa/c/func/Q3QuaternionTransform_Get"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3QuaternionTransform_Get">Q3QuaternionTransform_Get</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3QuaternionTransform_Get (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Quaternion *quaternion
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject _Nonnull transform,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Quaternion * _Nonnull quaternion
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the quaternion data of a quaternion transform object.
@@ -187,8 +188,8 @@ Should only be used within a submitting loop.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3QuaternionTransform_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3QuaternionTransform_New">Q3QuaternionTransform_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3TransformObject ) Q3QuaternionTransform_New (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Quaternion *quaternion
+</td></tr></table><hr><blockquote><pre><tt>( TQ3TransformObject _Nullable ) Q3QuaternionTransform_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Quaternion * _Nonnull quaternion
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new quaternion transform object.
@@ -205,8 +206,8 @@ Should only be used within a submitting loop.
 <hr><a name="//Quesa/c/func/Q3QuaternionTransform_Set"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3QuaternionTransform_Set">Q3QuaternionTransform_Set</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3QuaternionTransform_Set (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Quaternion *quaternion
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject _Nonnull transform,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Quaternion * _Nonnull quaternion
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Change the quaternion data of a quaternion transform object.
@@ -224,8 +225,8 @@ Should only be used within a submitting loop.
 <hr><a name="//Quesa/c/func/Q3QuaternionTransform_Submit"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3QuaternionTransform_Submit">Q3QuaternionTransform_Submit</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3QuaternionTransform_Submit (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Quaternion *quaternion,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Quaternion * _Nonnull quaternion,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit a quaternion transform in immediate mode.  Should only be called
@@ -243,7 +244,7 @@ within a submitting loop.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3RasterizeCameraTransform_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RasterizeCameraTransform_New">Q3RasterizeCameraTransform_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3TransformObject ) Q3RasterizeCameraTransform_New (void);</tt><br>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3TransformObject _Nullable ) Q3RasterizeCameraTransform_New (void);</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new rasterize camera transform object.
 <br><br>
@@ -273,7 +274,7 @@ the scene.
 <hr><a name="//Quesa/c/func/Q3RasterizeCameraTransform_Submit"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RasterizeCameraTransform_Submit">Q3RasterizeCameraTransform_Submit</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RasterizeCameraTransform_Submit (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject theView
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull theView
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit a rasterize camera transform in immediate mode. Should only
@@ -292,7 +293,7 @@ be called within a submitting loop.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3ResetTransform_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ResetTransform_New">Q3ResetTransform_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3TransformObject ) Q3ResetTransform_New (void);</tt><br>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3TransformObject _Nullable ) Q3ResetTransform_New (void);</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new reset transform.
 <br><br>
@@ -306,7 +307,7 @@ transform is a shortcut which sets the current transform to the identity.
 <hr><a name="//Quesa/c/func/Q3ResetTransform_Submit"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ResetTransform_Submit">Q3ResetTransform_Submit</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ResetTransform_Submit (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit a reset transform in immediate mode.  This should only be called
@@ -324,8 +325,8 @@ within a submitting loop.
 <hr><a name="//Quesa/c/func/Q3RotateAboutAxisTransform_GetAngle"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateAboutAxisTransform_GetAngle">Q3RotateAboutAxisTransform_GetAngle</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RotateAboutAxisTransform_GetAngle (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
-&nbsp;&nbsp;&nbsp;&nbsp;float *radians
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject _Nonnull transform,
+&nbsp;&nbsp;&nbsp;&nbsp;float * _Nonnull radians
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the angle of rotation of a rotate-about-axis transform object.
@@ -343,8 +344,8 @@ within a submitting loop.
 <hr><a name="//Quesa/c/func/Q3RotateAboutAxisTransform_GetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateAboutAxisTransform_GetData">Q3RotateAboutAxisTransform_GetData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RotateAboutAxisTransform_GetData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RotateAboutAxisTransformData *data
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject _Nonnull transform,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RotateAboutAxisTransformData * _Nonnull data
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the state of a rotate-about-axis transform object.
@@ -362,8 +363,8 @@ within a submitting loop.
 <hr><a name="//Quesa/c/func/Q3RotateAboutAxisTransform_GetOrientation"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateAboutAxisTransform_GetOrientation">Q3RotateAboutAxisTransform_GetOrientation</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RotateAboutAxisTransform_GetOrientation (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector3D *axis
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject _Nonnull transform,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector3D * _Nonnull axis
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the axis direction of a rotate-about-axis transform object.
@@ -381,8 +382,8 @@ within a submitting loop.
 <hr><a name="//Quesa/c/func/Q3RotateAboutAxisTransform_GetOrigin"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateAboutAxisTransform_GetOrigin">Q3RotateAboutAxisTransform_GetOrigin</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RotateAboutAxisTransform_GetOrigin (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point3D *origin
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject _Nonnull transform,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point3D * _Nonnull origin
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get a point lying on the axis of a rotate-about-axis transform object.
@@ -399,8 +400,8 @@ within a submitting loop.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3RotateAboutAxisTransform_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateAboutAxisTransform_New">Q3RotateAboutAxisTransform_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3TransformObject ) Q3RotateAboutAxisTransform_New (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RotateAboutAxisTransformData *data
+</td></tr></table><hr><blockquote><pre><tt>( TQ3TransformObject _Nullable ) Q3RotateAboutAxisTransform_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RotateAboutAxisTransformData * _Nonnull data
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new transform object for rotation about an arbitrary axis.
@@ -413,12 +414,12 @@ Note that the orientation vector must be normalized.
 <dt><tt><em>data</em></tt></dt><dd>Structure specifying the initial state of the transform.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>A new rotate-about-axis transform object, or nullptr on failure.
+<dl><dt><i>function result</i></dt><dd>A new rotate-about-axis transform object, or NULL on failure.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3RotateAboutAxisTransform_SetAngle"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateAboutAxisTransform_SetAngle">Q3RotateAboutAxisTransform_SetAngle</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RotateAboutAxisTransform_SetAngle (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject _Nonnull transform,
 &nbsp;&nbsp;&nbsp;&nbsp;float radians
 );</tt><br>
 </pre></blockquote>
@@ -437,8 +438,8 @@ Note that the orientation vector must be normalized.
 <hr><a name="//Quesa/c/func/Q3RotateAboutAxisTransform_SetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateAboutAxisTransform_SetData">Q3RotateAboutAxisTransform_SetData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RotateAboutAxisTransform_SetData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RotateAboutAxisTransformData *data
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject _Nonnull transform,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RotateAboutAxisTransformData * _Nonnull data
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the state of a rotate-about-axis transform object.
@@ -456,8 +457,8 @@ Note that the orientation vector must be normalized.
 <hr><a name="//Quesa/c/func/Q3RotateAboutAxisTransform_SetOrientation"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateAboutAxisTransform_SetOrientation">Q3RotateAboutAxisTransform_SetOrientation</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RotateAboutAxisTransform_SetOrientation (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D *axis
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject _Nonnull transform,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D * _Nonnull axis
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the axis direction of a rotate-about-axis transform object.
@@ -476,8 +477,8 @@ You must provide a normalized vector.
 <hr><a name="//Quesa/c/func/Q3RotateAboutAxisTransform_SetOrigin"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateAboutAxisTransform_SetOrigin">Q3RotateAboutAxisTransform_SetOrigin</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RotateAboutAxisTransform_SetOrigin (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D *origin
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject _Nonnull transform,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D * _Nonnull origin
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Specify a new point lying on the axis of a rotate-about-axis transform object.
@@ -495,8 +496,8 @@ You must provide a normalized vector.
 <hr><a name="//Quesa/c/func/Q3RotateAboutAxisTransform_Submit"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateAboutAxisTransform_Submit">Q3RotateAboutAxisTransform_Submit</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RotateAboutAxisTransform_Submit (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RotateAboutAxisTransformData *data,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RotateAboutAxisTransformData * _Nonnull data,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit a rotate-about-axis transform in immediate mode.
@@ -515,8 +516,8 @@ Should only be called within a submitting loop.
 <hr><a name="//Quesa/c/func/Q3RotateAboutPointTransform_GetAboutPoint"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateAboutPointTransform_GetAboutPoint">Q3RotateAboutPointTransform_GetAboutPoint</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RotateAboutPointTransform_GetAboutPoint (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point3D *about
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject _Nonnull transform,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point3D * _Nonnull about
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get a point on the axis of rotation of a rotate-about-point transform.
@@ -534,8 +535,8 @@ Should only be called within a submitting loop.
 <hr><a name="//Quesa/c/func/Q3RotateAboutPointTransform_GetAngle"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateAboutPointTransform_GetAngle">Q3RotateAboutPointTransform_GetAngle</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RotateAboutPointTransform_GetAngle (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
-&nbsp;&nbsp;&nbsp;&nbsp;float *radians
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject _Nonnull transform,
+&nbsp;&nbsp;&nbsp;&nbsp;float * _Nonnull radians
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the angle of a rotate-about-point transform.
@@ -553,8 +554,8 @@ Should only be called within a submitting loop.
 <hr><a name="//Quesa/c/func/Q3RotateAboutPointTransform_GetAxis"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateAboutPointTransform_GetAxis">Q3RotateAboutPointTransform_GetAxis</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RotateAboutPointTransform_GetAxis (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Axis *axis
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject _Nonnull transform,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Axis * _Nonnull axis
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the axis of a rotate-about-point transform.
@@ -572,8 +573,8 @@ Should only be called within a submitting loop.
 <hr><a name="//Quesa/c/func/Q3RotateAboutPointTransform_GetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateAboutPointTransform_GetData">Q3RotateAboutPointTransform_GetData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RotateAboutPointTransform_GetData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RotateAboutPointTransformData *data
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject _Nonnull transform,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RotateAboutPointTransformData * _Nonnull data
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the state of a rotate-about-point transform.
@@ -590,8 +591,8 @@ Should only be called within a submitting loop.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3RotateAboutPointTransform_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateAboutPointTransform_New">Q3RotateAboutPointTransform_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3TransformObject ) Q3RotateAboutPointTransform_New (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RotateAboutPointTransformData *data
+</td></tr></table><hr><blockquote><pre><tt>( TQ3TransformObject _Nullable ) Q3RotateAboutPointTransform_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RotateAboutPointTransformData * _Nonnull data
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new transform for rotation about an axis that is parallel to
@@ -609,8 +610,8 @@ the x, y, or z axis.
 <hr><a name="//Quesa/c/func/Q3RotateAboutPointTransform_SetAboutPoint"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateAboutPointTransform_SetAboutPoint">Q3RotateAboutPointTransform_SetAboutPoint</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RotateAboutPointTransform_SetAboutPoint (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D *about
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject _Nonnull transform,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D * _Nonnull about
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Change the point on the axis of rotation of a rotate-about-point transform.
@@ -628,7 +629,7 @@ the x, y, or z axis.
 <hr><a name="//Quesa/c/func/Q3RotateAboutPointTransform_SetAngle"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateAboutPointTransform_SetAngle">Q3RotateAboutPointTransform_SetAngle</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RotateAboutPointTransform_SetAngle (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject _Nonnull transform,
 &nbsp;&nbsp;&nbsp;&nbsp;float radians
 );</tt><br>
 </pre></blockquote>
@@ -647,7 +648,7 @@ the x, y, or z axis.
 <hr><a name="//Quesa/c/func/Q3RotateAboutPointTransform_SetAxis"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateAboutPointTransform_SetAxis">Q3RotateAboutPointTransform_SetAxis</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RotateAboutPointTransform_SetAxis (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject _Nonnull transform,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Axis axis
 );</tt><br>
 </pre></blockquote>
@@ -666,8 +667,8 @@ the x, y, or z axis.
 <hr><a name="//Quesa/c/func/Q3RotateAboutPointTransform_SetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateAboutPointTransform_SetData">Q3RotateAboutPointTransform_SetData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RotateAboutPointTransform_SetData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RotateAboutPointTransformData *data
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject _Nonnull transform,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RotateAboutPointTransformData * _Nonnull data
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Change the state of a rotate-about-point transform.
@@ -685,8 +686,8 @@ the x, y, or z axis.
 <hr><a name="//Quesa/c/func/Q3RotateAboutPointTransform_Submit"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateAboutPointTransform_Submit">Q3RotateAboutPointTransform_Submit</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RotateAboutPointTransform_Submit (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RotateAboutPointTransformData *data,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RotateAboutPointTransformData * _Nonnull data,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit a rotate-about-point transform in immediate mode.
@@ -705,8 +706,8 @@ Should only be used within a submitting loop.
 <hr><a name="//Quesa/c/func/Q3RotateTransform_GetAngle"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateTransform_GetAngle">Q3RotateTransform_GetAngle</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RotateTransform_GetAngle (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
-&nbsp;&nbsp;&nbsp;&nbsp;float *radians
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject _Nonnull transform,
+&nbsp;&nbsp;&nbsp;&nbsp;float * _Nonnull radians
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the angle of rotation of a rotate transform.
@@ -724,8 +725,8 @@ Should only be used within a submitting loop.
 <hr><a name="//Quesa/c/func/Q3RotateTransform_GetAxis"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateTransform_GetAxis">Q3RotateTransform_GetAxis</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RotateTransform_GetAxis (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject renderable,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Axis *axis
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject _Nonnull renderable,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Axis * _Nonnull axis
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the axis of a rotate transform.
@@ -743,8 +744,8 @@ Should only be used within a submitting loop.
 <hr><a name="//Quesa/c/func/Q3RotateTransform_GetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateTransform_GetData">Q3RotateTransform_GetData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RotateTransform_GetData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RotateTransformData *data
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject _Nonnull transform,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RotateTransformData * _Nonnull data
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the state of a rotate transform object.
@@ -761,8 +762,8 @@ Should only be used within a submitting loop.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3RotateTransform_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateTransform_New">Q3RotateTransform_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3TransformObject ) Q3RotateTransform_New (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RotateTransformData *data
+</td></tr></table><hr><blockquote><pre><tt>( TQ3TransformObject _Nullable ) Q3RotateTransform_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RotateTransformData * _Nonnull data
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a transform object for rotation about the x, y, or z axis.
@@ -779,7 +780,7 @@ Should only be used within a submitting loop.
 <hr><a name="//Quesa/c/func/Q3RotateTransform_SetAngle"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateTransform_SetAngle">Q3RotateTransform_SetAngle</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RotateTransform_SetAngle (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject _Nonnull transform,
 &nbsp;&nbsp;&nbsp;&nbsp;float radians
 );</tt><br>
 </pre></blockquote>
@@ -798,7 +799,7 @@ Should only be used within a submitting loop.
 <hr><a name="//Quesa/c/func/Q3RotateTransform_SetAxis"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateTransform_SetAxis">Q3RotateTransform_SetAxis</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RotateTransform_SetAxis (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject _Nonnull transform,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Axis axis
 );</tt><br>
 </pre></blockquote>
@@ -817,8 +818,8 @@ Should only be used within a submitting loop.
 <hr><a name="//Quesa/c/func/Q3RotateTransform_SetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateTransform_SetData">Q3RotateTransform_SetData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RotateTransform_SetData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RotateTransformData *data
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject _Nonnull transform,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RotateTransformData * _Nonnull data
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Change the data of a rotate transform.
@@ -836,8 +837,8 @@ Should only be used within a submitting loop.
 <hr><a name="//Quesa/c/func/Q3RotateTransform_Submit"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RotateTransform_Submit">Q3RotateTransform_Submit</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RotateTransform_Submit (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RotateTransformData *data,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RotateTransformData * _Nonnull data,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit a rotate transform in immediate mode.
@@ -856,8 +857,8 @@ Should only be used within a submitting loop.
 <hr><a name="//Quesa/c/func/Q3ScaleTransform_Get"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ScaleTransform_Get">Q3ScaleTransform_Get</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ScaleTransform_Get (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector3D *scale
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject _Nonnull transform,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector3D * _Nonnull scale
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the scale factors of a scale transform.
@@ -874,8 +875,8 @@ Should only be used within a submitting loop.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3ScaleTransform_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ScaleTransform_New">Q3ScaleTransform_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3TransformObject ) Q3ScaleTransform_New (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D *scale
+</td></tr></table><hr><blockquote><pre><tt>( TQ3TransformObject _Nullable ) Q3ScaleTransform_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D * _Nonnull scale
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new scale transform.  It multiplies the x, y, and z coordinates by
@@ -894,8 +895,8 @@ identical positive numbers.
 <hr><a name="//Quesa/c/func/Q3ScaleTransform_Set"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ScaleTransform_Set">Q3ScaleTransform_Set</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ScaleTransform_Set (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D *scale
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject _Nonnull transform,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D * _Nonnull scale
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Change the scale factors of a scale transform.
@@ -913,8 +914,8 @@ identical positive numbers.
 <hr><a name="//Quesa/c/func/Q3ScaleTransform_Submit"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ScaleTransform_Submit">Q3ScaleTransform_Submit</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3ScaleTransform_Submit (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D *scale,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D * _Nonnull scale,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit a scale transform in immediate mode.  This should only be called
@@ -932,9 +933,9 @@ within a submitting loop.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Transform_GetMatrix"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Transform_GetMatrix">Q3Transform_GetMatrix</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Matrix4x4 * ) Q3Transform_GetMatrix (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix4x4 *matrix
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Matrix4x4 * _Nonnull ) Q3Transform_GetMatrix (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject _Nonnull transform,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix4x4 * _Nonnull matrix
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the 4&#215;4 matrix of a transform object.
@@ -956,7 +957,7 @@ identity matrix.
 <hr><a name="//Quesa/c/func/Q3Transform_GetType"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Transform_GetType">Q3Transform_GetType</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3ObjectType ) Q3Transform_GetType (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject _Nonnull transform
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the subtype of a transform object.  Returns <code>kQ3TransformTypeMatrix</code>,
@@ -977,8 +978,8 @@ identity matrix.
 <hr><a name="//Quesa/c/func/Q3Transform_Submit"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Transform_Submit">Q3Transform_Submit</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Transform_Submit (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject _Nonnull transform,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit a transform object.  Should only be used within a submitting loop.
@@ -996,8 +997,8 @@ identity matrix.
 <hr><a name="//Quesa/c/func/Q3TranslateTransform_Get"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3TranslateTransform_Get">Q3TranslateTransform_Get</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3TranslateTransform_Get (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector3D *translate
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject _Nonnull transform,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector3D * _Nonnull translate
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the translation vector of a translate transform.
@@ -1014,8 +1015,8 @@ identity matrix.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3TranslateTransform_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3TranslateTransform_New">Q3TranslateTransform_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3TransformObject ) Q3TranslateTransform_New (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D *translate
+</td></tr></table><hr><blockquote><pre><tt>( TQ3TransformObject _Nullable ) Q3TranslateTransform_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D * _Nonnull translate
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new translation transform.
@@ -1032,8 +1033,8 @@ identity matrix.
 <hr><a name="//Quesa/c/func/Q3TranslateTransform_Set"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3TranslateTransform_Set">Q3TranslateTransform_Set</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3TranslateTransform_Set (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject transform,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D *translate
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TransformObject _Nonnull transform,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D * _Nonnull translate
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Change the translation vector of a translate transform.
@@ -1051,8 +1052,8 @@ identity matrix.
 <hr><a name="//Quesa/c/func/Q3TranslateTransform_Submit"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3TranslateTransform_Submit">Q3TranslateTransform_Submit</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3TranslateTransform_Submit (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D *translate,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D * _Nonnull translate,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit a translate transform in immediate mode.  Should only be
@@ -1173,5 +1174,5 @@ typedef struct TQ3RotateTransformData {
 <dt><tt>radians</tt></dt><dd>Number of radians to rotate about the axis.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 5/27/2019)
 </p></body></html>

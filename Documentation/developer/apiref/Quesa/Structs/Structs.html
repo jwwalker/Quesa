@@ -28,7 +28,7 @@ typedef struct TQ3Area {
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3Bitmap">TQ3Bitmap</a></h2>
 </td></tr></table><hr><blockquote><pre>
 typedef struct TQ3Bitmap {
-    TQ3Uns8                                     *image;
+    TQ3Uns8* _Nullable               image;
     TQ3Uns32                                    width;
     TQ3Uns32                                    height;
     TQ3Uns32                                    rowBytes;
@@ -163,9 +163,9 @@ typedef struct TQ3ColorRGBA {
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3CompressedPixmap">TQ3CompressedPixmap</a></h2>
 </td></tr></table><hr><blockquote><pre>
 typedef struct TQ3CompressedPixmap {
-    TQ3StorageObject                            compressedImage;
+    TQ3StorageObject _Nonnull                            compressedImage;
     TQ3Endian                                   imageDescByteOrder;
-    TQ3StorageObject                            imageDesc;
+    TQ3StorageObject _Nonnull                            imageDesc;
     TQ3Boolean                                  makeMipmaps;
     TQ3Uns32                                    width;
     TQ3Uns32                                    height;
@@ -228,7 +228,7 @@ typedef struct TQ3Matrix4x4 {
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3Mipmap">TQ3Mipmap</a></h2>
 </td></tr></table><hr><blockquote><pre>
 typedef struct TQ3Mipmap {
-    TQ3StorageObject                            image;
+    TQ3StorageObject _Nonnull                   image;
     TQ3Boolean                                  useMipmapping;
     TQ3PixelType                                pixelType;
     TQ3Endian                                   bitOrder;
@@ -325,7 +325,7 @@ typedef struct TQ3Param3D {
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3Pixmap">TQ3Pixmap</a></h2>
 </td></tr></table><hr><blockquote><pre>
 typedef struct TQ3Pixmap {
-    void                                        *image;
+    void* _Nonnull                image;
     TQ3Uns32                                    width;
     TQ3Uns32                                    height;
     TQ3Uns32                                    rowBytes;
@@ -561,7 +561,7 @@ radius vector onto the xy plane.</dd>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3StoragePixmap">TQ3StoragePixmap</a></h2>
 </td></tr></table><hr><blockquote><pre>
 typedef struct TQ3StoragePixmap {
-    TQ3StorageObject                            image;
+    TQ3StorageObject _Nonnull                   image;
     TQ3Uns32                                    width;
     TQ3Uns32                                    height;
     TQ3Uns32                                    rowBytes;
@@ -593,7 +593,7 @@ typedef struct TQ3StoragePixmap {
 </td></tr></table><hr><blockquote><pre>
 typedef struct TQ3SubClassData {
     TQ3Uns32                                    numClasses;
-    TQ3ObjectType                               *classTypes;
+    TQ3ObjectType* _Nullable          classTypes;
 } TQ3SubClassData;
 </pre>
 </blockquote>
@@ -692,7 +692,7 @@ typedef struct TQ3Vector3D {
 </td></tr></table><hr><blockquote><pre>
 typedef struct TQ3Vertex3D {
     TQ3Point3D                                  point;
-    TQ3AttributeSet                             attributeSet;
+    TQ3AttributeSet _Nullable                   attributeSet;
 } TQ3Vertex3D;
 </pre>
 </blockquote>
@@ -706,5 +706,5 @@ typedef struct TQ3Vertex3D {
 <dt><tt>attributeSet</tt></dt><dd>Attribute set for the vertex.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 5/27/2019)
 </p></body></html>

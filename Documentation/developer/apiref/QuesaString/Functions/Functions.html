@@ -8,7 +8,7 @@
 <hr><a name="//Quesa/c/func/Q3CString_EmptyData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3CString_EmptyData">Q3CString_EmptyData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3CString_EmptyData (
-&nbsp;&nbsp;&nbsp;&nbsp;char **str
+&nbsp;&nbsp;&nbsp;&nbsp;char * _Nullable * _Nonnull str
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Releases the memory allocated by a previous call to
@@ -29,15 +29,15 @@ will be reset to nullptr.
 <hr><a name="//Quesa/c/func/Q3CString_GetLength"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3CString_GetLength">Q3CString_GetLength</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3CString_GetLength (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StringObject stringObj,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 *length
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StringObject _Nonnull stringObj,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 * _Nonnull length
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the length of a string object.
 <br><br>
 Returns the number of bytes required to store the character
 data in the string object. The length returned does not
-include the terminating nullptr byte.
+include the terminating NUL byte.
 <br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
@@ -52,14 +52,14 @@ include the terminating nullptr byte.
 <hr><a name="//Quesa/c/func/Q3CString_GetString"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3CString_GetString">Q3CString_GetString</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3CString_GetString (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StringObject stringObj,
-&nbsp;&nbsp;&nbsp;&nbsp;char **str
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StringObject _Nonnull stringObj,
+&nbsp;&nbsp;&nbsp;&nbsp;char * _Nullable * _Nonnull str
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Return the character data of a string object.
 <br><br>
 The data returned must be released with a subsequent call to
-Q3CString_EmptyData. The data returned will be nullptr terminated.
+Q3CString_EmptyData. The data returned will be NUL terminated.
 <br><br>
 The str parameter is overwritten, and so must not point to an
 existing string or a memory leak will occur. If the value of
@@ -77,13 +77,13 @@ the str parameter is not nullptr, a warning will be posted.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3CString_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3CString_New">Q3CString_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3StringObject ) Q3CString_New (
-&nbsp;&nbsp;&nbsp;&nbsp;const char *str
+</td></tr></table><hr><blockquote><pre><tt>( TQ3StringObject _Nonnull ) Q3CString_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const char * _Nonnull str
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new C string object.
 <br><br>
-Creates a string object based on a nullptr terminated string. The
+Creates a string object based on a NUL terminated string. The
 string data is copied, and so str can be disposed of after
 creating the object.
 <br><br>
@@ -99,8 +99,8 @@ creating the object.
 <hr><a name="//Quesa/c/func/Q3CString_SetString"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3CString_SetString">Q3CString_SetString</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3CString_SetString (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StringObject stringObj,
-&nbsp;&nbsp;&nbsp;&nbsp;const char *str
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StringObject _Nonnull stringObj,
+&nbsp;&nbsp;&nbsp;&nbsp;const char * _Nonnull str
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the character data of a string object.
@@ -121,7 +121,7 @@ and so str can be disposed of after this call.
 <hr><a name="//Quesa/c/func/Q3String_GetType"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3String_GetType">Q3String_GetType</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3ObjectType ) Q3String_GetType (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StringObject stringObj
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StringObject _Nonnull stringObj
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Returns the type of a string object.
@@ -138,5 +138,5 @@ object type is unknown.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>The type of the object.
  </dd></dl>
-<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 5/27/2019)
 </p></body></html>

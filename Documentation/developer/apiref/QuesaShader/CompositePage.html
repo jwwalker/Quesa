@@ -7,12 +7,13 @@
 <h1><font face="Geneva,Arial,Helvtica">QuesaShader.h</font></h1><br>
 <h2>Discussion</h2>
 Declares the Quesa shader objects.
- <hr><br><h2>Functions</h2>
+<br><br>
+<hr><br><h2>Functions</h2>
 <hr><a name="//Quesa/c/func/Q3ColorARGB_Accumulate"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ColorARGB_Accumulate">Q3ColorARGB_Accumulate</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3ColorARGB * ) Q3ColorARGB_Accumulate (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorARGB *src,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ColorARGB *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ColorARGB * _Nonnull ) Q3ColorARGB_Accumulate (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorARGB * _Nonnull src,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ColorARGB * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Add a colour to an existing color.
@@ -35,10 +36,10 @@ Available in inline form as Q3FastColorARGB_Accumulate.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3ColorARGB_Add"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ColorARGB_Add">Q3ColorARGB_Add</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3ColorARGB * ) Q3ColorARGB_Add (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorARGB *c1,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorARGB *c2,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ColorARGB *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ColorARGB * _Nonnull ) Q3ColorARGB_Add (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorARGB * _Nonnull c1,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorARGB * _Nonnull c2,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ColorARGB * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Add c1 to c2.
@@ -60,9 +61,9 @@ Available in inline form as Q3FastColorARGB_Add.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3ColorARGB_Clamp"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ColorARGB_Clamp">Q3ColorARGB_Clamp</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3ColorARGB * ) Q3ColorARGB_Clamp (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorARGB *color,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ColorARGB *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ColorARGB * _Nonnull ) Q3ColorARGB_Clamp (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorARGB * _Nonnull color,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ColorARGB * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Clamp the components of a color to within 0.0 to 1.0.
@@ -83,11 +84,11 @@ Available in inline form as Q3FastColorARGB_Clamp.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3ColorARGB_Lerp"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ColorARGB_Lerp">Q3ColorARGB_Lerp</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3ColorARGB * ) Q3ColorARGB_Lerp (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorARGB *first,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorARGB *last,
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ColorARGB * _Nonnull ) Q3ColorARGB_Lerp (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorARGB * _Nonnull first,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorARGB * _Nonnull last,
 &nbsp;&nbsp;&nbsp;&nbsp;float alpha,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ColorARGB *result
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ColorARGB * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Linearly interpolate between two colors.
@@ -110,10 +111,10 @@ Available in inline form as Q3FastColorARGB_Lerp.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3ColorARGB_Scale"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ColorARGB_Scale">Q3ColorARGB_Scale</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3ColorARGB * ) Q3ColorARGB_Scale (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorARGB *color,
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ColorARGB * _Nonnull ) Q3ColorARGB_Scale (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorARGB * _Nonnull color,
 &nbsp;&nbsp;&nbsp;&nbsp;float scale,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ColorARGB *result
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ColorARGB * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Scale a color.
@@ -135,8 +136,8 @@ Available in inline form as Q3FastColorARGB_Scale.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3ColorARGB_Set"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ColorARGB_Set">Q3ColorARGB_Set</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3ColorARGB * ) Q3ColorARGB_Set (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ColorARGB *color,
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ColorARGB * _Nonnull ) Q3ColorARGB_Set (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ColorARGB * _Nonnull color,
 &nbsp;&nbsp;&nbsp;&nbsp;float a,
 &nbsp;&nbsp;&nbsp;&nbsp;float r,
 &nbsp;&nbsp;&nbsp;&nbsp;float g,
@@ -162,10 +163,10 @@ Available in inline form as Q3FastColorARGB_Set.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3ColorARGB_Subtract"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ColorARGB_Subtract">Q3ColorARGB_Subtract</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3ColorARGB * ) Q3ColorARGB_Subtract (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorARGB *c1,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorARGB *c2,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ColorARGB *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ColorARGB * _Nonnull ) Q3ColorARGB_Subtract (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorARGB * _Nonnull c1,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorARGB * _Nonnull c2,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ColorARGB * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Subtract c1 from c2.
@@ -187,9 +188,9 @@ Available in inline form as Q3FastColorARGB_Subtract.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3ColorRGB_Accumulate"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ColorRGB_Accumulate">Q3ColorRGB_Accumulate</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3ColorRGB * ) Q3ColorRGB_Accumulate (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorRGB *src,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ColorRGB *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ColorRGB * _Nonnull ) Q3ColorRGB_Accumulate (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorRGB * _Nonnull src,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ColorRGB * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Add a colour to an existing color.
@@ -210,10 +211,10 @@ Available in inline form as Q3FastColorRGB_Accumulate.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3ColorRGB_Add"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ColorRGB_Add">Q3ColorRGB_Add</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3ColorRGB * ) Q3ColorRGB_Add (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorRGB *c1,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorRGB *c2,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ColorRGB *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ColorRGB * _Nonnull ) Q3ColorRGB_Add (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorRGB * _Nonnull c1,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorRGB * _Nonnull c2,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ColorRGB * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Add c1 to c2.
@@ -233,9 +234,9 @@ Available in inline form as Q3FastColorRGB_Add.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3ColorRGB_Clamp"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ColorRGB_Clamp">Q3ColorRGB_Clamp</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3ColorRGB * ) Q3ColorRGB_Clamp (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorRGB *color,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ColorRGB *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ColorRGB * _Nonnull ) Q3ColorRGB_Clamp (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorRGB * _Nonnull color,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ColorRGB * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Clamp the components of a color to within 0.0 to 1.0.
@@ -254,11 +255,11 @@ Available in inline form as Q3FastColorRGB_Clamp.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3ColorRGB_Lerp"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ColorRGB_Lerp">Q3ColorRGB_Lerp</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3ColorRGB * ) Q3ColorRGB_Lerp (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorRGB *first,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorRGB *last,
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ColorRGB * _Nonnull ) Q3ColorRGB_Lerp (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorRGB * _Nonnull first,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorRGB * _Nonnull last,
 &nbsp;&nbsp;&nbsp;&nbsp;float alpha,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ColorRGB *result
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ColorRGB * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Linearly interpolate between two colors.
@@ -279,9 +280,9 @@ Available in inline form as Q3FastColorRGB_Lerp.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3ColorRGB_Luminance"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ColorRGB_Luminance">Q3ColorRGB_Luminance</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( float * ) Q3ColorRGB_Luminance (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorRGB *color,
-&nbsp;&nbsp;&nbsp;&nbsp;float *luminance
+</td></tr></table><hr><blockquote><pre><tt>( float * _Nonnull ) Q3ColorRGB_Luminance (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorRGB * _Nonnull color,
+&nbsp;&nbsp;&nbsp;&nbsp;float * _Nonnull luminance
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Calculate the luminance of a color.
@@ -306,10 +307,10 @@ Available in inline form as Q3FastColorRGB_Luminance.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3ColorRGB_Scale"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ColorRGB_Scale">Q3ColorRGB_Scale</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3ColorRGB * ) Q3ColorRGB_Scale (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorRGB *color,
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ColorRGB * _Nonnull ) Q3ColorRGB_Scale (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorRGB * _Nonnull color,
 &nbsp;&nbsp;&nbsp;&nbsp;float scale,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ColorRGB *result
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ColorRGB * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Scale a color.
@@ -329,8 +330,8 @@ Available in inline form as Q3FastColorRGB_Scale.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3ColorRGB_Set"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ColorRGB_Set">Q3ColorRGB_Set</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3ColorRGB * ) Q3ColorRGB_Set (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ColorRGB *color,
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ColorRGB * _Nonnull ) Q3ColorRGB_Set (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ColorRGB * _Nonnull color,
 &nbsp;&nbsp;&nbsp;&nbsp;float r,
 &nbsp;&nbsp;&nbsp;&nbsp;float g,
 &nbsp;&nbsp;&nbsp;&nbsp;float b
@@ -354,10 +355,10 @@ Available in inline form as Q3FastColorRGB_Set.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3ColorRGB_Subtract"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3ColorRGB_Subtract">Q3ColorRGB_Subtract</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3ColorRGB * ) Q3ColorRGB_Subtract (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorRGB *c1,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorRGB *c2,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ColorRGB *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ColorRGB * _Nonnull ) Q3ColorRGB_Subtract (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorRGB * _Nonnull c1,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3ColorRGB * _Nonnull c2,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ColorRGB * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Subtract c1 from c2.
@@ -378,7 +379,7 @@ Available in inline form as Q3FastColorRGB_Subtract.
 <hr><a name="//Quesa/c/func/Q3CompressedPixmapTexture_CompressImage"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3CompressedPixmapTexture_CompressImage">Q3CompressedPixmapTexture_CompressImage</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3CompressedPixmapTexture_CompressImage (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CompressedPixmap *compressedPixmap,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CompressedPixmap * _Nonnull compressedPixmap,
 &nbsp;&nbsp;&nbsp;&nbsp;PixMapHandle sourcePixMap,
 &nbsp;&nbsp;&nbsp;&nbsp;CodecType codecType,
 &nbsp;&nbsp;&nbsp;&nbsp;CodecComponent codecComponent,
@@ -408,7 +409,7 @@ This function is only available on platforms that support QuickTime.
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3CompressedPixmapTexture_GetCompressedPixmap">Q3CompressedPixmapTexture_GetCompressedPixmap</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3CompressedPixmapTexture_GetCompressedPixmap (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3TextureObject texture,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CompressedPixmap *compressedPixmap
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CompressedPixmap * _Nonnull compressedPixmap
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the compressed pixmap from a compressed pixmap texture.
@@ -432,7 +433,7 @@ when done.
 <hr><a name="//Quesa/c/func/Q3CompressedPixmapTexture_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3CompressedPixmapTexture_New">Q3CompressedPixmapTexture_New</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3TextureObject ) Q3CompressedPixmapTexture_New (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3CompressedPixmap *compressedPixmap
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3CompressedPixmap * _Nonnull compressedPixmap
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a compressed pixmap texture.
@@ -452,7 +453,7 @@ This function is only available on platforms that support QuickTime.
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3CompressedPixmapTexture_SetCompressedPixmap">Q3CompressedPixmapTexture_SetCompressedPixmap</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3CompressedPixmapTexture_SetCompressedPixmap (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3TextureObject texture,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3CompressedPixmap *compressedPixmap
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3CompressedPixmap * _Nonnull compressedPixmap
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the compressed pixmap for a compressed pixmap texture.
@@ -472,7 +473,7 @@ This function is only available on platforms that support QuickTime.
 <hr><a name="//Quesa/c/func/Q3IlluminationShader_GetType"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3IlluminationShader_GetType">Q3IlluminationShader_GetType</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3ObjectType ) Q3IlluminationShader_GetType (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShaderObject shader
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShaderObject _Nonnull shader
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the type of an illumination shader.
@@ -488,7 +489,7 @@ This function is only available on platforms that support QuickTime.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3LambertIllumination_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3LambertIllumination_New">Q3LambertIllumination_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3ShaderObject ) Q3LambertIllumination_New (void);</tt><br>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ShaderObject _Nonnull ) Q3LambertIllumination_New (void);</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a Lambert illumination shader.
 <br><br>
@@ -498,8 +499,8 @@ This function is only available on platforms that support QuickTime.
 <hr><a name="//Quesa/c/func/Q3MipmapTexture_GetMipmap"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MipmapTexture_GetMipmap">Q3MipmapTexture_GetMipmap</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3MipmapTexture_GetMipmap (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3TextureObject texture,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Mipmap *mipmap
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TextureObject _Nonnull texture,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Mipmap * _Nonnull mipmap
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the mipmap from a mipmap texture.
@@ -519,8 +520,8 @@ caller must release their reference when done.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3MipmapTexture_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MipmapTexture_New">Q3MipmapTexture_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3TextureObject ) Q3MipmapTexture_New (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Mipmap *mipmap
+</td></tr></table><hr><blockquote><pre><tt>( TQ3TextureObject _Nonnull ) Q3MipmapTexture_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Mipmap * _Nonnull mipmap
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a mipmap texture.
@@ -537,8 +538,8 @@ caller must release their reference when done.
 <hr><a name="//Quesa/c/func/Q3MipmapTexture_SetMipmap"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MipmapTexture_SetMipmap">Q3MipmapTexture_SetMipmap</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3MipmapTexture_SetMipmap (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3TextureObject texture,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Mipmap *mipmap
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TextureObject _Nonnull texture,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Mipmap * _Nonnull mipmap
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the mipmap for a mipmap texture.
@@ -555,16 +556,16 @@ caller must release their reference when done.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3NULLIllumination_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3NULLIllumination_New">Q3NULLIllumination_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3ShaderObject ) Q3NULLIllumination_New (void);</tt><br>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ShaderObject _Nonnull ) Q3NULLIllumination_New (void);</tt><br>
 </pre></blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a nullptr illumination shader.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a NULL illumination shader.
 <br><br>
 </p>
 <dl><dt><i>function result</i></dt><dd>The new illumination shader.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3PhongIllumination_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PhongIllumination_New">Q3PhongIllumination_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3ShaderObject ) Q3PhongIllumination_New (void);</tt><br>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ShaderObject _Nonnull ) Q3PhongIllumination_New (void);</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a Phong illumination shader.
 <br><br>
@@ -574,8 +575,8 @@ caller must release their reference when done.
 <hr><a name="//Quesa/c/func/Q3PixmapTexture_GetPixmap"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PixmapTexture_GetPixmap">Q3PixmapTexture_GetPixmap</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3PixmapTexture_GetPixmap (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3TextureObject texture,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StoragePixmap *pixmap
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TextureObject _Nonnull texture,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StoragePixmap * _Nonnull pixmap
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the pixmap from a pixmap texture.
@@ -595,8 +596,8 @@ caller must release their reference when done.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3PixmapTexture_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PixmapTexture_New">Q3PixmapTexture_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3TextureObject ) Q3PixmapTexture_New (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3StoragePixmap *pixmap
+</td></tr></table><hr><blockquote><pre><tt>( TQ3TextureObject _Nonnull ) Q3PixmapTexture_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3StoragePixmap * _Nonnull pixmap
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a pixmap texture.
@@ -613,8 +614,8 @@ caller must release their reference when done.
 <hr><a name="//Quesa/c/func/Q3PixmapTexture_SetPixmap"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PixmapTexture_SetPixmap">Q3PixmapTexture_SetPixmap</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3PixmapTexture_SetPixmap (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3TextureObject texture,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3StoragePixmap *pixmap
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TextureObject _Nonnull texture,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3StoragePixmap * _Nonnull pixmap
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the pixmap for a pixmap texture.
@@ -632,7 +633,7 @@ caller must release their reference when done.
 <hr><a name="//Quesa/c/func/Q3Shader_GetType"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Shader_GetType">Q3Shader_GetType</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3ObjectType ) Q3Shader_GetType (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShaderObject shader
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShaderObject _Nonnull shader
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the type of a shader object.
@@ -649,8 +650,8 @@ caller must release their reference when done.
 <hr><a name="//Quesa/c/func/Q3Shader_GetUBoundary"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Shader_GetUBoundary">Q3Shader_GetUBoundary</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Shader_GetUBoundary (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShaderObject shader,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShaderUVBoundary *uBoundary
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShaderObject _Nonnull shader,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShaderUVBoundary * _Nonnull uBoundary
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the U boundary behaviour of a shader.
@@ -668,8 +669,8 @@ caller must release their reference when done.
 <hr><a name="//Quesa/c/func/Q3Shader_GetUVTransform"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Shader_GetUVTransform">Q3Shader_GetUVTransform</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Shader_GetUVTransform (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShaderObject shader,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix3x3 *uvTransform
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShaderObject _Nonnull shader,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix3x3 * _Nonnull uvTransform
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the UV transform for a shader.
@@ -687,8 +688,8 @@ caller must release their reference when done.
 <hr><a name="//Quesa/c/func/Q3Shader_GetVBoundary"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Shader_GetVBoundary">Q3Shader_GetVBoundary</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Shader_GetVBoundary (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShaderObject shader,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShaderUVBoundary *vBoundary
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShaderObject _Nonnull shader,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShaderUVBoundary * _Nonnull vBoundary
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the V boundary behaviour of a shader.
@@ -706,7 +707,7 @@ caller must release their reference when done.
 <hr><a name="//Quesa/c/func/Q3Shader_SetUBoundary"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Shader_SetUBoundary">Q3Shader_SetUBoundary</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Shader_SetUBoundary (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShaderObject shader,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShaderObject _Nonnull shader,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3ShaderUVBoundary uBoundary
 );</tt><br>
 </pre></blockquote>
@@ -727,8 +728,8 @@ The initial U boundary behaviour for a shader is kQ3ShaderUVBoundaryWrap.
 <hr><a name="//Quesa/c/func/Q3Shader_SetUVTransform"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Shader_SetUVTransform">Q3Shader_SetUVTransform</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Shader_SetUVTransform (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShaderObject shader,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix3x3 *uvTransform
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShaderObject _Nonnull shader,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix3x3 * _Nonnull uvTransform
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the UV transform for a shader.
@@ -746,7 +747,7 @@ The initial U boundary behaviour for a shader is kQ3ShaderUVBoundaryWrap.
 <hr><a name="//Quesa/c/func/Q3Shader_SetVBoundary"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Shader_SetVBoundary">Q3Shader_SetVBoundary</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Shader_SetVBoundary (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShaderObject shader,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShaderObject _Nonnull shader,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3ShaderUVBoundary vBoundary
 );</tt><br>
 </pre></blockquote>
@@ -767,8 +768,8 @@ The initial V boundary behaviour for a shader is kQ3ShaderUVBoundaryWrap.
 <hr><a name="//Quesa/c/func/Q3Shader_Submit"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Shader_Submit">Q3Shader_Submit</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Shader_Submit (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShaderObject shader,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShaderObject _Nonnull shader,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit a shader to a view.
@@ -786,7 +787,7 @@ The initial V boundary behaviour for a shader is kQ3ShaderUVBoundaryWrap.
 <hr><a name="//Quesa/c/func/Q3SurfaceShader_GetType"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SurfaceShader_GetType">Q3SurfaceShader_GetType</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3ObjectType ) Q3SurfaceShader_GetType (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3SurfaceShaderObject shader
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3SurfaceShaderObject _Nonnull shader
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the type of a surface shader.
@@ -803,8 +804,8 @@ The initial V boundary behaviour for a shader is kQ3ShaderUVBoundaryWrap.
 <hr><a name="//Quesa/c/func/Q3TextureShader_GetTexture"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3TextureShader_GetTexture">Q3TextureShader_GetTexture</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3TextureShader_GetTexture (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShaderObject shader,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3TextureObject *texture
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShaderObject _Nonnull shader,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TextureObject _Nullable * _Nonnull texture
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the texture from a texture shader.
@@ -824,8 +825,8 @@ caller must release their reference when done.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3TextureShader_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3TextureShader_New">Q3TextureShader_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3ShaderObject ) Q3TextureShader_New (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3TextureObject texture
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ShaderObject _Nullable ) Q3TextureShader_New (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TextureObject _Nullable texture
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a texture shader.
@@ -846,8 +847,8 @@ to be untextured.
 <hr><a name="//Quesa/c/func/Q3TextureShader_SetTexture"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3TextureShader_SetTexture">Q3TextureShader_SetTexture</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3TextureShader_SetTexture (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShaderObject shader,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3TextureObject texture
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ShaderObject _Nonnull shader,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TextureObject _Nullable texture
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the texture for a texture shader.
@@ -865,8 +866,8 @@ to be untextured.
 <hr><a name="//Quesa/c/func/Q3Texture_GetHeight"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Texture_GetHeight">Q3Texture_GetHeight</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Texture_GetHeight (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3TextureObject texture,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 *height
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TextureObject _Nonnull texture,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 * _Nonnull height
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the height of a texture object.
@@ -884,7 +885,7 @@ to be untextured.
 <hr><a name="//Quesa/c/func/Q3Texture_GetType"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Texture_GetType">Q3Texture_GetType</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3ObjectType ) Q3Texture_GetType (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3TextureObject texture
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TextureObject _Nonnull texture
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the type of a texture object.
@@ -901,8 +902,8 @@ to be untextured.
 <hr><a name="//Quesa/c/func/Q3Texture_GetWidth"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Texture_GetWidth">Q3Texture_GetWidth</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Texture_GetWidth (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3TextureObject texture,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 *width
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TextureObject _Nonnull texture,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 * _Nonnull width
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the width of a texture object.
@@ -965,5 +966,5 @@ the threshold is considered completely transparent.
 Data type: TQ3Float32.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 5/27/2019)
 </p></body></html>

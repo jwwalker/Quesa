@@ -7,12 +7,13 @@
 <h1><font face="Geneva,Arial,Helvtica">QuesaMath.h</font></h1><br>
 <h2>Discussion</h2>
 Declares the Quesa math utilities.
- <hr><br><h2>Functions</h2>
+<br><br>
+<hr><br><h2>Functions</h2>
 <hr><a name="//Quesa/c/func/Q3BoundingBox_Copy"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3BoundingBox_Copy">Q3BoundingBox_Copy</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3BoundingBox * ) Q3BoundingBox_Copy (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3BoundingBox *bBox,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3BoundingBox *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3BoundingBox * _Nonnull ) Q3BoundingBox_Copy (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3BoundingBox * _Nonnull bBox,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3BoundingBox * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Copy a bounding box.
@@ -34,8 +35,8 @@ Available in inline form as Q3BFastoundingBox_Copy.
 </td></tr></table><hr><b>Availability:</b> This function is not available in QD3D.
 <br><br>
 <br>
-<blockquote><pre><tt>( TQ3BoundingBox * ) Q3BoundingBox_Reset (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3BoundingBox *bBox
+<blockquote><pre><tt>( TQ3BoundingBox * _Nonnull ) Q3BoundingBox_Reset (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3BoundingBox * _Nonnull bBox
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Reset (set to empty) a bounding box.
@@ -53,10 +54,10 @@ Available in inline form as Q3FastBoundingBox_Reset.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3BoundingBox_Set"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3BoundingBox_Set">Q3BoundingBox_Set</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3BoundingBox * ) Q3BoundingBox_Set (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3BoundingBox *bBox,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D *min,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D *max,
+</td></tr></table><hr><blockquote><pre><tt>( TQ3BoundingBox * _Nonnull ) Q3BoundingBox_Set (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3BoundingBox * _Nonnull bBox,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D * _Nonnull min,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D * _Nonnull max,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean isEmpty
 );</tt><br>
 </pre></blockquote>
@@ -78,9 +79,9 @@ Available in inline form as Q3FastBoundingBox_Set.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3BoundingBox_SetFromPoints3D"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3BoundingBox_SetFromPoints3D">Q3BoundingBox_SetFromPoints3D</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3BoundingBox * ) Q3BoundingBox_SetFromPoints3D (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3BoundingBox *bBox,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D *points3D,
+</td></tr></table><hr><blockquote><pre><tt>( TQ3BoundingBox * _Nonnull ) Q3BoundingBox_SetFromPoints3D (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3BoundingBox * _Nonnull bBox,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D * _Nonnull points3D,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 numPoints,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 structSize
 );</tt><br>
@@ -101,9 +102,9 @@ Available in inline form as Q3FastBoundingBox_Set.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3BoundingBox_SetFromRationalPoints4D"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3BoundingBox_SetFromRationalPoints4D">Q3BoundingBox_SetFromRationalPoints4D</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3BoundingBox * ) Q3BoundingBox_SetFromRationalPoints4D (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3BoundingBox *bBox,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RationalPoint4D *rationalPoints4D,
+</td></tr></table><hr><blockquote><pre><tt>( TQ3BoundingBox * _Nonnull ) Q3BoundingBox_SetFromRationalPoints4D (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3BoundingBox * _Nonnull bBox,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RationalPoint4D * _Nonnull rationalPoints4D,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 numPoints,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 structSize
 );</tt><br>
@@ -124,10 +125,10 @@ Available in inline form as Q3FastBoundingBox_Set.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3BoundingBox_Union"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3BoundingBox_Union">Q3BoundingBox_Union</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3BoundingBox * ) Q3BoundingBox_Union (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3BoundingBox *b1,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3BoundingBox *b2,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3BoundingBox *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3BoundingBox * _Nonnull ) Q3BoundingBox_Union (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3BoundingBox * _Nonnull b1,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3BoundingBox * _Nonnull b2,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3BoundingBox * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Compute the minimum bounding box that encloses both 'b1' and 'b2'.
@@ -145,10 +146,10 @@ Available in inline form as Q3FastBoundingBox_Set.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3BoundingBox_UnionPoint3D"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3BoundingBox_UnionPoint3D">Q3BoundingBox_UnionPoint3D</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3BoundingBox * ) Q3BoundingBox_UnionPoint3D (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3BoundingBox *bBox,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D *point3D,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3BoundingBox *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3BoundingBox * _Nonnull ) Q3BoundingBox_UnionPoint3D (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3BoundingBox * _Nonnull bBox,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D * _Nonnull point3D,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3BoundingBox * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Return the minimum bounding box that encloses both 'bBox' and 'point3D'.
@@ -166,10 +167,10 @@ Available in inline form as Q3FastBoundingBox_Set.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3BoundingBox_UnionRationalPoint4D"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3BoundingBox_UnionRationalPoint4D">Q3BoundingBox_UnionRationalPoint4D</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3BoundingBox * ) Q3BoundingBox_UnionRationalPoint4D (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3BoundingBox *bBox,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RationalPoint4D *rationalPoint4D,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3BoundingBox *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3BoundingBox * _Nonnull ) Q3BoundingBox_UnionRationalPoint4D (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3BoundingBox * _Nonnull bBox,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RationalPoint4D * _Nonnull rationalPoint4D,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3BoundingBox * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Return the minimum bounding box that encloses both 'bBox' and 'rationalPoint4D'.
@@ -187,9 +188,9 @@ Available in inline form as Q3FastBoundingBox_Set.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3BoundingSphere_Copy"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3BoundingSphere_Copy">Q3BoundingSphere_Copy</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3BoundingSphere * ) Q3BoundingSphere_Copy (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3BoundingSphere *bSphere,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3BoundingSphere *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3BoundingSphere * _Nonnull ) Q3BoundingSphere_Copy (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3BoundingSphere * _Nonnull bSphere,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3BoundingSphere * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Copy a bounding sphere.
@@ -211,8 +212,8 @@ Available in inline form as Q3FastBoundingSphere_Copy.
 </td></tr></table><hr><b>Availability:</b> This function is not available in QD3D.
 <br><br>
 <br>
-<blockquote><pre><tt>( TQ3BoundingSphere * ) Q3BoundingSphere_Reset (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3BoundingSphere *bSphere
+<blockquote><pre><tt>( TQ3BoundingSphere * _Nonnull ) Q3BoundingSphere_Reset (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3BoundingSphere * _Nonnull bSphere
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Reset (set to empty) a bounding sphere.
@@ -230,9 +231,9 @@ Available in inline form as Q3FastBoundingSphere_Reset.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3BoundingSphere_Set"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3BoundingSphere_Set">Q3BoundingSphere_Set</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3BoundingSphere * ) Q3BoundingSphere_Set (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3BoundingSphere *bSphere,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D *origin,
+</td></tr></table><hr><blockquote><pre><tt>( TQ3BoundingSphere * _Nonnull ) Q3BoundingSphere_Set (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3BoundingSphere * _Nonnull bSphere,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D * _Nonnull origin,
 &nbsp;&nbsp;&nbsp;&nbsp;float radius,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean isEmpty
 );</tt><br>
@@ -255,9 +256,9 @@ Available in inline form as Q3FastBoundingSphere_Set.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3BoundingSphere_SetFromPoints3D"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3BoundingSphere_SetFromPoints3D">Q3BoundingSphere_SetFromPoints3D</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3BoundingSphere * ) Q3BoundingSphere_SetFromPoints3D (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3BoundingSphere *bSphere,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D *points3D,
+</td></tr></table><hr><blockquote><pre><tt>( TQ3BoundingSphere * _Nonnull ) Q3BoundingSphere_SetFromPoints3D (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3BoundingSphere * _Nonnull bSphere,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D * _Nonnull points3D,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 numPoints,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 structSize
 );</tt><br>
@@ -278,9 +279,9 @@ Available in inline form as Q3FastBoundingSphere_Set.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3BoundingSphere_SetFromRationalPoints4D"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3BoundingSphere_SetFromRationalPoints4D">Q3BoundingSphere_SetFromRationalPoints4D</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3BoundingSphere * ) Q3BoundingSphere_SetFromRationalPoints4D (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3BoundingSphere *bSphere,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RationalPoint4D *rationalPoints4D,
+</td></tr></table><hr><blockquote><pre><tt>( TQ3BoundingSphere * _Nonnull ) Q3BoundingSphere_SetFromRationalPoints4D (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3BoundingSphere * _Nonnull bSphere,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RationalPoint4D * _Nonnull rationalPoints4D,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 numPoints,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 structSize
 );</tt><br>
@@ -301,10 +302,10 @@ Available in inline form as Q3FastBoundingSphere_Set.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3BoundingSphere_Union"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3BoundingSphere_Union">Q3BoundingSphere_Union</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3BoundingSphere * ) Q3BoundingSphere_Union (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3BoundingSphere *s1,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3BoundingSphere *s2,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3BoundingSphere *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3BoundingSphere * _Nonnull ) Q3BoundingSphere_Union (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3BoundingSphere * _Nonnull s1,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3BoundingSphere * _Nonnull s2,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3BoundingSphere * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Compute the minimum bounding sphere that encloses both 's1' and 's2'.
@@ -322,10 +323,10 @@ Available in inline form as Q3FastBoundingSphere_Set.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3BoundingSphere_UnionPoint3D"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3BoundingSphere_UnionPoint3D">Q3BoundingSphere_UnionPoint3D</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3BoundingSphere * ) Q3BoundingSphere_UnionPoint3D (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3BoundingSphere *bSphere,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D *point3D,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3BoundingSphere *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3BoundingSphere * _Nonnull ) Q3BoundingSphere_UnionPoint3D (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3BoundingSphere * _Nonnull bSphere,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D * _Nonnull point3D,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3BoundingSphere * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Return the minimum bounding sphere that encloses both 'bSphere' and 'point3D'.
@@ -343,10 +344,10 @@ Available in inline form as Q3FastBoundingSphere_Set.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3BoundingSphere_UnionRationalPoint4D"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3BoundingSphere_UnionRationalPoint4D">Q3BoundingSphere_UnionRationalPoint4D</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3BoundingSphere * ) Q3BoundingSphere_UnionRationalPoint4D (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3BoundingSphere *bSphere,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RationalPoint4D *rationalPoint4D,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3BoundingSphere *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3BoundingSphere * _Nonnull ) Q3BoundingSphere_UnionRationalPoint4D (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3BoundingSphere * _Nonnull bSphere,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RationalPoint4D * _Nonnull rationalPoint4D,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3BoundingSphere * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Return the minimum bounding sphere that encloses both 'bSphere' and 'rationalPoint4D'.
@@ -412,9 +413,9 @@ of precision is required, sqrt() should be used instead.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Matrix3x3_Adjoint"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Matrix3x3_Adjoint">Q3Matrix3x3_Adjoint</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Matrix3x3 * ) Q3Matrix3x3_Adjoint (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix3x3 *matrix3x3,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix3x3 *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Matrix3x3 * _Nonnull ) Q3Matrix3x3_Adjoint (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix3x3 * _Nonnull matrix3x3,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix3x3 * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Calculate adjoint of 3x3 matrix.
@@ -437,9 +438,9 @@ adjoint(A) = determinant(A) * inverse(A)
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Matrix3x3_Copy"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Matrix3x3_Copy">Q3Matrix3x3_Copy</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Matrix3x3 * ) Q3Matrix3x3_Copy (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix3x3 *matrix3x3,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix3x3 *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Matrix3x3 * _Nonnull ) Q3Matrix3x3_Copy (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix3x3 * _Nonnull matrix3x3,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix3x3 * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Copy a 3x3 matrix.
@@ -457,7 +458,7 @@ adjoint(A) = determinant(A) * inverse(A)
 <hr><a name="//Quesa/c/func/Q3Matrix3x3_Determinant"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Matrix3x3_Determinant">Q3Matrix3x3_Determinant</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( float ) Q3Matrix3x3_Determinant (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix3x3 *matrix3x3
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix3x3 * _Nonnull matrix3x3
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Return the determinant of 3x3 matrix.
@@ -473,9 +474,9 @@ adjoint(A) = determinant(A) * inverse(A)
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Matrix3x3_Invert"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Matrix3x3_Invert">Q3Matrix3x3_Invert</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Matrix3x3 * ) Q3Matrix3x3_Invert (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix3x3 *matrix3x3,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix3x3 *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Matrix3x3 * _Nonnull ) Q3Matrix3x3_Invert (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix3x3 * _Nonnull matrix3x3,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix3x3 * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Calculate the inverse of a 3x3 non-singular matrix.
@@ -492,10 +493,10 @@ adjoint(A) = determinant(A) * inverse(A)
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Matrix3x3_Multiply"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Matrix3x3_Multiply">Q3Matrix3x3_Multiply</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Matrix3x3 * ) Q3Matrix3x3_Multiply (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix3x3 *m1,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix3x3 *m2,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix3x3 *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Matrix3x3 * _Nonnull ) Q3Matrix3x3_Multiply (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix3x3 * _Nonnull m1,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix3x3 * _Nonnull m2,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix3x3 * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Multiply two 3x3 matrices.
@@ -513,8 +514,8 @@ adjoint(A) = determinant(A) * inverse(A)
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Matrix3x3_SetIdentity"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Matrix3x3_SetIdentity">Q3Matrix3x3_SetIdentity</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Matrix3x3 * ) Q3Matrix3x3_SetIdentity (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix3x3 *matrix3x3
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Matrix3x3 * _Nonnull ) Q3Matrix3x3_SetIdentity (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix3x3 * _Nonnull matrix3x3
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set a 3x3 matrix to the identity matrix.
@@ -533,8 +534,8 @@ adjoint(A) = determinant(A) * inverse(A)
 </td></tr></table><hr><b>Availability:</b> This function is not available in QD3D.
 <br><br>
 <br>
-<blockquote><pre><tt>( TQ3Matrix3x3 * ) Q3Matrix3x3_SetRotate (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix3x3 *matrix3x3,
+<blockquote><pre><tt>( TQ3Matrix3x3 * _Nonnull ) Q3Matrix3x3_SetRotate (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix3x3 * _Nonnull matrix3x3,
 &nbsp;&nbsp;&nbsp;&nbsp;float angle
 );</tt><br>
 </pre></blockquote>
@@ -552,9 +553,9 @@ adjoint(A) = determinant(A) * inverse(A)
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Matrix3x3_SetRotateAboutPoint"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Matrix3x3_SetRotateAboutPoint">Q3Matrix3x3_SetRotateAboutPoint</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Matrix3x3 * ) Q3Matrix3x3_SetRotateAboutPoint (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix3x3 *matrix3x3,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point2D *origin,
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Matrix3x3 * _Nonnull ) Q3Matrix3x3_SetRotateAboutPoint (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix3x3 * _Nonnull matrix3x3,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point2D * _Nonnull origin,
 &nbsp;&nbsp;&nbsp;&nbsp;float angle
 );</tt><br>
 </pre></blockquote>
@@ -576,8 +577,8 @@ doing a rotation about the origin, and translating back.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Matrix3x3_SetScale"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Matrix3x3_SetScale">Q3Matrix3x3_SetScale</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Matrix3x3 * ) Q3Matrix3x3_SetScale (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix3x3 *matrix3x3,
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Matrix3x3 * _Nonnull ) Q3Matrix3x3_SetScale (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix3x3 * _Nonnull matrix3x3,
 &nbsp;&nbsp;&nbsp;&nbsp;float xScale,
 &nbsp;&nbsp;&nbsp;&nbsp;float yScale
 );</tt><br>
@@ -597,8 +598,8 @@ doing a rotation about the origin, and translating back.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Matrix3x3_SetTranslate"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Matrix3x3_SetTranslate">Q3Matrix3x3_SetTranslate</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Matrix3x3 * ) Q3Matrix3x3_SetTranslate (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix3x3 *matrix3x3,
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Matrix3x3 * _Nonnull ) Q3Matrix3x3_SetTranslate (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix3x3 * _Nonnull matrix3x3,
 &nbsp;&nbsp;&nbsp;&nbsp;float xTrans,
 &nbsp;&nbsp;&nbsp;&nbsp;float yTrans
 );</tt><br>
@@ -618,9 +619,9 @@ doing a rotation about the origin, and translating back.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Matrix3x3_Transpose"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Matrix3x3_Transpose">Q3Matrix3x3_Transpose</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Matrix3x3 * ) Q3Matrix3x3_Transpose (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix3x3 *matrix3x3,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix3x3 *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Matrix3x3 * _Nonnull ) Q3Matrix3x3_Transpose (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix3x3 * _Nonnull matrix3x3,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix3x3 * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Transpose a 3x3 matrix.
@@ -637,9 +638,9 @@ doing a rotation about the origin, and translating back.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Matrix4x4_Copy"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Matrix4x4_Copy">Q3Matrix4x4_Copy</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Matrix4x4 * ) Q3Matrix4x4_Copy (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix4x4 *matrix4x4,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix4x4 *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Matrix4x4 * _Nonnull ) Q3Matrix4x4_Copy (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix4x4 * _Nonnull matrix4x4,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix4x4 * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Copy a 4x4 matrix.
@@ -657,7 +658,7 @@ doing a rotation about the origin, and translating back.
 <hr><a name="//Quesa/c/func/Q3Matrix4x4_Determinant"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Matrix4x4_Determinant">Q3Matrix4x4_Determinant</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( float ) Q3Matrix4x4_Determinant (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix4x4 *matrix4x4
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix4x4 * _Nonnull matrix4x4
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Return the determinant of 4x4 matrix.
@@ -673,9 +674,9 @@ doing a rotation about the origin, and translating back.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Matrix4x4_Invert"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Matrix4x4_Invert">Q3Matrix4x4_Invert</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Matrix4x4 * ) Q3Matrix4x4_Invert (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix4x4 *matrix4x4,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix4x4 *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Matrix4x4 * _Nonnull ) Q3Matrix4x4_Invert (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix4x4 * _Nonnull matrix4x4,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix4x4 * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Calculate the inverse of a 4x4 non-singular matrix.
@@ -692,10 +693,10 @@ doing a rotation about the origin, and translating back.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Matrix4x4_Multiply"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Matrix4x4_Multiply">Q3Matrix4x4_Multiply</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Matrix4x4 * ) Q3Matrix4x4_Multiply (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix4x4 *m1,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix4x4 *m2,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix4x4 *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Matrix4x4 * _Nonnull ) Q3Matrix4x4_Multiply (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix4x4 * _Nonnull m1,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix4x4 * _Nonnull m2,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix4x4 * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Multiply two 4x4 matrices.
@@ -713,8 +714,8 @@ doing a rotation about the origin, and translating back.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Matrix4x4_SetIdentity"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Matrix4x4_SetIdentity">Q3Matrix4x4_SetIdentity</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Matrix4x4 * ) Q3Matrix4x4_SetIdentity (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix4x4 *matrix4x4
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Matrix4x4 * _Nonnull ) Q3Matrix4x4_SetIdentity (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix4x4 * _Nonnull matrix4x4
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set a 4x4 matrix to the identity matrix.
@@ -730,9 +731,9 @@ doing a rotation about the origin, and translating back.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Matrix4x4_SetQuaternion"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Matrix4x4_SetQuaternion">Q3Matrix4x4_SetQuaternion</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Matrix4x4 * ) Q3Matrix4x4_SetQuaternion (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix4x4 *matrix4x4,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Quaternion *quaternion
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Matrix4x4 * _Nonnull ) Q3Matrix4x4_SetQuaternion (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix4x4 * _Nonnull matrix4x4,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Quaternion * _Nonnull quaternion
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set a 4x4 matrix from to the rotation represented by a quaternion.
@@ -749,10 +750,10 @@ doing a rotation about the origin, and translating back.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Matrix4x4_SetRotateAboutAxis"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Matrix4x4_SetRotateAboutAxis">Q3Matrix4x4_SetRotateAboutAxis</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Matrix4x4 * ) Q3Matrix4x4_SetRotateAboutAxis (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix4x4 *matrix4x4,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D *origin,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D *axis,
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Matrix4x4 * _Nonnull ) Q3Matrix4x4_SetRotateAboutAxis (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix4x4 * _Nonnull matrix4x4,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D * _Nonnull origin,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D * _Nonnull axis,
 &nbsp;&nbsp;&nbsp;&nbsp;float angle
 );</tt><br>
 </pre></blockquote>
@@ -775,9 +776,9 @@ Note that for correct results, the axis should be normalized
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Matrix4x4_SetRotateAboutPoint"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Matrix4x4_SetRotateAboutPoint">Q3Matrix4x4_SetRotateAboutPoint</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Matrix4x4 * ) Q3Matrix4x4_SetRotateAboutPoint (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix4x4 *matrix4x4,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D *origin,
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Matrix4x4 * _Nonnull ) Q3Matrix4x4_SetRotateAboutPoint (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix4x4 * _Nonnull matrix4x4,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D * _Nonnull origin,
 &nbsp;&nbsp;&nbsp;&nbsp;float xAngle,
 &nbsp;&nbsp;&nbsp;&nbsp;float yAngle,
 &nbsp;&nbsp;&nbsp;&nbsp;float zAngle
@@ -804,10 +805,10 @@ compatibility with QD3D.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Matrix4x4_SetRotateVectorToVector"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Matrix4x4_SetRotateVectorToVector">Q3Matrix4x4_SetRotateVectorToVector</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Matrix4x4 * ) Q3Matrix4x4_SetRotateVectorToVector (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix4x4 *matrix4x4,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D *v1,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D *v2
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Matrix4x4 * _Nonnull ) Q3Matrix4x4_SetRotateVectorToVector (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix4x4 * _Nonnull matrix4x4,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D * _Nonnull v1,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D * _Nonnull v2
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set a 4x4 matrix to rotate vector 'v1' to 'v2'.
@@ -828,8 +829,8 @@ Note that for correct results, both vectors should be normalized
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Matrix4x4_SetRotate_X"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Matrix4x4_SetRotate_X">Q3Matrix4x4_SetRotate_X</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Matrix4x4 * ) Q3Matrix4x4_SetRotate_X (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix4x4 *matrix4x4,
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Matrix4x4 * _Nonnull ) Q3Matrix4x4_SetRotate_X (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix4x4 * _Nonnull matrix4x4,
 &nbsp;&nbsp;&nbsp;&nbsp;float angle
 );</tt><br>
 </pre></blockquote>
@@ -847,8 +848,8 @@ Note that for correct results, both vectors should be normalized
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Matrix4x4_SetRotate_XYZ"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Matrix4x4_SetRotate_XYZ">Q3Matrix4x4_SetRotate_XYZ</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Matrix4x4 * ) Q3Matrix4x4_SetRotate_XYZ (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix4x4 *matrix4x4,
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Matrix4x4 * _Nonnull ) Q3Matrix4x4_SetRotate_XYZ (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix4x4 * _Nonnull matrix4x4,
 &nbsp;&nbsp;&nbsp;&nbsp;float xAngle,
 &nbsp;&nbsp;&nbsp;&nbsp;float yAngle,
 &nbsp;&nbsp;&nbsp;&nbsp;float zAngle
@@ -873,8 +874,8 @@ compatibility with QD3D.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Matrix4x4_SetRotate_Y"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Matrix4x4_SetRotate_Y">Q3Matrix4x4_SetRotate_Y</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Matrix4x4 * ) Q3Matrix4x4_SetRotate_Y (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix4x4 *matrix4x4,
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Matrix4x4 * _Nonnull ) Q3Matrix4x4_SetRotate_Y (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix4x4 * _Nonnull matrix4x4,
 &nbsp;&nbsp;&nbsp;&nbsp;float angle
 );</tt><br>
 </pre></blockquote>
@@ -892,8 +893,8 @@ compatibility with QD3D.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Matrix4x4_SetRotate_Z"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Matrix4x4_SetRotate_Z">Q3Matrix4x4_SetRotate_Z</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Matrix4x4 * ) Q3Matrix4x4_SetRotate_Z (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix4x4 *matrix4x4,
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Matrix4x4 * _Nonnull ) Q3Matrix4x4_SetRotate_Z (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix4x4 * _Nonnull matrix4x4,
 &nbsp;&nbsp;&nbsp;&nbsp;float angle
 );</tt><br>
 </pre></blockquote>
@@ -911,8 +912,8 @@ compatibility with QD3D.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Matrix4x4_SetScale"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Matrix4x4_SetScale">Q3Matrix4x4_SetScale</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Matrix4x4 * ) Q3Matrix4x4_SetScale (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix4x4 *matrix4x4,
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Matrix4x4 * _Nonnull ) Q3Matrix4x4_SetScale (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix4x4 * _Nonnull matrix4x4,
 &nbsp;&nbsp;&nbsp;&nbsp;float xScale,
 &nbsp;&nbsp;&nbsp;&nbsp;float yScale,
 &nbsp;&nbsp;&nbsp;&nbsp;float zScale
@@ -934,8 +935,8 @@ compatibility with QD3D.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Matrix4x4_SetTranslate"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Matrix4x4_SetTranslate">Q3Matrix4x4_SetTranslate</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Matrix4x4 * ) Q3Matrix4x4_SetTranslate (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix4x4 *matrix4x4,
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Matrix4x4 * _Nonnull ) Q3Matrix4x4_SetTranslate (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix4x4 * _Nonnull matrix4x4,
 &nbsp;&nbsp;&nbsp;&nbsp;float xTrans,
 &nbsp;&nbsp;&nbsp;&nbsp;float yTrans,
 &nbsp;&nbsp;&nbsp;&nbsp;float zTrans
@@ -957,9 +958,9 @@ compatibility with QD3D.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Matrix4x4_Transpose"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Matrix4x4_Transpose">Q3Matrix4x4_Transpose</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Matrix4x4 * ) Q3Matrix4x4_Transpose (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix4x4 *matrix4x4,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix4x4 *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Matrix4x4 * _Nonnull ) Q3Matrix4x4_Transpose (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix4x4 * _Nonnull matrix4x4,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Matrix4x4 * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Transpose a 4x4 matrix.
@@ -976,11 +977,11 @@ compatibility with QD3D.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Param2D_AffineComb"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Param2D_AffineComb">Q3Param2D_AffineComb</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Param2D * ) Q3Param2D_AffineComb (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Param2D *params2D,
-&nbsp;&nbsp;&nbsp;&nbsp;const float *weights,
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Param2D * _Nonnull ) Q3Param2D_AffineComb (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Param2D * _Nonnull params2D,
+&nbsp;&nbsp;&nbsp;&nbsp;const float * _Nonnull weights,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 numPoints,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Param2D *result
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Param2D * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Return weighted combination of several 2D parameter points.
@@ -1009,8 +1010,8 @@ If you have only two points, use Q3Param2D_RRatio instead.
 <hr><a name="//Quesa/c/func/Q3Param2D_Distance"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Param2D_Distance">Q3Param2D_Distance</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( float ) Q3Param2D_Distance (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Param2D *p1,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Param2D *p2
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Param2D * _Nonnull p1,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Param2D * _Nonnull p2
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Return Euclidean distance between two UV parameter points.
@@ -1030,8 +1031,8 @@ Available in inline form as Q3FastParam2D_Distance.
 <hr><a name="//Quesa/c/func/Q3Param2D_DistanceSquared"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Param2D_DistanceSquared">Q3Param2D_DistanceSquared</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( float ) Q3Param2D_DistanceSquared (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Param2D *p1,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Param2D *p2
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Param2D * _Nonnull p1,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Param2D * _Nonnull p2
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Return the squared Euclidean distance between two UV parameter points.
@@ -1050,12 +1051,12 @@ Available in inline form as Q3FastParam2D_DistanceSquared.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Param2D_RRatio"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Param2D_RRatio">Q3Param2D_RRatio</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Param2D * ) Q3Param2D_RRatio (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Param2D *p1,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Param2D *p2,
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Param2D * _Nonnull ) Q3Param2D_RRatio (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Param2D * _Nonnull p1,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Param2D * _Nonnull p2,
 &nbsp;&nbsp;&nbsp;&nbsp;float r1,
 &nbsp;&nbsp;&nbsp;&nbsp;float r2,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Param2D *result
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Param2D * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Return the point at ratio r2/(r1+r2) along the line segment is
@@ -1082,8 +1083,8 @@ Available in inline form as Q3FastParam2D_RRatio.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Param2D_Set"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Param2D_Set">Q3Param2D_Set</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Param2D * ) Q3Param2D_Set (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Param2D *param2D,
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Param2D * _Nonnull ) Q3Param2D_Set (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Param2D * _Nonnull param2D,
 &nbsp;&nbsp;&nbsp;&nbsp;float u,
 &nbsp;&nbsp;&nbsp;&nbsp;float v
 );</tt><br>
@@ -1105,10 +1106,10 @@ Available in inline form as Q3FastParam2D_Set.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Param2D_Subtract"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Param2D_Subtract">Q3Param2D_Subtract</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Vector2D * ) Q3Param2D_Subtract (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Param2D *p1,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Param2D *p2,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector2D *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Vector2D * _Nonnull ) Q3Param2D_Subtract (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Param2D * _Nonnull p1,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Param2D * _Nonnull p2,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector2D * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Subtract 2D parametric point p2 from p1.
@@ -1128,10 +1129,10 @@ Available in inline form as Q3FastParam2D_Subtract.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Param2D_Transform"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Param2D_Transform">Q3Param2D_Transform</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Param2D * ) Q3Param2D_Transform (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Param2D *param2D,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix3x3 *matrix3x3,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Param2D *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Param2D * _Nonnull ) Q3Param2D_Transform (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Param2D * _Nonnull param2D,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix3x3 * _Nonnull matrix3x3,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Param2D * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Transform a 2D parametric point by a 3x3 matrix.
@@ -1149,10 +1150,10 @@ Available in inline form as Q3FastParam2D_Subtract.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Param2D_Vector2D_Add"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Param2D_Vector2D_Add">Q3Param2D_Vector2D_Add</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Param2D * ) Q3Param2D_Vector2D_Add (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Param2D *param2D,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector2D *vector2D,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Param2D *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Param2D * _Nonnull ) Q3Param2D_Vector2D_Add (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Param2D * _Nonnull param2D,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector2D * _Nonnull vector2D,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Param2D * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Add a 2D vector to a parametric (UV) point.
@@ -1172,10 +1173,10 @@ Available in inline form as Q3FastParam2D_Vector2D_Add.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Param2D_Vector2D_Subtract"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Param2D_Vector2D_Subtract">Q3Param2D_Vector2D_Subtract</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Param2D * ) Q3Param2D_Vector2D_Subtract (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Param2D *param2D,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector2D *vector2D,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Param2D *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Param2D * _Nonnull ) Q3Param2D_Vector2D_Subtract (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Param2D * _Nonnull param2D,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector2D * _Nonnull vector2D,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Param2D * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Subtract a 2D vector from a parametric (UV) point.
@@ -1195,11 +1196,11 @@ Available in inline form as Q3FastParam2D_Vector2D_Subtract.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Point2D_AffineComb"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Point2D_AffineComb">Q3Point2D_AffineComb</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Point2D * ) Q3Point2D_AffineComb (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point2D *points2D,
-&nbsp;&nbsp;&nbsp;&nbsp;const float *weights,
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Point2D * _Nonnull ) Q3Point2D_AffineComb (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point2D * _Nonnull points2D,
+&nbsp;&nbsp;&nbsp;&nbsp;const float * _Nonnull weights,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 numPoints,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point2D *result
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point2D * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Return weighted combination of several 2D points.
@@ -1231,9 +1232,9 @@ If you have only two points, use Q3Point2D_RRatio instead.
 <br><br>
 <br>
 <blockquote><pre><tt>( float ) Q3Point2D_CrossProductTri (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point2D *p1,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point2D *p2,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point2D *p3
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point2D * _Nonnull p1,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point2D * _Nonnull p2,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point2D * _Nonnull p3
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Return the length of the cross product of a triangle specified by
@@ -1255,8 +1256,8 @@ Available in inline form as Q3FastPoint2D_CrossProductTri.
 <hr><a name="//Quesa/c/func/Q3Point2D_Distance"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Point2D_Distance">Q3Point2D_Distance</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( float ) Q3Point2D_Distance (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point2D *p1,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point2D *p2
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point2D * _Nonnull p1,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point2D * _Nonnull p2
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Return Euclidean distance between two 2D points.
@@ -1276,8 +1277,8 @@ Available in inline form as Q3FastPoint2D_Distance.
 <hr><a name="//Quesa/c/func/Q3Point2D_DistanceSquared"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Point2D_DistanceSquared">Q3Point2D_DistanceSquared</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( float ) Q3Point2D_DistanceSquared (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point2D *p1,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point2D *p2
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point2D * _Nonnull p1,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point2D * _Nonnull p2
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Return the squared Euclidean distance between two 2D points.
@@ -1296,12 +1297,12 @@ Available in inline form as Q3FastPoint2D_DistanceSquared.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Point2D_RRatio"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Point2D_RRatio">Q3Point2D_RRatio</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Point2D * ) Q3Point2D_RRatio (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point2D *p1,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point2D *p2,
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Point2D * _Nonnull ) Q3Point2D_RRatio (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point2D * _Nonnull p1,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point2D * _Nonnull p2,
 &nbsp;&nbsp;&nbsp;&nbsp;float r1,
 &nbsp;&nbsp;&nbsp;&nbsp;float r2,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point2D *result
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point2D * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Return the point at ratio r2/(r1+r2) along the line segment from p1 to p2.
@@ -1334,8 +1335,8 @@ Available in inline form as Q3FastPoint2D_RRatio.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Point2D_Set"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Point2D_Set">Q3Point2D_Set</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Point2D * ) Q3Point2D_Set (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point2D *point2D,
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Point2D * _Nonnull ) Q3Point2D_Set (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point2D * _Nonnull point2D,
 &nbsp;&nbsp;&nbsp;&nbsp;float x,
 &nbsp;&nbsp;&nbsp;&nbsp;float y
 );</tt><br>
@@ -1357,10 +1358,10 @@ Available in inline form as Q3FastPoint2D_Set.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Point2D_Subtract"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Point2D_Subtract">Q3Point2D_Subtract</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Vector2D * ) Q3Point2D_Subtract (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point2D *p1,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point2D *p2,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector2D *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Vector2D * _Nonnull ) Q3Point2D_Subtract (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point2D * _Nonnull p1,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point2D * _Nonnull p2,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector2D * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Subtract the 2D point p2 from p1.
@@ -1384,9 +1385,9 @@ Available in inline form as Q3FastPoint2D_Subtract.
 <br><br>
 <br>
 <blockquote><pre><tt>( TQ3Status ) Q3Point2D_To2DTransformArray (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point2D *inPoints2D,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix3x3 *matrix3x3,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point2D *outPoints2D,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point2D * _Nonnull inPoints2D,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix3x3 * _Nonnull matrix3x3,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point2D * _Nonnull outPoints2D,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 numPoints,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 inStructSize,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 outStructSize
@@ -1413,9 +1414,9 @@ alternative to calling Q3Point2D_Transform repeatedly.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Point2D_To3D"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Point2D_To3D">Q3Point2D_To3D</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3RationalPoint3D * ) Q3Point2D_To3D (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point2D *point2D,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RationalPoint3D *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3RationalPoint3D * _Nonnull ) Q3Point2D_To3D (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point2D * _Nonnull point2D,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RationalPoint3D * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Convert 2D point to rational 3D, setting w to 1.
@@ -1443,9 +1444,9 @@ Available in inline form as Q3FastPoint2D_To3D.
 <br><br>
 <br>
 <blockquote><pre><tt>( TQ3Status ) Q3Point2D_To3DTransformArray (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point2D *inPoints2D,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix3x3 *matrix3x3,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RationalPoint3D *outRationalPoints3D,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point2D * _Nonnull inPoints2D,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix3x3 * _Nonnull matrix3x3,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RationalPoint3D * _Nonnull outRationalPoints3D,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 numPoints,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 inStructSize,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 outStructSize
@@ -1472,9 +1473,9 @@ alternative to calling Q3Point2D_To3D and Q3RationalPoint3D_Transform repeatedly
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Point2D_ToPolar"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Point2D_ToPolar">Q3Point2D_ToPolar</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3PolarPoint * ) Q3Point2D_ToPolar (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point2D *point2D,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3PolarPoint *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3PolarPoint * _Nonnull ) Q3Point2D_ToPolar (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point2D * _Nonnull point2D,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3PolarPoint * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Convert 2D cartesian point to polar coordinates.
@@ -1493,10 +1494,10 @@ The angle (theta) here is measured counter-clockwise from the +x axis.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Point2D_Transform"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Point2D_Transform">Q3Point2D_Transform</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Point2D * ) Q3Point2D_Transform (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point2D *point2D,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix3x3 *matrix3x3,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point2D *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Point2D * _Nonnull ) Q3Point2D_Transform (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point2D * _Nonnull point2D,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix3x3 * _Nonnull matrix3x3,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point2D * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Transform a 2D point by a 3x3 matrix.
@@ -1514,10 +1515,10 @@ The angle (theta) here is measured counter-clockwise from the +x axis.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Point2D_Vector2D_Add"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Point2D_Vector2D_Add">Q3Point2D_Vector2D_Add</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Point2D * ) Q3Point2D_Vector2D_Add (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point2D *point2D,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector2D *vector2D,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point2D *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Point2D * _Nonnull ) Q3Point2D_Vector2D_Add (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point2D * _Nonnull point2D,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector2D * _Nonnull vector2D,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point2D * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Add a 2D vector to a point.
@@ -1537,10 +1538,10 @@ Available in inline form as Q3FastPoint2D_Vector2D_Add.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Point2D_Vector2D_Subtract"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Point2D_Vector2D_Subtract">Q3Point2D_Vector2D_Subtract</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Point2D * ) Q3Point2D_Vector2D_Subtract (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point2D *point2D,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector2D *vector2D,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point2D *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Point2D * _Nonnull ) Q3Point2D_Vector2D_Subtract (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point2D * _Nonnull point2D,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector2D * _Nonnull vector2D,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point2D * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Subtract a 2D vector from a point.
@@ -1560,11 +1561,11 @@ Available in inline form as Q3FastPoint2D_Vector2D_Subtract.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Point3D_AffineComb"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Point3D_AffineComb">Q3Point3D_AffineComb</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Point3D * ) Q3Point3D_AffineComb (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D *points3D,
-&nbsp;&nbsp;&nbsp;&nbsp;const float *weights,
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Point3D * _Nonnull ) Q3Point3D_AffineComb (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D * _Nonnull points3D,
+&nbsp;&nbsp;&nbsp;&nbsp;const float * _Nonnull weights,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 numPoints,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point3D *result
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point3D * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Return weighted combination of several 3D points.
@@ -1592,11 +1593,11 @@ If you have only two points, use Q3Point3D_RRatio instead.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Point3D_CrossProductTri"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Point3D_CrossProductTri">Q3Point3D_CrossProductTri</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Vector3D * ) Q3Point3D_CrossProductTri (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D *p1,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D *p2,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D *p3,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector3D *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Vector3D * _Nonnull ) Q3Point3D_CrossProductTri (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D * _Nonnull p1,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D * _Nonnull p2,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D * _Nonnull p3,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector3D * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Return the cross product of triangle triangle defined by three
@@ -1619,8 +1620,8 @@ Available in inline form as Q3FastPoint3D_CrossProductTri.
 <hr><a name="//Quesa/c/func/Q3Point3D_Distance"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Point3D_Distance">Q3Point3D_Distance</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( float ) Q3Point3D_Distance (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D *p1,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D *p2
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D * _Nonnull p1,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D * _Nonnull p2
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Return Euclidean distance between two 3D points.
@@ -1640,8 +1641,8 @@ Available in inline form as Q3FastPoint3D_Distance.
 <hr><a name="//Quesa/c/func/Q3Point3D_DistanceSquared"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Point3D_DistanceSquared">Q3Point3D_DistanceSquared</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( float ) Q3Point3D_DistanceSquared (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D *p1,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D *p2
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D * _Nonnull p1,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D * _Nonnull p2
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Return the squared Euclidean distance between two 3D points.
@@ -1660,12 +1661,12 @@ Available in inline form as Q3FastPoint3D_DistanceSquared.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Point3D_RRatio"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Point3D_RRatio">Q3Point3D_RRatio</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Point3D * ) Q3Point3D_RRatio (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D *p1,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D *p2,
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Point3D * _Nonnull ) Q3Point3D_RRatio (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D * _Nonnull p1,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D * _Nonnull p2,
 &nbsp;&nbsp;&nbsp;&nbsp;float r1,
 &nbsp;&nbsp;&nbsp;&nbsp;float r2,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point3D *result
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point3D * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Return the point at ratio r2/(r1+r2) along the line segment from p1 to p2.
@@ -1698,8 +1699,8 @@ Available in inline form as Q3FastPoint3D_RRatio.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Point3D_Set"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Point3D_Set">Q3Point3D_Set</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Point3D * ) Q3Point3D_Set (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point3D *point3D,
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Point3D * _Nonnull ) Q3Point3D_Set (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point3D * _Nonnull point3D,
 &nbsp;&nbsp;&nbsp;&nbsp;float x,
 &nbsp;&nbsp;&nbsp;&nbsp;float y,
 &nbsp;&nbsp;&nbsp;&nbsp;float z
@@ -1723,10 +1724,10 @@ Available in inline form as Q3FastPoint3D_Set.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Point3D_Subtract"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Point3D_Subtract">Q3Point3D_Subtract</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Vector3D * ) Q3Point3D_Subtract (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D *p1,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D *p2,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector3D *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Vector3D * _Nonnull ) Q3Point3D_Subtract (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D * _Nonnull p1,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D * _Nonnull p2,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector3D * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Subtract 3D point p2 from p1.
@@ -1747,9 +1748,9 @@ Available in inline form as Q3FastPoint3D_Subtract.
 <hr><a name="//Quesa/c/func/Q3Point3D_To3DTransformArray"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Point3D_To3DTransformArray">Q3Point3D_To3DTransformArray</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Point3D_To3DTransformArray (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D *inPoints3D,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix4x4 *matrix4x4,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point3D *outPoints3D,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D * _Nonnull inPoints3D,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix4x4 * _Nonnull matrix4x4,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point3D * _Nonnull outPoints3D,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 numPoints,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 inStructSize,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 outStructSize
@@ -1776,9 +1777,9 @@ alternative to calling Q3Point3D_Transform repeatedly.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Point3D_To4D"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Point3D_To4D">Q3Point3D_To4D</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3RationalPoint4D * ) Q3Point3D_To4D (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D *point3D,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RationalPoint4D *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3RationalPoint4D * _Nonnull ) Q3Point3D_To4D (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D * _Nonnull point3D,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RationalPoint4D * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Convert 3D point to rational 4D, setting w to 1.
@@ -1798,9 +1799,9 @@ Available in inline form as Q3FastPoint3D_To4D.
 <hr><a name="//Quesa/c/func/Q3Point3D_To4DTransformArray"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Point3D_To4DTransformArray">Q3Point3D_To4DTransformArray</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Point3D_To4DTransformArray (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D *inPoints3D,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix4x4 *matrix4x4,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RationalPoint4D *outRationalPoints4D,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D * _Nonnull inPoints3D,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix4x4 * _Nonnull matrix4x4,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RationalPoint4D * _Nonnull outRationalPoints4D,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 numPoints,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 inStructSize,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 outStructSize
@@ -1827,9 +1828,9 @@ alternative to calling Q3Point3D_To4D and Q3RationalPoint4D_Transform repeatedly
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Point3D_ToSpherical"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Point3D_ToSpherical">Q3Point3D_ToSpherical</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3SphericalPoint * ) Q3Point3D_ToSpherical (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D *point3D,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3SphericalPoint *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3SphericalPoint * _Nonnull ) Q3Point3D_ToSpherical (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D * _Nonnull point3D,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3SphericalPoint * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Convert 3D cartesian point to spherical coordinates.
@@ -1846,10 +1847,10 @@ alternative to calling Q3Point3D_To4D and Q3RationalPoint4D_Transform repeatedly
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Point3D_Transform"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Point3D_Transform">Q3Point3D_Transform</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Point3D * ) Q3Point3D_Transform (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D *point3D,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix4x4 *matrix4x4,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point3D *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Point3D * _Nonnull ) Q3Point3D_Transform (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D * _Nonnull point3D,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix4x4 * _Nonnull matrix4x4,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point3D * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Transform a 3D point by a 4x4 matrix.
@@ -1867,10 +1868,10 @@ alternative to calling Q3Point3D_To4D and Q3RationalPoint4D_Transform repeatedly
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Point3D_TransformQuaternion"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Point3D_TransformQuaternion">Q3Point3D_TransformQuaternion</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Point3D * ) Q3Point3D_TransformQuaternion (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D *point3D,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Quaternion *quaternion,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point3D *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Point3D * _Nonnull ) Q3Point3D_TransformQuaternion (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D * _Nonnull point3D,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Quaternion * _Nonnull quaternion,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point3D * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Transform a 3D point by a quaternion.
@@ -1890,10 +1891,10 @@ Note that for correct results, the quaternion should be normalized.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Point3D_Vector3D_Add"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Point3D_Vector3D_Add">Q3Point3D_Vector3D_Add</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Point3D * ) Q3Point3D_Vector3D_Add (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D *point3D,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D *vector3D,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point3D *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Point3D * _Nonnull ) Q3Point3D_Vector3D_Add (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D * _Nonnull point3D,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D * _Nonnull vector3D,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point3D * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Add a 3D vector to a point.
@@ -1913,10 +1914,10 @@ Available in inline form as Q3FastPoint3D_Vector3D_Add.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Point3D_Vector3D_Subtract"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Point3D_Vector3D_Subtract">Q3Point3D_Vector3D_Subtract</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Point3D * ) Q3Point3D_Vector3D_Subtract (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D *point3D,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D *vector3D,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point3D *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Point3D * _Nonnull ) Q3Point3D_Vector3D_Subtract (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D * _Nonnull point3D,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D * _Nonnull vector3D,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point3D * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Subtract 3D vector from point.
@@ -1936,8 +1937,8 @@ Available in inline form as Q3FastPoint3D_Vector3D_Subtract.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3PolarPoint_Set"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PolarPoint_Set">Q3PolarPoint_Set</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3PolarPoint * ) Q3PolarPoint_Set (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3PolarPoint *polarPoint,
+</td></tr></table><hr><blockquote><pre><tt>( TQ3PolarPoint * _Nonnull ) Q3PolarPoint_Set (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3PolarPoint * _Nonnull polarPoint,
 &nbsp;&nbsp;&nbsp;&nbsp;float r,
 &nbsp;&nbsp;&nbsp;&nbsp;float theta
 );</tt><br>
@@ -1959,9 +1960,9 @@ Available in inline form as Q3FastPolarPoint_Set.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3PolarPoint_ToPoint2D"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PolarPoint_ToPoint2D">Q3PolarPoint_ToPoint2D</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Point2D * ) Q3PolarPoint_ToPoint2D (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3PolarPoint *polarPoint,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point2D *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Point2D * _Nonnull ) Q3PolarPoint_ToPoint2D (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3PolarPoint * _Nonnull polarPoint,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point2D * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Convert 2D polar point to cartesian coordinates.
@@ -1982,9 +1983,9 @@ Available in inline form as Q3FastPolarPoint_ToPoint2D.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Quaternion_Copy"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Quaternion_Copy">Q3Quaternion_Copy</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Quaternion * ) Q3Quaternion_Copy (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Quaternion *quaternion,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Quaternion *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Quaternion * _Nonnull ) Q3Quaternion_Copy (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Quaternion * _Nonnull quaternion,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Quaternion * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Copy a quaternion.
@@ -2004,8 +2005,8 @@ Available in inline form as Q3FastQuaternion_Copy.
 <hr><a name="//Quesa/c/func/Q3Quaternion_Dot"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Quaternion_Dot">Q3Quaternion_Dot</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( float ) Q3Quaternion_Dot (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Quaternion *q1,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Quaternion *q2
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Quaternion * _Nonnull q1,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Quaternion * _Nonnull q2
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Return the dot product of q1 and q2.
@@ -2027,10 +2028,10 @@ Available in inline form as Q3FastQuaternion_Dot.
 </td></tr></table><hr><b>Availability:</b> This function is not available in QD3D.
 <br><br>
 <br>
-<blockquote><pre><tt>( TQ3Vector3D * ) Q3Quaternion_GetAxisAndAngle (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Quaternion *quaternion,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector3D *outAxis,
-&nbsp;&nbsp;&nbsp;&nbsp;float *outAngle
+<blockquote><pre><tt>( TQ3Vector3D * _Nonnull ) Q3Quaternion_GetAxisAndAngle (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Quaternion * _Nonnull quaternion,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector3D * _Nonnull outAxis,
+&nbsp;&nbsp;&nbsp;&nbsp;float * _Nonnull outAngle
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the rotation axis and/or angle represented by a quaternion.
@@ -2061,11 +2062,11 @@ rather pointless.)
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Quaternion_InterpolateFast"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Quaternion_InterpolateFast">Q3Quaternion_InterpolateFast</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Quaternion * ) Q3Quaternion_InterpolateFast (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Quaternion *q1,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Quaternion *q2,
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Quaternion * _Nonnull ) Q3Quaternion_InterpolateFast (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Quaternion * _Nonnull q1,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Quaternion * _Nonnull q2,
 &nbsp;&nbsp;&nbsp;&nbsp;float t,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Quaternion *result
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Quaternion * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Compute a straight linear interpolation between two quaternions.
@@ -2090,11 +2091,11 @@ do so yourself.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Quaternion_InterpolateLinear"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Quaternion_InterpolateLinear">Q3Quaternion_InterpolateLinear</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Quaternion * ) Q3Quaternion_InterpolateLinear (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Quaternion *q1,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Quaternion *q2,
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Quaternion * _Nonnull ) Q3Quaternion_InterpolateLinear (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Quaternion * _Nonnull q1,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Quaternion * _Nonnull q2,
 &nbsp;&nbsp;&nbsp;&nbsp;float t,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Quaternion *result
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Quaternion * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Compute a spherical linear interpolation between two quaternions.
@@ -2121,9 +2122,9 @@ that of QD3D.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Quaternion_Invert"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Quaternion_Invert">Q3Quaternion_Invert</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Quaternion * ) Q3Quaternion_Invert (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Quaternion *quaternion,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Quaternion *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Quaternion * _Nonnull ) Q3Quaternion_Invert (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Quaternion * _Nonnull quaternion,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Quaternion * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Invert a quaternion.
@@ -2146,7 +2147,7 @@ Available in inline form as Q3FastQuaternion_Invert.
 <hr><a name="//Quesa/c/func/Q3Quaternion_IsIdentity"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Quaternion_IsIdentity">Q3Quaternion_IsIdentity</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Boolean ) Q3Quaternion_IsIdentity (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Quaternion *quaternion
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Quaternion * _Nonnull quaternion
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Return whether a quaternion is (roughly) the identity,
@@ -2168,10 +2169,10 @@ For correct results, the quaternion should first be normalized.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Quaternion_MatchReflection"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Quaternion_MatchReflection">Q3Quaternion_MatchReflection</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Quaternion * ) Q3Quaternion_MatchReflection (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Quaternion *q1,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Quaternion *q2,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Quaternion *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Quaternion * _Nonnull ) Q3Quaternion_MatchReflection (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Quaternion * _Nonnull q1,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Quaternion * _Nonnull q2,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Quaternion * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set result to either q1 or -q1, whichever produces a positive dot
@@ -2190,10 +2191,10 @@ product with q2 (i.e., whichever is "closer" to q2 in orientation).
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Quaternion_Multiply"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Quaternion_Multiply">Q3Quaternion_Multiply</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Quaternion * ) Q3Quaternion_Multiply (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Quaternion *q1,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Quaternion *q2,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Quaternion *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Quaternion * _Nonnull ) Q3Quaternion_Multiply (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Quaternion * _Nonnull q1,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Quaternion * _Nonnull q2,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Quaternion * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Compute the product of two quaternions.
@@ -2214,9 +2215,9 @@ by q1*q2 is exactly the same as rotating by q1 and then by q2.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Quaternion_Normalize"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Quaternion_Normalize">Q3Quaternion_Normalize</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Quaternion * ) Q3Quaternion_Normalize (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Quaternion *quaternion,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Quaternion *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Quaternion * _Nonnull ) Q3Quaternion_Normalize (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Quaternion * _Nonnull quaternion,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Quaternion * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Scale a quaternion to length 1.
@@ -2239,8 +2240,8 @@ Available in inline form as Q3FastQuaternion_Normalize.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Quaternion_Set"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Quaternion_Set">Q3Quaternion_Set</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Quaternion * ) Q3Quaternion_Set (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Quaternion *quaternion,
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Quaternion * _Nonnull ) Q3Quaternion_Set (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Quaternion * _Nonnull quaternion,
 &nbsp;&nbsp;&nbsp;&nbsp;float w,
 &nbsp;&nbsp;&nbsp;&nbsp;float x,
 &nbsp;&nbsp;&nbsp;&nbsp;float y,
@@ -2266,8 +2267,8 @@ Available in inline form as Q3FastQuaternion_Set.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Quaternion_SetIdentity"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Quaternion_SetIdentity">Q3Quaternion_SetIdentity</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Quaternion * ) Q3Quaternion_SetIdentity (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Quaternion *quaternion
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Quaternion * _Nonnull ) Q3Quaternion_SetIdentity (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Quaternion * _Nonnull quaternion
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set a quaternion to the identity value (1,0,0,0).
@@ -2285,9 +2286,9 @@ Available in inline form as Q3FastQuaternion_SetIdentity.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Quaternion_SetMatrix"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Quaternion_SetMatrix">Q3Quaternion_SetMatrix</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Quaternion * ) Q3Quaternion_SetMatrix (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Quaternion *quaternion,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix4x4 *matrix4x4
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Quaternion * _Nonnull ) Q3Quaternion_SetMatrix (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Quaternion * _Nonnull quaternion,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix4x4 * _Nonnull matrix4x4
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set a quaternion from a 4x4 rotation matrix.
@@ -2312,9 +2313,9 @@ returns the original quaternion (or something equivalent).
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Quaternion_SetRotateAboutAxis"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Quaternion_SetRotateAboutAxis">Q3Quaternion_SetRotateAboutAxis</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Quaternion * ) Q3Quaternion_SetRotateAboutAxis (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Quaternion *quaternion,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D *axis,
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Quaternion * _Nonnull ) Q3Quaternion_SetRotateAboutAxis (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Quaternion * _Nonnull quaternion,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D * _Nonnull axis,
 &nbsp;&nbsp;&nbsp;&nbsp;float angle
 );</tt><br>
 </pre></blockquote>
@@ -2336,10 +2337,10 @@ Note that for correct results, the axis should be normalized
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Quaternion_SetRotateVectorToVector"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Quaternion_SetRotateVectorToVector">Q3Quaternion_SetRotateVectorToVector</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Quaternion * ) Q3Quaternion_SetRotateVectorToVector (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Quaternion *quaternion,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D *v1,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D *v2
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Quaternion * _Nonnull ) Q3Quaternion_SetRotateVectorToVector (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Quaternion * _Nonnull quaternion,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D * _Nonnull v1,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D * _Nonnull v2
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set a quaternion to rotate vector 'v1' to 'v2'.
@@ -2360,8 +2361,8 @@ Note that for correct results, both vectors should be normalized
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Quaternion_SetRotate_X"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Quaternion_SetRotate_X">Q3Quaternion_SetRotate_X</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Quaternion * ) Q3Quaternion_SetRotate_X (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Quaternion *quaternion,
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Quaternion * _Nonnull ) Q3Quaternion_SetRotate_X (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Quaternion * _Nonnull quaternion,
 &nbsp;&nbsp;&nbsp;&nbsp;float angle
 );</tt><br>
 </pre></blockquote>
@@ -2379,8 +2380,8 @@ Note that for correct results, both vectors should be normalized
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Quaternion_SetRotate_XYZ"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Quaternion_SetRotate_XYZ">Q3Quaternion_SetRotate_XYZ</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Quaternion * ) Q3Quaternion_SetRotate_XYZ (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Quaternion *quaternion,
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Quaternion * _Nonnull ) Q3Quaternion_SetRotate_XYZ (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Quaternion * _Nonnull quaternion,
 &nbsp;&nbsp;&nbsp;&nbsp;float xAngle,
 &nbsp;&nbsp;&nbsp;&nbsp;float yAngle,
 &nbsp;&nbsp;&nbsp;&nbsp;float zAngle
@@ -2405,8 +2406,8 @@ compatibility with QD3D.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Quaternion_SetRotate_Y"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Quaternion_SetRotate_Y">Q3Quaternion_SetRotate_Y</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Quaternion * ) Q3Quaternion_SetRotate_Y (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Quaternion *quaternion,
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Quaternion * _Nonnull ) Q3Quaternion_SetRotate_Y (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Quaternion * _Nonnull quaternion,
 &nbsp;&nbsp;&nbsp;&nbsp;float angle
 );</tt><br>
 </pre></blockquote>
@@ -2424,8 +2425,8 @@ compatibility with QD3D.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Quaternion_SetRotate_Z"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Quaternion_SetRotate_Z">Q3Quaternion_SetRotate_Z</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Quaternion * ) Q3Quaternion_SetRotate_Z (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Quaternion *quaternion,
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Quaternion * _Nonnull ) Q3Quaternion_SetRotate_Z (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Quaternion * _Nonnull quaternion,
 &nbsp;&nbsp;&nbsp;&nbsp;float angle
 );</tt><br>
 </pre></blockquote>
@@ -2443,11 +2444,11 @@ compatibility with QD3D.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3RationalPoint3D_AffineComb"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RationalPoint3D_AffineComb">Q3RationalPoint3D_AffineComb</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3RationalPoint3D * ) Q3RationalPoint3D_AffineComb (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RationalPoint3D *rationalPoints3D,
-&nbsp;&nbsp;&nbsp;&nbsp;const float *weights,
+</td></tr></table><hr><blockquote><pre><tt>( TQ3RationalPoint3D * _Nonnull ) Q3RationalPoint3D_AffineComb (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RationalPoint3D * _Nonnull rationalPoints3D,
+&nbsp;&nbsp;&nbsp;&nbsp;const float * _Nonnull weights,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 numPoints,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RationalPoint3D *result
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RationalPoint3D * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Compute the weighted combination of several 3D rational points.
@@ -2471,8 +2472,8 @@ sum of the weights, so it only requires that the sum is nonzero.
 <hr><a name="//Quesa/c/func/Q3RationalPoint3D_Distance"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RationalPoint3D_Distance">Q3RationalPoint3D_Distance</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( float ) Q3RationalPoint3D_Distance (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RationalPoint3D *p1,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RationalPoint3D *p2
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RationalPoint3D * _Nonnull p1,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RationalPoint3D * _Nonnull p2
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Returns the Euclidian distance between two rational 3D points.
@@ -2496,8 +2497,8 @@ w as a spatial coordinate.
 <hr><a name="//Quesa/c/func/Q3RationalPoint3D_DistanceSquared"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RationalPoint3D_DistanceSquared">Q3RationalPoint3D_DistanceSquared</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( float ) Q3RationalPoint3D_DistanceSquared (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RationalPoint3D *p1,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RationalPoint3D *p2
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RationalPoint3D * _Nonnull p1,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RationalPoint3D * _Nonnull p2
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Returns the squared Euclidian distance between two rational 3D points.
@@ -2520,8 +2521,8 @@ treating w as a spatial coordinate.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3RationalPoint3D_Set"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RationalPoint3D_Set">Q3RationalPoint3D_Set</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3RationalPoint3D * ) Q3RationalPoint3D_Set (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RationalPoint3D *rationalPoint3D,
+</td></tr></table><hr><blockquote><pre><tt>( TQ3RationalPoint3D * _Nonnull ) Q3RationalPoint3D_Set (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RationalPoint3D * _Nonnull rationalPoint3D,
 &nbsp;&nbsp;&nbsp;&nbsp;float x,
 &nbsp;&nbsp;&nbsp;&nbsp;float y,
 &nbsp;&nbsp;&nbsp;&nbsp;float w
@@ -2545,9 +2546,9 @@ Available in inline form as Q3FastRationalPoint3D_Set.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3RationalPoint3D_To2D"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RationalPoint3D_To2D">Q3RationalPoint3D_To2D</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Point2D * ) Q3RationalPoint3D_To2D (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RationalPoint3D *rationalPoint3D,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point2D *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Point2D * _Nonnull ) Q3RationalPoint3D_To2D (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RationalPoint3D * _Nonnull rationalPoint3D,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point2D * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Convert rational 3D point to 2D, dividing by w.
@@ -2570,9 +2571,9 @@ Available in inline form as Q3FastRationalPoint3D_To2D.
 <br><br>
 <br>
 <blockquote><pre><tt>( TQ3Status ) Q3RationalPoint3D_To3DTransformArray (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RationalPoint3D *inRationalPoints3D,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix3x3 *matrix3x3,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RationalPoint3D *outRationalPoints3D,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RationalPoint3D * _Nonnull inRationalPoints3D,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix3x3 * _Nonnull matrix3x3,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RationalPoint3D * _Nonnull outRationalPoints3D,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 numPoints,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 inStructSize,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 outStructSize
@@ -2602,9 +2603,9 @@ alternative to calling Q3RationalPoint3D_Transform repeatedly.
 </td></tr></table><hr><b>Availability:</b> This function is not available in QD3D.
 <br><br>
 <br>
-<blockquote><pre><tt>( TQ3Vector2D * ) Q3RationalPoint3D_ToVector2D (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RationalPoint3D *rationalPoint3D,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector2D *result
+<blockquote><pre><tt>( TQ3Vector2D * _Nonnull ) Q3RationalPoint3D_ToVector2D (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RationalPoint3D * _Nonnull rationalPoint3D,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector2D * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Convert 3D rational point to 2D vector, discarding w.
@@ -2626,10 +2627,10 @@ Available in inline form as Q3FastRationalPoint3D_ToVector2D.
 </td></tr></table><hr><b>Availability:</b> This function is not available in QD3D.
 <br><br>
 <br>
-<blockquote><pre><tt>( TQ3RationalPoint3D * ) Q3RationalPoint3D_Transform (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RationalPoint3D *rationalPoint3D,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix3x3 *matri3x3,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RationalPoint3D *result
+<blockquote><pre><tt>( TQ3RationalPoint3D * _Nonnull ) Q3RationalPoint3D_Transform (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RationalPoint3D * _Nonnull rationalPoint3D,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix3x3 * _Nonnull matri3x3,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RationalPoint3D * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Transform a 3D rational point by 3x3 matrix.
@@ -2647,11 +2648,11 @@ Available in inline form as Q3FastRationalPoint3D_ToVector2D.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3RationalPoint4D_AffineComb"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RationalPoint4D_AffineComb">Q3RationalPoint4D_AffineComb</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3RationalPoint4D * ) Q3RationalPoint4D_AffineComb (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RationalPoint4D *rationalPoints4D,
-&nbsp;&nbsp;&nbsp;&nbsp;const float *weights,
+</td></tr></table><hr><blockquote><pre><tt>( TQ3RationalPoint4D * _Nonnull ) Q3RationalPoint4D_AffineComb (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RationalPoint4D * _Nonnull rationalPoints4D,
+&nbsp;&nbsp;&nbsp;&nbsp;const float * _Nonnull weights,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 numPoints,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RationalPoint4D *result
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RationalPoint4D * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Compute the weighted combination of several 4D rational points.
@@ -2675,8 +2676,8 @@ sum of the weights, so it only requires that the sum is nonzero.
 <hr><a name="//Quesa/c/func/Q3RationalPoint4D_Distance"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RationalPoint4D_Distance">Q3RationalPoint4D_Distance</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( float ) Q3RationalPoint4D_Distance (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RationalPoint4D *p1,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RationalPoint4D *p2
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RationalPoint4D * _Nonnull p1,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RationalPoint4D * _Nonnull p2
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Returns the Euclidian distance between two rational 4D points.
@@ -2700,8 +2701,8 @@ w as a spatial coordinate.
 <hr><a name="//Quesa/c/func/Q3RationalPoint4D_DistanceSquared"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RationalPoint4D_DistanceSquared">Q3RationalPoint4D_DistanceSquared</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( float ) Q3RationalPoint4D_DistanceSquared (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RationalPoint4D *p1,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RationalPoint4D *p2
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RationalPoint4D * _Nonnull p1,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RationalPoint4D * _Nonnull p2
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Returns the squared Euclidian distance between two rational 4D points.
@@ -2724,12 +2725,12 @@ treating w as a spatial coordinate.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3RationalPoint4D_RRatio"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RationalPoint4D_RRatio">Q3RationalPoint4D_RRatio</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3RationalPoint4D * ) Q3RationalPoint4D_RRatio (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RationalPoint4D *p1,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RationalPoint4D *p2,
+</td></tr></table><hr><blockquote><pre><tt>( TQ3RationalPoint4D * _Nonnull ) Q3RationalPoint4D_RRatio (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RationalPoint4D * _Nonnull p1,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RationalPoint4D * _Nonnull p2,
 &nbsp;&nbsp;&nbsp;&nbsp;float r1,
 &nbsp;&nbsp;&nbsp;&nbsp;float r2,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RationalPoint4D *result
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RationalPoint4D * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Return the point at ratio r2/(r1+r2) along the line segment from p1 to p2.
@@ -2762,8 +2763,8 @@ Available in inline form as Q3FastRationalPoint4D_RRatio.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3RationalPoint4D_Set"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RationalPoint4D_Set">Q3RationalPoint4D_Set</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3RationalPoint4D * ) Q3RationalPoint4D_Set (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RationalPoint4D *rationalPoint4D,
+</td></tr></table><hr><blockquote><pre><tt>( TQ3RationalPoint4D * _Nonnull ) Q3RationalPoint4D_Set (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RationalPoint4D * _Nonnull rationalPoint4D,
 &nbsp;&nbsp;&nbsp;&nbsp;float x,
 &nbsp;&nbsp;&nbsp;&nbsp;float y,
 &nbsp;&nbsp;&nbsp;&nbsp;float z,
@@ -2788,9 +2789,9 @@ Available in inline form as Q3FastRationalPoint4D_Set.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3RationalPoint4D_To3D"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RationalPoint4D_To3D">Q3RationalPoint4D_To3D</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Point3D * ) Q3RationalPoint4D_To3D (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RationalPoint4D *rationalPoint4D,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point3D *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Point3D * _Nonnull ) Q3RationalPoint4D_To3D (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RationalPoint4D * _Nonnull rationalPoint4D,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point3D * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Convert rational 4D point to 3D, dividing by w.
@@ -2810,9 +2811,9 @@ Available in inline form as Q3FastRationalPoint4D_To3D.
 <hr><a name="//Quesa/c/func/Q3RationalPoint4D_To4DTransformArray"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RationalPoint4D_To4DTransformArray">Q3RationalPoint4D_To4DTransformArray</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3RationalPoint4D_To4DTransformArray (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RationalPoint4D *inRationalPoints4D,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix4x4 *matrix4x4,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RationalPoint4D *outRationalPoints4D,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RationalPoint4D * _Nonnull inRationalPoints4D,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix4x4 * _Nonnull matrix4x4,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RationalPoint4D * _Nonnull outRationalPoints4D,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 numPoints,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 inStructSize,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 outStructSize
@@ -2842,9 +2843,9 @@ alternative to calling Q3RationalPoint4D_Transform repeatedly.
 </td></tr></table><hr><b>Availability:</b> This function is not available in QD3D.
 <br><br>
 <br>
-<blockquote><pre><tt>( TQ3Vector3D * ) Q3RationalPoint4D_ToVector3D (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RationalPoint4D *rationalPoint4D,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector3D *result
+<blockquote><pre><tt>( TQ3Vector3D * _Nonnull ) Q3RationalPoint4D_ToVector3D (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RationalPoint4D * _Nonnull rationalPoint4D,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector3D * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Convert 4D rational point to 3D vector, discarding w.
@@ -2863,10 +2864,10 @@ Available in inline form as Q3FastRationalPoint4D_ToVector3D.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3RationalPoint4D_Transform"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3RationalPoint4D_Transform">Q3RationalPoint4D_Transform</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3RationalPoint4D * ) Q3RationalPoint4D_Transform (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RationalPoint4D *rationalPoint4D,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix4x4 *matrix4x4,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RationalPoint4D *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3RationalPoint4D * _Nonnull ) Q3RationalPoint4D_Transform (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3RationalPoint4D * _Nonnull rationalPoint4D,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix4x4 * _Nonnull matrix4x4,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RationalPoint4D * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Transform a 4D rational point by a 4x4 matrix.
@@ -2888,9 +2889,9 @@ Available in inline form as Q3FastRationalPoint4D_ToVector3D.
 <br><br>
 <br>
 <blockquote><pre><tt>( TQ3Boolean ) Q3Ray3D_IntersectBoundingBox (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Ray3D *theRay,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3BoundingBox *theBounds,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point3D *hitPoint
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Ray3D * _Nonnull theRay,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3BoundingBox * _Nonnull theBounds,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point3D * _Nonnull hitPoint
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Test a ray for intersection against a bounding box. If an
@@ -2915,9 +2916,9 @@ The direction vector of the ray must be normalised.
 <br><br>
 <br>
 <blockquote><pre><tt>( TQ3Boolean ) Q3Ray3D_IntersectSphere (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Ray3D *theRay,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Sphere *theSphere,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point3D *hitPoint
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Ray3D * _Nonnull theRay,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Sphere * _Nonnull theSphere,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point3D * _Nonnull hitPoint
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Test a ray for intersection against a sphere, and return the point
@@ -2942,12 +2943,12 @@ The direction vector of the ray must be normalised.
 <br><br>
 <br>
 <blockquote><pre><tt>( TQ3Boolean ) Q3Ray3D_IntersectTriangle (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Ray3D *theRay,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D *point1,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D *point2,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D *point3,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Ray3D * _Nonnull theRay,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D * _Nonnull point1,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D * _Nonnull point2,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D * _Nonnull point3,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean cullBackfacing,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Param3D *hitPoint
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Param3D * _Nonnull hitPoint
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Test a ray for intersection against a triangle formed by three
@@ -2996,8 +2997,8 @@ vector that reaches the intersection.</dd>
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3SphericalPoint_Set"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SphericalPoint_Set">Q3SphericalPoint_Set</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3SphericalPoint * ) Q3SphericalPoint_Set (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3SphericalPoint *sphericalPoint,
+</td></tr></table><hr><blockquote><pre><tt>( TQ3SphericalPoint * _Nonnull ) Q3SphericalPoint_Set (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3SphericalPoint * _Nonnull sphericalPoint,
 &nbsp;&nbsp;&nbsp;&nbsp;float rho,
 &nbsp;&nbsp;&nbsp;&nbsp;float theta,
 &nbsp;&nbsp;&nbsp;&nbsp;float phi
@@ -3021,9 +3022,9 @@ Available in inline form as Q3FastSphericalPoint_Set.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3SphericalPoint_ToPoint3D"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SphericalPoint_ToPoint3D">Q3SphericalPoint_ToPoint3D</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Point3D * ) Q3SphericalPoint_ToPoint3D (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3SphericalPoint *sphericalPoint,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point3D *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Point3D * _Nonnull ) Q3SphericalPoint_ToPoint3D (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3SphericalPoint * _Nonnull sphericalPoint,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point3D * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Convert 3D spherical point to cartesian coordinates.
@@ -3045,10 +3046,10 @@ Available in inline form as Q3FastSphericalPoint_Set.
 <br>
 <blockquote><pre><tt>( TQ3Status ) Q3Triangle_CrossProductArray (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 numTriangles,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Uns8 *usageFlags,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Uns32 *theIndices,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D *thePoints,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector3D *theNormals
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Uns8 * _Nullable usageFlags,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Uns32 * _Nonnull theIndices,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D * _Nonnull thePoints,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector3D * _Nonnull theNormals
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Calculate an array of triangle normals.
@@ -3079,10 +3080,10 @@ The returning vectors are normalized.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Vector2D_Add"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Vector2D_Add">Q3Vector2D_Add</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Vector2D * ) Q3Vector2D_Add (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector2D *v1,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector2D *v2,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector2D *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Vector2D * _Nonnull ) Q3Vector2D_Add (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector2D * _Nonnull v1,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector2D * _Nonnull v2,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector2D * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Add two 2D vectors.
@@ -3103,8 +3104,8 @@ Available in inline form as Q3FastVector2D_Add.
 <hr><a name="//Quesa/c/func/Q3Vector2D_Cross"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Vector2D_Cross">Q3Vector2D_Cross</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( float ) Q3Vector2D_Cross (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector2D *v1,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector2D *v2
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector2D * _Nonnull v1,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector2D * _Nonnull v2
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Return the length of the cross product of two 2D vectors.
@@ -3127,8 +3128,8 @@ Available in inline form as Q3FastVector2D_Cross.
 <hr><a name="//Quesa/c/func/Q3Vector2D_Dot"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Vector2D_Dot">Q3Vector2D_Dot</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( float ) Q3Vector2D_Dot (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector2D *v1,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector2D *v2
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector2D * _Nonnull v1,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector2D * _Nonnull v2
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Return the dot product of two 2D vectors.
@@ -3148,7 +3149,7 @@ Available in inline form as Q3FastVector2D_Dot.
 <hr><a name="//Quesa/c/func/Q3Vector2D_Length"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Vector2D_Length">Q3Vector2D_Length</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( float ) Q3Vector2D_Length (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector2D *vector2D
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector2D * _Nonnull vector2D
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Return length of 2D vector.
@@ -3170,7 +3171,7 @@ Available in inline form as Q3FastVector2D_Length.
 <br><br>
 <br>
 <blockquote><pre><tt>( float ) Q3Vector2D_LengthSquared (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector2D *vector2D
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector2D * _Nonnull vector2D
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Return squared length of 2D vector.
@@ -3194,9 +3195,9 @@ Available in inline form as Q3FastVector2D_LengthSquared.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Vector2D_Negate"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Vector2D_Negate">Q3Vector2D_Negate</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Vector2D * ) Q3Vector2D_Negate (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector2D *vector2D,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector2D *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Vector2D * _Nonnull ) Q3Vector2D_Negate (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector2D * _Nonnull vector2D,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector2D * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Scale a 2D vector by a factor of -1.
@@ -3215,9 +3216,9 @@ Available in inline form as Q3FastVector2D_Negate.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Vector2D_Normalize"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Vector2D_Normalize">Q3Vector2D_Normalize</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Vector2D * ) Q3Vector2D_Normalize (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector2D *vector2D,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector2D *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Vector2D * _Nonnull ) Q3Vector2D_Normalize (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector2D * _Nonnull vector2D,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector2D * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Scale a 2D vector to length 1.
@@ -3238,10 +3239,10 @@ Available in inline form as Q3FastVector2D_Normalize.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Vector2D_Scale"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Vector2D_Scale">Q3Vector2D_Scale</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Vector2D * ) Q3Vector2D_Scale (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector2D *vector2D,
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Vector2D * _Nonnull ) Q3Vector2D_Scale (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector2D * _Nonnull vector2D,
 &nbsp;&nbsp;&nbsp;&nbsp;float scalar,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector2D *result
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector2D * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Scale a 2D vector by the given factor.
@@ -3261,8 +3262,8 @@ Available in inline form as Q3FastVector2D_Scale.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Vector2D_Set"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Vector2D_Set">Q3Vector2D_Set</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Vector2D * ) Q3Vector2D_Set (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector2D *vector2D,
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Vector2D * _Nonnull ) Q3Vector2D_Set (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector2D * _Nonnull vector2D,
 &nbsp;&nbsp;&nbsp;&nbsp;float x,
 &nbsp;&nbsp;&nbsp;&nbsp;float y
 );</tt><br>
@@ -3284,10 +3285,10 @@ Available in inline form as Q3FastVector2D_Set.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Vector2D_Subtract"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Vector2D_Subtract">Q3Vector2D_Subtract</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Vector2D * ) Q3Vector2D_Subtract (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector2D *v1,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector2D *v2,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector2D *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Vector2D * _Nonnull ) Q3Vector2D_Subtract (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector2D * _Nonnull v1,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector2D * _Nonnull v2,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector2D * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Subtract 2D vector v2 from v1.
@@ -3311,9 +3312,9 @@ Available in inline form as Q3FastVector2D_Subtract.
 <br><br>
 <br>
 <blockquote><pre><tt>( TQ3Status ) Q3Vector2D_To2DTransformArray (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector2D *inVectors2D,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix3x3 *matrix3x3,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector2D *outVectors2D,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector2D * _Nonnull inVectors2D,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix3x3 * _Nonnull matrix3x3,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector2D * _Nonnull outVectors2D,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 numVectors,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 inStructSize,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 outStructSize
@@ -3340,9 +3341,9 @@ alternative to calling Q3Vector2D_Transform repeatedly.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Vector2D_To3D"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Vector2D_To3D">Q3Vector2D_To3D</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Vector3D * ) Q3Vector2D_To3D (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector2D *vector2D,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector3D *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Vector3D * _Nonnull ) Q3Vector2D_To3D (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector2D * _Nonnull vector2D,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector3D * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Convert 2D vector to 3D, by setting z to 1.
@@ -3369,9 +3370,9 @@ Available in inline form as Q3FastVector2D_To3D.
 </td></tr></table><hr><b>Availability:</b> This function is not available in QD3D.
 <br><br>
 <br>
-<blockquote><pre><tt>( TQ3RationalPoint3D * ) Q3Vector2D_ToRationalPoint3D (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector2D *vector2D,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RationalPoint3D *result
+<blockquote><pre><tt>( TQ3RationalPoint3D * _Nonnull ) Q3Vector2D_ToRationalPoint3D (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector2D * _Nonnull vector2D,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RationalPoint3D * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Convert 2D vector to 3D rational point, setting w to 0.
@@ -3390,10 +3391,10 @@ Available in inline form as Q3FastVector2D_ToRationalPoint3D.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Vector2D_Transform"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Vector2D_Transform">Q3Vector2D_Transform</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Vector2D * ) Q3Vector2D_Transform (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector2D *vector2D,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix3x3 *matrix3x3,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector2D *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Vector2D * _Nonnull ) Q3Vector2D_Transform (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector2D * _Nonnull vector2D,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix3x3 * _Nonnull matrix3x3,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector2D * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Transform a 2D vector by a 3x3 matrix.
@@ -3417,10 +3418,10 @@ transformation.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Vector3D_Add"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Vector3D_Add">Q3Vector3D_Add</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Vector3D * ) Q3Vector3D_Add (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D *v1,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D *v2,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector3D *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Vector3D * _Nonnull ) Q3Vector3D_Add (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D * _Nonnull v1,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D * _Nonnull v2,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector3D * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Add two 3D vectors.
@@ -3440,10 +3441,10 @@ Available in inline form as Q3FastVector3D_Add.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Vector3D_Cross"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Vector3D_Cross">Q3Vector3D_Cross</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Vector3D * ) Q3Vector3D_Cross (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D *v1,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D *v2,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector3D *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Vector3D * _Nonnull ) Q3Vector3D_Cross (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D * _Nonnull v1,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D * _Nonnull v2,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector3D * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Return 3D cross product of two 3D vectors.
@@ -3465,8 +3466,8 @@ may be the same address as v1 and/or v2.</dd>
 <hr><a name="//Quesa/c/func/Q3Vector3D_Dot"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Vector3D_Dot">Q3Vector3D_Dot</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( float ) Q3Vector3D_Dot (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D *v1,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D *v2
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D * _Nonnull v1,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D * _Nonnull v2
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Return the dot product of two 3D vectors.
@@ -3489,10 +3490,10 @@ Available in inline form as Q3FastVector3D_Dot.
 <br><br>
 <br>
 <blockquote><pre><tt>( TQ3Status ) Q3Vector3D_DotArray (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D *inFirstVectors3D,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D *inSecondVectors3D,
-&nbsp;&nbsp;&nbsp;&nbsp;float *outDotProducts,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean *outDotLessThanZeros,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D * _Nonnull inFirstVectors3D,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D * _Nonnull inSecondVectors3D,
+&nbsp;&nbsp;&nbsp;&nbsp;float * _Nonnull outDotProducts,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean * _Nonnull outDotLessThanZeros,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 numVectors,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 inStructSize,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 outDotProductStructSize,
@@ -3527,7 +3528,7 @@ one parameter may be set to nullptr if that information is not required.
 <hr><a name="//Quesa/c/func/Q3Vector3D_Length"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Vector3D_Length">Q3Vector3D_Length</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( float ) Q3Vector3D_Length (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D *vector3D
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D * _Nonnull vector3D
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Return length of 2D vector.
@@ -3549,7 +3550,7 @@ Available in inline form as Q3FastVector3D_Length.
 <br><br>
 <br>
 <blockquote><pre><tt>( float ) Q3Vector3D_LengthSquared (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D *vector3D
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D * _Nonnull vector3D
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Return squared length of 2D vector.
@@ -3573,9 +3574,9 @@ Available in inline form as Q3FastVector3D_LengthSquared.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Vector3D_Negate"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Vector3D_Negate">Q3Vector3D_Negate</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Vector3D * ) Q3Vector3D_Negate (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D *vector3D,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector3D *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Vector3D * _Nonnull ) Q3Vector3D_Negate (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D * _Nonnull vector3D,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector3D * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Scale a 3D vector by a factor of -1.
@@ -3594,9 +3595,9 @@ Available in inline form as Q3FastVector3D_Negate.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Vector3D_Normalize"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Vector3D_Normalize">Q3Vector3D_Normalize</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Vector3D * ) Q3Vector3D_Normalize (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D *vector3D,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector3D *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Vector3D * _Nonnull ) Q3Vector3D_Normalize (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D * _Nonnull vector3D,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector3D * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Scale a 3D vector to length 1.
@@ -3617,10 +3618,10 @@ Available in inline form as Q3FastVector3D_Normalize.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Vector3D_Scale"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Vector3D_Scale">Q3Vector3D_Scale</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Vector3D * ) Q3Vector3D_Scale (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D *vector3D,
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Vector3D * _Nonnull ) Q3Vector3D_Scale (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D * _Nonnull vector3D,
 &nbsp;&nbsp;&nbsp;&nbsp;float scalar,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector3D *result
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector3D * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Scale a 3D vector by the given factor.
@@ -3640,8 +3641,8 @@ Available in inline form as Q3FastVector3D_Scale.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Vector3D_Set"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Vector3D_Set">Q3Vector3D_Set</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Vector3D * ) Q3Vector3D_Set (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector3D *vector3D,
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Vector3D * _Nonnull ) Q3Vector3D_Set (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector3D * _Nonnull vector3D,
 &nbsp;&nbsp;&nbsp;&nbsp;float x,
 &nbsp;&nbsp;&nbsp;&nbsp;float y,
 &nbsp;&nbsp;&nbsp;&nbsp;float z
@@ -3665,10 +3666,10 @@ Available in inline form as Q3FastVector3D_Set.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Vector3D_Subtract"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Vector3D_Subtract">Q3Vector3D_Subtract</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Vector3D * ) Q3Vector3D_Subtract (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D *v1,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D *v2,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector3D *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Vector3D * _Nonnull ) Q3Vector3D_Subtract (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D * _Nonnull v1,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D * _Nonnull v2,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector3D * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Subtract 3D vector v2 from v1.
@@ -3688,9 +3689,9 @@ Available in inline form as Q3FastVector3D_Subtract.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Vector3D_To2D"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Vector3D_To2D">Q3Vector3D_To2D</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Vector2D * ) Q3Vector3D_To2D (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D *vector3D,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector2D *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Vector2D * _Nonnull ) Q3Vector3D_To2D (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D * _Nonnull vector3D,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector2D * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Convert 3D vector to 2D, dividing by z.
@@ -3719,9 +3720,9 @@ Available in inline form as Q3FastVector3D_To2D.
 <br><br>
 <br>
 <blockquote><pre><tt>( TQ3Status ) Q3Vector3D_To3DTransformArray (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D *inVectors3D,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix4x4 *matrix4x4,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector3D *outVectors3D,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D * _Nonnull inVectors3D,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix4x4 * _Nonnull matrix4x4,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector3D * _Nonnull outVectors3D,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 numVectors,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 inStructSize,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 outStructSize
@@ -3751,9 +3752,9 @@ alternative to calling Q3Vector3D_Transform repeatedly.
 </td></tr></table><hr><b>Availability:</b> This function is not available in QD3D.
 <br><br>
 <br>
-<blockquote><pre><tt>( TQ3RationalPoint4D * ) Q3Vector3D_ToRationalPoint4D (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D *vector3D,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RationalPoint4D *result
+<blockquote><pre><tt>( TQ3RationalPoint4D * _Nonnull ) Q3Vector3D_ToRationalPoint4D (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D * _Nonnull vector3D,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RationalPoint4D * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Convert 3D vector to 4D rational point, setting w to 0.
@@ -3772,10 +3773,10 @@ Available in inline form as Q3FastVector3D_ToRationalPoint4D.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Vector3D_Transform"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Vector3D_Transform">Q3Vector3D_Transform</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Vector3D * ) Q3Vector3D_Transform (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D *vector3D,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix4x4 *matrix4x4,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector3D *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Vector3D * _Nonnull ) Q3Vector3D_Transform (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D * _Nonnull vector3D,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix4x4 * _Nonnull matrix4x4,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector3D * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Transform a 3D vector by a 4x4 matrix.
@@ -3799,10 +3800,10 @@ transformation.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Vector3D_TransformQuaternion"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Vector3D_TransformQuaternion">Q3Vector3D_TransformQuaternion</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Vector3D * ) Q3Vector3D_TransformQuaternion (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D *vector3D,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Quaternion *quaternion,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector3D *result
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Vector3D * _Nonnull ) Q3Vector3D_TransformQuaternion (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector3D * _Nonnull vector3D,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Quaternion * _Nonnull quaternion,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Vector3D * _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Transform a 3D vector by a quaternion.
@@ -3820,5 +3821,5 @@ Note that for correct results, the quaternion should be normalized.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Convenience copy of result parameter.
  </dd></dl>
-<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 5/27/2019)
 </p></body></html>

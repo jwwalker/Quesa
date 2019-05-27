@@ -65,7 +65,7 @@ is also available to general application clients in Quesa.
 <hr><a name="//Quesa/c/func/Q3XObjectClass_GetLeafType"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XObjectClass_GetLeafType">Q3XObjectClass_GetLeafType</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3ObjectType ) Q3XObjectClass_GetLeafType (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3XObjectClass objectClass
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XObjectClass _Nonnull objectClass
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the leaf type of a class.
@@ -84,8 +84,8 @@ when the class was registered.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3XObjectClass_GetMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XObjectClass_GetMethod">Q3XObjectClass_GetMethod</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3XFunctionPointer ) Q3XObjectClass_GetMethod (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3XObjectClass objectClass,
+</td></tr></table><hr><blockquote><pre><tt>( TQ3XFunctionPointer _Nullable ) Q3XObjectClass_GetMethod (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XObjectClass _Nonnull objectClass,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3XMethodType methodType
 );</tt><br>
 </pre></blockquote>
@@ -103,9 +103,9 @@ when the class was registered.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3XObjectClass_GetPrivate"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XObjectClass_GetPrivate">Q3XObjectClass_GetPrivate</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( void * ) Q3XObjectClass_GetPrivate (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3XObjectClass objectClass,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object targetObject
+</td></tr></table><hr><blockquote><pre><tt>( void * _Nullable ) Q3XObjectClass_GetPrivate (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XObjectClass _Nonnull objectClass,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object _Nonnull targetObject
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the private instance data of an object.
@@ -126,8 +126,8 @@ pointer will be returned.
 <hr><a name="//Quesa/c/func/Q3XObjectClass_GetType"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XObjectClass_GetType">Q3XObjectClass_GetType</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XObjectClass_GetType (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3XObjectClass objectClass,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType *theType
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XObjectClass _Nonnull objectClass,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType * _Nonnull theType
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the type of a class.
@@ -144,7 +144,7 @@ pointer will be returned.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3XObjectHierarchy_FindClassByType"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XObjectHierarchy_FindClassByType">Q3XObjectHierarchy_FindClassByType</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3XObjectClass ) Q3XObjectHierarchy_FindClassByType (
+</td></tr></table><hr><blockquote><pre><tt>( TQ3XObjectClass _Nullable ) Q3XObjectHierarchy_FindClassByType (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType theType
 );</tt><br>
 </pre></blockquote>
@@ -163,7 +163,7 @@ pointer will be returned.
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XObjectHierarchy_GetClassVersion">Q3XObjectHierarchy_GetClassVersion</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XObjectHierarchy_GetClassVersion (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType objectClassType,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3XObjectClassVersion *version
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XObjectClassVersion * _Nonnull version
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the version of a class.
@@ -182,9 +182,9 @@ The class version is returned by the class ClassVersion method.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3XObjectHierarchy_NewObject"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XObjectHierarchy_NewObject">Q3XObjectHierarchy_NewObject</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Object ) Q3XObjectHierarchy_NewObject (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3XObjectClass objectClass,
-&nbsp;&nbsp;&nbsp;&nbsp;void *parameters
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Object _Nonnull ) Q3XObjectHierarchy_NewObject (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XObjectClass _Nonnull objectClass,
+&nbsp;&nbsp;&nbsp;&nbsp;void * _Null_unspecified parameters
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Instantiate a class.
@@ -201,12 +201,12 @@ The class version is returned by the class ClassVersion method.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3XObjectHierarchy_RegisterClass"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XObjectHierarchy_RegisterClass">Q3XObjectHierarchy_RegisterClass</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3XObjectClass ) Q3XObjectHierarchy_RegisterClass (
+</td></tr></table><hr><blockquote><pre><tt>( TQ3XObjectClass _Nonnull ) Q3XObjectHierarchy_RegisterClass (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType parentType,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType *objectType,
-&nbsp;&nbsp;&nbsp;&nbsp;const char *objectName,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3XMetaHandler metaHandler,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3XMetaHandler virtualMetaHandler,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType * _Nonnull objectType,
+&nbsp;&nbsp;&nbsp;&nbsp;const char * _Nonnull objectName,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XMetaHandler _Nonnull metaHandler,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XMetaHandler _Nullable virtualMetaHandler,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 methodsSize,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 instanceSize
 );</tt><br>
@@ -246,7 +246,7 @@ identifier in text 3DMF files.</dd>
 <hr><a name="//Quesa/c/func/Q3XObjectHierarchy_UnregisterClass"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XObjectHierarchy_UnregisterClass">Q3XObjectHierarchy_UnregisterClass</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XObjectHierarchy_UnregisterClass (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3XObjectClass objectClass
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XObjectClass _Nonnull objectClass
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Unregister a object class from the class tree.
@@ -265,8 +265,8 @@ be unregistered by this routine.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3XObject_GetClass"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XObject_GetClass">Q3XObject_GetClass</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3XObjectClass ) Q3XObject_GetClass (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object object
+</td></tr></table><hr><blockquote><pre><tt>( TQ3XObjectClass _Nonnull ) Q3XObject_GetClass (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object _Nonnull object
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the class of an object.
@@ -283,7 +283,7 @@ be unregistered by this routine.
 <hr><a name="//Quesa/c/func/Q3XSharedLibrary_Register"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XSharedLibrary_Register">Q3XSharedLibrary_Register</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XSharedLibrary_Register (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3XSharedLibraryInfo *sharedLibraryInfo
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XSharedLibraryInfo * _Nonnull sharedLibraryInfo
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Register a shared library with Quesa.
@@ -341,5 +341,5 @@ is also available to general application clients in Quesa.
 <dt><tt><em>warning</em></tt></dt><dd>The warning to post.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 5/27/2019)
 </p></body></html>

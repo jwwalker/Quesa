@@ -7,13 +7,14 @@
 <h1><font face="Geneva,Arial,Helvtica">QuesaSet.h</font></h1><br>
 <h2>Discussion</h2>
 Declarations for Quesa sets, elements, and attributes.
- <hr><br><h2>Functions</h2>
+<br><br>
+<hr><br><h2>Functions</h2>
 <hr><a name="//Quesa/c/func/Q3AttributeSet_Add"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3AttributeSet_Add">Q3AttributeSet_Add</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3AttributeSet_Add (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet attributeSet,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet _Nonnull attributeSet,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeType theType,
-&nbsp;&nbsp;&nbsp;&nbsp;const void *data
+&nbsp;&nbsp;&nbsp;&nbsp;const void * _Nonnull data
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Add an attribute to an attribute set.
@@ -35,7 +36,7 @@ the specified type of attribute, it is replaced.
 <hr><a name="//Quesa/c/func/Q3AttributeSet_Clear"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3AttributeSet_Clear">Q3AttributeSet_Clear</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3AttributeSet_Clear (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet attributeSet,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet _Nonnull attributeSet,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeType theType
 );</tt><br>
 </pre></blockquote>
@@ -54,7 +55,7 @@ the specified type of attribute, it is replaced.
 <hr><a name="//Quesa/c/func/Q3AttributeSet_Contains"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3AttributeSet_Contains">Q3AttributeSet_Contains</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Boolean ) Q3AttributeSet_Contains (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet attributeSet,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet _Nonnull attributeSet,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeType attributeType
 );</tt><br>
 </pre></blockquote>
@@ -73,7 +74,7 @@ the specified type of attribute, it is replaced.
 <hr><a name="//Quesa/c/func/Q3AttributeSet_Empty"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3AttributeSet_Empty">Q3AttributeSet_Empty</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3AttributeSet_Empty (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet target
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet _Nonnull target
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Remove all attributes from an attribute set.
@@ -90,9 +91,9 @@ the specified type of attribute, it is replaced.
 <hr><a name="//Quesa/c/func/Q3AttributeSet_Get"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3AttributeSet_Get">Q3AttributeSet_Get</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3AttributeSet_Get (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet attributeSet,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet _Nonnull attributeSet,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeType theType,
-&nbsp;&nbsp;&nbsp;&nbsp;void *data
+&nbsp;&nbsp;&nbsp;&nbsp;void * _Nonnull data
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get attribute data from an attribute set.
@@ -114,8 +115,8 @@ large enough for the given kind of attribute.
 <hr><a name="//Quesa/c/func/Q3AttributeSet_GetNextAttributeType"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3AttributeSet_GetNextAttributeType">Q3AttributeSet_GetNextAttributeType</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3AttributeSet_GetNextAttributeType (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet source,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeType *theType
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet _Nonnull source,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeType * _Nonnull theType
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Find the next attribute type in an attribute set.
@@ -146,9 +147,9 @@ while ( Q3AttributeSet_GetNextAttributeType( set, &amp;theType ) &amp;&amp;
 <hr><a name="//Quesa/c/func/Q3AttributeSet_Inherit"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3AttributeSet_Inherit">Q3AttributeSet_Inherit</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3AttributeSet_Inherit (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet parent,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet child,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet result
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet _Nonnull parent,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet _Nonnull child,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet _Nonnull result
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Configures an attribute set by copying all attributes from one set
@@ -171,7 +172,7 @@ but any existing attributes in it will be removed.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3AttributeSet_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3AttributeSet_New">Q3AttributeSet_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3AttributeSet ) Q3AttributeSet_New (void);</tt><br>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3AttributeSet _Nullable ) Q3AttributeSet_New (void);</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create an attribute set object.
 <br><br>
@@ -181,8 +182,8 @@ but any existing attributes in it will be removed.
 <hr><a name="//Quesa/c/func/Q3AttributeSet_Submit"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3AttributeSet_Submit">Q3AttributeSet_Submit</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3AttributeSet_Submit (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet attributeSet,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet _Nonnull attributeSet,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit an attribute set.
@@ -203,8 +204,8 @@ This should only be used within a submitting loop.
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Attribute_Submit">Q3Attribute_Submit</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Attribute_Submit (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeType attributeType,
-&nbsp;&nbsp;&nbsp;&nbsp;const void *data,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject view
+&nbsp;&nbsp;&nbsp;&nbsp;const void * _Nonnull data,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit an attribute in immediate mode.
@@ -225,9 +226,9 @@ This should only be used within a submitting loop.
 <hr><a name="//Quesa/c/func/Q3Set_Add"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Set_Add">Q3Set_Add</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Set_Add (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3SetObject theSet,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3SetObject _Nonnull theSet,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3ElementType theType,
-&nbsp;&nbsp;&nbsp;&nbsp;const void *data
+&nbsp;&nbsp;&nbsp;&nbsp;const void * _Nonnull data
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Add an element to a set.
@@ -251,7 +252,7 @@ returned by <code>Q3XElementClass_Register</code>.
 <hr><a name="//Quesa/c/func/Q3Set_Clear"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Set_Clear">Q3Set_Clear</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Set_Clear (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3SetObject theSet,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3SetObject _Nonnull theSet,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3ElementType theType
 );</tt><br>
 </pre></blockquote>
@@ -273,7 +274,7 @@ the function returns kQ3Failure.
 <hr><a name="//Quesa/c/func/Q3Set_Contains"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Set_Contains">Q3Set_Contains</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Boolean ) Q3Set_Contains (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3SetObject theSet,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3SetObject _Nonnull theSet,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3ElementType theType
 );</tt><br>
 </pre></blockquote>
@@ -292,9 +293,9 @@ the function returns kQ3Failure.
 <hr><a name="//Quesa/c/func/Q3Set_CopyElement"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Set_CopyElement">Q3Set_CopyElement</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Set_CopyElement (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3SetObject sourceSet,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3SetObject _Nonnull sourceSet,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3ElementType theType,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3SetObject destSet
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3SetObject _Nonnull destSet
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Copies an element from one set to another.
@@ -318,7 +319,7 @@ type, the element will be replaced.
 <hr><a name="//Quesa/c/func/Q3Set_Empty"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Set_Empty">Q3Set_Empty</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Set_Empty (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3SetObject target
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3SetObject _Nonnull target
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Remove all elements from a set.
@@ -335,9 +336,9 @@ type, the element will be replaced.
 <hr><a name="//Quesa/c/func/Q3Set_Get"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Set_Get">Q3Set_Get</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Set_Get (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3SetObject theSet,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3SetObject _Nonnull theSet,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3ElementType theType,
-&nbsp;&nbsp;&nbsp;&nbsp;void *data
+&nbsp;&nbsp;&nbsp;&nbsp;void * _Nonnull data
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Copy the data of an element into a buffer you provide.
@@ -356,8 +357,8 @@ type, the element will be replaced.
 <hr><a name="//Quesa/c/func/Q3Set_GetNextElementType"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Set_GetNextElementType">Q3Set_GetNextElementType</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Set_GetNextElementType (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3SetObject theSet,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ElementType *theType
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3SetObject _Nonnull theSet,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ElementType * _Nonnull theType
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Find the next element type in a set.
@@ -393,7 +394,7 @@ kQ3ElementTypeNone is returned.
 <hr><a name="//Quesa/c/func/Q3Set_GetType"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Set_GetType">Q3Set_GetType</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3ObjectType ) Q3Set_GetType (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3SetObject theSet
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3SetObject _Nonnull theSet
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the type of a set object.
@@ -411,7 +412,7 @@ Returns kQ3SetTypeAttribute or kQ3ObjectTypeInvalid.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Set_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Set_New">Q3Set_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3SetObject ) Q3Set_New (void);</tt><br>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3SetObject _Nonnull ) Q3Set_New (void);</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new set, initially empty.
 <br><br>
@@ -422,11 +423,11 @@ Plain sets are less commonly used than attribute sets.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3XAttributeClass_Register"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XAttributeClass_Register">Q3XAttributeClass_Register</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3XObjectClass ) Q3XAttributeClass_Register (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeType *attributeType,
-&nbsp;&nbsp;&nbsp;&nbsp;const char *className,
+</td></tr></table><hr><blockquote><pre><tt>( TQ3XObjectClass _Nonnull ) Q3XAttributeClass_Register (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeType * _Nonnull attributeType,
+&nbsp;&nbsp;&nbsp;&nbsp;const char * _Nonnull className,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 sizeOfElement,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3XMetaHandler metaHandler
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XMetaHandler _Nonnull metaHandler
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Register a custom attribute class.
@@ -447,7 +448,7 @@ It may return nullptr in some cases.</dd>
 <hr><a name="//Quesa/c/func/Q3XAttributeSet_GetMask"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XAttributeSet_GetMask">Q3XAttributeSet_GetMask</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3XAttributeMask ) Q3XAttributeSet_GetMask (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet attributeSet
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet _Nonnull attributeSet
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get a mask of the attributes contained in an attribute set.
@@ -465,8 +466,8 @@ This function should only be called from renderer plug-ins.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3XAttributeSet_GetPointer"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XAttributeSet_GetPointer">Q3XAttributeSet_GetPointer</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( void * ) Q3XAttributeSet_GetPointer (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet attributeSet,
+</td></tr></table><hr><blockquote><pre><tt>( void * _Nullable ) Q3XAttributeSet_GetPointer (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet _Nonnull attributeSet,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeType attributeType
 );</tt><br>
 </pre></blockquote>
@@ -489,11 +490,11 @@ This function should only be called from renderer plug-ins.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3XElementClass_Register"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XElementClass_Register">Q3XElementClass_Register</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3XObjectClass ) Q3XElementClass_Register (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3ElementType *elementType,
-&nbsp;&nbsp;&nbsp;&nbsp;const char *name,
+</td></tr></table><hr><blockquote><pre><tt>( TQ3XObjectClass _Nonnull ) Q3XElementClass_Register (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ElementType * _Nonnull elementType,
+&nbsp;&nbsp;&nbsp;&nbsp;const char * _Nonnull name,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 sizeOfElement,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3XMetaHandler metaHandler
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XMetaHandler _Nonnull metaHandler
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Register a custom element class.
@@ -530,7 +531,7 @@ You may return nullptr for some methods.</dd>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3XElementType_GetElementSize">Q3XElementType_GetElementSize</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3XElementType_GetElementSize (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3ElementType elementType,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 *sizeOfElement
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 * _Nonnull sizeOfElement
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Return the size in bytes of an element type.
@@ -560,8 +561,8 @@ typedef TQ3ElementType                          TQ3AttributeType;
 <hr><a name="//Quesa/c/tdef/TQ3XAttributeCopyInheritMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XAttributeCopyInheritMethod">TQ3XAttributeCopyInheritMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,           TQ3XAttributeCopyInheritMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;const void          *fromInternalAttribute,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;void                *toInternalAttribute<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;const void          * _Nonnull fromInternalAttribute,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;void                * _Nonnull toInternalAttribute<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>If your custom attribute supports inheritance, this method is called to
 copy attribute data from a parent set to a child set.
@@ -578,7 +579,7 @@ copy attribute data from a parent set to a child set.
 <hr><a name="//Quesa/c/tdef/TQ3XAttributeDefaultMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XAttributeDefaultMethod">TQ3XAttributeDefaultMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,           TQ3XAttributeDefaultMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;void                *internalAttribute<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;void                * _Nonnull internalAttribute<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>This method does not appear to be mentioned in the QuickDraw 3D documentation,
 and is not currently used in Quesa.
@@ -595,7 +596,7 @@ report whether a custom attribute supports inheritance.
 <hr><a name="//Quesa/c/tdef/TQ3XAttributeIsDefaultMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XAttributeIsDefaultMethod">TQ3XAttributeIsDefaultMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Boolean,          TQ3XAttributeIsDefaultMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;void                *internalAttribute<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;void                * _Nonnull internalAttribute<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>This method does not appear to be mentioned in the QuickDraw 3D documentation,
 and is not currently used in Quesa.
@@ -603,8 +604,8 @@ and is not currently used in Quesa.
 <hr><a name="//Quesa/c/tdef/TQ3XElementCopyAddMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XElementCopyAddMethod">TQ3XElementCopyAddMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,           TQ3XElementCopyAddMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;const void          *fromAPIElement,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;void                *toInternalElement<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;const void          * _Nonnull fromAPIElement,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;void                * _Nonnull toInternalElement<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>This method is called to add a new element to a set, as by <code>Q3Set_Add</code> or
 <code>Q3Shape_AddElement</code>.  On entry, <code>toInternalElement</code> points to an uninitialized
@@ -623,8 +624,8 @@ is the size you provided when registering the class.
 <hr><a name="//Quesa/c/tdef/TQ3XElementCopyDuplicateMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XElementCopyDuplicateMethod">TQ3XElementCopyDuplicateMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,           TQ3XElementCopyDuplicateMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;const void          *fromInternalElement,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;void                *toInternalElement<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;const void          * _Nonnull fromInternalElement,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;void                * _Nonnull toInternalElement<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>This method is called when <code>Q3Object_Duplicate</code> is used on a set or attribute set. 
 <br><br>
@@ -640,8 +641,8 @@ is the size you provided when registering the class.
 <hr><a name="//Quesa/c/tdef/TQ3XElementCopyGetMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XElementCopyGetMethod">TQ3XElementCopyGetMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,           TQ3XElementCopyGetMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;const void          *fromInternalElement,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;void                *toAPIElement<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;const void          * _Nonnull fromInternalElement,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;void                * _Nonnull toAPIElement<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>This method is called to copy element data out of a set, as by <code>Q3Set_Get</code> or
 <code>Q3Shape_GetElement</code>.  If you do not provide this method, the default action is
@@ -659,8 +660,8 @@ a memory copy of <code>sizeOfElement</code> bytes.
 <hr><a name="//Quesa/c/tdef/TQ3XElementCopyReplaceMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XElementCopyReplaceMethod">TQ3XElementCopyReplaceMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,           TQ3XElementCopyReplaceMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;const void          *fromAPIElement,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;void                *toInternalElement<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;const void          * _Nonnull fromAPIElement,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;void                * _Nonnull toInternalElement<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>This method is called to replace an existing element in a set, as by <code>Q3Set_Add</code> or
 <code>Q3Shape_AddElement</code>.  On entry, <code>toInternalElement</code> points to existing element data,
@@ -678,7 +679,7 @@ which you may need to dispose before replacing by new data.
 <hr><a name="//Quesa/c/tdef/TQ3XElementDeleteMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XElementDeleteMethod">TQ3XElementDeleteMethod</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,           TQ3XElementDeleteMethod</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;void                *internalElement<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;void                * _Nonnull internalElement<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>This method is called to delete element data from a set or attribute set. 
 <br><br>
@@ -856,5 +857,5 @@ enum {
 <dt><a name="//Quesa/c/econst/kQ3XAttributeMaskInterpolated"><tt>kQ3XAttributeMaskInterpolated</tt></a></dt><dd>Interpolated attributes mask.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/10/2018)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 5/27/2019)
 </p></body></html>
