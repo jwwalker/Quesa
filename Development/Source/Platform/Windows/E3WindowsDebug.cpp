@@ -104,12 +104,12 @@ E3Assert(const char *srcFile, TQ3Uns32 lineNum, const char *theAssertion)
 //      E3IsValidPtr : Check a pointer for validity.
 //-----------------------------------------------------------------------------
 TQ3Boolean
-E3IsValidPtr(void *thePtr)
+E3IsValidPtr(const void *thePtr)
 {
 
 
 	// Check the pointer
-	if (thePtr == NULL)
+	if (thePtr == nullptr)
 		return(kQ3False);
 
 
