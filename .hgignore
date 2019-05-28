@@ -3,3 +3,6 @@ Development/Projects/Mac/Quesa.xcodeproj/xcuserdata
 Development/Projects/Mac/Quesa.xcodeproj/project.xcworkspace/xcuserdata
 contents.xcworkspacedata
 WorkspaceSettings.xcsettings
+Development/Projects/Windows/.vs/**
+Development/Projects/Windows/Debug/**
+SDK/Libraries/Windows/Stub/Quesa.exp
