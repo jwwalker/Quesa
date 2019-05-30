@@ -504,15 +504,18 @@
 /* Begin PBXProject section */
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+			};
 			buildConfigurationList = BEC95CB308A86B3C001E16B9 /* Build configuration list for PBXProject "VRML-Reader" */;
 			compatibilityVersion = "Xcode 3.0";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 1;
 			knownRegions = (
-				English,
-				Japanese,
-				French,
-				German,
+				en,
+				ja,
+				fr,
+				de,
+				Base,
 			);
 			mainGroup = 089C166AFE841209C02AAC07 /* VRML-Reader */;
 			projectDirPath = "";

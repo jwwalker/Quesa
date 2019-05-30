@@ -6,3 +6,8 @@ WorkspaceSettings.xcsettings
 Development/Projects/Windows/.vs/**
 Development/Projects/Windows/Debug/**
 SDK/Libraries/Windows/Stub/Quesa.exp
+Development/Projects/Mac/build
+SDK/Extras/VRML Reader/Projects/Output-Xcode
+SDK/Libraries
+SDK/Extras/VRML Reader/Projects/VRML-Reader.xcodeproj/project.xcworkspace/xcuserdata
+SDK/Extras/VRML Reader/Projects/VRML-Reader.xcodeproj/xcuserdata
