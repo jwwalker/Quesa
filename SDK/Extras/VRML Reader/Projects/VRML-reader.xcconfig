@@ -11,6 +11,7 @@ SDKROOT = macosx
 SYMROOT = Output-Xcode
 
 // Search Paths
+ALWAYS_SEARCH_USER_PATHS = NO
 HEADER_SEARCH_PATHS = $(Boost) $(PROJECT_DIR)/../Resources
 FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../../../Libraries/Mac/Framework_Modern/$(CONFIGURATION)"
 
