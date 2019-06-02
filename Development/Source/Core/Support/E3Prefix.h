@@ -5,7 +5,7 @@
         Global prefix file for Quesa.
 
     COPYRIGHT:
-        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -108,7 +108,6 @@
 
 // Quesa (public)
 #include "QuesaCamera.h"
-#include "QuesaController.h"
 #include "QuesaCustomElements.h"
 #include "QuesaDrawContext.h"
 #include "QuesaErrors.h"
