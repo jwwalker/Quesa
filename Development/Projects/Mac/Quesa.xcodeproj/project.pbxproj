@@ -64,7 +64,6 @@
 		AB3A7CE3055E63B200CA83BE /* QD3DStyle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BC5055E63B100CA83BE /* QD3DStyle.cpp */; };
 		AB3A7CE4055E63B200CA83BE /* QD3DTransform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BC6055E63B100CA83BE /* QD3DTransform.cpp */; };
 		AB3A7CE5055E63B200CA83BE /* QD3DView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BC7055E63B100CA83BE /* QD3DView.cpp */; };
-		AB3A7CE6055E63B200CA83BE /* QD3DViewer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BC8055E63B100CA83BE /* QD3DViewer.cpp */; };
 		AB3A7CE7055E63B200CA83BE /* E3ArrayOrList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BCA055E63B100CA83BE /* E3ArrayOrList.cpp */; };
 		AB3A7CE9055E63B200CA83BE /* E3ClassTree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BCC055E63B100CA83BE /* E3ClassTree.cpp */; };
 		AB3A7CEB055E63B200CA83BE /* E3Compatibility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BCE055E63B100CA83BE /* E3Compatibility.cpp */; };
@@ -98,8 +97,6 @@
 		AB3A7D27055E63B200CA83BE /* E3Texture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C0B055E63B100CA83BE /* E3Texture.cpp */; };
 		AB3A7D29055E63B200CA83BE /* E3Transform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C0D055E63B100CA83BE /* E3Transform.cpp */; };
 		AB3A7D2B055E63B200CA83BE /* E3View.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C0F055E63B100CA83BE /* E3View.cpp */; };
-		AB3A7D2D055E63B200CA83BE /* E3Viewer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C12055E63B100CA83BE /* E3Viewer.cpp */; };
-		AB3A7D2F055E63B200CA83BE /* E3ViewerOldAPIs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C14055E63B100CA83BE /* E3ViewerOldAPIs.cpp */; };
 		AB3A7D32055E63B200CA83BE /* GLCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C19055E63B100CA83BE /* GLCamera.cpp */; };
 		AB3A7D36055E63B200CA83BE /* GLDrawContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C1D055E63B100CA83BE /* GLDrawContext.cpp */; };
 		AB3A7D39055E63B200CA83BE /* GLUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C20055E63B100CA83BE /* GLUtils.cpp */; };
@@ -145,7 +142,6 @@
 		AB83B603055E72B90034F56A /* QuesaStyle.h in Headers */ = {isa = PBXBuildFile; fileRef = AB83B5EB055E72B90034F56A /* QuesaStyle.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AB83B604055E72B90034F56A /* QuesaTransform.h in Headers */ = {isa = PBXBuildFile; fileRef = AB83B5EC055E72B90034F56A /* QuesaTransform.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AB83B605055E72B90034F56A /* QuesaView.h in Headers */ = {isa = PBXBuildFile; fileRef = AB83B5ED055E72B90034F56A /* QuesaView.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		AB83B606055E72B90034F56A /* QuesaViewer.h in Headers */ = {isa = PBXBuildFile; fileRef = AB83B5EE055E72B90034F56A /* QuesaViewer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AB83B99E055E77880034F56A /* E3MacDebug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB83B95B055E77870034F56A /* E3MacDebug.cpp */; };
 		AB83B99F055E77880034F56A /* E3MacDrawContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB83B95C055E77870034F56A /* E3MacDrawContext.cpp */; };
 		AB83B9A0055E77880034F56A /* E3MacErrors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB83B95D055E77870034F56A /* E3MacErrors.cpp */; };
@@ -176,7 +172,6 @@
 		B1756B54080A73C00056134C /* GLUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C20055E63B100CA83BE /* GLUtils.cpp */; };
 		B1756B55080A73C00056134C /* GNGeometry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C23055E63B100CA83BE /* GNGeometry.cpp */; };
 		B1756B56080A73C00056134C /* E3Memory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BFB055E63B100CA83BE /* E3Memory.cpp */; };
-		B1756B57080A73C00056134C /* QD3DViewer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BC8055E63B100CA83BE /* QD3DViewer.cpp */; };
 		B1756B58080A73C00056134C /* E3Extension.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BED055E63B100CA83BE /* E3Extension.cpp */; };
 		B1756B59080A73C00056134C /* QD3DLight.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BBB055E63B100CA83BE /* QD3DLight.cpp */; };
 		B1756B5A080A73C00056134C /* QD3DCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BB2055E63B100CA83BE /* QD3DCamera.cpp */; };
@@ -188,7 +183,6 @@
 		B1756B60080A73C00056134C /* E3Tessellate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BDD055E63B100CA83BE /* E3Tessellate.cpp */; };
 		B1756B61080A73C00056134C /* E3Storage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C05055E63B100CA83BE /* E3Storage.cpp */; };
 		B1756B63080A73C00056134C /* E3GeometryPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BA1055E63B100CA83BE /* E3GeometryPoint.cpp */; };
-		B1756B64080A73C00056134C /* E3ViewerOldAPIs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C14055E63B100CA83BE /* E3ViewerOldAPIs.cpp */; };
 		B1756B65080A73C00056134C /* E3Pool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BD7055E63B100CA83BE /* E3Pool.cpp */; };
 		B1756B66080A73C00056134C /* E3FFW_3DMFBin_Register.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C59055E63B100CA83BE /* E3FFW_3DMFBin_Register.cpp */; };
 		B1756B67080A73C00056134C /* E3GeometryGeneralPolygon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7B93055E63B100CA83BE /* E3GeometryGeneralPolygon.cpp */; };
@@ -259,7 +253,6 @@
 		B1756BAA080A73C00056134C /* E3Globals.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BD3055E63B100CA83BE /* E3Globals.cpp */; };
 		B1756BAB080A73C00056134C /* QD3DDrawContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BB5055E63B100CA83BE /* QD3DDrawContext.cpp */; };
 		B1756BAC080A73C00056134C /* GLCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C19055E63B100CA83BE /* GLCamera.cpp */; };
-		B1756BAD080A73C00056134C /* E3Viewer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C12055E63B100CA83BE /* E3Viewer.cpp */; };
 		B19A74330C3E7A7F0099C820 /* WFRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B19A74320C3E7A7F0099C820 /* WFRenderer.cpp */; };
 		B19A74350C3E7A7F0099C820 /* WFRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B19A74320C3E7A7F0099C820 /* WFRenderer.cpp */; };
 		B1BD22040BEBD81B00937A68 /* HiddenLine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B1BD22020BEBD81B00937A68 /* HiddenLine.cpp */; };
@@ -412,7 +405,6 @@
 		AB3A7BC5055E63B100CA83BE /* QD3DStyle.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; path = QD3DStyle.cpp; sourceTree = "<group>"; };
 		AB3A7BC6055E63B100CA83BE /* QD3DTransform.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; path = QD3DTransform.cpp; sourceTree = "<group>"; };
 		AB3A7BC7055E63B100CA83BE /* QD3DView.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; path = QD3DView.cpp; sourceTree = "<group>"; };
-		AB3A7BC8055E63B100CA83BE /* QD3DViewer.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; path = QD3DViewer.cpp; sourceTree = "<group>"; };
 		AB3A7BCA055E63B100CA83BE /* E3ArrayOrList.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; path = E3ArrayOrList.cpp; sourceTree = "<group>"; };
 		AB3A7BCB055E63B100CA83BE /* E3ArrayOrList.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3ArrayOrList.h; sourceTree = "<group>"; };
 		AB3A7BCC055E63B100CA83BE /* E3ClassTree.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; path = E3ClassTree.cpp; sourceTree = "<group>"; };
@@ -483,9 +475,6 @@
 		AB3A7C0E055E63B100CA83BE /* E3Transform.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3Transform.h; sourceTree = "<group>"; };
 		AB3A7C0F055E63B100CA83BE /* E3View.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; path = E3View.cpp; sourceTree = "<group>"; };
 		AB3A7C10055E63B100CA83BE /* E3View.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3View.h; sourceTree = "<group>"; };
-		AB3A7C12055E63B100CA83BE /* E3Viewer.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = E3Viewer.cpp; sourceTree = "<group>"; };
-		AB3A7C13055E63B100CA83BE /* E3Viewer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3Viewer.h; sourceTree = "<group>"; };
-		AB3A7C14055E63B100CA83BE /* E3ViewerOldAPIs.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = E3ViewerOldAPIs.cpp; sourceTree = "<group>"; };
 		AB3A7C19055E63B100CA83BE /* GLCamera.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; path = GLCamera.cpp; sourceTree = "<group>"; };
 		AB3A7C1A055E63B100CA83BE /* GLCamera.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GLCamera.h; sourceTree = "<group>"; };
 		AB3A7C1D055E63B100CA83BE /* GLDrawContext.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.objcpp; fileEncoding = 30; path = GLDrawContext.cpp; sourceTree = "<group>"; };
@@ -558,7 +547,6 @@
 		AB83B5EB055E72B90034F56A /* QuesaStyle.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QuesaStyle.h; sourceTree = "<group>"; };
 		AB83B5EC055E72B90034F56A /* QuesaTransform.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QuesaTransform.h; sourceTree = "<group>"; };
 		AB83B5ED055E72B90034F56A /* QuesaView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QuesaView.h; sourceTree = "<group>"; };
-		AB83B5EE055E72B90034F56A /* QuesaViewer.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QuesaViewer.h; sourceTree = "<group>"; };
 		AB83B95B055E77870034F56A /* E3MacDebug.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = E3MacDebug.cpp; sourceTree = "<group>"; };
 		AB83B95C055E77870034F56A /* E3MacDrawContext.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = E3MacDrawContext.cpp; sourceTree = "<group>"; };
 		AB83B95D055E77870034F56A /* E3MacErrors.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = E3MacErrors.cpp; sourceTree = "<group>"; };
@@ -725,7 +713,6 @@
 				AB3A7BB1055E63B100CA83BE /* Glue */,
 				AB3A7BC9055E63B100CA83BE /* Support */,
 				AB3A7BE2055E63B100CA83BE /* System */,
-				AB3A7C11055E63B100CA83BE /* Viewer */,
 			);
 			name = Core;
 			path = ../../Source/Core;
@@ -809,7 +796,6 @@
 				AB3A7BC5055E63B100CA83BE /* QD3DStyle.cpp */,
 				AB3A7BC6055E63B100CA83BE /* QD3DTransform.cpp */,
 				AB3A7BC7055E63B100CA83BE /* QD3DView.cpp */,
-				AB3A7BC8055E63B100CA83BE /* QD3DViewer.cpp */,
 			);
 			path = Glue;
 			sourceTree = "<group>";
@@ -899,16 +885,6 @@
 				AB3A7C10055E63B100CA83BE /* E3View.h */,
 			);
 			path = System;
-			sourceTree = "<group>";
-		};
-		AB3A7C11055E63B100CA83BE /* Viewer */ = {
-			isa = PBXGroup;
-			children = (
-				AB3A7C12055E63B100CA83BE /* E3Viewer.cpp */,
-				AB3A7C13055E63B100CA83BE /* E3Viewer.h */,
-				AB3A7C14055E63B100CA83BE /* E3ViewerOldAPIs.cpp */,
-			);
-			path = Viewer;
 			sourceTree = "<group>";
 		};
 		AB3A7C17055E63B100CA83BE /* Renderers */ = {
@@ -1098,7 +1074,6 @@
 				AB83B5EB055E72B90034F56A /* QuesaStyle.h */,
 				AB83B5EC055E72B90034F56A /* QuesaTransform.h */,
 				AB83B5ED055E72B90034F56A /* QuesaView.h */,
-				AB83B5EE055E72B90034F56A /* QuesaViewer.h */,
 				BE097F3A156DCE85009AACEF /* QuesaMathOperators.hpp */,
 			);
 			path = Quesa;
@@ -1254,7 +1229,6 @@
 				AB83B603055E72B90034F56A /* QuesaStyle.h in Headers */,
 				AB83B604055E72B90034F56A /* QuesaTransform.h in Headers */,
 				AB83B605055E72B90034F56A /* QuesaView.h in Headers */,
-				AB83B606055E72B90034F56A /* QuesaViewer.h in Headers */,
 				BEDC045908A57B8100FB3A82 /* CQ3ObjectRef.h in Headers */,
 				BE392D090B6D0CCA00A351AC /* CQ3ObjectRef_Gets.h in Headers */,
 				BE7F276E0B7C0D9000933ED1 /* Q3GroupIterator.h in Headers */,
@@ -1404,7 +1378,6 @@
 				AB3A7CE3055E63B200CA83BE /* QD3DStyle.cpp in Sources */,
 				AB3A7CE4055E63B200CA83BE /* QD3DTransform.cpp in Sources */,
 				AB3A7CE5055E63B200CA83BE /* QD3DView.cpp in Sources */,
-				AB3A7CE6055E63B200CA83BE /* QD3DViewer.cpp in Sources */,
 				AB3A7CE7055E63B200CA83BE /* E3ArrayOrList.cpp in Sources */,
 				AB3A7CE9055E63B200CA83BE /* E3ClassTree.cpp in Sources */,
 				AB3A7CEB055E63B200CA83BE /* E3Compatibility.cpp in Sources */,
@@ -1438,8 +1411,6 @@
 				AB3A7D27055E63B200CA83BE /* E3Texture.cpp in Sources */,
 				AB3A7D29055E63B200CA83BE /* E3Transform.cpp in Sources */,
 				AB3A7D2B055E63B200CA83BE /* E3View.cpp in Sources */,
-				AB3A7D2D055E63B200CA83BE /* E3Viewer.cpp in Sources */,
-				AB3A7D2F055E63B200CA83BE /* E3ViewerOldAPIs.cpp in Sources */,
 				AB3A7D32055E63B200CA83BE /* GLCamera.cpp in Sources */,
 				AB3A7D36055E63B200CA83BE /* GLDrawContext.cpp in Sources */,
 				AB3A7D39055E63B200CA83BE /* GLUtils.cpp in Sources */,
@@ -1538,7 +1509,6 @@
 				B1756B54080A73C00056134C /* GLUtils.cpp in Sources */,
 				B1756B55080A73C00056134C /* GNGeometry.cpp in Sources */,
 				B1756B56080A73C00056134C /* E3Memory.cpp in Sources */,
-				B1756B57080A73C00056134C /* QD3DViewer.cpp in Sources */,
 				B1756B58080A73C00056134C /* E3Extension.cpp in Sources */,
 				B1756B59080A73C00056134C /* QD3DLight.cpp in Sources */,
 				B1756B5A080A73C00056134C /* QD3DCamera.cpp in Sources */,
@@ -1550,7 +1520,6 @@
 				B1756B60080A73C00056134C /* E3Tessellate.cpp in Sources */,
 				B1756B61080A73C00056134C /* E3Storage.cpp in Sources */,
 				B1756B63080A73C00056134C /* E3GeometryPoint.cpp in Sources */,
-				B1756B64080A73C00056134C /* E3ViewerOldAPIs.cpp in Sources */,
 				B1756B65080A73C00056134C /* E3Pool.cpp in Sources */,
 				B1756B66080A73C00056134C /* E3FFW_3DMFBin_Register.cpp in Sources */,
 				B1756B67080A73C00056134C /* E3GeometryGeneralPolygon.cpp in Sources */,
@@ -1621,7 +1590,6 @@
 				B1756BAA080A73C00056134C /* E3Globals.cpp in Sources */,
 				B1756BAB080A73C00056134C /* QD3DDrawContext.cpp in Sources */,
 				B1756BAC080A73C00056134C /* GLCamera.cpp in Sources */,
-				B1756BAD080A73C00056134C /* E3Viewer.cpp in Sources */,
 				BEC777D3087DA6AD00080AB7 /* CartoonRenderer.cpp in Sources */,
 				BEDC045C08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.cpp in Sources */,
 				BE98E73D09F764A60040CE1B /* E3CocoaStackCrawl.cpp in Sources */,
