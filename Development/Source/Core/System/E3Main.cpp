@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2016, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -69,10 +69,6 @@
 #include "E3IOFileFormat.h"
 #include "E3StackCrawl.h"
 
-#if QUESA_OS_MACINTOSH && QUESA_SUPPORT_VIEWER
-// Viewer supported only on Carbon/Classic now
-#include "E3Viewer.h"
-#endif
 
 #if QUESA_OS_MACINTOSH
 	#include <libkern/OSAtomic.h>
@@ -860,12 +856,6 @@ E3Initialize(void)
 
 		if (qd3dStatus == kQ3Success)
 			qd3dStatus = E3CustomElements_RegisterClass();
-
-		#if QUESA_OS_MACINTOSH & QUESA_SUPPORT_VIEWER
-		// Viewer  supported only on Carbon/Classic
-		if (qd3dStatus == kQ3Success)
-			qd3dStatus = E3Viewer_RegisterClass();
-		#endif
 		
 
 
@@ -952,10 +942,6 @@ E3Exit(void)
 
 
 		// Terminate Quesa
-		#if QUESA_OS_MACINTOSH & QUESA_SUPPORT_VIEWER
-		// Viewer  supported only on Carbon/Classic
-		E3Viewer_UnregisterClass();
-		#endif
 		E3CustomElements_UnregisterClass();
 		E3Pick_UnregisterClass();
 		E3File_UnregisterClass();
