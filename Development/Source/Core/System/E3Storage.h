@@ -5,7 +5,7 @@
         Header file for E3Storage.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2015, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -195,31 +195,6 @@ TQ3StorageObject	E3PathStorage_New(const char *pathName);
 TQ3StorageObject	E3FileStreamStorage_New(FILE *stream);
 
 
-// Mac specific
-#if QUESA_OS_MACINTOSH
-TQ3Status			E3MacStorage_RegisterClass(void);
-TQ3Status			E3MacStorage_UnregisterClass(void);
-
-TQ3StorageObject	E3HandleStorage_New(Handle handle, TQ3Uns32 validSize);
-TQ3Status			E3HandleStorage_Set(TQ3StorageObject storage, Handle handle, TQ3Uns32 validSize);
-TQ3Status			E3HandleStorage_Get(TQ3StorageObject storage, Handle *handle, TQ3Uns32 *validSize);
-TQ3StorageObject	E3MacintoshStorage_New(TQ3Int16 fsRefNum);
-TQ3Status			E3MacintoshStorage_Set(TQ3StorageObject storage, TQ3Int16 fsRefNum);
-TQ3Status			E3MacintoshStorage_Get(TQ3StorageObject storage, TQ3Int16 *fsRefNum);
-TQ3ObjectType		E3MacintoshStorage_GetType(TQ3StorageObject storage);
-
-// FSSpec is not available in 64bit.
-#if QUESA_SUPPORT_HITOOLBOX
-TQ3StorageObject	E3FSSpecStorage_New(const FSSpec *fs);
-TQ3Status			E3FSSpecStorage_Set(TQ3StorageObject storage, const FSSpec *fs);
-TQ3Status			E3FSSpecStorage_Get(TQ3StorageObject storage, FSSpec *fs);
-#endif
-
-TQ3StorageObject	E3FSRefStorage_New(const FSRef *fs);
-TQ3Status			E3FSRefStorage_Set(TQ3StorageObject storage, const FSRef *fs);
-TQ3Status			E3FSRefStorage_Get(TQ3StorageObject storage, FSRef *fs);
-#endif
-
 
 // Windows specific
 #if QUESA_OS_WIN32
@@ -230,18 +205,6 @@ TQ3StorageObject	E3Win32Storage_New(HANDLE hFile);
 TQ3Status			E3Win32Storage_Set(TQ3StorageObject storage, HANDLE hFile);
 TQ3Status			E3Win32Storage_Get(TQ3StorageObject storage, HANDLE *hFile);
 #endif
-
-
-// Unix specific
-#if QUESA_OS_UNIX
-TQ3Status			E3UnixStorage_RegisterClass(void);
-TQ3Status			E3UnixStorage_UnregisterClass(void);
-
-TQ3StorageObject	E3UnixPathStorage_New(const char *pathName);
-TQ3Status			E3UnixPathStorage_Set(TQ3StorageObject storage, const char *pathName);
-TQ3Status			E3UnixPathStorage_Get(TQ3StorageObject storage, char *pathName);
-#endif
-
 
 
 

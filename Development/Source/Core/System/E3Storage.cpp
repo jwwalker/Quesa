@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2015, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -916,11 +916,7 @@ E3Storage_RegisterClass(void)
 	// Register the platform specific classes
 	if (qd3dStatus == kQ3Success)
 		{
-#if QUESA_OS_MACINTOSH
-		qd3dStatus = E3MacStorage_RegisterClass();
-#elif QUESA_OS_UNIX
-		qd3dStatus = E3UnixStorage_RegisterClass();
-#elif QUESA_OS_WIN32
+#if QUESA_OS_WIN32
 		qd3dStatus = E3Win32Storage_RegisterClass();
 #endif
 		}
@@ -945,12 +941,7 @@ E3Storage_UnregisterClass(void)
 	E3ClassTree::UnregisterClass(kQ3StorageTypePath,   kQ3True);
 	E3ClassTree::UnregisterClass(kQ3StorageTypeFileStream,   kQ3True);
 
-
-#if QUESA_OS_MACINTOSH
-	E3MacStorage_UnregisterClass();
-#elif QUESA_OS_UNIX
-	E3UnixStorage_UnregisterClass();
-#elif QUESA_OS_WIN32
+#if QUESA_OS_WIN32
 	E3Win32Storage_UnregisterClass();
 #endif
 	
