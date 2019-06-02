@@ -5,7 +5,7 @@
         Cocoa specific draw context implementation.
 
     COPYRIGHT:
-        Copyright (c) 1999-2015, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -72,7 +72,7 @@
 	TQ3DrawContextObject		drawContext;
 }
 
-- (id) initWithDrawContext:(TQ3DrawContextObject)theContext;
+- (instancetype) initWithDrawContext:(TQ3DrawContextObject)theContext;
 
 @end
 
@@ -96,7 +96,7 @@ public :
 //-----------------------------------------------------------------------------
 @implementation QuesaViewWatcher
 
-- (id) initWithDrawContext:(TQ3DrawContextObject)theContext
+- (instancetype) initWithDrawContext:(TQ3DrawContextObject)theContext
 {
 	if ( (self = [super init]) != nil )
 	{
@@ -110,13 +110,13 @@ public :
 {
 	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *)
 		drawContext->FindLeafInstanceData();
-    NSRect						viewFrame;
+    NSRect						viewBounds;
 
 
 
 	// Grab our bounds
 	NSView* view = [note object];
-	viewFrame = [view bounds];
+	viewBounds = [view bounds];
 
 
 
@@ -124,11 +124,16 @@ public :
 	instanceData->theState |= kQ3XDrawContextValidationWindowSize;
 	if (!instanceData->data.common.paneState)
 	{
-		instanceData->data.common.pane.min.x = viewFrame.origin.x;
-		instanceData->data.common.pane.min.y = viewFrame.origin.y;
-		instanceData->data.common.pane.max.x = viewFrame.origin.x + viewFrame.size.width;
-		instanceData->data.common.pane.max.y = viewFrame.origin.y + viewFrame.size.height;
+		instanceData->data.common.pane.min.x = viewBounds.origin.x;
+		instanceData->data.common.pane.min.y = viewBounds.origin.y;
+		instanceData->data.common.pane.max.x = viewBounds.origin.x + viewBounds.size.width;
+		instanceData->data.common.pane.max.y = viewBounds.origin.y + viewBounds.size.height;
 	}
+	
+	
+	// Refresh cached bounds
+	Q3Object_SetProperty( drawContext, kViewBoundsProperty, sizeof(viewBounds), &viewBounds );
+	
 }
 
 
@@ -190,11 +195,13 @@ e3drawcontext_cocoa_delete(TQ3Object theObject, void *privateData)
 {	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) privateData;
 
 
-
 	// Unregister our notification callback
-	NSNotificationCenter* defaultCenter = [NSNotificationCenter defaultCenter];
-	[defaultCenter postNotificationName: CocoaDrawContextWillCloseNotification
-				object: (NSView*) instanceData->data.cocoaData.theData.nsView];
+	@autoreleasepool
+	{
+		NSNotificationCenter* defaultCenter = [NSNotificationCenter defaultCenter];
+		[defaultCenter postNotificationName: CocoaDrawContextWillCloseNotification
+					object: (NSView*) instanceData->data.cocoaData.theData.nsView];
+	}
 
 
 
@@ -232,17 +239,19 @@ e3drawcontext_cocoa_update(TQ3DrawContextObject theDrawContext)
 static void
 e3drawcontext_cocoa_get_dimensions(TQ3DrawContextObject theDrawContext, TQ3Area *thePane)
 {	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) theDrawContext->FindLeafInstanceData () ;
-	NSRect						viewFrame;
 
 
 
 	// Return our dimensions
-	NSView* view = (NSView*)instanceData->data.cocoaData.theData.nsView;
-	viewFrame = [view bounds];
-	thePane->min.x = (float) viewFrame.origin.x;
-	thePane->min.y = (float) viewFrame.origin.y;
-	thePane->max.x = (float) (viewFrame.origin.x + viewFrame.size.width);
-	thePane->max.y = (float) (viewFrame.origin.y + viewFrame.size.height);
+	NSRect	viewBounds;
+	if (kQ3Failure == Q3Object_GetProperty( theDrawContext, kViewBoundsProperty, sizeof(NSRect), nullptr, &viewBounds ))
+	{
+		Q3_ASSERT_MESSAGE( false, "Missing cached NSView bounds");
+	}
+	thePane->min.x = (float) viewBounds.origin.x;
+	thePane->min.y = (float) viewBounds.origin.y;
+	thePane->max.x = (float) (viewBounds.origin.x + viewBounds.size.width);
+	thePane->max.y = (float) (viewBounds.origin.y + viewBounds.size.height);
 }
 
 
@@ -331,9 +340,24 @@ E3CocoaDrawContext_UnregisterClass(void)
 TQ3DrawContextObject
 E3CocoaDrawContext_New(const TQ3CocoaDrawContextData *drawContextData)
 	{
-	// Create the object
-	return E3ClassTree::CreateInstance(kQ3DrawContextTypeCocoa, 
+	TQ3DrawContextObject theDC = nullptr;
+	NSView* theView = (NSView*) drawContextData->nsView;
+	if ( (theView != nil) && ([theView window] != nil) && ([[theView window] windowNumber] > 0) )
+	{
+		theDC = E3ClassTree::CreateInstance(kQ3DrawContextTypeCocoa, 
                                            kQ3False, drawContextData);
+		
+		if (theDC != nullptr)
+		{
+			NSRect theBounds = [theView bounds];
+			Q3Object_SetProperty( theDC, kViewBoundsProperty, sizeof(theBounds), &theBounds );
+		}
+	}
+	else
+	{
+		E3ErrorManager_PostError( kQ3ErrorInvalidParameter, kQ3False );
+	}
+	return theDC;
 	}
 
 
@@ -356,6 +380,14 @@ E3CocoaDrawContext_NewWithWindow(TQ3ObjectType drawContextType, void *drawContex
 		return(nullptr);
 
 
+	// Check if the view is valid
+	NSView * theView = (NSView *) drawContextTarget;
+	if ( (theView == nil) && ([theView window] == nil) && ([[theView window] windowNumber] <= 0) )
+	{
+		E3ErrorManager_PostError( kQ3ErrorInvalidParameter, kQ3False );
+		return(nullptr);
+	}
+
 
 	// Prepare the draw context
 	Q3ColorARGB_Set(&drawContextData.clearImageColor, kQ3DrawContextDefaultBackgroundColour);
@@ -375,12 +407,18 @@ E3CocoaDrawContext_NewWithWindow(TQ3ObjectType drawContextType, void *drawContex
 	drawContextData.mask.bitOrder     = kQ3EndianBig;
 
 	cocoaDrawContextData.drawContextData = drawContextData;
-	cocoaDrawContextData.nsView          = (NSView *) drawContextTarget;
+	cocoaDrawContextData.nsView          = theView;
 
 
 
 	// Create the draw context
 	drawContext = Q3CocoaDrawContext_New(&cocoaDrawContextData);
+
+	if (drawContext != nullptr)
+	{
+		NSRect theBounds = [theView bounds];
+		Q3Object_SetProperty( drawContext, kViewBoundsProperty, sizeof(theBounds), &theBounds );
+	}
 
 	return(drawContext);
 }
@@ -409,6 +447,14 @@ E3CocoaDrawContext_SetNSView(TQ3DrawContextObject drawContext, void *nsView)
 		instanceData->theState                     |= kQ3XDrawContextValidationAll;
 		Q3Shared_Edited(drawContext);
 		}
+
+	// Even if the NSView did not change, refreshed the cached view bounds.
+	NSView* theView = (NSView*) instanceData->data.cocoaData.theData.nsView;
+	if (theView != nil)
+	{
+		NSRect theBounds = [(NSView*)nsView bounds];
+		Q3Object_SetProperty( drawContext, kViewBoundsProperty, sizeof(theBounds), &theBounds );
+	}
 
 	return(kQ3Success);
 }

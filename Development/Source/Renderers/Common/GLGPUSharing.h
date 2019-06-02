@@ -5,7 +5,7 @@
         Header file for GLGPUSharing.cpp.
 
     COPYRIGHT:
-        Copyright (c) 2007-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -50,7 +50,7 @@
 
 #include "E3Prefix.h"
 #include "GLPrefix.h"
-
+#include <vector>
 
 
 //=============================================================================
@@ -121,6 +121,15 @@ void				GLGPUSharing_RemoveContext( TQ3GLContext deadGLContext );
 	@result			True if we find a sharing group for the context.
 */
 bool				GLGPUSharing_IsContextKnown( TQ3GLContext inGLContext );
+
+
+/*!
+	@function		GLGPUSharing_GetAllContexts
+	@abstract		Get all the context pointers.
+	@param			outContexts		Receives all the contexts.
+*/
+void				GLGPUSharing_GetAllContexts( std::vector<TQ3GLContext>& outContexts );
+
 
 /*!
 	@function		GLGPUSharing_GetCache

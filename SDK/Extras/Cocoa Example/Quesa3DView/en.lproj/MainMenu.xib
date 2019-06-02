@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+    <dependencies>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.70"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="NSApplication"/>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <window title="Quesa3DView Demo" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="21" userLabel="MyWindow">
+            <windowStyleMask key="styleMask" titled="YES" miniaturizable="YES" resizable="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="37" y="307" width="742" height="481"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1280" height="1002"/>
+            <view key="contentView" id="2">
+                <rect key="frame" x="0.0" y="0.0" width="742" height="481"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <box title="Rotation" id="141">
+                        <rect key="frame" x="488" y="210" width="246" height="158"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                        <view key="contentView" id="3LE-rw-lDc">
+                            <rect key="frame" x="3" y="3" width="240" height="137"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <subviews>
+                                <textField verticalHuggingPriority="750" id="147">
+                                    <rect key="frame" x="7" y="104" width="13" height="17"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="X" id="274">
+                                        <font key="font" metaFont="system"/>
+                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                    </textFieldCell>
+                                </textField>
+                                <textField verticalHuggingPriority="750" id="148">
+                                    <rect key="frame" x="7" y="61" width="13" height="17"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Y" id="275">
+                                        <font key="font" metaFont="system"/>
+                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                    </textFieldCell>
+                                </textField>
+                                <textField verticalHuggingPriority="750" id="149">
+                                    <rect key="frame" x="7" y="19" width="13" height="17"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Z" id="276">
+                                        <font key="font" metaFont="system"/>
+                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                    </textFieldCell>
+                                </textField>
+                                <slider verticalHuggingPriority="750" id="150">
+                                    <rect key="frame" x="27" y="16" width="208" height="27"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <sliderCell key="cell" continuous="YES" alignment="left" maxValue="360" tickMarkPosition="below" numberOfTickMarks="11" sliderType="linear" id="277">
+                                        <font key="font" size="12" name="Helvetica"/>
+                                    </sliderCell>
+                                    <connections>
+                                        <binding destination="138" name="enabled" keyPath="animates" id="264">
+                                            <dictionary key="options">
+                                                <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                            </dictionary>
+                                        </binding>
+                                        <binding destination="138" name="value" keyPath="zRotation" id="270"/>
+                                    </connections>
+                                </slider>
+                                <slider verticalHuggingPriority="750" id="151">
+                                    <rect key="frame" x="27" y="101" width="208" height="27"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <sliderCell key="cell" continuous="YES" alignment="left" maxValue="360" tickMarkPosition="below" numberOfTickMarks="11" sliderType="linear" id="278">
+                                        <font key="font" size="12" name="Helvetica"/>
+                                    </sliderCell>
+                                    <connections>
+                                        <binding destination="138" name="enabled" keyPath="animates" id="258">
+                                            <dictionary key="options">
+                                                <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                            </dictionary>
+                                        </binding>
+                                        <binding destination="138" name="value" keyPath="xRotation" id="266"/>
+                                    </connections>
+                                </slider>
+                                <slider verticalHuggingPriority="750" id="152">
+                                    <rect key="frame" x="27" y="58" width="208" height="27"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <sliderCell key="cell" continuous="YES" alignment="left" maxValue="360" tickMarkPosition="below" numberOfTickMarks="11" sliderType="linear" id="279">
+                                        <font key="font" size="12" name="Helvetica-Bold"/>
+                                    </sliderCell>
+                                    <connections>
+                                        <binding destination="138" name="enabled" keyPath="animates" id="261">
+                                            <dictionary key="options">
+                                                <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                            </dictionary>
+                                        </binding>
+                                        <binding destination="138" name="value" keyPath="yRotation" id="268"/>
+                                    </connections>
+                                </slider>
+                            </subviews>
+                        </view>
+                        <font key="titleFont" metaFont="system"/>
+                    </box>
+                    <popUpButton verticalHuggingPriority="750" imageHugsTitle="YES" id="167">
+                        <rect key="frame" x="572" y="447" width="164" height="25"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                        <popUpButtonCell key="cell" type="push" title="Box" bezelStyle="rounded" alignment="left" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" tag="1" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="165" id="280">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="menu"/>
+                            <menu key="menu" title="OtherViews" id="166">
+                                <items>
+                                    <menuItem title="Box" state="on" tag="1" id="165"/>
+                                    <menuItem title="Cone" tag="2" id="163"/>
+                                    <menuItem title="Cylinder" tag="3" id="164"/>
+                                    <menuItem title="Disk" tag="4" id="168"/>
+                                    <menuItem title="Ellipse" tag="5" id="169"/>
+                                    <menuItem title="Ellipsoid" tag="6" id="170"/>
+                                    <menuItem title="General Polygon" tag="7" id="171"/>
+                                    <menuItem title="Line" tag="8" id="172"/>
+                                    <menuItem title="Marker" tag="9" id="173"/>
+                                    <menuItem title="Mesh" tag="10" id="174"/>
+                                    <menuItem title="NURB Curve" tag="11" id="175"/>
+                                    <menuItem title="NURB Patch" tag="12" id="176"/>
+                                    <menuItem title="Pixmap Marker" tag="13" id="177"/>
+                                    <menuItem title="Point" tag="14" id="178"/>
+                                    <menuItem title="PolyLine" tag="15" id="179"/>
+                                    <menuItem title="Polygon" tag="16" id="180"/>
+                                    <menuItem title="Polyhedron" tag="17" id="181"/>
+                                    <menuItem title="Quesa Logo" tag="18" id="182"/>
+                                    <menuItem title="Torus" tag="19" id="183"/>
+                                    <menuItem title="Triangle" tag="20" id="184"/>
+                                    <menuItem title="TriGrid" tag="21" id="185"/>
+                                    <menuItem title="TriMesh" tag="22" id="186"/>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                        <connections>
+                            <action selector="setGeometryFromTag:" target="138" id="188"/>
+                        </connections>
+                    </popUpButton>
+                    <textField verticalHuggingPriority="750" id="187">
+                        <rect key="frame" x="516" y="453" width="54" height="17"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Object: " id="281">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <popUpButton verticalHuggingPriority="750" imageHugsTitle="YES" id="190">
+                        <rect key="frame" x="572" y="418" width="164" height="25"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                        <popUpButtonCell key="cell" type="push" title="Item1" bezelStyle="rounded" alignment="left" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="189" id="282">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="menu"/>
+                            <menu key="menu" title="OtherViews" id="193">
+                                <items>
+                                    <menuItem title="Item1" state="on" id="189"/>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                        <connections>
+                            <binding destination="138" name="selectedTag" keyPath="rendererType" id="238"/>
+                        </connections>
+                    </popUpButton>
+                    <popUpButton verticalHuggingPriority="750" imageHugsTitle="YES" id="292">
+                        <rect key="frame" x="572" y="389" width="164" height="25"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                        <popUpButtonCell key="cell" type="push" title="Phong" bezelStyle="rounded" alignment="left" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" tag="2" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="295" id="293">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="menu"/>
+                            <menu key="menu" title="OtherViews" id="294">
+                                <items>
+                                    <menuItem title="Phong" state="on" tag="2" id="295"/>
+                                    <menuItem title="Lambert" tag="1" id="297"/>
+                                    <menuItem title="NULL" id="298"/>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                        <connections>
+                            <binding destination="138" name="selectedTag" keyPath="illuminationType" id="299"/>
+                        </connections>
+                    </popUpButton>
+                    <textField verticalHuggingPriority="750" id="194">
+                        <rect key="frame" x="505" y="424" width="65" height="17"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Renderer:" id="283">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField verticalHuggingPriority="750" id="290">
+                        <rect key="frame" x="486" y="395" width="84" height="17"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Illumination:" id="291">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <button imageHugsTitle="YES" id="201">
+                        <rect key="frame" x="500" y="145" width="172" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="Show Bounding Box" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="284">
+                            <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <binding destination="138" name="value" keyPath="drawsBounds" id="234"/>
+                        </connections>
+                    </button>
+                    <button imageHugsTitle="YES" id="203">
+                        <rect key="frame" x="500" y="175" width="87" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="Animation" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="285">
+                            <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <binding destination="138" name="value" keyPath="animates" id="232"/>
+                        </connections>
+                    </button>
+                    <button imageHugsTitle="YES" id="206">
+                        <rect key="frame" x="500" y="115" width="200" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="Full-screen Antialiasing" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="286">
+                            <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <binding destination="138" name="value" keyPath="fullScreenAntialias" id="236"/>
+                        </connections>
+                    </button>
+                    <button imageHugsTitle="YES" id="208">
+                        <rect key="frame" x="500" y="85" width="200" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="Shadows" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="287">
+                            <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <binding destination="138" name="value" keyPath="drawsShadows" id="230"/>
+                        </connections>
+                    </button>
+                    <button imageHugsTitle="YES" id="300">
+                        <rect key="frame" x="499" y="55" width="200" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="Per-pixel Lighting" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="301">
+                            <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <binding destination="138" name="value" keyPath="perPixelLighting" id="303"/>
+                        </connections>
+                    </button>
+                    <openGLView wantsLayer="YES" colorSize="8bit_RGB" depthSize="24bit" stencilSize="8bit" antiAliasingType="multisample" rendererType="accelerated" samplingRate="4" useAuxiliaryDepthBufferStencil="NO" useDoubleBufferingEnabled="YES" allowOffline="YES" id="aSR-ko-lHj" customClass="Quesa3DView">
+                        <rect key="frame" x="5" y="6" width="473" height="469"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <connections>
+                            <outlet property="qd3dDelegate" destination="138" id="3L9-YZ-vjP"/>
+                        </connections>
+                    </openGLView>
+                </subviews>
+            </view>
+        </window>
+        <menu title="MainMenu" systemMenu="main" id="29" userLabel="MainMenu">
+            <items>
+                <menuItem title="QuesaCocoaTest" id="56">
+                    <menu key="submenu" title="QuesaCocoaTest" systemMenu="apple" id="57">
+                        <items>
+                            <menuItem title="About QuesaCocoaTest" id="58">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="orderFrontStandardAboutPanel:" target="-2" id="124"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="127">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Services" id="125">
+                                <menu key="submenu" title="Services" systemMenu="services" id="126"/>
+                            </menuItem>
+                            <menuItem title="Hide" keyEquivalent="h" id="129">
+                                <connections>
+                                    <action selector="hide:" target="-2" id="130"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="128">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Quit" keyEquivalent="q" id="132">
+                                <connections>
+                                    <action selector="terminate:" target="-1" id="133"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
+                <menuItem title="File" id="83">
+                    <menu key="submenu" title="File" id="81">
+                        <items>
+                            <menuItem title="Close" keyEquivalent="w" id="134">
+                                <connections>
+                                    <action selector="performClose:" target="-1" id="135"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Load Texture…" id="288">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="loadTexture:" target="138" id="289"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Load Object…" id="304">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="loadObject:" target="138" id="306"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Save Object..." id="307">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="saveObject:" target="138" id="308"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
+                <menuItem title="Edit" id="15">
+                    <menu key="submenu" title="Edit" id="13">
+                        <items>
+                            <menuItem title="Undo" keyEquivalent="z" id="115">
+                                <connections>
+                                    <action selector="undo:" target="-1" id="118"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Redo" keyEquivalent="Z" id="116">
+                                <connections>
+                                    <action selector="redo:" target="-1" id="119"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="117">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Cut" keyEquivalent="x" id="22">
+                                <connections>
+                                    <action selector="cut:" target="-1" id="30"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Copy" keyEquivalent="c" id="4">
+                                <connections>
+                                    <action selector="copy:" target="-1" id="31"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Paste" keyEquivalent="v" id="8">
+                                <connections>
+                                    <action selector="paste:" target="-1" id="32"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Delete" id="90">
+                                <connections>
+                                    <action selector="clear:" target="-1" id="91"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Select All" keyEquivalent="a" id="11">
+                                <connections>
+                                    <action selector="selectAll:" target="-1" id="33"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
+                <menuItem title="Window" id="19">
+                    <menu key="submenu" title="Window" systemMenu="window" id="24">
+                        <items>
+                            <menuItem title="Minimize Window" keyEquivalent="m" id="23">
+                                <connections>
+                                    <action selector="performMiniaturize:" target="-1" id="37"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Zoom Window" id="120">
+                                <connections>
+                                    <action selector="performZoom:" target="-1" id="123"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="92">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Arrange in Front" id="5">
+                                <connections>
+                                    <action selector="arrangeInFront:" target="-1" id="39"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
+                <menuItem title="Help" id="103">
+                    <menu key="submenu" title="Help" id="106">
+                        <items>
+                            <menuItem title="QuesaCocoaTest Help" keyEquivalent="?" id="111">
+                                <connections>
+                                    <action selector="showHelp:" target="-1" id="122"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
+            </items>
+        </menu>
+        <customObject id="138" userLabel="AppDelegate" customClass="AppDelegate">
+            <connections>
+                <outlet property="objectMenu" destination="167" id="205"/>
+                <outlet property="quesa3dView" destination="aSR-ko-lHj" id="gat-LZ-PJ5"/>
+                <outlet property="rendererMenu" destination="190" id="198"/>
+            </connections>
+        </customObject>
+    </objects>
+</document>

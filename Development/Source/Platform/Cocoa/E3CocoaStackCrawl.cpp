@@ -490,6 +490,9 @@ int32_t MachOReadSwappedInt32(const void *addr)
 TQ3StackCrawl
 E3StackCrawl_New()
 {
+#ifdef QUESA_NO_STACK_CRAWL
+	return NULL;
+#else
 	TQ3StackCrawl	theCrawl = new TQ3StackCrawlRec;
 
 	StackFrame	*frame;
@@ -518,6 +521,7 @@ E3StackCrawl_New()
 	theCrawl->numFrames = index;
 	
 	return theCrawl;
+#endif
 }
 
 

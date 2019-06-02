@@ -5,7 +5,7 @@
         Header file for AppDelegate.m.
 
     COPYRIGHT:
-        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -69,7 +69,6 @@
 	BOOL				mPerPixelLighting;
 	TQ3Object			mSceneBounds;
 	BOOL				mFullScreenAntialias;
-	NSOpenGLPixelFormat*	mPixelFormat;
 	TQ3ObjectType		mRendererType;
 	TQ3Matrix4x4		mCurrentMatrix;
 	TQ3Matrix4x4		mRotationFactor;
@@ -81,35 +80,20 @@
 	int					mIlluminationShaderType;
 }
 
-- (BOOL) drawsShadows;
-- (void) setDrawsShadows: (BOOL) shadows;
+@property (assign) BOOL		drawsShadows;
+@property (assign) BOOL		perPixelLighting;
+@property (assign) BOOL		animates;
+@property (assign) BOOL		drawsBounds;
+@property (assign) BOOL		fullScreenAntialias;
 
-- (BOOL) perPixelLighting;
-- (void) setPerPixelLighting: (BOOL) ppl;
+@property (assign) TQ3ObjectType	rendererType;
 
-- (BOOL) animates;
-- (void) setAnimates: (BOOL) animate;
+@property (assign) float	xRotation;
+@property (assign) float	yRotation;
+@property (assign) float	zRotation;
 
-- (BOOL) drawsBounds;
-- (void) setDrawsBounds: (BOOL) bounds;
+@property (assign) int		illuminationType;
 
-- (BOOL) fullScreenAntialias;
-- (void) setFullScreenAntialias: (BOOL) antialias;
-
-- (TQ3ObjectType) rendererType;
-- (void) setRendererType: (TQ3ObjectType) rendererType;
-
-- (float) xRotation;
-- (void) setXRotation: (float) angleDegrees;
-
-- (float) yRotation;
-- (void) setYRotation: (float) angleDegrees;
-
-- (float) zRotation;
-- (void) setXRotation: (float) angleDegrees;
-
-- (int) illuminationType;
-- (void) setIlluminationType: (int) illumCode;
 
 - (IBAction)setGeometryFromTag:(id)sender;
 

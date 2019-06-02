@@ -5,7 +5,7 @@
         NSView subclass to display a quesa draw context.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -43,20 +43,16 @@
 #import <AppKit/AppKit.h>
 #include <Quesa/Quesa.h>
 
-@interface Quesa3DView : NSView
-{
-    id 						qd3dDelegate;
-    TQ3DrawContextObject	drawContext;
-    TQ3ViewObject			qd3dView;
-}
+@interface Quesa3DView : NSOpenGLView
 
-- (id)qd3dDelegate;
-- (void)setQD3DDelegate:(id)inDelegate;
+@property (assign) IBOutlet id qd3dDelegate;
 
-- (TQ3DrawContextObject)drawContext;
-- (TQ3ViewObject)qd3dView;
+@property (assign, readonly) TQ3DrawContextObject	drawContext;
+@property (assign, readonly) TQ3ViewObject			qd3dView;
+
 
 - (void) createLight:(TQ3ObjectType) lightType withData:(void *)lightData;
+
 //this shouldn't be called directly, but is here for subclasses to override
 //(although they shouldn't need to...).
 //if you want to 'force' a Quesa3DView to draw a frame, use setNeedsDisplay:YES

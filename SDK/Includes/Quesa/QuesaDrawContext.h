@@ -12,7 +12,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -173,6 +173,11 @@ extern "C" {
  *					specified number of samples, hardware and driver permitting.
  *					Set this to 0 for  ordinary non-multisampled rendering.
  *					Data type: TQ3Uns32.  Default: 0.
+ *	@constant	kQ3DrawContextPropertyAccelOffscreenIntFormat
+ *					Request that a hardware-accelerated pixmap draw context
+ *					(see kQ3DrawContextPropertyAcceleratedOffscreen) use a color
+ *					renderbuffer with a specific OpenGL internal format.
+ *					Data type: TQ3Uns32.  Default: GL_RGB.
  *	@constant	kQ3DrawContextPropertyGLPixelFormat			Request a specific OpenGL pixel format.
  *															The data type is platform-specific.
  *															Mac Carbon: AGLPixelFormat.  Windows: int.
@@ -180,6 +185,16 @@ extern "C" {
  *	@constant	kQ3DrawContextPropertyGLDestroyCallback		Request a callback when an OpenGL context
  *															is about to be destroyed.
  *															Data type: TQ3GLContextDestructionCallback.
+ *	@constant	kQ3DrawContextPropertyGLFinishBeforeSwap	Whether an OpenGL renderer should call
+ *															glFinish before swapping buffers.
+ *															Data type: TQ3Boolean.
+ *															Default: kQ3False.
+ *	@constant	kQ3DrawContextPropertyNSOpenGLContext		In the case of a Cocoa draw context, this
+ *					is the NSOpenGLContext object associated with the context and its view.  
+ *					Preferably, the view is an instance of a subclass of NSOpenGLView, and owns an
+ *					NSOpenGLContext which will be used by Quesa.  But if you use a different kind of
+ *					view and still want to create the NSOpenGLContext in client code rather than letting
+ *					Quesa create one, then set this property before rendering.
  */
 enum {
 	kQ3DrawContextPropertyClearDepthBufferFlag		= Q3_METHOD_TYPE('c', 'l', 'd', 'b'),
@@ -194,8 +209,11 @@ enum {
 	kQ3DrawContextPropertyGLContextBuildCount		= Q3_METHOD_TYPE('g', 'l', 'b', 'c'),
 	kQ3DrawContextPropertyAcceleratedOffscreen		= Q3_OBJECT_TYPE('g', 'l', 'a', 'o'),
 	kQ3DrawContextPropertyAccelOffscreenSamples		= Q3_OBJECT_TYPE('g', 'l', 'o', 's'),
+	kQ3DrawContextPropertyAccelOffscreenIntFormat   = Q3_OBJECT_TYPE('g', 'l', 'i', 'f'),
 	kQ3DrawContextPropertyGLPixelFormat				= Q3_OBJECT_TYPE('g', 'l', 'p', 'f'),
 	kQ3DrawContextPropertyGLDestroyCallback			= Q3_OBJECT_TYPE('g', 'l', 'd', 'c'),
+	kQ3DrawContextPropertyGLFinishBeforeSwap        = Q3_OBJECT_TYPE('f', 'i', 'b', 's'),
+	kQ3DrawContextPropertyNSOpenGLContext           = Q3_OBJECT_TYPE('n', 's', 'o', 'g'),
 	kQ3DrawContextPropertyTypeSize32				= 0xFFFFFFFF
 };
 
@@ -575,7 +593,10 @@ typedef struct TQ3XDrawContextData {
  *      Describes the state for a Cocoa draw context.
  *
  *  @field drawContextData  The common state for the draw context.
- *  @field nsView           The NSView to render to.
+ *  @field nsView           The NSView to render to.  Preferably, this should be an instance
+ *							of a subclass of NSOpenGLView, in which case Quesa will use the
+ *							NSOpenGLContext and NSOpenGLPixelFormat owned by the view rather
+ *							than creating its own.
  */
 typedef struct TQ3CocoaDrawContextData {
     TQ3DrawContextData                          drawContextData;
@@ -1558,6 +1579,10 @@ Q3DDSurfaceDrawContext_GetDirectDrawSurface (
  *      Create a new Cocoa draw context object.
  *
  *      <em>This function is not available in QD3D.</em>
+ *
+ *		It is now preferred that the Cocoa view be an instance of a subclass of
+ *		NSOpenGLView.  In that case, the view owns an NSOpenGLContext and an
+ *		NSOpenGLPixelFormat, so that Quesa does not need to create them.
  *
  *  @param drawContextData  The data for the Cocoa draw context object.
  *  @result                 The new draw context object.

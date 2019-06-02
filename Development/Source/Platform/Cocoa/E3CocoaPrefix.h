@@ -5,7 +5,7 @@
         Cocoa specific prefix file.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -46,6 +46,16 @@
 //      Include files
 //-----------------------------------------------------------------------------
 // Include files go here
+
+
+/*!
+	@constant		kViewBoundsProperty
+	
+	@abstract		Property tag to cache the bounds of an NSView of a
+					Cocoa draw context.  This is recorded on the draw context
+					object to be later used in creation of a GLCocoaContext.
+*/
+const TQ3ObjectType	kViewBoundsProperty = 'nsvb';
 
 
 
