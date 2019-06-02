@@ -40,6 +40,10 @@ Declares the Quesa draw context objects.
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
+It is now preferred that the Cocoa view be an instance of a subclass of
+NSOpenGLView.  In that case, the view owns an NSOpenGLContext and an
+NSOpenGLPixelFormat, so that Quesa does not need to create them.
+<br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
@@ -1101,7 +1105,10 @@ typedef struct TQ3CocoaDrawContextData {
 <blockquote>
 <dl>
 <dt><tt>drawContextData</tt></dt><dd>The common state for the draw context.</dd>
-<dt><tt>nsView</tt></dt><dd>The NSView to render to.</dd>
+<dt><tt>nsView</tt></dt><dd>The NSView to render to.  Preferably, this should be an instance
+of a subclass of NSOpenGLView, in which case Quesa will use the
+NSOpenGLContext and NSOpenGLPixelFormat owned by the view rather
+than creating its own.</dd>
 </dl>
 </blockquote>
 <hr><a name="//Quesa/c/tag/TQ3DDSurfaceDescriptor"></a>
@@ -1339,8 +1346,11 @@ enum {
   kQ3DrawContextPropertyGLContextBuildCount    = Q3_METHOD_TYPE('g', 'l', 'b', 'c'),
   kQ3DrawContextPropertyAcceleratedOffscreen    = Q3_OBJECT_TYPE('g', 'l', 'a', 'o'),
   kQ3DrawContextPropertyAccelOffscreenSamples    = Q3_OBJECT_TYPE('g', 'l', 'o', 's'),
+  kQ3DrawContextPropertyAccelOffscreenIntFormat   = Q3_OBJECT_TYPE('g', 'l', 'i', 'f'),
   kQ3DrawContextPropertyGLPixelFormat        = Q3_OBJECT_TYPE('g', 'l', 'p', 'f'),
   kQ3DrawContextPropertyGLDestroyCallback      = Q3_OBJECT_TYPE('g', 'l', 'd', 'c'),
+  kQ3DrawContextPropertyGLFinishBeforeSwap        = Q3_OBJECT_TYPE('f', 'i', 'b', 's'),
+  kQ3DrawContextPropertyNSOpenGLContext           = Q3_OBJECT_TYPE('n', 's', 'o', 'g'),
   kQ3DrawContextPropertyTypeSize32        = 0xFFFFFFFF
 };
 </pre>
@@ -1409,6 +1419,10 @@ Data type: TQ3AcceleratedOffscreenPropertyData.</dd>
 specified number of samples, hardware and driver permitting.
 Set this to 0 for  ordinary non-multisampled rendering.
 Data type: TQ3Uns32.  Default: 0.</dd>
+<dt><a name="//Quesa/c/econst/kQ3DrawContextPropertyAccelOffscreenIntFormat"><tt>kQ3DrawContextPropertyAccelOffscreenIntFormat</tt></a></dt><dd>Request that a hardware-accelerated pixmap draw context
+(see kQ3DrawContextPropertyAcceleratedOffscreen) use a color
+renderbuffer with a specific OpenGL internal format.
+Data type: TQ3Uns32.  Default: GL_RGB.</dd>
 <dt><a name="//Quesa/c/econst/kQ3DrawContextPropertyGLPixelFormat"><tt>kQ3DrawContextPropertyGLPixelFormat</tt></a></dt><dd>Request a specific OpenGL pixel format.
 The data type is platform-specific.
 Mac Carbon: AGLPixelFormat.  Windows: int.
@@ -1416,6 +1430,16 @@ Mac Cocoa: NSOpenGLPixelFormat*.</dd>
 <dt><a name="//Quesa/c/econst/kQ3DrawContextPropertyGLDestroyCallback"><tt>kQ3DrawContextPropertyGLDestroyCallback</tt></a></dt><dd>Request a callback when an OpenGL context
 is about to be destroyed.
 Data type: TQ3GLContextDestructionCallback.</dd>
+<dt><a name="//Quesa/c/econst/kQ3DrawContextPropertyGLFinishBeforeSwap"><tt>kQ3DrawContextPropertyGLFinishBeforeSwap</tt></a></dt><dd>Whether an OpenGL renderer should call
+glFinish before swapping buffers.
+Data type: TQ3Boolean.
+Default: kQ3False.</dd>
+<dt><a name="//Quesa/c/econst/kQ3DrawContextPropertyNSOpenGLContext"><tt>kQ3DrawContextPropertyNSOpenGLContext</tt></a></dt><dd>In the case of a Cocoa draw context, this
+is the NSOpenGLContext object associated with the context and its view.  
+Preferably, the view is an instance of a subclass of NSOpenGLView, and owns an
+NSOpenGLContext which will be used by Quesa.  But if you use a different kind of
+view and still want to create the NSOpenGLContext in client code rather than letting
+Quesa create one, then set this property before rendering.</dd>
 </dl>
 </blockquote>
 <hr><a name="//Quesa/c/tag/TQ3DirectDrawObjectSelector"></a>
@@ -1501,5 +1525,5 @@ the library field should be set to kQ3Mac2DLibraryNone.
 <dt><a name="//Quesa/c/econst/kQ3Mac2DLibraryQuickDrawGX"><tt>kQ3Mac2DLibraryQuickDrawGX</tt></a></dt><dd>Renderers should use QuickDraw GX in the final stage of rendering.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 5/27/2019)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/2/2019)
 </p></body></html>

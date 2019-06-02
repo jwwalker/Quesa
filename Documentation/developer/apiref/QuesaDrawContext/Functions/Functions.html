@@ -36,6 +36,10 @@
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
+It is now preferred that the Cocoa view be an instance of a subclass of
+NSOpenGLView.  In that case, the view owns an NSOpenGLContext and an
+NSOpenGLPixelFormat, so that Quesa does not need to create them.
+<br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
@@ -1017,5 +1021,5 @@ purpose of the function, and its parameters/result, have been assumed.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>The X11 visual info.
  </dd></dl>
-<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 5/27/2019)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/2/2019)
 </p></body></html>

@@ -58,7 +58,10 @@ typedef struct TQ3CocoaDrawContextData {
 <blockquote>
 <dl>
 <dt><tt>drawContextData</tt></dt><dd>The common state for the draw context.</dd>
-<dt><tt>nsView</tt></dt><dd>The NSView to render to.</dd>
+<dt><tt>nsView</tt></dt><dd>The NSView to render to.  Preferably, this should be an instance
+of a subclass of NSOpenGLView, in which case Quesa will use the
+NSOpenGLContext and NSOpenGLPixelFormat owned by the view rather
+than creating its own.</dd>
 </dl>
 </blockquote>
 <hr><a name="//Quesa/c/tag/TQ3DDSurfaceDescriptor"></a>
@@ -279,5 +282,5 @@ of the fields have been assumed.
 <dt><tt>colorMapData</tt></dt><dd>The X11 color map data.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 5/27/2019)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/2/2019)
 </p></body></html>
