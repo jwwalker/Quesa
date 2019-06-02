@@ -9,7 +9,7 @@
         C++ wrapper class for a Quesa shared object.
     
     COPYRIGHT:
-        Copyright (c) 2004, Quesa Developers. All rights reserved.
+        Copyright (c) 2004-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -50,9 +50,25 @@
 //      Include files
 //-----------------------------------------------------------------------------
 #include "Quesa.h"
+#include <utility>
 
+#ifndef QUESA_CPP11
+	#define QUESA_CPP11		((__cplusplus >= 201103L) || (_MSVC_LANG >= 201402))
+#endif
 
-
+// Normally, we expect that if we are using C++11, then std::move will be available.
+// But the old libstdc++ on Mac does not support it.
+#ifndef QUESA_HAS_STDMOVE
+	#if QUESA_CPP11
+		#if QUESA_OS_MACINTOSH
+			#ifdef _LIBCPP_VERSION
+				#define QUESA_HAS_STDMOVE 1
+			#endif
+		#else
+			#define QUESA_HAS_STDMOVE 1
+		#endif
+	#endif
+#endif
 
 
 //=============================================================================
@@ -96,6 +112,15 @@ public:
 							*/
 							CQ3ObjectRef( const CQ3ObjectRef& inOther );
 							
+#if QUESA_CPP11
+							/*
+								@function	CQ3ObjectRef
+								@abstract	Move constructor.
+								@param		ioOther		Another CQ3ObjectRef.
+							*/
+							CQ3ObjectRef( CQ3ObjectRef&& ioOther );
+#endif
+							
 							/*!
 								@function	CQ3ObjectRef
 								@abstract	Constructor from a TQ3Object.
@@ -116,7 +141,7 @@ public:
 	
 							/*!
 								@function	operator=
-								@abstract	Assignment operator.
+								@abstract	Copy Assignment operator.
 								@discussion	The previous object held by this wrapper
 											is disposed, and a new reference replaces
 											it.
@@ -124,6 +149,15 @@ public:
 							*/
 	CQ3ObjectRef&			operator=( const CQ3ObjectRef& inOther );
 	
+#if QUESA_HAS_STDMOVE
+							/*
+								@function	operator=
+								@abstract	Move assignment operator.
+								@param		ioOther		Another CQ3ObjectRef.
+							*/
+	CQ3ObjectRef&			operator=( CQ3ObjectRef&& ioOther );
+#endif
+
 							/*!
 								@function	swap
 								@abstract	Swap contents with another CQ3ObjectRef.
@@ -169,6 +203,14 @@ inline CQ3ObjectRef::CQ3ObjectRef( const CQ3ObjectRef& inOther )
 	}
 }
 
+#if QUESA_CPP11
+inline CQ3ObjectRef::CQ3ObjectRef( CQ3ObjectRef&& ioOther )
+	: mObject( ioOther.mObject )
+{
+	ioOther.mObject = nullptr;
+}
+#endif
+
 inline CQ3ObjectRef::~CQ3ObjectRef()
 {
 	if (isvalid())
@@ -190,5 +232,14 @@ inline CQ3ObjectRef&	CQ3ObjectRef::operator=( const CQ3ObjectRef& inOther )
 	swap( temp );
 	return *this;
 }
+
+#if QUESA_HAS_STDMOVE
+inline CQ3ObjectRef&		CQ3ObjectRef::operator=( CQ3ObjectRef&& ioOther )
+{
+	CQ3ObjectRef	temp( std::move( ioOther ) );
+	swap( temp );
+	return *this;
+}
+#endif
 
 #endif

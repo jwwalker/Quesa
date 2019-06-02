@@ -1,6 +1,8 @@
 /*!
 	@header	CQ3WeakObjectRef.h
 		Wrapper class for zeroing weak reference to a Quesa object.
+		Unlike CQ3ObjectRef, the object is not required to be a shareable
+		(reference-counted) type of object.
 */
 /*  NAME:
         CQ3WeakObjectRef.h
@@ -9,7 +11,7 @@
         C++ wrapper class for zeroing weak reference to a Quesa object.
     
     COPYRIGHT:
-        Copyright (c) 2016, Quesa Developers. All rights reserved.
+        Copyright (c) 2016-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -112,6 +114,14 @@ public:
 							*/
 	TQ3SharedObject			get() const { return mObject; }
 
+							/*!
+								@function	Assign
+								@abstract	Set the object referenced by the wrapper.
+								@param		inObject	A reference to a Quesa object,
+														or NULL.
+							*/
+	void					Assign( TQ3Object inObject );
+
 private:
 	TQ3Object		mObject;
 };
@@ -157,6 +167,29 @@ inline CQ3WeakObjectRef::~CQ3WeakObjectRef()
 }
 
 /*!
+	@function	Assign
+	@abstract	Set the object referenced by the wrapper.
+	@param		inObject	A reference to a Quesa object,
+							or NULL.
+*/
+inline void	CQ3WeakObjectRef::Assign( TQ3Object inObject )
+{
+	if (inObject != mObject)
+	{
+		if (isvalid())
+		{
+			Q3Object_ReleaseWeakReference( &mObject );
+		}
+		mObject = inObject;
+		if (isvalid())
+		{
+			Q3Object_GetWeakReference( &mObject );
+		}
+	}
+}
+
+
+/*!
 	@function	operator=
 	@abstract	Assignment operator.
 	@discussion	The previous reference held by this wrapper
@@ -166,14 +199,17 @@ inline CQ3WeakObjectRef::~CQ3WeakObjectRef()
 */
 inline CQ3WeakObjectRef&	CQ3WeakObjectRef::operator=( const CQ3WeakObjectRef& inOther )
 {
-	if (isvalid())
+	if (inOther.mObject != mObject)
 	{
-		Q3Object_ReleaseWeakReference( &mObject );
-	}
-	mObject = inOther.mObject;
-	if (isvalid())
-	{
-		Q3Object_GetWeakReference( &mObject );
+		if (isvalid())
+		{
+			Q3Object_ReleaseWeakReference( &mObject );
+		}
+		mObject = inOther.mObject;
+		if (isvalid())
+		{
+			Q3Object_GetWeakReference( &mObject );
+		}
 	}
 	return *this;
 }
