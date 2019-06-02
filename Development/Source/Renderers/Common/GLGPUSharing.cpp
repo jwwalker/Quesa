@@ -5,7 +5,7 @@
         Source for GPU shared data cache manager.
 
     COPYRIGHT:
-        Copyright (c) 2007-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -95,6 +95,26 @@ static GroupList*	sGroupList = nullptr;
 //		Internal functions
 //-----------------------------------------------------------------------------
 
+#if 0//Q3_DEBUG
+static void LogGroups()
+{
+	if (sGroupList != nullptr)
+	{
+		Q3_MESSAGE_FMT("Log of sharing groups" );
+		for (const auto& group : *sGroupList)
+		{
+			Q3_MESSAGE_FMT("Sharing group %p", &group);
+			for (const auto& context : group.mGLContexts )
+			{
+				Q3_MESSAGE_FMT("  Member context %p", context);
+			}
+		}
+		Q3_MESSAGE_FMT("End Log of sharing groups" );
+	}
+}
+#else
+	#define	LogGroups()
+#endif
 
 /*!
 	@function	InitGroups
@@ -299,6 +319,7 @@ void				GLGPUSharing_AddContext( TQ3GLContext newGLContext,
 			E3ErrorManager_PostError( kQ3ErrorOutOfMemory, kQ3True );
 		}
 	}
+	LogGroups();
 }
 
 /*!
@@ -323,13 +344,14 @@ void				GLGPUSharing_RemoveContext( TQ3GLContext deadGLContext )
 			sGroupList->erase( groupIt );
 		}
 	}
+	LogGroups();
 }
 
 /*!
 	@function		GLGPUSharing_IsContextKnown
 	@abstract		Test whether the sharing manager knows about an OpenGL context.
 	@param			inGLContext			A GL context.
-	@param			True if we find a sharing group for the context.
+	@result			True if we find a sharing group for the context.
 */
 bool				GLGPUSharing_IsContextKnown( TQ3GLContext inGLContext )
 {
@@ -338,6 +360,27 @@ bool				GLGPUSharing_IsContextKnown( TQ3GLContext inGLContext )
 	return FindGroupFromContext( inGLContext, groupIt );
 }
 
+
+/*!
+	@function		GLGPUSharing_GetAllContexts
+	@abstract		Get all the context pointers.
+	@param			outContexts		Receives all the contexts.
+*/
+void				GLGPUSharing_GetAllContexts( std::vector<TQ3GLContext>& outContexts )
+{
+	outContexts.clear();
+	
+	if (sGroupList != nullptr)
+	{
+		for (const auto& group : *sGroupList)
+		{
+			for (const auto& context : group.mGLContexts)
+			{
+				outContexts.push_back( context );
+			}
+		}
+	}
+}
 
 
 /*!

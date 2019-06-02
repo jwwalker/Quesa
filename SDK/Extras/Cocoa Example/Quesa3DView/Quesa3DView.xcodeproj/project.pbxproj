@@ -11,16 +11,16 @@
 		BE1352930C3C14F400B20B60 /* DemoGeometry.h in Headers */ = {isa = PBXBuildFile; fileRef = 1E8954ACFF1927E77F000001 /* DemoGeometry.h */; };
 		BE1352940C3C14F400B20B60 /* Quesa3DView.h in Headers */ = {isa = PBXBuildFile; fileRef = 2179FF0AFF19522C7F000001 /* Quesa3DView.h */; };
 		BE1352950C3C14F400B20B60 /* QuesaCocoaUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D6A02D3FF1986E17F000001 /* QuesaCocoaUtil.h */; };
-		BE1352980C3C14F400B20B60 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		BE13529A0C3C14F400B20B60 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		BE13529B0C3C14F400B20B60 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 17327D4BFF18F4807F000001 /* AppDelegate.m */; settings = {ATTRIBUTES = (); }; };
 		BE13529C0C3C14F400B20B60 /* DemoGeometry.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E8954AAFF19270E7F000001 /* DemoGeometry.m */; settings = {ATTRIBUTES = (); }; };
 		BE13529D0C3C14F400B20B60 /* Quesa3DView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2179FF09FF19522C7F000001 /* Quesa3DView.m */; settings = {ATTRIBUTES = (); }; };
 		BE13529E0C3C14F400B20B60 /* QuesaCocoaUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D6A02D4FF1986E17F000001 /* QuesaCocoaUtil.m */; settings = {ATTRIBUTES = (); }; };
 		BE67F2591734626500A49604 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE67F2581734626500A49604 /* Cocoa.framework */; };
-		BEE5742D142270820096EFC0 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = BEE5742B142270820096EFC0 /* MainMenu.xib */; };
+		BEB0613222A47B0700B494D6 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = BEB0612E22A47B0700B494D6 /* MainMenu.xib */; };
+		BEB0613322A47B0700B494D6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BEB0613022A47B0700B494D6 /* InfoPlist.strings */; };
 		BEFFD8930C4C8D6C00202EA8 /* Quesa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BEFFD8920C4C8D6C00202EA8 /* Quesa.framework */; };
-		BEFFD8AF0C4C8D7A00202EA8 /* Quesa.framework in Copy Private Frameworks */ = {isa = PBXBuildFile; fileRef = BEFFD8920C4C8D6C00202EA8 /* Quesa.framework */; };
+		BEFFD8AF0C4C8D7A00202EA8 /* Quesa.framework in Copy Private Frameworks */ = {isa = PBXBuildFile; fileRef = BEFFD8920C4C8D6C00202EA8 /* Quesa.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -62,7 +62,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		17327D4BFF18F4807F000001 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		17327D4CFF18F4807F000001 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1E8954AAFF19270E7F000001 /* DemoGeometry.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DemoGeometry.m; sourceTree = "<group>"; };
@@ -76,7 +75,8 @@
 		BE13530F0C3C190300B20B60 /* project.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = project.xcconfig; sourceTree = "<group>"; };
 		BE1353140C3C1B9E00B20B60 /* Info-Quesa3DView.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; path = "Info-Quesa3DView.plist"; sourceTree = "<group>"; };
 		BE67F2581734626500A49604 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
-		BEE5742C142270820096EFC0 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		BEB0612F22A47B0700B494D6 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		BEB0613122A47B0700B494D6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		BEFFD85D0C4C8C9000202EA8 /* Quesa.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Quesa.xcodeproj; path = ../../../../Development/Projects/Mac/Quesa.xcodeproj; sourceTree = SOURCE_ROOT; };
 		BEFFD8920C4C8D6C00202EA8 /* Quesa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Quesa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -145,9 +145,9 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				BEB0613022A47B0700B494D6 /* InfoPlist.strings */,
+				BEB0612E22A47B0700B494D6 /* MainMenu.xib */,
 				BE1353140C3C1B9E00B20B60 /* Info-Quesa3DView.plist */,
-				BEE5742B142270820096EFC0 /* MainMenu.xib */,
-				089C165CFE840E0CC02AAC07 /* InfoPlist.strings */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -252,16 +252,17 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastUpgradeCheck = 1020;
 			};
 			buildConfigurationList = B1FFA3480906B1A30010DA99 /* Build configuration list for PBXProject "Quesa3DView" */;
 			compatibilityVersion = "Xcode 3.0";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				English,
-				Japanese,
-				French,
-				German,
+				de,
+				fr,
+				ja,
+				en,
 			);
 			mainGroup = 29B97314FDCFA39411CA2CEA /* CocoaApp */;
 			projectDirPath = "";
@@ -300,8 +301,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BE1352980C3C14F400B20B60 /* InfoPlist.strings in Resources */,
-				BEE5742D142270820096EFC0 /* MainMenu.xib in Resources */,
+				BEB0613222A47B0700B494D6 /* MainMenu.xib in Resources */,
+				BEB0613322A47B0700B494D6 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -348,21 +349,21 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		089C165CFE840E0CC02AAC07 /* InfoPlist.strings */ = {
+		BEB0612E22A47B0700B494D6 /* MainMenu.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				089C165DFE840E0CC02AAC07 /* English */,
+				BEB0612F22A47B0700B494D6 /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		BEB0613022A47B0700B494D6 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BEB0613122A47B0700B494D6 /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
-		};
-		BEE5742B142270820096EFC0 /* MainMenu.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				BEE5742C142270820096EFC0 /* English */,
-			);
-			name = MainMenu.xib;
-			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXVariantGroup section */
 
@@ -371,12 +372,40 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BE13530F0C3C190300B20B60 /* project.xcconfig */;
 			buildSettings = {
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(GCC_PREPROCESSOR_DEFINITIONS)",
 					"Q3_DEBUG=1",
 				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
 			};
 			name = Debug;
 		};
@@ -384,12 +413,39 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BE13530F0C3C190300B20B60 /* project.xcconfig */;
 			buildSettings = {
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
 			};
 			name = Release;
 		};
 		BE1352A40C3C14F400B20B60 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				WARNING_CFLAGS = (
 					"-Wmost",
@@ -402,6 +458,7 @@
 		BE1352A50C3C14F400B20B60 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
 				ONLY_ACTIVE_ARCH = YES;
 			};
 			name = Release;

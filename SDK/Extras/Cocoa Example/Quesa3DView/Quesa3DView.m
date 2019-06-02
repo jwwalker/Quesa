@@ -5,7 +5,7 @@
         NSView subclass to display a quesa draw context.
 
     COPYRIGHT:
-        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -54,22 +54,20 @@
 #include <OpenGL/gl.h>
 
 
-//==================================================================================
-//	PrivateMethods
-//==================================================================================
+@interface Quesa3DView ()
 
+// Make these properties writeable within this source file.
+@property (assign) TQ3DrawContextObject	drawContext;
+@property (assign) TQ3ViewObject		qd3dView;
 
-@interface Quesa3DView(PrivateMethods)
-- (void)setupQD3D;
-- (void)initQ3DrawContext;
-- (void)initQ3View;
-- (void)createDefaultLights;
-- (void)createDefaultCamera;
-- (void) frameChanged: (NSNotification*) note;
 @end
 
 
 @implementation Quesa3DView
+
+@synthesize qd3dDelegate;
+@synthesize drawContext = _drawContext;
+@synthesize qd3dView = _qd3dView;
 
 //==================================================================================
 //	initialize (class method)
@@ -80,6 +78,7 @@
 	if ( self == [Quesa3DView class] )
 	{
 		TQ3Status qd3dStatus = kQ3Success;
+		
 		if (!Q3IsInitialized())    
 			qd3dStatus = Q3Initialize();
 			
@@ -97,21 +96,20 @@
 - (id)initWithFrame:(NSRect)frameRect
 {
 	self = [super initWithFrame:frameRect];
+	
 	if (self != nil)
 	{
-		qd3dView = NULL;
-		drawContext = NULL;
+	}
 		
-		// Listen for frame changes to myself, so that the aspect ratio can be
-		// kept up to date.
-		[self setPostsFrameChangedNotifications: YES];
-		[[NSNotificationCenter defaultCenter]
-			addObserver: self
-			selector: @selector(frameChanged:)
-			name: NSViewFrameDidChangeNotification
-			object: self ];
+    return self;
 	}
 
+- (id) initWithCoder:(NSCoder *)decoder
+{
+	self = [super initWithCoder: decoder];
+	if (self != nil)
+	{
+	}
     return self;
 }
 
@@ -121,13 +119,11 @@
 
 - (void)dealloc
 {
-	[[NSNotificationCenter defaultCenter] removeObserver: self];
+	if (self.qd3dView != NULL)
+		Q3Object_Dispose(self.qd3dView);
 
-  if (qd3dView != NULL)
-      Q3Object_Dispose(qd3dView);
-
-  if (drawContext != NULL)
-      Q3Object_Dispose(drawContext);
+	if (self.drawContext != NULL)
+		Q3Object_Dispose(self.drawContext);
 
   [super dealloc];
 }
@@ -136,31 +132,15 @@
 //	drawRect:
 //==================================================================================
 
-- (void)drawRect:(NSRect)rect {
-    if(qd3dView==NULL)
+- (void) drawRect:(NSRect)rect
+{
+    if (self.qd3dView == NULL)
     {
           [self setupQD3D];
     }
     [self drawQD3D];
 }
 
-//==================================================================================
-//	qd3dDelegate
-//==================================================================================
-
-- (id)qd3dDelegate
-{
-    return qd3dDelegate;
-}
-
-//==================================================================================
-//	setQD3DDelegate:
-//==================================================================================
-
-- (void)setQD3DDelegate:(id)inDelegate
-{
-    qd3dDelegate = inDelegate;//don't retain to avoid cycles
-}
 
 //==================================================================================
 //	createLight:withData:
@@ -173,7 +153,7 @@
 	TQ3LightObject		theLight;
 
 	// Get the light group for the view
-	qd3dStatus = Q3View_GetLightGroup(qd3dView, &lightGroup);
+	qd3dStatus = Q3View_GetLightGroup(self.qd3dView, &lightGroup);
 	if (qd3dStatus != kQ3Success)
 		return;
 		
@@ -184,7 +164,7 @@
 		if (lightGroup == NULL)
 			return;
 		
-		Q3View_SetLightGroup(qd3dView, lightGroup);
+		Q3View_SetLightGroup(self.qd3dView, lightGroup);
 		}
 
 	// Create the light object
@@ -234,11 +214,11 @@
     {
         [qd3dDelegate qd3dViewWillRender:self];
     }
-    if(qd3dView==NULL)
+    if (self.qd3dView == NULL)
       fprintf(stderr,"qd3dView is still NULL!\n");fflush(stderr);
 	// Render another frame
 
-	qd3dStatus = Q3View_StartRendering(qd3dView);
+	qd3dStatus = Q3View_StartRendering(self.qd3dView);
 
 	if (qd3dStatus == kQ3Success)
     {
@@ -250,7 +230,7 @@
                   [qd3dDelegate qd3dViewRenderFrame:self];
               }
 			}
-		while (Q3View_EndRendering(qd3dView) == kQ3ViewStatusRetraverse);
+		while (Q3View_EndRendering(self.qd3dView) == kQ3ViewStatusRetraverse);
     }
 
 
@@ -260,24 +240,6 @@
     {
         [qd3dDelegate qd3dViewDidRender:self];
     }
-}
-
-//==================================================================================
-//	drawContext
-//==================================================================================
-
-- (TQ3DrawContextObject)drawContext
-{
-  return drawContext;
-}
-
-//==================================================================================
-//	qd3dView
-//==================================================================================
-
-- (TQ3ViewObject)qd3dView
-{
-  return qd3dView;
 }
 
 //==================================================================================
@@ -319,11 +281,6 @@
   [self sendEventToDelegate:theEvent];
 }
 
-@end
-
-
-@implementation Quesa3DView(PrivateMethods)
-
 //==================================================================================
 //	setupQD3D
 //==================================================================================
@@ -349,14 +306,14 @@
 	// do, we grab as much of its state data as we can - this means we
 	// wil preserve any changes made by the app's view-configure method.
 	resetDrawContext = kQ3True;
-	if (qd3dView != NULL)
+	if (self.qd3dView != NULL)
 		{
-          qd3dStatus = Q3View_GetDrawContext(qd3dView, &drawContext);
+		qd3dStatus = Q3View_GetDrawContext(self.qd3dView, &_drawContext);
           if (qd3dStatus == kQ3Success)
 			{
 			resetDrawContext = kQ3False;
-			Q3DrawContext_GetData(drawContext, &cocoaDrawContextData.drawContextData);
-			Q3Object_Dispose(drawContext);
+			Q3DrawContext_GetData(self.drawContext, &cocoaDrawContextData.drawContextData);
+			Q3Object_Dispose(self.drawContext);
 			}
 		}
 
@@ -387,16 +344,16 @@
 
 
 	// Create the draw context object
-  drawContext = Q3CocoaDrawContext_New(&cocoaDrawContextData);
-  if(drawContext==NULL)
+  self.drawContext = Q3CocoaDrawContext_New(&cocoaDrawContextData);
+  if (self.drawContext==NULL)
     NSLog(@"Unable to create draw context in initQ3DrawContext");
 	
 	
 	// Sync to monitor refresh
-	if (drawContext != NULL)
+	if (self.drawContext != NULL)
 	{
 		TQ3Boolean	doSync = kQ3True;
-		Q3Object_SetProperty( drawContext, kQ3DrawContextPropertySyncToRefresh,
+		Q3Object_SetProperty( self.drawContext, kQ3DrawContextPropertySyncToRefresh,
 			sizeof(doSync), &doSync );
 	}
 }
@@ -411,15 +368,15 @@
  
 
 	// Create the view
-	if (drawContext != NULL)
+	if (self.drawContext != NULL)
     {
       // Create the view
-      qd3dView = Q3View_New();
-      if (qd3dView != NULL)
+		self.qd3dView = Q3View_New();
+		if (self.qd3dView != NULL)
       {
         // Configure the view
-        qd3dStatus = Q3View_SetDrawContext(qd3dView,    drawContext);
-        qd3dStatus = Q3View_SetRendererByType(qd3dView, kQ3RendererTypeInteractive);
+			qd3dStatus = Q3View_SetDrawContext(self.qd3dView,    self.drawContext);
+			qd3dStatus = Q3View_SetRendererByType(self.qd3dView, kQ3RendererTypeOpenGL);
         [self createDefaultCamera];
         [self createDefaultLights];
     
@@ -428,7 +385,9 @@
             [qd3dDelegate qd3dViewDidInit:self];
         }
       }
-    } else {
+	}
+	else
+	{
           NSLog(@"TQ3DrawContext is NULL in initQ3View!");
     }
 }
@@ -494,10 +453,10 @@
 	TQ3Area							theArea;
 
 
-    if(qd3dView == NULL)
+    if (self.qd3dView == NULL)
       return;
 	// Get the size of the image we're rendering
-	qd3dStatus = Q3DrawContext_GetPane(drawContext, &theArea);
+	qd3dStatus = Q3DrawContext_GetPane(self.drawContext, &theArea);
 
 
 
@@ -521,28 +480,34 @@
 
 	// Create the camera object
 	theCamera = Q3ViewAngleAspectCamera_New(&cameraData);
-    qd3dStatus = Q3View_SetCamera(qd3dView,         theCamera);
+    qd3dStatus = Q3View_SetCamera(self.qd3dView,         theCamera);
 	if (theCamera != NULL)
 		Q3Object_Dispose(theCamera);
 
 }
 
-- (void) frameChanged: (NSNotification*) note;
+- (void) reshape
 {
 	TQ3Area							theArea;
 	TQ3CameraObject	theCamera;
 	float	aspect;
 	
-	Q3DrawContext_GetPane(drawContext, &theArea);
+	if ( (self.drawContext != NULL) && (self.qd3dView != NULL) )
+	{
+		Q3DrawContext_GetPane(self.drawContext, &theArea);
 	
-	aspect = (theArea.max.x - theArea.min.x) / (theArea.max.y - theArea.min.y);
+		aspect = (theArea.max.x - theArea.min.x) / (theArea.max.y - theArea.min.y);
 	
-	Q3View_GetCamera( qd3dView, &theCamera );
+		Q3View_GetCamera( self.qd3dView, &theCamera );
 	
-	Q3ViewAngleAspectCamera_SetAspectRatio( theCamera, aspect );
+		Q3ViewAngleAspectCamera_SetAspectRatio( theCamera, aspect );
 	
-	Q3Object_Dispose( theCamera );
+		Q3Object_Dispose( theCamera );
+	}
+
+	[super reshape];
 }
+
 
 @end
 

@@ -5,7 +5,7 @@
         
 
     COPYRIGHT:
-        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -45,6 +45,7 @@
 #import <Foundation/Foundation.h>
 
 #include <Quesa/Quesa.h>
+#include <Quesa/QuesaCustomElements.h>
 #include <Quesa/QuesaDrawContext.h>
 #include <Quesa/QuesaCamera.h>
 #include <Quesa/QuesaShader.h>
@@ -98,15 +99,15 @@ static TQ3ShaderObject createTextureFromFile(NSString * fileName)
 
 	NSLog(@"createTextureFromFile:fileName:[%@]", fileName);
 
-	theImage = (NSBitmapImageRep*) [NSBitmapImageRep imageRepWithContentsOfFile: fileName];
+	theImage = (NSBitmapImageRep*) [NSImageRep imageRepWithContentsOfFile: fileName];
 
-	if (theImage)
+	if ([theImage isKindOfClass: [NSBitmapImageRep class]])
 	{
 		int	bitsPPixel, theWidth, theHeight, rowBytes;
-		bitsPPixel	= [theImage bitsPerPixel];
-		rowBytes	= [theImage bytesPerRow];
-		theWidth	= [theImage pixelsWide];
-		theHeight	= [theImage pixelsHigh];
+		bitsPPixel	= (int) [theImage bitsPerPixel];
+		rowBytes	= (int) [theImage bytesPerRow];
+		theWidth	= (int) [theImage pixelsWide];
+		theHeight	= (int) [theImage pixelsHigh];
 
 
 		NSLog(@"createTextureFromFile: imageRepWithContentsOfFile OK: width = %d, height = %d,  %d bpp, %d rowBytes\n",
@@ -277,6 +278,7 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 
 @implementation AppDelegate
 
+
 //==================================================================================
 //	init
 //==================================================================================
@@ -285,20 +287,6 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 {
 	if ( (self = [super init]) != nil )
 	{
-		TQ3Int32				glAttributes[] =
-		{
-			NSOpenGLPFADoubleBuffer,
-			NSOpenGLPFADepthSize, 24,
-			NSOpenGLPFAStencilSize, 8,
-			NSOpenGLPFASampleBuffers, 1,
-			NSOpenGLPFASamples, 4,
-			NSOpenGLPFAWindow,
-			0
-		};
-		
-		mPixelFormat  = [[NSOpenGLPixelFormat alloc]
-			initWithAttributes: (NSOpenGLPixelFormatAttribute*) glAttributes];
-
 		mIlluminationShaderType = 2;
 		Q3Initialize();
 		mIlluminationShader = Q3PhongIllumination_New();
@@ -317,7 +305,6 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 - (void) dealloc
 {
 	[mAnimationTimer release];
-	[mPixelFormat release];
 	
 	if (mSceneBounds != NULL)
 	{
@@ -395,6 +382,10 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 	Q3Matrix4x4_SetIdentity(&mCurrentMatrix);
   	Q3Matrix4x4_SetRotate_XYZ(&mRotationFactor, 0.03f, 0.05f, 0.005f);
     mSceneGeometry = createGeomQuesa();
+    
+    self.animates = YES;
+    mRendererType = 0;
+    [rendererMenu selectItemWithTag: kQ3RendererTypeOpenGL];
 }
 
 //==================================================================================
@@ -447,18 +438,6 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 //==================================================================================
 - (void) updateRendererFullScreenAntialias
 {
-	TQ3DrawContextObject	dc = [quesa3dView drawContext];
-	
-	if ([self fullScreenAntialias])
-	{
-		Q3Object_SetProperty( dc, kQ3DrawContextPropertyGLPixelFormat,
-			sizeof(mPixelFormat), &mPixelFormat );
-	}
-	else
-	{
-		Q3Object_RemoveProperty( dc, kQ3DrawContextPropertyGLPixelFormat );
-	}
-	
 	// In some cases, the driver disregards disabling of GL_MULTISAMPLE,
 	// so the only way to be sure we can turn antialiasing on and off is
 	// to recreate the renderer.
@@ -751,6 +730,7 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 				mIlluminationShader = Q3PhongIllumination_New();
 				break;
 		}
+		[quesa3dView setNeedsDisplay:YES];
 	}
 }
 
@@ -837,7 +817,7 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 
 -(void)setGeometryFromTag:(id)sender
 {
-  int tagVal = [[sender selectedItem]tag];
+  int tagVal = (int) [[sender selectedItem]tag];
   TQ3GeometryObject theGeom = NULL;
   
   switch(tagVal)
@@ -961,6 +941,7 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 -(void)qd3dViewDidInit:(Quesa3DView*)inView
 {
 	[self setRendererType: kQ3RendererTypeOpenGL ];
+	[self updateRendererShadowFlag];
 
 	[self setAnimates: YES];
 }
