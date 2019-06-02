@@ -5,7 +5,7 @@
         Implementation of Quesa Pixmap Marker geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -107,20 +107,6 @@ e3geom_pixmapmarker_get_data(const TQ3PixmapMarkerData *instanceData, TQ3Boolean
 			qd3dStatus = Q3MemoryStorage_GetBuffer(theStorage, (unsigned char**)&basePtr, &validSize, &bufferSize);
 			break;
 
-#if QUESA_OS_MACINTOSH
-		case kQ3MemoryStorageTypeHandle:
-			{	Handle	theHnd;
-			
-			qd3dStatus = Q3HandleStorage_Get(theStorage, &theHnd, &validSize);
-			if (qd3dStatus == kQ3Success && theHnd != nullptr)
-				{
-    			HLock(theHnd);
-    			basePtr = (TQ3Uns8 *) *theHnd;
-    			}
-    		}
-    		break;
-#endif
-
 		default:
 			qd3dStatus = Q3Storage_GetSize(theStorage, &bufferSize);
 			if (qd3dStatus == kQ3Success)
@@ -178,18 +164,6 @@ e3geom_pixmapmarker_release_data(const TQ3PixmapMarkerData	*instanceData,
 	// Fetch the storage field into a local variable for readability
 	theStorage = instanceData->pixmap.image;
 
-
-
-	// If this is a Mac handle object, unlock the handle
-#if QUESA_OS_MACINTOSH
-	theType = Q3Storage_GetType(theStorage);
-	if (theType == kQ3MemoryStorageTypeHandle)
-		{
-		qd3dStatus = Q3HandleStorage_Get(theStorage, &theHnd, &validSize);
-		if (qd3dStatus == kQ3Success && theHnd != nullptr)
-			HUnlock(theHnd);
-		}
-#endif
 
 
 

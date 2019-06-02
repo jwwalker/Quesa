@@ -5,7 +5,7 @@
         Quesa 3DMFBin writer geometry methods.
 
     COPYRIGHT:
-        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -103,20 +103,6 @@ e3ffw_3DMF_storage_write(TQ3StorageObject theStorage,TQ3Uns32 expectedSize,TQ3Fi
 		case kQ3StorageTypeMemory:
 			Q3MemoryStorage_GetBuffer(theStorage, (unsigned char**)&basePtr, &validSize, &bufferSize);
 			break;
-
-#if QUESA_OS_MACINTOSH
-		case kQ3MemoryStorageTypeHandle:
-			{
-			
-			qd3dStatus = Q3HandleStorage_Get(theStorage, &theHnd, &validSize);
-			if (qd3dStatus == kQ3Success && theHnd != nullptr)
-				{
-    			HLock(theHnd);
-    			basePtr = (TQ3Uns8 *) *theHnd;
-    			}
-    		}
-    		break;
-#endif
 
 		default:
 			qd3dStatus = Q3Storage_GetSize(theStorage, &bufferSize);
