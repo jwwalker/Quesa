@@ -1,11 +1,11 @@
 /*  NAME:
-        E3Renderer.c
+        E3Renderer.cpp
 
     DESCRIPTION:
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1176,9 +1176,11 @@ E3InteractiveRenderer_SetRAVETextureFilter(TQ3RendererObject inRenderer, TQ3Text
 	{
 		// Set the field, and flag that we need to reset the draw context state.
 		theRenderer->instanceData.raveTextureFilter = raveTextureFilterValue;
-		theRenderer->instanceData.drawContextReset  = kQ3True;
+		//theRenderer->instanceData.drawContextReset  = kQ3True;
 
-		Q3Shared_Edited( inRenderer );
+		//Q3Shared_Edited( inRenderer );
+		// It doesn't look like this reset stuff is needed, at least with the OpenGL renderer.
+		// The texture filtering gets set each time the texture changes anyway.
 	}
 	
 	return kQ3Success ;
