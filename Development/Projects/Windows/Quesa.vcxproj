@@ -144,7 +144,6 @@
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <ClCompile Include="..\..\Source\Core\Glue\QD3DCamera.cpp" />
-    <ClCompile Include="..\..\Source\Core\Glue\QD3DController.cpp" />
     <ClCompile Include="..\..\Source\Core\Glue\QD3DCustomElements.cpp" />
     <ClCompile Include="..\..\Source\Core\Glue\QD3DDrawContext.cpp" />
     <ClCompile Include="..\..\Source\Core\Glue\QD3DErrors.cpp" />
@@ -176,7 +175,6 @@
     <ClCompile Include="..\..\Source\Core\Support\E3Tessellate.cpp" />
     <ClCompile Include="..\..\Source\Core\Support\E3Utils.cpp" />
     <ClCompile Include="..\..\Source\Core\System\E3Camera.cpp" />
-    <ClCompile Include="..\..\Source\Core\System\E3Controller.cpp" />
     <ClCompile Include="..\..\Source\Core\System\E3CustomElements.cpp" />
     <ClCompile Include="..\..\Source\Core\System\E3DrawContext.cpp" />
     <ClCompile Include="..\..\Source\Core\System\E3Errors.cpp" />
