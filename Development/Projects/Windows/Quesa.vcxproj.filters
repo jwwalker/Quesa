@@ -238,9 +238,6 @@
     <ClCompile Include="..\..\Source\Core\Glue\QD3DCamera.cpp">
       <Filter>Source\Core\Glue</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Core\Glue\QD3DController.cpp">
-      <Filter>Source\Core\Glue</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Core\Glue\QD3DCustomElements.cpp">
       <Filter>Source\Core\Glue</Filter>
     </ClCompile>
@@ -332,9 +329,6 @@
       <Filter>Source\Core\Support</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Core\System\E3Camera.cpp">
-      <Filter>Source\Core\System</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Core\System\E3Controller.cpp">
       <Filter>Source\Core\System</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Core\System\E3CustomElements.cpp">
