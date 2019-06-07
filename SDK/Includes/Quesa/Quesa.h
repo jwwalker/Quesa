@@ -397,18 +397,18 @@ typedef TQ3Int32                                TQ3ObjectType;
 //=============================================================================
 //      Constants
 //-----------------------------------------------------------------------------
-/*!
- *  @enum
- *      Miscellaneous constants
- *
- *  @constant kQ3StringMaximumLength    Maximum length of TQ3ObjectClassNameString.
- *  @constant kQ3ArrayIndexNULL         NULL array index.
- */
-enum {
-    kQ3StringMaximumLength                      = 1024,
-    kQ3ArrayIndexNULL                           = 0xFFFFFFFFU
-};
 
+/*!
+	@constant	kQ3ArrayIndexNULL
+	@abstract	NULL array index.
+*/
+const TQ3Uns32 kQ3ArrayIndexNULL				= 0xFFFFFFFFU;
+
+/*!
+	 @constant kQ3StringMaximumLength
+	 @abstract	Maximum length of TQ3ObjectClassNameString.
+*/
+const int kQ3StringMaximumLength				= 1024;
 
 /*!
  *  @enum
@@ -1812,23 +1812,24 @@ Q3Object_Dispose (
  *      reference count then clears the supplied pointer to prevent stale references.
  *
  *      Equivalent to:
- *
- *          if (theObject != NULL)
- *              {
- *              Q3Object_Dispose(theObject);
- *              theObject = NULL;
- *              }
+ *		<blockquote><pre><code>
+ *          if ( (theObject != NULL) && (*theObject != NULL) )
+ *          {
+ *          &nbsp;   Q3Object_Dispose( *theObject );
+ *          &nbsp;   *theObject = NULL;
+ *          }
+ *      </code></pre></blockquote>
  *      
  *      <em>This function is not available in QD3D.</em>
  *      
- *  @param theObject        The object to dispose (may be NULL).
+ *  @param theObject        Address of a variable holding an object reference to dispose (may be NULL).
  *  @result                 Success or failure of the operation.
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Object_CleanDispose (
-    TQ3Object _Nullable                     * _Nonnull theObject
+    TQ3Object _Nullable * _Nullable theObject
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS

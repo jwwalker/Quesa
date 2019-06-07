@@ -111,7 +111,7 @@ public:
 								@param		inOther		Another CQ3ObjectRef.
 							*/
 							CQ3ObjectRef( const CQ3ObjectRef& inOther );
-							
+
 #if QUESA_CPP11
 							/*
 								@function	CQ3ObjectRef

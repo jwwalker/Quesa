@@ -763,7 +763,7 @@ Q3DrawContext_GetPane (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3DrawContext_SetPaneState (
     TQ3DrawContextObject _Nonnull          context,
-    TQ3Boolean                    state
+    TQ3Boolean                             state
 );
 
 
@@ -799,7 +799,7 @@ Q3DrawContext_GetPaneState (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3DrawContext_SetClearImageMethod (
     TQ3DrawContextObject _Nonnull         context,
-    TQ3DrawContextClearImageMethod method
+    TQ3DrawContextClearImageMethod        method
 );
 
 
@@ -876,7 +876,7 @@ Q3DrawContext_GetMask (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3DrawContext_SetMaskState (
     TQ3DrawContextObject _Nonnull       context,
-    TQ3Boolean                    state
+    TQ3Boolean                          state
 );
 
 
@@ -916,7 +916,7 @@ Q3DrawContext_GetMaskState (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3DrawContext_SetDoubleBufferState (
     TQ3DrawContextObject _Nonnull         context,
-    TQ3Boolean                    state
+    TQ3Boolean                            state
 );
 
 
@@ -1144,7 +1144,7 @@ Q3MacDrawContext_GetGrafPort (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3MacDrawContext_Set2DLibrary (
     TQ3DrawContextObject _Nonnull         drawContext,
-    TQ3MacDrawContext2DLibrary    library
+    TQ3MacDrawContext2DLibrary            library
 );
 
 

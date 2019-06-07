@@ -12,7 +12,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -2379,7 +2379,7 @@ Q3RationalPoint3D_To3DTransformArray (
  *		When you have many points to transform, this is a more efficient
  *		alternative to calling Q3Point3D_Transform repeatedly.
  *
- *  @param inPoints3D       Array of 3D points to transform.
+ *  @param inPoints3D       Array of 3D points to transform.  Must not be NULL unless numPoints == 0.
  *  @param matrix4x4        Transformation matrix.
  *  @param outPoints3D      Array of points to receive output (may be the same as inPoints3D).
  *  @param numPoints        How many points are in each array.
@@ -2389,9 +2389,9 @@ Q3RationalPoint3D_To3DTransformArray (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Point3D_To3DTransformArray (
-    const TQ3Point3D              * _Nonnull inPoints3D,
+    const TQ3Point3D              * _Nullable inPoints3D,
     const TQ3Matrix4x4            * _Nonnull matrix4x4,
-    TQ3Point3D                    * _Nonnull outPoints3D,
+    TQ3Point3D                    * _Nullable outPoints3D,
     TQ3Uns32                      numPoints,
     TQ3Uns32                      inStructSize,
     TQ3Uns32                      outStructSize
@@ -3568,7 +3568,7 @@ Q3BoundingBox_Set (
  *      Set a bounding box to just enclose a set of 3D points.
  *
  *  @param bBox             Address of bounding box to set.
- *  @param points3D         Array of 3D points.
+ *  @param points3D         Array of 3D points.  Should not be NULL unless numPoints == 0.
  *  @param numPoints        How many points are in the array.
  *  @param structSize       Size of each array element, typically sizeof(TQ3Point3D).
  *  @result                 Convenience copy of bBox parameter.
@@ -3576,7 +3576,7 @@ Q3BoundingBox_Set (
 Q3_EXTERN_API_C ( TQ3BoundingBox * _Nonnull )
 Q3BoundingBox_SetFromPoints3D (
     TQ3BoundingBox                * _Nonnull bBox,
-    const TQ3Point3D              * _Nonnull points3D,
+    const TQ3Point3D              * _Nullable points3D,
     TQ3Uns32                      numPoints,
     TQ3Uns32                      structSize
 );
@@ -3950,12 +3950,12 @@ Q3Ray3D_IntersectBoundingBox (
  *		intersection in terms of the vertices of the triangles, using
  *		barycentric coordinates, as follows:
  *
- *		<pre>
+ *		<blockquote><pre><code>
  *        t = (1.0f - hitPoint.u - hitPoint.v);
  *        x = (point1.x * t) + (point2.x * hitPoint.u) + (point3.x * hitPoint.v);
  *        y = (point1.y * t) + (point2.y * hitPoint.u) + (point3.y * hitPoint.v);
  *        z = (point1.z * t) + (point2.z * hitPoint.u) + (point3.z * hitPoint.v);
- *		</pre>
+ *		</code></pre></blockquote>
  *
  *		The w component of hitPoint describes the point of intersection in
  *		terms of the ray, as origin + hitPoint.w * direction.

@@ -373,6 +373,7 @@ Q3MemoryStorage_GetBuffer (
     TQ3Uns32                      * _Nullable bufferSize
 );
 
+
 /*!
 	@functiongroup Multiplatform Path Storage
 */

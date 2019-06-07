@@ -4,7 +4,7 @@
 	@ignore	_Nullable
 	@ignore _Nonnull
 	@ignore	_Null_unspecified
- */
+*/
 /*  NAME:
         QuesaGroup.h
 
