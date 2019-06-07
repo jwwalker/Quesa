@@ -3,7 +3,7 @@
   <ImportGroup Label="PropertySheets" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
-    <OutDir>..\..\..\SDK\Libraries\Windows\$(Configuration)\</OutDir>
+    <OutDir>..\..\..\SDK\Libraries\Windows\$(PlatformName)\$(Configuration)\</OutDir>
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup>
@@ -21,7 +21,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>opengl32.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <ImportLibrary>../../../SDK/Libraries/Windows/Stub/Quesa.lib</ImportLibrary>
+      <ImportLibrary>../../../SDK/Libraries/Windows/$(PlatformName)/Stub/Quesa.lib</ImportLibrary>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup />
