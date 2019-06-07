@@ -12,7 +12,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -679,7 +679,10 @@ Q3IlluminationShader_GetType (
  *  @function
  *      Q3PhongIllumination_New
  *  @discussion
- *      Create a Phong illumination shader.
+ *      Create a Phong illumination shader.  This is the most commonly used
+ *		kind of illumination.  It takes the direction of the light relative
+ *		to the geometry into account when computing diffuse and specular
+ *		color.
  *
  *  @result                 The new illumination shader.
  */
@@ -694,7 +697,9 @@ Q3PhongIllumination_New (
  *  @function
  *      Q3LambertIllumination_New
  *  @discussion
- *      Create a Lambert illumination shader.
+ *      Create a Lambert illumination shader.  This kind of illumination
+ *		produces no specular highlights, but handles diffuse color the same
+ *		as Phong illumination.
  *
  *  @result                 The new illumination shader.
  */
@@ -709,7 +714,9 @@ Q3LambertIllumination_New (
  *  @function
  *      Q3NULLIllumination_New
  *  @discussion
- *      Create a NULL illumination shader.
+ *      Create a NULL illumination shader.  This kind of illumination does not
+ *		use lighting at all, it just uses each object's intrinsic diffuse and
+ *		emissive color.
  *
  *  @result                 The new illumination shader.
  */

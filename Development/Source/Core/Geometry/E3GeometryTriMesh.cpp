@@ -1954,10 +1954,14 @@ E3TriMesh_AddTriangleNormals(TQ3GeometryObject theTriMesh, TQ3OrientationStyle t
 			
 			
 		// Calculate the normals in CCW form
-		Q3Triangle_CrossProductArray ( triMesh->instanceData.geomData.numTriangles, nullptr,
-									 triMesh->instanceData.geomData.triangles[0].pointIndices,
-									 triMesh->instanceData.geomData.points,
-									 theNormals ) ;
+		TQ3Point3D* thePoints = triMesh->instanceData.geomData.points;
+		if (thePoints != nullptr)
+		{
+			Q3Triangle_CrossProductArray ( triMesh->instanceData.geomData.numTriangles, nullptr,
+										 triMesh->instanceData.geomData.triangles[0].pointIndices,
+										 thePoints,
+										 theNormals ) ;
+		}
 
 
 		// Reverse them if our orientation is CW

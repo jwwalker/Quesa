@@ -161,6 +161,7 @@ enum {
     kQ3XMethodTypeFFormatReadObject             = Q3_METHOD_TYPE('F', 'r', 'o', 'b'),
     kQ3XMethodTypeFFormatSkipObject             = Q3_METHOD_TYPE('F', 's', 'o', 'b'),
     kQ3XMethodTypeFFormatGetNextType            = Q3_METHOD_TYPE('F', 'g', 'n', 't'),
+	kQ3XMethodTypeFFormatIsEndOfContainer		= Q3_METHOD_TYPE('F', 'i', 'e', 'c'),
 
     // Used for Q3XXX_ReadMethods, no strict need to override to implement a new format
     kQ3XMethodTypeFFormatFloat32Read            = Q3_METHOD_TYPE('F', 'f', '3', 'r'),
@@ -448,6 +449,18 @@ typedef Q3_CALLBACK_API_C(TQ3Status,               TQ3XFFormatSkipObjectMethod)(
  *  @result                 The next type in the file.
  */
 typedef Q3_CALLBACK_API_C(TQ3ObjectType,           TQ3XFFormatGetNextTypeMethod)(
+	TQ3FileObject _Nonnull theFile);
+
+
+/*!
+	@typedef	TQ3XFFormatIsEndOfContainerMethod
+	@discussion
+		Test whether there could be any more objects in the current container.
+		Optional, used only in binary 3DMF.
+	@param		theFile		The file being read.
+	@result		True if we are at the end of a container.
+*/
+typedef Q3_CALLBACK_API_C(TQ3Boolean, TQ3XFFormatIsEndOfContainerMethod)(
 	TQ3FileObject _Nonnull theFile);
 
 
@@ -884,7 +897,7 @@ Q3_EXTERN_API_C ( TQ3Status  )
 Q3XView_SubmitWriteData (
     TQ3ViewObject _Nonnull                view,
     TQ3Size                       size,
-    void                          * _Nonnull data,
+    void                          * _Nullable data,
     TQ3XDataDeleteMethod _Nullable         deleteData
 );
 

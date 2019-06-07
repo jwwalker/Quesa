@@ -4,7 +4,7 @@
 	@ignore	_Nullable
 	@ignore _Nonnull
 	@ignore	_Null_unspecified
- */
+*/
 /*  NAME:
         QuesaPick.h
 
@@ -301,7 +301,7 @@ typedef struct TQ3WorldRayPickData {
  */
 typedef struct TQ3HitPath {
     TQ3GroupObject _Nullable                             rootGroup;
-    TQ3Uns32                                    depth;
+    TQ3Uns32                                   			 depth;
     TQ3GroupPosition _Nonnull                           * _Nullable positions;
 } TQ3HitPath;
 

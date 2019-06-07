@@ -12,7 +12,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1192,7 +1192,7 @@ typedef struct TQ3TriMeshData {
     TQ3TriMeshAttributeData                     * _Nullable edgeAttributeTypes;
 
     TQ3Uns32                                    numPoints;
-    TQ3Point3D                                  * _Nonnull points;
+    TQ3Point3D                                  * _Nullable points;
 
     TQ3Uns32                                    numVertexAttributeTypes;
     TQ3TriMeshAttributeData                     * _Nullable vertexAttributeTypes;
@@ -1866,7 +1866,7 @@ Q3Box_GetMinorAxis (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Box_GetFaceAttributeSet (
     TQ3GeometryObject _Nonnull            box,
-    TQ3Uns32                      faceIndex,
+    TQ3Uns32                              faceIndex,
     TQ3AttributeSet _Nullable             * _Nonnull faceAttributeSet
 );
 
@@ -1878,7 +1878,7 @@ Q3Box_GetFaceAttributeSet (
  *  @discussion
  *      Sets the attribute set associated with a certain face of a box object.
  *
- *      This function applies the <code>TQ3AttributeSet*</code> parameter to the attribute set
+ *      This function applies the <code>TQ3AttributeSet</code> parameter to the attribute set
  *      of the face indexed with <code>faceIndex</code> of the box geometry object.
  *		<code>faceIndex</code> must be between 0 and 5 (inclusive).
  *
@@ -1890,7 +1890,7 @@ Q3Box_GetFaceAttributeSet (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Box_SetFaceAttributeSet (
     TQ3GeometryObject _Nonnull             box,
-    TQ3Uns32                      faceIndex,
+    TQ3Uns32                               faceIndex,
     TQ3AttributeSet _Nonnull               faceAttributeSet
 );
 
@@ -3491,14 +3491,23 @@ Q3GeneralPolygon_GetData (
 
 
 /*!
- *  @function
- *      Q3GeneralPolygon_EmptyData
- *  @discussion
- *      Release memory allocated by <code>Q3GeneralPolygon_GetData</code>.
- *
- *  @param generalPolygonData	Data describing a General Polygon, previously obtained with
- *								<code>Q3GeneralPolygon_GetData</code>.
- *  @result						Success or failure of the operation.
+  @function
+      Q3GeneralPolygon_EmptyData
+  @discussion
+        Release memory allocated by <code>Q3GeneralPolygon_GetData</code>, or that you
+		allocated so long as you used Quesa memory allocation functions to allocate
+		the arrays.
+
+		To be precise, this function:
+		<ul>
+			<li>Disposes the attribute set of each vertex</li>
+			<li>Frees the array of vertices of each contour.</li>
+			<li>Frees the array of contours.</li>
+			<li>Disposes the overall attribute set.</li>
+		</ul>
+ @param generalPolygonData	Data describing a General Polygon, perhaps previously obtained with
+  							<code>Q3GeneralPolygon_GetData</code>.
+ @result					Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3GeneralPolygon_EmptyData (

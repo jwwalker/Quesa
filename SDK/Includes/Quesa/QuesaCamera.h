@@ -594,7 +594,7 @@ Q3OrthographicCamera_SetData (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3OrthographicCamera_SetLeft (
     TQ3CameraObject _Nonnull              camera,
-    float                         left
+    float                                 left
 );
 
 
@@ -630,7 +630,7 @@ Q3OrthographicCamera_GetLeft (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3OrthographicCamera_SetTop (
     TQ3CameraObject _Nonnull               camera,
-    float                         top
+    float                                  top
 );
 
 
@@ -666,7 +666,7 @@ Q3OrthographicCamera_GetTop (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3OrthographicCamera_SetRight (
     TQ3CameraObject _Nonnull               camera,
-    float                         right
+    float                                  right
 );
 
 
@@ -702,7 +702,7 @@ Q3OrthographicCamera_GetRight (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3OrthographicCamera_SetBottom (
     TQ3CameraObject _Nonnull               camera,
-    float                         bottom
+    float                                  bottom
 );
 
 
@@ -796,7 +796,7 @@ Q3ViewPlaneCamera_SetData (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewPlaneCamera_SetViewPlane (
     TQ3CameraObject _Nonnull               camera,
-    float                         viewPlane
+    float                                  viewPlane
 );
 
 
@@ -838,7 +838,7 @@ Q3ViewPlaneCamera_GetViewPlane (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewPlaneCamera_SetHalfWidth (
     TQ3CameraObject _Nonnull               camera,
-    float                         halfWidthAtViewPlane
+    float                                  halfWidthAtViewPlane
 );
 
 
@@ -880,7 +880,7 @@ Q3ViewPlaneCamera_GetHalfWidth (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewPlaneCamera_SetHalfHeight (
     TQ3CameraObject _Nonnull               camera,
-    float                         halfHeightAtViewPlane
+    float                                  halfHeightAtViewPlane
 );
 
 
@@ -922,7 +922,7 @@ Q3ViewPlaneCamera_GetHalfHeight (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewPlaneCamera_SetCenterX (
     TQ3CameraObject _Nonnull               camera,
-    float                         centerXOnViewPlane
+    float                                  centerXOnViewPlane
 );
 
 
@@ -964,7 +964,7 @@ Q3ViewPlaneCamera_GetCenterX (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewPlaneCamera_SetCenterY (
     TQ3CameraObject _Nonnull               camera,
-    float                         centerYOnViewPlane
+    float                                  centerYOnViewPlane
 );
 
 
@@ -1062,7 +1062,7 @@ Q3ViewAngleAspectCamera_GetData (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewAngleAspectCamera_SetFOV (
     TQ3CameraObject _Nonnull               camera,
-    float                         fov
+    float                                  fov
 );
 
 
@@ -1104,7 +1104,7 @@ Q3ViewAngleAspectCamera_GetFOV (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3ViewAngleAspectCamera_SetAspectRatio (
     TQ3CameraObject _Nonnull               camera,
-    float                         aspectRatioXToY
+    float                                  aspectRatioXToY
 );
 
 

@@ -14,7 +14,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1176,7 +1176,7 @@ typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererUpdateMatrixMethod)(
 */
 struct TQ3RendererPassInfo
 {
-	TQ3RendererPassType		passType;
+	TQ3RendererPassType				passType;
 	TQ3LightObject _Nullable		light;
 };
 
@@ -1208,7 +1208,7 @@ typedef Q3_CALLBACK_API_C(TQ3Boolean,          TQ3MacOSDialogEventHandler)(
 
 /*!
  *  @struct
- *      TQ3DialogAnchor
+ *      TQ3DialogAnchor (Mac)
  *  @discussion
  *      Mac OS dialog anchor.
  *
@@ -1234,7 +1234,7 @@ typedef struct TQ3DialogAnchor {
 
 /*!
  *  @struct
- *      TQ3DialogAnchor
+ *      TQ3DialogAnchor (Windows)
  *  @discussion
  *      Windows dialog anchor.
  *
@@ -1260,7 +1260,7 @@ typedef struct TQ3DialogAnchor {
 
 /*!
  *  @struct
- *      TQ3DialogAnchor
+ *      TQ3DialogAnchor (Unix)
  *  @discussion
  *      Unix dialog anchor.
  *
@@ -1286,7 +1286,7 @@ typedef struct TQ3DialogAnchor {
 
 /*!
  *  @struct
- *      TQ3DialogAnchor
+ *      TQ3DialogAnchor (Cocoa)
  *  @discussion
  *      Cocoa dialog anchor.
  *
