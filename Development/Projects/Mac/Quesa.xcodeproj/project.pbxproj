@@ -257,6 +257,9 @@
 		BE0D65060C0D0FFC00D3D79C /* QOShadowMarker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE0D64FC0C0D0FFC00D3D79C /* QOShadowMarker.cpp */; };
 		BE2283EB0F166C6E00937C67 /* E3Geometry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7B85055E63B100CA83BE /* E3Geometry.cpp */; };
 		BE392D090B6D0CCA00A351AC /* CQ3ObjectRef_Gets.h in Headers */ = {isa = PBXBuildFile; fileRef = BE392D070B6D0CCA00A351AC /* CQ3ObjectRef_Gets.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		BE513DC222BAF18400545AF8 /* E3MacLog.mm in Sources */ = {isa = PBXBuildFile; fileRef = BE513DC022BAF18400545AF8 /* E3MacLog.mm */; };
+		BE513DC322BAF18400545AF8 /* E3MacLog.mm in Sources */ = {isa = PBXBuildFile; fileRef = BE513DC022BAF18400545AF8 /* E3MacLog.mm */; };
+		BE513DC422BAF18400545AF8 /* E3MacLog.h in Headers */ = {isa = PBXBuildFile; fileRef = BE513DC122BAF18400545AF8 /* E3MacLog.h */; };
 		BE59B562145B8D5B0027E0DE /* GLShadowVolumeManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE59B561145B8D5B0027E0DE /* GLShadowVolumeManager.cpp */; };
 		BE59B564145B8D5B0027E0DE /* GLShadowVolumeManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE59B561145B8D5B0027E0DE /* GLShadowVolumeManager.cpp */; };
 		BE6C6F520C134DD300FBD60D /* E3Math_Intersect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE6C6F500C134DD300FBD60D /* E3Math_Intersect.cpp */; };
@@ -558,6 +561,8 @@
 		BE499C9A0F145E950060DF4E /* Quesa-framework.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Quesa-framework.xcconfig"; path = "xcode-configs/Quesa-framework.xcconfig"; sourceTree = SOURCE_ROOT; };
 		BE499C9B0F145E950060DF4E /* Quesa-release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Quesa-release.xcconfig"; path = "xcode-configs/Quesa-release.xcconfig"; sourceTree = SOURCE_ROOT; };
 		BE499C9E0F145E950060DF4E /* Quesa-staticlibrary.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Quesa-staticlibrary.xcconfig"; path = "xcode-configs/Quesa-staticlibrary.xcconfig"; sourceTree = SOURCE_ROOT; };
+		BE513DC022BAF18400545AF8 /* E3MacLog.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = E3MacLog.mm; sourceTree = "<group>"; };
+		BE513DC122BAF18400545AF8 /* E3MacLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = E3MacLog.h; sourceTree = "<group>"; };
 		BE59B560145B8D5B0027E0DE /* GLShadowVolumeManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLShadowVolumeManager.h; sourceTree = "<group>"; };
 		BE59B561145B8D5B0027E0DE /* GLShadowVolumeManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GLShadowVolumeManager.cpp; sourceTree = "<group>"; };
 		BE5D0F5F15B79B3C00E3DBE4 /* Modern-Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Modern-Debug.xcconfig"; sourceTree = "<group>"; };
@@ -1177,6 +1182,8 @@
 			children = (
 				BEFFD7CF0C4C86E100202EA8 /* E3CocoaDrawContext.mm */,
 				BEFFD7D20C4C86E100202EA8 /* E3CocoaPrefix.h */,
+				BE513DC122BAF18400545AF8 /* E3MacLog.h */,
+				BE513DC022BAF18400545AF8 /* E3MacLog.mm */,
 				BEFFD7D30C4C86E100202EA8 /* GLCocoaContext.h */,
 				BEFFD7D40C4C86E100202EA8 /* GLCocoaContext.mm */,
 			);
@@ -1199,6 +1206,7 @@
 				AB83B5F7055E72B90034F56A /* QuesaGeometry.h in Headers */,
 				AB83B5F8055E72B90034F56A /* QuesaGroup.h in Headers */,
 				AB83B5F9055E72B90034F56A /* QuesaIO.h in Headers */,
+				BE513DC422BAF18400545AF8 /* E3MacLog.h in Headers */,
 				AB83B5FA055E72B90034F56A /* QuesaLight.h in Headers */,
 				AB83B5FB055E72B90034F56A /* QuesaMath.h in Headers */,
 				AB83B5FC055E72B90034F56A /* QuesaMemory.h in Headers */,
@@ -1423,6 +1431,7 @@
 				BEDC045E08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.cpp in Sources */,
 				BE98E73B09F764A60040CE1B /* E3CocoaStackCrawl.cpp in Sources */,
 				BE7F26510B7BB87F00933ED1 /* GLGPUSharing.cpp in Sources */,
+				BE513DC222BAF18400545AF8 /* E3MacLog.mm in Sources */,
 				BE7F26540B7BB87F00933ED1 /* GLTextureLoader.cpp in Sources */,
 				BE7F26550B7BB87F00933ED1 /* GLDisplayListManager.cpp in Sources */,
 				BE7F26560B7BB87F00933ED1 /* GLVBOManager.cpp in Sources */,
@@ -1569,6 +1578,7 @@
 				BEC777D3087DA6AD00080AB7 /* CartoonRenderer.cpp in Sources */,
 				BEDC045C08A57C4900FB3A82 /* E3GeometryTriMeshOptimize.cpp in Sources */,
 				BE98E73D09F764A60040CE1B /* E3CocoaStackCrawl.cpp in Sources */,
+				BE513DC322BAF18400545AF8 /* E3MacLog.mm in Sources */,
 				BE7F26610B7BB87F00933ED1 /* GLGPUSharing.cpp in Sources */,
 				BE7F26620B7BB87F00933ED1 /* GLTextureLoader.cpp in Sources */,
 				BE7F26630B7BB87F00933ED1 /* GLDisplayListManager.cpp in Sources */,

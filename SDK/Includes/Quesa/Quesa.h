@@ -1659,6 +1659,27 @@ Q3_EXTERN_API_C( void )
 Q3LogMessage( const char* _Nonnull inMessage );
 
 
+/*!
+	@function	Q3CloseLog
+	@abstract	Close the log file.
+	@discussion	There is no corresponding function to open the log, because
+				any call to Q3LogMessage or internal equivalents will
+				automatically reopen the log if needed.
+*/
+Q3_EXTERN_API_C( void )
+Q3CloseLog( void );
+
+
+
+/*!
+	@function	Q3SetDebugMode
+	@abstract	Set a flag to enable extra debug logging.
+	@param		inMode		Debug mode.  Currently 1 for on, 0 for normal level, -1 for no logging.
+*/
+Q3_EXTERN_API_C( void )
+Q3SetDebugMode( int inMode );
+
+
 
 /*!
 	@functiongroup	Object Hierarchy Functions
