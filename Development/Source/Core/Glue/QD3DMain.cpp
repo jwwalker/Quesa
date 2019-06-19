@@ -51,6 +51,8 @@
 #include "E3View.h"
 
 
+extern int gDebugMode;
+int gDebugMode = 0;
 
 
 
@@ -215,6 +217,35 @@ void
 Q3LogMessage( const char* inMessage )
 {
 	E3LogMessage( inMessage );
+}
+
+
+/*!
+	@function	Q3CloseLog
+	
+	@abstract	Close the log file.
+	
+	@discussion	There is no corresponding function to open the log, because
+				any call to Q3LogMessage or internal equivalents will
+				automatically reopen the log if needed.
+*/
+void
+Q3CloseLog( void )
+{
+	E3CloseLog();
+}
+
+
+
+/*!
+	@function	Q3SetDebugMode
+	@abstract	Set a flag to enable extra debug logging.
+	@param		inMode		Debug mode.  Currently 1 for on, 0 for off, -1 for no logging.
+*/
+void
+Q3SetDebugMode( int inMode )
+{
+	gDebugMode = inMode;
 }
 
 

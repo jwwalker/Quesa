@@ -45,12 +45,14 @@
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
 #include "E3Debug.h"
+#include "E3MacLog.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <dlfcn.h>
 
+extern int gDebugMode;
 
 
 
@@ -127,5 +129,9 @@ E3IsValidPtr(const void *thePtr)
 //-----------------------------------------------------------------------------
 void		E3LogMessage( const char* inMessage )
 {
-	fprintf( stderr, "%s", inMessage  );
+	if (gDebugMode >= 0)
+	{
+		fprintf( E3GetLogStream( true ), "%s", inMessage  );
+		E3LogToConsole( inMessage );
+	}
 }
