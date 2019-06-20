@@ -5,7 +5,7 @@
         Template class to replace std::vector in some cases.
 
     COPYRIGHT:
-        Copyright (c) 2010-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 2010-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -75,9 +75,10 @@ public:
 	
 	E3FastArray&	operator=( const E3FastArray& inOther );
 
-	T&				operator[]( int index ) { return mArray[ index ]; }
+	T&				operator[]( int index )
+						{  Q3_ASSERT(mIsOwned && (mArray != nullptr)); return mArray[ index ]; }
 	const T&		operator[]( int index ) const
-						{ Q3_ASSERT(mIsOwned); return mArray[ index ]; }
+						{ Q3_ASSERT(mArray != nullptr); return mArray[ index ]; }
 	
 	TQ3Uns32		size() const { return mSize; }
 	TQ3Uns32		capacity() const { return mCapacity; }
@@ -109,21 +110,29 @@ E3FastArray<T>::E3FastArray()
 
 template <typename T>
 E3FastArray<T>::E3FastArray( TQ3Uns32 initialSize )
-	: mArray( new T[initialSize] )
+	: mArray( nullptr )
 	, mSize( initialSize )
 	, mCapacity( initialSize )
 	, mIsOwned( true )
 {
+	if (initialSize > 0)
+	{
+		mArray = new T[ initialSize ];
+	}
 }
 
 
 template <typename T>
 E3FastArray<T>::E3FastArray( const E3FastArray& inOther )
-	: mArray( new T[ inOther.capacity() ] )
+	: mArray( nullptr )
 	, mSize( inOther.size() )
 	, mCapacity( inOther.capacity() )
 	, mIsOwned( true )
 {
+	if (mCapacity > 0)
+	{
+		mArray = new T[ mCapacity ];
+	}
 	if (mSize > 0)
 	{
 		E3Memory_Copy( inOther.mArray, mArray, static_cast<TQ3Uns32>(mSize * sizeof(T)) );
@@ -233,15 +242,9 @@ void	E3FastArray<T>::push_back( const T& value )
 		// We must copy the value here, because value might be a reference to
 		// a member of the array, whose old storage will go away.
 		T valueCopy( value );
-		mCapacity += 1;
-		mCapacity *= 2;
-		T* biggerArray = new T[mCapacity];
-		if (mSize > 0)
-		{
-			E3Memory_Copy( mArray, biggerArray, static_cast<TQ3Uns32>(mSize * sizeof(T)) );
-		}
-		delete [] mArray;
-		mArray = biggerArray;
+		
+		reserve( 2 * (mCapacity + 1) );
+
 		mArray[ mSize ] = valueCopy;
 		mSize += 1;
 	}

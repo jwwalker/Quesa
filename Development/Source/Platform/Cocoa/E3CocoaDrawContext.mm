@@ -238,10 +238,7 @@ e3drawcontext_cocoa_update(TQ3DrawContextObject theDrawContext)
 //-----------------------------------------------------------------------------
 static void
 e3drawcontext_cocoa_get_dimensions(TQ3DrawContextObject theDrawContext, TQ3Area *thePane)
-{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) theDrawContext->FindLeafInstanceData () ;
-
-
-
+{
 	// Return our dimensions
 	NSRect	viewBounds;
 	if (kQ3Failure == Q3Object_GetProperty( theDrawContext, kViewBoundsProperty, sizeof(NSRect), nullptr, &viewBounds ))

@@ -151,21 +151,6 @@ e3geom_pixmapmarker_release_data(const TQ3PixmapMarkerData	*instanceData,
 									TQ3Uns8					*basePtr,
 									TQ3Boolean				wasCopied)
 {
-	TQ3StorageObject	theStorage;
-#if QUESA_OS_MACINTOSH
-	TQ3Status			qd3dStatus;
-	TQ3Uns32			validSize;
-	TQ3ObjectType		theType;
-	Handle				theHnd;
-#endif
-
-
-
-	// Fetch the storage field into a local variable for readability
-	theStorage = instanceData->pixmap.image;
-
-
-
 
 	// If the data was copied, dispose of it
 	if (wasCopied)

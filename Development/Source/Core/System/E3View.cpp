@@ -985,7 +985,6 @@ e3view_submit_retained_error ( E3View* view, TQ3Object theObject )
 			theError = kQ3ErrorBoundsNotStarted ;
 			break;
 		default:
-			theError = kQ3ErrorViewNotStarted ;
 			Q3_ASSERT(!"Unrecognised view mode");
 			break;
 		}
