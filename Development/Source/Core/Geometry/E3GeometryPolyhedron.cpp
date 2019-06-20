@@ -1,11 +1,11 @@
 /*  NAME:
-        E3GeometryPolyhedron.c
+        E3GeometryPolyhedron.cpp
 
     DESCRIPTION:
         Implementation of Quesa Pixmap Marker geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -310,6 +310,13 @@ e3geom_polyhedron_copydata( const TQ3PolyhedronData* src,
 	// Copy edges
 	if (dst->edges != nullptr)
 	{
+		Q3_ASSERT( src->edges != nullptr );
+		// This assertion can't fail:  If src->edges == nullptr, then due to
+		// the "Sanity check" above, src->numEdges == 0.  But then, under the
+		// "Allocate memory" heading, dst->edges is set to nullptr.
+		// However, adding this assertion prevents a false positive warning
+		// from Clang Static Analyzer.
+		
 		for (n = 0; n < dst->numEdges; ++n)
 		{
 			dst->edges[n].vertexIndices[0] = src->edges[n].vertexIndices[0];

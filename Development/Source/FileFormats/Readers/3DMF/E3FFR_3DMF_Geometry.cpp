@@ -1,11 +1,11 @@
 /*  NAME:
-        E3FFR_3DMF_Geometry.c
+        E3FFR_3DMF_Geometry.cpp
         
     DESCRIPTION:
         Reading routines for 3DMF File Format object.
         
     COPYRIGHT:
-        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1023,7 +1023,7 @@ E3Read_3DMF_Shader_Phong(TQ3FileObject theFile)
 
 
 //=============================================================================
-//      E3Read_3DMF_Shader_NULL : nullptr illumination shader read object method.
+//      E3Read_3DMF_Shader_NULL : NULL illumination shader read object method.
 //-----------------------------------------------------------------------------
 //		Note : Nothing to read, just create the object
 //-----------------------------------------------------------------------------
@@ -1331,6 +1331,8 @@ E3Read_3DMF_Style_Hilight(TQ3FileObject theFile)
 		if (Q3Object_IsType (styleData, kQ3SetTypeAttribute) == kQ3False)
 			return (nullptr);
 		}
+	if (styleData == nullptr)
+		return (nullptr);
 
 	
 	// Create the style
