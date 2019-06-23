@@ -79,6 +79,9 @@ public:
 						{  Q3_ASSERT(mIsOwned && (mArray != nullptr)); return mArray[ index ]; }
 	const T&		operator[]( int index ) const
 						{ Q3_ASSERT(mArray != nullptr); return mArray[ index ]; }
+    
+    T*				data() { return mArray; }
+    const T*		data() const { return mArray; }
 	
 	TQ3Uns32		size() const { return mSize; }
 	TQ3Uns32		capacity() const { return mCapacity; }
