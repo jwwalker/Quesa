@@ -397,7 +397,7 @@ typedef TQ3Int32                                TQ3ObjectType;
 //=============================================================================
 //      Constants
 //-----------------------------------------------------------------------------
-
+#ifdef __cplusplus
 /*!
 	@constant	kQ3ArrayIndexNULL
 	@abstract	NULL array index.
@@ -409,6 +409,12 @@ const TQ3Uns32 kQ3ArrayIndexNULL				= 0xFFFFFFFFU;
 	 @abstract	Maximum length of TQ3ObjectClassNameString.
 */
 const int kQ3StringMaximumLength				= 1024;
+#else
+enum
+{
+	kQ3StringMaximumLength = 1024
+};
+#endif
 
 /*!
  *  @enum

@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -283,7 +283,7 @@ void	QORenderer::ShadowMarker::BuildShadowOfTriMeshDirectional(
 
 	// Set up edge counters.
 	const TQ3Uns32	kNumEdges = mShadowEdges.size();
-	const TQ3EdgeEnds* theEdges = &mShadowEdges[0];
+	const TQ3EdgeEnds* theEdges = mShadowEdges.data();
 	if (mShadowEdgeCounters.size() < kNumEdges)
 	{
 		mShadowEdgeCounters.resizeNotPreserving( kNumEdges );
@@ -596,7 +596,7 @@ void	QORenderer::ShadowMarker::CalcFacesAndEdgesForShadows(
 	FindLitFaces( inLocalLightPos, inTMData, inFaceNormals, &mLitFaceFlags[0] );
 	
 	outFaces = inTMData.triangles;
-	outFacesToEdges = &mShadowFacesToEdges[0];
+	outFacesToEdges = mShadowFacesToEdges.data();
 
 	// If we are not removing backfaces, flip all faces toward the light.
 	if (mStyleState.mBackfacing != kQ3BackfacingStyleRemove)
