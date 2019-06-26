@@ -412,7 +412,7 @@ void	QORenderer::ShadowMarker::BuildShadowOfTriMeshPositional(
 	
 	// Set up edge counters.
 	const TQ3Uns32	kNumEdges = mShadowEdges.size();
-	const TQ3EdgeEnds* theEdges = &mShadowEdges[0];
+	const TQ3EdgeEnds* theEdges = mShadowEdges.data();
 	if (mShadowEdgeCounters.size() < kNumEdges)
 	{
 		mShadowEdgeCounters.resizeNotPreserving( kNumEdges );
