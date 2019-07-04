@@ -5,7 +5,7 @@
         Implementation of Quesa Pixmap Marker geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -81,19 +81,38 @@ typedef struct {
 } TQ3TriMeshInstanceData;
 
 
+class E3NakedTriMesh : public E3Geometry // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+{
+Q3_CLASS_ENUMS ( kQ3GeometryTypeNakedTriMesh, E3NakedTriMesh, E3Geometry )
+public :
+
+	TQ3TriMeshInstanceData			instanceData ;
+
+} ;
+
+
+
+struct TQ3TriMeshOuterData
+{
+	TQ3AttributeSet		geomAttributeSet;
+	E3NakedTriMesh*		nakedTriMesh;
+};
 
 
 class E3TriMesh : public E3Geometry // This is a leaf class so no other classes use this,
 								// so it can be here in the .c file rather than in
 								// the .h file, hence all the fields can be public
 								// as nobody should be including this file
-	{
+{
 Q3_CLASS_ENUMS ( kQ3GeometryTypeTriMesh, E3TriMesh, E3Geometry )
 public :
 
-	TQ3TriMeshInstanceData			instanceData ;
+	TQ3TriMeshOuterData			instanceData ;
 
-	} ;
+} ;
 	
 
 
@@ -301,13 +320,13 @@ e3geom_trimesh_disposedata(TQ3TriMeshData *theTriMesh)
 
 
 //=============================================================================
-//      e3geom_trimesh_copydata : Copy TQ3TriMeshData from one to another.
+//      e3geom_nakedtrimesh_copydata : Copy TQ3TriMeshData from one to another.
 //-----------------------------------------------------------------------------
-//		Note :	If isDuplicate is true, we duplicate shared objects rather than
-//				obtaining new references to them.
+//		Note :	Since this will be used for NakedTriMesh objects, we leave the
+//				triMeshAttributeSet member of the destination as nullptr.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3geom_trimesh_copydata(const TQ3TriMeshData *src, TQ3TriMeshData *dst, TQ3Boolean isDuplicate)
+e3geom_nakedtrimesh_copydata(const TQ3TriMeshData *src, TQ3TriMeshData *dst )
 {	TQ3Status		qd3dStatus = kQ3Success;
 	TQ3Uns32		n = 0;
 
@@ -315,22 +334,6 @@ e3geom_trimesh_copydata(const TQ3TriMeshData *src, TQ3TriMeshData *dst, TQ3Boole
 
 	// 0. Initialise ourselves
 	Q3Memory_Clear(dst, sizeof(TQ3TriMeshData));
-
-
-
-	// 1. triMeshAttributeSet
-	if (isDuplicate)
-		{
-		TQ3AttributeSet srcAtts = src->triMeshAttributeSet;
-		if (srcAtts != nullptr)
-			{
-			dst->triMeshAttributeSet = Q3Object_Duplicate(srcAtts);
-			if (dst->triMeshAttributeSet == nullptr)
-				qd3dStatus = kQ3Failure;
-			}
-		}
-	else
-		E3Shared_Replace(&dst->triMeshAttributeSet, src->triMeshAttributeSet);
 
 
 
@@ -445,7 +448,7 @@ e3geom_trimesh_copydata(const TQ3TriMeshData *src, TQ3TriMeshData *dst, TQ3Boole
 //-----------------------------------------------------------------------------
 static const TQ3TriMeshData *
 e3geom_trimesh_get_geom_data(TQ3Object theObject, const void *objectData)
-{	const TQ3TriMeshInstanceData		*instanceData;
+{	const TQ3TriMeshOuterData		*instanceData;
 	const TQ3TriMeshData				*geomData;
 
 
@@ -454,7 +457,7 @@ e3geom_trimesh_get_geom_data(TQ3Object theObject, const void *objectData)
 	//
 	// If the app has submitted a retained mode object, theObject will be non-nullptr
 	// and objectData will be the instance data for that object - i.e., a pointer
-	// to a TQ3TriMeshInstanceData structure.
+	// to a TQ3TriMeshOuterData structure.
 	//
 	// If the app has submitted the data for a TriMesh in immediate mode, theObject
 	// will be nullptr and objectData is the pointer submitted by the app - i.e., a
@@ -462,11 +465,11 @@ e3geom_trimesh_get_geom_data(TQ3Object theObject, const void *objectData)
 	// pointer they submitted to the public geometry data (i.e., a TQ3TriMeshData).
 	if (theObject != nullptr)
 		{
-		instanceData = (TQ3TriMeshInstanceData *) objectData;
-		geomData     = &instanceData->geomData;
+		instanceData = (const TQ3TriMeshOuterData *) objectData;
+		geomData     = &instanceData->nakedTriMesh->instanceData.geomData;
 		}
 	else
-		geomData = (TQ3TriMeshData *) objectData;
+		geomData = (const TQ3TriMeshData *) objectData;
 
 	return(geomData);
 }
@@ -621,14 +624,11 @@ e3geom_trimesh_validate( TQ3TriMeshData *theTriMesh )
 }
 
 
-
-
-
 //=============================================================================
-//      e3geom_trimesh_new : TriMesh new method.
+//      e3geom_nakedtrimesh_new : TriMesh new method.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3geom_trimesh_new(TQ3Object theObject, void *privateData, const void *paramData)
+e3geom_nakedtrimesh_new(TQ3Object theObject, void *privateData, const void *paramData)
 {	TQ3TriMeshInstanceData		*instanceData = (TQ3TriMeshInstanceData *) privateData;
 	const TQ3TriMeshData		*trimeshData  = (const TQ3TriMeshData   *) paramData;
 	TQ3Status					qd3dStatus;
@@ -638,8 +638,7 @@ e3geom_trimesh_new(TQ3Object theObject, void *privateData, const void *paramData
 
 	// Initialise the TriMesh, then optimise it
 	instanceData->theFlags = kTriMeshNone;
-	qd3dStatus = e3geom_trimesh_copydata(trimeshData, &instanceData->geomData,
-		kQ3False);
+	qd3dStatus = e3geom_nakedtrimesh_copydata( trimeshData, &instanceData->geomData );
 	
 	if (qd3dStatus == kQ3Success)
 	{
@@ -657,12 +656,34 @@ e3geom_trimesh_new(TQ3Object theObject, void *privateData, const void *paramData
 
 
 
-
 //=============================================================================
-//      e3geom_trimesh_new_nocopy : TriMesh new method.
+//      e3geom_trimesh_new : TriMesh new method.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3geom_trimesh_new_nocopy(TQ3Object theObject, void *privateData, const void *paramData)
+e3geom_trimesh_new(TQ3Object theObject, void *privateData, const void *paramData)
+{
+	TQ3TriMeshOuterData		*instanceData = (TQ3TriMeshOuterData *) privateData;
+	const TQ3TriMeshData		*trimeshData  = (const TQ3TriMeshData   *) paramData;
+#pragma unused(theObject)
+
+
+	E3Shared_Acquire(&instanceData->geomAttributeSet, trimeshData->triMeshAttributeSet);
+
+	instanceData->nakedTriMesh = (E3NakedTriMesh*) E3ClassTree::CreateInstance(
+		kQ3GeometryTypeNakedTriMesh, kQ3False, trimeshData );
+
+	return (instanceData->nakedTriMesh != nullptr)? kQ3Success : kQ3Failure;
+}
+
+
+
+
+
+//=============================================================================
+//      e3geom_nakedtrimesh_new_nocopy : TriMesh new method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3geom_nakedtrimesh_new_nocopy(TQ3Object theObject, void *privateData, const void *paramData)
 {	TQ3TriMeshInstanceData		*instanceData = (TQ3TriMeshInstanceData *) privateData;
 	const TQ3TriMeshData		*trimeshData  = (const TQ3TriMeshData   *) paramData;
 #pragma unused(theObject)
@@ -674,8 +695,7 @@ e3geom_trimesh_new_nocopy(TQ3Object theObject, void *privateData, const void *pa
 
 	Q3Memory_Copy( trimeshData, &instanceData->geomData, sizeof(TQ3TriMeshData) );
 	
-	E3Shared_Acquire( &instanceData->geomData.triMeshAttributeSet,
-		trimeshData->triMeshAttributeSet );
+	instanceData->geomData.triMeshAttributeSet = nullptr;
 
 	if (instanceData->geomData.bBox.isEmpty)
             Q3BoundingBox_SetFromPoints3D(&instanceData->geomData.bBox,
@@ -698,6 +718,25 @@ e3geom_trimesh_new_nocopy(TQ3Object theObject, void *privateData, const void *pa
 //-----------------------------------------------------------------------------
 static void
 e3geom_trimesh_delete(TQ3Object theObject, void *privateData)
+{	TQ3TriMeshOuterData		*instanceData = (TQ3TriMeshOuterData *) privateData;
+#pragma unused(theObject)
+
+
+
+	// Dispose of our instance data
+	Q3Object_CleanDispose( &instanceData->geomAttributeSet );
+	Q3Object_CleanDispose( (TQ3Object*) &instanceData->nakedTriMesh );
+}
+
+
+
+
+
+//=============================================================================
+//      e3geom_nakedtrimesh_delete : TriMesh delete method.
+//-----------------------------------------------------------------------------
+static void
+e3geom_nakedtrimesh_delete(TQ3Object theObject, void *privateData)
 {	TQ3TriMeshInstanceData		*instanceData = (TQ3TriMeshInstanceData *) privateData;
 #pragma unused(theObject)
 
@@ -712,10 +751,10 @@ e3geom_trimesh_delete(TQ3Object theObject, void *privateData)
 
 
 //=============================================================================
-//      e3geom_trimesh_duplicate : TriMesh duplicate method.
+//      e3geom_nakedtrimesh_duplicate : TriMesh duplicate method.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3geom_trimesh_duplicate(TQ3Object fromObject, const void *fromPrivateData,
+e3geom_nakedtrimesh_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 						  TQ3Object toObject,  void       *toPrivateData)
 {	const TQ3TriMeshInstanceData		*fromData = (const TQ3TriMeshInstanceData *) fromPrivateData;
 	TQ3TriMeshInstanceData				*toData   = (TQ3TriMeshInstanceData *)       toPrivateData;
@@ -733,7 +772,63 @@ e3geom_trimesh_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 
 	// Initialise the instance data of the new object
 	toData->theFlags = fromData->theFlags;
-	qd3dStatus       = e3geom_trimesh_copydata( &fromData->geomData, &toData->geomData, kQ3True );
+	qd3dStatus       = e3geom_nakedtrimesh_copydata( &fromData->geomData, &toData->geomData );
+
+	return(qd3dStatus);
+}
+
+
+
+
+
+//=============================================================================
+//      e3geom_trimesh_duplicate : TriMesh duplicate method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3geom_trimesh_duplicate(TQ3Object fromObject, const void *fromPrivateData,
+						  TQ3Object toObject,  void       *toPrivateData)
+{	const TQ3TriMeshOuterData		*fromData = (const TQ3TriMeshOuterData *) fromPrivateData;
+	TQ3TriMeshOuterData				*toData   = (TQ3TriMeshOuterData *)       toPrivateData;
+	TQ3Status							qd3dStatus;
+
+
+
+	// Validate our parameters
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(fromObject),      kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(fromPrivateData), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(toObject),        kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(toPrivateData),   kQ3Failure);
+
+
+
+	// Initialise the instance data of the new object
+	qd3dStatus = kQ3Success;
+	if (fromData->geomAttributeSet == nullptr)
+	{
+		toData->geomAttributeSet = nullptr;
+	}
+	else
+	{
+		toData->geomAttributeSet = Q3Object_Duplicate( fromData->geomAttributeSet );
+		if (toData->geomAttributeSet == nullptr)
+		{
+			qd3dStatus = kQ3Failure;
+		}
+	}
+
+	if (fromData->nakedTriMesh == nullptr)
+	{
+		toData->nakedTriMesh = nullptr;
+	}
+	else
+	{
+		toData->nakedTriMesh = (E3NakedTriMesh*) Q3Object_Duplicate( fromData->nakedTriMesh );
+		if (toData->nakedTriMesh == nullptr)
+		{
+			qd3dStatus = kQ3Failure;
+		}
+	}
+	
 
 	return(qd3dStatus);
 }
@@ -754,7 +849,6 @@ e3geom_trimesh_triangle_new(TQ3ViewObject theView, const TQ3TriMeshData *theTriM
 	E3ClassInfoPtr			theClass;
 
 
-
 	// Validate our parameters
 	Q3_REQUIRE(Q3_VALID_PTR(theTriMesh));
 	Q3_REQUIRE(theIndex < theTriMesh->numTriangles);
@@ -772,17 +866,17 @@ e3geom_trimesh_triangle_new(TQ3ViewObject theView, const TQ3TriMeshData *theTriM
 	// We always create an attribute set, since our triangles will always have at least
 	// a triangle normal for better performance when backface culling is on.
 	theTriangle->triangleAttributeSet = Q3AttributeSet_New();
+	TQ3AttributeSet			triAtts = theTriangle->triangleAttributeSet;
 
-	TQ3AttributeSet triAtts = theTriangle->triangleAttributeSet;
 	if (triAtts != nullptr)
 		{
 		// Copy overall TriMesh attributes to the triangle.
 		// If the TriMesh has a texture shader, the triangle will get a
 		// reference to that, not a duplicate.
-		TQ3AttributeSet meshAtts = theTriMesh->triMeshAttributeSet;
-		if (meshAtts != nullptr)
+		TQ3AttributeSet tmAtts = theTriMesh->triMeshAttributeSet;
+		if (tmAtts != nullptr)
 			{
-			Q3AttributeSet_Inherit( meshAtts,
+			Q3AttributeSet_Inherit( tmAtts,
 				triAtts,
 				triAtts );
 			}
@@ -848,7 +942,8 @@ e3geom_trimesh_triangle_new(TQ3ViewObject theView, const TQ3TriMeshData *theTriM
 		if (theTriMesh->numVertexAttributeTypes != 0)
 			{
 			Q3_ASSERT(Q3_VALID_PTR(theTriMesh->vertexAttributeTypes));
-			TQ3AttributeSet vertAtts = theTriangle->vertices[n].attributeSet = Q3AttributeSet_New();
+			theTriangle->vertices[n].attributeSet = Q3AttributeSet_New();
+			TQ3AttributeSet vertAtts = theTriangle->vertices[n].attributeSet;
 			if (vertAtts != nullptr)
 				{
 				for (m = 0; m < theTriMesh->numVertexAttributeTypes; m++)
@@ -902,7 +997,7 @@ e3geom_trimesh_triangle_delete(TQ3TriangleData *theTriangle)
 //-----------------------------------------------------------------------------
 static TQ3Object
 e3geom_trimesh_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom,
-						const TQ3TriMeshInstanceData *instanceData)
+						const TQ3TriMeshOuterData *instanceData)
 {	TQ3TriangleData			triangleData;
 	TQ3GeometryObject		theTriangle;
 	TQ3GroupObject			theGroup;
@@ -950,8 +1045,6 @@ e3geom_trimesh_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom,
 
 
 
-
-
 //=============================================================================
 //      e3geom_trimesh_pick_with_ray : TriMesh ray picking method.
 //-----------------------------------------------------------------------------
@@ -972,9 +1065,9 @@ e3geom_trimesh_pick_with_ray( TQ3ViewObject				theView,
 	TQ3Param3D						theHit;
 	TQ3BoundingBox					worldBounds;
 	
-
-
-
+	
+	
+	
 	// Check for face tolerance
 	float faceTolerance;
 	E3Pick_GetFaceTolerance( thePick, &faceTolerance );
@@ -989,13 +1082,15 @@ e3geom_trimesh_pick_with_ray( TQ3ViewObject				theView,
 	
 	// If using tolerance in window space, we will need to transform from
 	// world to window space.
-	TQ3Matrix4x4 worldToWindow;
+	TQ3Matrix4x4 worldToWindow, worldToView;
 	if ( useTolerance && isWindowPointPick )
 	{
 		TQ3Matrix4x4 worldToFrustum, frustumToWindow;
 		E3View_GetWorldToFrustumMatrixState( theView, &worldToFrustum );
 		E3View_GetFrustumToWindowMatrixState( theView, &frustumToWindow );
 		worldToWindow = worldToFrustum * frustumToWindow;
+		
+		Q3Camera_GetWorldToView( E3View_AccessCamera(theView), &worldToView );
 	}
 
 
@@ -1005,24 +1100,39 @@ e3geom_trimesh_pick_with_ray( TQ3ViewObject				theView,
 	{
 		if (isWindowPointPick)
 		{
-			TQ3Matrix4x4 localToWindow = *localToWorld * worldToWindow;
-			TQ3BoundingBox windowBounds;
-			E3BoundingBox_Transform( &geomData->bBox, &localToWindow, &windowBounds );
-			// Expand window bounds by tolerance in x and y directions.
-			windowBounds.min.x -= faceTolerance;
-			windowBounds.min.y -= faceTolerance;
-			windowBounds.max.x += faceTolerance;
-			windowBounds.max.y += faceTolerance;
-			// Get the original window point from the pick.
-			TQ3Point2D pickPt;
-			E3WindowPointPick_GetPoint( thePick, &pickPt );
-			// If the pick point is outside the window bounds, we know it is a miss.
-			if ( (pickPt.x < windowBounds.min.x) ||
-				(pickPt.x > windowBounds.max.x) ||
-				(pickPt.y < windowBounds.min.y) ||
-				(pickPt.y > windowBounds.max.y) )
+			// If part of the TriMesh is behind the camera, then due to the
+			// non-affine nature of the world to window transformation,
+			// E3BoundingBox_Transform will not give us a correct window-space
+			// bounding box.  I don't know how to fix that, so I will skip it.
+			TQ3Matrix4x4 localToView = *localToWorld * worldToView;
+			TQ3BoundingBox viewBounds;
+			E3BoundingBox_Transform( &geomData->bBox, &localToView, &viewBounds );
+		
+			if (viewBounds.min.z >= 0.0f) // all behind the camera, definitely no hit
 			{
 				return kQ3Success;
+			}
+			else if (viewBounds.max.z < 0.0f) // all ahead of the camera
+			{
+				TQ3Matrix4x4 localToWindow = *localToWorld * worldToWindow;
+				TQ3BoundingBox windowBounds;
+				E3BoundingBox_Transform( &geomData->bBox, &localToWindow, &windowBounds );
+				// Expand window bounds by tolerance in x and y directions.
+				windowBounds.min.x -= faceTolerance;
+				windowBounds.min.y -= faceTolerance;
+				windowBounds.max.x += faceTolerance;
+				windowBounds.max.y += faceTolerance;
+				// Get the original window point from the pick.
+				TQ3Point2D pickPt;
+				E3WindowPointPick_GetPoint( thePick, &pickPt );
+				// If the pick point is outside the window bounds, we know it is a miss.
+				if ( (pickPt.x < windowBounds.min.x) ||
+					(pickPt.x > windowBounds.max.x) ||
+					(pickPt.y < windowBounds.min.y) ||
+					(pickPt.y > windowBounds.max.y) )
+				{
+					return kQ3Success;
+				}
 			}
 		}
 		else	// world space test
@@ -1565,7 +1675,7 @@ static TQ3AttributeSet *
 e3geom_trimesh_get_attribute ( E3TriMesh* triMesh )
 {
 	// Return the address of the geometry attribute set
-	return & triMesh->instanceData.geomData.triMeshAttributeSet ;
+	return & triMesh->instanceData.geomAttributeSet ;
 }
 
 
@@ -1577,10 +1687,18 @@ e3geom_trimesh_get_attribute ( E3TriMesh* triMesh )
 //-----------------------------------------------------------------------------
 static const void *
 e3geom_trimesh_get_public_data ( E3TriMesh* triMesh )
-	{
+{
+	E3NakedTriMesh* nakedTriMesh = triMesh->instanceData.nakedTriMesh;
+	
+	// For compatibility with code that does not know about the outer/naked
+	// division, we want to return a pointer to TQ3TriMeshData, but containing
+	// the attribute set from the outer level.
+	E3Shared_Replace( &nakedTriMesh->instanceData.geomData.triMeshAttributeSet,
+		triMesh->instanceData.geomAttributeSet );
+
 	// Return the address of the geometry public data
-	return & triMesh->instanceData.geomData ;
-	}
+	return & triMesh->instanceData.nakedTriMesh->instanceData.geomData;
+}
 
 
 
@@ -1640,6 +1758,34 @@ e3geom_trimesh_metahandler(TQ3XMethodType methodType)
 
 
 
+//=============================================================================
+//      e3geom_nakedtrimesh_metahandler : TriMesh metahandler.
+//-----------------------------------------------------------------------------
+static TQ3XFunctionPointer
+e3geom_nakedtrimesh_metahandler(TQ3XMethodType methodType)
+{
+	TQ3XFunctionPointer		theMethod = nullptr;
+
+	switch (methodType)
+	{
+		case kQ3XMethodTypeObjectNew:
+			theMethod = (TQ3XFunctionPointer) e3geom_nakedtrimesh_new;
+			break;
+		
+		case kQ3XMethodTypeObjectDelete:
+			theMethod = (TQ3XFunctionPointer) e3geom_nakedtrimesh_delete;
+			break;
+
+		case kQ3XMethodTypeObjectDuplicate:
+			theMethod = (TQ3XFunctionPointer) e3geom_nakedtrimesh_duplicate;
+			break;
+	}
+
+	return(theMethod);
+}
+
+
+
 
 //=============================================================================
 //      Public functions
@@ -1649,12 +1795,21 @@ e3geom_trimesh_metahandler(TQ3XMethodType methodType)
 #pragma mark -
 TQ3Status
 E3GeometryTriMesh_RegisterClass(void)
-	{
+{
 	// Register the class
-	return Q3_REGISTER_CLASS (	kQ3ClassNameGeometryTriMesh,
+	TQ3Status status = Q3_REGISTER_CLASS (	kQ3ClassNameGeometryTriMesh,
 								e3geom_trimesh_metahandler,
-								E3TriMesh ) ;
+								E3TriMesh );
+
+	if (status == kQ3Success)
+	{
+		status = Q3_REGISTER_CLASS (	kQ3ClassNameGeometryNakedTriMesh,
+								e3geom_nakedtrimesh_metahandler,
+								E3NakedTriMesh );
 	}
+
+	return status;
+}
 
 
 
@@ -1671,6 +1826,7 @@ E3GeometryTriMesh_UnregisterClass(void)
 
 	// Unregister the class
 	qd3dStatus = E3ClassTree::UnregisterClass(kQ3GeometryTypeTriMesh, kQ3True);
+	E3ClassTree::UnregisterClass(kQ3GeometryTypeNakedTriMesh, kQ3True);
 
 	return(qd3dStatus);
 }
@@ -1702,8 +1858,9 @@ E3TriMesh_New_NoCopy(const TQ3TriMeshData *triMeshData)
 {
 	TQ3Object		theObject;
 	
-	E3Root* theClass = (E3Root*) E3ClassTree::GetClass( kQ3GeometryTypeTriMesh );
-	if ( theClass == nullptr )
+	E3Root* outerClass = (E3Root*) E3ClassTree::GetClass( kQ3GeometryTypeTriMesh );
+	E3Root* innerClass = (E3Root*) E3ClassTree::GetClass( kQ3GeometryTypeNakedTriMesh );
+	if ( (outerClass == nullptr) || (innerClass == nullptr) )
 	{
 		E3ErrorManager_PostWarning ( kQ3WarningTypeHasNotBeenRegistered ) ;
 
@@ -1713,11 +1870,11 @@ E3TriMesh_New_NoCopy(const TQ3TriMeshData *triMeshData)
 		return nullptr ;
 	}
 	
-	theClass->newMethod = (TQ3XObjectNewMethod) e3geom_trimesh_new_nocopy;
+	innerClass->newMethod = (TQ3XObjectNewMethod) e3geom_nakedtrimesh_new_nocopy;
 	
-	theObject = theClass->CreateInstance( kQ3False, triMeshData );
+	theObject = outerClass->CreateInstance( kQ3False, triMeshData );
 	
-	theClass->newMethod = (TQ3XObjectNewMethod) e3geom_trimesh_new;
+	innerClass->newMethod = (TQ3XObjectNewMethod) e3geom_nakedtrimesh_new;
 	
 	return theObject;
 }
@@ -1747,32 +1904,49 @@ E3TriMesh_Submit(const TQ3TriMeshData *triMeshData, TQ3ViewObject theView)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3TriMesh_SetData(TQ3GeometryObject theTriMesh, const TQ3TriMeshData *triMeshData)
+{
+	E3TriMesh* triMesh = (E3TriMesh*) theTriMesh;
+	
+	
+	// If the naked TriMesh is referenced elsewhere, duplicate it, giving copy-on-write behavior.
+	if (triMesh->instanceData.nakedTriMesh->IsReferenced())
 	{
-	E3TriMesh* triMesh = (E3TriMesh*) theTriMesh ;
+		E3NakedTriMesh* oldNakedTriMesh = triMesh->instanceData.nakedTriMesh;
+		E3NakedTriMesh* newNakedTriMesh = (E3NakedTriMesh*) oldNakedTriMesh->DuplicateInstance();
+		triMesh->instanceData.nakedTriMesh = newNakedTriMesh;
+		E3Shared_Dispose( oldNakedTriMesh );
+	}
+
 
 	// Dispose of the existing data
-	e3geom_trimesh_disposedata ( & triMesh->instanceData.geomData ) ;
+	e3geom_trimesh_disposedata( & triMesh->instanceData.nakedTriMesh->instanceData.geomData );
 
 
 
 	// Copy the new TriMesh data, then optimize it
-	TQ3Status qd3dStatus = e3geom_trimesh_copydata ( triMeshData,
-		& triMesh->instanceData.geomData, kQ3False ) ;
+	TQ3Status qd3dStatus = e3geom_nakedtrimesh_copydata( triMeshData,
+		& triMesh->instanceData.nakedTriMesh->instanceData.geomData );
+
+	E3Shared_Replace( &triMesh->instanceData.geomAttributeSet,
+		triMeshData->triMeshAttributeSet );
+	
 	
 	if (qd3dStatus == kQ3Success)
 	{
-		qd3dStatus = e3geom_trimesh_validate( &triMesh->instanceData.geomData );
+		qd3dStatus = e3geom_trimesh_validate(
+			&triMesh->instanceData.nakedTriMesh->instanceData.geomData );
 	}
 	
 	if ( qd3dStatus != kQ3Failure )
 	{
-		e3geom_trimesh_optimize( & triMesh->instanceData.geomData );
+		e3geom_trimesh_optimize(
+			& triMesh->instanceData.nakedTriMesh->instanceData.geomData );
 	}
 
 	Q3Shared_Edited ( triMesh );
 
 	return qd3dStatus;
-	}
+}
 
 
 
@@ -1783,15 +1957,22 @@ E3TriMesh_SetData(TQ3GeometryObject theTriMesh, const TQ3TriMeshData *triMeshDat
 //-----------------------------------------------------------------------------
 TQ3Status
 E3TriMesh_GetData(TQ3GeometryObject theTriMesh, TQ3TriMeshData *triMeshData)
-	{
+{
 	E3TriMesh* triMesh = (E3TriMesh*) theTriMesh ;
 
 	// Copy the data out of the TriMesh
-	triMeshData->triMeshAttributeSet = nullptr ;
-	TQ3Status qd3dStatus = e3geom_trimesh_copydata ( & triMesh->instanceData.geomData, triMeshData, kQ3False ) ;
+	TQ3Status qd3dStatus = e3geom_nakedtrimesh_copydata(
+		& triMesh->instanceData.nakedTriMesh->instanceData.geomData, triMeshData );
+	
+	Q3_ASSERT( triMeshData->triMeshAttributeSet == nullptr );
+	Q3_ASSERT( (triMesh->instanceData.geomAttributeSet == nullptr) ||
+		Q3_OBJECT_IS_CLASS( triMesh->instanceData.geomAttributeSet, E3Shared ) );
+	
+	E3Shared_Replace( &triMeshData->triMeshAttributeSet,
+		triMesh->instanceData.geomAttributeSet );
 
 	return qd3dStatus ;
-	}
+}
 
 
 
@@ -1830,30 +2011,47 @@ E3TriMesh_EmptyData(TQ3TriMeshData *triMeshData)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3TriMesh_LockData(TQ3GeometryObject theTriMesh, TQ3Boolean readOnly, TQ3TriMeshData **triMeshData)
-	{
+{
 	E3TriMesh* triMesh = (E3TriMesh*) theTriMesh ;
+	E3NakedTriMesh* nakedTriMesh = triMesh->instanceData.nakedTriMesh;
 	
 	
 	
 	// If the TriMesh was already locked,
 	// then this lock had better be read-only, lest the code that did the outer
-	// lock gets confused.
-	Q3_ASSERT( (triMesh->instanceData.lockCount == 0) || readOnly );
+	// lock get confused.
+	Q3_ASSERT( (nakedTriMesh->instanceData.lockCount == 0) || readOnly );
 	
+	
+	
+	// If we are locking with write access, then the naked TriMesh had better not be
+	// shared, so that naked TriMeshes will work in a copy-on-write way.
+	if ( (! readOnly) and nakedTriMesh->IsReferenced() )
+	{
+		E3NakedTriMesh* newNakedTriMesh = (E3NakedTriMesh*) nakedTriMesh->DuplicateInstance();
+		triMesh->instanceData.nakedTriMesh = newNakedTriMesh;
+		E3Shared_Dispose( nakedTriMesh );
+		Q3_ASSERT( newNakedTriMesh->GetReferenceCount() == 1 );
+		nakedTriMesh = newNakedTriMesh;
+	}
+
 
 
 	// Lock the TriMesh
-	if ( readOnly && (triMesh->instanceData.lockCount == 0) )
-		E3Bit_Set( triMesh->instanceData.theFlags, kTriMeshLockedReadOnly ) ;
-	triMesh->instanceData.lockCount += 1;
+	if ( readOnly && (nakedTriMesh->instanceData.lockCount == 0) )
+		E3Bit_Set( nakedTriMesh->instanceData.theFlags, kTriMeshLockedReadOnly ) ;
+	nakedTriMesh->instanceData.lockCount += 1;
 
 
 
 	// Return a pointer to the TriMesh data
-	*triMeshData = & triMesh->instanceData.geomData ;
+	E3Shared_Replace( &nakedTriMesh->instanceData.geomData.triMeshAttributeSet,
+		triMesh->instanceData.geomAttributeSet );
+	
+	*triMeshData = & nakedTriMesh->instanceData.geomData ;
 	
 	return kQ3Success ;
-	}
+}
 
 
 
@@ -1867,29 +2065,30 @@ E3TriMesh_UnlockData(TQ3GeometryObject theTriMesh)
 {
 	TQ3Status	theStatus = kQ3Success;
 	E3TriMesh* triMesh = (E3TriMesh*) theTriMesh ;
+	E3NakedTriMesh* nakedTriMesh = triMesh->instanceData.nakedTriMesh;
 	
 
 	
 	// Unlock the TriMesh
-	triMesh->instanceData.lockCount -= 1;
-	if (triMesh->instanceData.lockCount == 0)
+	nakedTriMesh->instanceData.lockCount -= 1;
+	if (nakedTriMesh->instanceData.lockCount == 0)
 	{
 		// If the TriMesh was mutable, assume it needs updating
-		if ( ! E3Bit_IsSet( triMesh->instanceData.theFlags, kTriMeshLockedReadOnly ) )
+		if ( ! E3Bit_IsSet( nakedTriMesh->instanceData.theFlags, kTriMeshLockedReadOnly ) )
 		{
-			theStatus = e3geom_trimesh_validate( &triMesh->instanceData.geomData );
+			theStatus = e3geom_trimesh_validate( &nakedTriMesh->instanceData.geomData );
 		
 			// Re-optimize the TriMesh
-			e3geom_trimesh_optimize ( & triMesh->instanceData.geomData ) ;
+			e3geom_trimesh_optimize ( & nakedTriMesh->instanceData.geomData ) ;
 
 
 			// Bump the edit index
+			Q3Shared_Edited ( nakedTriMesh ) ;
 			Q3Shared_Edited ( triMesh ) ;
 		}
 
 
-
-		E3Bit_Clear( triMesh->instanceData.theFlags, kTriMeshLockedReadOnly ) ;
+		E3Bit_Clear( nakedTriMesh->instanceData.theFlags, kTriMeshLockedReadOnly ) ;
 	}
 
 	return theStatus;
@@ -1906,6 +2105,7 @@ void
 E3TriMesh_AddTriangleNormals(TQ3GeometryObject theTriMesh, TQ3OrientationStyle theOrientation)
 	{
 	E3TriMesh* triMesh = (E3TriMesh*) theTriMesh ;
+	E3NakedTriMesh* nakedTriMesh = triMesh->instanceData.nakedTriMesh;
 
 	// Validate our parameters
 	Q3_ASSERT_VALID_PTR(triMesh);
@@ -1914,8 +2114,8 @@ E3TriMesh_AddTriangleNormals(TQ3GeometryObject theTriMesh, TQ3OrientationStyle t
 
 	// Do nothing if we already have triangle normals
 	TQ3TriMeshAttributeData* attributeData = e3geom_trimesh_attribute_find (
-												  triMesh->instanceData.geomData.numTriangleAttributeTypes,
-												  triMesh->instanceData.geomData.triangleAttributeTypes,
+												  nakedTriMesh->instanceData.geomData.numTriangleAttributeTypes,
+												  nakedTriMesh->instanceData.geomData.triangleAttributeTypes,
 												  kQ3AttributeTypeNormal ) ;
 	if ( attributeData != nullptr )
 		return ;
@@ -1923,7 +2123,8 @@ E3TriMesh_AddTriangleNormals(TQ3GeometryObject theTriMesh, TQ3OrientationStyle t
 
 
 	// Allocate the normals
-	TQ3Uns32 theSize    = static_cast<TQ3Uns32>(triMesh->instanceData.geomData.numTriangles * sizeof ( TQ3Vector3D ));
+	TQ3Uns32 theSize    = static_cast<TQ3Uns32>(
+		nakedTriMesh->instanceData.geomData.numTriangles * sizeof ( TQ3Vector3D ));
 	TQ3Vector3D* theNormals = (TQ3Vector3D *) Q3Memory_Allocate ( theSize ) ;
 	TQ3Status qd3dStatus = ( theNormals != nullptr ? kQ3Success : kQ3Failure ) ;
 
@@ -1932,12 +2133,14 @@ E3TriMesh_AddTriangleNormals(TQ3GeometryObject theTriMesh, TQ3OrientationStyle t
 	// Append another triangle attribute
 	if ( qd3dStatus != kQ3Failure )
 		{
-		theSize    = static_cast<TQ3Uns32>(( triMesh->instanceData.geomData.numTriangleAttributeTypes + 1 ) * sizeof ( TQ3TriMeshAttributeData ));
-		qd3dStatus = Q3Memory_Reallocate( & triMesh->instanceData.geomData.triangleAttributeTypes, theSize ) ;
+		theSize    = static_cast<TQ3Uns32>(
+			( nakedTriMesh->instanceData.geomData.numTriangleAttributeTypes + 1 ) *
+			sizeof ( TQ3TriMeshAttributeData ));
+		qd3dStatus = Q3Memory_Reallocate( & nakedTriMesh->instanceData.geomData.triangleAttributeTypes, theSize ) ;
 		if ( qd3dStatus != kQ3Failure )
 			{
-			attributeData = & triMesh->instanceData.geomData.triangleAttributeTypes [ triMesh->instanceData.geomData.numTriangleAttributeTypes ] ;
-			triMesh->instanceData.geomData.numTriangleAttributeTypes++ ;
+			attributeData = & nakedTriMesh->instanceData.geomData.triangleAttributeTypes [ nakedTriMesh->instanceData.geomData.numTriangleAttributeTypes ] ;
+			nakedTriMesh->instanceData.geomData.numTriangleAttributeTypes++ ;
 			}
 		}
 
@@ -1954,11 +2157,11 @@ E3TriMesh_AddTriangleNormals(TQ3GeometryObject theTriMesh, TQ3OrientationStyle t
 			
 			
 		// Calculate the normals in CCW form
-		TQ3Point3D* thePoints = triMesh->instanceData.geomData.points;
+		TQ3Point3D* thePoints = nakedTriMesh->instanceData.geomData.points;
 		if (thePoints != nullptr)
 		{
-			Q3Triangle_CrossProductArray ( triMesh->instanceData.geomData.numTriangles, nullptr,
-										 triMesh->instanceData.geomData.triangles[0].pointIndices,
+			Q3Triangle_CrossProductArray ( nakedTriMesh->instanceData.geomData.numTriangles, nullptr,
+										 nakedTriMesh->instanceData.geomData.triangles[0].pointIndices,
 										 thePoints,
 										 theNormals ) ;
 		}
@@ -1967,7 +2170,7 @@ E3TriMesh_AddTriangleNormals(TQ3GeometryObject theTriMesh, TQ3OrientationStyle t
 		// Reverse them if our orientation is CW
 		if ( theOrientation == kQ3OrientationStyleClockwise )
 			{
-			for ( TQ3Uns32 n = 0 ; n < triMesh->instanceData.geomData.numTriangles ; ++n )
+			for ( TQ3Uns32 n = 0 ; n < nakedTriMesh->instanceData.geomData.numTriangles ; ++n )
 				Q3Vector3D_Negate ( & theNormals [ n ], &theNormals [ n ] ) ;
 			}
 		}
@@ -1980,3 +2183,18 @@ E3TriMesh_AddTriangleNormals(TQ3GeometryObject theTriMesh, TQ3OrientationStyle t
 	if ( qd3dStatus == kQ3Failure )
 		Q3Memory_Free( &theNormals ) ;
 	}
+
+
+TQ3GeometryObject	E3TriMesh_GetNakedGeometry( TQ3GeometryObject inGeom )
+{
+	E3TriMesh* triMesh = (E3TriMesh*) inGeom;
+	E3NakedTriMesh* nakedTriMesh = triMesh->instanceData.nakedTriMesh;
+	return nakedTriMesh->GetReference();
+}
+
+void	E3TriMesh_SetNakedGeometry( TQ3GeometryObject inTriMesh,
+									TQ3GeometryObject inNaked )
+{
+	E3TriMesh* triMesh = (E3TriMesh*) inTriMesh;
+	E3Shared_Replace( (TQ3Object*) &triMesh->instanceData.nakedTriMesh, inNaked );
+}

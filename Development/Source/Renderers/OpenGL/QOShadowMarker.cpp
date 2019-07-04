@@ -639,7 +639,9 @@ void	QORenderer::ShadowMarker::MarkShadowOfTriMesh(
 	}
 	else
 	{
-		if (kQ3False == ShadowVolMgr::RenderShadowVolume( mGLContext, mBufferFuncs, inTMObject,
+		CQ3ObjectRef nakedMesh( Q3TriMesh_GetNakedGeometry( inTMObject ) );
+		
+		if (kQ3False == ShadowVolMgr::RenderShadowVolume( mGLContext, mBufferFuncs, nakedMesh.get(),
 			inLight, localLightPos ))
 		{
 			TQ3Uns32 numTriIndices, numQuadIndices;
@@ -649,11 +651,11 @@ void	QORenderer::ShadowMarker::MarkShadowOfTriMesh(
 			
 			Q3_CHECK_DRAW_ELEMENTS( mShadowPoints.size(),
 				numTriIndices + numQuadIndices, (const TQ3Uns32*)&mShadowVertIndices[0] );
-			ShadowVolMgr::AddShadowVolume( mGLContext, mBufferFuncs, inTMObject, inLight,
+			ShadowVolMgr::AddShadowVolume( mGLContext, mBufferFuncs, nakedMesh.get(), inLight,
 				localLightPos, mShadowPoints.size(), &mShadowPoints[0],
 				numTriIndices, numQuadIndices, &mShadowVertIndices[0] );
 			
-			ShadowVolMgr::RenderShadowVolume( mGLContext, mBufferFuncs, inTMObject, inLight,
+			ShadowVolMgr::RenderShadowVolume( mGLContext, mBufferFuncs, nakedMesh.get(), inLight,
 				localLightPos );
 		}
 	}

@@ -1,12 +1,12 @@
 /*  NAME:
-        QD3DGeometry.c
+        QD3DGeometry.cpp
 
     DESCRIPTION:
         Entry point for Quesa API calls. Performs parameter checking and
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -10457,4 +10457,50 @@ Q3TriMesh_MakeTriangleStrip(
 	}
 	
 	return theStatus;
+}
+
+
+/*!
+	@function	Q3TriMesh_GetNakedGeometry
+	@abstract	Get a reference to the unattributed geometry owned by a TriMesh.
+	@discussion	Using this function and its partner Q3TriMesh_SetNakedGeometry,
+				you can have two TriMesh objects with the same geometry but
+				different attribute sets.  This can be helpful in saving
+				memory.
+	@param		inGeom		A TriMesh object.
+	@result		A new reference to the unattributed geometry owned by the
+				given TriMesh.
+*/
+TQ3GeometryObject
+Q3TriMesh_GetNakedGeometry( TQ3GeometryObject inGeom )
+{
+	// Call the bottleneck
+	E3System_Bottleneck();
+	
+	TQ3GeometryObject result = E3TriMesh_GetNakedGeometry( inGeom );
+	
+	return result;
+}
+
+
+
+/*!
+	@function	Q3TriMesh_SetNakedGeometry
+	@abstract	Change the unattributed geometry owned by a TriMesh.
+	@discussion	Using this function and its partner Q3TriMesh_GetNakedGeometry,
+				you can have two TriMesh objects with the same geometry but
+				different attribute sets.  This can be helpful in saving
+				memory.
+	@param		inTriMesh		A TriMesh object to modify.
+	@param		inNaked			An internal geometry previously obtained using
+								Q3TriMesh_GetNakedGeometry.
+*/
+void
+Q3TriMesh_SetNakedGeometry( TQ3GeometryObject inTriMesh,
+							TQ3GeometryObject inNaked )
+{
+	// Call the bottleneck
+	E3System_Bottleneck();
+	
+	E3TriMesh_SetNakedGeometry( inTriMesh, inNaked );
 }

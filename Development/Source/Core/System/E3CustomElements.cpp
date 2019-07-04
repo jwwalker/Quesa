@@ -1,11 +1,11 @@
 /*  NAME:
-        E3CustomElements.c
+        E3CustomElements.cpp
 
     DESCRIPTION:
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -46,9 +46,11 @@
 #include "E3Prefix.h"
 #include "E3CustomElements.h"
 #include "E3HashTable.h"
+#include "E3GeometryTriMesh.h"
 #include "E3Main.h"
 #include "E3Set.h"
 #include "E3String.h"
+#include "CQ3ObjectRef.h"
 
 #include <vector>
 
@@ -136,7 +138,6 @@ public :
 
 	TQ3Float32								instanceData ;
 	} ;
-
 
 
 class E3SpecularElement : public E3Element  // This is a leaf class so no other classes use this,
@@ -1535,19 +1536,26 @@ TQ3Status	E3TriangleStripElement_SetData(
 	const TQ3Uns32* inIndices
 )
 {
-	TQ3Uns32	editIndex = Q3Shared_GetEditIndex( ioObject );
+	TQ3GeometryObject theGeom = ioObject;
+	CQ3ObjectRef nakedGeom;
+	if (Q3Object_IsType( theGeom, kQ3GeometryTypeTriMesh ))
+	{
+		nakedGeom = CQ3ObjectRef( E3TriMesh_GetNakedGeometry( theGeom ) );
+		theGeom = nakedGeom.get();
+	}
+	
+	// Lock the edit index, so that adding an element won't change it.
+	StLockEditIndex lockIndex( theGeom );
+	
+	TQ3Uns32	editIndex = Q3Shared_GetEditIndex( theGeom );
 	
 	TCETriangleStripPrivate	theData = {
 		inNumIndices,
-		 editIndex,
+		editIndex,
 		inIndices
 	};
-	TQ3Status status = Q3Object_AddElement( ioObject, sTriangleStripElementType,
+	TQ3Status status = Q3Object_AddElement( theGeom, sTriangleStripElementType,
 		&theData );
-	
-	
-	// Adding the element bumped the edit index, set it back.
-	Q3Shared_SetEditIndex( ioObject, editIndex );
 
 
 	return status;
@@ -1579,12 +1587,19 @@ TQ3Status	E3TriangleStripElement_GetData(
 	const TQ3Uns32** outIndices
 )
 {
+	TQ3GeometryObject theGeom = inObject;
+	CQ3ObjectRef nakedGeom;
+	if (Q3Object_IsType( theGeom, kQ3GeometryTypeTriMesh ))
+	{
+		nakedGeom = CQ3ObjectRef( E3TriMesh_GetNakedGeometry( theGeom ) );
+		theGeom = nakedGeom.get();
+	}
 	TCETriangleStripPrivate	theData;
-	TQ3Status	status = Q3Object_GetElement( inObject,
+	TQ3Status	status = Q3Object_GetElement( theGeom,
 		sTriangleStripElementType, &theData );
 	if (status == kQ3Success)
 	{
-		TQ3Uns32	curIndex = Q3Shared_GetEditIndex( inObject );
+		TQ3Uns32	curIndex = Q3Shared_GetEditIndex( theGeom );
 		
 		if (curIndex == theData.editIndex)
 		{
@@ -1608,7 +1623,14 @@ TQ3Status	E3TriangleStripElement_GetData(
 */
 void		E3TriangleStripElement_Remove( TQ3Object ioObject )
 {
-	Q3Object_ClearElement( ioObject, sTriangleStripElementType );
+	TQ3GeometryObject theGeom = ioObject;
+	CQ3ObjectRef nakedGeom;
+	if (Q3Object_IsType( theGeom, kQ3GeometryTypeTriMesh ))
+	{
+		nakedGeom = CQ3ObjectRef( E3TriMesh_GetNakedGeometry( theGeom ) );
+		theGeom = nakedGeom.get();
+	}
+	Q3Object_ClearElement( theGeom, sTriangleStripElementType );
 }
 
 

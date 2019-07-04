@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -52,12 +52,31 @@
 #include "GLDisplayListManager.h"
 #include "MakeStrip.h"
 #include "OptimizedTriMeshElement.h"
+#include "E3GeometryTriMesh.h"
 #include "E3Memory.h"
 #include "E3View.h"
 #include "E3Math.h"
 #include "E3Math_Intersect.h"
 #include "QOCalcTriMeshEdges.h"
+#include "QuesaMathOperators.hpp"
 
+static GLenum sGLError = 0;
+
+#if Q3_DEBUG_GL_ERRORS
+	#define		CHECK_GL_ERROR	do {	\
+									sGLError = glGetError();	\
+									if (sGLError != GL_NO_ERROR)	\
+									{	\
+										char	xmsg[200];	\
+										snprintf( xmsg, sizeof(xmsg),	\
+											"glGetError() is 0x%04X", \
+											(unsigned int)sGLError );	\
+										E3Assert(__FILE__, __LINE__, xmsg);	\
+									} \
+								} while (false)
+#else
+	#define		CHECK_GL_ERROR
+#endif
 
 
 #if Q3_DEBUG && QUESA_OS_MACINTOSH && QUESA_UH_IN_FRAMEWORKS && QUESA_TRACE_GL
@@ -726,23 +745,27 @@ static void ImmediateRenderTriangles(
 	TraceGLVertexArray( inGeomData.points, inGeomData.numPoints );
 	
 	glNormalPointer( GL_FLOAT, sizeof(TQ3Vector3D), inVertNormals );
+	CHECK_GL_ERROR;
 	TraceGLNormalArray( inVertNormals, inGeomData.numPoints );
 	
 	if (inVertUVs != nullptr)
 	{
 		glTexCoordPointer( 2, GL_FLOAT, sizeof(TQ3Param2D), inVertUVs );
+		CHECK_GL_ERROR;
 		TraceGLTexCoordArray( inVertUVs, inGeomData.numPoints );
 	}
 	
 	if (inVertColors != nullptr)
 	{
 		glColorPointer( 3, GL_FLOAT, sizeof(TQ3ColorRGB), inVertColors );
+		CHECK_GL_ERROR;
 	}
 	
 	Q3_CHECK_DRAW_ELEMENTS( inGeomData.numPoints, 3 * inGeomData.numTriangles,
 		(const TQ3Uns32*)inGeomData.triangles );
 	glDrawElements( GL_TRIANGLES, 3 * inGeomData.numTriangles,
 		GL_UNSIGNED_INT, inGeomData.triangles );
+	CHECK_GL_ERROR;
 	TraceGLDrawElements( 3 * inGeomData.numTriangles, &inGeomData.triangles[0].pointIndices[0] );
 }
 
@@ -757,22 +780,27 @@ static void ImmediateRenderTriangleStrip(
 	TraceGLVertexArray( inGeomData.points, inGeomData.numPoints );
 	
 	glNormalPointer( GL_FLOAT, sizeof(TQ3Vector3D), inVertNormals );
+	CHECK_GL_ERROR;
 	TraceGLNormalArray( inVertNormals, inGeomData.numPoints );
 	
 	if (inVertUVs != nullptr)
 	{
 		glTexCoordPointer( 2, GL_FLOAT, sizeof(TQ3Param2D), inVertUVs );
+		CHECK_GL_ERROR;
 		TraceGLTexCoordArray( inVertUVs, inGeomData.numPoints );
 	}
 	
 	if (inVertColors != nullptr)
 	{
 		glColorPointer( 3, GL_FLOAT, sizeof(TQ3ColorRGB), inVertColors );
+		CHECK_GL_ERROR;
 	}
 	
 	Q3_CHECK_DRAW_ELEMENTS( inGeomData.numPoints, static_cast<TQ3Uns32>(inStrip.size()), &inStrip[0] );
+	Q3_MESSAGE_FMT("glDrawElements in ImmediateRenderTriangleStrip");
 	glDrawElements( GL_TRIANGLE_STRIP, static_cast<TQ3Uns32>(inStrip.size()),
 		GL_UNSIGNED_INT, &inStrip[0] );
+	CHECK_GL_ERROR;
 	TraceGLDrawElements( inStrip.size(), &inStrip[0] );
 }
 
@@ -1121,6 +1149,7 @@ void	QORenderer::Renderer::RenderFastPathTriMesh(
 		(inGeomData.numTriangles >= kMinTrianglesToCache) )
 	{
 		std::vector<TQ3Uns32>	triangleStrip;
+		CQ3ObjectRef nakedMesh( E3TriMesh_GetNakedGeometry( inTriMesh ) );
 		
 		// If we can use VBOs, do so.
 		if (mGLExtensions.vertexBufferObjects == kQ3True)
@@ -1130,7 +1159,7 @@ void	QORenderer::Renderer::RenderFastPathTriMesh(
 			GLenum	mode = (mStyleState.mFill == kQ3FillStyleEdges)?
 				GL_TRIANGLES : GL_TRIANGLE_STRIP;
 			
-			if (kQ3False == RenderCachedVBO( mGLContext, mBufferFuncs, inTriMesh, mode ))
+			if (kQ3False == RenderCachedVBO( mGLContext, mBufferFuncs, nakedMesh.get(), mode ))
 			{
 				if (mode == GL_TRIANGLE_STRIP)
 				{
@@ -1143,7 +1172,7 @@ void	QORenderer::Renderer::RenderFastPathTriMesh(
 					Q3_CHECK_DRAW_ELEMENTS( inGeomData.numPoints,
 						3 * inGeomData.numTriangles,
 						inGeomData.triangles[0].pointIndices );
-					AddVBOToCache( mGLContext, mBufferFuncs, inTriMesh, inGeomData.numPoints,
+					AddVBOToCache( mGLContext, mBufferFuncs, nakedMesh.get(), inGeomData.numPoints,
 						inGeomData.points, inVertNormals, inVertColors, inVertUVs,
 						GL_TRIANGLES, 3 * inGeomData.numTriangles,
 						inGeomData.triangles[0].pointIndices );
@@ -1153,13 +1182,13 @@ void	QORenderer::Renderer::RenderFastPathTriMesh(
 					Q3_CHECK_DRAW_ELEMENTS( inGeomData.numPoints,
 						static_cast<TQ3Uns32>(triangleStrip.size()),
 						&triangleStrip[0] );
-					AddVBOToCache( mGLContext, mBufferFuncs, inTriMesh, inGeomData.numPoints,
+					AddVBOToCache( mGLContext, mBufferFuncs, nakedMesh.get(), inGeomData.numPoints,
 						inGeomData.points, inVertNormals, inVertColors, inVertUVs,
 						GL_TRIANGLE_STRIP, static_cast<TQ3Uns32>(triangleStrip.size()),
 						&triangleStrip[0] );
 				}
 				
-				RenderCachedVBO( mGLContext, mBufferFuncs, inTriMesh, mode );
+				RenderCachedVBO( mGLContext, mBufferFuncs, nakedMesh.get(), mode );
 			}
 		}
 		else // if not, use display lists.
@@ -1486,7 +1515,9 @@ void	QORenderer::Renderer::RenderFaceEdges(
 		(inGeomData.numTriangles >= kMinTrianglesToCache) &&
 		(mGLExtensions.vertexBufferObjects == kQ3True) )
 	{
-		if (kQ3False == RenderCachedVBO( mGLContext, mBufferFuncs, inTriMesh, GL_LINES ))
+		CQ3ObjectRef nakedMesh( E3TriMesh_GetNakedGeometry( inTriMesh ) );
+		
+		if (kQ3False == RenderCachedVBO( mGLContext, mBufferFuncs, nakedMesh.get(), GL_LINES ))
 		{
 			if (inTriMesh == nullptr)
 			{
@@ -1498,11 +1529,11 @@ void	QORenderer::Renderer::RenderFaceEdges(
 					mFacesToEdges );
 			}
 			
-			AddVBOToCache( mGLContext, mBufferFuncs, inTriMesh, inGeomData.numPoints,
+			AddVBOToCache( mGLContext, mBufferFuncs, nakedMesh.get(), inGeomData.numPoints,
 				inGeomData.points, inVertNormals, inVertColors, nullptr,
 				GL_LINES, mEdges.size() * 2, &mEdges[0].pointIndices[0] );
 			
-			RenderCachedVBO( mGLContext, mBufferFuncs, inTriMesh, GL_LINES );
+			RenderCachedVBO( mGLContext, mBufferFuncs, nakedMesh.get(), GL_LINES );
 		}
 	}
 	else
@@ -1646,6 +1677,10 @@ bool	QORenderer::Renderer::SubmitTriMesh(
 	if (inGeomData == nullptr)
 	{
 		return false;	// theoretically impossible
+	}
+	if (inGeomData->numPoints == 0)
+	{
+		return true; // not sure if this can happen
 	}
 	
 	if ( (mViewIllumination == kQ3IlluminationTypeNULL) && (mLights.IsFirstPass() == false))
