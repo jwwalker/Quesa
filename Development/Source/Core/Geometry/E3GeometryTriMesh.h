@@ -5,7 +5,7 @@
         Header file for E3GeometryTriMesh.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -79,7 +79,9 @@ TQ3Status			E3TriMesh_UnlockData(TQ3GeometryObject triMesh);
 
 void				E3TriMesh_AddTriangleNormals(TQ3GeometryObject theTriMesh, TQ3OrientationStyle theOrientation);
 
-
+TQ3GeometryObject	E3TriMesh_GetNakedGeometry( TQ3GeometryObject inGeom );
+void				E3TriMesh_SetNakedGeometry( TQ3GeometryObject inTriMesh,
+												TQ3GeometryObject inNaked );
 
 
 

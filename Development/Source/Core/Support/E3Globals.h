@@ -5,7 +5,7 @@
         Header file for E3Globals.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -145,6 +145,7 @@ extern "C" {
 #define kQ3ClassNameGeometryTorus					"Torus"
 #define kQ3ClassNameGeometryTriGrid					"TriGrid"
 #define kQ3ClassNameGeometryTriMesh					"TriMesh"
+#define kQ3ClassNameGeometryNakedTriMesh			"NakedTriMesh"
 #define kQ3ClassNameGeometryTriangle				"Triangle"
 #define kQ3ClassNameGroup							"Group"
 #define kQ3ClassNameGroupDisplay					"DisplayGroup"

@@ -5,7 +5,7 @@
         Source code to compute edges of a TriMesh.
 
     COPYRIGHT:
-        Copyright (c) 2007-2013, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -42,6 +42,7 @@
 */
 #include "QOCalcTriMeshEdges.h"
 #include "E3Main.h"
+#include "CQ3ObjectRef.h"
 
 #include <algorithm>
 
@@ -176,13 +177,16 @@ void QOCalcTriMeshEdges( 	const TQ3TriMeshData& inData,
 	// Make edge indices, and sort the indices by edge ends.
 	const TQ3Uns32	kNumEdgesWithCopies = edgesWithCopies.size();
 	E3FastArray<TQ3Uns32>	edgeNumVec( kNumEdgesWithCopies );
-	TQ3Uns32*	edgeNums = &edgeNumVec[0];	// optimization
+	TQ3Uns32*	edgeNums = (kNumEdgesWithCopies == 0)? nullptr : &edgeNumVec[0];	// optimization
 	for (TQ3Uns32 i = 0; i < kNumEdgesWithCopies; ++i)
 	{
 		edgeNums[i] = i;
 	}
-	EdgeIndexCompare	comparator( &edgesWithCopies[0] );
-	std::sort( &edgeNums[0], &edgeNums[kNumEdgesWithCopies], comparator );
+	if (kNumEdgesWithCopies > 0)
+	{
+		EdgeIndexCompare	comparator( &edgesWithCopies[0] );
+		std::sort( &edgeNums[0], &edgeNums[kNumEdgesWithCopies], comparator );
+	}
 	
 	// We will construct an array that maps indices of old edges with copies
 	// to new uniquified edges.
@@ -221,17 +225,21 @@ void QOCalcTriMeshEdges( 	const TQ3TriMeshData& inData,
 	{
 		const TQ3Uns32 kNumFaces = facesWithCopies.size();
 		outFacesToEdges->resizeNotPreserving( kNumFaces );
-		for (TQ3Uns32 f = 0; f < kNumFaces; ++f)
+		
+		if (kNumEdgesWithCopies > 0) // get rid of a static analyzer warning
 		{
-			const TQ3TriangleEdges& oldFace( facesWithCopies[f] );
-			TQ3TriangleEdges	newFace = {
-				{
-					edgeToUniqueEdge[ oldFace.edgeIndices[ 0 ] ],
-					edgeToUniqueEdge[ oldFace.edgeIndices[ 1 ] ],
-					edgeToUniqueEdge[ oldFace.edgeIndices[ 2 ] ]
-				}
-			};
-			(*outFacesToEdges)[f] = newFace;
+			for (TQ3Uns32 f = 0; f < kNumFaces; ++f)
+			{
+				const TQ3TriangleEdges& oldFace( facesWithCopies[f] );
+				TQ3TriangleEdges	newFace = {
+					{
+						edgeToUniqueEdge[ oldFace.edgeIndices[ 0 ] ],
+						edgeToUniqueEdge[ oldFace.edgeIndices[ 1 ] ],
+						edgeToUniqueEdge[ oldFace.edgeIndices[ 2 ] ]
+					}
+				};
+				(*outFacesToEdges)[f] = newFace;
+			}
 		}
 	}
 }
@@ -254,9 +262,10 @@ void QOGetCachedTriMeshEdges( TQ3GeometryObject inGeom,
 							TQ3TriangleToEdgeVec& outFacesToEdges )
 {
 	bool	haveCachedData = false;
-	TQ3Uns32	geomEdits = Q3Shared_GetEditIndex( inGeom );
+	CQ3ObjectRef nakedGeom( Q3TriMesh_GetNakedGeometry( inGeom ) );
+	TQ3Uns32	geomEdits = Q3Shared_GetEditIndex( nakedGeom.get() );
 	const char*	propData = reinterpret_cast<const char*>(
-		inGeom->GetPropertyAddress( kPropertyTypeEdgeCache ) );
+		nakedGeom.get()->GetPropertyAddress( kPropertyTypeEdgeCache ) );
 	
 	if (propData != nullptr)
 	{
@@ -279,6 +288,9 @@ void QOGetCachedTriMeshEdges( TQ3GeometryObject inGeom,
 	
 	if (! haveCachedData)
 	{
+		// Lock the edit index, so that adding a property won't change it.
+		StLockEditIndex lockIndex( nakedGeom.get() );
+
 		TQ3TriMeshData*	tmData = nullptr;
 		Q3TriMesh_LockData( inGeom, kQ3True, &tmData );
 		
@@ -303,8 +315,7 @@ void QOGetCachedTriMeshEdges( TQ3GeometryObject inGeom,
 			&ioScratchBuffer[0] + sizeof(EdgeCacheRec) +
 			cacheData->edgeCount * sizeof(TQ3EdgeEnds),
 			cacheData->faceCount * sizeof(TQ3TriangleEdges) );
-		Q3Object_SetProperty( inGeom, kPropertyTypeEdgeCache, propSize, cacheData );
-		Q3Shared_SetEditIndex( inGeom, geomEdits );
+		Q3Object_SetProperty( nakedGeom.get(), kPropertyTypeEdgeCache, propSize, cacheData );
 	}
 }
 
@@ -330,9 +341,10 @@ void QOAccessCachedTriMeshEdges( TQ3GeometryObject inGeom,
 							TQ3TriangleToEdgeVec& outFacesToEdges )
 {
 	bool	haveCachedData = false;
-	TQ3Uns32	geomEdits = Q3Shared_GetEditIndex( inGeom );
+	CQ3ObjectRef nakedGeom( Q3TriMesh_GetNakedGeometry( inGeom ) );
+	TQ3Uns32	geomEdits = Q3Shared_GetEditIndex( nakedGeom.get() );
 	const char*	propData = reinterpret_cast<const char*>(
-		inGeom->GetPropertyAddress( kPropertyTypeEdgeCache ) );
+		nakedGeom.get()->GetPropertyAddress( kPropertyTypeEdgeCache ) );
 	
 	if (propData != nullptr)
 	{
@@ -353,6 +365,9 @@ void QOAccessCachedTriMeshEdges( TQ3GeometryObject inGeom,
 	
 	if (! haveCachedData)
 	{
+		// Lock the edit index, so that adding a property won't change it.
+		StLockEditIndex lockIndex( nakedGeom.get() );
+
 		TQ3EdgeVec				computedEdges;
 		TQ3TriangleToEdgeVec	computedFacesToEdges;
 
@@ -386,11 +401,10 @@ void QOAccessCachedTriMeshEdges( TQ3GeometryObject inGeom,
 				cacheData->edgeCount * sizeof(TQ3EdgeEnds),
 				cacheData->faceCount * sizeof(TQ3TriangleEdges) );
 		}
-		Q3Object_SetProperty( inGeom, kPropertyTypeEdgeCache, propSize, cacheData );
-		Q3Shared_SetEditIndex( inGeom, geomEdits );
+		Q3Object_SetProperty( nakedGeom.get(), kPropertyTypeEdgeCache, propSize, cacheData );
 		
 		propData = reinterpret_cast<const char*>(
-			inGeom->GetPropertyAddress( kPropertyTypeEdgeCache ) );
+			nakedGeom.get()->GetPropertyAddress( kPropertyTypeEdgeCache ) );
 
 		outEdges.SetUnownedData( cacheData->edgeCount,
 			reinterpret_cast<const TQ3EdgeEnds*>( propData + sizeof(EdgeCacheRec) ) );

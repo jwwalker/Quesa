@@ -5,7 +5,7 @@
         Header file for E3Main.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -111,7 +111,7 @@ private :
 								_Name,														\
 								_metaHandler,												\
 								sizeof ( _instanceClass ),									\
-								sizeof ( ((_instanceClass*)nullptr)->instanceData ),				\
+								sizeof ( ((_instanceClass*)nullptr)->instanceData ),		\
 								Q3_OFFSETOF( _instanceClass, instanceData )					\
 								)
 
@@ -124,7 +124,7 @@ private :
 								_Name,														\
 								_metaHandler,												\
 								sizeof ( _instanceClass ),									\
-								sizeof ( ((_instanceClass*)nullptr)->_memberName ),				\
+								sizeof ( ((_instanceClass*)nullptr)->_memberName ),			\
 								Q3_OFFSETOF( _instanceClass, _memberName )					\
 								)
 
@@ -359,6 +359,26 @@ Q3_CLASS_ENUMS ( kQ3SharedTypeShape, E3Shape, E3Shared )
 	} ;
 
 
+
+// Utility to temporary lock the edit index of a shared object.
+class StLockEditIndex
+{
+public:
+				StLockEditIndex( TQ3SharedObject ioObject )
+					: _object( ioObject )
+					, _previousLockState( ( (E3Shared*) ioObject )->IsEditIndexLocked() )
+					{
+						( (E3Shared*) ioObject )->SetEditIndexLocked( kQ3True );
+					}
+				~StLockEditIndex()
+					{
+						( (E3Shared*) _object )->SetEditIndexLocked( _previousLockState );
+					}
+
+private:
+	TQ3SharedObject		_object;
+	TQ3Boolean			_previousLockState;
+};
 
 
 

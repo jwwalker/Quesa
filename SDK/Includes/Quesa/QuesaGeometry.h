@@ -8036,6 +8036,56 @@ Q3TriMesh_MakeTriangleStrip(
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
+
+/*!
+	@function	Q3TriMesh_GetNakedGeometry
+	@abstract	Get a reference to the unattributed geometry owned by a TriMesh.
+	@discussion	Using this function and its partner <code>Q3TriMesh_SetNakedGeometry</code>,
+				you can have two TriMesh objects with the same geometry but
+				different attribute sets.  This can be helpful in saving
+				memory.  That is, you can make two TriMeshes share geometry by saying:
+				
+				<blockquote><pre><code>
+				TQ3Object secondTriMesh = Q3Object_Duplicate( firstTriMesh );
+				TQ3Object firstNaked = Q3TriMesh_GetNakedGeometry( firstTriMesh );
+				Q3TriMesh_SetNakedGeometry( secondTriMesh, firstNaked );
+				Q3Object_Dispose( firstNaked );
+				</code></pre></blockquote>
+				
+				Sharing of naked geometry works in a copy-on-write way.  That is, if two
+				TriMeshes share the naked geometry, but then you modify one of the TriMeshes
+				using <code>Q3TriMesh_SetData</code>, <code>Q3TriMesh_Optimize</code>, or
+				<code>Q3TriMesh_LockData</code> with a read-write lock, then the TriMeshes will
+				no longer share naked geometry.
+				
+				A naked geometry of a TriMesh is a different type of object than a TriMesh.
+				You can't do anything with it but share it, dispose it, duplicate it, or pass it
+				as the second parameter of <code>Q3TriMesh_SetNakedGeometry</code>.
+				
+	@param		inGeom		A TriMesh object.
+	@result		A new reference to the unattributed geometry owned by the
+				given TriMesh.
+*/
+Q3_EXTERN_API_C( TQ3GeometryObject _Nonnull )
+Q3TriMesh_GetNakedGeometry( TQ3GeometryObject _Nonnull inGeom );
+
+
+
+/*!
+	@function	Q3TriMesh_SetNakedGeometry
+	@abstract	Change the unattributed geometry owned by a TriMesh.
+	@discussion	Using this function and its partner <code>Q3TriMesh_GetNakedGeometry</code>,
+				you can have two TriMesh objects with the same geometry but
+				different attribute sets.  This can be helpful in saving
+				memory.  See the discussion of <code>Q3TriMesh_GetNakedGeometry</code>.
+	@param		inTriMesh		A TriMesh object to modify.
+	@param		inNaked			An internal geometry previously obtained using
+								Q3TriMesh_GetNakedGeometry.
+*/
+Q3_EXTERN_API_C( void )
+Q3TriMesh_SetNakedGeometry( TQ3GeometryObject _Nonnull inTriMesh,
+							TQ3GeometryObject _Nonnull inNaked );
+
 // Work around a HeaderDoc bug
 /*!
 	@functiongroup
