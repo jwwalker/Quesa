@@ -5,7 +5,7 @@
         Shading language caching functions for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2014, Quesa Developers. All rights reserved.
+        Copyright (c) 2014-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -78,6 +78,7 @@ QORenderer::ProgramCharacteristic::ProgramCharacteristic()
 	, mIsCartoonish( false )
 	, mFogState( kQ3Off )
 	, mFogMode( kQ3FogModeAlpha )
+	, mAngleAffectsAlpha( true )
 {
 }
 
@@ -90,6 +91,7 @@ QORenderer::ProgramCharacteristic::ProgramCharacteristic(
 	, mIsCartoonish( inOther.mIsCartoonish )
 	, mFogState( inOther.mFogState )
 	, mFogMode( inOther.mFogMode )
+	, mAngleAffectsAlpha( inOther.mAngleAffectsAlpha )
 {
 }
 
@@ -102,7 +104,8 @@ bool	QORenderer::ProgramCharacteristic::operator==(
 			(mIsCartoonish == inOther.mIsCartoonish) &&
 			(mPattern == inOther.mPattern) &&
 			(mFogState == inOther.mFogState ) &&
-			(mFogMode == inOther.mFogMode);
+			(mFogMode == inOther.mFogMode) &&
+			(mAngleAffectsAlpha == inOther.mAngleAffectsAlpha);
 }
 
 
@@ -117,6 +120,7 @@ void	QORenderer::ProgramCharacteristic::swap(
 	std::swap( mIsCartoonish, ioOther.mIsCartoonish );
 	std::swap( mFogState, ioOther.mFogState );
 	std::swap( mFogMode, ioOther.mFogMode );
+	std::swap( mAngleAffectsAlpha, ioOther.mAngleAffectsAlpha );
 }
 
 #pragma mark -

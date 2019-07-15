@@ -43,7 +43,6 @@
 #import "QuesaCocoaUtil.h"
 #include <Quesa/Quesa.h>
 #include <Quesa/QuesaCamera.h>
-#include <Quesa/QuesaController.h>
 #include <Quesa/QuesaCustomElements.h>
 #include <Quesa/QuesaDrawContext.h>
 #include <Quesa/QuesaErrors.h>
@@ -62,7 +61,6 @@
 #include <Quesa/QuesaStyle.h>
 #include <Quesa/QuesaTransform.h>
 #include <Quesa/QuesaView.h>
-#include <Quesa/QuesaViewer.h>
 
 
 void boundsForObject(TQ3ViewObject theView,TQ3Object theObject, TQ3BoundingBox* theBounds)
