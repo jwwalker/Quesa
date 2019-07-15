@@ -217,6 +217,15 @@ enum
 					at the expense of a little extra rendering time.
 					
 					Data type: TQ3Float32.  Range: [0, 1].  Default value: 1.0.
+	
+	@constant	kQ3RendererPropertyAngleAffectsAlpha
+					If you look through a sheet of tinted glass at an angle, you
+					are looking through more of the glass than if your viewing
+					direction were perpendicular to the glass surface, so it
+					should look more opaque.  When this property is true, the
+					OpenGL per-pixel rendering will simulate this effect for
+					more realistic rendering of transparent material.
+					Data type: TQ3Boolean.  Default value: kQ3True.
 
 	@constant	kQ3RendererPropertyShadowVBOLimit
 					If you are rendering shadows, and VBOs are available, you
@@ -255,6 +264,7 @@ enum
 	kQ3RendererPropertyCartoonLightNearEdge         = Q3_OBJECT_TYPE('p', 'p', 'c', 'e'),
 	kQ3RendererPropertyPassType                     = Q3_OBJECT_TYPE('r', 'p', 't', 'y'),
 	kQ3RendererPropertyDepthAlphaThreshold          = Q3_OBJECT_TYPE('d', 'p', 'a', 't'),
+	kQ3RendererPropertyAngleAffectsAlpha            = Q3_OBJECT_TYPE('a', 'n', 'a', 'a'),
 	kQ3RendererPropertyShadowVBOLimit               = Q3_OBJECT_TYPE('s', 'h', 'v', 'l'),
 	kQ3RendererPropertyPrimitivesRenderedCount      = Q3_OBJECT_TYPE('p', 'r', 'n', 'c'),
 };

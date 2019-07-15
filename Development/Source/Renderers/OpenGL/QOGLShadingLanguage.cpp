@@ -5,7 +5,7 @@
         Shading language functions for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2016, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -526,6 +526,20 @@ namespace
 				"	color = alpha * unPreColor;\n"
 				;
 
+	#pragma mark kAngleAffectOnAlpha
+	/*
+		If you have a sheet of translucent material at an angle to the eye, then you are
+		looking through more of it, so it should block more of the light.  The way the
+		math works out, the effective alpha is 1 - (1 - alpha)^(1/cos( angle )) .
+		The z coordinate of the eye normal vector is the cosine of the angle between the
+		fragment normal vector and the view vector.
+	*/
+	const char*	kAngleAffectOnAlpha =
+				"	alpha = (alpha > 0.9999)? 1.0 :\n"
+				"							((normal.z < 0.0001)? 1.0 :\n"
+				"												1.0 - pow( 1.0 - alpha, 1.0/normal.z ));\n"
+				;
+
 	#pragma mark kMainFragmentShaderEndSource
 	const char* kMainFragmentShaderEndSource =
 				" 	gl_FragColor.rgb = color;\n"
@@ -934,6 +948,11 @@ static void BuildFragmentShaderSource(	const QORenderer::ProgramCharacteristic& 
 		}
 	}
 		
+	if (inProgramRec.mAngleAffectsAlpha)
+	{
+		outSource += kAngleAffectOnAlpha;
+	}
+	
 	outSource += kMainFragmentShaderEndSource;
 }
 
@@ -1074,6 +1093,11 @@ void	QORenderer::PerPixelLighting::StartPass()
 		mCurrentProgram = nullptr;
 		mMayNeedProgramChange = true;
 		mProgramCharacteristic.mIsCartoonish = (mQuantization > 0.0f);
+
+		TQ3Boolean angleAffectsAlpha = kQ3True;
+		Q3Object_GetProperty( mRendererObject, kQ3RendererPropertyAngleAffectsAlpha,
+			sizeof(TQ3Boolean), nullptr, &angleAffectsAlpha );
+		mProgramCharacteristic.mAngleAffectsAlpha = (angleAffectsAlpha == kQ3True);
 		
 		if (ProgCache()->VertexShaderID() != 0)
 		{
