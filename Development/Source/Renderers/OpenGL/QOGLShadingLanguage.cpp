@@ -533,11 +533,16 @@ namespace
 		math works out, the effective alpha is 1 - (1 - alpha)^(1/cos( angle )) .
 		The z coordinate of the eye normal vector is the cosine of the angle between the
 		fragment normal vector and the view vector.
+		When we change the alpha, we must un-premultiply and re-premultiply the color.
 	*/
 	const char*	kAngleAffectOnAlpha =
-				"	alpha = (alpha > 0.9999)? 1.0 :\n"
-				"							((normal.z < 0.0001)? 1.0 :\n"
-				"												1.0 - pow( 1.0 - alpha, 1.0/normal.z ));\n"
+				"	if ( (alpha < 0.999) && (normal.z > 0.0001) )\n"
+				"	{\n"
+				"		float unAlpha = 1.0 / (alpha + 0.0000001);\n"
+				"		vec3 unPreColor = clamp( unAlpha * color, 0.0, 1.0 );\n"
+				"		alpha = 1.0 - pow( 1.0 - alpha, 1.0/normal.z );\n"
+				"		color = alpha * unPreColor;\n"
+				"	}\n"
 				;
 
 	#pragma mark kMainFragmentShaderEndSource
