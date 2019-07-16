@@ -199,7 +199,7 @@ or nullptr.</dd>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Sets the attribute set associated with a certain face of a box object.
 <br><br>
-This function applies the <code>TQ3AttributeSet*</code> parameter to the attribute set
+This function applies the <code>TQ3AttributeSet</code> parameter to the attribute set
 of the face indexed with <code>faceIndex</code> of the box geometry object.
 <code>faceIndex</code> must be between 0 and 5 (inclusive).
 <br><br>
@@ -2097,13 +2097,22 @@ Q3ForEachMeshComponent( myMesh, comp, &amp;iter )
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3GeneralPolygonData * _Nonnull generalPolygonData
 );</tt><br>
 </pre></blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Release memory allocated by <code>Q3GeneralPolygon_GetData</code>.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Release memory allocated by <code>Q3GeneralPolygon_GetData</code>, or that you
+allocated so long as you used Quesa memory allocation functions to allocate
+the arrays.
 <br><br>
+To be precise, this function:
+<ul>
+<li>Disposes the attribute set of each vertex</li>
+<li>Frees the array of vertices of each contour.</li>
+<li>Frees the array of contours.</li>
+<li>Disposes the overall attribute set.</li>
+</ul>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
 <dl>
-<dt><tt><em>generalPolygonData</em></tt></dt><dd>Data describing a General Polygon, previously obtained with
+<dt><tt><em>generalPolygonData</em></tt></dt><dd>Data describing a General Polygon, perhaps previously obtained with
 <code>Q3GeneralPolygon_GetData</code>.</dd>
 </dl>
 </blockquote>
@@ -6495,6 +6504,46 @@ This function may allocate memory, which should be freed using
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
+<hr><a name="//Quesa/c/func/Q3TriMesh_GetNakedGeometry"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3TriMesh_GetNakedGeometry">Q3TriMesh_GetNakedGeometry</a></h2>
+</td></tr></table><hr>Get a reference to the unattributed geometry owned by a TriMesh.
+
+<blockquote><pre><tt>( TQ3GeometryObject _Nonnull ) Q3TriMesh_GetNakedGeometry (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GeometryObject _Nonnull inGeom
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Using this function and its partner <code>Q3TriMesh_SetNakedGeometry</code>,
+you can have two TriMesh objects with the same geometry but
+different attribute sets.  This can be helpful in saving
+memory.  That is, you can make two TriMeshes share geometry by saying:
+<br><br>
+<blockquote><pre><code>
+TQ3Object secondTriMesh = Q3Object_Duplicate( firstTriMesh );
+TQ3Object firstNaked = Q3TriMesh_GetNakedGeometry( firstTriMesh );
+Q3TriMesh_SetNakedGeometry( secondTriMesh, firstNaked );
+Q3Object_Dispose( firstNaked );
+</code></pre></blockquote>
+<br><br>
+Sharing of naked geometry works in a copy-on-write way.  That is, if two
+TriMeshes share the naked geometry, but then you modify one of the TriMeshes
+using <code>Q3TriMesh_SetData</code>, <code>Q3TriMesh_Optimize</code>, or
+<code>Q3TriMesh_LockData</code> with a read-write lock, then the TriMeshes will
+no longer share naked geometry.
+<br><br>
+A naked geometry of a TriMesh is a different type of object than a TriMesh.
+You can't do anything with it but share it, dispose it, duplicate it, or pass it
+as the second parameter of <code>Q3TriMesh_SetNakedGeometry</code>.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>inGeom</em></tt></dt><dd>A TriMesh object.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>A new reference to the unattributed geometry owned by the
+given TriMesh.
+</dd></dl>
 <hr><a name="//Quesa/c/func/Q3TriMesh_LockData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3TriMesh_LockData">Q3TriMesh_LockData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3TriMesh_LockData (
@@ -6730,6 +6779,28 @@ and Quesa will compute the bounding box.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
+<hr><a name="//Quesa/c/func/Q3TriMesh_SetNakedGeometry"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3TriMesh_SetNakedGeometry">Q3TriMesh_SetNakedGeometry</a></h2>
+</td></tr></table><hr>Change the unattributed geometry owned by a TriMesh.
+
+<blockquote><pre><tt>( void ) Q3TriMesh_SetNakedGeometry (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GeometryObject _Nonnull inTriMesh,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GeometryObject _Nonnull inNaked
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Using this function and its partner <code>Q3TriMesh_GetNakedGeometry</code>,
+you can have two TriMesh objects with the same geometry but
+different attribute sets.  This can be helpful in saving
+memory.  See the discussion of <code>Q3TriMesh_GetNakedGeometry</code>.
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>inTriMesh</em></tt></dt><dd>A TriMesh object to modify.</dd>
+<dt><tt><em>inNaked</em></tt></dt><dd>An internal geometry previously obtained using
+Q3TriMesh_GetNakedGeometry.</dd>
+</dl>
+</blockquote>
 <hr><a name="//Quesa/c/func/Q3TriMesh_Submit"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3TriMesh_Submit">Q3TriMesh_Submit</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3TriMesh_Submit (
@@ -6951,5 +7022,5 @@ This function should only be called in a submitting loop.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
-<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/2/2019)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 7/16/2019)
 </p></body></html>

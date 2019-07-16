@@ -1260,68 +1260,8 @@ This method is optional.
 <dl><dt><i>function result</i></dt><dd>Success or failure of the callback.
  </dd></dl>
 <h2>Structs</h2>
-<hr><a name="//Quesa/c/tag/TQ3DialogAnchor"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3DialogAnchor">TQ3DialogAnchor</a></h2>
-</td></tr></table><hr><blockquote><pre>
-typedef struct TQ3DialogAnchor {
-    TQ3MacOSDialogEventHandler                  clientEventHandler;
-} TQ3DialogAnchor;
-</pre>
-</blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Mac OS dialog anchor.
-<br><br>
-Supplied to Q3Renderer_ModalConfigure to pass platform-specific
-dialog state to the renderer.
-<br><br>
-</p>
-<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
-<blockquote>
-<dl>
-<dt><tt>clientEventHandler</tt></dt><dd>The application event handler.</dd>
-</dl>
-</blockquote>
-<hr><a name="//Quesa/c/tag/TQ3DialogAnchor"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3DialogAnchor">TQ3DialogAnchor</a></h2>
-</td></tr></table><hr><blockquote><pre>
-typedef struct TQ3DialogAnchor {
-    HWND                                        ownerWindow;
-} TQ3DialogAnchor;
-</pre>
-</blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Windows dialog anchor.
-<br><br>
-Supplied to Q3Renderer_ModalConfigure to pass platform-specific
-dialog state to the renderer.
-<br><br>
-</p>
-<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
-<blockquote>
-<dl>
-<dt><tt>ownerWindow</tt></dt><dd>The parent window of the configure dialog.</dd>
-</dl>
-</blockquote>
-<hr><a name="//Quesa/c/tag/TQ3DialogAnchor"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3DialogAnchor">TQ3DialogAnchor</a></h2>
-</td></tr></table><hr><blockquote><pre>
-typedef struct TQ3DialogAnchor {
-    void                                        *notUsed;
-} TQ3DialogAnchor;
-</pre>
-</blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Unix dialog anchor.
-<br><br>
-Supplied to Q3Renderer_ModalConfigure to pass platform-specific
-dialog state to the renderer.
-<br><br>
-</p>
-<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
-<blockquote>
-<dl>
-<dt><tt>notUsed</tt></dt><dd>Not used.</dd>
-</dl>
-</blockquote>
-<hr><a name="//Quesa/c/tag/TQ3DialogAnchor"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3DialogAnchor">TQ3DialogAnchor</a></h2>
+<hr><a name="//Quesa/c/tag/TQ3DialogAnchor (Cocoa)"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3DialogAnchor (Cocoa)">TQ3DialogAnchor (Cocoa)</a></h2>
 </td></tr></table><hr><blockquote><pre>
 typedef struct TQ3DialogAnchor {
     void                                        * _Nullable notUsed;
@@ -1340,6 +1280,66 @@ dialog state to the renderer.
 <dt><tt>notUsed</tt></dt><dd>Not used.</dd>
 </dl>
 </blockquote>
+<hr><a name="//Quesa/c/tag/TQ3DialogAnchor (Mac)"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3DialogAnchor (Mac)">TQ3DialogAnchor (Mac)</a></h2>
+</td></tr></table><hr><blockquote><pre>
+typedef struct TQ3DialogAnchor {
+    TQ3MacOSDialogEventHandler                  clientEventHandler;
+} TQ3DialogAnchor;
+</pre>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Mac OS dialog anchor.
+<br><br>
+Supplied to Q3Renderer_ModalConfigure to pass platform-specific
+dialog state to the renderer.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt>clientEventHandler</tt></dt><dd>The application event handler.</dd>
+</dl>
+</blockquote>
+<hr><a name="//Quesa/c/tag/TQ3DialogAnchor (Unix)"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3DialogAnchor (Unix)">TQ3DialogAnchor (Unix)</a></h2>
+</td></tr></table><hr><blockquote><pre>
+typedef struct TQ3DialogAnchor {
+    void                                        *notUsed;
+} TQ3DialogAnchor;
+</pre>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Unix dialog anchor.
+<br><br>
+Supplied to Q3Renderer_ModalConfigure to pass platform-specific
+dialog state to the renderer.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt>notUsed</tt></dt><dd>Not used.</dd>
+</dl>
+</blockquote>
+<hr><a name="//Quesa/c/tag/TQ3DialogAnchor (Windows)"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3DialogAnchor (Windows)">TQ3DialogAnchor (Windows)</a></h2>
+</td></tr></table><hr><blockquote><pre>
+typedef struct TQ3DialogAnchor {
+    HWND                                        ownerWindow;
+} TQ3DialogAnchor;
+</pre>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Windows dialog anchor.
+<br><br>
+Supplied to Q3Renderer_ModalConfigure to pass platform-specific
+dialog state to the renderer.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt>ownerWindow</tt></dt><dd>The parent window of the configure dialog.</dd>
+</dl>
+</blockquote>
 <hr><a name="//Quesa/c/tag/TQ3RendererPassInfo <br><br>"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3RendererPassInfo <br><br>">TQ3RendererPassInfo <br><br></a></h2>
 </td></tr></table><hr>Pass data in the kQ3RendererPropertyPassType property that the
@@ -1348,7 +1348,7 @@ renderer may set on the renderer object.
 
 <blockquote><pre>
 struct TQ3RendererPassInfo {
-    TQ3RendererPassType    passType;
+    TQ3RendererPassType        passType;
     TQ3LightObject _Nullable    light;
 } ;
 </pre>
@@ -1421,6 +1421,7 @@ enum
   kQ3RendererPropertyCartoonLightNearEdge         = Q3_OBJECT_TYPE('p', 'p', 'c', 'e'),
   kQ3RendererPropertyPassType                     = Q3_OBJECT_TYPE('r', 'p', 't', 'y'),
   kQ3RendererPropertyDepthAlphaThreshold          = Q3_OBJECT_TYPE('d', 'p', 'a', 't'),
+  kQ3RendererPropertyAngleAffectsAlpha            = Q3_OBJECT_TYPE('a', 'n', 'a', 'a'),
   kQ3RendererPropertyShadowVBOLimit               = Q3_OBJECT_TYPE('s', 'h', 'v', 'l'),
   kQ3RendererPropertyPrimitivesRenderedCount      = Q3_OBJECT_TYPE('p', 'r', 'n', 'c'),
 };
@@ -1516,6 +1517,14 @@ than the given threshold) update the depth,
 at the expense of a little extra rendering time.
 <br><br>
 Data type: TQ3Float32.  Range: [0, 1].  Default value: 1.0.
+<br><br></dd>
+<dt><a name="//Quesa/c/econst/kQ3RendererPropertyAngleAffectsAlpha"><tt>kQ3RendererPropertyAngleAffectsAlpha</tt></a></dt><dd>If you look through a sheet of tinted glass at an angle, you
+are looking through more of the glass than if your viewing
+direction were perpendicular to the glass surface, so it
+should look more opaque.  When this property is true, the
+OpenGL per-pixel rendering will simulate this effect for
+more realistic rendering of transparent material.
+Data type: TQ3Boolean.  Default value: kQ3True.
 <br><br></dd>
 <dt><a name="//Quesa/c/econst/kQ3RendererPropertyShadowVBOLimit"><tt>kQ3RendererPropertyShadowVBOLimit</tt></a></dt><dd>If you are rendering shadows, and VBOs are available, you
 may choose to cache shadow volumes in VBOs.  This is not
@@ -1858,5 +1867,5 @@ enum {
 <br><br>
 The data for the attribute is a single TQ3CSGObjectID.
  </p>
-<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/2/2019)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 7/16/2019)
 </p></body></html>

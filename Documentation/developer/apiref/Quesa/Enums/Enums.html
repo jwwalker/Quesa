@@ -5,25 +5,6 @@
 	 <meta name="generator" content="HeaderDoc">
 </head><body bgcolor="#ffffff">
 <h1><font face="Geneva,Arial,Helvtica">Enumerations</font></h1><br>
-<hr><a name="//Quesa/c/tag/Miscellaneous"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Miscellaneous">Miscellaneous</a></h2>
-</td></tr></table><hr><blockquote><pre>
-enum {
-    kQ3StringMaximumLength                      = 1024,
-    kQ3ArrayIndexNULL                           = 0xFFFFFFFFU
-};
-</pre>
-</blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>constants
-<br><br>
-</p>
-<h4>Constants</h4>
-<blockquote>
-<dl>
-<dt><a name="//Quesa/c/econst/kQ3StringMaximumLength"><tt>kQ3StringMaximumLength</tt></a></dt><dd>Maximum length of TQ3ObjectClassNameString.</dd>
-<dt><a name="//Quesa/c/econst/kQ3ArrayIndexNULL"><tt>kQ3ArrayIndexNULL</tt></a></dt><dd>NULL array index.</dd>
-</dl>
-</blockquote>
 <hr><a name="//Quesa/c/tag/Object_Types"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Object_Types">Object_Types</a></h2>
 </td></tr></table><hr>Type codes of Quesa object classes.
@@ -71,6 +52,7 @@ enum {
                 kQ3GeometryTypePolyhedron       = Q3_OBJECT_TYPE('p', 'l', 'h', 'd'),
                 kQ3GeometryTypeTorus            = Q3_OBJECT_TYPE('t', 'o', 'r', 's'),
                 kQ3GeometryTypeTriMesh          = Q3_OBJECT_TYPE('t', 'm', 's', 'h'),
+                kQ3GeometryTypeNakedTriMesh     = Q3_OBJECT_TYPE('n', 't', 'm', 's'),
             kQ3ShapeTypeShader                  = Q3_OBJECT_TYPE('s', 'h', 'd', 'r'),
                 kQ3ShaderTypeSurface            = Q3_OBJECT_TYPE('s', 'u', 's', 'h'),
                     kQ3SurfaceShaderTypeTexture = Q3_OBJECT_TYPE('t', 'x', 's', 'u'),
@@ -401,5 +383,5 @@ typedef enum {
 <dt><a name="//Quesa/c/econst/kQ3On"><tt>kQ3On</tt></a></dt><dd>On.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/2/2019)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 7/16/2019)
 </p></body></html>

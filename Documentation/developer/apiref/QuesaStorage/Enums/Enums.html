@@ -5,24 +5,28 @@
 	 <meta name="generator" content="HeaderDoc">
 </head><body bgcolor="#ffffff">
 <h1><font face="Geneva,Arial,Helvtica">Enumerations</font></h1><br>
-<hr><a name="//Quesa/c/tag/TCEUrlOptions"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TCEUrlOptions">TCEUrlOptions</a></h2>
+<hr><a name="//Quesa/c/tag/TQ3StorageOpenness"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3StorageOpenness">TQ3StorageOpenness</a></h2>
 </td></tr></table><hr><blockquote><pre>
-typedef enum {
-    kCEUrlOptionNone                            = 0,
-    kCEUrlOptionUseMap                          = 1,
-    kCEUrlOptionSize32                          = 0xFFFFFFFF
-} TCEUrlOptions;
+typedef enum TQ3StorageOpenness
+{
+  kQ3StorageOpenness_Ignored = 0,
+  kQ3StorageOpenness_Closed,
+  kQ3StorageOpenness_Open
+} TQ3StorageOpenness;
 </pre>
 </blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>URL options.
-<br><br>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Open or closed state of a storage object.  Be aware that some
+types of storage object do not have separate open and closed
+states, so this enumeration has 3 values.
 </p>
 <h4>Constants</h4>
 <blockquote>
 <dl>
-<dt><a name="//Quesa/c/econst/kCEUrlOptionNone"><tt>kCEUrlOptionNone</tt></a></dt><dd>No options set.</dd>
-<dt><a name="//Quesa/c/econst/kCEUrlOptionUseMap"><tt>kCEUrlOptionUseMap</tt></a></dt><dd>Map option set (meaning unknown).</dd>
+<dt><a name="//Quesa/c/econst/kQ3StorageOpenness_Ignored"><tt>kQ3StorageOpenness_Ignored</tt></a></dt><dd>The storage ignores open and close commands, as in for example
+memory storage.</dd>
+<dt><a name="//Quesa/c/econst/kQ3StorageOpenness_Closed"><tt>kQ3StorageOpenness_Closed</tt></a></dt><dd>The storage is currently closed.</dd>
+<dt><a name="//Quesa/c/econst/kQ3StorageOpenness_Open"><tt>kQ3StorageOpenness_Open</tt></a></dt><dd>The storage is currently opened.</dd>
 </dl>
 </blockquote>
 <p><p>&#169; 1999-2012 Quesa Developers (Last Updated 7/16/2019)
