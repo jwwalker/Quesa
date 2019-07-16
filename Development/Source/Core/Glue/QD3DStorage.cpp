@@ -203,6 +203,101 @@ Q3Storage_SetData(TQ3StorageObject storage, TQ3Uns32 offset, TQ3Uns32 dataSize, 
 
 
 
+/*!
+	@function			Q3Storage_Open
+	@abstract			Open a storage for reading or writing of raw data.
+	@discussion			A file storage object must be opened before you get,
+						set, or find the size of its data.  If you are reading
+						or writing object data (e.g., 3DMF or VRML), use a File
+						object attached to the storage and open the File.  But
+						if the storage contains other binary data, such as pixel
+						data, it is more appropriate to open the storage
+						directly.
+						
+						Of course, you should close the storage after you are
+						finished reading or writing its contents.
+						
+						If you open a storage that does not need to be opened,
+						such as a memory storage or file stream storage, then
+						this function will succeed without really doing anything.
+	@param				storage		The storage object.
+	@param				forWriting	True to open for writing, false to open for
+									reading.
+	@result				Success or failure of the operation.
+*/
+TQ3Status
+Q3Storage_Open(
+	TQ3StorageObject              storage,
+	TQ3Boolean                    forWriting )
+{
+	Q3_REQUIRE_OR_RESULT( E3Storage::IsOfMyClass ( storage ), kQ3Failure);
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return ( (E3Storage*) storage )->Open( forWriting );
+}
+
+
+
+/*!
+	@function			Q3Storage_Close
+	@abstract			Close a storage object.
+	@discussion			See Q3Storage_Open for a discussion of opening a storage
+						versus opening a file.
+	@param				storage		The storage object.
+	@result				Success or failure of the operation.
+*/
+TQ3Status
+Q3Storage_Close(
+	TQ3StorageObject              storage )
+{
+	Q3_REQUIRE_OR_RESULT( E3Storage::IsOfMyClass ( storage ), kQ3Failure);
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return ( (E3Storage*) storage )->Close();
+}
+
+
+
+/*!
+	@function			Q3Storage_GetOpenness
+	@abstract			Get the openness state of a storage object.
+	@discussion			Note that a storage object may be opened using
+						Q3Storage_Open or by associating a File object and
+						opening that.
+	@param				inStorage		A storage object.
+	@param				outOpenness		Receives an enumerated value indicating
+										the openness state.
+	@result				Success or failure of the operation.
+*/
+TQ3Status
+Q3Storage_GetOpenness(
+	TQ3StorageObject			inStorage,
+	TQ3StorageOpenness*			outOpenness )
+{
+	Q3_REQUIRE_OR_RESULT( E3Storage::IsOfMyClass ( inStorage ), kQ3Failure );
+	Q3_REQUIRE_OR_RESULT( Q3_VALID_PTR(outOpenness), kQ3Failure );
+	
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+	// Call our implementation
+	return ( (E3Storage*) inStorage )->GetOpenness( outOpenness );
+}
+
 
 
 //=============================================================================
@@ -458,7 +553,29 @@ Q3PathStorage_New(const char *pathName)
 
 
 	// Call our implementation
-	return(E3PathStorage_New(pathName));
+	return (E3PathStorage_New( pathName, kQ3False ));
+}
+#endif
+
+
+
+
+
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+TQ3StorageObject
+Q3PathStorage_New_Owned( const char* pathName )
+{
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(pathName), nullptr);
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+	
+
+
+	// Call our implementation
+	return (E3PathStorage_New( pathName, kQ3True ));
 }
 #endif
 

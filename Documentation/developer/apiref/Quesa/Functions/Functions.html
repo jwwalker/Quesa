@@ -96,6 +96,16 @@ with the specified dimensions.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
+<hr><a name="//Quesa/c/func/Q3CloseLog"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3CloseLog">Q3CloseLog</a></h2>
+</td></tr></table><hr>Close the log file.
+
+<blockquote><pre><tt>( void ) Q3CloseLog (void);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>There is no corresponding function to open the log, because
+any call to Q3LogMessage or internal equivalents will
+automatically reopen the log if needed.
+</p>
 <hr><a name="//Quesa/c/func/Q3Exit"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Exit">Q3Exit</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Exit (void);</tt><br>
@@ -362,7 +372,7 @@ If the object is Shared, this operation will increment the object's edit index.
 <hr><a name="//Quesa/c/func/Q3Object_CleanDispose"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Object_CleanDispose">Q3Object_CleanDispose</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Object_CleanDispose (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object _Nullable * _Nonnull theObject
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object _Nullable * _Nullable theObject
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Cleanly disposes of a Quesa object.
@@ -371,12 +381,13 @@ If theObject is not NULL, invokes Q3Object_Dispose to decrement the object
 reference count then clears the supplied pointer to prevent stale references.
 <br><br>
 Equivalent to:
-<br><br>
-if (theObject != NULL)
+<blockquote><pre><code>
+if ( (theObject != NULL) && (*theObject != NULL) )
 {
-Q3Object_Dispose(theObject);
-theObject = NULL;
+&nbsp;   Q3Object_Dispose( *theObject );
+&nbsp;   *theObject = NULL;
 }
+</code></pre></blockquote>
 <br><br>
 <em>This function is not available in QD3D.</em>
 <br><br>
@@ -384,7 +395,7 @@ theObject = NULL;
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
 <dl>
-<dt><tt><em>theObject</em></tt></dt><dd>The object to dispose (may be NULL).</dd>
+<dt><tt><em>theObject</em></tt></dt><dd>Address of a variable holding an object reference to dispose (may be NULL).</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -897,6 +908,20 @@ e.g., for rendering, picking, or writing to a file.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
+<hr><a name="//Quesa/c/func/Q3SetDebugMode"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3SetDebugMode">Q3SetDebugMode</a></h2>
+</td></tr></table><hr>Set a flag to enable extra debug logging.
+
+<blockquote><pre><tt>( void ) Q3SetDebugMode (
+&nbsp;&nbsp;&nbsp;&nbsp;int inMode
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>inMode</em></tt></dt><dd>Debug mode.  Currently 1 for on, 0 for normal level, -1 for no logging.</dd>
+</dl>
+</blockquote>
 <hr><a name="//Quesa/c/func/Q3Shape_AddElement"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Shape_AddElement">Q3Shape_AddElement</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Shape_AddElement (
@@ -1339,5 +1364,5 @@ using Q3Shared_GetEditIndex and Q3Shared_SetEditIndex.
 <dt><tt><em>sharedObject</em></tt></dt><dd>The object to stop watching.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/2/2019)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 7/16/2019)
 </p></body></html>

@@ -314,6 +314,7 @@ extern "C" {
 #define kQ3XMethodTypeStorageSetSize				Q3_METHOD_TYPE('Q', 'S', 's', 'z')
 #define kQ3XMethodTypeStorageOpen					Q3_METHOD_TYPE('Q', 'O', 'p', 'n')
 #define kQ3XMethodTypeStorageClose					Q3_METHOD_TYPE('Q', 'C', 'l', 's')
+#define kQ3XMethodTypeStorageGetOpenness			Q3_METHOD_TYPE('Q', 's', 'g', 'o')
 
 
 // 3DMF object types
@@ -403,6 +404,8 @@ typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XStorageGetSizeMethod)(TQ3StorageObject 
 typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XStorageSetSizeMethod)(TQ3StorageObject storage, TQ3Uns32 size);
 typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XStorageOpenMethod)(TQ3StorageObject storage, TQ3Boolean forWriting);
 typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XStorageCloseMethod)(TQ3StorageObject storage);
+typedef Q3_CALLBACK_API_C(TQ3Status, TQ3XStorageGetOpennessMethod)(TQ3StorageObject storage,
+																	TQ3StorageOpenness* outOpenness );
 
 
 // Definition of TQ3Object

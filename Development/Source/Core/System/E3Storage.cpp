@@ -48,6 +48,11 @@
 
 #include <stdio.h>
 
+#ifdef _MSC_VER
+	#define		unlink	_unlink
+#else
+	#include <unistd.h>
+#endif
 
 
 
@@ -426,18 +431,18 @@ e3storage_memory_metahandler(TQ3XMethodType methodType)
 static TQ3Status
 e3storage_path_new(TQ3Object theObject, void *privateData, const void *paramData)
 {	TQ3PathStorageData		*instanceData = (TQ3PathStorageData *) privateData;
-	const char				*thePath      = (const char *) paramData;
-	TQ3Uns32				pathLen;
-
+	const TQ3PathStorageData* initData = (const TQ3PathStorageData*) paramData;
 
 
 	// Initialise our instance data
-	pathLen = static_cast<TQ3Uns32>(strlen(thePath));
+	TQ3Uns32 pathLen = static_cast<TQ3Uns32>(strlen(initData->thePath));
 	instanceData->thePath = (char *) Q3Memory_Allocate(pathLen + 1);
 	if (instanceData->thePath == nullptr)
 		return(kQ3Failure);
 
-	strcpy(instanceData->thePath, thePath);
+	strcpy(instanceData->thePath, initData->thePath);
+	
+	instanceData->ownerCount = initData->ownerCount;
 	
 	return(kQ3Success);
 }
@@ -460,6 +465,23 @@ e3storage_path_delete(TQ3Object storage, void *privateData)
 	if (instanceData->theFile != nullptr)
 		E3ErrorManager_PostError(kQ3ErrorFileIsOpen, kQ3False);
 
+
+	// If this is an owned path, reduce the owner count
+	if (instanceData->ownerCount != nullptr)
+	{
+		*instanceData->ownerCount -= 1;
+		
+		// If no more owners, file goes away
+		if ( *instanceData->ownerCount == 0 )
+		{
+			if (instanceData->thePath != nullptr)
+			{
+				unlink( instanceData->thePath );
+			}
+			
+			delete instanceData->ownerCount;
+		}
+	}
 
 
 	// Dispose of our instance data
@@ -498,6 +520,50 @@ e3storage_path_open ( E3PathStorage* storage, TQ3Boolean forWriting )
 
 
 
+
+//=============================================================================
+//      e3storage_path_duplicate : Path storage duplicate method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3storage_path_duplicate(	TQ3Object fromObject, const void *fromPrivateData,
+							TQ3Object toObject,   void       *toPrivateData)
+{
+	TQ3Status	theStatus = kQ3Success;
+	const TQ3PathStorageData* fromInstanceData =
+		(const TQ3PathStorageData *) fromPrivateData;
+	TQ3PathStorageData* toInstanceData = (TQ3PathStorageData *) toPrivateData;
+	
+	toInstanceData->theFile = nullptr;
+
+	// Make sure the file isn't open
+	if ( fromInstanceData->theFile != nullptr )
+	{
+		E3ErrorManager_PostError( kQ3ErrorFileIsOpen, kQ3False ) ;
+		return kQ3Failure ;
+	}
+	
+	// Copy the path
+	TQ3Uns32 pathLen = static_cast<TQ3Uns32>(strlen(fromInstanceData->thePath));
+	toInstanceData->thePath = (char *) Q3Memory_Allocate(pathLen + 1);
+	if (toInstanceData->thePath == nullptr)
+		return(kQ3Failure);
+
+	strcpy(toInstanceData->thePath, fromInstanceData->thePath);
+	
+	// Handle owner count
+	if (fromInstanceData->ownerCount != nullptr)
+	{
+		toInstanceData->ownerCount = fromInstanceData->ownerCount;
+		*toInstanceData->ownerCount += 1;
+	}
+	
+	return theStatus;
+}
+
+
+
+
+
 //=============================================================================
 //      e3storage_path_close : Close the storage object.
 //-----------------------------------------------------------------------------
@@ -520,6 +586,25 @@ e3storage_path_close ( E3PathStorage* storage )
 	return kQ3Success ;
 	}
 
+
+
+
+//=============================================================================
+//      e3storage_path_getopenness : Check openness of the storage object.
+//-----------------------------------------------------------------------------
+TQ3Status
+e3storage_path_getopenness( E3PathStorage* storage, TQ3StorageOpenness* outOpenness )
+{
+	if ( storage->pathDetails.theFile == nullptr )
+	{
+		*outOpenness = kQ3StorageOpenness_Closed;
+	}
+	else
+	{
+		*outOpenness = kQ3StorageOpenness_Open;
+	}
+	return kQ3Success;
+}
 
 
 
@@ -657,12 +742,20 @@ e3storage_path_metahandler(TQ3XMethodType methodType)
 			theMethod = (TQ3XFunctionPointer) e3storage_path_delete;
 			break;
 
+		case kQ3XMethodTypeObjectDuplicate:
+			theMethod = (TQ3XFunctionPointer) e3storage_path_duplicate;
+			break;
+
 		case kQ3XMethodTypeStorageOpen:
 			theMethod = (TQ3XFunctionPointer) e3storage_path_open;
 			break;
 
 		case kQ3XMethodTypeStorageClose:
 			theMethod = (TQ3XFunctionPointer) e3storage_path_close;
+			break;
+
+		case kQ3XMethodTypeStorageGetOpenness:
+			theMethod = (TQ3XFunctionPointer) e3storage_path_getopenness;
 			break;
 
 		case kQ3XMethodTypeStorageGetSize:
@@ -1036,6 +1129,73 @@ E3Storage::SetData ( TQ3Uns32 offset, TQ3Uns32 dataSize, const unsigned char* da
 
 
 //=============================================================================
+//      E3Storage::Open : Open a storage object without aid of a File.
+//-----------------------------------------------------------------------------
+TQ3Status	E3Storage::Open( TQ3Boolean forWriting )
+{
+	TQ3Status status = kQ3Success;
+	
+	TQ3XStorageOpenMethod openMethod = (TQ3XStorageOpenMethod)
+		GetMethod( kQ3XMethodTypeStorageOpen );
+	
+	if (openMethod != nullptr)
+	{
+		status = (*openMethod)( this, forWriting );
+	}
+	
+	return status;
+}
+
+
+
+
+
+//=============================================================================
+//      E3Storage::Close : Close a storage object without aid of a File.
+//-----------------------------------------------------------------------------
+TQ3Status	E3Storage::Close()
+{
+	TQ3Status status = kQ3Success;
+	
+	TQ3XStorageCloseMethod closeMethod = (TQ3XStorageCloseMethod)
+		GetMethod( kQ3XMethodTypeStorageClose );
+	
+	if (closeMethod != nullptr)
+	{
+		status = (*closeMethod)( this );
+	}
+	
+	return status;
+}
+
+
+
+
+
+//=============================================================================
+//      E3Storage::GetOpenness : Test openness of a storage object.
+//-----------------------------------------------------------------------------
+TQ3Status	E3Storage::GetOpenness( TQ3StorageOpenness* outOpenness )
+{
+	TQ3Status status = kQ3Success;
+	*outOpenness = kQ3StorageOpenness_Ignored;
+	
+	TQ3XStorageGetOpennessMethod opennessMethod = (TQ3XStorageGetOpennessMethod)
+		GetMethod( kQ3XMethodTypeStorageGetOpenness );
+	
+	if (opennessMethod != nullptr)
+	{
+		status = (*opennessMethod)( this, outOpenness );
+	}
+	
+	return status;
+}
+
+
+
+
+
+//=============================================================================
 //      E3MemoryStorage_GetType : Return the type of a memory storage object.
 //-----------------------------------------------------------------------------
 #pragma mark -
@@ -1259,10 +1419,23 @@ E3MemoryStorage::GetBuffer ( unsigned char **buffer, TQ3Uns32 *validSize, TQ3Uns
 //      E3PathStorage_New : Create a path storage object.
 //-----------------------------------------------------------------------------
 TQ3StorageObject
-E3PathStorage_New(const char *pathName)
+E3PathStorage_New(const char *pathName, TQ3Boolean owned)
 	{
+	TQ3PathStorageData data;
+	data.theFile = nullptr;
+	data.thePath = (char *) pathName;
+	if (owned)
+	{
+		data.ownerCount = new TQ3Uns32;
+		*data.ownerCount = 1;
+	}
+	else
+	{
+		data.ownerCount = nullptr;
+	}
+	
 	// Create the object
-	return E3ClassTree::CreateInstance ( kQ3StorageTypePath, kQ3False, pathName ) ;
+	return E3ClassTree::CreateInstance ( kQ3StorageTypePath, kQ3False, &data ) ;
 	}
 
 
@@ -1284,17 +1457,30 @@ E3PathStorage:: Set( const char *pathName )
 
 
 	// Clean up the instance data
-	if ( pathDetails.thePath != nullptr )
-		Q3Memory_Free( & pathDetails.thePath ) ;
 
 	if ( pathDetails.theFile != nullptr )
 		fclose ( pathDetails.theFile ) ;
 
+	if (pathDetails.ownerCount != nullptr)
+	{
+		*pathDetails.ownerCount -= 1;
+		
+		if (*pathDetails.ownerCount == 0)
+		{
+			unlink( pathDetails.thePath );
+			
+			delete pathDetails.ownerCount;
+		}
+	}
+	
+	if ( pathDetails.thePath != nullptr )
+		Q3Memory_Free( & pathDetails.thePath ) ;
 
 
 	// Update the instance data
 	pathDetails.thePath = newPath ;
 	pathDetails.theFile = nullptr ;
+	pathDetails.ownerCount = nullptr;
 
 	return kQ3Success ;	
 	}

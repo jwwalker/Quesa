@@ -81,7 +81,7 @@ Available in inline form as Q3FastBoundingBox_Set.
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3BoundingBox_SetFromPoints3D">Q3BoundingBox_SetFromPoints3D</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3BoundingBox * _Nonnull ) Q3BoundingBox_SetFromPoints3D (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3BoundingBox * _Nonnull bBox,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D * _Nonnull points3D,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D * _Nullable points3D,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 numPoints,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 structSize
 );</tt><br>
@@ -93,7 +93,7 @@ Available in inline form as Q3FastBoundingBox_Set.
 <blockquote>
 <dl>
 <dt><tt><em>bBox</em></tt></dt><dd>Address of bounding box to set.</dd>
-<dt><tt><em>points3D</em></tt></dt><dd>Array of 3D points.</dd>
+<dt><tt><em>points3D</em></tt></dt><dd>Array of 3D points.  Should not be NULL unless numPoints == 0.</dd>
 <dt><tt><em>numPoints</em></tt></dt><dd>How many points are in the array.</dd>
 <dt><tt><em>structSize</em></tt></dt><dd>Size of each array element, typically sizeof(TQ3Point3D).</dd>
 </dl>
@@ -1748,9 +1748,9 @@ Available in inline form as Q3FastPoint3D_Subtract.
 <hr><a name="//Quesa/c/func/Q3Point3D_To3DTransformArray"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Point3D_To3DTransformArray">Q3Point3D_To3DTransformArray</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Point3D_To3DTransformArray (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D * _Nonnull inPoints3D,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D * _Nullable inPoints3D,
 &nbsp;&nbsp;&nbsp;&nbsp;const TQ3Matrix4x4 * _Nonnull matrix4x4,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point3D * _Nonnull outPoints3D,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point3D * _Nullable outPoints3D,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 numPoints,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 inStructSize,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 outStructSize
@@ -1765,7 +1765,7 @@ alternative to calling Q3Point3D_Transform repeatedly.
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
 <dl>
-<dt><tt><em>inPoints3D</em></tt></dt><dd>Array of 3D points to transform.</dd>
+<dt><tt><em>inPoints3D</em></tt></dt><dd>Array of 3D points to transform.  Must not be NULL unless numPoints == 0.</dd>
 <dt><tt><em>matrix4x4</em></tt></dt><dd>Transformation matrix.</dd>
 <dt><tt><em>outPoints3D</em></tt></dt><dd>Array of points to receive output (may be the same as inPoints3D).</dd>
 <dt><tt><em>numPoints</em></tt></dt><dd>How many points are in each array.</dd>
@@ -2964,12 +2964,12 @@ The u and v members of hitPoint can be used to express the point of
 intersection in terms of the vertices of the triangles, using
 barycentric coordinates, as follows:
 <br><br>
-<pre>
+<blockquote><pre><code>
 t = (1.0f - hitPoint.u - hitPoint.v);
 x = (point1.x * t) + (point2.x * hitPoint.u) + (point3.x * hitPoint.v);
 y = (point1.y * t) + (point2.y * hitPoint.u) + (point3.y * hitPoint.v);
 z = (point1.z * t) + (point2.z * hitPoint.u) + (point3.z * hitPoint.v);
-</pre>
+</code></pre></blockquote>
 <br><br>
 The w component of hitPoint describes the point of intersection in
 terms of the ray, as origin + hitPoint.w * direction.
@@ -3821,5 +3821,5 @@ Note that for correct results, the quaternion should be normalized.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Convenience copy of result parameter.
  </dd></dl>
-<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/2/2019)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 7/16/2019)
 </p></body></html>

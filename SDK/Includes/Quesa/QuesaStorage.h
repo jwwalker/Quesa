@@ -92,6 +92,34 @@ extern "C" {
 
 
 //=============================================================================
+//      Constants
+//-----------------------------------------------------------------------------
+
+/*!
+	@enum		TQ3StorageOpenness
+	@discussion	Open or closed state of a storage object.  Be aware that some
+				types of storage object do not have separate open and closed
+				states, so this enumeration has 3 values.
+	@constant	kQ3StorageOpenness_Ignored
+				The storage ignores open and close commands, as in for example
+				memory storage.
+	@constant	kQ3StorageOpenness_Closed
+				The storage is currently closed.
+	@constant	kQ3StorageOpenness_Open
+				The storage is currently opened.
+*/
+typedef enum TQ3StorageOpenness
+{
+	kQ3StorageOpenness_Ignored = 0,
+	kQ3StorageOpenness_Closed,
+	kQ3StorageOpenness_Open
+} TQ3StorageOpenness;
+
+
+
+
+
+//=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
 /*!
@@ -189,6 +217,67 @@ Q3Storage_SetData (
     const unsigned char           * _Nonnull data,
     TQ3Uns32                      * _Nonnull sizeWritten
 );
+
+
+
+/*!
+	@function			Q3Storage_Open
+	@abstract			Open a storage for reading or writing of raw data.
+	@discussion			A file storage object must be opened before you get,
+						set, or find the size of its data.  If you are reading
+						or writing object data (e.g., 3DMF or VRML), use a File
+						object attached to the storage and open the File.  But
+						if the storage contains other binary data, such as pixel
+						data, it is more appropriate to open the storage
+						directly.
+						
+						Of course, you should close the storage after you are
+						finished reading or writing its contents.
+						
+						If you open a storage that does not need to be opened,
+						such as a memory storage or file stream storage, then
+						this function will succeed without really doing anything.
+	@param				storage		The storage object.
+	@param				forWriting	True to open for writing, false to open for
+									reading.
+	@result				Success or failure of the operation.
+*/
+Q3_EXTERN_API_C ( TQ3Status )
+Q3Storage_Open(
+	TQ3StorageObject _Nonnull             storage,
+	TQ3Boolean                    forWriting );
+
+
+
+/*!
+	@function			Q3Storage_Close
+	@abstract			Close a storage object.
+	@discussion			See Q3Storage_Open for a discussion of opening a storage
+						versus opening a file.
+	@param				storage		The storage object.
+	@result				Success or failure of the operation.
+*/
+Q3_EXTERN_API_C ( TQ3Status )
+Q3Storage_Close(
+	TQ3StorageObject _Nonnull             storage );
+
+
+
+/*!
+	@function			Q3Storage_GetOpenness
+	@abstract			Get the openness state of a storage object.
+	@discussion			Note that a storage object may be opened using
+						Q3Storage_Open or by associating a File object and
+						opening that.
+	@param				inStorage		A storage object.
+	@param				outOpenness		Receives an enumerated value indicating
+										the openness state.
+	@result				Success or failure of the operation.
+*/
+Q3_EXTERN_API_C ( TQ3Status )
+Q3Storage_GetOpenness(
+	TQ3StorageObject _Nonnull			inStorage,
+	TQ3StorageOpenness*	_Nonnull		outOpenness );
 
 
 /*!
@@ -403,6 +492,37 @@ Q3MemoryStorage_GetBuffer (
 
 Q3_EXTERN_API_C ( TQ3StorageObject _Nonnull )
 Q3PathStorage_New (
+    const char                    * _Nonnull pathName
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+
+/*!
+ *  @function
+ *      Q3PathStorage_New_Owned
+ *  @discussion
+ *  	Creates a storage object of type kQ3StorageTypePath that
+ *  	will delete the associated file when the object is deleted.
+ *  
+ *  	This function is like Q3PathStorage_New, except that if you
+ *  	create a path storage with this function, it "owns" the file.
+ *  	That is, when the storage is deleted (i.e., the last
+ *  	reference is disposed), the file will be unlinked.
+ *  	
+ *  	If you duplicate an owned path storage, then the file will
+ *  	be unlinked when the last storage that owns it is deleted.
+ *  	
+ *  	<em>This function is not available in QD3D.</em>
+ *
+ *  @param pathName         A NUL-terminated pathname, as might be passed to fopen.
+ *  @result                 The new storage object.
+ */
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+Q3_EXTERN_API_C ( TQ3StorageObject _Nonnull )
+Q3PathStorage_New_Owned (
     const char                    * _Nonnull pathName
 );
 

@@ -80,6 +80,7 @@ typedef struct TE3_MemoryStorageData {
 typedef struct TQ3PathStorageData {
 	char		*thePath;
 	FILE		*theFile;
+	TQ3Uns32*	ownerCount;
 } TQ3PathStorageData;
 
 
@@ -120,6 +121,9 @@ public :
 	TQ3Status						GetData ( TQ3Uns32 offset, TQ3Uns32 dataSize, unsigned char* data, TQ3Uns32* sizeRead ) ;
 	TQ3Status						SetData ( TQ3Uns32 offset, TQ3Uns32 dataSize, const unsigned char* data, TQ3Uns32* sizeWritten ) ;
 	
+	TQ3Status						Open( TQ3Boolean forWriting );
+	TQ3Status						Close();
+	TQ3Status						GetOpenness( TQ3StorageOpenness* outOpenness ); 
 	} ;
 
 
@@ -160,6 +164,8 @@ public :
 	friend TQ3Status			e3storage_path_getsize ( E3PathStorage* storage, TQ3Uns32 *size ) ;
 	friend TQ3Status			e3storage_path_read ( E3PathStorage* storage, TQ3Uns32 offset, TQ3Uns32 dataSize, unsigned char *data, TQ3Uns32 *sizeRead ) ;
 	friend TQ3Status			e3storage_path_write ( E3PathStorage* storage, TQ3Uns32 offset, TQ3Uns32 dataSize, const unsigned char *data, TQ3Uns32 *sizeWritten ) ;
+	friend TQ3Status			e3storage_path_getopenness( E3PathStorage* storage,
+									TQ3StorageOpenness* outOpenness );
 	} ;
 
 
@@ -191,7 +197,7 @@ TQ3ObjectType		E3MemoryStorage_GetType(TQ3StorageObject storage);
 TQ3StorageObject	E3MemoryStorage_New(const unsigned char *buffer, TQ3Uns32 validSize);
 TQ3StorageObject	E3MemoryStorage_NewNoCopy(unsigned char *buffer, TQ3Uns32 validSize, TQ3Uns32 bufferSize);
 TQ3StorageObject	E3MemoryStorage_NewBuffer(unsigned char *buffer, TQ3Uns32 validSize, TQ3Uns32 bufferSize);
-TQ3StorageObject	E3PathStorage_New(const char *pathName);
+TQ3StorageObject	E3PathStorage_New(const char *pathName, TQ3Boolean owned);
 TQ3StorageObject	E3FileStreamStorage_New(FILE *stream);
 
 

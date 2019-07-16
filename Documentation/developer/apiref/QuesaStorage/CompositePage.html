@@ -318,6 +318,34 @@ create it.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>The new storage object.
  </dd></dl>
+<hr><a name="//Quesa/c/func/Q3PathStorage_New_Owned"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PathStorage_New_Owned">Q3PathStorage_New_Owned</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3StorageObject _Nonnull ) Q3PathStorage_New_Owned (
+&nbsp;&nbsp;&nbsp;&nbsp;const char * _Nonnull pathName
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Creates a storage object of type kQ3StorageTypePath that
+will delete the associated file when the object is deleted.
+<br><br>
+This function is like Q3PathStorage_New, except that if you
+create a path storage with this function, it "owns" the file.
+That is, when the storage is deleted (i.e., the last
+reference is disposed), the file will be unlinked.
+<br><br>
+If you duplicate an owned path storage, then the file will
+be unlinked when the last storage that owns it is deleted.
+<br><br>
+<em>This function is not available in QD3D.</em>
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>pathName</em></tt></dt><dd>A NUL-terminated pathname, as might be passed to fopen.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>The new storage object.
+ </dd></dl>
 <hr><a name="//Quesa/c/func/Q3PathStorage_Set"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PathStorage_Set">Q3PathStorage_Set</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3PathStorage_Set (
@@ -339,6 +367,25 @@ create it.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Storage_Close"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Storage_Close">Q3Storage_Close</a></h2>
+</td></tr></table><hr>Close a storage object.
+
+<blockquote><pre><tt>( TQ3Status ) Q3Storage_Close (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject _Nonnull storage
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>See Q3Storage_Open for a discussion of opening a storage
+versus opening a file.
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>storage</em></tt></dt><dd>The storage object.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+</dd></dl>
 <hr><a name="//Quesa/c/func/Q3Storage_GetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Storage_GetData">Q3Storage_GetData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Storage_GetData (
@@ -368,6 +415,29 @@ the file must be open.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Storage_GetOpenness"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Storage_GetOpenness">Q3Storage_GetOpenness</a></h2>
+</td></tr></table><hr>Get the openness state of a storage object.
+
+<blockquote><pre><tt>( TQ3Status ) Q3Storage_GetOpenness (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject _Nonnull inStorage,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageOpenness* _Nonnull outOpenness
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Note that a storage object may be opened using
+Q3Storage_Open or by associating a File object and
+opening that.
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>inStorage</em></tt></dt><dd>A storage object.</dd>
+<dt><tt><em>outOpenness</em></tt></dt><dd>Receives an enumerated value indicating
+the openness state.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+</dd></dl>
 <hr><a name="//Quesa/c/func/Q3Storage_GetSize"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Storage_GetSize">Q3Storage_GetSize</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Storage_GetSize (
@@ -411,6 +481,40 @@ or kQ3StorageTypeWin32, provided that the object is a storage object.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>The type of storage, or kQ3ObjectTypeInvalid.
  </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Storage_Open"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Storage_Open">Q3Storage_Open</a></h2>
+</td></tr></table><hr>Open a storage for reading or writing of raw data.
+
+<blockquote><pre><tt>( TQ3Status ) Q3Storage_Open (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject _Nonnull storage,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Boolean forWriting
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>A file storage object must be opened before you get,
+set, or find the size of its data.  If you are reading
+or writing object data (e.g., 3DMF or VRML), use a File
+object attached to the storage and open the File.  But
+if the storage contains other binary data, such as pixel
+data, it is more appropriate to open the storage
+directly.
+<br><br>
+Of course, you should close the storage after you are
+finished reading or writing its contents.
+<br><br>
+If you open a storage that does not need to be opened,
+such as a memory storage or file stream storage, then
+this function will succeed without really doing anything.
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>storage</em></tt></dt><dd>The storage object.</dd>
+<dt><tt><em>forWriting</em></tt></dt><dd>True to open for writing, false to open for
+reading.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+</dd></dl>
 <hr><a name="//Quesa/c/func/Q3Storage_SetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Storage_SetData">Q3Storage_SetData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Storage_SetData (
@@ -499,5 +603,30 @@ object, and it is your responsibility to close the file later.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
-<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/2/2019)
+<h2>Enumerations</h2>
+<hr><a name="//Quesa/c/tag/TQ3StorageOpenness"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3StorageOpenness">TQ3StorageOpenness</a></h2>
+</td></tr></table><hr><blockquote><pre>
+typedef enum TQ3StorageOpenness
+{
+  kQ3StorageOpenness_Ignored = 0,
+  kQ3StorageOpenness_Closed,
+  kQ3StorageOpenness_Open
+} TQ3StorageOpenness;
+</pre>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Open or closed state of a storage object.  Be aware that some
+types of storage object do not have separate open and closed
+states, so this enumeration has 3 values.
+</p>
+<h4>Constants</h4>
+<blockquote>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3StorageOpenness_Ignored"><tt>kQ3StorageOpenness_Ignored</tt></a></dt><dd>The storage ignores open and close commands, as in for example
+memory storage.</dd>
+<dt><a name="//Quesa/c/econst/kQ3StorageOpenness_Closed"><tt>kQ3StorageOpenness_Closed</tt></a></dt><dd>The storage is currently closed.</dd>
+<dt><a name="//Quesa/c/econst/kQ3StorageOpenness_Open"><tt>kQ3StorageOpenness_Open</tt></a></dt><dd>The storage is currently opened.</dd>
+</dl>
+</blockquote>
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 7/16/2019)
 </p></body></html>

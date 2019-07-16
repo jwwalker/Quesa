@@ -491,7 +491,9 @@ This function is only available on platforms that support QuickTime.
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3LambertIllumination_New">Q3LambertIllumination_New</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3ShaderObject _Nonnull ) Q3LambertIllumination_New (void);</tt><br>
 </pre></blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a Lambert illumination shader.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a Lambert illumination shader.  This kind of illumination
+produces no specular highlights, but handles diffuse color the same
+as Phong illumination.
 <br><br>
 </p>
 <dl><dt><i>function result</i></dt><dd>The new illumination shader.
@@ -558,7 +560,9 @@ caller must release their reference when done.
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3NULLIllumination_New">Q3NULLIllumination_New</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3ShaderObject _Nonnull ) Q3NULLIllumination_New (void);</tt><br>
 </pre></blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a NULL illumination shader.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a NULL illumination shader.  This kind of illumination does not
+use lighting at all, it just uses each object's intrinsic diffuse and
+emissive color.
 <br><br>
 </p>
 <dl><dt><i>function result</i></dt><dd>The new illumination shader.
@@ -567,7 +571,10 @@ caller must release their reference when done.
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PhongIllumination_New">Q3PhongIllumination_New</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3ShaderObject _Nonnull ) Q3PhongIllumination_New (void);</tt><br>
 </pre></blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a Phong illumination shader.
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a Phong illumination shader.  This is the most commonly used
+kind of illumination.  It takes the direction of the light relative
+to the geometry into account when computing diffuse and specular
+color.
 <br><br>
 </p>
 <dl><dt><i>function result</i></dt><dd>The new illumination shader.
@@ -966,5 +973,5 @@ the threshold is considered completely transparent.
 Data type: TQ3Float32.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 6/2/2019)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 7/16/2019)
 </p></body></html>
