@@ -1,11 +1,11 @@
 /*  NAME:
-        GLUtils.c
+        GLUtils.cpp
 
     DESCRIPTION:
         Quesa OpenGL utility functions.
 
     COPYRIGHT:
-        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -44,6 +44,7 @@
 //      Include files
 //-----------------------------------------------------------------------------
 #include "GLPrefix.h"
+#include "E3Prefix.h"
 #include "GLUtils.h"
 #include "E3Debug.h"
 #include "QuesaMemory.h"
@@ -237,7 +238,7 @@ GLUtils_ConvertPixelType(TQ3PixelType pixelType)
 			break;
 
 		case kQ3PixelTypeRGB16_565:
-			glPixelType = GL_R3_G3_B2;
+			glPixelType = GL_RGB8;
 			break;
 
 		default:
@@ -417,6 +418,13 @@ GLUtils_CheckExtensions( TQ3GLExtensions* featureFlags )
 			featureFlags->packedDepthStencil = kQ3True;
 		}
 		
+		if ( (glVersion >= 0x0200) ||
+			isOpenGLExtensionPresent( openGLExtensions, "GL_ARB_texture_non_power_of_two") )
+		{
+			featureFlags->NPOTTexture = kQ3True;
+		}
+		
+		
 		GLint	sampleBuffers = 0;
 		glGetIntegerv( GL_SAMPLE_BUFFERS_ARB, &sampleBuffers );
 		featureFlags->multiSample = (sampleBuffers > 0)? kQ3True : kQ3False;
@@ -427,6 +435,12 @@ GLUtils_CheckExtensions( TQ3GLExtensions* featureFlags )
 		// Depth of stencil buffer of current context
 		featureFlags->stencilBits = 0;
 		glGetIntegerv( GL_STENCIL_BITS, &featureFlags->stencilBits );
+		
+		if ( (openGLVendor == strstr( openGLVendor, "ATI" )) ||
+			(openGLVendor == strstr( openGLVendor, "AMD" )) )
+		{
+			featureFlags->ATICard = kQ3True;
+		}
 	}
 }
 
@@ -527,6 +541,54 @@ void		GLUtils_ValidateElements( TQ3Uns32 inNumPoints, TQ3Uns32 inNumIndices,
 	{
 		Q3_ASSERT( inIndices[i] < inNumPoints );
 	}
+}
+
+
+
+
+//=============================================================================
+//		GLUtils_GLErrorToString
+//-----------------------------------------------------------------------------
+// For debug logging, turn an OpenGL error code into a string.
+const char* GLUtils_GLErrorToString( GLenum inGLError )
+{
+	const char* result = nullptr;
+	switch (inGLError)
+	{
+		case GL_INVALID_ENUM:
+			result = "GL_INVALID_ENUM";
+			break;
+			
+		case GL_INVALID_VALUE:
+			result = "GL_INVALID_VALUE";
+			break;
+			
+		case GL_INVALID_OPERATION:
+			result = "GL_INVALID_OPERATION";
+			break;
+			
+		case GL_STACK_OVERFLOW:
+			result = "GL_STACK_OVERFLOW";
+			break;
+			
+		case GL_STACK_UNDERFLOW:
+			result = "GL_STACK_UNDERFLOW";
+			break;
+			
+		case GL_OUT_OF_MEMORY:
+			result = "GL_OUT_OF_MEMORY";
+			break;
+		
+		default:
+			{
+				static char sMsg[200];
+				snprintf( sMsg, sizeof(sMsg), "GL error %X", (unsigned int)inGLError );
+				result = sMsg;
+			}
+			break;
+	}
+	
+	return result;
 }
 
 

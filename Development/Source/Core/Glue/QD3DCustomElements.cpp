@@ -1,12 +1,12 @@
 /*  NAME:
-        QD3DCustomElements.c
+        QD3DCustomElements.cpp
 
     DESCRIPTION:
         Entry point for Quesa API calls. Performs parameter checking and
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -580,3 +580,55 @@ CESpecularMapElement_Set( TQ3ShaderObject ioShader, TQ3TextureObject inTexture )
 	E3SpecularMapElement_Set( ioShader, inTexture );
 }
 
+#pragma mark -
+
+/*!
+	@function	CETextureFlippedRowsElement_Add
+	@abstract	Mark a texture as having image data with rows in the opposite
+				of the usual order, for better compatibility with OpenGL.
+	@param		inTexture	A texture object.
+*/
+void
+CETextureFlippedRowsElement_Add( TQ3TextureObject inTexture )
+{
+	Q3_REQUIRE(Q3_VALID_PTR(inTexture));
+	Q3_REQUIRE( inTexture->IsObjectValid () );
+	
+	E3System_Bottleneck();
+	
+	E3TextureFlippedRowsElement_Add( inTexture );
+}
+
+/*!
+	@function	CETextureFlippedRowsElement_IsPresent
+	@abstract	Test whether a texture has been marked as having flipped rows.
+	@param		inTexture	A texture object.
+	@result		True if the rows are flipped.
+*/
+TQ3Boolean
+CETextureFlippedRowsElement_IsPresent( TQ3TextureObject inTexture )
+{
+	Q3_REQUIRE_OR_RESULT( Q3_VALID_PTR(inTexture), kQ3False );
+	Q3_REQUIRE_OR_RESULT( inTexture->IsObjectValid(), kQ3False );
+	
+	E3System_Bottleneck();
+	
+	return E3TextureFlippedRowsElement_IsPresent( inTexture );
+}
+
+
+/*!
+	@function	CETextureFlippedRowsElement_Remove
+	@abstract	Remove a flipped-rows mark from a texture.
+	@param		inTexture	A texture object.
+*/
+void
+CETextureFlippedRowsElement_Remove( TQ3TextureObject inTexture )
+{
+	Q3_REQUIRE(Q3_VALID_PTR(inTexture));
+	Q3_REQUIRE( inTexture->IsObjectValid () );
+	
+	E3System_Bottleneck();
+	
+	E3TextureFlippedRowsElement_Remove( inTexture );
+}

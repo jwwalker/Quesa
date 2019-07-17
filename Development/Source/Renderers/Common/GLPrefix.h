@@ -5,7 +5,7 @@
         Global prefix file for OpenGL.
 
     COPYRIGHT:
-        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -55,8 +55,10 @@
 	#if QUESA_UH_IN_FRAMEWORKS
 		#include <OpenGL/gl.h>
 		#include <OpenGL/glu.h>
-		#include <AGL/agl.h>
-		#include <AGL/aglRenderers.h>
+		#if QUESA_SUPPORT_HITOOLBOX
+			#include <AGL/agl.h>
+			#include <AGL/aglRenderers.h>
+		#endif
 	#else
 		#include <gl.h>
 		#include <glu.h>
@@ -114,6 +116,8 @@ struct TQ3GLExtensions
 	TQ3Boolean				packedDepthStencil;		// GL_EXT_packed_depth_stencil
 	TQ3Boolean				multiSample;			// GL_SAMPLE_BUFFERS_ARB > 0
 	TQ3Boolean				multisampleFBO;			// GL 3.0 or GL_EXT_framebuffer_multisample
+	TQ3Boolean				NPOTTexture;			// GL_ARB_texture_non_power_of_two or GL 2.0
+	TQ3Boolean				ATICard;				// vendor starts with ATI or AMD
 	
 	GLint					maxLights;				// GL_MAX_LIGHTS
 	GLint					stencilBits;			// GL_STENCIL_BITS

@@ -5,7 +5,7 @@
         Header file for GLUtils.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2011, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -106,6 +106,10 @@ GLfloat		GLUtils_SpecularControlToGLShininess( float inSpecControl );
 // less than the number of points.
 void		GLUtils_ValidateElements( TQ3Uns32 inNumPoints, TQ3Uns32 inNumIndices,
 									const TQ3Uns32* inIndices );
+
+
+// For debug logging, turn an OpenGL error code into a string.
+const char* GLUtils_GLErrorToString( GLenum inGLError );
 
 
 //=============================================================================

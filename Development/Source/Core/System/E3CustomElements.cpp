@@ -165,6 +165,7 @@ public :
 #define kQ3ClassNameCustomElementBeforePick		"Quesa:BeforePickCallback"
 #define kQ3ClassNameCustomElementAfterPick		"Quesa:AfterPickCallback"
 #define kQ3ClassNameCustomElementAlphaTest		"Quesa:AlphaTestElement"
+#define kQ3ClassNameCustomElementFlipRows		"Quesa:FlipRowsElement"
 
 
 
@@ -174,6 +175,7 @@ public :
 //      Static variables
 //-----------------------------------------------------------------------------
 static TQ3ElementType	sTriangleStripElementType = 0;
+static TQ3ElementType	sFlippedRowsElementType = 0;
 
 
 
@@ -972,6 +974,46 @@ e3alphatestelement_metahandler(TQ3XMethodType methodType)
 #pragma mark -
 
 static TQ3Status
+FlipRowElement_traverse( TQ3Object object, void *data, TQ3ViewObject view )
+{
+#pragma unused(object, data)
+	return Q3XView_SubmitWriteData(view, 0, nullptr, nullptr);
+}
+
+static TQ3Status
+FlipRowElement_readdata( TQ3Object parentObject, TQ3FileObject file )
+{
+	E3TextureFlippedRowsElement_Add( parentObject );
+	return kQ3Success;
+}
+
+static TQ3XFunctionPointer
+e3texture_flipped_rows_element_metahandler(TQ3XMethodType methodType)
+{
+	TQ3XFunctionPointer		theMethod = nullptr;
+
+	switch (methodType)
+	{
+		case kQ3XMethodTypeObjectClassVersion:
+			theMethod = (TQ3XFunctionPointer)0x01008000;
+			break;
+
+		case kQ3XMethodTypeObjectTraverse:
+			theMethod = (TQ3XFunctionPointer) FlipRowElement_traverse;
+			break;
+
+		case kQ3XMethodTypeObjectReadData:
+			theMethod = (TQ3XFunctionPointer) FlipRowElement_readdata;
+			break;
+	}
+	
+	return theMethod;
+}
+
+
+#pragma mark -
+
+static TQ3Status
 SpecularElement_delete( TQ3TextureObject *textureOb )
 {
 	if (*textureOb != nullptr)
@@ -1164,6 +1206,17 @@ E3CustomElements_RegisterClass(void)
 					E3SpecularElement );
 	}
 
+	if (qd3dStatus == kQ3Success)
+	{
+		if (nullptr == Q3XElementClass_Register( &sFlippedRowsElementType,
+			kQ3ClassNameCustomElementFlipRows,
+			0,
+			e3texture_flipped_rows_element_metahandler ))
+		{
+			qd3dStatus = kQ3Failure;
+		}
+	}
+
 	return(qd3dStatus);
 }
 
@@ -1190,6 +1243,7 @@ E3CustomElements_UnregisterClass(void)
 	E3ClassTree::UnregisterClass(kQ3ElementTypeDepthBits,  kQ3True);
 	E3ClassTree::UnregisterClass(kQ3ElementTypeTextureShaderAlphaTest,  kQ3True);
 	E3ClassTree::UnregisterClass(kQ3ObjectTypeCustomElementSpecularMap,  kQ3True);
+	E3ClassTree::UnregisterClass(sFlippedRowsElementType,  kQ3True);
 
 	return(kQ3Success);
 }
@@ -1633,6 +1687,23 @@ void		E3TriangleStripElement_Remove( TQ3Object ioObject )
 	Q3Object_ClearElement( theGeom, sTriangleStripElementType );
 }
 
+#pragma mark -
+
+void		E3TextureFlippedRowsElement_Add( TQ3TextureObject inTexture )
+{
+	int dummy;
+	Q3Object_AddElement( inTexture, sFlippedRowsElementType, &dummy );
+}
+
+TQ3Boolean	E3TextureFlippedRowsElement_IsPresent( TQ3TextureObject inTexture )
+{
+	return Q3Object_ContainsElement( inTexture, sFlippedRowsElementType );
+}
+
+void		E3TextureFlippedRowsElement_Remove( TQ3TextureObject inTexture )
+{
+	Q3Object_ClearElement( inTexture, sFlippedRowsElementType );
+}
 
 #pragma mark -
 
