@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -362,7 +362,8 @@ TQ3CachedTexturePtr		Texture::CacheTexture( TQ3TextureObject inTexture )
 	Q3Object_GetProperty( mRenderer, kQ3RendererPropertyConvertToPremultipliedAlpha,
 		sizeof(convertAlpha), nullptr, &convertAlpha );
 	
-	GLuint	textureName = GLTextureLoader( inTexture, convertAlpha );
+	GLuint	textureName = GLTextureLoader( inTexture, convertAlpha,
+		mGLExtensions.NPOTTexture );
 	
 	if (textureName != 0)
 	{
@@ -413,6 +414,7 @@ void	Texture::SetCurrentTexture(
 	{
 		mState.mIsTextureActive = false;
 		mPendingTextureRemoval = true;
+		Q3Matrix3x3_SetIdentity( &mState.mUVTransform );
 	}
 	else	// enable texturing
 	{
@@ -447,11 +449,15 @@ void	Texture::SetCurrentTexture(
 			glEnable( GL_TEXTURE_2D );
 			glBindTexture( GL_TEXTURE_2D, mState.mGLTextureObject );
 			
-			SetOpenGLTexturingParameters();
 			mPendingTextureRemoval = false;
 			SetSpecularMap( inShader );
 		}
+		else
+		{
+			Q3Matrix3x3_SetIdentity( &mState.mUVTransform );
+		}
 	}
+	SetOpenGLTexturingParameters();
 }
 
 

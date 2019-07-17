@@ -5,7 +5,7 @@
         Header file for GLTextureLoader.cpp.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -71,10 +71,13 @@ extern "C" {
 									value by its alpha value.  Use this if your
 									texture data has an alpha channel and is NOT
 									set up with premultiplied alpha.
+	@param		inAllowNPOT			Whether to allow NPOT (non-power-of-two)
+									textures.
 	@result		An OpenGL texture "name", or 0 on failure.
 */
 GLuint	GLTextureLoader( TQ3TextureObject inTexture,
-						TQ3Boolean inPremultiplyAlpha );
+						TQ3Boolean inPremultiplyAlpha,
+						TQ3Boolean inAllowNPOT );
 
 
 

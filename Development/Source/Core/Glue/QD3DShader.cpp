@@ -1,12 +1,12 @@
 /*  NAME:
-        QD3DShader.c
+        QD3DShader.cpp
 
     DESCRIPTION:
         Entry point for Quesa API calls. Performs parameter checking and
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -46,6 +46,7 @@
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
 #include "E3Shader.h"
+#include "E3Storage.h"
 #include "E3Texture.h"
 #include "E3View.h"
 
@@ -1177,6 +1178,7 @@ Q3PixmapTexture_SetPixmap(TQ3TextureObject texture, const TQ3StoragePixmap *pixm
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT( E3Texture_IsOfMyClass ( texture ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(pixmap), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Storage::IsOfMyClass( pixmap->image ), kQ3Failure);
 
 
 
@@ -1269,6 +1271,7 @@ Q3MipmapTexture_SetMipmap(TQ3TextureObject texture, const TQ3Mipmap *mipmap)
 	// Release build checks
 	Q3_REQUIRE_OR_RESULT( E3Texture_IsOfMyClass ( texture ), kQ3Failure);
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(mipmap), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3Storage::IsOfMyClass( mipmap->image ), kQ3Failure);
 
 
 

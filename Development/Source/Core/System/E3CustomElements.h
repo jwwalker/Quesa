@@ -5,7 +5,7 @@
         Header file for E3CustomElements.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -87,6 +87,10 @@ TQ3Status	E3TriangleStripElement_GetData(
 	const TQ3Uns32** outIndices
 );
 void		E3TriangleStripElement_Remove( TQ3Object ioObject );
+
+void		E3TextureFlippedRowsElement_Add( TQ3TextureObject inTexture );
+TQ3Boolean	E3TextureFlippedRowsElement_IsPresent( TQ3TextureObject inTexture );
+void		E3TextureFlippedRowsElement_Remove( TQ3TextureObject inTexture );
 
 /*!
 	@function	E3SpecularMapElement_Copy

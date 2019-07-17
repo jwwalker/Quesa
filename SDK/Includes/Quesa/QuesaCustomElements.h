@@ -12,7 +12,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -499,6 +499,36 @@ CESpecularMapElement_Copy( TQ3ShaderObject _Nonnull inShader );
 Q3_EXTERN_API_C( void )
 CESpecularMapElement_Set( TQ3ShaderObject _Nonnull ioShader, TQ3TextureObject _Nullable inTexture );
 
+/*!
+	@functiongroup	Flipped Rows element
+*/
+
+/*!
+	@function	CETextureFlippedRowsElement_Add
+	@abstract	Mark a texture as having image data with rows in the opposite
+				of the usual order, for better compatibility with OpenGL.
+	@param		inTexture	A texture object.
+*/
+Q3_EXTERN_API_C( void )
+CETextureFlippedRowsElement_Add( TQ3TextureObject _Nonnull inTexture );
+
+/*!
+	@function	CETextureFlippedRowsElement_IsPresent
+	@abstract	Test whether a texture has been marked as having flipped rows.
+	@param		inTexture	A texture object.
+	@result		True if the rows are flipped.
+*/
+Q3_EXTERN_API_C( TQ3Boolean )
+CETextureFlippedRowsElement_IsPresent( TQ3TextureObject _Nonnull inTexture );
+
+
+/*!
+	@function	CETextureFlippedRowsElement_Remove
+	@abstract	Remove a flipped-rows mark from a texture.
+	@param		inTexture	A texture object.
+*/
+Q3_EXTERN_API_C( void )
+CETextureFlippedRowsElement_Remove( TQ3TextureObject _Nonnull inTexture );
 
 // Work around a HeaderDoc bug
 /*!

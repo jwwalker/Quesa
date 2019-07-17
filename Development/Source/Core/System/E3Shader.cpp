@@ -1,11 +1,11 @@
 /*  NAME:
-        E3Shader.c
+        E3Shader.cpp
 
     DESCRIPTION:
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2015, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -851,7 +851,7 @@ TQ3Status
 E3Shader::GetUVTransform ( TQ3Matrix3x3* uvTransform )
 	{
 	// Get the transform
-	Q3Matrix3x3_Copy ( & shaderData.uvTransform, uvTransform ) ;
+	*uvTransform = shaderData.uvTransform;
 	
 	return kQ3Success ;
 	}
@@ -980,7 +980,7 @@ E3LambertIllumination_New(void)
 
 
 //=============================================================================
-//      E3NULLIllumination_New : Create a new nullptr illumination shader.
+//      E3NULLIllumination_New : Create a new NULL illumination shader.
 //-----------------------------------------------------------------------------
 TQ3ShaderObject
 E3NULLIllumination_New(void)

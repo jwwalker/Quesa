@@ -5,7 +5,7 @@
         Quesa OpenGL draw context support.
 
     COPYRIGHT:
-        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -57,8 +57,17 @@
 #include <cstring>
 using namespace std;
 
+extern int gDebugMode;
 
+#define EXTRA_LOG(...)	\
+	do {	\
+		if (gDebugMode > 0) \
+		{ \
+			Q3_MESSAGE_FMT( __VA_ARGS__ );	\
+		} \
+	} while (false)
 
+static int sFBOCount = 0;
 
 //=============================================================================
 //		Internal constants
@@ -191,7 +200,7 @@ typedef void (APIENTRY* glRenderbufferStorageMultisampleProcPtr)(
 typedef void (APIENTRY* glBlitFramebufferProcPtr)(GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1,
                             GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1,
                             GLbitfield mask, GLenum filter);
-
+typedef GLboolean (APIENTRY* glIsFramebufferProcPtr)( GLuint framebuffer );
 
 class FBORec : public CQ3GLContext
 {
@@ -229,6 +238,7 @@ private:
 								TQ3Uns32 inPaneHeight,
 								TQ3Uns32 inSamples,
 								GLenum inTarget,
+								GLenum inInternalFormat,
 								GLuint& outColorRenderBufferID );
 	void				InitDepthAndStencil(
 								TQ3Uns32 inPaneWidth,
@@ -280,6 +290,7 @@ private:
 	glFramebufferTexture2DEXTProcPtr		glFramebufferTexture2DEXT;
 	glRenderbufferStorageMultisampleProcPtr	glRenderbufferStorageMultisample;
 	glBlitFramebufferProcPtr				glBlitFramebuffer;
+	glIsFramebufferProcPtr					glIsFramebuffer;
 };
 
 // Platform specific types
@@ -335,6 +346,7 @@ public:
 	HGLRC							glContext;
 	bool							needsScissor;
 	GLint							viewPort[4];
+	int								pixelFormat;
 	
 	// Only used for pixmap draw contexts
 	HBITMAP 						backBuffer;
@@ -344,7 +356,7 @@ public:
 #endif
 
 
-#if QUESA_OS_MACINTOSH
+#if QUESA_OS_MACINTOSH && QUESA_SUPPORT_HITOOLBOX
 class MacGLContext : public CQ3GLContext
 {
 public:
@@ -384,12 +396,13 @@ private:
 bool	CQ3GLContext::BindFrameBuffer( GLenum inTarget, GLuint inFrameBufferID )
 {
 	bool	didChange = false;
-	if ( (bindFrameBufferFunc != nullptr) &&
-		((inFrameBufferID != currentFrameBufferID) || (inTarget != currentFrameBufferTarget)) )
+	// Previously, we called glBindFramebuffer only if we knew that the target or buffer ID
+	// were different from the last call, but in some cases the framebuffer binding might
+	// be changed behind the back of Quesa.
+	if ( bindFrameBufferFunc != nullptr )
 	{
 		CHECK_GL_ERROR;
-		((glBindFramebufferEXTProcPtr) bindFrameBufferFunc)( inTarget,
-			inFrameBufferID );
+		((glBindFramebufferEXTProcPtr) bindFrameBufferFunc)( inTarget, inFrameBufferID );
 		CHECK_GL_ERROR;
 		
 		currentFrameBufferID = inFrameBufferID;
@@ -652,6 +665,7 @@ FBORec::FBORec(
 	GLGetProcAddress( glFramebufferRenderbufferEXT, "glFramebufferRenderbuffer", "glFramebufferRenderbufferEXT" );
 	GLGetProcAddress( glCheckFramebufferStatusEXT, "glCheckFramebufferStatus", "glCheckFramebufferStatusEXT" );
 	GLGetProcAddress( glFramebufferTexture2DEXT, "glFramebufferTexture2D", "glFramebufferTexture2DEXT" );
+	GLGetProcAddress( glIsFramebuffer, "glIsFramebuffer", "glIsFramebufferEXT");
 	if (inExtensionInfo.multisampleFBO == kQ3True)
 	{
 		GLGetProcAddress( glRenderbufferStorageMultisample,
@@ -675,6 +689,8 @@ FBORec::FBORec(
 	// Create and bind a (draw) framebuffer object
 	glGenFramebuffersEXT( 1, &frameBufferID );
 	CHECK_GL_ERROR;
+	++sFBOCount;
+	Q3_MESSAGE_FMT("Created FBO %d, now there are %d", frameBufferID, sFBOCount );
 	GLenum drawFBOTarget = (inSamples == 0)? GL_FRAMEBUFFER_EXT : GL_DRAW_FRAMEBUFFER_EXT;
 	BindFrameBuffer( drawFBOTarget, frameBufferID );
 
@@ -683,6 +699,9 @@ FBORec::FBORec(
 	{
 		glGenFramebuffersEXT( 1, &frameBufferID_single );
 		CHECK_GL_ERROR;
+		++sFBOCount;
+		Q3_MESSAGE_FMT("Created FBO[2] %d, now there are %d", frameBufferID,
+			sFBOCount );
 		BindFrameBuffer( GL_READ_FRAMEBUFFER_EXT, frameBufferID_single );
 	}
 	
@@ -695,7 +714,14 @@ FBORec::FBORec(
 	glDrawBuffer( GL_COLOR_ATTACHMENT0_EXT );
 	CHECK_GL_ERROR;
 	
-	InitColor( inPaneWidth, inPaneHeight, inSamples, drawFBOTarget, colorRenderBufferID );
+	// Check for a request for a special internal format.
+	TQ3Uns32 intFormat = GL_RGB;
+	Q3Object_GetProperty( theDrawContext,
+		kQ3DrawContextPropertyAccelOffscreenIntFormat,
+		sizeof(intFormat), nullptr, &intFormat );
+
+	InitColor( inPaneWidth, inPaneHeight, inSamples, drawFBOTarget, intFormat,
+		colorRenderBufferID );
 	
 	InitDepthAndStencil( inPaneWidth, inPaneHeight, inSamples, drawFBOTarget, inExtensionInfo,
 		depthBits, stencilBits, depthRenderBufferID, stencilRenderBufferID );
@@ -706,7 +732,8 @@ FBORec::FBORec(
 	// non-multisampled FBO.
 	if (inSamples > 0)
 	{
-		InitColor( inPaneWidth, inPaneHeight, 0, GL_READ_FRAMEBUFFER_EXT, colorRenderBufferID_single );
+		InitColor( inPaneWidth, inPaneHeight, 0, GL_READ_FRAMEBUFFER_EXT,
+			intFormat, colorRenderBufferID_single );
 		InitDepthAndStencil( inPaneWidth, inPaneHeight, 0, GL_READ_FRAMEBUFFER_EXT, inExtensionInfo,
 			depthBits, stencilBits, depthRenderBufferID_single, stencilRenderBufferID_single );
 	}
@@ -720,8 +747,8 @@ FBORec::FBORec(
 	GLenum	result = glCheckFramebufferStatusEXT( drawFBOTarget );
 	if (result != GL_FRAMEBUFFER_COMPLETE_EXT)
 	{
-		Q3_ASSERT(!"FBO failed status check");
-		Q3_MESSAGE_FMT( "FBO status check returned error %X\n", (int)result );
+		Q3_MESSAGE_FMT( "FBO status check returned error %X\n", result );
+		Q3_LOG_FMT( "FBO status check returned error %X\n", result );
 		Cleanup();
 		throw std::exception();
 	}
@@ -775,6 +802,7 @@ void	FBORec::InitColor(
 							TQ3Uns32 inPaneHeight,
 							TQ3Uns32 inSamples,
 							GLenum inTarget,
+							GLenum inInternalFormat,
 							GLuint& outColorRenderBufferID )
 {
 	// Create color renderbuffer
@@ -783,7 +811,7 @@ void	FBORec::InitColor(
 	glBindRenderbufferEXT( GL_RENDERBUFFER_EXT,
 		outColorRenderBufferID );
 	CHECK_GL_ERROR;
-	RenderBufferStorage( inSamples, GL_RGB,
+	RenderBufferStorage( inSamples, inInternalFormat,
 			inPaneWidth, inPaneHeight );
 	glFramebufferRenderbufferEXT( inTarget,
 		GL_COLOR_ATTACHMENT0_EXT, GL_RENDERBUFFER_EXT,
@@ -827,9 +855,12 @@ void	FBORec::InitDepthAndStencil(
 		
 		// If the FBO setup failed, try with depth only.  In theory this should
 		// not happen, but there could be a driver bug.
-		if ( glCheckFramebufferStatusEXT( inTarget ) !=
-			GL_FRAMEBUFFER_COMPLETE_EXT )
+		GLenum	checkResult = glCheckFramebufferStatusEXT( inTarget );
+		if ( checkResult != GL_FRAMEBUFFER_COMPLETE_EXT )
 		{
+			Q3_MESSAGE_FMT( "FBO depth/stencil status check returned error %X\n",
+				checkResult );
+			
 			// No stencil attachment
 			glFramebufferRenderbufferEXT( inTarget,
 				GL_STENCIL_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, 0 );
@@ -847,6 +878,10 @@ void	FBORec::InitDepthAndStencil(
 				GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT,
 				outDepthRenderBufferID );
 			CHECK_GL_ERROR;
+			
+			checkResult = glCheckFramebufferStatusEXT( inTarget );
+			Q3_MESSAGE_FMT( "FBO depth-only status check returned error %X\n",
+				checkResult );
 		}
 	}
 	else
@@ -912,7 +947,12 @@ void	FBORec::DeleteFrameBuffer( GLuint inFrameBufferID )
 {
 	if (inFrameBufferID != 0)
 	{
+		Q3_ASSERT( glIsFramebuffer( inFrameBufferID ) );
 		glDeleteFramebuffersEXT( 1, &inFrameBufferID );
+		--sFBOCount;
+		Q3_MESSAGE_FMT("Deleted FBO %d, now there are %d", inFrameBufferID,
+			sFBOCount );
+		Q3_ASSERT( !glIsFramebuffer( inFrameBufferID ) );
 	}
 }
 
@@ -1210,17 +1250,19 @@ gldrawcontext_fbo_new(	TQ3DrawContextObject theDrawContext,
 				}
 				catch (...)
 				{
-					Q3_MESSAGE("Failed to set up FBO.\n");
+					Q3_LOG_FMT("Failed to set up %dx%d FBO.",
+						(int)paneWidth, (int)paneHeight );
 				}
 			}
 			else
 			{
-				Q3_MESSAGE( "Pane size too big for FBO.\n" );
+				Q3_LOG_FMT( "Pane size %dx%d too big for FBO.",
+					(int)paneWidth, (int)paneHeight );
 			}
 		}
 		else
 		{
-			Q3_MESSAGE( "FBO extensions not available.\n" );
+			Q3_LOG_FMT( "FBO extensions not available." );
 		}
 		
 		if (theContext == nullptr)
@@ -1697,9 +1739,9 @@ MacGLContext::MacGLContext(
 		}
 
 	if (macContext == nullptr)
-		{
+	{
 		throw std::exception();
-		}
+	}
 
 
 
@@ -1800,6 +1842,16 @@ MacGLContext::~MacGLContext()
 
 void	MacGLContext::SwapBuffers()
 {
+	TQ3DrawContextObject quesaDC = GetDrawContext();
+	TQ3Boolean doFinish = kQ3False;
+	TQ3Status getStat = Q3Object_GetProperty( quesaDC, kQ3DrawContextPropertyGLFinishBeforeSwap,
+		sizeof(doFinish), nullptr, &doFinish );
+	
+	if ( (getStat == kQ3Success) && (doFinish == kQ3True) )
+	{
+		glFinish();
+	}
+
 	aglSwapBuffers( macContext );
 }
 
@@ -2092,6 +2144,21 @@ gldrawcontext_win_choose_pixel_format(
 	return pixelFormat;
 }
 
+static HGLRC Wrapped_wglCreateContext( HDC inDC )
+{
+	HGLRC glContext = nullptr;
+	__try
+	{
+		glContext = wglCreateContext( inDC );
+	}
+	__except( GetExceptionCode() == EXCEPTION_ACCESS_VIOLATION?
+		EXCEPTION_EXECUTE_HANDLER : EXCEPTION_CONTINUE_SEARCH )
+	{
+		glContext = nullptr;
+	}
+	return glContext;
+}
+
 WinGLContext::WinGLContext(
 		TQ3DrawContextObject theDrawContext,
 		TQ3Uns32 depthBits,
@@ -2101,12 +2168,12 @@ WinGLContext::WinGLContext(
 	, theDC( nullptr )
 	, glContext( nullptr )
 	, needsScissor( false )
+	, pixelFormat( 0 )
 	, backBuffer( nullptr )
 	, pBits( nullptr )
 {
 	TQ3DrawContextData		drawContextData;
     PIXELFORMATDESCRIPTOR	pixelFormatDesc;
-    int						pixelFormat = 0;
 	TQ3Status				qd3dStatus;
 	TQ3Int32				pfdFlags;
 	BITMAPINFOHEADER		bmih;
@@ -2117,6 +2184,8 @@ WinGLContext::WinGLContext(
 	TQ3GLContext			sharingContext = nullptr;
 
 
+	EXTRA_LOG("WinGLContext::WinGLContext start");
+	
 	// Get the type specific draw context data
 	TQ3ObjectType drawContextType = Q3DrawContext_GetType(quesaDrawContext);
     switch (drawContextType) {
@@ -2134,6 +2203,7 @@ WinGLContext::WinGLContext(
 			windowHeight = windowRect.bottom - windowRect.top;
 
 			pfdFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL;
+			EXTRA_LOG("WinGLContext::WinGLContext 2");
 			break;
 
 
@@ -2194,7 +2264,7 @@ WinGLContext::WinGLContext(
 	qd3dStatus = Q3DrawContext_GetData(theDrawContext, &drawContextData);
 	if (qd3dStatus != kQ3Success)
 		throw std::exception();
-
+	EXTRA_LOG("WinGLContext::WinGLContext 3");
 
 	// Check whether a pixel format was provided by the client
 	Q3Object_GetProperty( theDrawContext, kQ3DrawContextPropertyGLPixelFormat,
@@ -2210,8 +2280,10 @@ WinGLContext::WinGLContext(
 
 	if (pixelFormat == 0)
 		throw std::exception();
+	EXTRA_LOG("WinGLContext::WinGLContext 4");
 
 	DescribePixelFormat( theDC, pixelFormat, sizeof(PIXELFORMATDESCRIPTOR), &pixelFormatDesc);
+	EXTRA_LOG("WinGLContext::WinGLContext 5");
 
 	int	prevPixelFormat = GetPixelFormat( theDC );
 	
@@ -2238,22 +2310,61 @@ WinGLContext::WinGLContext(
 	    	throw std::exception();
 		}
 	}
+	EXTRA_LOG("WinGLContext::WinGLContext 6");
 
+	glContext = Wrapped_wglCreateContext( theDC );
+	if (glContext == nullptr)
+	{
+		Q3_MESSAGE_FMT("wglCreateContext failed for DC %p!", theDC );
+		throw std::exception();
+	}
 
-    glContext = wglCreateContext(theDC);
+	Q3_MESSAGE_FMT( "Quesa created GL context %p, pixel format %d", glContext,
+		pixelFormat );
     
-    
+    EXTRA_LOG("WinGLContext::WinGLContext 7");
     
     if (shareTextures)
     {
 	    // Attempt to share textures with a previously created context.
+#if Q3_DEBUG
+		bool didShare = false;
+#endif
 	    while ( (sharingContext = GLGPUSharing_GetNextSharingBase( sharingContext )) != nullptr )
 	    {
-	    	if (wglShareLists( ((WinGLContext*)sharingContext)->glContext, glContext ))
-	    		break;
+			WinGLContext* olderContext = (WinGLContext*)sharingContext;
+			
+			if (olderContext->pixelFormat == pixelFormat)
+			{
+				if (wglShareLists( olderContext->glContext, glContext ))
+				{
+		#if Q3_DEBUG
+					didShare = true;
+		#endif
+					Q3_MESSAGE_FMT("Successfully shared with older GL context %p",
+						olderContext->glContext );
+					break;
+				}
+				else
+				{
+					Q3_MESSAGE_FMT("Older context %p has same pixel format %d, yet sharing failed",
+						olderContext->glContext, olderContext->pixelFormat );
+				}
+			}
+			else // different pixel formats
+			{
+				Q3_MESSAGE_FMT("Older context %p has different pixel format %d",
+					olderContext->glContext, olderContext->pixelFormat );
+			}
 	    }
+#if Q3_DEBUG
+		if (! didShare)
+		{
+			Q3_MESSAGE_FMT("Quesa GL context %p failed to share.", glContext );
+		}
+#endif
     }
-
+	EXTRA_LOG("WinGLContext::WinGLContext 8");
 	
 	
 	// Tell the texture manager about the new context.
@@ -2263,7 +2374,7 @@ WinGLContext::WinGLContext(
 
 	// Activate the context
 	wglMakeCurrent( theDC, glContext );
-	
+	EXTRA_LOG("WinGLContext::WinGLContext 9");
 	
 	
 	// Get the glBindFramebufferEXT function pointer
@@ -2301,6 +2412,7 @@ WinGLContext::WinGLContext(
 		glDisable( GL_SCISSOR_TEST );
 	}
 	glViewport( viewPort[0], viewPort[1], viewPort[2], viewPort[3] );
+	EXTRA_LOG("WinGLContext::WinGLContext end");
 }
 
 
@@ -2322,7 +2434,9 @@ WinGLContext::~WinGLContext()
 
 
 	// Destroy the context
+	Q3_MESSAGE_FMT( "before wglDeleteContext %p in Quesa", glContext );
 	success = wglDeleteContext( glContext );
+	Q3_MESSAGE_FMT( "after wglDeleteContext in Quesa" );
 	#if Q3_DEBUG
 		if (!success)
 		{
@@ -2349,8 +2463,21 @@ void	WinGLContext::SwapBuffers()
 	// Swap the buffers
 	
 	Q3_ASSERT(theDC == wglGetCurrentDC());
+
+	TQ3DrawContextObject quesaDC = GetDrawContext();
+	TQ3Boolean doFinish = kQ3False;
+	TQ3Status getStat = Q3Object_GetProperty( quesaDC, kQ3DrawContextPropertyGLFinishBeforeSwap,
+		sizeof(doFinish), nullptr, &doFinish );
 	
-	glFlush();
+	if ( (getStat == kQ3Success) && (doFinish == kQ3True) )
+	{
+		glFinish();
+	}
+	else
+	{
+		glFlush();
+	}
+
 	::SwapBuffers(theDC);
 	
 	
@@ -2407,6 +2534,7 @@ void	WinGLContext::SwapBuffers()
 // do not alter the framebuffer binding.
 void	WinGLContext::SetCurrentBase( TQ3Boolean inForceSet )
 {
+	EXTRA_LOG("WinGLContext::SetCurrentBase");
 	if (inForceSet                                    ||
 		wglGetCurrentDC()      != theDC ||
 		wglGetCurrentContext() != glContext)
@@ -2458,6 +2586,7 @@ bool	WinGLContext::UpdateWindowSize()
 	TQ3Int32				windowHeight;
 	TQ3DrawContextData		drawContextData;
 	
+	EXTRA_LOG("WinGLContext::UpdateWindowSize");
 	TQ3ObjectType drawContextType = Q3DrawContext_GetType( quesaDrawContext );
 	
 	if (drawContextType == kQ3DrawContextTypeWin32DC)
@@ -2747,7 +2876,6 @@ GLDrawContext_StartFrame( TQ3GLContext glContext )
 void
 GLDrawContext_SetCurrent( TQ3GLContext glContext, TQ3Boolean forceSet )
 {
-
 
 	// Validate our parameters
 	Q3_REQUIRE(Q3_VALID_PTR(glContext));

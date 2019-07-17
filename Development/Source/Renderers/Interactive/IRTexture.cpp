@@ -5,7 +5,7 @@
         Quesa interactive renderer texture management.
 
     COPYRIGHT:
-        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -335,7 +335,8 @@ static TQ3CachedTexturePtr
 ir_texture_cache_add(
 							TQ3InteractiveData		*instanceData,
 							TQ3TextureObject		theTexture,
-							TQ3ViewObject			theView )
+							TQ3ViewObject			theView,
+							TQ3Boolean				allowNPOT )
 {
 	TQ3CachedTexturePtr	cacheRec = nullptr;
 	
@@ -345,7 +346,7 @@ ir_texture_cache_add(
 		kQ3RendererPropertyConvertToPremultipliedAlpha,
 		sizeof(convertAlpha), nullptr, &convertAlpha );
 	
-	GLuint				textureName = GLTextureLoader( theTexture, convertAlpha );
+	GLuint	textureName = GLTextureLoader( theTexture, convertAlpha, allowNPOT );
 
 
 	if (textureName != 0)
@@ -464,7 +465,8 @@ IRRenderer_Texture_Set(TQ3ViewObject					theView,
 				theTexture );
 		if (cachedTexture == nullptr)
 			{
-			cachedTexture = ir_texture_cache_add(instanceData, theTexture, theView);
+			cachedTexture = ir_texture_cache_add(instanceData, theTexture,
+				theView, instanceData->glExtensions.NPOTTexture );
 			}
 
 

@@ -98,6 +98,29 @@ typedef enum TQ3ShaderUVBoundary {
 } TQ3ShaderUVBoundary;
 
 
+
+/*!
+	@enum
+		Texture&nbsp;Property&nbsp;Types
+	
+	@abstract
+		Object properties that may be set on texture objects.
+	
+	@constant		kQ3TexturePropertyCallbackAfterUpload
+					The data of this property must be a structure of type
+					TQ3TextureUploadPropertyData, containing a callback function
+					pointer and a context pointer.  Your callback function will
+					be called by the renderer when the texture data has been
+					uploaded to OpenGL (on its way to the GPU), but before the
+					texture object has been added to Quesa's texture cache.
+					You might use this to convert the texture's memory storage
+					into a path storage to save memory.
+*/
+enum
+{
+	kQ3TexturePropertyCallbackAfterUpload = Q3_OBJECT_TYPE('c', 'a', 't', 'u')
+};
+
 /*!
 	@enum	Texture&nbsp;shader&nbsp;element&nbsp;types
 	
@@ -118,6 +141,39 @@ enum
 {
 	kQ3ElementTypeTextureShaderAlphaTest	= Q3_OBJECT_TYPE(0xF0, 's', 'a', 't')
 };
+
+
+
+//=============================================================================
+//      Types
+//-----------------------------------------------------------------------------
+
+
+/*!
+	@typedef	TQ3TextureUploadedCallback
+	@abstract	A callback function that you set with a property of type
+				kQ3TexturePropertyCallbackAfterUpload on a texture object.
+	@param		inTexture	A texture object.
+	@param		inContext	Your context pointer.
+*/
+typedef Q3_CALLBACK_API_C( void, TQ3TextureUploadedCallback )(
+							TQ3TextureObject _Nonnull inTexture,
+							void* _Nullable inContext );
+
+/*!
+	@struct		TQ3TextureUploadPropertyData
+	@abstract	Data of a property of type kQ3TexturePropertyCallbackAfterUpload.
+	@discussion	Note that both fields of the structure are pointers, whose
+				sizes depend on whether you are compiling a 64-bit binary.
+	@field		callback	A callback function in your code.
+	@field		context		A pointer that the engine will pass back to your
+							callback function.
+*/
+typedef struct TQ3TextureUploadPropertyData
+{
+	TQ3TextureUploadedCallback _Nonnull	callback;
+	void*	_Nullable					context;
+} TQ3TextureUploadPropertyData;
 
 
 

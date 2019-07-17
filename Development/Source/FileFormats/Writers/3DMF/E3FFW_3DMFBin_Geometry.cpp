@@ -1,5 +1,5 @@
 /*  NAME:
-        E3FFW_3DMFBin_Geometry.c
+        E3FFW_3DMFBin_Geometry.cpp
 
     DESCRIPTION:
         Quesa 3DMFBin writer geometry methods.
@@ -99,12 +99,25 @@ e3ffw_3DMF_storage_write(TQ3StorageObject theStorage,TQ3Uns32 expectedSize,TQ3Fi
 	// Get a pointer to the data for the image, ideally without copying
 
 	theType    = Q3Storage_GetType(theStorage);
-	switch (theType) {
+	switch (theType)
+	{
 		case kQ3StorageTypeMemory:
 			Q3MemoryStorage_GetBuffer(theStorage, (unsigned char**)&basePtr, &validSize, &bufferSize);
 			break;
 
 		default:
+		{
+			// We may need to open the storage before getting size & data.
+			bool wasOpened = false;
+			TQ3StorageOpenness origOpenness;
+			qd3dStatus = Q3Storage_GetOpenness( theStorage, &origOpenness );
+			if ( (qd3dStatus == kQ3Success) &&
+				(origOpenness == kQ3StorageOpenness_Closed) )
+			{
+				qd3dStatus = Q3Storage_Open( theStorage, kQ3False );
+				wasOpened = (qd3dStatus == kQ3Success);
+			}
+			
 			qd3dStatus = Q3Storage_GetSize(theStorage, &bufferSize);
 			if (qd3dStatus == kQ3Success)
 				basePtr = (TQ3Uns8 *) Q3Memory_Allocate(bufferSize);
@@ -117,6 +130,13 @@ e3ffw_3DMF_storage_write(TQ3StorageObject theStorage,TQ3Uns32 expectedSize,TQ3Fi
 				if (qd3dStatus != kQ3Success)
 					Q3Memory_Free(&basePtr);
 				}
+			
+			// If we opened the storage, close it.
+			if (wasOpened)
+			{
+				Q3Storage_Close( theStorage );
+			}
+		}
 			break;
 		}
 

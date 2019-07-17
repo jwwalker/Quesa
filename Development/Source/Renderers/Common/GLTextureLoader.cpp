@@ -5,7 +5,7 @@
         Source code to load a texture into OpenGL texture memory.
 
     COPYRIGHT:
-        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -46,19 +46,26 @@
 //-----------------------------------------------------------------------------
 
 #include "GLTextureLoader.h"
+#include "QuesaCustomElements.h"
 #include "QuesaErrors.h"
 #include "QuesaMemory.h"
 #include "QuesaStorage.h"
 #include "CQ3ObjectRef.h"
+#include "CQ3ObjectRef_Gets.h"
 #include "GLUtils.h"
+#include "E3Prefix.h"
 #include "E3Debug.h"
 #include "E3ErrorManager.h"
 #include "E3Utils.h"
 
 #include <algorithm>
 #include <new>
+#include <string.h>
 
-
+#ifndef GL_BGRA
+	#define GL_BGR                            0x80E0
+	#define GL_BGRA                           0x80E1
+#endif
 
 //=============================================================================
 //      Local types
@@ -115,7 +122,7 @@ namespace
 							@abstract	Exchange storage with another buffer.
 							@param		ioOther		Another buffer.
 						*/
-		void			Swap( ByteBuffer& ioOther );
+		//void			Swap( ByteBuffer& ioOther );
 	
 	private:
 		unsigned char*	mBuffer;
@@ -137,21 +144,26 @@ const unsigned long		kInitialBufferSize = 65536;
 
 
 //=============================================================================
-//      Local data
-//-----------------------------------------------------------------------------
-
-static ByteBuffer	sSrcImageData( kInitialBufferSize );
-
-static ByteBuffer	sGLFormatWork( kInitialBufferSize );
-
-static ByteBuffer	sGLImageData( kInitialBufferSize );
-
-
-
-
-//=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
+
+static ByteBuffer& SrcImageData()
+{
+	static ByteBuffer	sSrcImageData( kInitialBufferSize );
+	return sSrcImageData;
+}
+
+static ByteBuffer& GLFormatWork()
+{
+	static ByteBuffer	sGLFormatWork( kInitialBufferSize );
+	return sGLFormatWork;
+}
+
+static ByteBuffer& GLImageData()
+{
+	static ByteBuffer	sGLImageData( kInitialBufferSize );
+	return sGLImageData;
+}
 
 ByteBuffer::ByteBuffer( unsigned long inInitialSize )
 	: mBuffer( static_cast<unsigned char*>( Q3Memory_Allocate( static_cast<TQ3Uns32>(inInitialSize) ) ) )
@@ -197,20 +209,6 @@ void	ByteBuffer::Grow( unsigned long inSize )
 	}
 }
 
-/*!
-	@function	Swap
-	@abstract	Exchange storage with another buffer.
-	@param		ioOther		Another buffer.
-*/
-void	ByteBuffer::Swap( ByteBuffer& ioOther )
-{
-	if (&ioOther != this)
-	{
-		std::swap( mBuffer, ioOther.mBuffer );
-		std::swap( mSize, ioOther.mSize );
-	}
-}
-
 
 static bool IsPowerOf2( TQ3Uns32 n )
 {
@@ -234,6 +232,7 @@ static TQ3Uns32 NextPowerOf2( TQ3Uns32 n )
 static void ConstrainTextureSize(
 									TQ3Uns32 inSrcWidth,
 									TQ3Uns32 inSrcHeight,
+									bool inAllowNPOT,
 									TQ3Uns32& outDstWidth,
 									TQ3Uns32& outDstHeight )
 {
@@ -243,24 +242,39 @@ static void ConstrainTextureSize(
 	GLint	maxGLSize;
 	glGetIntegerv( GL_MAX_TEXTURE_SIZE, &maxGLSize );
 	
-	if (!IsPowerOf2( outDstWidth ))
+	if (inAllowNPOT)
 	{
-		outDstWidth = NextPowerOf2( outDstWidth );
+		if (E3Num_SafeGreater( outDstWidth, maxGLSize ))
+		{
+			outDstWidth = maxGLSize;
+		}
+
+		if (E3Num_SafeGreater( outDstHeight, maxGLSize ))
+		{
+			outDstHeight = maxGLSize;
+		}
 	}
-	
-	if (!IsPowerOf2( outDstHeight ))
+	else
 	{
-		outDstHeight = NextPowerOf2( outDstHeight );
-	}
-	
-	while ( E3Num_SafeGreater( outDstWidth, maxGLSize ) )
-	{
-		outDstWidth /= 2;
-	}
-	
-	while ( E3Num_SafeGreater( outDstHeight, maxGLSize ) )
-	{
-		outDstHeight /= 2;
+		if (!IsPowerOf2( outDstWidth ))
+		{
+			outDstWidth = NextPowerOf2( outDstWidth );
+		}
+		
+		if (!IsPowerOf2( outDstHeight ))
+		{
+			outDstHeight = NextPowerOf2( outDstHeight );
+		}
+		
+		while ( E3Num_SafeGreater( outDstWidth, maxGLSize ) )
+		{
+			outDstWidth /= 2;
+		}
+		
+		while ( E3Num_SafeGreater( outDstHeight, maxGLSize ) )
+		{
+			outDstHeight /= 2;
+		}
 	}
 }
 
@@ -388,70 +402,70 @@ static int	CountImagesInMipmap( const TQ3Mipmap& inMipmapData )
 static void ConvertPixel_ARGB32_Big( const TQ3Uns8* inSrcPixel,
 									TQ3Uns8* ioDstPixel )
 {
-	ioDstPixel[0] = inSrcPixel[1];	// R
+	ioDstPixel[2] = inSrcPixel[1];	// R
 	ioDstPixel[1] = inSrcPixel[2];	// G
-	ioDstPixel[2] = inSrcPixel[3];	// B
+	ioDstPixel[0] = inSrcPixel[3];	// B
 	ioDstPixel[3] = inSrcPixel[0];	// A
 }
 
 static void ConvertPixel_ARGB32_Little( const TQ3Uns8* inSrcPixel,
 									TQ3Uns8* ioDstPixel )
 {
-	ioDstPixel[0] = inSrcPixel[2];	// R
+	ioDstPixel[2] = inSrcPixel[2];	// R
 	ioDstPixel[1] = inSrcPixel[1];	// G
-	ioDstPixel[2] = inSrcPixel[0];	// B
+	ioDstPixel[0] = inSrcPixel[0];	// B
 	ioDstPixel[3] = inSrcPixel[3];	// A
 }
 
 static void ConvertPixel_ARGB32_Big_Premultiply( const TQ3Uns8* inSrcPixel,
 									TQ3Uns8* ioDstPixel )
 {
-	ioDstPixel[0] = (inSrcPixel[1] * inSrcPixel[0]) / 255;	// R
+	ioDstPixel[2] = (inSrcPixel[1] * inSrcPixel[0]) / 255;	// R
 	ioDstPixel[1] = (inSrcPixel[2] * inSrcPixel[0]) / 255;	// G
-	ioDstPixel[2] = (inSrcPixel[3] * inSrcPixel[0]) / 255;	// B
+	ioDstPixel[0] = (inSrcPixel[3] * inSrcPixel[0]) / 255;	// B
 	ioDstPixel[3] = inSrcPixel[0];	// A
 }
 
 static void ConvertPixel_ARGB32_Little_Premultiply( const TQ3Uns8* inSrcPixel,
 									TQ3Uns8* ioDstPixel )
 {
-	ioDstPixel[0] = (inSrcPixel[2] * inSrcPixel[3]) / 255;	// R
+	ioDstPixel[2] = (inSrcPixel[2] * inSrcPixel[3]) / 255;	// R
 	ioDstPixel[1] = (inSrcPixel[1] * inSrcPixel[3]) / 255;	// G
-	ioDstPixel[2] = (inSrcPixel[0] * inSrcPixel[3]) / 255;	// B
+	ioDstPixel[0] = (inSrcPixel[0] * inSrcPixel[3]) / 255;	// B
 	ioDstPixel[3] = inSrcPixel[3];	// A
 }
 
 static void ConvertPixel_xRGB32_Big( const TQ3Uns8* inSrcPixel,
 									TQ3Uns8* ioDstPixel )
 {
-	ioDstPixel[0] = inSrcPixel[1];	// R
+	ioDstPixel[2] = inSrcPixel[1];	// R
 	ioDstPixel[1] = inSrcPixel[2];	// G
-	ioDstPixel[2] = inSrcPixel[3];	// B
+	ioDstPixel[0] = inSrcPixel[3];	// B
 }
 
 static void ConvertPixel_xRGB32_Little( const TQ3Uns8* inSrcPixel,
 									TQ3Uns8* ioDstPixel )
 {
-	ioDstPixel[0] = inSrcPixel[2];	// R
+	ioDstPixel[2] = inSrcPixel[2];	// R
 	ioDstPixel[1] = inSrcPixel[1];	// G
-	ioDstPixel[2] = inSrcPixel[0];	// B
+	ioDstPixel[0] = inSrcPixel[0];	// B
 }
 
 
 static void ConvertPixel_RGB24_Big( const TQ3Uns8* inSrcPixel,
 									TQ3Uns8* ioDstPixel )
 {
-	ioDstPixel[0] = inSrcPixel[0];	// R
+	ioDstPixel[2] = inSrcPixel[0];	// R
 	ioDstPixel[1] = inSrcPixel[1];	// G
-	ioDstPixel[2] = inSrcPixel[2];	// B
+	ioDstPixel[0] = inSrcPixel[2];	// B
 }
 
 static void ConvertPixel_RGB24_Little( const TQ3Uns8* inSrcPixel,
 									TQ3Uns8* ioDstPixel )
 {
-	ioDstPixel[0] = inSrcPixel[2];	// R
+	ioDstPixel[2] = inSrcPixel[2];	// R
 	ioDstPixel[1] = inSrcPixel[1];	// G
-	ioDstPixel[2] = inSrcPixel[0];	// B
+	ioDstPixel[0] = inSrcPixel[0];	// B
 }
 
 static void ConvertPixel_RGB16_Big( const TQ3Uns8* inSrcPixel,
@@ -461,9 +475,9 @@ static void ConvertPixel_RGB16_Big( const TQ3Uns8* inSrcPixel,
 	TQ3Uns8		redBits = (pixelValue >> 10) & 0x1F;
 	TQ3Uns8		greenBits = (pixelValue >> 5) & 0x1F;
 	TQ3Uns8		blueBits = (pixelValue >> 0) & 0x1F;
-	ioDstPixel[0] = redBits << 3;	// R
+	ioDstPixel[2] = redBits << 3;	// R
 	ioDstPixel[1] = greenBits << 3;	// G
-	ioDstPixel[2] = blueBits << 3;	// B
+	ioDstPixel[0] = blueBits << 3;	// B
 }
 
 static void ConvertPixel_RGB16_Little( const TQ3Uns8* inSrcPixel,
@@ -473,9 +487,9 @@ static void ConvertPixel_RGB16_Little( const TQ3Uns8* inSrcPixel,
 	TQ3Uns8		redBits = (pixelValue >> 10) & 0x1F;
 	TQ3Uns8		greenBits = (pixelValue >> 5) & 0x1F;
 	TQ3Uns8		blueBits = (pixelValue >> 0) & 0x1F;
-	ioDstPixel[0] = redBits << 3;	// R
+	ioDstPixel[2] = redBits << 3;	// R
 	ioDstPixel[1] = greenBits << 3;	// G
-	ioDstPixel[2] = blueBits << 3;	// B
+	ioDstPixel[0] = blueBits << 3;	// B
 }
 
 static void ConvertPixel_RGB16_565_Big( const TQ3Uns8* inSrcPixel,
@@ -485,9 +499,9 @@ static void ConvertPixel_RGB16_565_Big( const TQ3Uns8* inSrcPixel,
 	TQ3Uns8		redBits = (pixelValue >> 11) & 0x1F;
 	TQ3Uns8		greenBits = (pixelValue >> 5) & 0x3F;
 	TQ3Uns8		blueBits = (pixelValue >> 0) & 0x1F;
-	ioDstPixel[0] = redBits << 3;	// R
+	ioDstPixel[2] = redBits << 3;	// R
 	ioDstPixel[1] = greenBits << 2;	// G
-	ioDstPixel[2] = blueBits << 3;	// B
+	ioDstPixel[0] = blueBits << 3;	// B
 }
 
 static void ConvertPixel_RGB16_565_Little( const TQ3Uns8* inSrcPixel,
@@ -497,9 +511,9 @@ static void ConvertPixel_RGB16_565_Little( const TQ3Uns8* inSrcPixel,
 	TQ3Uns8		redBits = (pixelValue >> 11) & 0x1F;
 	TQ3Uns8		greenBits = (pixelValue >> 5) & 0x3F;
 	TQ3Uns8		blueBits = (pixelValue >> 0) & 0x1F;
-	ioDstPixel[0] = redBits << 3;	// R
+	ioDstPixel[2] = redBits << 3;	// R
 	ioDstPixel[1] = greenBits << 2;	// G
-	ioDstPixel[2] = blueBits << 3;	// B
+	ioDstPixel[0] = blueBits << 3;	// B
 }
 
 static void ConvertPixel_ARGB16_Big( const TQ3Uns8* inSrcPixel,
@@ -510,9 +524,9 @@ static void ConvertPixel_ARGB16_Big( const TQ3Uns8* inSrcPixel,
 	TQ3Uns8		redBits = (pixelValue >> 10) & 0x1F;
 	TQ3Uns8		greenBits = (pixelValue >> 5) & 0x1F;
 	TQ3Uns8		blueBits = (pixelValue >> 0) & 0x1F;
-	ioDstPixel[0] = redBits << 3;	// R
+	ioDstPixel[2] = redBits << 3;	// R
 	ioDstPixel[1] = greenBits << 3;	// G
-	ioDstPixel[2] = blueBits << 3;	// B
+	ioDstPixel[0] = blueBits << 3;	// B
 	ioDstPixel[3] = alphaBits ? 0xFF : 0;	// A
 }
 
@@ -524,9 +538,9 @@ static void ConvertPixel_ARGB16_Little( const TQ3Uns8* inSrcPixel,
 	TQ3Uns8		redBits = (pixelValue >> 10) & 0x1F;
 	TQ3Uns8		greenBits = (pixelValue >> 5) & 0x1F;
 	TQ3Uns8		blueBits = (pixelValue >> 0) & 0x1F;
-	ioDstPixel[0] = redBits << 3;	// R
+	ioDstPixel[2] = redBits << 3;	// R
 	ioDstPixel[1] = greenBits << 3;	// G
-	ioDstPixel[2] = blueBits << 3;	// B
+	ioDstPixel[0] = blueBits << 3;	// B
 	ioDstPixel[3] = alphaBits ? 0xFF : 0;	// A
 }
 
@@ -538,9 +552,9 @@ static void ConvertPixel_ARGB16_Big_Premultiply( const TQ3Uns8* inSrcPixel,
 	TQ3Uns8		redBits = (pixelValue >> 10) & 0x1F;
 	TQ3Uns8		greenBits = (pixelValue >> 5) & 0x1F;
 	TQ3Uns8		blueBits = (pixelValue >> 0) & 0x1F;
-	ioDstPixel[0] = redBits << 3;	// R
+	ioDstPixel[2] = redBits << 3;	// R
 	ioDstPixel[1] = greenBits << 3;	// G
-	ioDstPixel[2] = blueBits << 3;	// B
+	ioDstPixel[0] = blueBits << 3;	// B
 	ioDstPixel[3] = alphaBits ? 0xFF : 0;	// A
 	if (alphaBits == 0)
 	{
@@ -556,9 +570,9 @@ static void ConvertPixel_ARGB16_Little_Premultiply( const TQ3Uns8* inSrcPixel,
 	TQ3Uns8		redBits = (pixelValue >> 10) & 0x1F;
 	TQ3Uns8		greenBits = (pixelValue >> 5) & 0x1F;
 	TQ3Uns8		blueBits = (pixelValue >> 0) & 0x1F;
-	ioDstPixel[0] = redBits << 3;	// R
+	ioDstPixel[2] = redBits << 3;	// R
 	ioDstPixel[1] = greenBits << 3;	// G
-	ioDstPixel[2] = blueBits << 3;	// B
+	ioDstPixel[0] = blueBits << 3;	// B
 	ioDstPixel[3] = alphaBits ? 0xFF : 0;	// A
 	if (alphaBits == 0)
 	{
@@ -649,6 +663,9 @@ static PixelConverter ChoosePixelConverter(
 	@function	GetImageData
 	@abstract	Get a pointer to the original image data from the storage
 				object, if possible without copying.
+	@discussion	If the storage object is not memory storage, the caller should
+				guarantee that the storage is associated with a File object
+				that is open for reading.
 */
 static const TQ3Uns8*	GetImageData(
 									TQ3StorageObject inStorage,
@@ -656,35 +673,27 @@ static const TQ3Uns8*	GetImageData(
 									TQ3Uns32 inDataSize )
 {
 	const TQ3Uns8*	theData = nullptr;
-	TQ3Uns32			sizeRead, bufferSize;
+	TQ3Uns32	sizeRead;
 	TQ3Uns8*	dataAddr = nullptr;
 	
-	TQ3ObjectType	theType = Q3Object_GetLeafType( inStorage );
-	
-	switch (theType)
+	if (Q3Object_IsType( inStorage, kQ3StorageTypeMemory ))
 	{
-		case kQ3StorageTypeMemory:
-			Q3MemoryStorage_GetBuffer( inStorage, &dataAddr, nullptr, nullptr );
-			if (dataAddr != nullptr)
-			{
-				theData = dataAddr + inStorageOffset;
-			}
-			break;
+		Q3MemoryStorage_GetBuffer( inStorage, &dataAddr, nullptr, nullptr );
+		if (dataAddr != nullptr)
+		{
+			theData = dataAddr + inStorageOffset;
+		}
+	}
+	else // any other kind of storage
+	{
+		SrcImageData().Grow( inDataSize );
 		
-		default:	// any type of storage
-			if ( (kQ3Success == Q3Storage_GetSize( inStorage, &bufferSize )) &&
-				(bufferSize > inStorageOffset + inDataSize) )
-			{
-				sSrcImageData.Grow( inDataSize );
-				
-				if (kQ3Success == Q3Storage_GetData( inStorage,
-					inStorageOffset, inDataSize, sSrcImageData.Address(),
-					&sizeRead ))
-				{
-					theData = sSrcImageData.Address();
-				}
-			}
-			break;
+		if ( (kQ3Success == Q3Storage_GetData( inStorage, inStorageOffset,
+			inDataSize, SrcImageData().Address(), &sizeRead )) &&
+			(sizeRead == inDataSize) )
+		{
+			theData = SrcImageData().Address();
+		}
 	}
 	
 	return theData;
@@ -704,20 +713,21 @@ static bool	ConvertImageFormat(
 								TQ3Uns32 inSrcHeight,
 								TQ3Uns32 inSrcRowBytes,
 								TQ3Endian inSrcByteOrder,
+								TQ3Boolean inSrcRowsAreFlipped,
 								bool inPremultiplyAlpha,
-								ByteBuffer& outImage,
+								const TQ3Uns8*& outImageData,
 								GLint& outGLInternalFormat,
 								GLenum& outGLFormat )
 {
 	bool	didConvert = false;
 	
-	bool	hasAlpha = (inSrcPixelType == kQ3PixelTypeARGB32) ||
-		(inSrcPixelType == kQ3PixelTypeARGB16);
+	//bool	hasAlpha = (inSrcPixelType == kQ3PixelTypeARGB32) ||
+	//	(inSrcPixelType == kQ3PixelTypeARGB16);
 	
-	outGLFormat = hasAlpha? GL_RGBA : GL_RGB;
+	outGLFormat = GL_BGRA;
 	outGLInternalFormat = GLUtils_ConvertPixelType( inSrcPixelType );
 	TQ3Uns32 srcBytesPerPixel = GLUtils_SizeOfPixelType( inSrcPixelType ) / 8;
-	TQ3Uns32 dstBytesPerPixel = hasAlpha? 4 : 3;
+	TQ3Uns32 dstBytesPerPixel = 4;
 	// Assume 4-byte alignment, so dstRowBytes must be rounded up to next
 	// multiple of 4.
 	TQ3Uns32 dstRowBytes = 4 * ((dstBytesPerPixel * inSrcWidth + 3) / 4);
@@ -727,24 +737,58 @@ static bool	ConvertImageFormat(
 	
 	if (theConverter != nullptr)
 	{
-		// Allocate memory
-		outImage.Grow( dstRowBytes * inSrcHeight );
-		TQ3Uns8*	dstData = outImage.Address();
-		
-		
-		for (TQ3Uns32 rowNum = 0; rowNum < inSrcHeight; ++rowNum)
+		bool skipConversion = (inSrcRowsAreFlipped == kQ3True) &&
+			(
+				(theConverter == ConvertPixel_xRGB32_Little) ||
+				(theConverter == ConvertPixel_ARGB32_Little)
+			);
+	
+		if (skipConversion)
 		{
-			const TQ3Uns8* srcRowData = inSrcImageData +
-				(inSrcHeight - rowNum - 1) * inSrcRowBytes;
-			TQ3Uns8* dstRowData = &dstData[ dstRowBytes * rowNum ];
+			outImageData = inSrcImageData;
+		}
+		else
+		{
+			// Allocate memory
+			GLFormatWork().Grow( dstRowBytes * inSrcHeight );
+			TQ3Uns8* workData = GLFormatWork().Address();
 			
-			for (TQ3Uns32 colNum = 0; colNum < inSrcWidth; ++colNum)
+			if (inSrcRowsAreFlipped == kQ3True)
 			{
-				(*theConverter)( srcRowData, dstRowData );
-				
-				srcRowData += srcBytesPerPixel;
-				dstRowData += dstBytesPerPixel;
+				for (TQ3Uns32 rowNum = 0; rowNum < inSrcHeight; ++rowNum)
+				{
+					const TQ3Uns8* srcRowData = inSrcImageData +
+						rowNum * inSrcRowBytes;
+					TQ3Uns8* dstRowData = &workData[ dstRowBytes * rowNum ];
+					
+					for (TQ3Uns32 colNum = 0; colNum < inSrcWidth; ++colNum)
+					{
+						(*theConverter)( srcRowData, dstRowData );
+						
+						srcRowData += srcBytesPerPixel;
+						dstRowData += dstBytesPerPixel;
+					}
+				}
 			}
+			else
+			{
+				for (TQ3Uns32 rowNum = 0; rowNum < inSrcHeight; ++rowNum)
+				{
+					const TQ3Uns8* srcRowData = inSrcImageData +
+						(inSrcHeight - rowNum - 1) * inSrcRowBytes;
+					TQ3Uns8* dstRowData = &workData[ dstRowBytes * rowNum ];
+					
+					for (TQ3Uns32 colNum = 0; colNum < inSrcWidth; ++colNum)
+					{
+						(*theConverter)( srcRowData, dstRowData );
+						
+						srcRowData += srcBytesPerPixel;
+						dstRowData += dstBytesPerPixel;
+					}
+				}
+			}
+			
+			outImageData = workData;
 		}
 		
 		didConvert = true;
@@ -757,12 +801,13 @@ static void	ResizeImage(
 								GLenum inGLFormat,
 								TQ3Uns32 inSrcWidth,
 								TQ3Uns32 inSrcHeight,
-								ByteBuffer& inSrcImage,
+								const TQ3Uns8* inSrcImageData,
 								TQ3Uns32 inDstWidth,
 								TQ3Uns32 inDstHeight,
 								ByteBuffer& outDstImage )
 {
-	TQ3Uns32 dstBytesPerPixel = (inGLFormat == GL_RGBA)? 4 : 3;
+	TQ3Uns32 dstBytesPerPixel = ((inGLFormat == GL_RGBA) ||
+		(inGLFormat == GL_BGRA))? 4 : 3;
 	// Assume 4-byte alignment, so dstRowBytes must be rounded up to next
 	// multiple of 4.
 	TQ3Uns32 dstRowBytes = 4 * ((dstBytesPerPixel * inDstWidth + 3) / 4);
@@ -773,7 +818,7 @@ static void	ResizeImage(
 	
 	// Resize the image
 	gluScaleImage( inGLFormat,
-		inSrcWidth, inSrcHeight, GL_UNSIGNED_BYTE, inSrcImage.Address(),
+		inSrcWidth, inSrcHeight, GL_UNSIGNED_BYTE, inSrcImageData,
 		inDstWidth, inDstHeight, GL_UNSIGNED_BYTE, outDstImage.Address() );
 }
 
@@ -783,7 +828,7 @@ static void	ResizeImage(
 				including obeying the texture size upper bound and power of 2
 				requirements.
 */
-static bool	ConvertImageForOpenGL(
+static const TQ3Uns8*	ConvertImageForOpenGL(
 								TQ3StorageObject inStorage,
 								TQ3Uns32 inStorageOffset,
 								TQ3PixelType inSrcPixelType,
@@ -791,47 +836,55 @@ static bool	ConvertImageForOpenGL(
 								TQ3Uns32 inSrcHeight,
 								TQ3Uns32 inSrcRowBytes,
 								TQ3Endian inSrcByteOrder,
+								TQ3Boolean inSrcRowsAreFlipped,
 								bool inPremultiplyAlpha,
+								bool inAllowNPOT,
 								TQ3Uns32& outDstWidth,
 								TQ3Uns32& outDstHeight,
-								ByteBuffer& outImage,
 								GLint& outGLInternalFormat,
 								GLenum& outGLFormat )
 {
-	bool	didConvert = false;
+	// Make sure we return something in the output variables
+	outDstWidth = 0;
+	outDstHeight = 0;
+	outGLInternalFormat = GL_RGBA8;
+	outGLFormat = GL_BGRA;
+	
 	TQ3Uns32	srcDataSize = inSrcRowBytes * inSrcHeight;
 	const TQ3Uns8*	srcData = GetImageData( inStorage, inStorageOffset,
 		srcDataSize );
+	const TQ3Uns8* dstData = nullptr;
 	
 	if ( (srcData != nullptr) &&
 		ConvertImageFormat( srcData, inSrcPixelType, inSrcWidth, inSrcHeight,
-			inSrcRowBytes, inSrcByteOrder, inPremultiplyAlpha, sGLFormatWork,
-			outGLInternalFormat, outGLFormat ) )
+			inSrcRowBytes, inSrcByteOrder, inSrcRowsAreFlipped,
+			inPremultiplyAlpha, dstData, outGLInternalFormat, outGLFormat ) )
 	{
-		ConstrainTextureSize( inSrcWidth, inSrcHeight, outDstWidth, outDstHeight );
+		ConstrainTextureSize( inSrcWidth, inSrcHeight, inAllowNPOT,
+			outDstWidth, outDstHeight );
 		
 		if ( (outDstWidth == inSrcWidth) && (outDstHeight == inSrcHeight) )
 		{
-			// Image can be used as is
-			outImage.Swap( sGLFormatWork );
+			// Image (dstData) can be used as is
 		}
 		else
 		{
 			ResizeImage( outGLFormat,
-				inSrcWidth, inSrcHeight, sGLFormatWork,
-				outDstWidth, outDstHeight, outImage );
+				inSrcWidth, inSrcHeight, dstData,
+				outDstWidth, outDstHeight, GLImageData() );
+			dstData = GLImageData().Address();
 		}
-		
-		didConvert = true;
 	}
 	
-	return didConvert;
+	return dstData;
 }
+
 
 
 static bool	LoadOpenGLWithPixmapTexture(
 								TQ3TextureObject inTexture,
-								bool inPremultiplyAlpha )
+								bool inPremultiplyAlpha,
+								bool inAllowNPOT )
 {
 	bool	didLoad = false;
 	TQ3StoragePixmap	thePixmap;
@@ -840,34 +893,43 @@ static bool	LoadOpenGLWithPixmapTexture(
 	
 	if (GetPixmapTextureData( inTexture, thePixmap, storageHolder ))
 	{
-		TQ3Uns32	theWidth, theHeight;
-		GLint	glInternalFormat;
-		GLenum	glFormat;
-		
-		bool didConvert = ConvertImageForOpenGL( thePixmap.image, 0,
-			thePixmap.pixelType, thePixmap.width, thePixmap.height,
-			thePixmap.rowBytes, thePixmap.byteOrder,
-			inPremultiplyAlpha,
-			theWidth, theHeight,
-			sGLImageData, glInternalFormat, glFormat );
-		
-		if (didConvert)
+		if (kQ3Success == Q3Storage_Open( storageHolder.get(), kQ3False ))
 		{
-			gluBuild2DMipmaps( GL_TEXTURE_2D, glInternalFormat,
+			TQ3Uns32	theWidth, theHeight;
+			GLint	glInternalFormat;
+			GLenum	glFormat;
+			
+			TQ3Boolean rowsAreFlipped = CETextureFlippedRowsElement_IsPresent( inTexture );
+			
+			const TQ3Uns8* imageData = ConvertImageForOpenGL( thePixmap.image, 0,
+				thePixmap.pixelType, thePixmap.width, thePixmap.height,
+				thePixmap.rowBytes, thePixmap.byteOrder, rowsAreFlipped,
+				inPremultiplyAlpha, inAllowNPOT,
 				theWidth, theHeight,
-				glFormat, GL_UNSIGNED_BYTE,
-				sGLImageData.Address() );
+				glInternalFormat, glFormat );
+			
+			if (imageData != nullptr)
+			{
+				gluBuild2DMipmaps( GL_TEXTURE_2D, glInternalFormat,
+					theWidth, theHeight,
+					glFormat, GL_UNSIGNED_BYTE,
+					imageData );
 
-			didLoad = true;
+				didLoad = true;
+			}
+
+			Q3Storage_Close( storageHolder.get() );
 		}
 	}
 	
 	return didLoad;
 }
 
+
 static bool	LoadOpenGLWithMipmapTexture(
 								TQ3TextureObject inTexture,
-								bool inPremultiplyAlpha )
+								bool inPremultiplyAlpha,
+								bool inAllowNPOT )
 {
 	bool	didLoad = false;
 	TQ3Mipmap		theMipmap;
@@ -875,39 +937,63 @@ static bool	LoadOpenGLWithMipmapTexture(
 	
 	if (GetMipmapTextureData( inTexture, theMipmap, storageHolder ))
 	{
-		didLoad = true;
-		int	numImages = CountImagesInMipmap( theMipmap );
-		
-		for (int i = 0; i < numImages; ++i)
+		if (kQ3Success == Q3Storage_Open( storageHolder.get(), kQ3False ))
 		{
-			TQ3Uns32	theWidth, theHeight;
-			GLint	glInternalFormat;
-			GLenum	glFormat;
+			didLoad = true;
+			int	numImages = CountImagesInMipmap( theMipmap );
+			TQ3Boolean rowsAreFlipped = CETextureFlippedRowsElement_IsPresent( inTexture );
 			
-			bool didConvert = ConvertImageForOpenGL( theMipmap.image,
-				theMipmap.mipmaps[i].offset, theMipmap.pixelType,
-				theMipmap.mipmaps[i].width, theMipmap.mipmaps[i].height,
-				theMipmap.mipmaps[i].rowBytes,
-				theMipmap.byteOrder, inPremultiplyAlpha,
-				theWidth, theHeight,
-				sGLImageData, glInternalFormat, glFormat );
+			for (int i = 0; i < numImages; ++i)
+			{
+				TQ3Uns32	theWidth, theHeight;
+				GLint	glInternalFormat;
+				GLenum	glFormat;
+				
+				const TQ3Uns8* imageData = ConvertImageForOpenGL( theMipmap.image,
+					theMipmap.mipmaps[i].offset, theMipmap.pixelType,
+					theMipmap.mipmaps[i].width, theMipmap.mipmaps[i].height,
+					theMipmap.mipmaps[i].rowBytes,
+					theMipmap.byteOrder, rowsAreFlipped,
+					inPremultiplyAlpha, inAllowNPOT,
+					theWidth, theHeight,
+					glInternalFormat, glFormat );
+				
+				if (imageData != nullptr)
+				{
+					glTexImage2D( GL_TEXTURE_2D, i, glInternalFormat,
+						theWidth, theHeight, 0, glFormat, GL_UNSIGNED_BYTE,
+						imageData );
+				}
+				else
+				{
+					didLoad = false;
+				}
+			}
 			
-			if (didConvert)
-			{
-				glTexImage2D( GL_TEXTURE_2D, i, glInternalFormat,
-					theWidth, theHeight, 0, glFormat, GL_UNSIGNED_BYTE,
-					sGLImageData.Address() );
-			}
-			else
-			{
-				didLoad = false;
-			}
+			Q3Storage_Close( storageHolder.get() );
 		}
 	}
 
-
 	return didLoad;
 }
+
+
+/*!
+	@function	MaybeCallBackAfterUpload
+	@abstract	Check the texture for a property requesting a callback after the
+				texture has been uploaded to OpenGL.
+*/
+static void MaybeCallBackAfterUpload( TQ3TextureObject inTexture )
+{
+	TQ3TextureUploadPropertyData propData;
+	
+	if (kQ3Success == Q3Object_GetProperty( inTexture,
+		kQ3TexturePropertyCallbackAfterUpload, sizeof(propData), nullptr, &propData ))
+	{
+		(*propData.callback)( inTexture, propData.context );
+	}
+}
+
 
 //=============================================================================
 //      External functions
@@ -922,10 +1008,13 @@ static bool	LoadOpenGLWithMipmapTexture(
 									value by its alpha value.  Use this if your
 									texture data has an alpha channel and is NOT
 									set up with premultiplied alpha.
+	@param		inAllowNPOT			Whether to allow NPOT (non-power-of-two)
+									textures.
 	@result		An OpenGL texture "name", or 0 on failure.
 */
 GLuint	GLTextureLoader( TQ3TextureObject inTexture,
-							TQ3Boolean inPremultiplyAlpha )
+							TQ3Boolean inPremultiplyAlpha,
+							TQ3Boolean inAllowNPOT )
 {
 	GLuint	resultTextureName = 0;
 	Q3_ASSERT( inTexture != nullptr );
@@ -950,17 +1039,20 @@ GLuint	GLTextureLoader( TQ3TextureObject inTexture,
 		{
 			case kQ3TextureTypePixmap:
 				didLoad = LoadOpenGLWithPixmapTexture( inTexture,
-					inPremultiplyAlpha == kQ3True );
+					inPremultiplyAlpha == kQ3True,
+					inAllowNPOT == kQ3True );
 				break;
 			
 			case kQ3TextureTypeMipmap:
 				didLoad = LoadOpenGLWithMipmapTexture( inTexture,
-					inPremultiplyAlpha == kQ3True );
+					inPremultiplyAlpha == kQ3True,
+					inAllowNPOT == kQ3True );
 				break;
 		}
 		
 		if (didLoad)
 		{
+			MaybeCallBackAfterUpload( inTexture );
 			resultTextureName = textureName;
 		}
 		else
