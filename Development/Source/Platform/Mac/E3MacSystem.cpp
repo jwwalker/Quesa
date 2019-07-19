@@ -5,7 +5,7 @@
         Mac specific routines.
 
     COPYRIGHT:
-        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -45,28 +45,12 @@
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
 #include "E3System.h"
+#include "E3MacLog.h"
 
-#if QUESA_UH_IN_FRAMEWORKS
+
+#if QUESA_SUPPORT_HITOOLBOX
 	#include <Carbon/Carbon.h>
-#else
-	#include <Aliases.h>
-	#include <CFBundle.h>
-	#include <CFURL.h>
-	#include <CodeFragments.h>
-	#include <Finder.h>
-	#include <Folders.h>
-	#include <Processes.h>
-	#include <Resources.h>
-#endif
-
-#if TARGET_RT_MAC_MACHO
 	#include <AGL/agl.h>
-#else
-	#include <agl.h>
-#endif
-
-#if Q3_PROFILE
-	#include <Profiler.h>
 #endif
 
 
@@ -85,28 +69,14 @@ const ItemCount	kPluginSearchBatchSize	= 10;
 //=============================================================================
 //      Function prototyes
 //-----------------------------------------------------------------------------
-#if TARGET_RT_MAC_CFM
-pascal OSErr E3MacCFM_Initialise(const CFragInitBlock *initBlock);
-pascal OSErr E3MacCFM_Terminate(void);
-
-#elif TARGET_RT_MAC_MACHO
-
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-Q3_EXTERN_API_C(void) E3MacMachoFrameworkInit();
-
-#if __MWERKS__
-	Q3_EXTERN_API_C(void) E3MacMachoFrameworkTerminate();
-#else
-	Q3_EXTERN_API_C(void) E3MacMachoFrameworkTerminate() __attribute__((destructor));
-#endif
+Q3_EXTERN_API_C(void) E3MacMachoFrameworkTerminate() __attribute__((destructor));
 
 #ifdef __cplusplus
 }
-#endif
-
 #endif
 
 
@@ -118,11 +88,7 @@ Q3_EXTERN_API_C(void) E3MacMachoFrameworkInit();
 typedef struct E3MacSystem_PluginSlot *E3MacSystem_PluginSlotPtr;
 
 typedef struct E3MacSystem_PluginSlot {
-#if TARGET_RT_MAC_MACHO
 	CFBundleRef					pluginBundle;
-#else
-	CFragConnectionID			CFM_ID;
-#endif
 	E3MacSystem_PluginSlotPtr	nextSlot;
 } E3MacSystem_PluginSlot;
 
@@ -132,10 +98,8 @@ typedef struct E3MacSystem_PluginSlot {
 //=============================================================================
 //      Internal globals
 //-----------------------------------------------------------------------------
-#if TARGET_RT_MAC_CFM
-static AliasHandle gQuesaLib = nullptr;
-#endif
 
+extern short gShlbResFile;
 short gShlbResFile = 0;
 
 static E3MacSystem_PluginSlotPtr e3macsystem_pluginSlotHead = nullptr;
@@ -147,14 +111,12 @@ static E3MacSystem_PluginSlotPtr e3macsystem_pluginSlotHead = nullptr;
 //      Internal functions
 //-----------------------------------------------------------------------------
 
-#if TARGET_RT_MAC_MACHO
 //-----------------------------------------------------------------------------
 //      e3macho_load_plugin : Load a Mach-o plug-in.
 //-----------------------------------------------------------------------------
 static void e3macho_load_plugin( CFBundleRef theBundle )
 {
 	E3MacSystem_PluginSlotPtr newSlot = nullptr;
-	short oldResFile = CurResFile();
 	
 	// Load the plugin, which causes the function marked as CALL_ON_LOAD
 	// to be called.
@@ -170,55 +132,8 @@ static void e3macho_load_plugin( CFBundleRef theBundle )
 			e3macsystem_pluginSlotHead = newSlot;
 		}
 	}
-	
-	// In case the plug-in's initialization routine changed the resource file
-	UseResFile( oldResFile );
 }
 
-#else	// CFM
-//-----------------------------------------------------------------------------
-//      e3mac_load_cfm_plugin : Load a CFM plug-in.
-//-----------------------------------------------------------------------------
-static void
-e3mac_load_cfm_plugin(const FSRef& theFileRef )
-{	Ptr					mainAddr;
-	Str255				theStr;
-	OSErr				theErr;
-	short				oldResFile;
-	E3MacSystem_PluginSlotPtr newSlot = nullptr;
-	FSSpec				fileSpec;
-
-
-	FSGetCatalogInfo( &theFileRef, kFSCatInfoNone, nullptr, nullptr, &fileSpec, nullptr );
-	
-
-	newSlot = (E3MacSystem_PluginSlotPtr)Q3Memory_Allocate(sizeof(E3MacSystem_PluginSlot));
-	if (newSlot != nullptr)
-	{
-		oldResFile = CurResFile();
-
-
-		// Load the plug-in. Note that we just need to open a connection
-		// to the fragment, and the plug-ins CFM initialisation routine
-		// will register any Quesa objects with the system.
-		theErr = GetDiskFragment( &fileSpec, 0, kCFragGoesToEOF, "\p",
-								 kPrivateCFragCopy, &newSlot->CFM_ID,
-								 &mainAddr, theStr);
-		if ((theErr == noErr) && (newSlot->CFM_ID != nullptr))
-		{
-			newSlot->nextSlot = e3macsystem_pluginSlotHead;
-			e3macsystem_pluginSlotHead = newSlot;
-		}
-		else
-		{//GetDiskFragment failed
-			Q3Memory_Free(&newSlot);
-		}
-		
-		// In case the plug-in's initialization routine changed the resource file
-		UseResFile( oldResFile );
-	}
-}
-#endif
 
 
 
@@ -231,7 +146,6 @@ e3mac_load_plugins(const FSRef& dirToScan )
 {
 	OSErr			theErr;
 
-#if TARGET_RT_MAC_MACHO
 	// Convert FSRef to a URL.
 	CFURLRef dirURL = CFURLCreateFromFSRef( nullptr, &dirToScan );
 	
@@ -258,60 +172,6 @@ e3mac_load_plugins(const FSRef& dirToScan )
 		CFRelease( dirURL );
 	}
 	
-#else	// CFM
-
-	// Create an iterator
-	FSIterator		dirIterator = nullptr;
-	theErr = FSOpenIterator( &dirToScan, kFSIterateFlat, &dirIterator );
-	
-	if (theErr == noErr)
-	{
-		FSRef	fileRefs[ kPluginSearchBatchSize ];
-		FSCatalogInfo	catInfos[ kPluginSearchBatchSize ];
-		ItemCount	batchSizeReturned;
-		Boolean			targetIsFolder;
-		Boolean			wasAliased;
-		
-		do
-		{
-			batchSizeReturned = 0;
-			theErr = FSGetCatalogInfoBulk( dirIterator, kPluginSearchBatchSize,
-				&batchSizeReturned, nullptr, kFSCatInfoFinderInfo, catInfos,
-				fileRefs, nullptr, nullptr );
-			for (ItemCount i = 0; i < batchSizeReturned; ++i)
-			{
-				// Resolve an alias, if it is an alias
-				// This requires OS 9.1 or better
-				targetIsFolder = false;
-				wasAliased = false;
-				if (FSResolveAliasFileWithMountFlags != nullptr)
-				{
-					FSResolveAliasFileWithMountFlags( &fileRefs[ i ], true,
-						&targetIsFolder, &wasAliased, kResolveAliasFileNoUI );
-				}
-				if (!targetIsFolder)
-				{
-					if (wasAliased)
-					{
-						// Get the Finder info of the target of the alias
-						FSGetCatalogInfo( &fileRefs[ i ], kFSCatInfoFinderInfo,
-							&catInfos[ i ], nullptr, nullptr, nullptr );
-					}
-					const FileInfo&	finderInfo( *reinterpret_cast<FileInfo*>(
-						catInfos[i].finderInfo ) );
-					
-					if ( (finderInfo.fileType == kQ3XExtensionMacFileType) &&
-						(finderInfo.fileCreator == kQ3XExtensionMacCreatorType) )
-					{
-						e3mac_load_cfm_plugin( fileRefs[i] );
-					}
-				}
-			}
-		} while (theErr == noErr);
-		
-		FSCloseIterator( dirIterator );
-	}
-#endif
 }
 
 
@@ -323,30 +183,6 @@ e3mac_load_plugins(const FSRef& dirToScan )
 //      Public functions
 //-----------------------------------------------------------------------------
 
-#if TARGET_RT_MAC_MACHO
-//-----------------------------------------------------------------------------
-//      E3MacMachoFrameworkInit : Mach-o initialise routine.
-//
-//	This is designated at the initiailization function in the Xcode build settings
-//	(INIT_ROUTINE).
-//-----------------------------------------------------------------------------
-__attribute__((constructor))
-void E3MacMachoFrameworkInit()
-{
-	CFBundleRef		myBundle = CFBundleGetBundleWithIdentifier( CFSTR("org.Quesa.Quesa") );
-	
-	if (myBundle != nullptr)
-	{
-		// Note: leave the gQuesaLib AliasHandle as nullptr.  The only reason we were
-		// getting the alias to the shared library was so that we could look for
-		// plug-ins in the same directory.  However, we do not expect to find plug-ins
-		// in the same location as a framework.
-		
-		short oldResFile = CurResFile();
-		gShlbResFile = CFBundleOpenBundleResourceMap( myBundle );
-		UseResFile(oldResFile);
-	}
-}
 
 
 
@@ -355,18 +191,8 @@ void E3MacMachoFrameworkInit()
 //-----------------------------------------------------------------------------
 //      E3MacMachoFrameworkTerminate : Mach-o terminate routine.
 //-----------------------------------------------------------------------------
-#if __MWERKS__
-#pragma CALL_ON_UNLOAD	E3MacMachoFrameworkTerminate
-#endif
 void E3MacMachoFrameworkTerminate()
 {
-	// Close the resource file.
-	CFBundleRef		myBundle = CFBundleGetBundleWithIdentifier( CFSTR("org.Quesa.Quesa") );
-	
-	if ( (myBundle != nullptr) && (gShlbResFile != 0) && (gShlbResFile != -1) )
-	{
-		CFBundleCloseBundleResourceMap( myBundle, gShlbResFile );
-	}
 
 
 
@@ -392,76 +218,6 @@ void E3MacMachoFrameworkTerminate()
 
 
 
-
-#elif TARGET_RT_MAC_CFM // CFM
-//-----------------------------------------------------------------------------
-//      E3MacCFM_Initialise : CFM initialise routine.
-//-----------------------------------------------------------------------------
-pascal OSErr
-E3MacCFM_Initialise(const CFragInitBlock *initBlock)
-{	OSErr	theErr;
-
-
-
-	// Save an alias to our FSSpec for later
-	if (initBlock->fragLocator.where == kDataForkCFragLocator)
-		theErr = NewAlias(nullptr, initBlock->fragLocator.u.onDisk.fileSpec, &gQuesaLib);
-	else	
-		theErr = noErr;
-
-	// Get the resource fork reference, save that for later too
-	if (initBlock->fragLocator.where == kDataForkCFragLocator)
-		{
-		short oldResFile = CurResFile();
-		gShlbResFile = FSpOpenResFile(initBlock->fragLocator.u.onDisk.fileSpec, fsRdPerm);
-		UseResFile(oldResFile);
-		}
-
-	return(theErr);
-}
-
-
-
-
-
-//=============================================================================
-//      E3MacCFM_Terminate : CFM termination routine.
-//-----------------------------------------------------------------------------
-pascal OSErr
-E3MacCFM_Terminate(void)
-{
-
-
-	// If Quesa has not been shut down yet, it probably means that the
-	// application crashed.  In that case, any remaining objects probably
-	// don't constitute true leaks.
-	#if QUESA_ALLOW_QD3D_EXTENSIONS && Q3_DEBUG
-	if ( Q3IsInitialized() )
-	{
-		Q3Memory_StopRecording();
-	}
-	#endif
-
-
-
-	// Make sure Quesa has been shut down by the app. We keep polling
-	// Q3IsInitialized until it returns false, to make sure we decrement
-	// the system reference count down to 0.
-	while (Q3IsInitialized())
-		Q3Exit();
-
-
-
-	// Dispose of our alias
-	if (gQuesaLib != nullptr)
-		{
-		DisposeHandle((Handle) gQuesaLib);
-		gQuesaLib = nullptr;
-		}
-
-	return(noErr);
-}
-#endif
 
 
 
@@ -475,12 +231,6 @@ E3MacSystem_Initialise(void)
 {
 
 
-	// If we're profiling, initialise the profiler
-#if Q3_PROFILE
-	OSErr theErr = ProfilerInit(collectDetailed, bestTimeBase, 30000, 2000);
-	if (theErr != noErr)
-		return(kQ3Failure);
-#endif
 
 	return(kQ3Success);
 }
@@ -498,12 +248,6 @@ E3MacSystem_Terminate(void)
 
 
 
-	// If we're profiling, dump the results and terminate the profiler
-#if Q3_PROFILE
-	ProfilerDump("\pQuesa Profile Log");
-	ProfilerTerm();
-#endif
-
 
 #if QUESA_SUPPORT_HITOOLBOX
 	// Shut down OpenGL. This fixes a crash on exit on some apps on Mac OS 9
@@ -511,9 +255,15 @@ E3MacSystem_Terminate(void)
 	//
 	// Since we may not have any renderers which use OpenGL, we assume that
 	// we've been weak linked and test for the symbol first.
-	if ( aglResetLibrary != nullptr )
+	if ( &aglResetLibrary != nullptr )
 		aglResetLibrary();
 #endif
+
+	FILE* logStream = E3GetLogStream( false );
+	if (logStream != nullptr)
+	{
+		fclose( logStream );
+	}
 }
 
 
@@ -524,8 +274,6 @@ E3MacSystem_Terminate(void)
 //      E3MacSystem_LoadPlugins : Scan for and load plug-ins.
 //-----------------------------------------------------------------------------
 //		Note :	Plug-ins are loaded by scanning certain directories.
-//				Which directories we scan depends on whether we are running
-//				under OS 9 or OS X, and whether we are built as CFM or Mach-O.
 //-----------------------------------------------------------------------------
 void
 E3MacSystem_LoadPlugins(void)
@@ -534,59 +282,17 @@ E3MacSystem_LoadPlugins(void)
 	bool					isUnique[ kMaxPluginLocations ];
 	FSRef					fileRef;
 	int						dirCount = 0;
-	Boolean					wasChanged, isOnOSX;
+	Boolean					wasChanged;
 	OSStatus				theErr = noErr;
 	SInt32					sysVersion;
 	int						i, j;
 
 
 
-	// Initialise ourselves
-	isOnOSX = (Gestalt(gestaltSystemVersionMajor, &sysVersion) == noErr) &&
-		(sysVersion >= 10);
-
-
-
-#if TARGET_RT_MAC_CFM
-	// Find the Quesa shared library file (CFM only)
-	if (gQuesaLib != nullptr)
-	{
-		theErr = FSResolveAlias( nullptr, gQuesaLib, &fileRef, &wasChanged);
-		if (theErr == noErr)
-		{
-			// Get the parent directory of the application
-			theErr = FSGetCatalogInfo( &fileRef, 0, nullptr, nullptr, nullptr, &dirRef[ dirCount ] );
-		}
-		if (theErr == noErr)
-			++dirCount;
-	}
-#endif
-
-
-
 	// Find the application file
 	ProcessSerialNumber		thePSN = { kNoProcess, kCurrentProcess };
-	if (isOnOSX)
-	{
-		theErr = GetProcessBundleLocation( &thePSN, &fileRef );
-	}
-	else
-	{
-#if QUESA_SUPPORT_HITOOLBOX
-		// FSSpec is not supported in 64 bit, and this else is for Mac OS 9 only anyway.
-		FSSpec	appSpec;
-		ProcessInfoRec			processInfo;
-		processInfo.processInfoLength = sizeof(ProcessInfoRec);
-		processInfo.processName       = nullptr;
-		processInfo.processAppSpec    = &appSpec;
-		
-		theErr = GetProcessInformation( &thePSN, &processInfo );
-		if (theErr == noErr)
-		{
-			FSpMakeFSRef( &appSpec, &fileRef );
-		}
-#endif
-	}	
+	theErr = GetProcessBundleLocation( &thePSN, &fileRef );
+	
 	if (theErr == noErr)
 	{
 		// Get the parent directory of the application
@@ -597,22 +303,6 @@ E3MacSystem_LoadPlugins(void)
 
 
 
-	if (isOnOSX)
-	{
-	#if TARGET_RT_MAC_CFM
-		// ~/Library/CFMSupport
-		theErr = FSFindFolder( kUserDomain, kSharedLibrariesFolderType,
-			kDontCreateFolder, &dirRef[ dirCount ] );
-		if (theErr == noErr)
-			++dirCount;
-		
-		// /Library/CFMSupport
-		theErr = FSFindFolder( kLocalDomain, kSharedLibrariesFolderType,
-			kDontCreateFolder, &dirRef[ dirCount ] );
-		if (theErr == noErr)
-			++dirCount;
-	#endif
-		
 		// Plugins folder of bundle
 		CFBundleRef myBundle = CFBundleGetMainBundle();
 		if (myBundle != nullptr)
@@ -627,14 +317,6 @@ E3MacSystem_LoadPlugins(void)
 				CFRelease( pluginsURL );
 			}
 		}
-	}
-	else
-	{	// OS 9 Extensions folder
-		theErr = FSFindFolder( kOnSystemDisk, kExtensionFolderType,
-			kDontCreateFolder, &dirRef[ dirCount ] );
-		if (theErr == noErr)
-			++dirCount;
-	}
 
 
 
@@ -678,19 +360,20 @@ E3MacSystem_UnloadPlugins(void)
 {
 		E3MacSystem_PluginSlotPtr nextSlot;
 		E3MacSystem_PluginSlotPtr currentSlot;
+		E3LogToConsole("E3MacSystem_UnloadPlugins 1");
 
 		nextSlot = e3macsystem_pluginSlotHead;
 
 		while( nextSlot != nullptr){
 			currentSlot = nextSlot;
 			nextSlot = currentSlot->nextSlot;
-		#if TARGET_RT_MAC_MACHO
+			E3LogToConsole("E3MacSystem_UnloadPlugins 2");
 			CFBundleUnloadExecutable( currentSlot->pluginBundle );
+			E3LogToConsole("E3MacSystem_UnloadPlugins 3");
 			CFRelease( currentSlot->pluginBundle );
-		#else
-			CloseConnection(&currentSlot->CFM_ID);
-		#endif
+			E3LogToConsole("E3MacSystem_UnloadPlugins 4");
 			Q3Memory_Free(&currentSlot);
+			E3LogToConsole("E3MacSystem_UnloadPlugins 5");
 		}
 		
 	e3macsystem_pluginSlotHead = nullptr;

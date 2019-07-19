@@ -74,6 +74,7 @@
 	TQ3Matrix4x4		mRotationFactor;
 	TQ3ShaderObject		mIlluminationShader;
 	TQ3ShapeObject		mSceneGeometry;
+	TQ3StyleObject		mFog;
 	float				mXRotation;
 	float				mYRotation;
 	float				mZRotation;
@@ -85,6 +86,7 @@
 @property (assign) BOOL		animates;
 @property (assign) BOOL		drawsBounds;
 @property (assign) BOOL		fullScreenAntialias;
+@property (assign) BOOL		halfspaceFog;
 
 @property (assign) TQ3ObjectType	rendererType;
 

@@ -20,7 +20,7 @@
         to record their relationship to the rest of the tree.
 
     COPYRIGHT:
-        Copyright (c) 1999-2016, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -929,6 +929,9 @@ OpaqueTQ3Object::DestroyInstance ( void )
 	Q3_ASSERT(theClass->numInstances > 0);
 	theClass->numInstances-- ;
 
+
+	// Mark it as no longer a good object
+	quesaTag = 0xFEEDFEED;
 
 
 	// Dispose of the object

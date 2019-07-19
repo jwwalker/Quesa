@@ -8,7 +8,7 @@
         speed, to avoid the trip back out through the Q3foo interface.
 
     COPYRIGHT:
-        Copyright (c) 1999-2016, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -140,6 +140,19 @@ inline void AdvanceConstPointer( const T*& ioPtr, TQ3Uns32 inCount )
 	ioPtr = reinterpret_cast<const T*>( ptr );
 }
 
+//=============================================================================
+//		e3matrix4x4_extract3x3 : Select the upper left 3x3 of a 4x4 matrix
+//-----------------------------------------------------------------------------
+static void e3matrix4x4_extract3x3( const TQ3Matrix4x4& in4x4, TQ3Matrix3x3& out3x3 )
+{
+	for (int row = 0; row < 3; ++row)
+	{
+		for (int col = 0; col < 3; ++col)
+		{
+			out3x3.value[row][col] = in4x4.value[row][col];
+		}
+	}
+}
 
 //=============================================================================
 //		e3matrix3x3_determinant : Returns the determinant of the given 3x3 matrix.
@@ -3373,8 +3386,24 @@ float
 E3Matrix4x4_Determinant(const TQ3Matrix4x4 *matrix4x4)
 {
     TQ3Matrix4x4        temp = *matrix4x4;
+    float result;
+
+	// The 4x4 matrices used in 3D graphics often have a last column of
+	// (0, 0, 0, 1).  In that case, the determinant equals the determinant
+	// of the upper left 3x3 submatrix.
+	if ( (temp.value[3][3] == 1.0f) && (temp.value[0][3] == 0.0f) &&
+		(temp.value[1][3] == 0.0f) && (temp.value[2][3] == 0.0f) )
+	{
+		TQ3Matrix3x3 upperLeft;
+		e3matrix4x4_extract3x3( temp, upperLeft );
+		result = e3matrix3x3_determinant( &upperLeft );
+	}
+	else
+	{
+		result = e3matrix4x4_determinant(&temp);
+	}
     
-    return(e3matrix4x4_determinant(&temp));
+    return result;
 }
 
 
@@ -3473,14 +3502,8 @@ E3Matrix4x4_Invert(const TQ3Matrix4x4 *matrix4x4, TQ3Matrix4x4 *result)
 		(result->value[1][3] == 0.0f) && (result->value[2][3] == 0.0f) )
 	{
 		TQ3Matrix3x3	upperLeft;
+		e3matrix4x4_extract3x3( *result, upperLeft );
 		int	i, j;
-		for (i = 0; i < 3; ++i)
-		{
-			for (j = 0; j < 3; ++j)
-			{
-				upperLeft.value[i][j] = result->value[i][j];
-			}
-		}
 		
 		e3matrix3x3_invert( &upperLeft );
 		

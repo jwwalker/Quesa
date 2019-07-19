@@ -5,7 +5,7 @@
         Header file for E3FFR_3DMF_Geometry.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2011, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -82,6 +82,9 @@ TQ3Status		E3Read_3DMF_Attribute_SurfaceTangent(TQ3Object parentObject, TQ3FileO
 TQ3Status		E3Read_3DMF_Attribute_HighlightState(TQ3Object parentObject, TQ3FileObject theFile);
 TQ3Status		E3Read_3DMF_Attribute_CSGID(TQ3Object parentObject, TQ3FileObject theFile);
 
+TQ3SetObject	E3Read_3DMF_Shape_Elements( TQ3FileObject theFile );
+void			E3Read_3DMF_Shape_Apply_Element_Set( TQ3ShapeObject ioShape, TQ3SetObject& ioElements );
+
 TQ3Object		E3Read_3DMF_Group_Display_IOProxy(TQ3FileObject theFile);
 TQ3Object		E3Read_3DMF_Group_Display(TQ3FileObject theFile);
 TQ3Object		E3Read_3DMF_Group_Display_Ordered(TQ3FileObject theFile);
@@ -93,6 +96,7 @@ TQ3Object		E3Read_3DMF_Shader_Texture(TQ3FileObject theFile);
 TQ3Object		E3Read_3DMF_Shader_Lambert(TQ3FileObject theFile);
 TQ3Object		E3Read_3DMF_Shader_Phong(TQ3FileObject theFile);
 TQ3Object		E3Read_3DMF_Shader_NULL(TQ3FileObject theFile);
+TQ3Object		E3Read_3DMF_Shader_Nondirectional(TQ3FileObject theFile);
 
 TQ3Object		E3Read_3DMF_Style_Subdivision(TQ3FileObject theFile);
 TQ3Object		E3Read_3DMF_Style_PickID(TQ3FileObject theFile);

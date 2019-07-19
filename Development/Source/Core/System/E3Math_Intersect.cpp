@@ -8,7 +8,7 @@
         speed, to avoid the trip back out through the Q3foo interface.
 
     COPYRIGHT:
-        Copyright (c) 1999-2016, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -240,6 +240,35 @@ static Interval Intersect( const Interval& inOne, const Interval& inTwo )
 	result.minimum = std::max( inOne.minimum, inTwo.minimum );
 	result.maximum = std::min( inOne.maximum, inTwo.maximum );
 	return result;
+}
+
+static bool IsPointInCone( const TQ3Point3D& inPt,
+							const TQ3Ray3D& inConeAxis,
+							float inConeCosine )
+{
+	TQ3Vector3D	apexToPt = inPt - inConeAxis.origin;
+	
+	return Q3Dot3D( apexToPt, inConeAxis.direction ) >=
+		inConeCosine * Q3Length3D( apexToPt );
+}
+
+static bool IsPointInCone( const TQ3RationalPoint4D& inPt,
+							const TQ3Ray3D& inConeAxis,
+							float inConeCosine )
+{
+	TQ3Vector3D	toPt;
+	if (fabsf(inPt.w) < FLT_EPSILON) // point at infinity
+	{
+		Q3FastRationalPoint4D_ToVector3D( &inPt, &toPt );
+	}
+	else
+	{
+		TQ3Point3D testPt;
+		Q3FastRationalPoint4D_To3D( &inPt, &testPt );
+		toPt = testPt - inConeAxis.origin;
+	}
+	return Q3Dot3D( toPt, inConeAxis.direction ) >=
+		inConeCosine * Q3Length3D( toPt );
 }
 
 
@@ -587,6 +616,229 @@ static Interval Ray3D_IntersectShadowCone( const TQ3Ray3D& inRay, const ShadowCo
 }
 
 
+
+/*!
+	@function	Ray3D_IntersectCone
+	@abstract	Compute the intersections between a ray and a cone surface.
+	@discussion	This function computes the minimum and maximum values of t
+				such that inRay.origin + t * inRay.direction is in the cone.
+	
+				If the ray misses the cone, the function result will be false
+				and the output parameters should be ignored.  if the ray origin
+				is in the interior of the cone, outMinParam will be set to 0.
+				It is possible that there is no largest value of t, in which
+				case outMaxParam will be set to INFINITY.
+				
+				This function is like E3Ray3D_IntersectCone, except that the
+				ray might be at infinity.
+
+	@param		inRay			A ray with a normalized direction.
+	@param		inConeAxis		Axis ray of cone with a normalized direction.
+	@param		inConeCosine	Cosine of angle from axis ray to surface of
+								cone, in interval (0, 1).
+	@param		outMinParam		Receives least parameter for which the ray is
+								within the cone, not less than 0.0.
+	@param		outMaxParam		Receives greatest parameter for which the ray is
+								within the cone, or INFINITY.
+	@result		True if the ray hits the cone.
+*/
+static bool	Ray4D_IntersectCone( const TQ3Ray4D& inRay,
+							const TQ3Ray3D& inConeAxis,
+							float inConeCosine,
+							float& outMinParam,
+							float& outMaxParam )
+{
+	bool didIntersect = false;
+	if (fabsf(inRay.origin.w) > FLT_EPSILON)
+	{
+		TQ3Ray3D finiteRay;
+		Q3FastRationalPoint4D_To3D( &inRay.origin, &finiteRay.origin );
+		finiteRay.direction = inRay.direction;
+		didIntersect = E3Ray3D_IntersectCone( finiteRay, inConeAxis, inConeCosine, outMinParam, outMaxParam );
+	}
+	else
+	{
+		// Let's check whether the start of the ray is inside the cone.
+		bool	isRayOriginInCone = IsPointInCone( inRay.origin, inConeAxis, inConeCosine );
+		
+		// If you consider a point on the ray to be inRay.origin + t * inRay.direction,
+		// and consider what happens as t increases toward infinity, we see that the "end"
+		// of the ray is an infinite point whose direction is inRay.direction.  Therefore
+		// the far end of the ray is in the cone just in case
+		// dot( inRay.direction, inConeAxis.direction ) > inConeCosine .
+		float	rayDotAxis = Q3Dot3D( inRay.direction, inConeAxis.direction );
+		bool	isRayEndInCone = (rayDotAxis > inConeCosine);
+
+		// The finite points in the cone can be described as the points x such that
+		// 		dot( x - inConeAxis.origin, inConeAxis.direction ) >=
+		//			inConeCosine * length( x - inConeAxis.origin ).
+		// However when we consider points at infinity, x is basically just a direction,
+		// and inConeAxis.origin becomes irrelevant, and we essentially have
+		// 		dot( x, inConeAxis.direction ) >= inConeCosine * length( x ).
+		// Replacing x by inRay.origin + t * inRay.direction, we are seeking t >= 0
+		// such that
+		//		dot( inRay.origin + t * inRay.direction, inConeAxis.direction ) >=
+		//		inConeCosine * length( inRay.origin + t * inRay.direction ) .
+
+		// Replacing length( inRay.origin + t * inRay.direction ) by
+		// sqrt( dot( inRay.origin + t * inRay.direction, inRay.origin + t * inRay.direction ) )
+		// and expanding out the dot products, this becomes
+		//		rayOriginDotAxis + t * rayDotAxis >=
+		//			inConeCosine * sqrt( rayOriginDotRayOrigin + 2 * t * rayOriginDotRayDir + t * t ) .
+		TQ3Vector3D rayOriginDir;
+		Q3FastRationalPoint4D_ToVector3D( &inRay.origin, &rayOriginDir );
+		float	rayOriginLen = Q3Length3D( rayOriginDir );
+		float rayOriginDotAxis = Q3Dot3D( rayOriginDir, inConeAxis.direction );
+		float rayOriginDotRayOrigin = Q3Dot3D( rayOriginDir, rayOriginDir );
+		float rayOriginDotRayDir = Q3Dot3D( rayOriginDir, inRay.direction );
+		// Let us square both sides to get rid of the square root.  (This may
+		// produce extraneous solutions such that rayOriginDotAxis + t * rayDotAxis is
+		// negative.)
+		//		square(rayOriginDotAxis + t * rayDotAxis) >=
+		//			square(inConeCosine) * ( rayOriginDotRayOrigin + 2 * t * rayOriginDotRayDir + t * t ) .
+		// This is a quadratic equation, which can be solved by the familiar
+		// quadratic formula.
+		float	cosSq = inConeCosine * inConeCosine;
+		float	a = cosSq - rayDotAxis * rayDotAxis;
+		float	b = 2.0f * (cosSq * rayOriginDotRayDir - rayOriginDotAxis * rayDotAxis);
+		float	c = cosSq * rayOriginDotRayOrigin - rayOriginDotAxis * rayOriginDotAxis;
+		float	t;
+
+		if (a == 0.0f)
+		{
+			if (b == 0.0f)
+			{
+				if (c == 0.0f)
+				{
+					// The ray lies within the doubled cone
+					if (rayDotAxis > 0.0f)
+					{
+						if (isRayOriginInCone)
+						{
+							outMinParam = 0.0f;
+							outMaxParam = Infinity();
+							didIntersect = true;
+						}
+						else
+						{
+							outMinParam = rayOriginLen;
+							outMaxParam = Infinity();
+							didIntersect = true;
+						}
+					}
+					else
+					{
+						if (isRayOriginInCone)
+						{
+							outMinParam = 0.0f;
+							outMaxParam = rayOriginLen;
+							didIntersect = true;
+						}
+						else
+						{
+							// no intersection.
+						}
+					}
+				}
+				else
+				{
+					// no solution.
+				}
+			}
+			else
+			{
+				t = -c / b;
+				if (t >= 0.0f)
+				{
+					if (isRayEndInCone)
+					{
+						outMinParam = t;
+						outMaxParam = Infinity();
+						didIntersect = true;
+					}
+				}
+				else
+				{
+					if (isRayEndInCone)
+					{
+						outMinParam = 0.0f;
+						outMaxParam = Infinity();
+						didIntersect = true;
+					}
+				}
+			}
+		}
+		else	// a != 0.0
+		{
+			float	discriminant = b * b - 4.0f * a * c;
+			if (discriminant >= 0.0f)
+			{
+				float	rootDisc = sqrtf( discriminant );
+				float	oneOver2a = 0.5f / a;
+				float	root1, root2;	// we will have root1 <= root2
+				if (a > 0.0f)
+				{
+					root1 = oneOver2a * (- b - rootDisc);
+					root2 = oneOver2a * (- b + rootDisc);
+				}
+				else
+				{
+					root1 = oneOver2a * (- b + rootDisc);
+					root2 = oneOver2a * (- b - rootDisc);
+				}
+				
+				// Test for extraneous roots.
+				bool	isRoot1Actual = (rayOriginDotAxis + root1 * rayDotAxis >= 0.0f);
+				bool	isRoot2Actual = (rayOriginDotAxis + root2 * rayDotAxis >= 0.0f);
+				if ( isRoot1Actual && isRoot2Actual )
+				{
+					if (root1 >= 0.0f)	// both solutions nonnegative
+					{
+						outMinParam = root1;
+						outMaxParam = root2;
+						didIntersect = true;
+					}
+					else if (root2 >= 0.0f)	// one solution negative
+					{
+						outMinParam = 0.0f;
+						outMaxParam = root2;
+						didIntersect = true;
+					}
+				}
+				else if ( isRoot1Actual && ! isRoot2Actual )
+				{
+					if (root1 >= 0.0f)
+					{
+						outMinParam = 0.0f;
+						outMaxParam = root1;
+						didIntersect = true;
+					}
+				}
+				else if ( ! isRoot1Actual && isRoot2Actual )
+				{
+					if (root2 >= 0.0f)
+					{
+						outMinParam = root2;
+						outMaxParam = Infinity();
+						didIntersect = true;
+					}
+					else
+					{
+						outMinParam = 0.0f;
+						outMaxParam = Infinity();
+						didIntersect = true;
+					}
+				}
+			}
+		}
+	}
+	
+	return didIntersect;
+}
+
+
+
+
 /*!
 	@function	TestBoundingBoxAgainstHalfPlane
 	@abstract	Test whether a bounding box is all inside a half-plane, all
@@ -651,18 +903,6 @@ static HalfPlaneResult TestBoundingBoxAgainstHalfPlane(
 	
 	return result;
 }
-
-static bool IsPointInCone( const TQ3Point3D& inPt,
-							const TQ3Ray3D& inConeAxis,
-							float inConeCosine )
-{
-	TQ3Vector3D	apexToPt;
-	Q3FastPoint3D_Subtract( &inPt, &inConeAxis.origin, &apexToPt );
-	
-	return Q3FastVector3D_Dot( &apexToPt, & inConeAxis.direction ) >=
-		inConeCosine * Q3FastVector3D_Length( &apexToPt );
-}
-
 
 static void e3BoundingBox_GetEdgeRays(
 								const TQ3BoundingBox& inBounds,
@@ -974,6 +1214,7 @@ static void GetFrustumEdges( const TQ3RationalPoint4D* in8Corners,
 	MakeOneEdge( in8Corners[0], in8Corners[1], out6Edges[5] );	// vertical front
 }
 
+
 static void MakeOneEdge(	const TQ3RationalPoint4D& inStart,
 							const TQ3RationalPoint4D& inEnd,
 							FrustumEdge& outEdge )
@@ -1006,6 +1247,70 @@ static void GetLocalFrustumEdges( TQ3ViewObject inView,
 	MakeOneEdge( corners[5], corners[7], outEdges.edge[9] );	// rear top
 	MakeOneEdge( corners[4], corners[5], outEdges.edge[10] );	// rear left
 	MakeOneEdge( corners[6], corners[7], outEdges.edge[11] );	// rear right
+}
+
+static void MakeOneEdgeRay(	const TQ3RationalPoint4D& inStart,
+							const TQ3RationalPoint4D& inEnd,
+							TQ3Ray4D& outEdgeRay,
+							bool& outParamToInfinity )
+{
+	TQ3Point3D finiteStartPt, finiteEndPt;
+	TQ3Vector3D infiniteStartDir, infiniteEndDir;
+	
+	if (fabsf( inStart.w ) > FLT_EPSILON) // inStart is a finite point
+	{
+		outEdgeRay.origin = inStart;
+		if (fabsf( inEnd.w ) > FLT_EPSILON) // inEnd is a finite point
+		{
+			Q3RationalPoint4D_To3D( &inStart, &finiteStartPt );
+			Q3RationalPoint4D_To3D( &inEnd, &finiteEndPt );
+			outEdgeRay.direction = Q3Normalize3D( finiteEndPt - finiteStartPt );
+			outParamToInfinity = false;
+		}
+		else // inEnd is an infinite point
+		{
+			Q3RationalPoint4D_ToVector3D( &inEnd, &infiniteEndDir );
+			outEdgeRay.direction = Q3Normalize3D( infiniteEndDir );
+			outParamToInfinity = true;
+		}
+	}
+	else // inStart is an infinite point
+	{
+		if (fabsf( inEnd.w ) > FLT_EPSILON) // inEnd is a finite point
+		{
+			MakeOneEdgeRay( inEnd, inStart, outEdgeRay, outParamToInfinity );
+		}
+		else // inEnd is an infinite point
+		{
+			Q3RationalPoint4D_ToVector3D( &inStart, &infiniteStartDir );
+			Q3RationalPoint4D_ToVector3D( &inEnd, &infiniteEndDir );
+			outEdgeRay.origin = inStart;
+			outEdgeRay.direction = Q3Normalize3D( infiniteEndDir - infiniteStartDir );
+			outParamToInfinity = false;
+		}
+	}
+}
+
+
+static void GetFrustumEdgeRays( const TQ3RationalPoint4D* in8Corners,
+								TQ3Ray4D* out12Edges,
+								bool* out12ParamToInfinity )
+{
+	MakeOneEdgeRay( in8Corners[0], in8Corners[4], out12Edges[0], out12ParamToInfinity[0] );	// bottom left
+	MakeOneEdgeRay( in8Corners[1], in8Corners[5], out12Edges[1], out12ParamToInfinity[1] );	// top left
+	MakeOneEdgeRay( in8Corners[2], in8Corners[6], out12Edges[2], out12ParamToInfinity[2] );	// bottom right
+	MakeOneEdgeRay( in8Corners[3], in8Corners[7], out12Edges[3], out12ParamToInfinity[3] );	// top right
+
+	MakeOneEdgeRay( in8Corners[0], in8Corners[2], out12Edges[4], out12ParamToInfinity[4] );	// front bottom
+	MakeOneEdgeRay( in8Corners[1], in8Corners[3], out12Edges[5], out12ParamToInfinity[5] );	// front top
+	MakeOneEdgeRay( in8Corners[0], in8Corners[1], out12Edges[6], out12ParamToInfinity[6] );	// front left
+	MakeOneEdgeRay( in8Corners[2], in8Corners[3], out12Edges[7], out12ParamToInfinity[7] );	// front right
+
+	MakeOneEdgeRay( in8Corners[4], in8Corners[6], out12Edges[8], out12ParamToInfinity[8] );	// rear bottom
+	MakeOneEdgeRay( in8Corners[5], in8Corners[7], out12Edges[9], out12ParamToInfinity[9] );	// rear top
+	MakeOneEdgeRay( in8Corners[4], in8Corners[5], out12Edges[10], out12ParamToInfinity[10] );	// rear left
+	MakeOneEdgeRay( in8Corners[6], in8Corners[7], out12Edges[11], out12ParamToInfinity[11] );	// rear right
+	
 }
 
 static float VecDotPoint(	const TQ3Vector3D& inDirection,
@@ -1372,7 +1677,7 @@ E3Ray3D_IntersectTriangle(	const TQ3Ray3D&		theRay,
 			return(kQ3False);
 
 
-		// Calculate v, and test for a miss		
+		// Calculate v, and test for a miss
 		qvec = Q3Cross3D( tvec, edge1 );	
 		outHitPoint.v = Q3Dot3D( theRay.direction, qvec );
 		if (outHitPoint.v < 0.0f || (outHitPoint.u + outHitPoint.v) > det)
@@ -1409,7 +1714,7 @@ E3Ray3D_IntersectTriangle(	const TQ3Ray3D&		theRay,
 			return(kQ3False);
 
 
-		// Calculate v, and test for a miss		
+		// Calculate v, and test for a miss
 		qvec = Q3Cross3D( tvec, edge1 );
 		outHitPoint.v = Q3Dot3D( theRay.direction, qvec ) * invDet;
 		if (outHitPoint.v < 0.0f || (outHitPoint.u + outHitPoint.v) > 1.0f)
@@ -1652,10 +1957,9 @@ bool	E3Ray3D_IntersectCone( const TQ3Ray3D& inRay,
 	//			inConeCosine * length( x - inConeAxis.origin ).
 	// Let's check whether the start of the ray is inside the cone.
 	
-	TQ3Vector3D	diff;
-	Q3FastPoint3D_Subtract( &inRay.origin, &inConeAxis.origin, &diff );
-	float	diffDotAxis = Q3FastVector3D_Dot( &diff, &inConeAxis.direction );
-	float	diffLen = Q3FastVector3D_Length( &diff );
+	TQ3Vector3D	diff = inRay.origin - inConeAxis.origin;
+	float	diffDotAxis = Q3Dot3D( diff, inConeAxis.direction );
+	float	diffLen = Q3Length3D( diff );
 	bool	isRayOriginInCone = (diffDotAxis >= inConeCosine * diffLen);
 	
 	// Replacing x by inRay.origin + t * inRay.direction, we are seeking t >= 0
@@ -1667,11 +1971,10 @@ bool	E3Ray3D_IntersectCone( const TQ3Ray3D& inRay,
 	// If we let diff = inRay.origin - inConeAxis.origin, this becomes
 	//		dot( diff + t * inRay.direction, inConeAxis.direction ) >=
 	//		inConeCosine * length( diff + t * inRay.direction ) .
-	//	Letting t increase toward infinity, we see that the ray is eventually
+	// Letting t increase toward infinity, we see that the ray is eventually
 	// inside the cone just in case
 	// 		dot( inRay.direction, inConeAxis.direction ) > inConeCosine .
-	float	rayDotAxis = Q3FastVector3D_Dot( &inRay.direction,
-		&inConeAxis.direction );
+	float	rayDotAxis = Q3Dot3D( inRay.direction, inConeAxis.direction );
 	bool	isRayEndInCone = (rayDotAxis > inConeCosine);
 	
 	// Replacing length( diff + t * inRay.direction ) by
@@ -1680,7 +1983,7 @@ bool	E3Ray3D_IntersectCone( const TQ3Ray3D& inRay,
 	//		diffDotAxis + t * rayDotAxis >=
 	//			inConeCosine * sqrt( diffDotDiff + 2 * t * diffDotRay + t * t ) .
 	float	diffDotDiff = diffLen * diffLen;
-	float	diffDotRay = Q3FastVector3D_Dot( &diff, &inRay.direction );
+	float	diffDotRay = Q3Dot3D( diff, inRay.direction );
 	
 	// Let us square both sides to get rid of the square root.  (This may
 	// produce extraneous solutions such that diffDotAxis + t * rayDotAxis is
@@ -1819,7 +2122,6 @@ bool	E3Ray3D_IntersectCone( const TQ3Ray3D& inRay,
 					outMaxParam = Infinity();
 					didIntersect = true;
 				}
-				Q3_ASSERT( isRayEndInCone );
 			}
 		}
 	}
@@ -1976,6 +2278,71 @@ void	E3Math_RayNearestLineSegment(
 			}
 		}
 	}
+}
+
+
+
+
+/*!
+	@function	E3Cone_IntersectViewFrustum
+	@abstract	Determine whether a cone intersects a view frustum.
+	@param		inConeAxis		Axis ray of cone with a normalized direction,
+								in world coordinates.
+	@param		inConeCosine	Cosine of angle from axis ray to surface of
+								cone, in interval (0, 1).
+	@param		inCamera		A camera object.
+	@result		True if there is an intersection.
+*/
+bool	E3Cone_IntersectViewFrustum(
+									const TQ3Ray3D& inConeAxis,
+									float inConeCosine,
+									TQ3CameraObject inCamera )
+{
+	bool	didIntersect = false;
+	
+	// If any of the corners of the frustum are in the cone, they intersect.
+	TQ3RationalPoint4D frustumCorners[8];
+	GetFrustumCornersInWorldSpace( inCamera, frustumCorners );
+	int	i;
+	for (i = 0; i < 8; ++i)
+	{
+		if (IsPointInCone( frustumCorners[i], inConeAxis, inConeCosine ))
+		{
+			didIntersect = true;
+			break;
+		}
+	}
+	
+	// If the cone axis intersects the frustum, they intersect.
+	Frustum theFrustum;
+	if (! didIntersect)
+	{
+		GetFrustumPlanesInWorldSpace( inCamera, theFrustum );
+		Interval hits = Ray3D_IntersectFrustum( inConeAxis, theFrustum );
+		didIntersect = ! hits.IsEmpty();
+	}
+	
+	// In the remaining hard case, the surface of the cone must intersect an edge.
+	if (! didIntersect)
+	{
+		TQ3Ray4D edgeRay[12];
+		bool rayParamToInf[12];
+		GetFrustumEdgeRays( frustumCorners, edgeRay, rayParamToInf );
+	
+		for (i = 0; i < 12; ++i)
+		{
+			float	highParam, lowParam;
+			
+			if (Ray4D_IntersectCone( edgeRay[i], inConeAxis, inConeCosine, highParam, lowParam ) &&
+				(rayParamToInf[i] || (lowParam < 1.0f)) )
+			{
+				didIntersect = true;
+				break;
+			}
+		}
+	}
+	
+	return didIntersect;
 }
 
 
@@ -2155,10 +2522,10 @@ bool	E3BoundingBox_IntersectViewFrustum(
 	// Phase 3: Look for a separating plane determined by a cross product of
 	// edge vectors.  Note that a box has only 3 distinct edge directions, and
 	// a frustum has only 6.
-	TQ3Vector3D	frustumLocalEdges[6];
-	GetFrustumEdges( frustumLocalCorners, frustumLocalEdges );
 	TQ3Point3D	boxLocalCorners[8];
 	E3BoundingBox_GetCorners( &inLocalBox, boxLocalCorners );
+	TQ3Vector3D	frustumLocalEdges[6];
+	GetFrustumEdges( frustumLocalCorners, frustumLocalEdges );
 	TQ3Vector3D	boxLocalEdges[3] =
 	{
 		{ 1.0f, 0.0f, 0.0f },
@@ -2359,6 +2726,168 @@ void	E3Math_CalcLocalFrustumPlanes(
 			&localToFrustumTranspose,
 			&out6Planes[i] );
 	}
+}
+
+
+
+/*!
+	@function	E3Math_DistanceFromPointToViewFrustum
+	@abstract	Compute the distance from a point to the view frustum of a
+				camera.
+	@param		inWorldPt	A point in world coordinates.
+	@param		inCamera	A camera object.
+	@result		Distance.  (If the point is inside the frustum, this is zero.)
+*/
+float	E3Math_DistanceFromPointToViewFrustum(
+								const TQ3Point3D& inWorldPt,
+								TQ3CameraObject inCamera )
+{
+	float distance = 0.0;
+	Frustum viewFrustum;
+	GetFrustumPlanesInWorldSpace( inCamera, viewFrustum );
+	bool inFrustum = true;
+	float planeDots[6];
+	int i, j;
+	for (i = 0; i < 6; ++i)
+	{
+		planeDots[i] = inWorldPt.x * viewFrustum.planes[i].x +
+			inWorldPt.y * viewFrustum.planes[i].y +
+			inWorldPt.z * viewFrustum.planes[i].z +
+			viewFrustum.planes[i].w;
+		if (planeDots[i] > 0.0f)
+		{
+			inFrustum = false;
+		}
+	}
+	
+	if (inFrustum)
+	{
+		distance = 0.0;
+	}
+	else
+	{
+		// The far plane of the frustum is probably at infinity, so I will
+		// ignore that plane and its 4 edges and 4 corners.
+		// So, the point of the frustum nearest to inWorldPt could be:
+		// 1. On one of the 5 finite planes, on the inner side of the other
+		//    4 finite planes, or
+		// 2. At one of the 4 near corners, or
+		// 3. Along one of the 8 edges.
+		TQ3RationalPoint4D frustumWorldCorners[8];
+		GetFrustumCornersInWorldSpace( inCamera, frustumWorldCorners );
+		// NBL, NTL, NBR, NTR, FBL, FTL, FBR, FTR (N=near, F=far, B=bottom etc)
+		TQ3Point3D	nearCorners[4];
+		for (i = 0; i < 4; ++i)
+		{
+			Q3FastRationalPoint4D_To3D( &frustumWorldCorners[i], &nearCorners[i] );
+		}
+		TQ3Vector3D	frustumWorldEdges[6];
+		GetFrustumEdges( frustumWorldCorners, frustumWorldEdges );
+		// bottom left, top left, bottom right, top right, horizontal front, vertical front.
+		TQ3Ray3D edgeRays[8] =
+		{
+			{ nearCorners[0], frustumWorldEdges[4] }, // NBL to NBR
+			{ nearCorners[1], frustumWorldEdges[4] }, // NTL to NTR
+			{ nearCorners[0], frustumWorldEdges[5] }, // NBL to NTL
+			{ nearCorners[2], frustumWorldEdges[5] }, // NBR to NTR
+			{ nearCorners[0], frustumWorldEdges[0] }, // NBL to infinity
+			{ nearCorners[1], frustumWorldEdges[1] }, // NTL to infinity
+			{ nearCorners[2], frustumWorldEdges[2] }, // NBR to infinity
+			{ nearCorners[3], frustumWorldEdges[3] }  // NTR to infinity
+		};
+		// Note that for the 4 near rays, the edge is origin + t * direction
+		// for t from 0 to 1, while for the 4 infinite rays, t is from 0 to infinity.
+		
+		float minDistSq = FLT_MAX;
+		float distSq;
+		
+		// Case 1: minimize distance to the 5 finite faces of the frustum.
+		for (i = 0; i < 6; ++i)
+		{
+			if (i == 1)
+			{
+				continue;	// the far plane, which we ignore
+			}
+			TQ3Vector3D P = {
+				viewFrustum.planes[i].x, viewFrustum.planes[i].y, viewFrustum.planes[i].z
+			};
+			// Suppose we define P as above, and take planeW = viewFrustum.planes[i].w.
+			// the plane consists of points X such that Dot( X, P ) + planeW = 0,
+			// and the inner half-plane is X such that Dot( X, P ) + planeW <= 0.
+			// Let A be short for inWorldPt.  Then
+			// planeDots[i] = Dot( A, P ) + planeW.
+			// In order for a point X to be a point on the plane nearest to A, the vector A - X
+			// must be parallel to P, meaning there is a scalar t such that A - X = t P.
+			// If we dot both sides with P, we have Dot( A, P ) - Dot( X, P ) = t Dot( P, P ).
+			// But in order for X to be on the plane, Dot( X, P ) + planeW = 0, so
+			// Dot( X, P ) = - planew.  Thus we obtain
+			// Dot( A, P ) + planeW = t Dot( P, P ), or
+			// planeDots[i] = t Dot( P, P ).  Therefore,
+			// t = planeDots[i] / Dot( P, P ).  Plugging this back into A - X = t P, we have
+			// A - X = (planeDots[i] / Dot( P, P )) P, so
+			// X = A - (planeDots[i] / Dot( P, P )) P.
+			TQ3Point3D nearestPt = inWorldPt - (planeDots[i] / Q3Dot3D( P, P )) * P;
+			// Test whether this point is on the inner side of the other planes.
+			bool isInner = true;
+			for (j = 0; j < 6; ++j)
+			{
+				if ( (j != i) && (j != 1) )
+				{
+					float test = nearestPt.x * viewFrustum.planes[j].x +
+								nearestPt.y * viewFrustum.planes[j].y +
+								nearestPt.z * viewFrustum.planes[j].z +
+								viewFrustum.planes[j].w;
+					if (test > 0.0f)
+					{
+						isInner = false;
+						break;
+					}
+				}
+			}
+			if (isInner)
+			{
+				distSq = Q3LengthSquared3D( nearestPt - inWorldPt );
+				if (distSq < minDistSq)
+				{
+					minDistSq = distSq;
+				}
+			}
+		}
+		
+		// Case 2: minimize distance to the 4 near corners.
+		for (i = 0; i < 4; ++i)
+		{
+			distSq = Q3LengthSquared3D( nearCorners[i] - inWorldPt );
+			if (distSq < minDistSq)
+			{
+				minDistSq = distSq;
+			}
+		}
+		
+		// Case 3: minimize distance to the 8 edges.
+		// In general, to find the nearest point on a line segment or ray,
+		// you'd have to consider the ends, but we have already handled the
+		// 4 finite corners.
+		for (i = 0; i < 8; ++i)
+		{
+			TQ3Point3D orig = edgeRays[i].origin;
+			TQ3Vector3D dir = edgeRays[i].direction;
+			float param = Q3Dot3D( inWorldPt - orig, dir ) / Q3Dot3D( dir, dir );
+			if ( (param > 0.0f) && ((i >= 4) || (param < 1.0f)) )
+			{
+				TQ3Point3D nearPt = orig + param * dir;
+				distSq = Q3LengthSquared3D( nearPt - inWorldPt );
+				if (distSq < minDistSq)
+				{
+					minDistSq = distSq;
+				}
+			}
+		}
+		
+		distance = sqrtf( minDistSq );
+	}
+	
+	return distance;
 }
 
 

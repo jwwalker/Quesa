@@ -5,7 +5,7 @@
         Quesa 3DMF Binary Writer.
 
     COPYRIGHT:
-        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -677,7 +677,7 @@ e3ffw_3DMF_TraverseObject_CheckRef(TQ3ViewObject			theView,
 	// If this is a shape, submit any custom elements attached to it.
 	// This saves each shape traversal method from worrying about it.
 	if ( (qd3dStatus == kQ3Success) && (submittedObject != nullptr) &&
-		Q3Object_IsType( submittedObject, kQ3SharedTypeShape ) )
+		Q3Object_IsType( submittedObject, kQ3ObjectTypeShared ) )
 		{
 		qd3dStatus = E3Shape_SubmitElements( submittedObject, theView );
 		}

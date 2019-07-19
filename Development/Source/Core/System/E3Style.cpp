@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2016, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -854,12 +854,11 @@ static TQ3Status
 e3style_fog_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
 {	const TQ3FogStyleData			*instanceData = (const TQ3FogStyleData *) objectData;
 #pragma unused(objectType)
-#pragma unused(theObject)
 
 
 
 	// Submit the style
-	E3View_State_SetStyleFog(theView, instanceData);
+	E3View_State_SetStyleFog(theView, instanceData, theObject);
 
 	return(kQ3Success);
 }

@@ -5,7 +5,7 @@
         Header for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2016, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -171,6 +171,10 @@ private:
 
 	void							AddBlock( TransparentBlock* ioBlock );
 
+	void							TransformPointsToCameraSpace(
+											const TQ3TriMeshData& inGeomData );
+	bool							FindPointsInFrontOfCamera();
+
 	void							SortPrimPtrsInEachBlock();
 	void							SortBlocks();
 	void							SearchBlock( TQ3Uns32 inToVisit,
@@ -189,6 +193,9 @@ private:
 											const QORenderer::Vertex& inVert );
 	void							SetDiffuseColor(
 											const GLfloat* inColor4 );
+	bool							PrimShouldSetDepth(
+											const TransparentPrim* inPrim,
+											float inDepthAlphaThreshold ) const;
 	
 	void							UpdateCameraToFrustum(
 											const TransparentPrim& inPrim,
@@ -202,6 +209,7 @@ private:
 	void							UpdateSpecularColor(
 											const TQ3ColorRGB& inColor );
 	void							UpdateFog(
+											TQ3ViewObject inView,
 											const TransparentPrim& inPrim );
 	void							UpdateFill(
 											const TransparentPrim& inPrim );
@@ -259,6 +267,7 @@ private:
 	E3FastArray<TQ3Vector3D>		mGroupNormals;
 	E3FastArray<TQ3Param2D>			mGroupUVs;
 	E3FastArray<TQ3ColorRGBA>		mGroupColors;
+	bool							mForceUpdate;
 };
 
 }

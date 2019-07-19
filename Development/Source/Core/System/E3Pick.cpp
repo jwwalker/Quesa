@@ -293,7 +293,6 @@ e3pick_hit_duplicate_path(TQ3HitPath *pickedPath, TQ3HitPath *newPath)
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(newPath),    kQ3Failure);
 
 
-
 	TQ3GroupPosition * srcPositions = pickedPath->positions;
 	if (srcPositions == nullptr)
 	{

@@ -61,7 +61,7 @@
 #include "QORenderer.h"
 #include "GLShadowVolumeManager.h"
 #include "GLUtils.h"
-
+#include "CQ3ObjectRef_Gets.h"
 
 #include <cmath>
 
@@ -622,12 +622,31 @@ void	QORenderer::ShadowMarker::MarkShadowOfTriMesh(
 								TQ3GeometryObject inTMObject,
 								const TQ3TriMeshData& inTMData,
 								const TQ3Vector3D* inFaceNormals,
-								TQ3LightObject inLight )
+								TQ3LightObject inLight,
+								TQ3ViewObject inView )
 {
-	if (! mStyleState.mIsCastingShadows)
+	bool shouldCastShadows = mStyleState.mIsCastingShadows;
+	
+	if (inTMObject != nullptr)
+	{
+		CQ3ObjectRef theRenderer( CQ3View_GetRenderer( inView ) );
+		if (theRenderer.isvalid())
+		{
+			TQ3CastShadowsOverrideCallback theCallback = nullptr;
+			Q3Object_GetProperty( theRenderer.get(), kQ3RendererPropertyCastShadowsOverride,
+				sizeof(theCallback), nullptr, &theCallback );
+			if (theCallback != nullptr)
+			{
+				shouldCastShadows = (*theCallback)( inTMObject, inLight, shouldCastShadows );
+			}
+		}
+	}
+	
+	if (! shouldCastShadows)
 	{
 		return;
 	}
+	
 	TQ3RationalPoint4D	localLightPos( CalcLocalLightPosition() );
 	
 	if ( (inTMObject == nullptr) ||

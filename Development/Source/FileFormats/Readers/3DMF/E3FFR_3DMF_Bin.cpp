@@ -5,7 +5,7 @@
         Implementation of Quesa 3DMF Binary FileFormat object.
         
     COPYRIGHT:
-        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2017, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -335,10 +335,10 @@ e3fformat_3dmf_bin_read_toc(TQ3FileFormatObject format)
 	TQ3Int32					tocSize = 0;
 	TQ3Int32					tocSizeInFile;
 	TQ3Int64					nextToc;
-	TQ3Int32					refSeed;
-	TQ3Int32					typeSeed;
-	TQ3Int32					tocEntryType;
-	TQ3Int32					tocEntrySize;
+	TQ3Int32					refSeed = 0;
+	TQ3Int32					typeSeed = 0;
+	TQ3Int32					tocEntryType = 0;
+	TQ3Int32					tocEntrySize = 0;
 	TQ3Int32					nEntries = 0;
 	TQ3Int32					i;
 		
@@ -616,10 +616,14 @@ e3fformat_3dmf_bin_skipobject ( E3File* theFile )
 	TQ3Status result = Q3Int32_Read ( (TQ3Int32*) &objectType, theFile ) ;
 	
 	if ( result != kQ3Failure )
+	{
 		result = Q3Int32_Read ( (TQ3Int32*) &objectSize, theFile ) ;
 		
-	if ( result != kQ3Failure )
+		if ( result != kQ3Failure )
+		{
 		instanceData->MFData.baseData.currentStoragePosition += objectSize ;
+		}
+	}
 		
 	E3FFormat_3DMF_Bin_Check_MoreObjects( instanceData ) ;
 	E3FFormat_3DMF_Bin_Check_ContainerEnd( instanceData ) ;
@@ -977,6 +981,22 @@ e3fformat_3dmf_bin_get_nexttype ( E3File* theFile )
 
 
 //=============================================================================
+//      e3fformat_3dmf_bin_is_end_of_container : Test for end of container.
+//-----------------------------------------------------------------------------
+static TQ3Boolean
+e3fformat_3dmf_bin_is_end_of_container( E3File* theFile )
+{
+	TQ3FileFormatObject format = theFile->GetFileFormat();
+	TE3FFormat3DMF_Bin_Data* instanceData = e3read_3dmf_bin_getinstancedata( format );
+	TQ3Boolean isEnd = (instanceData->MFData.baseData.currentStoragePosition + 8 >
+		instanceData->containerEnd)? kQ3True : kQ3False;
+	return isEnd;
+}
+
+
+
+
+//=============================================================================
 //      e3fformat_3dmf_bin_close : frees the Toc.
 //-----------------------------------------------------------------------------
 static TQ3Status
@@ -1048,6 +1068,10 @@ e3fformat_3dmf_bin_metahandler(TQ3XMethodType methodType)
 
 		case kQ3XMethodTypeFFormatGetNextType:
 			theMethod = (TQ3XFunctionPointer) e3fformat_3dmf_bin_get_nexttype;
+			break;
+
+		case kQ3XMethodTypeFFormatIsEndOfContainer:
+			theMethod = (TQ3XFunctionPointer) e3fformat_3dmf_bin_is_end_of_container;
 			break;
 
 		case kQ3XMethodTypeFFormatClose:
@@ -1151,6 +1175,10 @@ e3fformat_3dmf_binswap_metahandler(TQ3XMethodType methodType)
 
 		case kQ3XMethodTypeFFormatGetNextType:
 			theMethod = (TQ3XFunctionPointer) e3fformat_3dmf_bin_get_nexttype;
+			break;
+
+		case kQ3XMethodTypeFFormatIsEndOfContainer:
+			theMethod = (TQ3XFunctionPointer) e3fformat_3dmf_bin_is_end_of_container;
 			break;
 
 		case kQ3XMethodTypeFFormatClose:

@@ -418,7 +418,7 @@ void				DumpVBOs( void )
 
 static inline GLvoid* BufferObPtr( GLuint offset )
 {
-	return (GLvoid*)( ((char*)nullptr) + offset );
+	return (GLvoid*)( (uintptr_t) offset );
 }
 
 

@@ -160,10 +160,6 @@ public :
 //      Internal constants
 //-----------------------------------------------------------------------------
 #define kQ3ClassNameCustomElementDepthBits		"Quesa:DepthBitsElement"
-#define kQ3ClassNameCustomElementBeforeRender	"Quesa:BeforeRenderCallback"
-#define kQ3ClassNameCustomElementAfterRender	"Quesa:AfterRenderCallback"
-#define kQ3ClassNameCustomElementBeforePick		"Quesa:BeforePickCallback"
-#define kQ3ClassNameCustomElementAfterPick		"Quesa:AfterPickCallback"
 #define kQ3ClassNameCustomElementAlphaTest		"Quesa:AlphaTestElement"
 #define kQ3ClassNameCustomElementFlipRows		"Quesa:FlipRowsElement"
 
@@ -176,6 +172,8 @@ public :
 //-----------------------------------------------------------------------------
 static TQ3ElementType	sTriangleStripElementType = 0;
 static TQ3ElementType	sFlippedRowsElementType = 0;
+static TQ3ElementType	sFogMaxElementType = 0;
+static TQ3ElementType	sHalfspaceFogElementType = 0;
 
 
 
@@ -1139,6 +1137,167 @@ static TQ3XFunctionPointer SpecularMetaHandler( TQ3XMethodType methodType )
 	return theMethod;
 }
 
+#pragma mark -
+
+static TQ3Status
+FogMax_traverse( TQ3Object object, void *inData, TQ3ViewObject view )
+{
+#pragma unused(object)
+	if (inData == nullptr)
+		return kQ3Success;
+	return Q3XView_SubmitWriteData( view, sizeof(float), inData, nullptr );
+}
+
+static TQ3Status
+FogMax_write( float *inData, TQ3FileObject file )
+{
+	TQ3Status	theStatus = Q3Float32_Write( *inData, file );
+	
+	return theStatus;
+}
+
+static TQ3Status FogMax_readData(
+	TQ3SetObject			ioSet,
+	TQ3FileObject			file)
+{
+	float	theData;
+		
+	TQ3Status	theStatus = Q3Float32_Read( &theData, file );
+	
+	if (theStatus == kQ3Success)
+	{
+		theStatus = Q3Set_Add( ioSet, sFogMaxElementType, &theData );
+	}
+	return theStatus;
+}
+
+
+static TQ3XFunctionPointer FogMax_MetaHandler( TQ3XMethodType methodType )
+{
+	TQ3XFunctionPointer		theMethod = nullptr;
+	
+	switch (methodType)
+	{
+		case kQ3XMethodTypeObjectTraverse:
+			theMethod = (TQ3XFunctionPointer) FogMax_traverse;
+			break;
+
+		case kQ3XMethodTypeObjectWrite:
+			theMethod = (TQ3XFunctionPointer) FogMax_write;
+			break;
+			
+		case kQ3XMethodTypeObjectReadData:
+			theMethod = (TQ3XFunctionPointer) FogMax_readData;
+			break;
+		
+		case kQ3XMethodTypeObjectClassVersion:
+			theMethod = (TQ3XFunctionPointer)0x01108000;
+			break;
+	}
+	
+	return theMethod;
+}
+
+#pragma mark -
+
+static TQ3Status
+HalfspaceFog_traverse( TQ3Object object, void *inData, TQ3ViewObject view )
+{
+#pragma unused(object)
+	if (inData == nullptr)
+		return kQ3Success;
+	return Q3XView_SubmitWriteData( view, sizeof(TCEHalfspaceFogData), inData, nullptr );
+}
+
+static TQ3Status
+HalfspaceFog_write( const TCEHalfspaceFogData *inData, TQ3FileObject file )
+{
+	TQ3Status	theStatus = Q3Float32_Write( inData->rate, file );
+	
+	if (theStatus == kQ3Success)
+	{
+		theStatus = Q3Float32_Write( inData->plane.x, file );
+	}
+	
+	if (theStatus == kQ3Success)
+	{
+		theStatus = Q3Float32_Write( inData->plane.y, file );
+	}
+	
+	if (theStatus == kQ3Success)
+	{
+		theStatus = Q3Float32_Write( inData->plane.z, file );
+	}
+	
+	if (theStatus == kQ3Success)
+	{
+		theStatus = Q3Float32_Write( inData->plane.w, file );
+	}
+	
+	return theStatus;
+}
+
+static TQ3Status HalfspaceFog_readData(
+	TQ3SetObject			ioSet,
+	TQ3FileObject			file)
+{
+	TCEHalfspaceFogData	theData;
+		
+	TQ3Status	theStatus = Q3Float32_Read( &theData.rate, file );
+	
+	if (theStatus == kQ3Success)
+	{
+		theStatus = Q3Float32_Read( &theData.plane.x, file );
+	}
+	
+	if (theStatus == kQ3Success)
+	{
+		theStatus = Q3Float32_Read( &theData.plane.y, file );
+	}
+	
+	if (theStatus == kQ3Success)
+	{
+		theStatus = Q3Float32_Read( &theData.plane.z, file );
+	}
+	
+	if (theStatus == kQ3Success)
+	{
+		theStatus = Q3Float32_Read( &theData.plane.w, file );
+	}
+	
+	if (theStatus == kQ3Success)
+	{
+		theStatus = Q3Set_Add( ioSet, sHalfspaceFogElementType, &theData );
+	}
+	return theStatus;
+}
+
+static TQ3XFunctionPointer HalfspaceFog_MetaHandler( TQ3XMethodType methodType )
+{
+	TQ3XFunctionPointer		theMethod = nullptr;
+	
+	switch (methodType)
+	{
+		case kQ3XMethodTypeObjectTraverse:
+			theMethod = (TQ3XFunctionPointer) HalfspaceFog_traverse;
+			break;
+
+		case kQ3XMethodTypeObjectWrite:
+			theMethod = (TQ3XFunctionPointer) HalfspaceFog_write;
+			break;
+			
+		case kQ3XMethodTypeObjectReadData:
+			theMethod = (TQ3XFunctionPointer) HalfspaceFog_readData;
+			break;
+		
+		case kQ3XMethodTypeObjectClassVersion:
+			theMethod = (TQ3XFunctionPointer)0x01108000;
+			break;
+	}
+	
+	return theMethod;
+}
+
 
 //=============================================================================
 //      Public functions
@@ -1170,6 +1329,28 @@ E3CustomElements_RegisterClass(void)
 			kQ3ClassNameCustomElementTriangleStrip,
 			sizeof(TCETriangleStripPrivate),
 			strip_element_metahandler ))
+		{
+			qd3dStatus = kQ3Failure;
+		}
+	}
+
+	if (qd3dStatus == kQ3Success)
+	{
+		if (nullptr == Q3XElementClass_Register( &sFogMaxElementType,
+			kQ3ClassNameCustomElementFogMaxOpacity,
+			sizeof(float),
+			FogMax_MetaHandler ))
+		{
+			qd3dStatus = kQ3Failure;
+		}
+	}
+	
+	if (qd3dStatus == kQ3Success)
+	{
+		if (nullptr == Q3XElementClass_Register( &sHalfspaceFogElementType,
+			kQ3ClassNameCustomElementHalfspaceFog,
+			sizeof(TCEHalfspaceFogData),
+			HalfspaceFog_MetaHandler ))
 		{
 			qd3dStatus = kQ3Failure;
 		}
@@ -1244,6 +1425,9 @@ E3CustomElements_UnregisterClass(void)
 	E3ClassTree::UnregisterClass(kQ3ElementTypeTextureShaderAlphaTest,  kQ3True);
 	E3ClassTree::UnregisterClass(kQ3ObjectTypeCustomElementSpecularMap,  kQ3True);
 	E3ClassTree::UnregisterClass(sFlippedRowsElementType,  kQ3True);
+	E3ClassTree::UnregisterClass(sTriangleStripElementType,  kQ3True);
+	E3ClassTree::UnregisterClass(sFogMaxElementType,  kQ3True);
+	E3ClassTree::UnregisterClass(sHalfspaceFogElementType,  kQ3True);
 
 	return(kQ3Success);
 }
@@ -1703,6 +1887,49 @@ TQ3Boolean	E3TextureFlippedRowsElement_IsPresent( TQ3TextureObject inTexture )
 void		E3TextureFlippedRowsElement_Remove( TQ3TextureObject inTexture )
 {
 	Q3Object_ClearElement( inTexture, sFlippedRowsElementType );
+}
+
+
+#pragma mark -
+
+float		E3FogMaxElement_Get( TQ3StyleObject inFogStyle )
+{
+	float theOpacity;
+	TQ3Status getStatus = Q3Object_GetElement( inFogStyle, sFogMaxElementType,
+		&theOpacity );
+	if (getStatus == kQ3Failure)
+	{
+		theOpacity = 1.0f;
+	}
+	return theOpacity;
+}
+
+void		E3FogMaxElement_Set( TQ3StyleObject ioFogStyle, float inMaxOpacity )
+{
+	Q3Object_AddElement( ioFogStyle, sFogMaxElementType, &inMaxOpacity );
+}
+
+#pragma mark -
+
+TQ3Status	E3HalfspaceFogElement_Get( TQ3StyleObject inFogStyle,
+										TCEHalfspaceFogData* outData )
+{
+	TQ3Status getStatus = Q3Object_GetElement( inFogStyle,
+		sHalfspaceFogElementType, outData );
+	return getStatus;
+}
+
+void		E3HalfspaceFogElement_Set( TQ3StyleObject inFogStyle,
+										const TCEHalfspaceFogData* inData )
+{
+	if (inData == nullptr)
+	{
+		Q3Object_ClearElement( inFogStyle, sHalfspaceFogElementType );
+	}
+	else
+	{
+		Q3Object_AddElement( inFogStyle, sHalfspaceFogElementType, inData );
+	}
 }
 
 #pragma mark -

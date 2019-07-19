@@ -365,7 +365,7 @@ e3geom_cylinder_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, cons
 
 
 
-	// Add the cone attributes	
+	// Add the cone attributes
 	TQ3AttributeSet atts = geomData->cylinderAttributeSet;
 	if (atts != nullptr)
 		Q3Group_AddObject( theGroup, atts );

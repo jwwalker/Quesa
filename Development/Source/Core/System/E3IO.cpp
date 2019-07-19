@@ -755,15 +755,28 @@ E3File::IsEndOfData ( void )
 //-----------------------------------------------------------------------------
 TQ3Boolean
 E3File::IsEndOfContainer ( TQ3Object rootObject )
-	{
+{
 	Q3_REQUIRE_OR_RESULT((instanceData.status == kE3_File_Status_Reading),kQ3True);
 	Q3_REQUIRE_OR_RESULT((instanceData.format != nullptr),kQ3True);
 	Q3_REQUIRE_OR_RESULT((instanceData.mode <= (kQ3FileModeSwap|kQ3FileModeDatabase|kQ3FileModeStream)),kQ3True); // only for 3DMF
 	
 	TE3FFormat3DMF_Data* fformatData = (TE3FFormat3DMF_Data*) instanceData.format->FindLeafInstanceData () ;
-
-	return (TQ3Boolean) ( ( ! fformatData->inContainer ) || ( fformatData->baseData.noMoreObjects ) ) ;
+	TQ3Boolean isEndOfCont = kQ3False;
+	
+	TQ3XFFormatIsEndOfContainerMethod eocMethod = (TQ3XFFormatIsEndOfContainerMethod)
+		instanceData.format->GetMethod( kQ3XMethodTypeFFormatIsEndOfContainer );
+	
+	if (eocMethod != nullptr)
+	{
+		isEndOfCont = eocMethod( this );
 	}
+	else
+	{
+		isEndOfCont = (TQ3Boolean) (( ! fformatData->inContainer ) || fformatData->baseData.noMoreObjects);
+	}
+
+	return isEndOfCont;
+}
 
 
 

@@ -371,7 +371,7 @@ Q3AmbientLight_New(const TQ3LightData *lightData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
+#if 0//Q3_DEBUG
 	if (0) // Further checks on lightData
 		return(nullptr);
 #endif
@@ -466,7 +466,7 @@ Q3DirectionalLight_New(const TQ3DirectionalLightData *directionalLightData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
+#if 0//Q3_DEBUG
 	if (0) // Further checks on directionalLightData
 		return(nullptr);
 #endif
@@ -685,7 +685,7 @@ Q3PointLight_New(const TQ3PointLightData *pointLightData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
+#if 0//Q3_DEBUG
 	if (0) // Further checks on pointLightData
 		return(nullptr);
 #endif
@@ -1026,7 +1026,7 @@ Q3SpotLight_New(const TQ3SpotLightData *spotLightData)
 
 
 	// Debug build checks
-#if Q3_DEBUG
+#if 0//Q3_DEBUG
 	if (0) // Further checks on spotLightData
 		return(nullptr);
 #endif

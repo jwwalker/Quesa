@@ -5,7 +5,7 @@
         Quesa interactive renderer update methods.
 
     COPYRIGHT:
-        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -431,6 +431,8 @@ IRRenderer_Update_Style_Interpolation(TQ3ViewObject				theView,
 		case kQ3InterpolationStyleVertex:
 		case kQ3InterpolationStylePixel:
 			glShadeModel(GL_SMOOTH);
+			break;
+			
 		default:
 			break;
 		}	

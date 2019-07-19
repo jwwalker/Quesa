@@ -3616,6 +3616,7 @@ E3FFW_3DMF_RegisterGeom(void)
 	E3ClassTree::AddMethod(kQ3IlluminationTypeNULL,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_illumination_traverse);
 	E3ClassTree::AddMethod(kQ3IlluminationTypePhong,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_illumination_traverse);
 	E3ClassTree::AddMethod(kQ3IlluminationTypeLambert,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_illumination_traverse);
+	E3ClassTree::AddMethod(kQ3IlluminationTypeNondirectional,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_illumination_traverse);
 	E3ClassTree::AddMethod(kQ3SurfaceShaderTypeTexture,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_shader_texture_traverse);
 
 	// Style

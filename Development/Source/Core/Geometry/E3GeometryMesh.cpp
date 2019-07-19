@@ -3911,7 +3911,7 @@ e3geom_mesh_cache_new_as_polys(const TE3MeshData * meshPtr)
 						if(currentVertex->attributeSet != nullptr)
 							{
 							currentVertex->attributeSet = Q3AttributeSet_New();
-							if(currentVertex->attributeSet == nullptr)
+							if (currentVertex->attributeSet == nullptr)
 								{
 								currentVertex->attributeSet = (*vertexHdl)->attributeSet;
 								}

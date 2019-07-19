@@ -77,6 +77,15 @@ enum ELightType
 	kLightTypeSpotCubic
 };
 
+enum EFogModeCombined
+{
+	kFogModeOff = -1,
+	kFogModeLinear,
+	kFogModeExponential,
+	kFogModeExponentialSquared,
+	kFogModeHalfspace
+};
+
 //=============================================================================
 //      Types
 //-----------------------------------------------------------------------------
@@ -100,13 +109,15 @@ struct ProgramCharacteristic
 							ProgramCharacteristic( const ProgramCharacteristic& inOther );
 							~ProgramCharacteristic() {}
 
+	ProgramCharacteristic&	operator=( const ProgramCharacteristic& inOther );
+
 	LightPattern			mPattern;
 	TQ3ObjectType			mIlluminationType;
 	TQ3InterpolationStyle	mInterpolationStyle;
 	bool					mIsTextured;
 	bool					mIsCartoonish;
-	TQ3Switch				mFogState;
-	TQ3FogMode				mFogMode;
+	EFogModeCombined		mFogModeCombined;
+	bool					mIsUsingClippingPlane;
 	bool					mAngleAffectsAlpha;
 	
 	void					swap( ProgramCharacteristic& ioOther );
@@ -118,7 +129,7 @@ struct ProgramCharacteristic
 
 /*!
 	@struct		ProgramRec
-	@abstract	Structure holding a program ID, its characterist data, a
+	@abstract	Structure holding a program ID, its characteristic data, a
 				counter indicating how long since it has been used,
 				and locations of some uniform variables.
 */
@@ -145,6 +156,14 @@ struct ProgramRec
 	GLint			mIsSpecularMappingUniformLoc;
 	GLint			mIsLayerShiftingUniformLoc;
 	GLint			mIsFlippingNormalsUniformLoc;
+	GLint			mClippingPlaneUniformLoc;
+	GLint			mMaxFogOpacityUniformLoc;
+	GLint			mHalfspaceFogRateUniformLoc;
+	GLint			mHalfspaceFogPlaneUniformLoc;
+	GLint			mLightPositionUniformLoc;
+	GLint			mLightColorUniformLoc;
+	GLint			mLightAttenuationUniformLoc;
+	GLint			mSpotLightDirectionUniformLoc;
 };
 
 

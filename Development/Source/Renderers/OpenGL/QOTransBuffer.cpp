@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2016, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -49,6 +49,7 @@
 #include "E3Math.h"
 #include "E3Math_Intersect.h"
 #include "QOGLShadingLanguage.h"
+#include "QuesaMathOperators.hpp"
 
 #include <algorithm>
 #include <stdint.h>
@@ -669,6 +670,42 @@ void	TransBuffer::MakeVertexPrototype(
 	}
 }
 
+void	TransBuffer::TransformPointsToCameraSpace(
+											const TQ3TriMeshData& inGeomData )
+{
+	mWorkCameraPts.resizeNotPreserving( inGeomData.numPoints );
+
+	const TQ3Matrix4x4&	localToCamera(
+		mRenderer.mMatrixState.GetLocalToCamera() );
+
+	E3Point3D_To3DTransformArray( inGeomData.points, &localToCamera,
+		&mWorkCameraPts[0], inGeomData.numPoints,
+		sizeof(TQ3Point3D), sizeof(TQ3Point3D) );
+}
+
+bool	TransBuffer::FindPointsInFrontOfCamera()
+{
+	// Find which points are in front of the camera (z <= 0).
+	// If all z values are positive (behind the camera), we can bail early.
+	const TQ3Uns32 kPointCount = mWorkCameraPts.size();
+	mWorkIsInFrontOfCamera.resizeNotPreserving( kPointCount );
+	bool	isSomethingInFrontOfCamera = false;
+	TQ3Uns32 i;
+	for (i = 0; i < kPointCount; ++i)
+	{
+		bool inFront = (mWorkCameraPts[i].z <= 0.0f);
+		// I initially thought the comparison above should be <,
+		// but then the rasterize test in Geom Test failed.
+		mWorkIsInFrontOfCamera[i] = inFront;
+		if (inFront)
+		{
+			isSomethingInFrontOfCamera = true;
+		}
+	}
+	return isSomethingInFrontOfCamera;
+}
+
+
 void	TransBuffer::AddTriMesh(
 											const TQ3TriMeshData& inGeomData,
 											const MeshArrays& inData )
@@ -678,31 +715,10 @@ void	TransBuffer::AddTriMesh(
 		return;
 	}
 
-	// Transform points to camera space.
-	const TQ3Matrix4x4&	localToCamera(
-		mRenderer.mMatrixState.GetLocalToCamera() );
-	mWorkCameraPts.resizeNotPreserving( inGeomData.numPoints );
-	E3Point3D_To3DTransformArray( inData.vertPosition, &localToCamera,
-		&mWorkCameraPts[0], inGeomData.numPoints,
-		sizeof(TQ3Point3D), sizeof(TQ3Point3D) );
+	TransformPointsToCameraSpace( inGeomData );
 
-	// Find which points are in front of the camera (z <= 0).
-	// If all z values are positive (behind the camera), we can bail early.
-	mWorkIsInFrontOfCamera.resizeNotPreserving( inGeomData.numPoints );
-	bool	isBehindCamera = true;
-	TQ3Uns32 i;
-	for (i = 0; i < inGeomData.numPoints; ++i)
-	{
-		bool inFront = (mWorkCameraPts[i].z <= 0.0f);
-		// I initially thought the comparison above should be <,
-		// but then the rasterize test in Geom Test failed.
-		mWorkIsInFrontOfCamera[i] = inFront;
-		if (inFront)
-		{
-			isBehindCamera = false;
-		}
-	}
-	if (isBehindCamera)
+	bool isSomethingInFrontOfCamera = FindPointsInFrontOfCamera();
+	if ( ! isSomethingInFrontOfCamera )
 	{
 		return;
 	}
@@ -716,6 +732,7 @@ void	TransBuffer::AddTriMesh(
 		inGeomData.numPoints, sizeof(TQ3Vector3D), sizeof(TQ3Vector3D) );
 	
 	// Normalize the normals.
+	TQ3Uns32 i;
 	for (i = 0; i < inGeomData.numPoints; ++i)
 	{
 		Q3FastVector3D_Normalize( &mWorkCameraNormals[i], &mWorkCameraNormals[i] );
@@ -750,6 +767,7 @@ void	TransBuffer::AddTriMesh(
 	E3BoundingBox_SetFromPoints3D( &theBlock->mFrustumBounds,
 		&mWorkFrustumPts[0], inGeomData.numPoints, sizeof(TQ3Point3D) );
 	
+	// Get the style state.
 	PrimStyleState style;
 	style.mFillStyle = mRenderer.mStyleState.mFill;
 	style.mOrientationStyle = mRenderer.mStyleState.mOrientation;
@@ -896,10 +914,21 @@ void	TransBuffer::SearchBlock( TQ3Uns32 inToVisit,
 */
 void	TransBuffer::SortBlocks()
 {
+	const TQ3Uns32 blockCount = mBlocks.size();
+	if (blockCount == 0)
+	{
+		Q3_LOG_FMT("Why am I in TransBuffer::SortBlocks() with no blocks?");
+		return;
+	}
+	else
+	{
+		//Q3_LOG_FMT("TransBuffer::SortBlocks() 1 for %d blocks", (int)blockCount );
+	}
+
 	// Assign the mVisitOrder members of blocks.
 	TQ3Int32 nextID = -1;
 	
-	for (TQ3Uns32 i = 0; i < mBlocks.size(); ++i)
+	for (TQ3Uns32 i = 0; i < blockCount; ++i)
 	{
 		if (mBlocks[i]->mVisitOrder < 0)
 		{
@@ -908,7 +937,9 @@ void	TransBuffer::SortBlocks()
 	}
 	
 	// Sort the blocks.
+	//Q3_LOG_FMT("TransBuffer::SortBlocks() 2");
 	std::sort( &mBlocks[0], &mBlocks[mBlocks.size()], BlockOrder() );
+	//Q3_LOG_FMT("TransBuffer::SortBlocks() 3");
 }
 
 void	TransBuffer::Cleanup()
@@ -975,6 +1006,8 @@ void	TransBuffer::InitGLState( TQ3ViewObject inView )
 	// similar for diffuse color
 	mCurDiffuseColor[3] = -1.0f;
 	
+	mForceUpdate = true; // force initial update of fog
+
 	mCurEmissiveColor = kBlackColor;
 	mRenderer.SetEmissiveMaterial( mCurEmissiveColor );
 }
@@ -1064,13 +1097,14 @@ void	TransBuffer::UpdateTexture( const TransparentPrim& inPrim )
 	}
 }
 
-void	TransBuffer::UpdateFog( const TransparentPrim& inPrim )
+void	TransBuffer::UpdateFog( TQ3ViewObject inView,
+								const TransparentPrim& inPrim )
 {
 	TQ3Uns32 fogIndex = mStyles[ inPrim.mStyleIndex ].mFogStyleIndex;
 
-	if (fogIndex != mRenderer.mStyleState.mCurFogStyleIndex)
+	if ( mForceUpdate || (fogIndex != mRenderer.mStyleState.mCurFogStyleIndex) )
 	{
-		mRenderer.UpdateFogStyle(
+		mRenderer.UpdateFogStyle( inView,
 			&mRenderer.mStyleState.mFogStyles[ fogIndex ] );
 	}
 }
@@ -1172,7 +1206,7 @@ void	TransBuffer::UpdateEmission( const TransparentPrim& inPrim )
 void	TransBuffer::Render( const TransparentPrim& inPrim )
 {
 	// Render geometries of dimension 0 or 1 with only ambient light.
-	mRenderer.mLights.SetOnlyAmbient( inPrim.mNumVerts < 3 );
+	mRenderer.mLights.SetLowDimensionalMode( inPrim.mNumVerts < 3, mRenderer.mViewIllumination );
 	
 	// Maybe update fragment program.
 	mPerPixelLighting.PreGeomSubmit( nullptr );
@@ -1242,7 +1276,7 @@ void	TransBuffer::RenderPrimGroupForDepth(
 		mGroupPts.clear();
 		mGroupPts.reserve( pointsExpected );
 		
-		mRenderer.mLights.SetOnlyAmbient( vertsPerPrim < 3 );
+		mRenderer.mLights.SetLowDimensionalMode( vertsPerPrim < 3, mRenderer.mViewIllumination );
 		
 		bool haveUV = (leader.mTextureName != 0) && ((flags & kVertexHaveUV) != 0);
 		bool haveColor = ((flags & kVertexHaveDiffuse) != 0);
@@ -1321,17 +1355,17 @@ void	TransBuffer::RenderForDepth( const TransparentPrim& inPrim )
 	switch (inPrim.mNumVerts)
 	{
 		case 3:
-			mRenderer.mLights.SetOnlyAmbient( false );
+			mRenderer.mLights.SetLowDimensionalMode( false, mRenderer.mViewIllumination );
 			glBegin( GL_TRIANGLES );
 			break;
 
 		case 2:
-			mRenderer.mLights.SetOnlyAmbient( true );
+			mRenderer.mLights.SetLowDimensionalMode( true, mRenderer.mViewIllumination );
 			glBegin( GL_LINES );
 			break;
 
 		case 1:
-			mRenderer.mLights.SetOnlyAmbient( true );
+			mRenderer.mLights.SetLowDimensionalMode( true, mRenderer.mViewIllumination );
 			glBegin( GL_POINTS );
 			break;
 	}
@@ -1402,7 +1436,7 @@ void	TransBuffer::RenderPrimGroup(
 	UpdateCameraToFrustum( leader, inView );
 	UpdateLightingEnable( leader );
 	UpdateTexture( leader );
-	UpdateFog( leader );
+	UpdateFog( inView, leader );
 	UpdateFill( leader );
 	UpdateOrientation( leader );
 	UpdateBackfacing( leader );
@@ -1411,6 +1445,7 @@ void	TransBuffer::RenderPrimGroup(
 	mPerPixelLighting.UpdateIllumination( mStyles[ leader.mStyleIndex ].mIlluminationType );
 	UpdateSpecular( leader );
 	UpdateEmission( leader );
+	mForceUpdate = false;
 
 	if (mRenderGroup.size() == 1)
 	{
@@ -1424,7 +1459,7 @@ void	TransBuffer::RenderPrimGroup(
 		mGroupPts.clear();
 		mGroupPts.reserve( pointsExpected );
 		
-		mRenderer.mLights.SetOnlyAmbient( vertsPerPrim < 3 );
+		mRenderer.mLights.SetLowDimensionalMode( vertsPerPrim < 3, mRenderer.mViewIllumination );
 
 		// Maybe update fragment program.
 		mPerPixelLighting.PreGeomSubmit( nullptr );
@@ -1515,12 +1550,43 @@ void	TransBuffer::RenderPrimGroup(
 	}
 }
 
+
+/*!
+	@function	PrimShouldSetDepth
+	@abstract	Normally, transparent primitives do not write to the depth buffer.
+				However, if it is transparent by virtue of vertex alpha rather than
+				texture, and if its opacity (modified by angle) is great enough,
+				we will let it alter the depth buffer.
+*/
+bool	TransBuffer::PrimShouldSetDepth(
+											const TransparentPrim* inPrim,
+											float inDepthAlphaThreshold ) const
+{
+	bool setsDepth = false;
+	if (inPrim->mTextureName == 0)
+	{
+		float alpha = inPrim->mVerts[0].vertAlpha;
+		float cosAngle = fabsf( inPrim->mVerts[0].normal.z );
+		if ( (cosAngle < kQ3RealZero) or (alpha / cosAngle > inDepthAlphaThreshold) )
+		{
+			setsDepth = true;
+		}
+	}
+	
+	return setsDepth;
+}
+
 void	TransBuffer::DrawTransparency( TQ3ViewObject inView,
 										GLenum inSrcBlendFactor,
 										GLenum inDstBlendFactor )
 {
 	if (! mBlocks.empty())
 	{
+		TQ3Float32	alphaThreshold = 1.0f;
+		Q3Object_GetProperty( mRenderer.mRendererObject,
+			kQ3RendererPropertyDepthAlphaThreshold, sizeof(alphaThreshold), nullptr,
+			&alphaThreshold );
+
 		mSrcBlendFactor = inSrcBlendFactor;
 		mDstBlendFactor = inDstBlendFactor;
 		
@@ -1536,6 +1602,8 @@ void	TransBuffer::DrawTransparency( TQ3ViewObject inView,
 		mRenderGroup.clear();
 		mRenderGroup.reserve( kRenderGroupReserve );
 		const TransparentPrim* gpLeader = nullptr;
+		bool gpLeaderSetDepth = false;
+		bool prevSetDepth = false;
 
 		for (TQ3Uns32 blockNum = 0; blockNum < mBlocks.size(); ++blockNum)
 		{
@@ -1543,21 +1611,39 @@ void	TransBuffer::DrawTransparency( TQ3ViewObject inView,
 			for (TQ3Uns32 primNum = 0; primNum < block.mPrims.size(); ++primNum)
 			{
 				const TransparentPrim& thePrim( *block.mPrimPtrs[primNum] );
+				bool curSetDepth = PrimShouldSetDepth( &thePrim, alphaThreshold );
 				if (gpLeader == nullptr)
 				{
 					gpLeader = &thePrim;
+					gpLeaderSetDepth = curSetDepth;
 					mRenderGroup.push_back( gpLeader );
 				}
-				else if ( ((primNum > 0) && block.mHasUniformVertexFlags) ||
-					IsSameState( thePrim, *gpLeader ) )
+				else if (
+					(curSetDepth == gpLeaderSetDepth)
+					&&
+					(
+						(
+							(primNum > 0) &&
+							block.mHasUniformVertexFlags
+						)
+						||
+						IsSameState( thePrim, *gpLeader )
+					)
+				)
 				{
 					mRenderGroup.push_back( &thePrim );
 				}
 				else // finish the group and start another
 				{
+					if (gpLeaderSetDepth != prevSetDepth)
+					{
+						glDepthMask( gpLeaderSetDepth? GL_TRUE : GL_FALSE );
+						prevSetDepth = gpLeaderSetDepth;
+					}
 					RenderPrimGroup( inView );
 					mRenderGroup.clear();
 					gpLeader = &thePrim;
+					gpLeaderSetDepth = curSetDepth;
 					mRenderGroup.push_back( gpLeader );
 				}
 			}
@@ -1565,9 +1651,15 @@ void	TransBuffer::DrawTransparency( TQ3ViewObject inView,
 
 		if (mRenderGroup.size() > 0)
 		{
+			if (gpLeaderSetDepth != prevSetDepth)
+			{
+				glDepthMask( gpLeaderSetDepth? GL_TRUE : GL_FALSE );
+				prevSetDepth = gpLeaderSetDepth;
+			}
 			RenderPrimGroup( inView );
 		}
 	}
+	glDepthMask( GL_FALSE );
 }
 
 void	TransBuffer::InitGLStateForDepth( TQ3ViewObject inView,

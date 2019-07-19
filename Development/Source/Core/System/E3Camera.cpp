@@ -13,7 +13,7 @@
         camera type.
 
     COPYRIGHT:
-        Copyright (c) 1999-2015, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2016, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -997,9 +997,6 @@ E3Camera::GetViewToFrustum ( TQ3Matrix4x4 *viewToFrustum )
 	}
 
 
-
-
-
 //=============================================================================
 //      E3OrthographicCamera_New : Create an orthographic camera.
 //-----------------------------------------------------------------------------
@@ -1010,6 +1007,29 @@ E3OrthographicCamera_New(const TQ3OrthographicCameraData *orthographicData)
 	// Create the object
 	return E3ClassTree::CreateInstance ( kQ3CameraTypeOrthographic, kQ3False, orthographicData ) ;
 	}
+
+
+
+
+
+//=============================================================================
+//      E3OrthographicCamera::IsOfMyClass : Check if object pointer is valid and of type camera
+//-----------------------------------------------------------------------------
+//		Replaces Q3Object_IsType ( object, kQ3CameraTypeOrthographic )
+//		but call is smaller and does not call E3System_Bottleneck
+//		as this is (always?) done in the calling code as well
+//-----------------------------------------------------------------------------
+TQ3Boolean
+E3OrthographicCamera::IsOfMyClass ( TQ3Object object )
+{
+	if ( object == nullptr )
+		return kQ3False ;
+		
+	if ( object->IsObjectValid () )
+		return Q3_OBJECT_IS_CLASS ( object, E3OrthographicCamera ) ;
+		
+	return kQ3False ;
+}
 
 
 
@@ -1226,7 +1246,6 @@ E3OrthographicCamera::GetFrustumMatrix ( TQ3Matrix4x4 *theMatrix )
 
 
 
-
 //=============================================================================
 //      E3ViewPlaneCamera_New : Create a view plane camera.
 //-----------------------------------------------------------------------------
@@ -1240,6 +1259,29 @@ E3ViewPlaneCamera_New(const TQ3ViewPlaneCameraData *cameraData)
 	// Create the object
 	theObject = E3ClassTree::CreateInstance ( kQ3CameraTypeViewPlane, kQ3False, cameraData);
 	return(theObject);
+}
+
+
+
+
+
+//=============================================================================
+//      E3ViewPlaneCamera::IsOfMyClass : Check if object pointer is valid and of type camera
+//-----------------------------------------------------------------------------
+//		Replaces Q3Object_IsType ( object, kQ3CameraTypeViewPlane )
+//		but call is smaller and does not call E3System_Bottleneck
+//		as this is (always?) done in the calling code as well
+//-----------------------------------------------------------------------------
+TQ3Boolean
+E3ViewPlaneCamera::IsOfMyClass ( TQ3Object object )
+{
+	if ( object == nullptr )
+		return kQ3False ;
+		
+	if ( object->IsObjectValid () )
+		return Q3_OBJECT_IS_CLASS ( object, E3ViewPlaneCamera ) ;
+		
+	return kQ3False ;
 }
 
 
@@ -1575,6 +1617,24 @@ E3ViewAngleAspectCamera_New(const TQ3ViewAngleAspectCameraData *cameraData)
 }
 
 
+//=============================================================================
+//      E3ViewAngleAspectCamera::IsOfMyClass : Check if object pointer is valid and of type camera
+//-----------------------------------------------------------------------------
+//		Replaces Q3Object_IsType ( object, kQ3CameraTypeViewAngleAspect )
+//		but call is smaller and does not call E3System_Bottleneck
+//		as this is (always?) done in the calling code as well
+//-----------------------------------------------------------------------------
+TQ3Boolean
+E3ViewAngleAspectCamera::IsOfMyClass ( TQ3Object object )
+{
+	if ( object == nullptr )
+		return kQ3False ;
+		
+	if ( object->IsObjectValid () )
+		return Q3_OBJECT_IS_CLASS ( object, E3ViewAngleAspectCamera ) ;
+		
+	return kQ3False ;
+}
 
 
 

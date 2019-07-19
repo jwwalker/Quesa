@@ -414,6 +414,7 @@ TQ3ObjectType		E3Shared_GetType(TQ3SharedObject sharedObject);
 inline TQ3Status	E3Shared_Edited ( TQ3SharedObject sharedObject )
 	{ return ( (E3Shared*) sharedObject )->Edited () ; }
 void				E3Shared_Dispose( E3Shared* sharedObject );
+void				E3Shared_AddReference( E3Shared* theObject );
 
 TQ3Boolean			E3Shape_IsOfMyClass ( TQ3Object object ) ;
 TQ3ObjectType		E3Shape_GetType(TQ3ShapeObject theShape);

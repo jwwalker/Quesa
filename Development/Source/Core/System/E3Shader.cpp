@@ -111,6 +111,19 @@ public :
 	
 
 
+class E3NondirectionalIllumination : public E3IlluminationShader // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+Q3_CLASS_ENUMS ( kQ3IlluminationTypeNondirectional, E3NondirectionalIllumination, E3IlluminationShader )
+public :
+
+	// There is no extra data for this class
+	} ;
+	
+
+
 class E3SurfaceShader : public E3Shader // This is not a leaf class, but only classes in this,
 								// file inherit from it, so it can be declared here in
 								// the .c file rather than in the .h file, hence all
@@ -724,6 +737,11 @@ E3Shader_RegisterClass(void)
 											nullptr,
 											E3PhongIllumination ) ;	
 
+	if(qd3dStatus == kQ3Success)
+		qd3dStatus = Q3_REGISTER_CLASS_NO_DATA (	kQ3ClassNameIlluminationNondirectional,
+											nullptr,
+											E3NondirectionalIllumination ) ;	
+
 
 	//register surface shader base class
 	if(qd3dStatus == kQ3Success)
@@ -762,6 +780,7 @@ E3Shader_UnregisterClass(void)
 	E3ClassTree::UnregisterClass(kQ3IlluminationTypePhong,    kQ3True);
 	E3ClassTree::UnregisterClass(kQ3IlluminationTypeLambert,  kQ3True);
 	E3ClassTree::UnregisterClass(kQ3IlluminationTypeNULL,     kQ3True);
+	E3ClassTree::UnregisterClass(kQ3IlluminationTypeNondirectional,     kQ3True);
 	E3ClassTree::UnregisterClass(kQ3ShaderTypeIllumination,   kQ3True);
 	E3ClassTree::UnregisterClass(kQ3ShapeTypeShader,          kQ3True);
 		
@@ -990,6 +1009,25 @@ E3NULLIllumination_New(void)
 
 	// Create the object	
 	nullShader = E3ClassTree::CreateInstance ( kQ3IlluminationTypeNULL, kQ3False, nullptr) ;
+
+	return(nullShader);
+}
+
+
+
+
+
+//=============================================================================
+//      E3NondirectionalIllumination_New : Create a new nondirectional illumination shader.
+//-----------------------------------------------------------------------------
+TQ3ShaderObject
+E3NondirectionalIllumination_New(void)
+{	TQ3Object	nullShader ;
+
+
+
+	// Create the object	
+	nullShader = E3ClassTree::CreateInstance( kQ3IlluminationTypeNondirectional, kQ3False, nullptr );
 
 	return(nullShader);
 }

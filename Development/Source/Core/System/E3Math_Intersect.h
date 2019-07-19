@@ -5,7 +5,7 @@
         Header file for E3Math_Intersect.cpp.
 
     COPYRIGHT:
-        Copyright (c) 1999-2016, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -50,7 +50,6 @@ TQ3Boolean		E3Ray3D_IntersectSphere(const TQ3Ray3D *theRay,
 TQ3Boolean		E3Ray3D_IntersectBoundingBox(const TQ3Ray3D *theRay,
 										const TQ3BoundingBox *theBounds,
 										TQ3Point3D *hitPoint);
-
 
 /*!
 	@function	E3Ray3D_IntersectTriangle
@@ -233,6 +232,36 @@ void	E3Math_RayNearestLineSegment(
 								const TQ3Point3D& inPtB,
 								float& outRayParam,
 								float& outSegParam );
+
+
+/*!
+	@function	E3Math_DistanceFromPointToViewFrustum
+	@abstract	Compute the distance from a point to the view frustum of a
+				camera.
+	@param		inWorldPt	A point in world coordinates.
+	@param		inCamera	A camera object.
+	@result		Distance.  (If the point is inside the frustum, this is zero.)
+*/
+float	E3Math_DistanceFromPointToViewFrustum(
+								const TQ3Point3D& inWorldPt,
+								TQ3CameraObject inCamera );
+
+
+/*!
+	@function	E3Cone_IntersectViewFrustum
+	@abstract	Determine whether a cone intersects a view frustum.
+	@param		inConeAxis		Axis ray of cone with a normalized direction,
+								in world coordinates.
+	@param		inConeCosine	Cosine of angle from axis ray to surface of
+								cone, in interval (0, 1).
+	@param		inCamera		A camera object.
+	@result		True if there is an intersection.
+*/
+bool	E3Cone_IntersectViewFrustum(
+									const TQ3Ray3D& inConeAxis,
+									float inConeCosine,
+									TQ3CameraObject inCamera );
+
 
 /*!
 	@function	E3Cone_IntersectBoundingBox

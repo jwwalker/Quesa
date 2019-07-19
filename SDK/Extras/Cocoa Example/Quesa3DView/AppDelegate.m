@@ -294,6 +294,30 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 		mFullScreenAntialias = YES;
 		mDrawsShadows = YES;
 		mPerPixelLighting = YES;
+
+		TQ3FogStyleData fogData =
+		{
+			kQ3Off,
+			kQ3FogModeExponential,
+			0.0f,
+			0.0f,
+			1.0f,
+			{
+				1.0f,
+				1.0f,
+				1.0f,
+				1.0f
+			}
+		};
+		mFog = Q3FogStyle_New( &fogData );
+		TCEHalfspaceFogData halfFog =
+		{
+			1.0f,
+			{
+				0.0f, 1.0f, 0.0f, 0.0f
+			}
+		};
+		CEHalfspaceFogElement_SetData( mFog, &halfFog );
 	}
 	return self;
 }
@@ -317,6 +341,10 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 	if (mSceneGeometry != NULL)
 	{
 		Q3Object_Dispose( mSceneGeometry );
+	}
+	if (mFog != NULL)
+	{
+		Q3Object_Dispose( mFog );
 	}
 	
 	[super dealloc];
@@ -729,6 +757,10 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 			case 2:
 				mIlluminationShader = Q3PhongIllumination_New();
 				break;
+
+			case 3:
+				mIlluminationShader = Q3NondirectionalIllumination_New();
+				break;
 		}
 		[quesa3dView setNeedsDisplay:YES];
 	}
@@ -965,6 +997,11 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 		30.0f,
 		30.0f
 	};
+	TQ3FogStyleData fogData;
+	Q3FogStyle_GetData( mFog, &fogData );
+	fogData.state = self.halfspaceFog? kQ3On : kQ3Off;
+	Q3FogStyle_SetData( mFog, &fogData );
+	
 
 	// Submit the styles
 	Q3BackfacingStyle_Submit(kQ3BackfacingStyleBoth, [inView qd3dView]);
@@ -972,6 +1009,7 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 	Q3SubdivisionStyle_Submit(&subdivStyle,                  [inView qd3dView]);
 	fullAntialias.state = ([self fullScreenAntialias]? kQ3On : kQ3Off);
 	Q3AntiAliasStyle_Submit( &fullAntialias, [inView qd3dView] );
+	Q3Object_Submit( mFog, [inView qd3dView] );
 
 
 	// Submit the scene

@@ -304,20 +304,16 @@ void			SetCachedOptimizedTriMesh( TQ3GeometryObject ioTriMesh,
 		RegisterElement();
 	}
 
+	// Lock the edit index, so that adding an element won't change it.
+	StLockEditIndex lockIndex( ioTriMesh );
+
 	TQ3Uns32	editIndex = Q3Shared_GetEditIndex( ioTriMesh );
 	TQ3CacheOptimizedTriMeshElementData	theData = {
 		inOptimized,
 		editIndex
 	};
 	
-#if Q3_DEBUG
 	TQ3Status	theStatus =
-#endif
 	Q3Object_AddElement( ioTriMesh, sCacheOptimizedTriMeshElementType, &theData );
-#if Q3_DEBUG
 	Q3_ASSERT( theStatus == kQ3Success );
-#endif
-	
-	// Adding an element bumps the edit index, set it back.
-	Q3Shared_SetEditIndex( ioTriMesh, editIndex );
 }

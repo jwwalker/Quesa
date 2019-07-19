@@ -197,24 +197,24 @@ extern "C" {
  *					Quesa create one, then set this property before rendering.
  */
 enum {
-	kQ3DrawContextPropertyClearDepthBufferFlag		= Q3_METHOD_TYPE('c', 'l', 'd', 'b'),
-	kQ3DrawContextPropertyClearDepthBufferValue		= Q3_METHOD_TYPE('c', 'l', 'd', 'v'),
-	kQ3DrawContextPropertyWritableDepthBuffer		= Q3_METHOD_TYPE('w', 'r', 'd', 'b'),
-	kQ3DrawContextPropertyGLDepthFunc				= Q3_METHOD_TYPE('g', 'l', 'd', 'f'),
-	kQ3DrawContextPropertyGLTextureSharing			= Q3_METHOD_TYPE('g', 'l', 't', 's'),
-	kQ3DrawContextPropertyGLStencilBufferDepth		= Q3_METHOD_TYPE('g', 'l', 's', 'd'),
-	kQ3DrawContextPropertySwapBufferInEndPass		= Q3_METHOD_TYPE('s', 'b', 'e', 'p'),
-	kQ3DrawContextPropertySyncToRefresh				= Q3_METHOD_TYPE('g', 'l', 's', 'r'),
-	kQ3DrawContextPropertySurfaceBehindWindow		= Q3_METHOD_TYPE('s', 'u', 'b', 'w'),
-	kQ3DrawContextPropertyGLContextBuildCount		= Q3_METHOD_TYPE('g', 'l', 'b', 'c'),
-	kQ3DrawContextPropertyAcceleratedOffscreen		= Q3_OBJECT_TYPE('g', 'l', 'a', 'o'),
-	kQ3DrawContextPropertyAccelOffscreenSamples		= Q3_OBJECT_TYPE('g', 'l', 'o', 's'),
+	kQ3DrawContextPropertyClearDepthBufferFlag      = Q3_METHOD_TYPE('c', 'l', 'd', 'b'),
+	kQ3DrawContextPropertyClearDepthBufferValue     = Q3_METHOD_TYPE('c', 'l', 'd', 'v'),
+	kQ3DrawContextPropertyWritableDepthBuffer       = Q3_METHOD_TYPE('w', 'r', 'd', 'b'),
+	kQ3DrawContextPropertyGLDepthFunc               = Q3_METHOD_TYPE('g', 'l', 'd', 'f'),
+	kQ3DrawContextPropertyGLTextureSharing          = Q3_METHOD_TYPE('g', 'l', 't', 's'),
+	kQ3DrawContextPropertyGLStencilBufferDepth      = Q3_METHOD_TYPE('g', 'l', 's', 'd'),
+	kQ3DrawContextPropertySwapBufferInEndPass       = Q3_METHOD_TYPE('s', 'b', 'e', 'p'),
+	kQ3DrawContextPropertySyncToRefresh             = Q3_METHOD_TYPE('g', 'l', 's', 'r'),
+	kQ3DrawContextPropertySurfaceBehindWindow       = Q3_METHOD_TYPE('s', 'u', 'b', 'w'),
+	kQ3DrawContextPropertyGLContextBuildCount       = Q3_METHOD_TYPE('g', 'l', 'b', 'c'),
+	kQ3DrawContextPropertyAcceleratedOffscreen      = Q3_OBJECT_TYPE('g', 'l', 'a', 'o'),
+	kQ3DrawContextPropertyAccelOffscreenSamples     = Q3_OBJECT_TYPE('g', 'l', 'o', 's'),
 	kQ3DrawContextPropertyAccelOffscreenIntFormat   = Q3_OBJECT_TYPE('g', 'l', 'i', 'f'),
-	kQ3DrawContextPropertyGLPixelFormat				= Q3_OBJECT_TYPE('g', 'l', 'p', 'f'),
-	kQ3DrawContextPropertyGLDestroyCallback			= Q3_OBJECT_TYPE('g', 'l', 'd', 'c'),
+	kQ3DrawContextPropertyGLPixelFormat             = Q3_OBJECT_TYPE('g', 'l', 'p', 'f'),
+	kQ3DrawContextPropertyGLDestroyCallback         = Q3_OBJECT_TYPE('g', 'l', 'd', 'c'),
 	kQ3DrawContextPropertyGLFinishBeforeSwap        = Q3_OBJECT_TYPE('f', 'i', 'b', 's'),
 	kQ3DrawContextPropertyNSOpenGLContext           = Q3_OBJECT_TYPE('n', 's', 'o', 'g'),
-	kQ3DrawContextPropertyTypeSize32				= 0xFFFFFFFF
+	kQ3DrawContextPropertyTypeSize32                = 0xFFFFFFFF
 };
 
 /*!

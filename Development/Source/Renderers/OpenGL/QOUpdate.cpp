@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -77,6 +77,39 @@ static	bool operator==( const TQ3FogStyleData& inOne, const TQ3FogStyleData& inT
 			(inOne.color.r == inTwo.color.r) &&
 			(inOne.color.g == inTwo.color.g) &&
 			(inOne.color.b == inTwo.color.b);
+			// Note, alpha is not relevant
+			
+		if (isSameFog)
+		{
+			switch (inOne.mode)
+			{
+				case kQ3FogModeExponential:
+				case kQ3FogModeExponentialSquared:
+					isSameFog = (inOne.density == inTwo.density);
+					break;
+				
+				default:	// linear fog or anything else
+					isSameFog = (inOne.fogStart == inTwo.fogStart) &&
+						(inOne.fogEnd == inTwo.fogEnd);
+					break;
+			}
+		}
+	}
+	return isSameFog;
+}
+
+static	bool operator==( const TQ3FogStyleExtendedData& inOne,
+						const TQ3FogStyleExtendedData& inTwo )
+{
+	bool	isSameFog = (inOne.state == inTwo.state);
+	
+	if (isSameFog && (inOne.state == kQ3On))
+	{
+		isSameFog = (inOne.mode == inTwo.mode) &&
+			(inOne.color.r == inTwo.color.r) &&
+			(inOne.color.g == inTwo.color.g) &&
+			(inOne.color.b == inTwo.color.b) &&
+			(inOne.maxOpacity == inTwo.maxOpacity);
 			// Note, alpha is not relevant
 			
 		if (isSameFog)
@@ -209,7 +242,7 @@ void	QORenderer::Renderer::UpdateIlluminationShader(
 	GLfloat	dullSpecularControl = 0.0f;
 	
 	// Texturing note:  The legacy behavior is that unless the illumination is
-	// nullptr, the texture completely overrides the underlying color.
+	// NULL, the texture completely overrides the underlying color.
 	
 	switch (mViewIllumination)
 	{
@@ -467,8 +500,11 @@ void	QORenderer::Renderer::UpdateAntiAliasStyle(
 }
 
 void	QORenderer::Renderer::UpdateFogStyle(
-								const TQ3FogStyleData* inStyleData )
+									TQ3ViewObject inView,
+									const TQ3FogStyleExtendedData* inStyleData )
 {
+	Q3_ASSERT( inStyleData->version == kQ3FogStyleExtendedVersion );
+	
 	if (mLights.IsShadowMarkingPass())
 	{
 		return;
@@ -515,7 +551,7 @@ void	QORenderer::Renderer::UpdateFogStyle(
 	// Update fog state in my instance data.  This is needed for buffered
 	// transparent triangles.
 	// Note that the find operation uses a custom operator== for fog data.
-	std::vector<TQ3FogStyleData>::iterator foundFog =
+	std::vector<TQ3FogStyleExtendedData>::iterator foundFog =
 		std::find( mStyleState.mFogStyles.begin(), mStyleState.mFogStyles.end(),
 		*inStyleData );
 	if (foundFog == mStyleState.mFogStyles.end())
@@ -536,7 +572,7 @@ void	QORenderer::Renderer::UpdateFogStyle(
 	
 	
 	mLights.UpdateFogColor();
-	mPPLighting.UpdateFogStyle( *inStyleData );
+	mPPLighting.UpdateFogStyle( inView, *inStyleData );
 }
 
 void	QORenderer::Renderer::UpdateCastShadowsStyle(

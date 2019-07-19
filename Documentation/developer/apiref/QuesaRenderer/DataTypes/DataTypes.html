@@ -5,6 +5,29 @@
 	 <meta name="generator" content="HeaderDoc">
 </head><body bgcolor="#ffffff">
 <h1><font face="Geneva,Arial,Helvtica">Defined Types</font></h1><br>
+<hr><a name="//Quesa/c/tdef/TQ3CastShadowsOverrideCallback"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3CastShadowsOverrideCallback">TQ3CastShadowsOverrideCallback</a></h2>
+</td></tr></table><hr>This callback, if provided, can override the decision of whether
+a particular TriMesh should cast a shadow from a given light.
+
+<blockquote><tt>typedef Q3_CALLBACK_API_C (<b>bool, TQ3CastShadowsOverrideCallback</b>) (<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GeometryObject _Nonnull inGeometry,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3LightObject _Nonnull inLight,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;bool inCastShadowsStyleState<BR>);</tt><br>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>This callback will only be called when we are computing the shadow
+being cast by a shadow-casting light.  Normally, a geometry casts
+shadows unless the cast-shadows style state says no.
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl><dt><tt>inGeometry</tt></dt><dd>A TriMesh.</dd>
+<dt><tt>inLight</tt></dt><dd>The light whose shadows are being computed.</dd>
+<dt><tt>inCastShadowsStyleState</tt></dt><dd>The current cast-shadows style state.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>True to cast shadows.
+</dd></dl>
 <hr><a name="//Quesa/c/tdef/TQ3MacOSDialogEventHandler"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3MacOSDialogEventHandler">TQ3MacOSDialogEventHandler</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Boolean,          TQ3MacOSDialogEventHandler</b>) (<BR>
@@ -696,5 +719,5 @@ This method is optional.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the callback.
  </dd></dl>
-<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 7/16/2019)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 7/19/2019)
 </p></body></html>

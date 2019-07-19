@@ -567,6 +567,19 @@ emissive color.
 </p>
 <dl><dt><i>function result</i></dt><dd>The new illumination shader.
  </dd></dl>
+<hr><a name="//Quesa/c/func/Q3NondirectionalIllumination_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3NondirectionalIllumination_New">Q3NondirectionalIllumination_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ShaderObject _Nonnull ) Q3NondirectionalIllumination_New (void);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a nondirectional illumination shader.  This kind of illumination
+disregards the direction of light, but does account for brightness, shadows,
+distance attenuation of finite lights and angular fall-off of spot lights.
+<br><br>
+This kind of illumination is only available in OpenGL per-pixel lighting.
+<br><br>
+</p>
+<dl><dt><i>function result</i></dt><dd>The new illumination shader.
+ </dd></dl>
 <hr><a name="//Quesa/c/func/Q3PhongIllumination_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PhongIllumination_New">Q3PhongIllumination_New</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3ShaderObject _Nonnull ) Q3PhongIllumination_New (void);</tt><br>
@@ -925,6 +938,45 @@ to be untextured.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
+<h2>Typedefs</h2>
+<hr><a name="//Quesa/c/tdef/TQ3TextureUploadedCallback"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3TextureUploadedCallback">TQ3TextureUploadedCallback</a></h2>
+</td></tr></table><hr>A callback function that you set with a property of type
+kQ3TexturePropertyCallbackAfterUpload on a texture object.
+
+<blockquote><tt>typedef Q3_CALLBACK_API_C (<b>void, TQ3TextureUploadedCallback</b>) (<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TextureObject _Nonnull inTexture,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;void* _Nullable inContext<BR>);</tt><br>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl><dt><tt>inTexture</tt></dt><dd>A texture object.</dd>
+<dt><tt>inContext</tt></dt><dd>Your context pointer.</dd>
+</dl>
+</blockquote>
+<h2>Structs</h2>
+<hr><a name="//Quesa/c/tag/TQ3TextureUploadPropertyData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3TextureUploadPropertyData">TQ3TextureUploadPropertyData</a></h2>
+</td></tr></table><hr>Data of a property of type kQ3TexturePropertyCallbackAfterUpload.
+
+<blockquote><pre>
+typedef struct TQ3TextureUploadPropertyData {
+    TQ3TextureUploadedCallback _Nonnull  callback;
+    void*  _Nullable          context;
+} TQ3TextureUploadPropertyData;
+</pre>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Note that both fields of the structure are pointers, whose
+sizes depend on whether you are compiling a 64-bit binary.
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt>callback</tt></dt><dd>A callback function in your code.</dd>
+<dt><tt>context</tt></dt><dd>A pointer that the engine will pass back to your
+callback function.</dd>
+</dl>
+</blockquote>
 <h2>Enumerations</h2>
 <hr><a name="//Quesa/c/tag/TQ3ShaderUVBoundary"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3ShaderUVBoundary">TQ3ShaderUVBoundary</a></h2>
@@ -944,6 +996,33 @@ typedef enum TQ3ShaderUVBoundary {
 <dl>
 <dt><a name="//Quesa/c/econst/kQ3ShaderUVBoundaryWrap"><tt>kQ3ShaderUVBoundaryWrap</tt></a></dt><dd>Wrap UV values outside of 0..1.</dd>
 <dt><a name="//Quesa/c/econst/kQ3ShaderUVBoundaryClamp"><tt>kQ3ShaderUVBoundaryClamp</tt></a></dt><dd>Clamp UV values to 0..1.</dd>
+</dl>
+</blockquote>
+<hr><a name="//Quesa/c/tag/Texture&nbsp;Property&nbsp;Types"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Texture&nbsp;Property&nbsp;Types">Texture&nbsp;Property&nbsp;Types</a></h2>
+</td></tr></table><hr>Object properties that may be set on texture objects.
+<br><br>
+<br>
+<blockquote><pre>
+enum
+{
+  kQ3TexturePropertyCallbackAfterUpload = Q3_OBJECT_TYPE('c', 'a', 't', 'u')
+};
+</pre>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p><br><br>
+</p>
+<h4>Constants</h4>
+<blockquote>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3TexturePropertyCallbackAfterUpload"><tt>kQ3TexturePropertyCallbackAfterUpload</tt></a></dt><dd>The data of this property must be a structure of type
+TQ3TextureUploadPropertyData, containing a callback function
+pointer and a context pointer.  Your callback function will
+be called by the renderer when the texture data has been
+uploaded to OpenGL (on its way to the GPU), but before the
+texture object has been added to Quesa's texture cache.
+You might use this to convert the texture's memory storage
+into a path storage to save memory.</dd>
 </dl>
 </blockquote>
 <hr><a name="//Quesa/c/tag/Texture&nbsp;shader&nbsp;element&nbsp;types"></a>
@@ -973,5 +1052,5 @@ the threshold is considered completely transparent.
 Data type: TQ3Float32.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 7/16/2019)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 7/19/2019)
 </p></body></html>

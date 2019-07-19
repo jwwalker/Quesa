@@ -6,7 +6,7 @@
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2016, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -552,7 +552,7 @@ Q3OrthographicCamera_GetData(TQ3CameraObject camera, TQ3OrthographicCameraData *
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( E3Camera::IsOfMyClass ( camera ), kQ3Failure ) ;
+	Q3_REQUIRE_OR_RESULT( E3OrthographicCamera::IsOfMyClass ( camera ), kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(cameraData), kQ3Failure);
 
 
@@ -583,7 +583,7 @@ Q3OrthographicCamera_SetData(TQ3CameraObject camera, const TQ3OrthographicCamera
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( E3Camera::IsOfMyClass ( camera ), kQ3Failure ) ;
+	Q3_REQUIRE_OR_RESULT( E3OrthographicCamera::IsOfMyClass ( camera ), kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(cameraData), kQ3Failure);
 
 
@@ -622,7 +622,7 @@ Q3OrthographicCamera_SetLeft(TQ3CameraObject camera, float left)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( E3Camera::IsOfMyClass ( camera ), kQ3Failure ) ;
+	Q3_REQUIRE_OR_RESULT( E3OrthographicCamera::IsOfMyClass ( camera ), kQ3Failure ) ;
 
 
 
@@ -652,7 +652,7 @@ Q3OrthographicCamera_GetLeft(TQ3CameraObject camera, float *left)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( E3Camera::IsOfMyClass ( camera ), kQ3Failure ) ;
+	Q3_REQUIRE_OR_RESULT( E3OrthographicCamera::IsOfMyClass ( camera ), kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(left), kQ3Failure);
 
 
@@ -683,7 +683,7 @@ Q3OrthographicCamera_SetTop(TQ3CameraObject camera, float top)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( E3Camera::IsOfMyClass ( camera ), kQ3Failure ) ;
+	Q3_REQUIRE_OR_RESULT( E3OrthographicCamera::IsOfMyClass ( camera ), kQ3Failure ) ;
 
 
 
@@ -713,7 +713,7 @@ Q3OrthographicCamera_GetTop(TQ3CameraObject camera, float *top)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( E3Camera::IsOfMyClass ( camera ), kQ3Failure ) ;
+	Q3_REQUIRE_OR_RESULT( E3OrthographicCamera::IsOfMyClass ( camera ), kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(top), kQ3Failure);
 
 
@@ -744,7 +744,7 @@ Q3OrthographicCamera_SetRight(TQ3CameraObject camera, float right)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( E3Camera::IsOfMyClass ( camera ), kQ3Failure ) ;
+	Q3_REQUIRE_OR_RESULT( E3OrthographicCamera::IsOfMyClass ( camera ), kQ3Failure ) ;
 
 
 
@@ -774,7 +774,7 @@ Q3OrthographicCamera_GetRight(TQ3CameraObject camera, float *right)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( E3Camera::IsOfMyClass ( camera ), kQ3Failure ) ;
+	Q3_REQUIRE_OR_RESULT( E3OrthographicCamera::IsOfMyClass ( camera ), kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(right), kQ3Failure);
 
 
@@ -805,7 +805,7 @@ Q3OrthographicCamera_SetBottom(TQ3CameraObject camera, float bottom)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( E3Camera::IsOfMyClass ( camera ), kQ3Failure ) ;
+	Q3_REQUIRE_OR_RESULT( E3OrthographicCamera::IsOfMyClass ( camera ), kQ3Failure ) ;
 
 
 
@@ -835,7 +835,7 @@ Q3OrthographicCamera_GetBottom(TQ3CameraObject camera, float *bottom)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( E3Camera::IsOfMyClass ( camera ), kQ3Failure ) ;
+	Q3_REQUIRE_OR_RESULT( E3OrthographicCamera::IsOfMyClass ( camera ), kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(bottom), kQ3Failure);
 
 
@@ -904,7 +904,7 @@ Q3ViewPlaneCamera_GetData(TQ3CameraObject camera, TQ3ViewPlaneCameraData *camera
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( E3Camera::IsOfMyClass ( camera ), kQ3Failure ) ;
+	Q3_REQUIRE_OR_RESULT( E3ViewPlaneCamera::IsOfMyClass ( camera ), kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(cameraData), kQ3Failure);
 
 
@@ -935,7 +935,7 @@ Q3ViewPlaneCamera_SetData(TQ3CameraObject camera, const TQ3ViewPlaneCameraData *
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( E3Camera::IsOfMyClass ( camera ), kQ3Failure ) ;
+	Q3_REQUIRE_OR_RESULT( E3ViewPlaneCamera::IsOfMyClass ( camera ), kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(cameraData), kQ3Failure);
 
 
@@ -974,7 +974,7 @@ Q3ViewPlaneCamera_SetViewPlane(TQ3CameraObject camera, float viewPlane)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( E3Camera::IsOfMyClass ( camera ), kQ3Failure ) ;
+	Q3_REQUIRE_OR_RESULT( E3ViewPlaneCamera::IsOfMyClass ( camera ), kQ3Failure ) ;
 
 
 
@@ -1004,7 +1004,7 @@ Q3ViewPlaneCamera_GetViewPlane(TQ3CameraObject camera, float *viewPlane)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( E3Camera::IsOfMyClass ( camera ), kQ3Failure ) ;
+	Q3_REQUIRE_OR_RESULT( E3ViewPlaneCamera::IsOfMyClass ( camera ), kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(viewPlane), kQ3Failure);
 
 
@@ -1035,7 +1035,7 @@ Q3ViewPlaneCamera_SetHalfWidth(TQ3CameraObject camera, float halfWidthAtViewPlan
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( E3Camera::IsOfMyClass ( camera ), kQ3Failure ) ;
+	Q3_REQUIRE_OR_RESULT( E3ViewPlaneCamera::IsOfMyClass ( camera ), kQ3Failure ) ;
 
 
 
@@ -1065,7 +1065,7 @@ Q3ViewPlaneCamera_GetHalfWidth(TQ3CameraObject camera, float *halfWidthAtViewPla
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( E3Camera::IsOfMyClass ( camera ), kQ3Failure ) ;
+	Q3_REQUIRE_OR_RESULT( E3ViewPlaneCamera::IsOfMyClass ( camera ), kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(halfWidthAtViewPlane), kQ3Failure);
 
 
@@ -1096,7 +1096,7 @@ Q3ViewPlaneCamera_SetHalfHeight(TQ3CameraObject camera, float halfHeightAtViewPl
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( E3Camera::IsOfMyClass ( camera ), kQ3Failure ) ;
+	Q3_REQUIRE_OR_RESULT( E3ViewPlaneCamera::IsOfMyClass ( camera ), kQ3Failure ) ;
 
 
 
@@ -1126,7 +1126,7 @@ Q3ViewPlaneCamera_GetHalfHeight(TQ3CameraObject camera, float *halfHeightAtViewP
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( E3Camera::IsOfMyClass ( camera ), kQ3Failure ) ;
+	Q3_REQUIRE_OR_RESULT( E3ViewPlaneCamera::IsOfMyClass ( camera ), kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(halfHeightAtViewPlane), kQ3Failure);
 
 
@@ -1157,7 +1157,7 @@ Q3ViewPlaneCamera_SetCenterX(TQ3CameraObject camera, float centerXOnViewPlane)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( E3Camera::IsOfMyClass ( camera ), kQ3Failure ) ;
+	Q3_REQUIRE_OR_RESULT( E3ViewPlaneCamera::IsOfMyClass ( camera ), kQ3Failure ) ;
 
 
 
@@ -1187,7 +1187,7 @@ Q3ViewPlaneCamera_GetCenterX(TQ3CameraObject camera, float *centerXOnViewPlane)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( E3Camera::IsOfMyClass ( camera ), kQ3Failure ) ;
+	Q3_REQUIRE_OR_RESULT( E3ViewPlaneCamera::IsOfMyClass ( camera ), kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(centerXOnViewPlane), kQ3Failure);
 
 
@@ -1218,7 +1218,7 @@ Q3ViewPlaneCamera_SetCenterY(TQ3CameraObject camera, float centerYOnViewPlane)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( E3Camera::IsOfMyClass ( camera ), kQ3Failure ) ;
+	Q3_REQUIRE_OR_RESULT( E3ViewPlaneCamera::IsOfMyClass ( camera ), kQ3Failure ) ;
 
 
 
@@ -1248,7 +1248,7 @@ Q3ViewPlaneCamera_GetCenterY(TQ3CameraObject camera, float *centerYOnViewPlane)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( E3Camera::IsOfMyClass ( camera ), kQ3Failure ) ;
+	Q3_REQUIRE_OR_RESULT( E3ViewPlaneCamera::IsOfMyClass ( camera ), kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(centerYOnViewPlane), kQ3Failure);
 
 
@@ -1317,7 +1317,7 @@ Q3ViewAngleAspectCamera_SetData(TQ3CameraObject camera, const TQ3ViewAngleAspect
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( E3Camera::IsOfMyClass ( camera ), kQ3Failure ) ;
+	Q3_REQUIRE_OR_RESULT( E3ViewAngleAspectCamera::IsOfMyClass ( camera ), kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(cameraData), kQ3Failure);
 
 
@@ -1356,7 +1356,7 @@ Q3ViewAngleAspectCamera_GetData(TQ3CameraObject camera, TQ3ViewAngleAspectCamera
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( E3Camera::IsOfMyClass ( camera ), kQ3Failure ) ;
+	Q3_REQUIRE_OR_RESULT( E3ViewAngleAspectCamera::IsOfMyClass ( camera ), kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(cameraData), kQ3Failure);
 
 
@@ -1387,7 +1387,7 @@ Q3ViewAngleAspectCamera_SetFOV(TQ3CameraObject camera, float fov)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( E3Camera::IsOfMyClass ( camera ), kQ3Failure ) ;
+	Q3_REQUIRE_OR_RESULT( E3ViewAngleAspectCamera::IsOfMyClass ( camera ), kQ3Failure ) ;
 
 
 
@@ -1417,7 +1417,7 @@ Q3ViewAngleAspectCamera_GetFOV(TQ3CameraObject camera, float *fov)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( E3Camera::IsOfMyClass ( camera ), kQ3Failure ) ;
+	Q3_REQUIRE_OR_RESULT( E3ViewAngleAspectCamera::IsOfMyClass ( camera ), kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(fov), kQ3Failure);
 
 
@@ -1448,7 +1448,7 @@ Q3ViewAngleAspectCamera_SetAspectRatio(TQ3CameraObject camera, float aspectRatio
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( E3Camera::IsOfMyClass ( camera ), kQ3Failure ) ;
+	Q3_REQUIRE_OR_RESULT( E3ViewAngleAspectCamera::IsOfMyClass ( camera ), kQ3Failure ) ;
 
 
 
@@ -1478,7 +1478,7 @@ Q3ViewAngleAspectCamera_GetAspectRatio(TQ3CameraObject camera, float *aspectRati
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( E3Camera::IsOfMyClass ( camera ), kQ3Failure ) ;
+	Q3_REQUIRE_OR_RESULT( E3ViewAngleAspectCamera::IsOfMyClass ( camera ), kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(aspectRatioXToY), kQ3Failure);
 
 

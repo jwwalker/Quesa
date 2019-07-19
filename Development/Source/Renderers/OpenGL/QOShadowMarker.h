@@ -11,7 +11,7 @@
         Header for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -94,7 +94,8 @@ public:
 									TQ3GeometryObject inTMObject,
 									const TQ3TriMeshData& inTMData,
 									const TQ3Vector3D* inFaceNormals,
-									TQ3LightObject inLight );
+									TQ3LightObject inLight,
+									TQ3ViewObject inView );
 	
 	void					MarkShadowOfTriangle(
 									const Vertex* inVertices );

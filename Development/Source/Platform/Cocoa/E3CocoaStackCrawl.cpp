@@ -491,7 +491,7 @@ TQ3StackCrawl
 E3StackCrawl_New()
 {
 #ifdef QUESA_NO_STACK_CRAWL
-	return NULL;
+	return nullptr;
 #else
 	TQ3StackCrawl	theCrawl = new TQ3StackCrawlRec;
 

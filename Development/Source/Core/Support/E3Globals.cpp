@@ -64,7 +64,7 @@ E3Globals gE3Globals = {
 	nullptr,				// classTreeRoot
 	0,						// classNextType
 	0,						// sharedLibraryCount
-	nullptr,						// sharedLibraryInfo
+	nullptr,				// sharedLibraryInfo
 	kQ3False,				// errMgrClearError
 	kQ3False,				// errMgrClearWarning
 	kQ3False,				// errMgrClearNotice

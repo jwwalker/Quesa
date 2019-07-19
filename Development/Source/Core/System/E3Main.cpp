@@ -93,8 +93,10 @@
 //-----------------------------------------------------------------------------
 
 #if QUESA_OS_MACINTOSH
+	extern volatile int32_t gObjectCount;
 	volatile int32_t	gObjectCount = 0;
 #elif QUESA_OS_WIN32
+	extern volatile LONG gObjectCount;
 	volatile LONG		gObjectCount = 0;
 #endif
 
@@ -276,6 +278,38 @@ E3Shared_Dispose ( E3Shared* theObject )
 	if ( theObject->sharedData.refCount == 0 )
 		theObject->DestroyInstance () ;
 	}
+
+
+
+
+
+//=============================================================================
+//      E3Shared_AddReference : Increment reference count.
+//-----------------------------------------------------------------------------
+void E3Shared_AddReference( E3Shared* theObject )
+{
+	if ( theObject == nullptr )
+		return ;
+
+	theObject->sharedData.refCount++;
+#if Q3_DEBUG
+	if (theObject->sharedData.refCount < 2)
+	{
+		Q3_MESSAGE_FMT("E3Shared::GetReference has refCount %d.",
+			(int)theObject->sharedData.refCount );
+		Q3_MESSAGE_FMT("Class of messed up object was %s.",
+			theObject->GetClass()->GetName() );
+	}
+#endif
+	Q3_ASSERT(theObject->sharedData.refCount >= 2);
+#if Q3_DEBUG
+	if (theObject->IsLoggingRefs())
+	{
+		Q3_MESSAGE_FMT("Ref count of %p increased to %d", theObject,
+			(int) theObject->sharedData.refCount );
+	}
+#endif
+}
 
 
 
@@ -1013,10 +1047,11 @@ E3GetVersion(TQ3Uns32 *majorRevision, TQ3Uns32 *minorRevision)
 
 	// Return the build version
 	*majorRevision = 10 * (kQ3MajorVersion >> 4) + (kQ3MajorVersion & 0x0f);
-	if (kQ3MinorVersion & 0x0f)
+	#if (kQ3MinorVersion & 0x0f) != 0
 		*minorRevision = 10 * (kQ3MinorVersion >> 4) + (kQ3MinorVersion & 0x0f);
-	else // single-digit minor version
+	#else  // single-digit minor version
 		*minorRevision = (kQ3MinorVersion >> 4);
+	#endif
 
 	return(kQ3Success);
 }
@@ -1935,15 +1970,7 @@ E3Shared::GetReference ( void )
 	// Increment the reference count and return the object. Note that we
 	// return the object passed in: this is OK since we're not declared
 	// to return a different object.
-	sharedData.refCount++;
-	Q3_ASSERT(sharedData.refCount >= 2);
-#if Q3_DEBUG
-	if (IsLoggingRefs())
-	{
-		Q3_MESSAGE_FMT("Ref count of %p increased to %d", this,
-			(int) sharedData.refCount );
-	}
-#endif
+	E3Shared_AddReference( this );
 
 	return this ;
 }

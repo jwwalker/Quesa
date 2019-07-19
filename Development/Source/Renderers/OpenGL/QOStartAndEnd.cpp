@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -55,6 +55,8 @@
 #ifndef STENCIL_TEST_TWO_SIDE_EXT
 	#define	STENCIL_TEST_TWO_SIDE_EXT	0x8910
 #endif
+
+static const float kDefaultAlphaThreshold = 0.99f;
 
 //=============================================================================
 //      Local Functions
@@ -232,7 +234,10 @@ TQ3Status	QORenderer::Renderer::StartFrame(
 			mGLContext = GLDrawContext_New( inView, inDrawContext,
 				&mGLClearFlags );
 			if (mGLContext == nullptr)
-				return(kQ3Failure);
+			{
+				Q3_MESSAGE_FMT("GLDrawContext_New failed in StartFrame");
+				return kQ3Failure;
+			}
 			
 			mTextures.UpdateTextureCache();
 
@@ -307,7 +312,6 @@ TQ3Status	QORenderer::Renderer::StartFrame(
 	
 	// Tell light manager that a frame is starting
 	mLights.StartFrame( inView, isShadowing );
-	mPPLighting.StartFrame();
 
 
 	// Clear the context
@@ -354,6 +358,10 @@ void		QORenderer::Renderer::StartPass(
 	mGeomState.Reset();
 	mViewIllumination = kQ3ObjectTypeInvalid;
 	
+	mAlphaThreshold = kDefaultAlphaThreshold;
+	Q3Object_GetProperty( mRendererObject, kQ3RendererPropertyAlphaThreshold,
+		sizeof(mAlphaThreshold), nullptr, &mAlphaThreshold );
+	
 	// Initialize specularity and emission
 	mCurrentSpecularColor[0] = mCurrentSpecularColor[1] =
 		mCurrentSpecularColor[2] = 0.0f;
@@ -378,7 +386,7 @@ void		QORenderer::Renderer::StartPass(
 		
 	// Turn fog off.
 	mStyleState.mFogStyles.clear();
-	TQ3FogStyleData	noFog = { kQ3Off };
+	TQ3FogStyleExtendedData	noFog = { kQ3FogStyleExtendedVersion, kQ3Off };
 	mStyleState.mFogStyles.push_back( noFog );
 	mStyleState.mCurFogStyleIndex = 0;
 	
@@ -401,12 +409,9 @@ void		QORenderer::Renderer::StartPass(
 	GLDrawContext_SetDepthState( mDrawContextObject );
 	glLineWidth( mLineWidth );
 	
+	mPPLighting.StartPass( inCamera );
 	mLights.StartPass( inCamera, mRendererObject );
 	mTextures.StartPass();
-	if (! mLights.IsShadowMarkingPass())
-	{
-		mPPLighting.StartPass();
-	}
 }
 
 static bool IsSwapWanted( TQ3ViewObject inView )
@@ -427,7 +432,6 @@ static bool IsSwapWanted( TQ3ViewObject inView )
 void	QORenderer::Renderer::RenderTransparent( TQ3ViewObject inView )
 {
 	CQ3ObjectRef	theCamera( CQ3View_GetCamera( inView ) );
-	CQ3ObjectRef	theLightGroup( CQ3View_GetLightGroup( inView ) );
 	bool isMoreNeeded;
 	GLenum	dstFactor = GL_ONE_MINUS_SRC_ALPHA;
 	
@@ -440,12 +444,14 @@ void	QORenderer::Renderer::RenderTransparent( TQ3ViewObject inView )
 	mTransBuffer.DrawDepth( inView );
 
 	mLights.StartFrame( inView, false );
+	int passNum = 1;
 	
 	do
 	{
+		//Q3_MESSAGE_FMT("Transparent mini-pass %d", passNum );
+		mPPLighting.StartPass( theCamera.get() );
 		mLights.StartPass( theCamera.get(), mRendererObject );
 		mTextures.StartPass();
-		mPPLighting.StartPass();
 		
 		mTransBuffer.DrawTransparency( inView, GL_ONE, dstFactor );
 		dstFactor = GL_ONE;	// for next mini-pass
@@ -453,6 +459,7 @@ void	QORenderer::Renderer::RenderTransparent( TQ3ViewObject inView )
 		mTextures.EndPass();
 		mPPLighting.EndPass();
 		isMoreNeeded = mLights.EndPass();
+		++passNum;
 	} while (isMoreNeeded);
 	
 	mTransBuffer.Cleanup();
@@ -472,7 +479,12 @@ TQ3ViewStatus		QORenderer::Renderer::EndPass(
 	bool isFirstLightingPass = mLights.IsFirstPass();
 	if (isFirstLightingPass && mLights.IsLastLightingPass() && mTransBuffer.HasContent())
 	{
+		mPPLighting.EndPass();
+
 		mTransBuffer.DrawDepth( inView );
+		
+		CQ3ObjectRef	theCamera( CQ3View_GetCamera( inView ) );
+		mPPLighting.StartPass( theCamera.get() );
 		
 		// When drawing the depth first, normally we want to use GL_LEQUAL, but
 		// for special purposes the client might reverse it.
@@ -486,6 +498,7 @@ TQ3ViewStatus		QORenderer::Renderer::EndPass(
 		}
 		
 		glDepthFunc( compareFunc );
+		//Q3_MESSAGE_FMT("Transparency in one pass");
 		mTransBuffer.DrawTransparency( inView, GL_ONE, GL_ONE_MINUS_SRC_ALPHA );
 		mTransBuffer.Cleanup();
 	}

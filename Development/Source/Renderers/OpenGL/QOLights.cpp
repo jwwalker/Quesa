@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2013, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -52,6 +52,8 @@
 #include "E3Math_Intersect.h"
 #include "CQ3ObjectRef_Gets.h"
 #include "GLCamera.h"
+#include "GLUtils.h"
+#include "QuesaMathOperators.hpp"
 #include <cmath>
 #include <limits>
 using namespace std;
@@ -76,6 +78,28 @@ using namespace std;
 	}
 #else
 	#define		TraceGLMatrix(x)
+#endif
+
+#if Q3_DEBUG && !defined(Q3_DEBUG_GL_ERRORS)
+	#define		Q3_DEBUG_GL_ERRORS		1
+#endif
+
+#if Q3_DEBUG_GL_ERRORS
+	static GLenum	sGLError = 0;
+	
+	#define		CHECK_GL_ERROR_FMT(...) \
+								do { \
+									sGLError = glGetError();	\
+									if (sGLError != GL_NO_ERROR)	\
+									{	\
+										char customMsg_[400]; char wholeMsg_[800]; \
+										snprintf( customMsg_, sizeof(customMsg_), __VA_ARGS__ ); \
+										snprintf( wholeMsg_, sizeof(wholeMsg_), "%s %s", GLUtils_GLErrorToString(sGLError), customMsg_ ); \
+										E3Assert(__FILE__, __LINE__, wholeMsg_ );	\
+									}	\
+								} while (false)
+#else
+	#define		CHECK_GL_ERROR_FMT(...)
 #endif
 
 
@@ -215,6 +239,65 @@ static void SetAttenuationParams( TQ3AttenuationType inType,
 			break;
 	}
 }
+
+
+static bool IsIgnorablePositionalLight( TQ3LightObject inLight,
+										TQ3ObjectType inLightType,
+										TQ3ViewObject inView,
+										float inBrightness )
+{
+	bool ignorable = false;
+	if ( (inLightType == kQ3LightTypeSpot) || (inLightType == kQ3LightTypePoint) )
+	{
+		CQ3ObjectRef theCamera( CQ3View_GetCamera( inView ) );
+		TQ3AttenuationType attType;
+		TQ3Point3D lightLocation;
+		TQ3SpotLightData spotData;
+		if (inLightType == kQ3LightTypeSpot)
+		{
+			Q3SpotLight_GetData( inLight, &spotData );
+			attType = spotData.attenuation;
+			lightLocation = spotData.location;
+		}
+		else // kQ3LightTypePoint
+		{
+			TQ3PointLightData	ptData;
+			Q3PointLight_GetData( inLight, &ptData );
+			attType = ptData.attenuation;
+			lightLocation = ptData.location;
+		}
+		
+		if (attType == kQ3AttenuationTypeInverseDistanceSquared)
+		{
+			float distance = E3Math_DistanceFromPointToViewFrustum( lightLocation, theCamera.get() );
+			//Q3_MESSAGE_FMT("Distance to frustum=%f, brightness=%f", distance, inBrightness );
+			if (distance > 10.0f * sqrtf( inBrightness ))
+			{
+				ignorable = true;
+				// This means that the effective brightness in the view frustum is <= 0.01.
+				//Q3_MESSAGE_FMT("Light %p is ignorable", inLight );
+			}
+		}
+		
+		if ( (! ignorable) && (inLightType == kQ3LightTypeSpot) )
+		{
+			// If the outer cone of light does not intersect the view frustum, then the light
+			// can have no effect on visible things.
+			TQ3Ray3D coneAxis;
+			coneAxis.origin = spotData.location;
+			coneAxis.direction = Q3Normalize3D( spotData.direction );
+			float outerCos = cosf( spotData.outerAngle );
+			if ( ! E3Cone_IntersectViewFrustum( coneAxis, outerCos, theCamera.get() ))
+			{
+				ignorable = true;
+				//Q3_MESSAGE_FMT("Spot Light %p is ignorable", inLight );
+			}
+		}
+	}
+	
+	return ignorable;
+}
+
 
 //=============================================================================
 //      Class Implementations
@@ -381,26 +464,78 @@ void QORenderer::Lights::AddLight( TQ3LightObject inLight,
 						const TQ3Matrix4x4& inWorldToView )
 {
 	mLightType = Q3Light_GetType( inLight );
+	bool isRecognizedLightType = false;
 	
-	switch (mLightType)
+	if (mPerPixelLighting.IsShading())
 	{
-		case kQ3LightTypeDirectional:
-			AddDirectionalLight( inLight, inWorldToView );
-			++mLightCount;
-			break;
-			
-		case kQ3LightTypePoint:
-			AddPointLight( inLight, inWorldToView );
-			++mLightCount;
-			break;
-			
-		case kQ3LightTypeSpot:
-			AddSpotLight( inLight, inWorldToView );
-			++mLightCount;
-			break;
+		// If this is a shadow pass, then there is one light and
+		// it needs to be submitted to OpenGL so that the shadow
+		// renderer can find it.
+		if (mLightCount == 0)
+		{
+			switch (mLightType)
+			{
+				case kQ3LightTypeDirectional:
+					AddDirectionalLight( inLight, inWorldToView );
+					isRecognizedLightType = true;
+					break;
+					
+				case kQ3LightTypePoint:
+					AddPointLight( inLight, inWorldToView );
+					isRecognizedLightType = true;
+					break;
+					
+				case kQ3LightTypeSpot:
+					AddSpotLight( inLight, inWorldToView );
+					isRecognizedLightType = true;
+					break;
+			}
+		}
+		else
+		{
+			// Otherwise, there is no need to bother with traditional
+			// glLight calls, and doing so could be trouble if there
+			// are more than 8 lights in a pass.
+			switch (mLightType)
+			{
+				case kQ3LightTypeDirectional:
+				case kQ3LightTypePoint:
+				case kQ3LightTypeSpot:
+					isRecognizedLightType = true;
+					break;
+			}
+		}
+		
+		if (isRecognizedLightType)
+		{
+			mPerPixelLighting.AddLight( inLight );
+		}
+	}
+	else
+	{
+		switch (mLightType)
+		{
+			case kQ3LightTypeDirectional:
+				AddDirectionalLight( inLight, inWorldToView );
+				isRecognizedLightType = true;
+				break;
+				
+			case kQ3LightTypePoint:
+				AddPointLight( inLight, inWorldToView );
+				isRecognizedLightType = true;
+				break;
+				
+			case kQ3LightTypeSpot:
+				AddSpotLight( inLight, inWorldToView );
+				isRecognizedLightType = true;
+				break;
+		}
 	}
 	
-	mPerPixelLighting.AddLight( inLight );
+	if (isRecognizedLightType)
+	{
+		++mLightCount;
+	}
 }
 
 /*!
@@ -459,8 +594,10 @@ void	QORenderer::Lights::ClassifyLights( TQ3ViewObject inView )
 	{
 		TQ3Boolean	isOn;
 		Q3Light_GetState( theLight.get(), &isOn );
+		float	brightness;
+		Q3Light_GetBrightness( theLight.get(), &brightness );
 		
-		if (isOn == kQ3True)
+		if ( (isOn == kQ3True) && (brightness > kQ3RealZero) )
 		{
 			TQ3ObjectType	lightType = Q3Light_GetType( theLight.get() );
 			
@@ -468,7 +605,7 @@ void	QORenderer::Lights::ClassifyLights( TQ3ViewObject inView )
 			{
 				ConvertAmbientLight( theLight.get(), mGlAmbientLight );
 			}
-			else
+			else if ( ! IsIgnorablePositionalLight( theLight.get(), lightType, inView, brightness ) )
 			{
 				if ( IsShadowFrame() && IsShadowCaster( theLight.get(), lightType ) )
 				{
@@ -551,7 +688,7 @@ void	QORenderer::Lights::SetUpShadowMarkingPass( const TQ3Matrix4x4& inWorldToVi
 	// This helps prevent z-fighting artifacts.
 	// It is unclear what are the best values to pass.
 	glEnable( GL_POLYGON_OFFSET_FILL );
-	glPolygonOffset( 0.0f, 1.0f );
+	glPolygonOffset( 1.0f, 1.0f );
 	
 	// do not write to color buffer
 	glColorMask( GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE );
@@ -703,6 +840,12 @@ void	QORenderer::Lights::SetUpNonShadowLightingPass( const TQ3Matrix4x4& inWorld
 		glDepthFunc( GL_LEQUAL );	// pass depth test on equal
 		glEnable( GL_BLEND );
 		glBlendFunc( GL_ONE, GL_ONE );
+		
+		// I was seeing a problem where I had 9 identically configured
+		// spot lights, but the one rendered in the 2nd pass produced a
+		// fainter spot.  This seems to fix it.
+		glEnable( GL_POLYGON_OFFSET_FILL );
+		glPolygonOffset( -1.0f, -1.0f );
 	}
 }
 
@@ -726,7 +869,8 @@ void	QORenderer::Lights::UpdateFogColor()
 	// color to black for all but the first pass.
 	if (mIsFirstPass)
 	{
-		const TQ3FogStyleData& fogData( mStyleState.mFogStyles[ mStyleState.mCurFogStyleIndex ] );
+		const TQ3FogStyleExtendedData& fogData(
+			mStyleState.mFogStyles[ mStyleState.mCurFogStyleIndex ] );
 		GLfloat	fogColor[4] = {
 			fogData.color.r,
 			fogData.color.g,
@@ -759,11 +903,13 @@ void	QORenderer::Lights::StartFrame( TQ3ViewObject inView,
 	mIsFirstPass = true;
 	mIsShadowPhase = false;
 	mIsNextPassShadowPhase = false;
+	mIsShadowMarkingPass = false;
 	mStartingLightIndexForPass = 0;
 	mSavedYon = std::numeric_limits<float>::infinity();
 
 	// How many OpenGL non-ambient lights can we have?
-	mMaxGLLights = mGLExtensions.maxLights;
+	mPerPixelLighting.StartFrame( inView );
+	mMaxGLLights = mPerPixelLighting.GetMaxLightsPerPass();
 	
 	ClassifyLights( inView );
 	
@@ -797,7 +943,7 @@ void	QORenderer::Lights::StartPass(
 								TQ3CameraObject inCamera,
 								TQ3RendererObject inRenderer )
 {
-	mIsOnlyAmbient = false;
+	mIsLowDMode = false;
 	mIsAnotherPassNeeded = false;
 	
 	Reset( true );
@@ -869,9 +1015,11 @@ void	QORenderer::Lights::StartPass(
 */
 bool	QORenderer::Lights::EndPass()
 {
-	for (TQ3Uns32 i = 0; i < mLightCount; ++i)
+	CHECK_GL_ERROR_FMT("Lights::EndPass");
+	for (GLint i = 0; i < mGLExtensions.maxLights; ++i)
 	{
 		glDisable( GL_LIGHT0 + i );
+		CHECK_GL_ERROR_FMT("glDisable( GL_LIGHT0 + %u )", (unsigned int) i );
 	}
 	
 	Reset( false );
@@ -904,60 +1052,78 @@ bool	QORenderer::Lights::IsShadowPhase() const
 
 
 /*!
-	@function	SetOnlyAmbient
+	@function	SetLowDimensionalMode
 	
-	@abstract	Set whether or not all light is ambient.
+	@abstract	Set whether we use special illumination for 0-D or 1-D geometry.
 	
 	@discussion	It's not clear whether it makes sense for geometries of
 				dimension 0 or 1 (Point, Line, PolyLine, Ellipse, NURBCurve) to
 				be affected by the direction of the light and by normal
 				vectors.  Therefore, when we are about to render geometries of
-				dimension 0 or 1, we replace each non-ambient light by ambient
-				light of the same brightness.  Note that this is not the same
-				as using nullptr illumination, where brightness is ignored.
+				dimension 0 or 1, we switch to nondirectional illumination.
+				Note that this is not the same as using NULL illumination,
+				where brightness is ignored.
 				Of course, when we are ready to render 2-dimensional geometry,
-				we must make sure that the non-ambient lights are restored.
+				we must make sure that normal illumination is restored.
 */
-void	QORenderer::Lights::SetOnlyAmbient( bool inOnlyAmbient )
+void	QORenderer::Lights::SetLowDimensionalMode( bool inLowD, TQ3ObjectType inIlluminationType )
 {
 	TQ3Uns32 i, j;
 	
-	if (mIsOnlyAmbient != inOnlyAmbient)
+	if (mIsLowDMode != inLowD)
 	{
-		mIsOnlyAmbient = inOnlyAmbient;
+		mIsLowDMode = inLowD;
 		
-		if (inOnlyAmbient)
+		if (mPerPixelLighting.IsShading())
 		{
-			for (i = 0; i < 4; ++i)
+			if (inLowD)
 			{
-				mOnlyAmbient[i] = mGlAmbientLight[i];
-			}
-		
-			for (i = 0; i < mLightCount; ++i)
-			{
-				GLfloat	lightColor[4];
-				glGetLightfv( GL_LIGHT0 + i, GL_DIFFUSE, lightColor );
-				glDisable( GL_LIGHT0 + i );
-				
-				for (j = 0; j < 3; ++j)
+				if (inIlluminationType != kQ3IlluminationTypeNULL)
 				{
-					mOnlyAmbient[j] += lightColor[j];
+					mPerPixelLighting.UpdateIllumination( kQ3IlluminationTypeNondirectional );
+				}
+				else
+				{
+					mPerPixelLighting.UpdateIllumination( inIlluminationType );
 				}
 			}
-			
-			glLightModelfv( GL_LIGHT_MODEL_AMBIENT, mOnlyAmbient );
 		}
-		else	// restore normal state
+		else
 		{
-			for (i = 0; i < mLightCount; ++i)
+			if (inLowD)
 			{
-				glEnable( GL_LIGHT0 + i );
+				// Initialize the only-ambient color to the usual ambient color
+				for (i = 0; i < 4; ++i)
+				{
+					mOnlyAmbient[i] = mGlAmbientLight[i];
+				}
+			
+				for (i = 0; i < mLightCount; ++i)
+				{
+					GLfloat	lightColor[4];
+					glGetLightfv( GL_LIGHT0 + i, GL_DIFFUSE, lightColor );
+					glDisable( GL_LIGHT0 + i );
+					
+					for (j = 0; j < 3; ++j)
+					{
+						mOnlyAmbient[j] += lightColor[j];
+					}
+				}
+				
+				glLightModelfv( GL_LIGHT_MODEL_AMBIENT, mOnlyAmbient );
+			}
+			else	// restore normal state
+			{
+				for (i = 0; i < mLightCount; ++i)
+				{
+					glEnable( GL_LIGHT0 + i );
+				}
+				
+				glLightModelfv( GL_LIGHT_MODEL_AMBIENT, mGlAmbientLight );
 			}
 			
-			glLightModelfv( GL_LIGHT_MODEL_AMBIENT, mGlAmbientLight );
+			mPerPixelLighting.UpdateLighting();
 		}
-		
-		mPerPixelLighting.UpdateLighting();
 	}
 }
 
@@ -974,10 +1140,11 @@ bool	QORenderer::Lights::IsEmissionUsed() const
 void	QORenderer::Lights::MarkShadowOfTriMesh(
 								TQ3GeometryObject inTMObject,
 								const TQ3TriMeshData& inTMData,
-								const TQ3Vector3D* inFaceNormals )
+								const TQ3Vector3D* inFaceNormals,
+								TQ3ViewObject inView )
 {
 	mShadowMarker.MarkShadowOfTriMesh( inTMObject, inTMData, inFaceNormals,
-		mShadowingLights[ mStartingLightIndexForPass ].get() );
+		mShadowingLights[ mStartingLightIndexForPass ].get(), inView );
 }
 
 void	QORenderer::Lights::MarkShadowOfTriangle(

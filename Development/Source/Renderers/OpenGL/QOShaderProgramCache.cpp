@@ -76,8 +76,8 @@ QORenderer::ProgramCharacteristic::ProgramCharacteristic()
 	, mInterpolationStyle( kQ3InterpolationStyleVertex )
 	, mIsTextured( false )
 	, mIsCartoonish( false )
-	, mFogState( kQ3Off )
-	, mFogMode( kQ3FogModeAlpha )
+	, mFogModeCombined( kFogModeOff )
+	, mIsUsingClippingPlane( false )
 	, mAngleAffectsAlpha( true )
 {
 }
@@ -89,8 +89,8 @@ QORenderer::ProgramCharacteristic::ProgramCharacteristic(
 	, mInterpolationStyle( inOther.mInterpolationStyle )
 	, mIsTextured( inOther.mIsTextured )
 	, mIsCartoonish( inOther.mIsCartoonish )
-	, mFogState( inOther.mFogState )
-	, mFogMode( inOther.mFogMode )
+	, mFogModeCombined( inOther.mFogModeCombined )
+	, mIsUsingClippingPlane( inOther.mIsUsingClippingPlane )
 	, mAngleAffectsAlpha( inOther.mAngleAffectsAlpha )
 {
 }
@@ -103,8 +103,8 @@ bool	QORenderer::ProgramCharacteristic::operator==(
 			(mInterpolationStyle == inOther.mInterpolationStyle) &&
 			(mIsCartoonish == inOther.mIsCartoonish) &&
 			(mPattern == inOther.mPattern) &&
-			(mFogState == inOther.mFogState ) &&
-			(mFogMode == inOther.mFogMode) &&
+			(mFogModeCombined == inOther.mFogModeCombined ) &&
+			(mIsUsingClippingPlane == inOther.mIsUsingClippingPlane) &&
 			(mAngleAffectsAlpha == inOther.mAngleAffectsAlpha);
 }
 
@@ -118,9 +118,16 @@ void	QORenderer::ProgramCharacteristic::swap(
 	std::swap( mInterpolationStyle, ioOther.mInterpolationStyle );
 	std::swap( mIsTextured, ioOther.mIsTextured );
 	std::swap( mIsCartoonish, ioOther.mIsCartoonish );
-	std::swap( mFogState, ioOther.mFogState );
-	std::swap( mFogMode, ioOther.mFogMode );
+	std::swap( mFogModeCombined, ioOther.mFogModeCombined );
+	std::swap( mIsUsingClippingPlane, ioOther.mIsUsingClippingPlane );
 	std::swap( mAngleAffectsAlpha, ioOther.mAngleAffectsAlpha );
+}
+
+QORenderer::ProgramCharacteristic&	QORenderer::ProgramCharacteristic::operator=( const QORenderer::ProgramCharacteristic& inOther )
+{
+	QORenderer::ProgramCharacteristic temp( inOther );
+	swap( temp );
+	return *this;
 }
 
 #pragma mark -
@@ -154,7 +161,7 @@ QORenderer::ProgramCache::~ProgramCache()
 		GLGetProcAddress( deleteShader, "glDeleteShader", "glDeleteObjectARB" );
 	
 		deleteShader( mVertexShaderID );
-		Q3_MESSAGE_FMT("Deleted vertex shader number %d", mVertexShaderID );
+		Q3_MESSAGE_FMT("Deleted vertex shader ID %d", mVertexShaderID );
 		mVertexShaderID = 0;
 		
 		QORenderer::glDeleteProgramProc deleteProgram;
