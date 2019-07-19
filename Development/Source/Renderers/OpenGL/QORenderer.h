@@ -304,6 +304,8 @@ protected:
 									const TQ3FogStyleExtendedData* inStyleData );
 	void					UpdateCastShadowsStyle(
 									TQ3Boolean inStyleData );
+	void					UpdateReceiveShadowsStyle(
+									TQ3Boolean inStyleData );
 	void					UpdateLineWidthStyle(
 									float inStyleData );
 	

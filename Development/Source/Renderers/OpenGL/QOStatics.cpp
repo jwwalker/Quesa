@@ -662,6 +662,17 @@ TQ3Status	QORenderer::Statics::UpdateCastShadowsStyleMethod(
 	return kQ3Success;
 }
 
+TQ3Status	QORenderer::Statics::UpdateReceiveShadowsStyleMethod(
+								TQ3ViewObject inView,
+								void* privateData,
+								const void* publicData )
+{
+#pragma unused( inView )
+	QORenderer::Renderer*	me = *(QORenderer::Renderer**)privateData;
+	me->UpdateReceiveShadowsStyle( * (TQ3Boolean*) publicData );
+	return kQ3Success;
+}
+
 TQ3Status	QORenderer::Statics::UpdateLineWidthStyleMethod(
 									TQ3ViewObject inView,
 									void* privateData,
@@ -733,6 +744,11 @@ TQ3XRendererUpdateStyleMethod
 				&QORenderer::Statics::UpdateCastShadowsStyleMethod;
 			break;
 		
+		case kQ3StyleTypeReceiveShadows:
+			theMethod = (TQ3XRendererUpdateStyleMethod)
+				&QORenderer::Statics::UpdateReceiveShadowsStyleMethod;
+			break;
+
 		case kQ3StyleTypeLineWidth:
 			theMethod = (TQ3XRendererUpdateStyleMethod)
 				&QORenderer::Statics::UpdateLineWidthStyleMethod;

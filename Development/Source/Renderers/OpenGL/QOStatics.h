@@ -271,6 +271,11 @@ private:
 									void* privateData,
 									const void* publicData );
 
+	static TQ3Status			UpdateReceiveShadowsStyleMethod(
+									TQ3ViewObject inView,
+									void* privateData,
+									const void* publicData );
+
 	static TQ3Status			UpdateLineWidthStyleMethod(
 									TQ3ViewObject inView,
 									void* privateData,

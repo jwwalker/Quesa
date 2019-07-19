@@ -589,6 +589,33 @@ void	QORenderer::Renderer::UpdateCastShadowsStyle(
 }
 
 
+void	QORenderer::Renderer::UpdateReceiveShadowsStyle(
+									TQ3Boolean inStyleData )
+{
+	// Only do anything in a shadow lighting pass
+	if ( mLights.IsShadowPhase() && (! mLights.IsShadowMarkingPass()) )
+	{
+		//Q3_MESSAGE_FMT("Receive Shadows %s", inStyleData? "YES" : "NO" );
+		
+		// Activate our context
+		GLDrawContext_SetCurrent( mGLContext, kQ3False );
+		
+		
+		mTriBuffer.Flush();
+		
+		
+		if (inStyleData) // do receive shadows
+		{
+			glEnable( GL_STENCIL_TEST );
+		}
+		else // do not receive shadows
+		{
+			glDisable( GL_STENCIL_TEST );
+		}
+	}
+}
+
+
 void	QORenderer::Renderer::UpdateLineWidthStyle(
 									float inStyleData )
 {
