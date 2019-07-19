@@ -5,7 +5,7 @@
         OpenGL display list caching.
        
     COPYRIGHT:
-        Copyright (c) 2007-2016, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -75,6 +75,7 @@ namespace
 #pragma mark struct CachedDisplayList
 	struct CachedDisplayList
 	{
+						CachedDisplayList() = delete;
 						CachedDisplayList( TQ3GeometryObject inGeom,
 										GLenum inMode );
 						CachedDisplayList( const CachedDisplayList& inOther );

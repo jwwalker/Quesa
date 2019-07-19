@@ -5,7 +5,7 @@
         Quesa OpenGL shadow volume caching.
        
     COPYRIGHT:
-        Copyright (c) 2011-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 2011-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -209,7 +209,7 @@ namespace
 
 static inline GLvoid* BufferObPtr( GLuint offset )
 {
-	return (GLvoid*)( ((char*)nullptr) + offset );
+	return (GLvoid*)( (uintptr_t) offset );
 }
 
 

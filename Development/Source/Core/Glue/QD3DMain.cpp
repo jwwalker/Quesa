@@ -6,7 +6,7 @@
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2016, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -814,6 +814,7 @@ Q3Object_GetElement(TQ3Object object, TQ3ElementType theType, void *data)
 
 
 	// Release build checks
+	Q3_ASSERT_MESSAGE( object != nullptr, "NULL object");
 	Q3_REQUIRE_OR_RESULT( object->IsObjectValid (), kQ3Failure ) ;
 	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
 
@@ -969,7 +970,7 @@ Q3Object_GetProperty(
 	void*					buffer )
 {
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT( object->IsObjectValid (), kQ3Failure ) ;
+	Q3_REQUIRE_OR_RESULT( (object != nullptr) && object->IsObjectValid(), kQ3Failure ) ;
 	
 	
 	

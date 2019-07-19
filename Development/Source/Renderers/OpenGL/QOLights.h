@@ -11,7 +11,7 @@
         Header for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -98,11 +98,19 @@ public:
 								, mStyleState( inStyleState )
 								, mPerPixelLighting( ioPerPixelLighting )
 								, mLightCount( 0 )
+								, mIsShadowFrame( false )
+								, mIsFirstPass( false )
+								, mIsShadowPhase( false )
+								, mIsNextPassShadowPhase( false )
+								, mIsAnotherPassNeeded( false )
+								, mIsShadowMarkingPass( false )
+								, mStartingLightIndexForPass( 0 )
+								, mMaxGLLights( 8 )
 								, mSavedYon( std::numeric_limits<float>::infinity() )
 								, mShadowMarker( mMatrixState, mStyleState,
 									mGLLightPosition, inGLContext, inExtensions,
 									inFuncs, inCachingShadows )
-								, mIsOnlyAmbient( false ) {}
+								, mIsLowDMode( false ) {}
 
 	void					StartFrame(
 									TQ3ViewObject inView,
@@ -117,7 +125,7 @@ public:
 	void					EndFrame(
 									TQ3ViewObject inView );
 	
-	void					SetOnlyAmbient( bool inOnlyAmbient );
+	void					SetLowDimensionalMode( bool inLowD, TQ3ObjectType inIlluminationType );
 	
 	void					UpdateFogColor();
 
@@ -144,7 +152,8 @@ public:
 	void					MarkShadowOfTriMesh(
 									TQ3GeometryObject inTMObject,
 									const TQ3TriMeshData& inTMData,
-									const TQ3Vector3D* inFaceNormals );
+									const TQ3Vector3D* inFaceNormals,
+									TQ3ViewObject inView );
 	
 	void					MarkShadowOfTriangle(
 									const Vertex* inVertices );
@@ -199,7 +208,7 @@ private:
 	TQ3Vector3D				mSpotLightDirection;
 	float					mSpotAngleCosine;
 	
-	bool					mIsOnlyAmbient;
+	bool					mIsLowDMode;
 	GLfloat					mOnlyAmbient[4];
 };
 

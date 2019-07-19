@@ -5,7 +5,7 @@
         Windows debug implementation.
 
     COPYRIGHT:
-        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -48,9 +48,12 @@
 #include "ShlObj.h"
 
 #include <stdio.h>
+#include <string>
+#include <stdlib.h>
 
 
 
+extern int gDebugMode;
 
 
 //=============================================================================
@@ -94,6 +97,7 @@ E3Assert(const char *srcFile, TQ3Uns32 lineNum, const char *theAssertion)
 #if QUESA_USE_DEBUGBREAK
 	DebugBreak();
 #endif
+	abort();
 }
 
 
@@ -127,6 +131,16 @@ E3IsValidPtr(const void *thePtr)
 //-----------------------------------------------------------------------------
 void		E3LogMessage( const char* inMessage )
 {
+	if ( (inMessage == NULL) || (inMessage[0] == 0) )
+	{
+		return;
+	}
+	
+	if (gDebugMode < 0)
+	{
+		return;
+	}
+
 	if (sLogFile == NULL)
 	{
 		TCHAR thePath[MAX_PATH];
@@ -142,7 +156,16 @@ void		E3LogMessage( const char* inMessage )
 			
 			if (sLogFile != NULL)
 			{
-				fprintf( sLogFile, "\r\n\r\n**** LOG START ****\r\n\r\n" );
+				// Make the stream unbuffered, so that if the program crashes,
+				// we should not lose anything.
+				setvbuf( sLogFile, NULL, _IONBF, 0 );
+
+				char dateStr[200], timeStr[200];
+				GetDateFormat( LOCALE_SYSTEM_DEFAULT, 0,
+					NULL, "d MMM yyyy", dateStr, sizeof(dateStr) );
+				GetTimeFormat( LOCALE_SYSTEM_DEFAULT, 0, NULL, NULL,
+					timeStr, sizeof(timeStr) );
+				fprintf( sLogFile, "\n\n**** LOG START %s %s ****\n\n", dateStr, timeStr );
 			}
 		}
 	}

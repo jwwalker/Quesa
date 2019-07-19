@@ -158,8 +158,6 @@ static GLenum sGLError = 0;
 
 namespace
 {
-	const float		kAlphaThreshold		= 0.01f;
-	
 	const float		kOneThird			= 0.3333333f;
 	
 	const GLfloat		kGLBlackColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
@@ -588,7 +586,7 @@ void	QORenderer::Renderer::CalcVertexState(
 	{
 		outVertex.vertAlpha = mGeomState.alpha;
 	}
-	if (1.0f - outVertex.vertAlpha > kAlphaThreshold)
+	if (outVertex.vertAlpha < mAlphaThreshold)
 	{
 		outVertex.flags |= kVertexHaveTransparency;
 	}
@@ -726,7 +724,7 @@ QORenderer::SlowPathMask	QORenderer::Renderer::FindTriMeshData(
 		slowMask |= kSlowPathMask_FaceColors;
 	}
 	
-	if ( ((1.0f - mGeomState.alpha) > kAlphaThreshold) &&
+	if ( (mGeomState.alpha < mAlphaThreshold) &&
 		(outArrays.vertColor == nullptr) )
 	{
 		slowMask |= kSlowPathMask_Transparency;
@@ -972,7 +970,7 @@ void QORenderer::Renderer::CalcTriMeshVertState(
 	{
 		outVertex.vertAlpha = mGeomState.alpha;
 	}
-	if (1.0f - outVertex.vertAlpha > kAlphaThreshold)
+	if (outVertex.vertAlpha < mAlphaThreshold)
 	{
 		outVertex.flags |= kVertexHaveTransparency;
 	}
@@ -1002,13 +1000,15 @@ void QORenderer::Renderer::CalcTriMeshVertState(
 				global transparency color, and can be handled by a relatively
 				fast path through TransBuffer.
 */
-static bool IsSimplyTransparent( const QORenderer::MeshArrays& inData,
+static bool IsSimplyTransparent(
+								float inAlphaThreshold,
+								const QORenderer::MeshArrays& inData,
 								const QORenderer::Texture& inTextureState,
 								const QORenderer::ColorState& inGeomColor )
 {
 	return (
 				inTextureState.IsTextureTransparent() ||
-				(1.0f - inGeomColor.alpha > kAlphaThreshold)
+				(inGeomColor.alpha < inAlphaThreshold)
 			)
 			&& (inData.vertTransparency == nullptr)
 			&& (inData.faceTransparency == nullptr)
@@ -1032,15 +1032,47 @@ static bool IsSimplyTransparent( const QORenderer::MeshArrays& inData,
 				AttributeSet objects.
 */
 void	QORenderer::Renderer::RenderSlowPathTriMesh(
+									TQ3GeometryObject inTriMesh,
 									TQ3ViewObject inView,
 									const TQ3TriMeshData& inGeomData,
 									const MeshArrays& inData )
 {
-	if ( IsSimplyTransparent( inData, mTextures, mGeomState ) and
+	bool suppressTransparency = false;
+	if ( IsSimplyTransparent( mAlphaThreshold, inData, mTextures, mGeomState ) and
 		(inData.vertNormal != nullptr) )
 	{
+	#if 0//Q3_DEBUG
+		const char* theName = nullptr;
+		CENameElement_PeekData( inTriMesh, &theName );
+		if (theName == nullptr)
+		{
+			Q3_MESSAGE_FMT("Transparent geometry ''");
+		}
+		else
+		{
+			Q3_MESSAGE_FMT("Transparent geometry '%s'", theName);
+		}
+	#endif
+		TQ3Matrix4x4 localToWorld, worldToFrustum, frustumToWindow, localToWindow;
+		E3View_GetLocalToWorldMatrixState( inView, &localToWorld );
+		E3View_GetWorldToFrustumMatrixState( inView, &worldToFrustum );
+		E3View_GetFrustumToWindowMatrixState( inView, &frustumToWindow );
+		localToWindow = localToWorld * worldToFrustum * frustumToWindow;
+		TQ3BoundingBox windowBox;
+		E3BoundingBox_Transform( &inGeomData.bBox, &localToWindow, &windowBox );
+		float screenWidth = windowBox.max.x - windowBox.min.x;
+		float screenHeight = windowBox.max.y - windowBox.min.y;
+		float screenArea = screenWidth * screenHeight;
+		//Q3_MESSAGE_FMT("Screen area %f (%f x %f)", screenArea, screenWidth, screenHeight );
+		if (screenArea > 10.0f)
+		{
 		mTransBuffer.AddTriMesh( inGeomData, inData );
 		return;
+	}
+		else
+		{
+			suppressTransparency = true; // render teeny thing without alpha
+		}
 	}
 
 	Vertex		theVertices[3];
@@ -1065,6 +1097,13 @@ void	QORenderer::Renderer::RenderSlowPathTriMesh(
 		CalcTriMeshVertState( vertIndices[0], faceNum, inData, theVertices[0] );
 		CalcTriMeshVertState( vertIndices[1], faceNum, inData, theVertices[1] );
 		CalcTriMeshVertState( vertIndices[2], faceNum, inData, theVertices[2] );
+		
+		if (suppressTransparency)
+		{
+			theVertices[0].flags &= ~ kVertexHaveTransparency;
+			theVertices[1].flags &= ~ kVertexHaveTransparency;
+			theVertices[2].flags &= ~ kVertexHaveTransparency;
+		}
 		
 		flagUnion = theVertices[0].flags | theVertices[1].flags |
 			theVertices[2].flags;
@@ -1712,7 +1751,7 @@ bool	QORenderer::Renderer::SubmitTriMesh(
 	GLDrawContext_SetCurrent( mGLContext, kQ3False );
 	
 	// Allow usual lighting
-	mLights.SetOnlyAmbient( false );
+	mLights.SetLowDimensionalMode( false, mViewIllumination );
 
 	
 	// update color and texture from geometry attribute set
@@ -1771,7 +1810,7 @@ bool	QORenderer::Renderer::SubmitTriMesh(
 			((whyNotFastPath & kSlowPathMask_Transparency) == 0) )
 		{
 			mLights.MarkShadowOfTriMesh( inTriMesh, *inGeomData,
-				dataArrays.faceNormal );
+				dataArrays.faceNormal, inView );
 		}
 		didHandle = true;
 	}
@@ -1834,7 +1873,7 @@ bool	QORenderer::Renderer::SubmitTriMesh(
 	
 	if (! didHandle)
 	{
-		RenderSlowPathTriMesh( inView, *inGeomData, dataArrays );
+		RenderSlowPathTriMesh( inTriMesh, inView, *inGeomData, dataArrays );
 		didHandle = true;
 	}
 	
@@ -1872,7 +1911,7 @@ void	QORenderer::Renderer::SubmitTriangle(
 	GLDrawContext_SetCurrent( mGLContext, kQ3False );
 	
 	// Allow usual lighting
-	mLights.SetOnlyAmbient( false );
+	mLights.SetLowDimensionalMode( false, mViewIllumination );
 	
 	// update color and texture from geometry attribute set
 	HandleGeometryAttributes( inGeomData->triangleAttributeSet, inView,
@@ -2005,7 +2044,7 @@ void	QORenderer::Renderer::SubmitPoint(
 		// depend on the direction of the light.
 		// Temporarily turn off all non-ambient lights, and
 		// boost the ambient light by an equal intensity.
-		mLights.SetOnlyAmbient( true );
+		mLights.SetLowDimensionalMode( true, mViewIllumination );
 		
 		glBegin( GL_POINTS );
 		
@@ -2084,7 +2123,7 @@ void	QORenderer::Renderer::SubmitLine(
 		// depend on the direction of the light.
 		// Temporarily turn off all non-ambient lights, and
 		// boost the ambient light by an equal intensity.
-		mLights.SetOnlyAmbient( true );
+		mLights.SetLowDimensionalMode( true, mViewIllumination );
 		
 		glBegin( GL_LINES );
 		
@@ -2213,7 +2252,7 @@ void	QORenderer::Renderer::SubmitPolyLine(
 	// depend on the direction of the light.
 	// Temporarily turn off all non-ambient lights, and
 	// boost the ambient light by an equal intensity.
-	mLights.SetOnlyAmbient( true );
+	mLights.SetLowDimensionalMode( true, mViewIllumination );
 
 
 	// We draw the line as a series of line segments, 2 vertices at a time.

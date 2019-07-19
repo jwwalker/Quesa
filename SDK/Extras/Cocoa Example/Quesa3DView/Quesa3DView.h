@@ -79,7 +79,7 @@
 //	At the moment, KeyUp and KeyDown events are also passed to the qd3dView. I'm not sure
 //	if this is a good idea or not, but they seem useful there.
 //===========================================================================
-@interface NSObject(Quesa3DViewDelegate)
+@interface NSObject (Quesa3DViewDelegate)
 -(void)qd3dViewDidInit:(Quesa3DView*)inView;
 -(void)qd3dViewWillRender:(Quesa3DView*)inView;
 -(void)qd3dViewRenderFrame:(Quesa3DView*)inView;

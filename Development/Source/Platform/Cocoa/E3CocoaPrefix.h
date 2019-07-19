@@ -58,5 +58,4 @@
 const TQ3ObjectType	kViewBoundsProperty = 'nsvb';
 
 
-
 #endif

@@ -5,7 +5,7 @@
         Quesa interactive renderer registration.
 
     COPYRIGHT:
-        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -464,8 +464,8 @@ IRRenderer_Register(void)
 
 	// If we don't have OpenGL, we're done. This allows us to support weak
 	// linking on the Mac, but for other platforms it's a no-op.
-	if (!QUESA_FOUND_OPENGL)
-		return(kQ3Failure);
+	//if (!QUESA_FOUND_OPENGL)
+	//	return(kQ3Failure);
 
 
 

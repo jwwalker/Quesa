@@ -222,7 +222,7 @@ void	E3FastArray<T>::reserve( TQ3Uns32 newCapacity )
 		}
 		else
 		{
-			T* biggerArray = new T[mCapacity];
+			T* biggerArray = new T[ mCapacity ];
 			E3Memory_Copy( mArray, biggerArray, static_cast<TQ3Uns32>(mSize * sizeof(T)) );
 			delete [] mArray;
 			mArray = biggerArray;

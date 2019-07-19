@@ -5,7 +5,7 @@
         Cartoon-style renderer.
 
     COPYRIGHT:
-        Copyright (c) 1999-2015, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2016, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -107,7 +107,8 @@ static int sLastGLError = 0;
 const int	kShadingTextureWidth	= 32;
 
 #if Q3_DEBUG
-	#define		CHECK_GL_ERROR	Q3_ASSERT( (sLastGLError = glGetError()) == GL_NO_ERROR )
+	#define		CHECK_GL_ERROR	\
+		Q3_ASSERT_FMT( (sLastGLError = glGetError()) == GL_NO_ERROR, "(error %d)", sLastGLError )
 #else
 	#define		CHECK_GL_ERROR
 #endif

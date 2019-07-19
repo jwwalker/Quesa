@@ -1,5 +1,5 @@
 /*  NAME:
-        GLTextureManager.c
+        GLTextureManager.cpp
 
     DESCRIPTION:
         Quesa OpenGL texture caching.
@@ -13,7 +13,7 @@
     	performance optimization.
 
     COPYRIGHT:
-        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -66,6 +66,9 @@
 #include <set>
 #include <vector>
 
+#ifndef GL_TEXTURE_MAX_LEVEL
+#define	GL_TEXTURE_MAX_LEVEL	0x813D
+#endif
 
 
 //=============================================================================
@@ -84,6 +87,11 @@ struct TQ3CachedTexture
 	TQ3Uns32				editIndexTexture;
 	TQ3Uns32				editIndexStorage;
 	GLuint					glTextureName;
+#if Q3_DEBUG
+	GLint					width;
+	GLint					height;
+	int						bytes;
+#endif
 };
 
 namespace
@@ -200,6 +208,12 @@ TQ3CachedTexture::TQ3CachedTexture( TQ3TextureObject inQuesaTexture, GLuint inGL
 
 TQ3CachedTexture::~TQ3CachedTexture()
 {
+	if (glTextureName != 0)
+	{
+		//Q3_MESSAGE_FMT("~TQ3CachedTexture %d", (int)glTextureName);
+		glDeleteTextures( 1, &glTextureName );
+		glTextureName = 0;
+	}
 }
 
 // TQ3TextureCache: object holding cached textures for a number of GL contexts
@@ -236,16 +250,15 @@ namespace
 
 TQ3TextureCache::TQ3TextureCache()
 {
-	Q3_MESSAGE_FMT("+TQ3TextureCache");
+	//Q3_MESSAGE_FMT("+TQ3TextureCache");
 }
 
 TQ3TextureCache::~TQ3TextureCache()
 {
-	Q3_MESSAGE_FMT("-TQ3TextureCache");
-	for (CachedTextureList::iterator i = cachedTextures.begin();
-		i != cachedTextures.end(); ++i)
+	//Q3_MESSAGE_FMT("~TQ3TextureCache");
+	for (auto& cachedTexture : cachedTextures)
 	{
-		delete *i;
+		delete cachedTexture;
 	}
 }
 
@@ -267,12 +280,12 @@ static void			RemoveCachedTexture( TQ3TextureCachePtr txCache,
 		
 		GLuint	textureName = GLTextureMgr_GetOpenGLTexture( theRec );
 		Q3_ASSERT( glIsTexture( textureName ) );
-		glDeleteTextures( 1, &textureName );
-		Q3_ASSERT( !glIsTexture( textureName ) );
+		//Q3_MESSAGE_FMT("RemoveCachedTexture %d", (int)textureName);
 		
 		txCache->cachedTextures.erase( toRemove );
-
 		delete theRec;
+		
+		Q3_ASSERT( !glIsTexture( textureName ) );
 	}
 	CATCH_ALL
 }
@@ -370,9 +383,12 @@ TQ3CachedTexturePtr	GLTextureMgr_FindCachedTexture( TQ3TextureCachePtr txCache,
 		// if we found a record, but it is stale, delete it.
 		if (theRecord != nullptr)
 		{
-			if ( (Q3Shared_GetEditIndex( texture ) != theRecord->editIndexTexture)
+			TQ3Uns32 curTextureEditIndex = Q3Shared_GetEditIndex( texture );
+			TQ3Uns32 curStorageEditIndex = GetStorageEditIndex( texture );
+			
+			if ( (curTextureEditIndex != theRecord->editIndexTexture)
 			||
-				(GetStorageEditIndex( texture ) != theRecord->editIndexStorage) )
+				(curStorageEditIndex != theRecord->editIndexStorage) )
 			{
 				RemoveCachedTexture( txCache, foundIt );
 				theRecord = nullptr;
@@ -405,6 +421,7 @@ TQ3CachedTexturePtr		GLTextureMgr_CacheTexture(
 	
 	TRY
 	{
+		//Q3_MESSAGE_FMT("CacheTexture %d", (int)inGLTextureName);
 		theResult = new TQ3CachedTexture( inTexture, inGLTextureName );
 		
 		txCache->cachedTextures.insert( theResult );

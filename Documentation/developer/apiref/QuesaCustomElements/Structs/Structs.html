@@ -5,6 +5,32 @@
 	 <meta name="generator" content="HeaderDoc">
 </head><body bgcolor="#ffffff">
 <h1><font face="Geneva,Arial,Helvtica">Structs</font></h1><br>
+<hr><a name="//Quesa/c/tag/TCEHalfspaceFogData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TCEHalfspaceFogData">TCEHalfspaceFogData</a></h2>
+</td></tr></table><hr>Data specifying half-space fog.
+
+<blockquote><pre>
+typedef struct TCEHalfspaceFogData {
+    float                   rate;
+    TQ3RationalPoint4D      plane;
+} TCEHalfspaceFogData;
+</pre>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>A point P is in the foggy halfspace if the dot product of P and
+the plane is negative.  For example, if you want fog to exist
+where y < 5, you could use a plane (0, 1, 0, -5), and to have
+fog where y > 5, you could use (0, -1, 0, 5).
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt>rate</tt></dt><dd>A measure of the rate of increase in fog as you
+move farther from the plane.</dd>
+<dt><tt>plane</tt></dt><dd>A plane defining a halfspace in world coordinates,
+see discussion.</dd>
+</dl>
+</blockquote>
 <hr><a name="//Quesa/c/tag/TCEUrlData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TCEUrlData">TCEUrlData</a></h2>
 </td></tr></table><hr><blockquote><pre>
@@ -26,5 +52,5 @@ typedef struct TCEUrlData {
 <dt><tt>options</tt></dt><dd>Options for the URL.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 7/16/2019)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 7/19/2019)
 </p></body></html>

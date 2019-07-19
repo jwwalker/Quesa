@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -119,7 +119,7 @@ QORenderer::OpaqueTriBuffer::OpaqueTriBuffer(
 void	QORenderer::OpaqueTriBuffer::RenderOneTriangle( const Vertex* inVertices )
 {
 	// Allow usual lighting
-	mRenderer.mLights.SetOnlyAmbient( false );
+	mRenderer.mLights.SetLowDimensionalMode( false, mRenderer.mViewIllumination );
 	
 	glBegin( GL_TRIANGLES );
 	
@@ -156,7 +156,10 @@ void	QORenderer::OpaqueTriBuffer::Flush()
 	if (! mTriBuffer.empty())
 	{
 		// Allow usual lighting
-		mRenderer.mLights.SetOnlyAmbient( false );
+		mRenderer.mLights.SetLowDimensionalMode( false, mRenderer.mViewIllumination );
+
+		// Maybe update fragment program.
+		mRenderer.mPPLighting.PreGeomSubmit( nullptr );
 		
 		// Maybe emissive material
 		if ( (mTriBufferFlags & kVertexHaveEmissive) != 0 )

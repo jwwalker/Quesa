@@ -25,6 +25,33 @@ typedef enum TQ3ShaderUVBoundary {
 <dt><a name="//Quesa/c/econst/kQ3ShaderUVBoundaryClamp"><tt>kQ3ShaderUVBoundaryClamp</tt></a></dt><dd>Clamp UV values to 0..1.</dd>
 </dl>
 </blockquote>
+<hr><a name="//Quesa/c/tag/Texture&nbsp;Property&nbsp;Types"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Texture&nbsp;Property&nbsp;Types">Texture&nbsp;Property&nbsp;Types</a></h2>
+</td></tr></table><hr>Object properties that may be set on texture objects.
+<br><br>
+<br>
+<blockquote><pre>
+enum
+{
+  kQ3TexturePropertyCallbackAfterUpload = Q3_OBJECT_TYPE('c', 'a', 't', 'u')
+};
+</pre>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p><br><br>
+</p>
+<h4>Constants</h4>
+<blockquote>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3TexturePropertyCallbackAfterUpload"><tt>kQ3TexturePropertyCallbackAfterUpload</tt></a></dt><dd>The data of this property must be a structure of type
+TQ3TextureUploadPropertyData, containing a callback function
+pointer and a context pointer.  Your callback function will
+be called by the renderer when the texture data has been
+uploaded to OpenGL (on its way to the GPU), but before the
+texture object has been added to Quesa's texture cache.
+You might use this to convert the texture's memory storage
+into a path storage to save memory.</dd>
+</dl>
+</blockquote>
 <hr><a name="//Quesa/c/tag/Texture&nbsp;shader&nbsp;element&nbsp;types"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Texture&nbsp;shader&nbsp;element&nbsp;types">Texture&nbsp;shader&nbsp;element&nbsp;types</a></h2>
 </td></tr></table><hr>Custom elements that may be set on texture shader objects.
@@ -52,5 +79,5 @@ the threshold is considered completely transparent.
 Data type: TQ3Float32.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 7/16/2019)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 7/19/2019)
 </p></body></html>

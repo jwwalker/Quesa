@@ -68,6 +68,51 @@ The type of fogging performed is controlled by the mode switch.
 <dt><tt>color</tt></dt><dd>The fog color.</dd>
 </dl>
 </blockquote>
+<hr><a name="//Quesa/c/tag/TQ3FogStyleExtendedData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3FogStyleExtendedData">TQ3FogStyleExtendedData</a></h2>
+</td></tr></table><hr>Extended fog style data.
+
+<blockquote><pre>
+typedef struct TQ3FogStyleExtendedData {
+    TQ3Int32                   version;
+    TQ3Switch                  state;
+    TQ3FogMode                 mode;
+    float                      fogStart;
+    float                      fogEnd;
+    float                      density;
+    TQ3ColorARGB               color;
+    TQ3Float32                 maxOpacity;
+    TQ3Switch                  halfspaceFogState;
+    float                      halfspaceFogRate;
+    TQ3RationalPoint4D         halfspaceFogPlane;
+} TQ3FogStyleExtendedData;
+</pre>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>This structure contains the fog data contained in
+TQ3FogStyleData, and passed to Q3FogStyle_New, plus additional
+information that may be added as custom elements attached to
+the fog style.  Renderers may be able to receive this
+instead of TQ3FogStyleData.
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt>version</tt></dt><dd>The version of this structure, currently
+kQ3FogStyleExtendedVersion.  It will be incremented
+if more fields are appended.</dd>
+<dt><tt>state</tt></dt><dd>Is fog active?</dd>
+<dt><tt>mode</tt></dt><dd>The fog mode.</dd>
+<dt><tt>fogStart</tt></dt><dd>The start point for fog (only used for linear fog).</dd>
+<dt><tt>fogEnd</tt></dt><dd>The end point for fog (only used for linear fog).</dd>
+<dt><tt>density</tt></dt><dd>The maximum density for fog (ignored in linear fog).</dd>
+<dt><tt>color</tt></dt><dd>The fog color.</dd>
+<dt><tt>maxOpacity</tt></dt><dd>The maximum fog opacity, in the range [0, 1].</dd>
+<dt><tt>halfspaceFogState</tt></dt><dd>Whether halfspace fog is in use.</dd>
+<dt><tt>halfspaceFogRate</tt></dt><dd>Rate of density change of halfspace fog as you move
+away from the plane.</dd>
+<dt><tt>halfspaceFogPlane</tt></dt><dd>Plane defining the halfspace, in world coordinates.</dd>
+</dl>
+</blockquote>
 <hr><a name="//Quesa/c/tag/TQ3SubdivisionStyleData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3SubdivisionStyleData">TQ3SubdivisionStyleData</a></h2>
 </td></tr></table><hr><blockquote><pre>
@@ -96,5 +141,5 @@ in both horizontal and vertical dimensions.
 <dt><tt>c2</tt></dt><dd>The second parameter for the subdivision method.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 7/16/2019)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 7/19/2019)
 </p></body></html>

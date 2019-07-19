@@ -5,7 +5,7 @@
         Header file for E3Camera.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2016, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -132,6 +132,7 @@ Q3_CLASS_ENUMS ( kQ3CameraTypeOrthographic, E3OrthographicCamera, E3Camera )
 	
 public :
 	E3OrthographicCameraData	instanceData;
+	static TQ3Boolean	IsOfMyClass ( TQ3Object object ) ;
 
 	void				GetFrustumMatrix ( TQ3Matrix4x4 *theMatrix ) ;
 	
@@ -169,6 +170,7 @@ class E3ViewPlaneCamera : public E3Camera
 Q3_CLASS_ENUMS ( kQ3CameraTypeViewPlane, E3ViewPlaneCamera, E3Camera )
 
 public :
+	static TQ3Boolean	IsOfMyClass ( TQ3Object object ) ;
 	E3ViewPlaneCameraData	instanceData;
 	
 	void				GetFrustumMatrix ( TQ3Matrix4x4 *theMatrix ) ;
@@ -206,6 +208,7 @@ class E3ViewAngleAspectCamera : public E3Camera
 Q3_CLASS_ENUMS ( kQ3CameraTypeViewAngleAspect, E3ViewAngleAspectCamera, E3Camera )
 
 public :
+	static TQ3Boolean	IsOfMyClass ( TQ3Object object ) ;
 	E3ViewAngleAspectCameraData	instanceData;
 
 	void				GetFrustumMatrix ( TQ3Matrix4x4 *theMatrix ) ;

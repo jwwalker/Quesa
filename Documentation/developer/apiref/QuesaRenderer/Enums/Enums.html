@@ -60,9 +60,12 @@ enum
   kQ3RendererPropertyCartoonLightNearEdge         = Q3_OBJECT_TYPE('p', 'p', 'c', 'e'),
   kQ3RendererPropertyPassType                     = Q3_OBJECT_TYPE('r', 'p', 't', 'y'),
   kQ3RendererPropertyDepthAlphaThreshold          = Q3_OBJECT_TYPE('d', 'p', 'a', 't'),
+  kQ3RendererPropertyAlphaThreshold               = Q3_OBJECT_TYPE('a', 'l', 'p', 't'),
   kQ3RendererPropertyAngleAffectsAlpha            = Q3_OBJECT_TYPE('a', 'n', 'a', 'a'),
   kQ3RendererPropertyShadowVBOLimit               = Q3_OBJECT_TYPE('s', 'h', 'v', 'l'),
   kQ3RendererPropertyPrimitivesRenderedCount      = Q3_OBJECT_TYPE('p', 'r', 'n', 'c'),
+  kQ3RendererPropertyClippingPlane                = Q3_OBJECT_TYPE('c', 'l', 'i', 'p'),
+  kQ3RendererPropertyCastShadowsOverride          = Q3_OBJECT_TYPE('c', 's', 'o', 'c')
 };
 </pre>
 </blockquote>
@@ -141,7 +144,7 @@ nearly perpendicular to the view vector.
 <br><br>
 Data type: TQ3Float32.  Range: [0, 1].  Default value: 1.0.
 <br><br></dd>
-<dt><a name="//Quesa/c/econst/kQ3RendererPropertyPassInfo"><tt>kQ3RendererPropertyPassInfo</tt></a></dt><dd>The OpenGL renderer sets this property so that client code
+<dt><a name="//Quesa/c/econst/kQ3RendererPropertyPassType"><tt>kQ3RendererPropertyPassType</tt></a></dt><dd>The OpenGL renderer sets this property so that client code
 can tell whether the pass is for non-shadowing lights, marking
 a shadow, or adding light outside a shadow.  For instance
 this information can be used to make certain objects only
@@ -156,6 +159,15 @@ than the given threshold) update the depth,
 at the expense of a little extra rendering time.
 <br><br>
 Data type: TQ3Float32.  Range: [0, 1].  Default value: 1.0.
+<br><br></dd>
+<dt><a name="//Quesa/c/econst/kQ3RendererPropertyAlphaThreshold"><tt>kQ3RendererPropertyAlphaThreshold</tt></a></dt><dd>Geometries with at least this much opacity will be considered
+fully opaque.  For example, if this value is 0.95, it means
+that geometry that is at least 95% opaque will be treated as
+opaque.  Since transparency is relatively difficult to handle,
+lower values may increase rendering speed but decrease
+rendering realism.
+<br><br>
+Data type: TQ3Float32.  Range: [0, 1].  Default value: 0.99.
 <br><br></dd>
 <dt><a name="//Quesa/c/econst/kQ3RendererPropertyAngleAffectsAlpha"><tt>kQ3RendererPropertyAngleAffectsAlpha</tt></a></dt><dd>If you look through a sheet of tinted glass at an angle, you
 are looking through more of the glass than if your viewing
@@ -182,7 +194,20 @@ of primitives (triangles, lines, or points) rendered since
 the renderer was created.  Currently only supported by the OpenGL
 renderer.
 <br><br>
-Data type: TQ3Uns64.</dd>
+Data type: TQ3Uns64.
+<br><br></dd>
+<dt><a name="//Quesa/c/econst/kQ3RendererPropertyClippingPlane"><tt>kQ3RendererPropertyClippingPlane</tt></a></dt><dd>Use this property to supply a clipping plane to the per-pixel
+lighting fragment shader. The plane must be provided in view
+coordinates.  A fragment is discarded if
+clip.x * frag.x + clip.y * frag.y + clip.z * frag.z + clip.w < 0.0.
+<br><br>
+Data type: TQ3RationalPoint4D.
+<br><br></dd>
+<dt><a name="//Quesa/c/econst/kQ3RendererPropertyCastShadowsOverride"><tt>kQ3RendererPropertyCastShadowsOverride</tt></a></dt><dd>Use this property to provide more control over which geometries
+cast shadows from which lights. See TQ3CastShadowsOverrideCallback
+for more information.
+<br><br>
+Data type: TQ3CastShadowsOverrideCallback.  Default: nullptr.</dd>
 </dl>
 </blockquote>
 <hr><a name="//Quesa/c/tag/TQ3CSGEquation"></a>
@@ -506,5 +531,5 @@ enum {
 <br><br>
 The data for the attribute is a single TQ3CSGObjectID.
  </p>
-<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 7/16/2019)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 7/19/2019)
 </p></body></html>

@@ -13,7 +13,7 @@
             <windowStyleMask key="styleMask" titled="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="37" y="307" width="742" height="481"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1280" height="1002"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
             <view key="contentView" id="2">
                 <rect key="frame" x="0.0" y="0.0" width="742" height="481"/>
                 <autoresizingMask key="autoresizingMask"/>
@@ -21,11 +21,11 @@
                     <box title="Rotation" id="141">
                         <rect key="frame" x="488" y="210" width="246" height="158"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                        <view key="contentView" id="3LE-rw-lDc">
+                        <view key="contentView" id="vKd-FN-dbx">
                             <rect key="frame" x="3" y="3" width="240" height="137"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <textField verticalHuggingPriority="750" id="147">
+                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="147">
                                     <rect key="frame" x="7" y="104" width="13" height="17"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="X" id="274">
@@ -34,7 +34,7 @@
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                 </textField>
-                                <textField verticalHuggingPriority="750" id="148">
+                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="148">
                                     <rect key="frame" x="7" y="61" width="13" height="17"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Y" id="275">
@@ -43,7 +43,7 @@
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                 </textField>
-                                <textField verticalHuggingPriority="750" id="149">
+                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="149">
                                     <rect key="frame" x="7" y="19" width="13" height="17"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Z" id="276">
@@ -138,7 +138,7 @@
                             <action selector="setGeometryFromTag:" target="138" id="188"/>
                         </connections>
                     </popUpButton>
-                    <textField verticalHuggingPriority="750" id="187">
+                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="187">
                         <rect key="frame" x="516" y="453" width="54" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Object: " id="281">
@@ -173,6 +173,7 @@
                                 <items>
                                     <menuItem title="Phong" state="on" tag="2" id="295"/>
                                     <menuItem title="Lambert" tag="1" id="297"/>
+                                    <menuItem title="Nondirectional" tag="3" id="JBC-GD-bzJ"/>
                                     <menuItem title="NULL" id="298"/>
                                 </items>
                             </menu>
@@ -181,7 +182,7 @@
                             <binding destination="138" name="selectedTag" keyPath="illuminationType" id="299"/>
                         </connections>
                     </popUpButton>
-                    <textField verticalHuggingPriority="750" id="194">
+                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="194">
                         <rect key="frame" x="505" y="424" width="65" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Renderer:" id="283">
@@ -190,7 +191,7 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <textField verticalHuggingPriority="750" id="290">
+                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="290">
                         <rect key="frame" x="486" y="395" width="84" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Illumination:" id="291">
@@ -244,7 +245,7 @@
                         </connections>
                     </button>
                     <button imageHugsTitle="YES" id="300">
-                        <rect key="frame" x="499" y="55" width="200" height="18"/>
+                        <rect key="frame" x="500" y="55" width="200" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Per-pixel Lighting" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="301">
                             <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
@@ -254,15 +255,27 @@
                             <binding destination="138" name="value" keyPath="perPixelLighting" id="303"/>
                         </connections>
                     </button>
-                    <openGLView wantsLayer="YES" colorSize="8bit_RGB" depthSize="24bit" stencilSize="8bit" antiAliasingType="multisample" rendererType="accelerated" samplingRate="4" useAuxiliaryDepthBufferStencil="NO" useDoubleBufferingEnabled="YES" allowOffline="YES" id="aSR-ko-lHj" customClass="Quesa3DView">
+                    <openGLView wantsLayer="YES" colorSize="8bit_RGB" depthSize="24bit" stencilSize="8bit" antiAliasingType="multisample" rendererType="accelerated" samplingRate="4" useAuxiliaryDepthBufferStencil="NO" useDoubleBufferingEnabled="YES" allowOffline="YES" id="UYj-ZH-ihO" customClass="Quesa3DView">
                         <rect key="frame" x="5" y="6" width="473" height="469"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <connections>
-                            <outlet property="qd3dDelegate" destination="138" id="3L9-YZ-vjP"/>
+                            <outlet property="qd3dDelegate" destination="138" id="Kn4-Pv-OLd"/>
                         </connections>
                     </openGLView>
+                    <button imageHugsTitle="YES" id="t3O-SC-gU3">
+                        <rect key="frame" x="500" y="25" width="196" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="Halfspace Fog" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="5ms-h7-o7V">
+                            <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <binding destination="138" name="value" keyPath="halfspaceFog" id="XfN-Nx-iSX"/>
+                        </connections>
+                    </button>
                 </subviews>
             </view>
+            <point key="canvasLocation" x="140" y="338.5"/>
         </window>
         <menu title="MainMenu" systemMenu="main" id="29" userLabel="MainMenu">
             <items>
@@ -406,11 +419,12 @@
                     </menu>
                 </menuItem>
             </items>
+            <point key="canvasLocation" x="20" y="465"/>
         </menu>
         <customObject id="138" userLabel="AppDelegate" customClass="AppDelegate">
             <connections>
                 <outlet property="objectMenu" destination="167" id="205"/>
-                <outlet property="quesa3dView" destination="aSR-ko-lHj" id="gat-LZ-PJ5"/>
+                <outlet property="quesa3dView" destination="UYj-ZH-ihO" id="KF4-CY-anG"/>
                 <outlet property="rendererMenu" destination="190" id="198"/>
             </connections>
         </customObject>

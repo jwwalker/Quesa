@@ -134,6 +134,25 @@ extern "C" {
 #define	kQ3ClassNameCustomElementSpecularMap	"Quesa:ShininessElement"
 
 /*!
+	@constant	kQ3ClassNameCustomElementFogMaxOpacity
+	@abstract	Class name of the fog maximum opacity custom element.
+	@discussion	Ordinarily you will not need to use the class name, because you
+				can get, set, and clear max opacities using the functions
+				CEFogMaxElement_Get, CEFogMaxElement_Set.
+*/
+#define	kQ3ClassNameCustomElementFogMaxOpacity	"Quesa:FogMaxDensity"
+
+/*!
+	@constant	kQ3ClassNameCustomElementHalfspaceFog
+	@abstract	Class name of the halfspace fog custom element.
+	@discussion	Ordinarily you will not need to use the class name, because you
+				can get, set, and clear max opacities using the functions
+				CEHalfspaceFogElement_GetData, CEHalfspaceFogElement_SetData.
+*/
+#define	kQ3ClassNameCustomElementHalfspaceFog	"Quesa:HalfspaceFog"
+
+
+/*!
  *  @enum
  *      TCEUrlOptions
  *  @discussion
@@ -172,6 +191,24 @@ typedef struct TCEUrlData {
 } TCEUrlData;
 
 
+/*!
+	@struct		TCEHalfspaceFogData
+	@abstract	Data specifying half-space fog.
+	@discussion	A point P is in the foggy halfspace if the dot product of P and
+				the plane is negative.  For example, if you want fog to exist
+				where y < 5, you could use a plane (0, 1, 0, -5), and to have
+				fog where y > 5, you could use (0, -1, 0, 5).
+	
+	@field		rate		A measure of the rate of increase in fog as you
+							move farther from the plane.
+	@field		plane		A plane defining a halfspace in world coordinates,
+							see discussion.
+*/
+typedef struct TCEHalfspaceFogData
+{
+	float                   rate;
+	TQ3RationalPoint4D      plane;
+} TCEHalfspaceFogData;
 
 
 
@@ -529,6 +566,66 @@ CETextureFlippedRowsElement_IsPresent( TQ3TextureObject _Nonnull inTexture );
 */
 Q3_EXTERN_API_C( void )
 CETextureFlippedRowsElement_Remove( TQ3TextureObject _Nonnull inTexture );
+
+
+/*!
+	@functiongroup	Fog Max Opacity element
+*/
+
+/*!
+	@function	CEFogMaxElement_Get
+	@abstract	Get the maximum fog opacity for a fog style.
+	@param		inFogStyle		A fog style object.
+	@result		The maximum fog opacity, in the range [0, 1].  Defaults to 1
+				if it has not been defined on the fog style.
+*/
+Q3_EXTERN_API_C( float )
+CEFogMaxElement_Get( TQ3StyleObject _Nonnull inFogStyle );
+
+/*!
+	@function	CEFogMaxElement_Set
+	@abstract	Set the maximum fog opacity for a fog style.
+	@discussion	Whichever fog density function you choose, you end up doing a
+				blend,
+				resultColor = opacity * fogColor + (1-opacity) * fragmentColor.
+				By setting an upper limit on opacity, you ensure that the
+				geometry fragments are not completely effaced.
+	@param		ioFogStyle		A fog style object.
+	@param		inMaxOpacity	Maximum fog density, in the range [0, 1].
+								Passing 1 is equivalent to no limit on fog
+								density.
+*/
+Q3_EXTERN_API_C( void )
+CEFogMaxElement_Set( TQ3StyleObject _Nonnull ioFogStyle, float inMaxOpacity );
+
+
+/*!
+	@functiongroup		Halfspace Fog element
+*/
+
+
+/*!
+	@function	CEHalfspaceFogElement_GetData
+	@abstract	Get halfspace fog data attached to a fog style.
+	@param		inFogStyle		A fog style object.
+	@param		outData			Receives halfspace fog data.
+	@result		Success or failure of the operation, e.g., failure if the
+				element does not exist.
+*/
+Q3_EXTERN_API_C( TQ3Status )
+CEHalfspaceFogElement_GetData( TQ3StyleObject _Nonnull inFogStyle,
+								TCEHalfspaceFogData* _Nonnull outData );
+
+/*!
+	@function	CEHalfspaceFogElement_SetData
+	@abstract	Add or remove halfspace fog parameters on a fog style.
+	@param		ioFogStyle		A fog style object.
+	@param		inData			Halfspace fog data, or NULL to remove.
+*/
+Q3_EXTERN_API_C( void )
+CEHalfspaceFogElement_SetData( TQ3StyleObject _Nonnull ioFogStyle,
+								const TCEHalfspaceFogData* _Nullable inData );
+
 
 // Work around a HeaderDoc bug
 /*!

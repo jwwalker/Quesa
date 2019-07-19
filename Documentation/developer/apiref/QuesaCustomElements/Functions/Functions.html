@@ -5,6 +5,82 @@
 	 <meta name="generator" content="HeaderDoc">
 </head><body bgcolor="#ffffff">
 <h1><font face="Geneva,Arial,Helvtica">Functions</font></h1><br>
+<hr><a name="//Quesa/c/func/CEFogMaxElement_Get"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CEFogMaxElement_Get">CEFogMaxElement_Get</a></h2>
+</td></tr></table><hr>Get the maximum fog opacity for a fog style.
+
+<blockquote><pre><tt>( float ) CEFogMaxElement_Get (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject _Nonnull inFogStyle
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>inFogStyle</em></tt></dt><dd>A fog style object.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>The maximum fog opacity, in the range [0, 1].  Defaults to 1
+if it has not been defined on the fog style.
+</dd></dl>
+<hr><a name="//Quesa/c/func/CEFogMaxElement_Set"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CEFogMaxElement_Set">CEFogMaxElement_Set</a></h2>
+</td></tr></table><hr>Set the maximum fog opacity for a fog style.
+
+<blockquote><pre><tt>( void ) CEFogMaxElement_Set (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject _Nonnull ioFogStyle,
+&nbsp;&nbsp;&nbsp;&nbsp;float inMaxOpacity
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Whichever fog density function you choose, you end up doing a
+blend,
+resultColor = opacity * fogColor + (1-opacity) * fragmentColor.
+By setting an upper limit on opacity, you ensure that the
+geometry fragments are not completely effaced.
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>ioFogStyle</em></tt></dt><dd>A fog style object.</dd>
+<dt><tt><em>inMaxOpacity</em></tt></dt><dd>Maximum fog density, in the range [0, 1].
+Passing 1 is equivalent to no limit on fog
+density.</dd>
+</dl>
+</blockquote>
+<hr><a name="//Quesa/c/func/CEHalfspaceFogElement_GetData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CEHalfspaceFogElement_GetData">CEHalfspaceFogElement_GetData</a></h2>
+</td></tr></table><hr>Get halfspace fog data attached to a fog style.
+
+<blockquote><pre><tt>( TQ3Status ) CEHalfspaceFogElement_GetData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject _Nonnull inFogStyle,
+&nbsp;&nbsp;&nbsp;&nbsp;TCEHalfspaceFogData* _Nonnull outData
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>inFogStyle</em></tt></dt><dd>A fog style object.</dd>
+<dt><tt><em>outData</em></tt></dt><dd>Receives halfspace fog data.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation, e.g., failure if the
+element does not exist.
+</dd></dl>
+<hr><a name="//Quesa/c/func/CEHalfspaceFogElement_SetData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CEHalfspaceFogElement_SetData">CEHalfspaceFogElement_SetData</a></h2>
+</td></tr></table><hr>Add or remove halfspace fog parameters on a fog style.
+
+<blockquote><pre><tt>( void ) CEHalfspaceFogElement_SetData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject _Nonnull ioFogStyle,
+&nbsp;&nbsp;&nbsp;&nbsp;const TCEHalfspaceFogData* _Nullable inData
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>ioFogStyle</em></tt></dt><dd>A fog style object.</dd>
+<dt><tt><em>inData</em></tt></dt><dd>Halfspace fog data, or NULL to remove.</dd>
+</dl>
+</blockquote>
 <hr><a name="//Quesa/c/func/CENameElement_EmptyData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CENameElement_EmptyData">CENameElement_EmptyData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) CENameElement_EmptyData (
@@ -137,6 +213,51 @@ enabled.
 <dl>
 <dt><tt><em>ioShader</em></tt></dt><dd>A surface shader.</dd>
 <dt><tt><em>inTexture</em></tt></dt><dd>A texture object, or nullptr to remove.</dd>
+</dl>
+</blockquote>
+<hr><a name="//Quesa/c/func/CETextureFlippedRowsElement_Add"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CETextureFlippedRowsElement_Add">CETextureFlippedRowsElement_Add</a></h2>
+</td></tr></table><hr>Mark a texture as having image data with rows in the opposite
+of the usual order, for better compatibility with OpenGL.
+
+<blockquote><pre><tt>( void ) CETextureFlippedRowsElement_Add (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TextureObject _Nonnull inTexture
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>inTexture</em></tt></dt><dd>A texture object.</dd>
+</dl>
+</blockquote>
+<hr><a name="//Quesa/c/func/CETextureFlippedRowsElement_IsPresent"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CETextureFlippedRowsElement_IsPresent">CETextureFlippedRowsElement_IsPresent</a></h2>
+</td></tr></table><hr>Test whether a texture has been marked as having flipped rows.
+
+<blockquote><pre><tt>( TQ3Boolean ) CETextureFlippedRowsElement_IsPresent (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TextureObject _Nonnull inTexture
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>inTexture</em></tt></dt><dd>A texture object.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>True if the rows are flipped.
+</dd></dl>
+<hr><a name="//Quesa/c/func/CETextureFlippedRowsElement_Remove"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CETextureFlippedRowsElement_Remove">CETextureFlippedRowsElement_Remove</a></h2>
+</td></tr></table><hr>Remove a flipped-rows mark from a texture.
+
+<blockquote><pre><tt>( void ) CETextureFlippedRowsElement_Remove (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3TextureObject _Nonnull inTexture
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>inTexture</em></tt></dt><dd>A texture object.</dd>
 </dl>
 </blockquote>
 <hr><a name="//Quesa/c/func/CETriangleStripElement_GetData"></a>
@@ -340,5 +461,5 @@ is returned, it must be disposed of with CEWireElement_EmptyData.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
-<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 7/16/2019)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 7/19/2019)
 </p></body></html>

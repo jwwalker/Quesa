@@ -11,7 +11,7 @@
         Header for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -55,6 +55,7 @@
 #include "QOPrefix.h"
 #include "QuesaStyle.h"
 #include "QOShaderProgramCache.h"
+#include "CQ3WeakObjectRef.h"
 
 #include <vector>
 
@@ -84,7 +85,7 @@ namespace QORenderer
 //=============================================================================
 //      Types
 //-----------------------------------------------------------------------------
-
+class Renderer;
 
 /*!
 	@typedef	ObVec
@@ -111,7 +112,13 @@ typedef void (QO_PROCPTR_TYPE glDeleteProgramProc )(GLuint program);
 typedef void (QO_PROCPTR_TYPE glDeleteShaderProc )(GLuint shader);
 typedef void (QO_PROCPTR_TYPE glUniform1iProc )(GLint location, GLint v0);
 typedef void (QO_PROCPTR_TYPE glUniform1fProc )(GLint location, GLfloat v0);
+typedef void (QO_PROCPTR_TYPE glUniform4fProc )(GLint location, GLfloat v0,
+									GLfloat v1, GLfloat v2, GLfloat v3 );
 typedef void (QO_PROCPTR_TYPE glUniform1fvProc )(GLint location, GLsizei count,
+												const GLfloat* values);
+typedef void (QO_PROCPTR_TYPE glUniform3fvProc )(GLint location, GLsizei count,
+												const GLfloat* values);
+typedef void (QO_PROCPTR_TYPE glUniform4fvProc )(GLint location, GLsizei count,
 												const GLfloat* values);
 typedef void (QO_PROCPTR_TYPE glGetShaderivProc )(GLuint shader,
 													GLenum pname,
@@ -129,6 +136,11 @@ typedef void (QO_PROCPTR_TYPE glGetShaderInfoLogProc )(GLuint shader,
 													GLsizei maxlength,
 													GLsizei* outLength,
 													GLbyte * infoLog );
+typedef void (QO_PROCPTR_TYPE glGetShaderSourceProc)( GLuint shder,
+													GLsizei bufSize,
+													GLsizei* outLength,
+													char* outSource );
+typedef GLboolean (QO_PROCPTR_TYPE glIsProgramProc)( GLuint program );
 
 /*!
 	@struct		GLSLFuncs
@@ -158,11 +170,16 @@ struct GLSLFuncs
 	glGetUniformLocationProc	glGetUniformLocation;
 	glUniform1iProc				glUniform1i;
 	glUniform1fProc				glUniform1f;
+	glUniform4fProc				glUniform4f;
 	glUniform1fvProc			glUniform1fv;
+	glUniform3fvProc			glUniform3fv;
+	glUniform4fvProc			glUniform4fv;
 	glDeleteShaderProc			glDeleteShader;
 	glDeleteProgramProc			glDeleteProgram;
 	glGetProgramInfoLogProc		glGetProgramInfoLog;
 	glGetShaderInfoLogProc		glGetShaderInfoLog;
+	glGetShaderSourceProc		glGetShaderSource;
+	glIsProgramProc				glIsProgram;
 
 private:
 	void						SetNULL();
@@ -197,7 +214,7 @@ public:
 		@function	StartFrame
 		@abstract	Begin a rendering frame.
 	*/
-	void						StartFrame();
+	void						StartFrame( TQ3ViewObject inView );
 	
 	/*!
 		@function	StartPass
@@ -205,13 +222,34 @@ public:
 		@discussion	This is where we check whether per-pixel lighting is
 					desired.  If so, we set up the shaders and program.
 	*/
-	void						StartPass();
+	void						StartPass( TQ3CameraObject inCamera );
 	
 	/*!
 		@function	EndPass
 		@abstract	Finish a rendering pass.
 	*/
 	void						EndPass();
+	
+	/*!
+		@function	IsShading
+		@abstract	Test whether shader programs are being used on this
+					frame.  (Valid after StartFrame has been called.)
+	*/
+	bool						IsShading() const
+								{
+									return mIsShading;
+								}
+
+	/*!
+		@function	GetMaxLightsPerPass
+		@abstract	Get the maximum number of lights that can be used in
+					one pass.  (Valid after StartFrame has been called.)
+	*/
+	int							GetMaxLightsPerPass() const
+								{
+									return IsShading()? mMaxLights :
+										mExtensions.maxLights;
+								}
 	
 	/*!
 		@function	ClearLights
@@ -257,7 +295,8 @@ public:
 		@function	UpdateFogStyle
 		@abstract	Notification that fog style has changed.
 	*/
-	void						UpdateFogStyle( const TQ3FogStyleData& inFog );
+	void						UpdateFogStyle( TQ3ViewObject inView,
+											const TQ3FogStyleExtendedData& inFog );
 
 	/*!
 		@function	UpdateTexture
@@ -299,23 +338,43 @@ private:
 	void						GetLightTypes();
 	void						SetUniformValues( const ProgramRec& ioProgram );
 	ProgramCache*				ProgCache();
+	void						CalcMaxLights();
+	
+	void						AddDirectionalLight( TQ3LightObject inLight );
+	void						AddSpotLight( TQ3LightObject inLight );
+	void						AddPointLight( TQ3LightObject inLight );
 	
 	const GLSLFuncs&			mFuncs;
-	const TQ3GLExtensions&		mGLExtensions;
+	const TQ3GLExtensions&		mExtensions;
 	TQ3RendererObject			mRendererObject;
 	TQ3GLContext&				mGLContext;
+	CQ3WeakObjectRef			mView;
+	TQ3Uns32					mLightGroupEditIndex;
 	bool						mIsShading;
 	bool						mMayNeedProgramChange;
 	bool						mIsSpecularMapped;
 	bool						mIsFlippingNormals;
 	TQ3Float32					mQuantization;
 	TQ3Float32					mLightNearEdge;
-	std::vector<GLfloat>		mHotAngles;
-	std::vector<GLfloat>		mCutoffAngles;
+	TQ3RationalPoint4D			mClippingPlane;
+	TQ3Float32					mMaxFogOpacity;
+	float						mHalfspaceFogRate;
+	TQ3RationalPoint4D			mHalfspaceFogPlane; // in eye (view) coordinates
+	TQ3Matrix4x4				mWorldToView;
+	int							mMaxLights;
 
 	ProgramCharacteristic		mProgramCharacteristic;
 
-	ObVec						mLights;
+	ObVec						mLights;	// Quesa light objects
+	
+	// Data about lights that will become uniform variables
+	std::vector<TQ3ObjectType>			mLightTypes;
+	std::vector<TQ3RationalPoint4D>		mLightPositions;
+	std::vector<TQ3ColorRGBA>			mLightColors;
+	std::vector<TQ3Vector3D>			mSpotLightDirections;
+	std::vector<GLfloat>				mSpotLightHotAngles;
+	std::vector<GLfloat>				mSpotLightCutoffAngles;
+	std::vector<TQ3Vector3D>			mLightAttenuations; // x constant, y linear, z quadratic
 	
 	const ProgramRec*			mCurrentProgram;
 };

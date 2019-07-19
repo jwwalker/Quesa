@@ -158,6 +158,7 @@ extern "C" {
 #define kQ3ClassNameIlluminationLambert				"LambertIllumination"
 #define kQ3ClassNameIlluminationNULL				"NULLIllumination"
 #define kQ3ClassNameIlluminationPhong				"PhongIllumination"
+#define kQ3ClassNameIlluminationNondirectional		"NondirectionalIllumination"
 #define kQ3ClassNameLight							"Light"
 #define kQ3ClassNameLightAmbient					"AmbientLight"
 #define kQ3ClassNameLightDirectional				"DirectionalLight"

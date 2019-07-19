@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2016, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -54,7 +54,7 @@
 #include "E3Math_Intersect.h"
 #include "E3FastArray.h"
 #include "E3Math.h"
-
+#include "QuesaMathOperators.hpp"
 
 
 
@@ -143,7 +143,7 @@ typedef struct TQ3ViewStackItem {
 	TQ3Uns32					stylePickID;
 	TQ3PickParts				stylePickParts;
 	TQ3AntiAliasStyleData		styleAntiAlias;
-	TQ3FogStyleData				styleFog;
+	TQ3FogStyleExtendedData		styleFogExtended;
 	float						styleLineWidth;
 	TQ3Param2D					attributeSurfaceUV;
 	TQ3Param2D					attributeShadingUV;
@@ -293,6 +293,20 @@ public :
 //=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
+
+static TQ3FogStyleData OldFogStyleDataFromNew( const TQ3FogStyleExtendedData& inFog )
+{
+	TQ3FogStyleData fogData;
+	fogData.state = inFog.state;
+	fogData.mode = inFog.mode;
+	fogData.fogStart = inFog.fogStart;
+	fogData.fogEnd = inFog.fogEnd;
+	fogData.density = inFog.density;
+	fogData.color = inFog.color;
+	return fogData;
+}
+
+//-----------------------------------------------------------------------------
 //      e3view_stack_initialise : Initialise a view state stack item.
 //-----------------------------------------------------------------------------
 static void
@@ -330,13 +344,15 @@ e3view_stack_initialise(TQ3ViewStackItem *theItem)
 	theItem->styleAntiAlias.state    = kQ3Off;
 	theItem->styleAntiAlias.mode     = kQ3AntiAliasModeMaskEdges;
 	theItem->styleAntiAlias.quality  = 1.0f;
-	theItem->styleFog.state          = kQ3Off;
-	theItem->styleFog.mode           = kQ3FogModeLinear;
-	theItem->styleFog.fogStart       = 0.0f;
-	theItem->styleFog.fogEnd         = 1.0f;
-	theItem->styleFog.density        = 0.5f;
+	theItem->styleFogExtended.version = kQ3FogStyleExtendedVersion;
+	theItem->styleFogExtended.state  = kQ3Off;
+	theItem->styleFogExtended.mode   = kQ3FogModeLinear;
+	theItem->styleFogExtended.fogStart = 0.0f;
+	theItem->styleFogExtended.fogEnd   = 1.0f;
+	theItem->styleFogExtended.density  = 0.5f;
+	theItem->styleFogExtended.maxOpacity = 1.0f;
+	Q3ColorARGB_Set(&theItem->styleFogExtended.color, 1.0f, 1.0f, 1.0f, 1.0f);
 	theItem->styleLineWidth			 = 1.0f;
-	Q3ColorARGB_Set(&theItem->styleFog.color, 1.0f, 1.0f, 1.0f, 1.0f);
 
 	theItem->attributeAmbientCoefficient = kQ3ViewDefaultAmbientCoefficient;
 	theItem->attributeSpecularControl    = kQ3ViewDefaultSpecularControl;
@@ -510,7 +526,22 @@ e3view_stack_update ( E3View* view, TQ3ViewStackState stateChange )
 			qd3dStatus = E3Renderer_Method_UpdateStyle ( view, kQ3StyleTypeAntiAlias, &theItem->styleAntiAlias ) ;
 
 		if ( ( stateChange & kQ3ViewStateStyleFog ) && qd3dStatus != kQ3Failure )
-			qd3dStatus = E3Renderer_Method_UpdateStyle ( view, kQ3StyleTypeFog, &theItem->styleFog ) ;
+		{
+			TQ3RendererObject theRenderer = E3View_AccessRenderer( view );
+			if ( (theRenderer != nullptr) &&
+				(theRenderer->GetMethod( kQ3StyleTypeFogExtended ) != nullptr) )
+			{
+				qd3dStatus = E3Renderer_Method_UpdateStyle( view,
+					kQ3StyleTypeFogExtended, &theItem->styleFogExtended );
+			}
+			else
+			{
+				TQ3FogStyleData oldFogData( OldFogStyleDataFromNew(
+					theItem->styleFogExtended ) );
+				qd3dStatus = E3Renderer_Method_UpdateStyle( view,
+					kQ3StyleTypeFog, &oldFogData );
+			}
+		}
 
 		if ( ( stateChange & kQ3ViewStateStyleLineWidth ) && qd3dStatus != kQ3Failure )
 			qd3dStatus = E3Renderer_Method_UpdateStyle ( view, kQ3StyleTypeLineWidth, &theItem->styleLineWidth ) ;
@@ -985,6 +1016,8 @@ e3view_submit_retained_error ( E3View* view, TQ3Object theObject )
 			theError = kQ3ErrorBoundsNotStarted ;
 			break;
 		default:
+			// no point setting theError, because
+			// the assertion failure will abort the program.
 			Q3_ASSERT(!"Unrecognised view mode");
 			break;
 		}
@@ -1514,6 +1547,7 @@ e3view_pick_begin ( E3View* view, TQ3PickObject thePick )
 	TQ3Matrix4x4			worldToFrustum, frustumToWindow, worldToWindow, windowToWorld;
 	TQ3Point3D				worldPoint, windowPoint3D;
 	TQ3CameraPlacement		thePlacement;
+	TQ3CameraRange			theRange;
 	TQ3Point2D				windowPoint;
 	TQ3Vector3D				theVector;
 
@@ -1553,9 +1587,9 @@ e3view_pick_begin ( E3View* view, TQ3PickObject thePick )
 		// Transform this point from window to world coordinates
 		Q3Camera_GetWorldToFrustum( view->instanceData.theCamera, &worldToFrustum);
 		E3View_GetFrustumToWindowMatrixState ( view, &frustumToWindow ) ;
-		Q3Matrix4x4_Multiply( &worldToFrustum, &frustumToWindow, &worldToWindow );
-		Q3Matrix4x4_Invert(&worldToWindow, &windowToWorld);
-		Q3Point3D_Transform(&windowPoint3D,  &windowToWorld, &worldPoint);
+		worldToWindow = worldToFrustum * frustumToWindow;
+		windowToWorld = Q3Invert( worldToWindow );
+		worldPoint = windowPoint3D * windowToWorld;
 
 
 
@@ -1565,15 +1599,18 @@ e3view_pick_begin ( E3View* view, TQ3PickObject thePick )
 			case kQ3CameraTypeViewPlane:
 			case kQ3CameraTypeViewAngleAspect:
 
-				// Initialise the ray origin - the camera location
+				// Find the camera location and range
 				Q3Camera_GetPlacement( view->instanceData.theCamera, &thePlacement);
-				view->instanceData.rayThroughPick.origin = thePlacement.cameraLocation;
+				Q3Camera_GetRange( view->instanceData.theCamera, &theRange );
 
+				// Initialise the ray direction - from the camera to the world point
+				view->instanceData.rayThroughPick.direction = Q3Normalize3D( worldPoint - thePlacement.cameraLocation );
 
-
-				// Initialise the ray - from the pixel back to the camera
-				Q3Point3D_Subtract(&worldPoint,  & view->instanceData.rayThroughPick.origin, &theVector);
-				Q3Vector3D_Normalize(&theVector, & view->instanceData.rayThroughPick.direction);
+				// Although it may seem natural to set the ray origin at the camera location, that is before
+				// the near plane, so it cannot be transformed into window or frustum coordinates.  Safer to
+				// go a bit beyond the near plane.
+				view->instanceData.rayThroughPick.origin = thePlacement.cameraLocation +
+					theRange.hither * 1.0001f * view->instanceData.rayThroughPick.direction;
 				break;
 				
 			case kQ3CameraTypeOrthographic:
@@ -1584,9 +1621,8 @@ e3view_pick_begin ( E3View* view, TQ3PickObject thePick )
 
 
 
-				// Initialise the ray - from the pixel back to the camera
-				Q3Point3D_Subtract(&thePlacement.pointOfInterest, &thePlacement.cameraLocation, &theVector);
-				Q3Vector3D_Normalize(&theVector, & view->instanceData.rayThroughPick.direction);
+				// Initialise the ray direction to be the viewing direction
+				view->instanceData.rayThroughPick.direction = Q3Normalize3D( thePlacement.pointOfInterest - thePlacement.cameraLocation );
 				break;
 			}
 		}
@@ -2691,7 +2727,7 @@ E3View_State_AddMatrixLocalToWorld(TQ3ViewObject theView, const TQ3Matrix4x4 *th
 
 
 	// Accumulate the local to world transform
-	Q3Matrix4x4_Multiply ( theMatrix, E3View_State_GetMatrixLocalToWorld(theView), &tmpMatrix ) ;
+	tmpMatrix = (*theMatrix) * (*E3View_State_GetMatrixLocalToWorld(theView));
 
 	return E3View_State_SetMatrix ( theView, kQ3MatrixStateLocalToWorld, &tmpMatrix, nullptr, nullptr ) ;
 	}
@@ -2727,10 +2763,9 @@ E3View_State_GetMatrixLocalToFrustum( TQ3ViewObject inView )
 	
 	if (! theView->instanceData.isLocalToFrustumValid)
 	{
-		Q3Matrix4x4_Multiply(
-			&theView->instanceData.viewStack->matrixLocalToCamera,
-			&theView->instanceData.viewStack->matrixCameraToFrustum,
-			&theView->instanceData.matrixLocalToFrustum );
+		theView->instanceData.matrixLocalToFrustum =
+			theView->instanceData.viewStack->matrixLocalToCamera *
+			theView->instanceData.viewStack->matrixCameraToFrustum;
 		
 		E3Math_CalcLocalFrustumPlanes(
 			theView->instanceData.matrixLocalToFrustum,
@@ -2870,9 +2905,8 @@ E3View_State_SetMatrix(TQ3ViewObject			theView,
 	
 	if ( (theState & (kQ3MatrixStateLocalToWorld | kQ3MatrixStateWorldToCamera)) != 0 )
 	{
-		Q3Matrix4x4_Multiply( &instanceData.viewStack->matrixLocalToWorld,
-			&instanceData.viewStack->matrixWorldToCamera,
-			&instanceData.viewStack->matrixLocalToCamera );
+		instanceData.viewStack->matrixLocalToCamera =
+			instanceData.viewStack->matrixLocalToWorld * instanceData.viewStack->matrixWorldToCamera;
 	}
 	
 	if (theState & kQ3MatrixStateCameraToFrustum)
@@ -3247,23 +3281,52 @@ E3View_State_SetStyleAntiAlias(TQ3ViewObject theView, const TQ3AntiAliasStyleDat
 //      E3View_State_SetStyleFog : Set the fog state.
 //-----------------------------------------------------------------------------
 void
-E3View_State_SetStyleFog(TQ3ViewObject theView, const TQ3FogStyleData *theData)
-	{
+E3View_State_SetStyleFog(TQ3ViewObject theView, const TQ3FogStyleData *theData,
+						TQ3StyleObject theFogObject )
+{
 	// Validate our state
 	Q3_ASSERT ( Q3_VALID_PTR ( ( (E3View*) theView )->instanceData.viewStack ) ) ;
 
 
+	// Construct the current extended fog data
+	TQ3FogStyleExtendedData fogExtended;
+	fogExtended.version = kQ3FogStyleExtendedVersion;
+	fogExtended.state = theData->state;
+	fogExtended.mode = theData->mode;
+	fogExtended.fogStart = theData->fogStart;
+	fogExtended.fogEnd = theData->fogEnd;
+	fogExtended.density = theData->density;
+	fogExtended.color = theData->color;
+	fogExtended.maxOpacity = CEFogMaxElement_Get( theFogObject );
+	
+	TCEHalfspaceFogData halfspaceData;
+	TQ3Status halfspaceStatus = CEHalfspaceFogElement_GetData( theFogObject,
+		&halfspaceData );
+	if (halfspaceStatus == kQ3Success)
+	{
+		fogExtended.halfspaceFogState = kQ3On;
+		fogExtended.halfspaceFogRate = halfspaceData.rate;
+		fogExtended.halfspaceFogPlane = halfspaceData.plane;
+	}
+	else
+	{
+		fogExtended.halfspaceFogState = kQ3Off;
+	}
 
 	// Set the state
 	//
 	// Multiple submits of a style within a group simply override each other, and
 	// so we can avoid updating the renderer if the style state does not change.
-	if ( memcmp ( & ( (E3View*) theView )->instanceData.viewStack->styleFog, theData, sizeof ( TQ3FogStyleData ) ) != 0 )
-		{
-		( (E3View*) theView )->instanceData.viewStack->styleFog = *theData ;
-		e3view_stack_update ( (E3View*) theView, kQ3ViewStateStyleFog ) ;
-		}
+	TQ3ViewStackItem* stackTop = ( (E3View*) theView )->instanceData.viewStack;
+	
+	if ( memcmp( & stackTop->styleFogExtended, &fogExtended,
+		sizeof( TQ3FogStyleExtendedData ) ) != 0 )
+	{
+		stackTop->styleFogExtended = fogExtended;
+		
+		e3view_stack_update( (E3View*) theView, kQ3ViewStateStyleFog ) ;
 	}
+}
 
 
 
@@ -3805,6 +3868,7 @@ E3View_StartRendering(TQ3ViewObject theView)
 		if ( ( (E3View*) theView )->instanceData.theCamera == nullptr )
 			E3ErrorManager_PostError ( kQ3ErrorCameraNotSet, kQ3False ) ;
 			
+		Q3_MESSAGE_FMT("E3View_StartRendering failing due to missing objects");
 		return kQ3Failure ;
 		}
 
@@ -3818,6 +3882,7 @@ E3View_StartRendering(TQ3ViewObject theView)
 		||	 drawContextData.pane.min.y >= drawContextData.pane.max.y )
 			{
 			E3ErrorManager_PostError ( kQ3ErrorBadDrawContext, kQ3False ) ;
+			Q3_MESSAGE_FMT("E3View_StartRendering failing due to bad draw context pane");
 			return kQ3Failure ;
 			}
 		}
@@ -3826,35 +3891,68 @@ E3View_StartRendering(TQ3ViewObject theView)
 
 	// Start the submit loop
 	TQ3Status qd3dStatus = e3view_submit_begin ( (E3View*) theView, kQ3ViewModeDrawing ) ;
-
+	if (qd3dStatus == kQ3Failure)
+	{
+		Q3_MESSAGE_FMT("e3view_submit_begin failed");
+	}
 
 
 	// If this is the first pass then update the draw context and start the frame
 	if ( ( (E3View*) theView )->instanceData.viewPass == 1 && qd3dStatus != kQ3Failure )
-		{
+	{
 		qd3dStatus = ( (E3DrawContext*) ( (E3View*) theView )->instanceData.theDrawContext )->Update () ;
+		if (qd3dStatus == kQ3Failure)
+		{
+			Q3_MESSAGE_FMT("E3DrawContext::Update failed");
+		}
 
 		if ( qd3dStatus != kQ3Failure )
+		{
 			qd3dStatus = E3Renderer_Method_StartFrame ( theView, ( (E3View*) theView )->instanceData.theDrawContext ) ;
 		
-		if ( qd3dStatus != kQ3Failure )
-			qd3dStatus = e3view_init_matrix_state( theView );
+			if (qd3dStatus == kQ3Failure)
+			{
+				Q3_MESSAGE_FMT("E3Renderer_Method_StartFrame failed");
+			}
 		}
+		
+		if ( qd3dStatus != kQ3Failure )
+		{
+			qd3dStatus = e3view_init_matrix_state( theView );
+			
+			if (qd3dStatus == kQ3Failure)
+			{
+				Q3_MESSAGE_FMT("e3view_init_matrix_state failed");
+			}
+		}
+	}
 
 
 
 	// Start the pass
 	if ( qd3dStatus != kQ3Failure )
-		{
+	{
 		( (E3View*) theView )->instanceData.rendererFinishedFrame = kQ3False ;
 		qd3dStatus = E3Renderer_Method_StartPass ( theView, ( (E3View*) theView )->instanceData.theCamera, ( (E3View*) theView )->instanceData.theLights) ;
+
+		if (qd3dStatus == kQ3Failure)
+		{
+			Q3_MESSAGE_FMT("E3Renderer_Method_StartPass failed");
 		}
+	}
 
 
 
 	// Submit the initial state
 	if ( qd3dStatus != kQ3Failure )
+	{
 		qd3dStatus = e3view_submit_initial_state( (E3View*) theView ) ;
+
+		if (qd3dStatus == kQ3Failure)
+		{
+			Q3_MESSAGE_FMT("e3view_submit_initial_state failed");
+		}
+	}
 
 
 
@@ -3994,7 +4092,7 @@ E3View_StartBoundingBox(TQ3ViewObject theView, TQ3ComputeBounds computeBounds)
 		( (E3View*) theView )->instanceData.boundingBox.isEmpty = kQ3True ;
 		}
 
-
+	e3view_init_matrix_state( theView );
 
 	// Submit the initial state
 	if ( qd3dStatus != kQ3Failure )
@@ -4068,7 +4166,7 @@ E3View_StartBoundingSphere(TQ3ViewObject theView, TQ3ComputeBounds computeBounds
 		( (E3View*) theView )->instanceData.boundingSphere.isEmpty  = kQ3True ;
 		}
 
-
+	e3view_init_matrix_state( theView );
 
 	// Submit the initial state
 	if ( qd3dStatus != kQ3Failure )
@@ -4134,6 +4232,8 @@ E3View_StartPicking(TQ3ViewObject theView, TQ3PickObject pick)
 	if ( ( (E3View*) theView )->instanceData.viewPass == 1 )
 		e3view_pick_begin ( (E3View*) theView, pick ) ;
 
+
+	e3view_init_matrix_state( theView );
 
 
 	// Submit the initial state
@@ -4541,7 +4641,7 @@ E3View_TransformLocalToWorld(TQ3ViewObject theView, const TQ3Point3D *localPoint
 TQ3Status
 E3View_TransformLocalToWindow(TQ3ViewObject theView, const TQ3Point3D *localPoint, TQ3Point2D *windowPoint)
 	{
-	TQ3Matrix4x4		theMatrix, worldToFrustum, frustumToWindow;
+	TQ3Matrix4x4		localToWindow, worldToFrustum, frustumToWindow;
 	TQ3Point3D			thePoint;
 
 
@@ -4552,17 +4652,16 @@ E3View_TransformLocalToWindow(TQ3ViewObject theView, const TQ3Point3D *localPoin
 
 
 
-	// Get the matrices we ned
+	// Get the matrices we need
 	Q3View_GetWorldToFrustumMatrixState ( theView,  &worldToFrustum ) ;
 	Q3View_GetFrustumToWindowMatrixState ( theView, &frustumToWindow ) ;
 
-	Q3Matrix4x4_Multiply ( E3View_State_GetMatrixLocalToWorld ( theView ), &worldToFrustum, &theMatrix ) ;
-	Q3Matrix4x4_Multiply ( &theMatrix, &frustumToWindow, &theMatrix ) ;
+	localToWindow = (*E3View_State_GetMatrixLocalToWorld ( theView )) * worldToFrustum * frustumToWindow;
 
  
 
 	// Transform the point
-	Q3Point3D_Transform ( localPoint, &theMatrix, &thePoint ) ;
+	thePoint = (*localPoint) * localToWindow;
 	windowPoint->x = thePoint.x ;
 	windowPoint->y = thePoint.y ;
 
@@ -4579,7 +4678,7 @@ E3View_TransformLocalToWindow(TQ3ViewObject theView, const TQ3Point3D *localPoin
 TQ3Status
 E3View_TransformWorldToWindow(TQ3ViewObject theView, const TQ3Point3D *worldPoint, TQ3Point2D *windowPoint)
 	{
-	TQ3Matrix4x4		theMatrix, worldToFrustum, frustumToWindow;
+	TQ3Matrix4x4		worldToWindow, worldToFrustum, frustumToWindow;
 	TQ3Point3D			thePoint;
 
 
@@ -4593,12 +4692,12 @@ E3View_TransformWorldToWindow(TQ3ViewObject theView, const TQ3Point3D *worldPoin
 	// Get the matrices we need
 	E3View_GetWorldToFrustumMatrixState ( theView,  &worldToFrustum ) ;
 	E3View_GetFrustumToWindowMatrixState ( theView, &frustumToWindow ) ;
-	Q3Matrix4x4_Multiply ( &worldToFrustum, &frustumToWindow, &theMatrix ) ;
+	worldToWindow = worldToFrustum * frustumToWindow;
 
 
 
 	// Transform the point
-	Q3Point3D_Transform ( worldPoint, &theMatrix, &thePoint ) ;
+	thePoint = (*worldPoint) * worldToWindow;
 	windowPoint->x = thePoint.x ;
 	windowPoint->y = thePoint.y ;
 
@@ -5070,7 +5169,7 @@ E3View_GetAntiAliasStyleState(TQ3ViewObject theView, TQ3AntiAliasStyleData *anti
 //		Note : Can only be called within a submitting loop.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3View_GetFogStyleState(TQ3ViewObject theView, TQ3FogStyleData *fogData)
+E3View_GetFogStyleState(TQ3ViewObject theView, TQ3FogStyleData *outFogData)
 	{
 	// Make sure we're in the correct state
 	if ( ( (E3View*) theView )->instanceData.viewState != kQ3ViewStateSubmitting )
@@ -5084,7 +5183,9 @@ E3View_GetFogStyleState(TQ3ViewObject theView, TQ3FogStyleData *fogData)
 
 
 	// Get the value
-	*fogData = ( (E3View*) theView )->instanceData.viewStack->styleFog ;
+	*outFogData = OldFogStyleDataFromNew(
+		( (E3View*) theView )->instanceData.viewStack->styleFogExtended );
+
 
 	return kQ3Success ;
 	}

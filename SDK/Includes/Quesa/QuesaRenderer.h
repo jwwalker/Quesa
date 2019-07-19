@@ -200,7 +200,7 @@ enum
 					
 					Data type: TQ3Float32.  Range: [0, 1].  Default value: 1.0.
 
-	@constant	kQ3RendererPropertyPassInfo
+	@constant	kQ3RendererPropertyPassType
 					The OpenGL renderer sets this property so that client code
 					can tell whether the pass is for non-shadowing lights, marking
 					a shadow, or adding light outside a shadow.  For instance
@@ -217,6 +217,16 @@ enum
 					at the expense of a little extra rendering time.
 					
 					Data type: TQ3Float32.  Range: [0, 1].  Default value: 1.0.
+	
+	@constant	kQ3RendererPropertyAlphaThreshold
+					Geometries with at least this much opacity will be considered
+					fully opaque.  For example, if this value is 0.95, it means
+					that geometry that is at least 95% opaque will be treated as
+					opaque.  Since transparency is relatively difficult to handle,
+					lower values may increase rendering speed but decrease
+					rendering realism.
+					
+					Data type: TQ3Float32.  Range: [0, 1].  Default value: 0.99.
 	
 	@constant	kQ3RendererPropertyAngleAffectsAlpha
 					If you look through a sheet of tinted glass at an angle, you
@@ -247,6 +257,21 @@ enum
 					renderer.
 					
 					Data type: TQ3Uns64.
+					
+	@constant	kQ3RendererPropertyClippingPlane
+					Use this property to supply a clipping plane to the per-pixel
+					lighting fragment shader. The plane must be provided in view
+					coordinates.  A fragment is discarded if
+					clip.x * frag.x + clip.y * frag.y + clip.z * frag.z + clip.w < 0.0.
+					
+					Data type: TQ3RationalPoint4D.
+	
+	@constant	kQ3RendererPropertyCastShadowsOverride
+					Use this property to provide more control over which geometries
+					cast shadows from which lights. See TQ3CastShadowsOverrideCallback
+					for more information.
+					
+					Data type: TQ3CastShadowsOverrideCallback.  Default: nullptr.
 */
 enum
 {
@@ -264,9 +289,12 @@ enum
 	kQ3RendererPropertyCartoonLightNearEdge         = Q3_OBJECT_TYPE('p', 'p', 'c', 'e'),
 	kQ3RendererPropertyPassType                     = Q3_OBJECT_TYPE('r', 'p', 't', 'y'),
 	kQ3RendererPropertyDepthAlphaThreshold          = Q3_OBJECT_TYPE('d', 'p', 'a', 't'),
+	kQ3RendererPropertyAlphaThreshold               = Q3_OBJECT_TYPE('a', 'l', 'p', 't'),
 	kQ3RendererPropertyAngleAffectsAlpha            = Q3_OBJECT_TYPE('a', 'n', 'a', 'a'),
 	kQ3RendererPropertyShadowVBOLimit               = Q3_OBJECT_TYPE('s', 'h', 'v', 'l'),
 	kQ3RendererPropertyPrimitivesRenderedCount      = Q3_OBJECT_TYPE('p', 'r', 'n', 'c'),
+	kQ3RendererPropertyClippingPlane                = Q3_OBJECT_TYPE('c', 'l', 'i', 'p'),
+	kQ3RendererPropertyCastShadowsOverride          = Q3_OBJECT_TYPE('c', 's', 'o', 'c')
 };
 
 
@@ -592,6 +620,23 @@ typedef struct TQAEngine                        TQAEngine;
 typedef Q3_CALLBACK_API_C(void,                TQ3RaveDestroyCallback)(
                             TQ3RendererObject _Nonnull   theRenderer);
 
+
+/*!
+	@typedef	TQ3CastShadowsOverrideCallback
+	@abstract	This callback, if provided, can override the decision of whether
+				a particular TriMesh should cast a shadow from a given light.
+	@discussion	This callback will only be called when we are computing the shadow
+				being cast by a shadow-casting light.  Normally, a geometry casts
+				shadows unless the cast-shadows style state says no.
+	@param		inGeometry		A TriMesh.
+	@param		inLight			The light whose shadows are being computed.
+	@param		inCastShadowsStyleState		The current cast-shadows style state.
+	@result		True to cast shadows.
+*/
+typedef Q3_CALLBACK_API_C( bool, TQ3CastShadowsOverrideCallback )(
+							TQ3GeometryObject _Nonnull inGeometry,
+							TQ3LightObject _Nonnull inLight,
+							bool inCastShadowsStyleState );
 
 /*!
  *  @typedef

@@ -11,7 +11,7 @@
         Header for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2015, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -126,7 +126,7 @@ struct StyleState
 	TQ3FillStyle			mFill;
 	TQ3OrientationStyle		mOrientation;
 	CQ3ObjectRef			mHilite;	
-	std::vector<TQ3FogStyleData>	mFogStyles;
+	std::vector<TQ3FogStyleExtendedData>	mFogStyles;
 	TQ3Uns32				mCurFogStyleIndex;
 	bool					mIsCastingShadows;
 	bool					mExplicitEdges;
@@ -300,7 +300,8 @@ protected:
 	void					UpdateAntiAliasStyle(
 									TQ3AntiAliasStyleData* inStyleData );
 	void					UpdateFogStyle(
-									const TQ3FogStyleData* inStyleData );
+									TQ3ViewObject inView,
+									const TQ3FogStyleExtendedData* inStyleData );
 	void					UpdateCastShadowsStyle(
 									TQ3Boolean inStyleData );
 	void					UpdateLineWidthStyle(
@@ -335,6 +336,7 @@ protected:
 									const TQ3Param2D* inVertUVs,
 									const TQ3ColorRGB* inVertColors );
 	void					RenderSlowPathTriMesh(
+									TQ3GeometryObject inTriMesh,
 									TQ3ViewObject inView,
 									const TQ3TriMeshData& inGeomData,
 									const MeshArrays& inData );
@@ -404,6 +406,7 @@ protected:
 	float 					mLineWidth;
 	TQ3XAttributeMask		mAttributesMask;
 	bool					mUpdateShader;
+	TQ3Float32				mAlphaThreshold; // cached value of kQ3RendererPropertyAlphaThreshold
 	
 	// style states
 	StyleState				mStyleState;

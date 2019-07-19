@@ -5,7 +5,7 @@
         Quesa memory manager.
 
     COPYRIGHT:
-        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -78,6 +78,8 @@
 		#define Q3_MEMORY_DEBUG								0
 	#endif
 #endif
+
+#define Q3_MIN_SIZE_TO_LOG		5000000UL
 
 
 // Slab threshold
@@ -398,7 +400,7 @@ E3Memory_Allocate(TQ3Uns32 theSize)
 #endif
 
 #if Q3_MEMORY_DEBUG
-	if (theSize > 5000000UL)
+	if (theSize > Q3_MIN_SIZE_TO_LOG)
 	{
 		Q3_MESSAGE_FMT("Allocated ptr %p of size %lu", thePtr, (unsigned long)theSize );
 	}
@@ -447,7 +449,7 @@ E3Memory_AllocateClear(TQ3Uns32 theSize)
 #endif
 
 #if Q3_MEMORY_DEBUG
-	if (theSize > 5000000UL)
+	if (theSize > Q3_MIN_SIZE_TO_LOG)
 	{
 		Q3_MESSAGE_FMT("AllocateCleared ptr %p of size %lu", thePtr, (unsigned long)theSize );
 	}
@@ -478,9 +480,9 @@ E3Memory_Free(void **thePtr)
 //		Q3_ASSERT ( ( TQ3Uns32 ( realPtr ) & 3 ) == 0 ) ;
 
 
-#if 0//Q3_MEMORY_DEBUG
-		TQ3Uns32	theSize = e3memGetSize( realPtr )
-		if (theSize > 5000000UL)
+#if Q3_MEMORY_DEBUG
+		TQ3Uns32	theSize = e3memGetSize( realPtr );
+		if (theSize > Q3_MIN_SIZE_TO_LOG)
 		{
 			Q3_MESSAGE_FMT("Freed ptr %p of size %lu", *thePtr, (unsigned long)theSize );
 		}
@@ -567,6 +569,14 @@ E3Memory_Reallocate(void **thePtr, TQ3Uns32 newSize)
 				Q3Int64_Uns32_Subtract( sActiveAllocBytes,
 					oldSize - actualNewSize, sActiveAllocBytes );
 			}
+			if (realPtr == nullptr) // actually an allocation?
+			{
+				sActiveAllocCount += 1;
+				if (actualNewSize > Q3_MIN_SIZE_TO_LOG)
+				{
+					Q3_MESSAGE_FMT("Realloced ptr %p of size %lu", realPtr, (unsigned long)actualNewSize );
+				}
+			}
 		#endif
 		}
 		else
@@ -651,86 +661,11 @@ E3Memory_Copy(const void *srcPtr, void *dstPtr, TQ3Uns32 theSize)
 
 
 
-	// Copy everything else ourselves/with memcpy
+	// Copy everything else with memcpy
 	else
-		{
-		switch (theSize) {
-			case 1:
-				((TQ3Uns8  *) dstPtr)[0] = ((const TQ3Uns8  *) srcPtr)[0];
-				break;
-
-			case 2:
-				((TQ3Uns16 *) dstPtr)[0] = ((const TQ3Uns16 *) srcPtr)[0];
-				break;
-	
-			case 3:
-				((TQ3Uns16 *) dstPtr)[0] = ((const TQ3Uns16 *) srcPtr)[0];
-				((TQ3Uns8  *) dstPtr)[2] = ((const TQ3Uns8  *) srcPtr)[2];
-				break;
-
-			case 4:
-				((TQ3Uns32 *) dstPtr)[0] = ((const TQ3Uns32 *) srcPtr)[0];
-				break;
-	
-			case 5:
-				((TQ3Uns32 *) dstPtr)[0] = ((const TQ3Uns32 *) srcPtr)[0];
-				((TQ3Uns8  *) dstPtr)[4] = ((const TQ3Uns8  *) srcPtr)[4];
-				break;
-
-			case 6:
-				((TQ3Uns32 *) dstPtr)[0] = ((const TQ3Uns32 *) srcPtr)[0];
-				((TQ3Uns16 *) dstPtr)[2] = ((const TQ3Uns16 *) srcPtr)[2];
-				break;
-
-			case 7:
-				((TQ3Uns32 *) dstPtr)[0] = ((const TQ3Uns32 *) srcPtr)[0];
-				((TQ3Uns16 *) dstPtr)[2] = ((const TQ3Uns16 *) srcPtr)[2];
-				((TQ3Uns8  *) dstPtr)[6] = ((const TQ3Uns8  *) srcPtr)[6];
-				break;
-
-			case 8:
-				((TQ3Uns32 *) dstPtr)[0] = ((const TQ3Uns32 *) srcPtr)[0];
-				((TQ3Uns32 *) dstPtr)[1] = ((const TQ3Uns32 *) srcPtr)[1];
-				break;
-	
-			case 9:
-				((TQ3Uns32 *) dstPtr)[0] = ((const TQ3Uns32 *) srcPtr)[0];
-				((TQ3Uns32 *) dstPtr)[1] = ((const TQ3Uns32 *) srcPtr)[1];
-				((TQ3Uns8  *) dstPtr)[8] = ((const TQ3Uns8  *) srcPtr)[8];
-				break;
-	
-			case 10:
-				((TQ3Uns32 *) dstPtr)[0] = ((const TQ3Uns32 *) srcPtr)[0];
-				((TQ3Uns32 *) dstPtr)[1] = ((const TQ3Uns32 *) srcPtr)[1];
-				((TQ3Uns16 *) dstPtr)[4] = ((const TQ3Uns16 *) srcPtr)[4];
-				break;
-	
-			case 11:
-				((TQ3Uns32 *) dstPtr)[0] = ((const TQ3Uns32 *) srcPtr)[0];
-				((TQ3Uns32 *) dstPtr)[1] = ((const TQ3Uns32 *) srcPtr)[1];
-				((TQ3Uns16 *) dstPtr)[4] = ((const TQ3Uns16 *) srcPtr)[4];
-				((TQ3Uns8  *) dstPtr)[10] = ((const TQ3Uns8  *) srcPtr)[10];
-				break;
-	
-			case 12:
-				((TQ3Uns32 *) dstPtr)[0] = ((const TQ3Uns32 *) srcPtr)[0];
-				((TQ3Uns32 *) dstPtr)[1] = ((const TQ3Uns32 *) srcPtr)[1];
-				((TQ3Uns32 *) dstPtr)[2] = ((const TQ3Uns32 *) srcPtr)[2];
-				break;
-	
-			default:
-				memcpy(dstPtr, srcPtr, theSize);
-				break;
-			}
-
-
-
-		// Verify the in-line copies in debug builds
-		#if Q3_DEBUG
-		if (theSize <= 12)
-			Q3_ASSERT(memcmp(srcPtr, dstPtr, theSize) == 0);
-		#endif
-		}
+	{
+		memcpy(dstPtr, srcPtr, theSize);
+	}
 }
 
 

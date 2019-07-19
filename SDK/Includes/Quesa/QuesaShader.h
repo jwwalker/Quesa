@@ -768,6 +768,25 @@ Q3LambertIllumination_New (
 
 /*!
  *  @function
+ *      Q3NondirectionalIllumination_New
+ *  @discussion
+ *      Create a nondirectional illumination shader.  This kind of illumination
+ *		disregards the direction of light, but does account for brightness, shadows,
+ *		distance attenuation of finite lights and angular fall-off of spot lights.
+ *
+ *		This kind of illumination is only available in OpenGL per-pixel lighting.
+ *
+ *  @result                 The new illumination shader.
+ */
+Q3_EXTERN_API_C ( TQ3ShaderObject _Nonnull )
+Q3NondirectionalIllumination_New (
+    void
+);
+
+
+
+/*!
+ *  @function
  *      Q3NULLIllumination_New
  *  @discussion
  *      Create a NULL illumination shader.  This kind of illumination does not

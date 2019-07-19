@@ -50,16 +50,37 @@
 #include "QuesaRenderer.h"
 #include "QOTexture.h"
 #include "QOShaderProgramCache.h"
+#include "CQ3ObjectRef_Gets.h"
+#include "QuesaMathOperators.hpp"
 
 #include <cstring>
 #include <string>
 #include <algorithm>
+#include <sstream>
 #include <cstdlib>
+
+#if WIN32
+	#undef max // make it possible to use std::max
+#endif
 
 #ifndef GL_VERTEX_PROGRAM_TWO_SIDE
 	#define GL_VERTEX_PROGRAM_TWO_SIDE        0x8643
 #endif
 
+#ifndef GL_SHADER_SOURCE_LENGTH
+	#define	GL_SHADER_SOURCE_LENGTH			0x8B88
+#endif
+
+#ifndef GL_SHADING_LANGUAGE_VERSION
+	#define GL_SHADING_LANGUAGE_VERSION		0x8B8C
+#endif
+
+#ifndef GL_MAX_FRAGMENT_UNIFORM_COMPONENTS_ARB
+	#define GL_MAX_FRAGMENT_UNIFORM_COMPONENTS_ARB               0x8B49
+#endif
+
+static int sVertexShaderCount = 0;
+static int sProgramCount = 0;
 
 //=============================================================================
 //      Local constants
@@ -67,7 +88,10 @@
 
 namespace
 {
-	const char* kVertexShaderSource =
+	const TQ3Vector3D kZeroVec = { 0.0f, 0.0f, 0.0f };
+
+	#pragma mark kVertexShaderStart
+	const char* kVertexShaderStart =
 				"#version 120\n"
 
 				// Normal vector in eye coordinates
@@ -83,8 +107,17 @@ namespace
 				"	ECNormal = gl_NormalMatrix * gl_Normal;\n"
 
 				// Transform vertex position to eye coordinates.
-				"	vec4 ECPosition = gl_ModelViewMatrix * gl_Vertex;\n"
+				"	vec4 ECPosition = gl_ModelViewMatrix * gl_Vertex;\n";
 
+	#pragma mark kVertexShaderClipVertex
+	const char* kVertexShaderClipVertex =
+				// On most video cards, if you want to use clipping planes,
+				// you must set gl_ClipVertex.  But on ATI cards, doing so
+				// causes a fallback to software rendering.
+				"	gl_ClipVertex = ECPosition;\n";
+
+	#pragma mark kVertexShaderEnd
+	const char* kVertexShaderEnd =
 				// Convert to 3 dimensions.
 				"	ECPos3 = ECPosition.xyz / ECPosition.w;\n"
 
@@ -116,15 +149,35 @@ namespace
 				"uniform float hotAngle[gl_MaxLights];\n"
 				"uniform float cutoffAngle[gl_MaxLights];\n"
 				
+				// Light data, to replace gl_LightSource
+				"uniform vec4 lightPosition[gl_MaxLights];\n"
+				"uniform vec4 lightColor[gl_MaxLights];\n"
+				"uniform vec3 spotLightDirection[gl_MaxLights];\n"
+				"uniform vec3 lightAttenuation[gl_MaxLights];\n"
+				
 				// Specular map flag
 				"uniform bool isUsingSpecularMap;\n"
 				
 				// Flipping normals flag
 				"uniform bool isFlippingNormals;\n"
 
+				// Clipping plane
+				"uniform vec4 ECClipPlane;\n"
+				
+				// Extended fog
+				"uniform float maxFogOpacity;\n"
+				"uniform float HSFogRate;\n"
+				"uniform vec4 HSFogPlane;\n"
+
 				// Samplers for texture units
 				"uniform sampler2D tex0;\n"
 				"uniform sampler2D tex1;\n\n"
+				
+				"float FogSmooth( in float x )\n"
+				"{\n"
+				"	float y = x / maxFogOpacity;\n"
+				"	return x * ( y * (1.0 - y) + 1.0 );\n"
+				"}\n\n"
 				;
 	
 	#pragma mark kFragmentShaderQuantizeFuncs_Normal
@@ -175,14 +228,24 @@ namespace
 				"// Directional light, light LIGHT_INDEX\n"
 				"{\n"
 				"	float nDotVP = max( 0.0, dot( normal,\n"
-				"		gl_LightSource[LIGHT_INDEX].position.xyz ) );\n"
-				"	diff += QuantizeDiffuse( gl_LightSource[LIGHT_INDEX].diffuse.rgb, nDotVP );\n\n"
+				"		lightPosition[LIGHT_INDEX].xyz ) );\n"
+				"	diff += QuantizeDiffuse( lightColor[LIGHT_INDEX].rgb, nDotVP );\n\n"
+				
+				"	vec3 geomToLight = normalize(lightPosition[LIGHT_INDEX].xyz);\n"
+				"	vec3 halfVector = normalize( geomToLight + geomToEyeDir );\n"
 				
 				"	float nDotHV = max( 0.0, \n"
-				"		dot( normal, gl_LightSource[LIGHT_INDEX].halfVector.xyz ) );\n"
+				"		dot( normal, halfVector ) );\n"
 				"	float pf1 = (specularExp <= 0.0)? 1.0 : pow( nDotHV, specularExp );\n"
 				"	float pf = (nDotVP > 0.0)? pf1 : 0.0;\n"
-				"	spec += QuantizeLight(gl_LightSource[LIGHT_INDEX].diffuse.rgb * pf);\n"
+				"	spec += QuantizeLight(lightColor[LIGHT_INDEX].rgb * pf);\n"
+				"}\n\n";
+
+	#pragma mark kDirectionalLightWithNondirIllumFragmentShaderSource
+	const char* kDirectionalLightWithNondirIllumFragmentShaderSource =
+				"// Directional light, light LIGHT_INDEX\n"
+				"{\n"
+					"	diff += QuantizeDiffuse( lightColor[LIGHT_INDEX].rgb, 1.0 );\n"
 				"}\n\n";
 
 	#pragma mark kSpotFalloffNoneSource
@@ -240,7 +303,7 @@ namespace
 				"// Positional light, light LIGHT_INDEX\n"
 				"{\n"
 					// Compute vector from surface to light position
-				"	vec3 geomToLight = gl_LightSource[LIGHT_INDEX].position.xyz - ECPos3;\n"
+				"	vec3 geomToLight = lightPosition[LIGHT_INDEX].xyz - ECPos3;\n"
 
 					// Compute distance between geometry and light
 				"	float d = length(geomToLight);\n"
@@ -250,9 +313,9 @@ namespace
 
 					// Compute attenuation factor
 				"	float attenuation = 1.0 / \n"
-				"		(gl_LightSource[LIGHT_INDEX].constantAttenuation +\n"
-				"		gl_LightSource[LIGHT_INDEX].linearAttenuation * d +\n"
-				"		gl_LightSource[LIGHT_INDEX].quadraticAttenuation * d * d );\n"
+				"		(lightAttenuation[LIGHT_INDEX].x +\n"
+				"		lightAttenuation[LIGHT_INDEX].y * d +\n"
+				"		lightAttenuation[LIGHT_INDEX].z * d * d );\n"
 
 					// Compute the direction halfway between the geometry to light vector
 					// and the geometry to eye vectors.  This uses the assumption that
@@ -260,9 +323,9 @@ namespace
 				"	vec3 halfVector = normalize( geomToLight + geomToEyeDir );\n"
 
 				"	float nDotGeomToLight = max( 0.0, dot( normal, geomToLight ) );\n"
-				"	nDotGeomToLight = QuantizeDot( nDotGeomToLight )\n;"
+				"	nDotGeomToLight = QuantizeDot( nDotGeomToLight );\n"
 
-				"	diff += QuantizeDiffuse( gl_LightSource[LIGHT_INDEX].diffuse.rgb * \n"
+				"	diff += QuantizeDiffuse( lightColor[LIGHT_INDEX].rgb * \n"
 				"				attenuation, nDotGeomToLight );\n"
 
 				"	float nDotHalf = max( 0.0, dot( normal, halfVector ) );\n"
@@ -273,7 +336,27 @@ namespace
 				"	else\n"
 				"		pf = (specularExp <= 0.0)? 1.0 : pow( nDotHalf, specularExp );\n\n"
 
-				"	spec += QuantizeLight(gl_LightSource[LIGHT_INDEX].diffuse.rgb * pf * attenuation);\n"
+				"	spec += QuantizeLight(lightColor[LIGHT_INDEX].rgb * pf * attenuation);\n"
+				"}\n\n";
+
+	#pragma mark kPointLightWithNondirIllumFragmentShaderSource
+	const char* kPointLightWithNondirIllumFragmentShaderSource =
+				"// Positional light, light LIGHT_INDEX\n"
+				"{\n"
+					// Compute vector from surface to light position
+				"	vec3 geomToLight = lightPosition[LIGHT_INDEX].xyz - ECPos3;\n"
+
+					// Compute distance between geometry and light
+				"	float d = length(geomToLight);\n"
+
+					// Compute attenuation factor
+				"	float attenuation = 1.0 / \n"
+				"		(lightAttenuation[LIGHT_INDEX].x +\n"
+				"		lightAttenuation[LIGHT_INDEX].y * d +\n"
+				"		lightAttenuation[LIGHT_INDEX].z * d * d );\n"
+
+				"	diff += QuantizeDiffuse( lightColor[LIGHT_INDEX].rgb * \n"
+				"				attenuation, 1.0 );\n"
 				"}\n\n";
 
 	#pragma mark kSpotLightFragmentShaderSource
@@ -286,7 +369,7 @@ namespace
 				"// Positional light, light LIGHT_INDEX\n"
 				"{\n"
 					// Compute vector from surface to light position
-				"	vec3 geomToLight = gl_LightSource[LIGHT_INDEX].position.xyz - ECPos3;\n"
+				"	vec3 geomToLight = lightPosition[LIGHT_INDEX].xyz - ECPos3;\n"
 
 					// Compute distance between geometry and light
 				"	float d = length(geomToLight);\n"
@@ -296,9 +379,9 @@ namespace
 
 					// Compute attenuation factor
 				"	float attenuation = 1.0 / "
-				"		(gl_LightSource[LIGHT_INDEX].constantAttenuation +"
-				"		gl_LightSource[LIGHT_INDEX].linearAttenuation * d +"
-				"		gl_LightSource[LIGHT_INDEX].quadraticAttenuation * d * d );\n"
+				"		(lightAttenuation[LIGHT_INDEX].x +"
+				"		lightAttenuation[LIGHT_INDEX].y * d +"
+				"		lightAttenuation[LIGHT_INDEX].z * d * d );\n"
 				
 					// Find the angle between the vector from the light to this
 					// fragment and the light direction vector.  The vectors are
@@ -306,7 +389,7 @@ namespace
 					// Quesa never sets GL_SPOT_EXPONENT, meaning it has the
 					// default value of 0, and we need not look at
 					// gl_LightSource[LIGHT_INDEX].spotExponent.
-				"	float spotDot = dot( -geomToLight, gl_LightSource[LIGHT_INDEX].spotDirection );\n"
+				"	float spotDot = dot( -geomToLight, spotLightDirection[LIGHT_INDEX] );\n"
 				"	float spotAngle = acos( spotDot );\n"
 				
 					// Compute a falloff factor.
@@ -331,7 +414,7 @@ namespace
 				"	float nDotGeomToLight = max( 0.0, dot( normal, geomToLight ) );\n"
 				"	nDotGeomToLight = QuantizeDot( nDotGeomToLight )\n;"
 
-				"	diff += QuantizeDiffuse( gl_LightSource[LIGHT_INDEX].diffuse.rgb * \n"
+				"	diff += QuantizeDiffuse( lightColor[LIGHT_INDEX].rgb * \n"
 				"				attenuation, nDotGeomToLight );\n"
 
 				"	float nDotHalf = max( 0.0, dot( normal, halfVector ) );\n"
@@ -342,7 +425,53 @@ namespace
 				"	else\n"
 				"		pf = (specularExp <= 0.0)? 1.0 : pow( nDotHalf, specularExp );\n\n"
 
-				"	spec += QuantizeLight(gl_LightSource[LIGHT_INDEX].diffuse.rgb * pf * attenuation);\n"
+				"	spec += QuantizeLight(lightColor[LIGHT_INDEX].rgb * pf * attenuation);\n"
+				"}\n\n";
+
+	#pragma mark kSpotLightWithNondirIllumFragmentShaderSource
+	const char* kSpotLightWithNondirIllumFragmentShaderSource =
+				"// Positional light, light LIGHT_INDEX\n"
+				"{\n"
+					// Compute vector from surface to light position
+				"	vec3 geomToLight = lightPosition[LIGHT_INDEX].xyz - ECPos3;\n"
+
+					// Compute distance between geometry and light
+				"	float d = length(geomToLight);\n"
+
+					// Normalize direction from geometry to light
+				"	geomToLight /= d;\n"
+
+					// Compute attenuation factor
+				"	float attenuation = 1.0 / "
+				"		(lightAttenuation[LIGHT_INDEX].x +"
+				"		lightAttenuation[LIGHT_INDEX].y * d +"
+				"		lightAttenuation[LIGHT_INDEX].z * d * d );\n"
+				
+					// Find the angle between the vector from the light to this
+					// fragment and the light direction vector.  The vectors are
+					// unit vectors, so the dot product is the cosine of the angle.
+					// Quesa never sets GL_SPOT_EXPONENT, meaning it has the
+					// default value of 0, and we need not look at
+					// gl_LightSource[LIGHT_INDEX].spotExponent.
+				"	float spotDot = dot( -geomToLight, spotLightDirection[LIGHT_INDEX] );\n"
+				"	float spotAngle = acos( spotDot );\n"
+				
+					// Compute a falloff factor.
+				"	float fallFrac = (spotAngle - hotAngle[LIGHT_INDEX]) /\n"
+				"		(cutoffAngle[LIGHT_INDEX] - hotAngle[LIGHT_INDEX]);\n"
+				"	float spotFalloff = (spotAngle < hotAngle[LIGHT_INDEX])?\n"
+				"		1.0 :\n"
+				"		((spotAngle > cutoffAngle[LIGHT_INDEX])?\n"
+				"			0.0 :\n"
+				"			SpotFalloff_LIGHT_INDEX( fallFrac ));\n"
+					
+					// See if point on surface is inside cone of illumination,
+					// and maybe attenuate by angle from center of spot.
+					// Set attenuation to 0 if outside the spot light cone.
+				"	attenuation *= spotFalloff;\n"
+
+				"	diff += QuantizeDiffuse( lightColor[LIGHT_INDEX].rgb * \n"
+				"				attenuation, 1.0 );\n"
 				"}\n\n";
 
 	#pragma mark kMainFragmentShaderStart
@@ -368,6 +497,14 @@ namespace
 				
 					// Front face normal, used for backface flipping, flat shading
 				"	vec3	faceNormal = cross(dFdx(ECPos3), dFdy(ECPos3));\n";
+
+	#pragma mark kFragmentClipping
+	const char* kFragmentClipping =
+				"	if (dot( vec4( ECPos3, 1.0 ), ECClipPlane ) < 0.0)\n"
+				"	{\n"
+				"		discard;\n"
+				"	}\n"
+				;
 
 	#pragma mark kMainFragmentShaderStartSmooth
 	const char* kMainFragmentShaderStartSmooth =
@@ -486,43 +623,69 @@ namespace
 				"	color += spec * specMat;\n"
 				;
 
-	#pragma mark kAddFogLinear, kAddFogExp, kAddFogExp2
+	#pragma mark kCalcFogLinear, kCalcFogExp, kCalcFogExp2
+	const char* kCalcFogLinear =
+				"	float dist = length( ECPos3 );\n"
+				"	float fog = (gl_Fog.end - dist) * gl_Fog.scale;\n"
+				;
+
+	const char* kCalcFogExp =
+				"	float dist = length( ECPos3 );\n"
+				"	float fog = exp( - gl_Fog.density * dist );\n"
+				;
+
+	const char* kCalcFogExp2 =
+				"	float dist = length( ECPos3 );\n"
+				"	float fogProd = gl_Fog.density * dist;\n"
+				"	float fog = exp( - fogProd * fogProd );\n"
+				;
+	
+	#pragma mark kCalcFogHalfspace
+	const char* kCalcFogHalfspace =
+				"	vec4 ECPos = vec4(ECPos3, 1.0);\n"
+				"	float p = dot( HSFogPlane, ECPos );\n"
+				"	float c = HSFogPlane.w;\n"
+				"	float D = gl_Fog.density;\n"
+				"	float s = HSFogRate;\n"
+				"	float cpDiff = c - p;\n"
+				"	float adjDiff = sign(cpDiff) * (abs(cpDiff) + 0.000001);\n"
+				"	float outerFactor = length(ECPos3) * D / adjDiff;\n"
+				"	float densOverRate = D / s;\n"
+				"	float rateOverDens = 1.0 / densOverRate;\n"
+				"	float c2 = min( c, 0.0 );\n"
+				"	float p2 = min( p, 0.0 );\n"
+				"	float g = outerFactor * (c2 - p2 - densOverRate *\n"
+				"		(exp( c2 * rateOverDens ) - exp( p2 * rateOverDens )));\n"
+				"	float fog = exp( - g );\n"
+				;
+	
+	#pragma mark kMixFog
 	/*
 		Fog works by mixing the fog color with the fragment color.
-		This does not work well with premultiplied color, where
+		This does not work well with premultiplied alpha, where
 		resultColor = 1 * premultipliedFragColor + (1 - alpha) * oldColor,
 		because if fog brightens the premultipliedFragColor, then the result
 		color will be bright no matter how small alpha is.  Therefore we must
 		do the fog mixing with unpremultiplied color.
+		
+		The FogSmooth function is intended to make the place where you hit the
+		maxFogOpacity be a less obvious transition.  It was chosen as a cubic
+		polynomial satisfying:
+		FogSmooth( 0 ) = 0
+		FogSmooth( maxFogOpacity ) = maxFogOpacity
+		FogSmooth'( 0 ) = 1				(where the prime indicates derivative)
+		FogSmooth'( maxFogOpacity ) = 0
 	*/
-	const char* kAddFogLinear =
-				"	float dist = length( ECPos3 );\n"
-				"	float fog = (gl_Fog.end - dist) * gl_Fog.scale;\n"
-				"	fog = clamp( fog, 0.0, 1.0 );\n"
+	const char* kMixFog =
+				"	float opacity = 1.0 - fog;\n"
+				"	opacity = (maxFogOpacity > 0.99)?\n"
+				"		clamp( opacity, 0.0, 1.0) :\n"
+				"		((opacity < maxFogOpacity)?\n"
+				"			 FogSmooth(opacity) :\n"
+				"			maxFogOpacity);\n"
 				"	float unAlpha = 1.0 / (alpha + 0.0000001);\n"
 				"	vec3 unPreColor = clamp( unAlpha * color, 0.0, 1.0 );\n"
-				"	unPreColor = mix( gl_Fog.color.rgb, unPreColor, fog );\n"
-				"	color = alpha * unPreColor;\n"
-				;
-
-	const char* kAddFogExp =
-				"	float dist = length( ECPos3 );\n"
-				"	float fog = exp( - gl_Fog.density * dist );\n"
-				"	fog = clamp( fog, 0.0, 1.0 );\n"
-				"	float unAlpha = 1.0 / (alpha + 0.0000001);\n"
-				"	vec3 unPreColor = clamp( unAlpha * color, 0.0, 1.0 );\n"
-				"	unPreColor = mix( gl_Fog.color.rgb, unPreColor, fog );\n"
-				"	color = alpha * unPreColor;\n"
-				;
-
-	const char* kAddFogExp2 =
-				"	float dist = length( ECPos3 );\n"
-				"	float fogProd = gl_Fog.density * dist;\n"
-				"	float fog = exp( - fogProd * fogProd );\n"
-				"	fog = clamp( fog, 0.0, 1.0 );\n"
-				"	float unAlpha = 1.0 / (alpha + 0.0000001);\n"
-				"	vec3 unPreColor = clamp( unAlpha * color, 0.0, 1.0 );\n"
-				"	unPreColor = mix( gl_Fog.color.rgb, unPreColor, fog );\n"
+				"	unPreColor = mix( unPreColor, gl_Fog.color.rgb, opacity );\n"
 				"	color = alpha * unPreColor;\n"
 				;
 
@@ -560,6 +723,14 @@ namespace
 	const char* kSpotHotAngleUniformName		= "hotAngle";
 	const char* kSpotCutoffAngleUniformName		= "cutoffAngle";
 	const char* kFlippingNormalsFlagUniformName	= "isFlippingNormals";
+	const char* kClippingPlaneUniformName		= "ECClipPlane";
+	const char*	kMaxFogOpacityUniformName		= "maxFogOpacity";
+	const char*	kHSFogRateUniformName			= "HSFogRate";
+	const char*	kHSFogPlaneUniformName			= "HSFogPlane";
+	const char*	kLightPositionUniformName		= "lightPosition";
+	const char*	kLightColorUniformName			= "lightColor";
+	const char*	kLightAttenuationUniformName	= "lightAttenuation";
+	const char*	kSpotLightDirectionUniformName	= "spotLightDirection";
 	
 	GLenum	sGLError = 0;
 } // end of unnamed namespace
@@ -580,14 +751,77 @@ namespace
 										E3Assert(__FILE__, __LINE__, xmsg);	\
 									} \
 								} while (false)
+	#define		CHECK_GL_ERROR_FMT(...) \
+								do { \
+									sGLError = glGetError();	\
+									if (sGLError != GL_NO_ERROR)	\
+									{	\
+										char customMsg_[400]; char wholeMsg_[800]; \
+										snprintf( customMsg_, sizeof(customMsg_), __VA_ARGS__ ); \
+										snprintf( wholeMsg_, sizeof(wholeMsg_), "%s %s", GLUtils_GLErrorToString(sGLError), customMsg_ ); \
+										E3Assert(__FILE__, __LINE__, wholeMsg_ );	\
+									}	\
+								} while (false)
 #else
 	#define		CHECK_GL_ERROR
+	#define		CHECK_GL_ERROR_FMT(...)
 #endif
 
 #pragma mark -
 //=============================================================================
 //      Implementations
 //-----------------------------------------------------------------------------
+
+/*!
+	@function	CalcLightColor
+	
+	@abstract	Combine Quesa light color and brightness to make an OpenGL
+				light color.
+*/
+static TQ3ColorRGBA CalcLightColor( const TQ3LightData& inLightData )
+{
+	TQ3ColorRGBA theColor;
+	
+	if (inLightData.isOn)
+	{
+		theColor.r = (inLightData.color.r * inLightData.brightness);
+		theColor.g = (inLightData.color.g * inLightData.brightness);
+		theColor.b = (inLightData.color.b * inLightData.brightness);
+		theColor.a = 1.0f;
+	}
+	else
+	{
+		theColor.r = theColor.g = theColor.b = theColor.a = 0.0f;
+	}
+	return theColor;
+}
+
+static TQ3Vector3D ConvertAttenuation( TQ3AttenuationType inType )
+{
+	TQ3Vector3D atts = { 0.0f, 0.0f, 0.0f };
+	
+	switch (inType)
+	{
+		case kQ3AttenuationTypeNone:
+			atts.x = 1.0f;
+			break;
+			
+		case kQ3AttenuationTypeInverseDistance:
+			atts.y = 1.0f;
+			break;
+			
+		case kQ3AttenuationTypeInverseDistanceSquared:
+			atts.z = 1.0f;
+			break;
+		
+		default:
+			break;
+	}
+	
+	return atts;
+}
+
+
 QORenderer::ProgramRec::ProgramRec( const ProgramRec& inOther )
 	: mProgram( inOther.mProgram )
 	, mCharacteristic( inOther.mCharacteristic )
@@ -599,6 +833,14 @@ QORenderer::ProgramRec::ProgramRec( const ProgramRec& inOther )
 	, mSpotCutoffAngleUniformLoc( inOther.mSpotCutoffAngleUniformLoc )
 	, mIsSpecularMappingUniformLoc( inOther.mIsSpecularMappingUniformLoc )
 	, mIsFlippingNormalsUniformLoc( inOther.mIsFlippingNormalsUniformLoc )
+	, mClippingPlaneUniformLoc( inOther.mClippingPlaneUniformLoc )
+	, mMaxFogOpacityUniformLoc( inOther.mMaxFogOpacityUniformLoc )
+	, mHalfspaceFogRateUniformLoc( inOther.mHalfspaceFogRateUniformLoc )
+	, mHalfspaceFogPlaneUniformLoc( inOther.mHalfspaceFogPlaneUniformLoc )
+	, mLightPositionUniformLoc( inOther.mLightPositionUniformLoc )
+	, mLightColorUniformLoc( inOther.mLightColorUniformLoc )
+	, mLightAttenuationUniformLoc( inOther.mLightAttenuationUniformLoc )
+	, mSpotLightDirectionUniformLoc( inOther.mSpotLightDirectionUniformLoc )
 {}
 
 void	QORenderer::ProgramRec::swap( ProgramRec& ioOther )
@@ -613,6 +855,14 @@ void	QORenderer::ProgramRec::swap( ProgramRec& ioOther )
 	std::swap( mSpotCutoffAngleUniformLoc, ioOther.mSpotCutoffAngleUniformLoc );
 	std::swap( mIsSpecularMappingUniformLoc, ioOther.mIsSpecularMappingUniformLoc );
 	std::swap( mIsFlippingNormalsUniformLoc, ioOther.mIsFlippingNormalsUniformLoc );
+	std::swap( mClippingPlaneUniformLoc, ioOther.mClippingPlaneUniformLoc );
+	std::swap( mMaxFogOpacityUniformLoc, ioOther.mMaxFogOpacityUniformLoc );
+	std::swap( mHalfspaceFogRateUniformLoc, ioOther.mHalfspaceFogRateUniformLoc );
+	std::swap( mHalfspaceFogPlaneUniformLoc, ioOther.mHalfspaceFogPlaneUniformLoc );
+	std::swap( mLightPositionUniformLoc, ioOther.mLightPositionUniformLoc );
+	std::swap( mLightColorUniformLoc, ioOther.mLightColorUniformLoc );
+	std::swap( mLightAttenuationUniformLoc, ioOther.mLightAttenuationUniformLoc );
+	std::swap( mSpotLightDirectionUniformLoc, ioOther.mSpotLightDirectionUniformLoc );
 }
 
 QORenderer::ProgramRec&
@@ -626,7 +876,7 @@ QORenderer::ProgramRec::operator=( const QORenderer::ProgramRec& inOther )
 
 static void ReplaceAllSubstrByInt( std::string& ioString,
 								const char* inFindSub,
-								unsigned int inReplacement )
+								GLint inReplacement )
 {
 	char	intAsStr[11];
 	snprintf( intAsStr, sizeof(intAsStr), "%d", inReplacement );
@@ -665,6 +915,8 @@ void	QORenderer::GLSLFuncs::SetNULL()
 	glDeleteProgram = nullptr;
 	glGetProgramInfoLog = nullptr;
 	glGetShaderInfoLog = nullptr;
+	glGetShaderSource = nullptr;
+	glIsProgram = nullptr;
 }
 
 void	QORenderer::GLSLFuncs::Initialize( const TQ3GLExtensions& inExts )
@@ -684,11 +936,16 @@ void	QORenderer::GLSLFuncs::Initialize( const TQ3GLExtensions& inExts )
 		GLGetProcAddress( glGetUniformLocation, "glGetUniformLocation", "glGetUniformLocationARB" );
 		GLGetProcAddress( glUniform1i, "glUniform1i", "glUniform1iARB" );
 		GLGetProcAddress( glUniform1f, "glUniform1f", "glUniform1fARB" );
+		GLGetProcAddress( glUniform4f, "glUniform4f", "glUniform4fARB" );
 		GLGetProcAddress( glUniform1fv, "glUniform1fv", "glUniform1fvARB" );
+		GLGetProcAddress( glUniform3fv, "glUniform3fv", "glUniform3fvARB" );
+		GLGetProcAddress( glUniform4fv, "glUniform4fv", "glUniform4fvARB" );
 		GLGetProcAddress( glDeleteShader, "glDeleteShader", "glDeleteObjectARB" );
 		GLGetProcAddress( glDeleteProgram, "glDeleteProgram", "glDeleteObjectARB" );
 		GLGetProcAddress( glGetProgramInfoLog, "glGetProgramInfoLog", "glGetInfoLogARB" );
 		GLGetProcAddress( glGetShaderInfoLog, "glGetShaderInfoLog", "glGetInfoLogARB" );
+		GLGetProcAddress( glGetShaderSource, "glGetShaderSource", "glGetShaderSourceARB" );
+		GLGetProcAddress( glIsProgram, "glIsProgram" );
 		if ( (glCreateShader == nullptr) ||
 			(glShaderSource == nullptr) ||
 			(glCompileShader == nullptr) ||
@@ -702,7 +959,10 @@ void	QORenderer::GLSLFuncs::Initialize( const TQ3GLExtensions& inExts )
 			(glGetUniformLocation == nullptr) ||
 			(glUniform1i == nullptr) ||
 			(glUniform1f == nullptr) ||
+			(glUniform4f == nullptr) ||
 			(glUniform1fv == nullptr) ||
+			(glUniform3fv == nullptr) ||
+			(glUniform4fv == nullptr) ||
 			(glDeleteShader == nullptr) ||
 			(glDeleteProgram == nullptr) ||
 			(glGetProgramInfoLog == nullptr) ||
@@ -726,7 +986,7 @@ QORenderer::PerPixelLighting::PerPixelLighting(
 										TQ3GLContext& inGLContext,
 										const TQ3GLExtensions& inExtensions )
 	: mFuncs( inFuncs )
-	, mGLExtensions( inExtensions )
+	, mExtensions( inExtensions )
 	, mRendererObject( inRendererObject )
 	, mGLContext( inGLContext )
 	, mIsShading( false )
@@ -735,6 +995,7 @@ QORenderer::PerPixelLighting::PerPixelLighting(
 	, mIsFlippingNormals( true )
 	, mQuantization( 0.0f )
 	, mLightNearEdge( 1.0f )
+	, mMaxFogOpacity( 1.0f )
 	, mCurrentProgram( nullptr )
 {
 }
@@ -746,25 +1007,52 @@ QORenderer::PerPixelLighting::~PerPixelLighting()
 
 
 static void AddDirectionalShaderSource(	GLint inLightIndex,
+										TQ3ObjectType inIlluminationType,
 										std::string& ioSource )
 {
-	std::string		theSource( kDirectionalLightFragmentShaderSource );
+	std::string		theSource;
+	if (inIlluminationType == kQ3IlluminationTypeNondirectional)
+	{
+		theSource = kDirectionalLightWithNondirIllumFragmentShaderSource;
+	}
+	else
+	{
+		theSource = kDirectionalLightFragmentShaderSource;
+	}
 	ReplaceAllSubstrByInt( theSource, "LIGHT_INDEX", inLightIndex );
 	ioSource += theSource;
 }
 
 static void AddPointLightShaderSource(	GLint inLightIndex,
+										TQ3ObjectType inIlluminationType,
 										std::string& ioSource )
 {
-	std::string		theSource( kPointLightFragmentShaderSource );
+	std::string		theSource;
+	if (inIlluminationType == kQ3IlluminationTypeNondirectional)
+	{
+		theSource = kPointLightWithNondirIllumFragmentShaderSource;
+	}
+	else
+	{
+		theSource = kPointLightFragmentShaderSource;
+	}
 	ReplaceAllSubstrByInt( theSource, "LIGHT_INDEX", inLightIndex );
 	ioSource += theSource;
 }
 
 static void AddSpotLightShaderSource(	GLint inLightIndex,
+										TQ3ObjectType inIlluminationType,
 										std::string& ioSource )
 {
-	std::string		theSource( kSpotLightFragmentShaderSource );
+	std::string		theSource;
+	if (inIlluminationType == kQ3IlluminationTypeNondirectional)
+	{
+		theSource = kSpotLightWithNondirIllumFragmentShaderSource;
+	}
+	else
+	{
+		theSource = kSpotLightFragmentShaderSource;
+	}
 	ReplaceAllSubstrByInt( theSource, "LIGHT_INDEX", inLightIndex );
 	ioSource +=  theSource;
 }
@@ -825,6 +1113,14 @@ static void LogShaderCompileError( GLint inShaderID, const QORenderer::GLSLFuncs
 				(int) logSize );
 		}
 	}
+	else
+	{
+		Q3_MESSAGE( "Compile error log size was 0.\n" );
+	}
+	Q3_MESSAGE_FMT("GL_VENDOR: %s", (char*)glGetString(GL_VENDOR));
+	Q3_MESSAGE_FMT("GL_RENDERER: %s", (char*)glGetString(GL_RENDERER));
+	Q3_MESSAGE_FMT("GL_VERSION: %s", (char*)glGetString(GL_VERSION));
+	Q3_MESSAGE_FMT("GL_SHADING_LANGUAGE_VERSION: %s", (char*)glGetString(GL_SHADING_LANGUAGE_VERSION));
 }
 #else
 	#define		LogShaderCompileError( x, y )
@@ -839,6 +1135,11 @@ static void BuildFragmentShaderSource(	const QORenderer::ProgramCharacteristic& 
 	GLint i;
 	
 	outSource += kFragmentShaderPrefix;
+	
+	GLint shaderLightCount = std::max( kNumLights, 1 );
+	// If a uniform array size is 0, the shader won't compile.
+	
+	ReplaceAllSubstrByInt( outSource, "gl_MaxLights", shaderLightCount );
 	
 	if (inProgramRec.mIlluminationType != kQ3IlluminationTypeNULL)
 	{
@@ -872,6 +1173,11 @@ static void BuildFragmentShaderSource(	const QORenderer::ProgramCharacteristic& 
 	
 	outSource += kMainFragmentShaderStart;
 	
+	if (inProgramRec.mIsUsingClippingPlane)
+	{
+		outSource += kFragmentClipping;
+	}
+	
 	if (inProgramRec.mInterpolationStyle == kQ3InterpolationStyleNone)
 	{
 		outSource += kMainFragmentShaderStartFlat;
@@ -888,11 +1194,11 @@ static void BuildFragmentShaderSource(	const QORenderer::ProgramCharacteristic& 
 			switch (inProgramRec.mPattern[i])
 			{
 				case QORenderer::kLightTypeDirectional:
-					AddDirectionalShaderSource( i, outSource );
+					AddDirectionalShaderSource( i, inProgramRec.mIlluminationType, outSource );
 					break;
 					
 				case QORenderer::kLightTypePoint:
-					AddPointLightShaderSource( i, outSource );
+					AddPointLightShaderSource( i, inProgramRec.mIlluminationType, outSource );
 					break;
 				
 				case QORenderer::kLightTypeSpotNone:
@@ -900,7 +1206,7 @@ static void BuildFragmentShaderSource(	const QORenderer::ProgramCharacteristic& 
 				case QORenderer::kLightTypeSpotExponential:
 				case QORenderer::kLightTypeSpotCosine:
 				case QORenderer::kLightTypeSpotCubic:
-					AddSpotLightShaderSource( i, outSource );
+					AddSpotLightShaderSource( i, inProgramRec.mIlluminationType, outSource );
 					break;
 				
 				default:
@@ -919,7 +1225,7 @@ static void BuildFragmentShaderSource(	const QORenderer::ProgramCharacteristic& 
 	}
 	else
 	{
-		outSource +=  kColorCompForLambertAndPhong;
+		outSource += kColorCompForLambertAndPhong;
 	}
 	
 	if (inProgramRec.mIsTextured)
@@ -932,25 +1238,30 @@ static void BuildFragmentShaderSource(	const QORenderer::ProgramCharacteristic& 
 		outSource += kAddSpecularColor;
 	}
 	
-	if (inProgramRec.mFogState == kQ3On)
+	if (inProgramRec.mFogModeCombined != QORenderer::kFogModeOff)
 	{
-		switch (inProgramRec.mFogMode)
+		switch (inProgramRec.mFogModeCombined)
 		{
-			case kQ3FogModeLinear:
-				outSource += kAddFogLinear;
+			case QORenderer::kFogModeLinear:
+				outSource += kCalcFogLinear;
 				break;
 			
-			case kQ3FogModeExponential:
-				outSource += kAddFogExp;
+			case QORenderer::kFogModeExponential:
+				outSource += kCalcFogExp;
 				break;
 			
-			case kQ3FogModeExponentialSquared:
-				outSource += kAddFogExp2;
+			case QORenderer::kFogModeExponentialSquared:
+				outSource += kCalcFogExp2;
+				break;
+			
+			case QORenderer::kFogModeHalfspace:
+				outSource += kCalcFogHalfspace;
 				break;
 			
 			default:
 				break;
 		}
+		outSource += kMixFog;
 	}
 		
 	if (inProgramRec.mAngleAffectsAlpha)
@@ -961,7 +1272,6 @@ static void BuildFragmentShaderSource(	const QORenderer::ProgramCharacteristic& 
 	outSource += kMainFragmentShaderEndSource;
 }
 
-
 /*!
 	@function	GetLightTypes
 	@abstract	Get the pattern of light types.
@@ -970,7 +1280,7 @@ void QORenderer::PerPixelLighting::GetLightTypes()
 {
 	mProgramCharacteristic.mPattern.clear();
 	
-	if (mProgramCharacteristic.mIlluminationType != kQ3IlluminationTypeNULL)
+	if ( mProgramCharacteristic.mIlluminationType != kQ3IlluminationTypeNULL )
 	{
 		// Query number of lights.
 		const int kNumLights = static_cast<int>(mLights.size());
@@ -1038,16 +1348,39 @@ void QORenderer::PerPixelLighting::GetLightTypes()
 	@function	StartFrame
 	@abstract	Begin a rendering frame.
 */
-void	QORenderer::PerPixelLighting::StartFrame()
+void	QORenderer::PerPixelLighting::StartFrame( TQ3ViewObject inView )
 {
+	// Save a reference to the view, and initialize the light group edit index
+	mView.Assign( inView );
+	CQ3ObjectRef lightGroup( CQ3View_GetLightGroup( inView ) );
+	mLightGroupEditIndex = Q3Shared_GetEditIndex( lightGroup.get() );
+
 	CheckIfShading();
 	
 	if (mIsShading)
 	{
+		CalcMaxLights();
 		InitVertexShader();
 	}
 }
 
+void	QORenderer::PerPixelLighting::CalcMaxLights()
+{
+#if 0
+	mMaxLights = mExtensions.maxLights;
+#else
+	// Find the total number of uniform scalars there can be
+	GLint maxUniformScalars = 1024;
+	glGetIntegerv( GL_MAX_FRAGMENT_UNIFORM_COMPONENTS_ARB, &maxUniformScalars );
+	
+	// Subtract some for the non-light uniforms.  Right now there are 15, but leave
+	// some slack.
+	GLint scalarsAvailableForLights = maxUniformScalars - 50;
+	
+	// For each light, we need 20 or fewer values.
+	mMaxLights = scalarsAvailableForLights / 20;
+#endif
+}
 
 /*!
 	@function	ClearLights
@@ -1059,6 +1392,78 @@ void	QORenderer::PerPixelLighting::StartFrame()
 void	QORenderer::PerPixelLighting::ClearLights()
 {
 	mLights.clear();
+	
+	mLightTypes.clear();
+	mLightPositions.clear();
+	mLightColors.clear();
+	mSpotLightDirections.clear();
+	mSpotLightHotAngles.clear();
+	mSpotLightCutoffAngles.clear();
+	mLightAttenuations.clear();
+}
+
+void	QORenderer::PerPixelLighting::AddDirectionalLight( TQ3LightObject inLight )
+{
+	TQ3DirectionalLightData		lightData;
+	Q3DirectionalLight_GetData( inLight, &lightData );
+	
+	// Transform the direction to view coordinates
+	lightData.direction = Q3Normalize3D( lightData.direction * mWorldToView );
+	
+	// Represent the direction as an infinite rational point
+	TQ3RationalPoint4D position = {
+		- lightData.direction.x,
+		- lightData.direction.y,
+		- lightData.direction.z,
+		0.0f
+	};
+	mLightPositions.push_back( position );
+	
+	mSpotLightDirections.push_back( kZeroVec );
+	mSpotLightHotAngles.push_back( 0.0f );
+	mSpotLightCutoffAngles.push_back( 0.0f );
+	
+	mLightAttenuations.push_back( ConvertAttenuation( kQ3AttenuationTypeNone ) );
+}
+
+void	QORenderer::PerPixelLighting::AddSpotLight( TQ3LightObject inLight )
+{
+	// Get light data
+	TQ3SpotLightData	lightData;
+	Q3SpotLight_GetData( inLight, &lightData );
+	
+	// Transform the location to view coordinates
+	lightData.location *= mWorldToView;
+	// Represent location as a finite rational point
+	mLightPositions.push_back( Q3ToRational4D( lightData.location ) );
+	
+	// Transform the direction to view coordinates
+	lightData.direction = Q3Normalize3D( lightData.direction * mWorldToView );
+	mSpotLightDirections.push_back( lightData.direction );
+	
+	// Save hot and cutoff angles
+	mSpotLightHotAngles.push_back( lightData.hotAngle );
+	mSpotLightCutoffAngles.push_back( lightData.outerAngle );
+
+	mLightAttenuations.push_back( ConvertAttenuation( lightData.attenuation ) );
+}
+
+void	QORenderer::PerPixelLighting::AddPointLight( TQ3LightObject inLight )
+{
+	// Get light data
+	TQ3PointLightData	lightData;
+	Q3PointLight_GetData( inLight, &lightData );
+	
+	// Transform the location to view coordinates
+	lightData.location *= mWorldToView;
+	// Represent location as a finite rational point
+	mLightPositions.push_back( Q3ToRational4D( lightData.location ) );
+
+	mSpotLightDirections.push_back( kZeroVec );
+	mSpotLightHotAngles.push_back( 0.0f );
+	mSpotLightCutoffAngles.push_back( 0.0f );
+
+	mLightAttenuations.push_back( ConvertAttenuation( lightData.attenuation ) );
 }
 
 /*!
@@ -1069,7 +1474,34 @@ void	QORenderer::PerPixelLighting::ClearLights()
 void	QORenderer::PerPixelLighting::AddLight( TQ3LightObject inLight )
 {
 	CQ3ObjectRef	lightRef( Q3Shared_GetReference( inLight ) );
+#if QUESA_HAS_STDMOVE
+	mLights.push_back( std::move( lightRef ) );
+#else
 	mLights.push_back( lightRef );
+#endif
+	
+	TQ3ObjectType lightType = Q3Light_GetType( inLight );
+	mLightTypes.push_back( lightType );
+	
+	TQ3LightData basicLightData;
+	Q3Light_GetData( inLight, &basicLightData );
+	TQ3ColorRGBA lightColor( CalcLightColor( basicLightData ) );
+	mLightColors.push_back( lightColor );
+	
+	switch (lightType)
+	{
+		case kQ3LightTypeDirectional:
+			AddDirectionalLight( inLight );
+			break;
+		
+		case kQ3LightTypePoint:
+			AddPointLight( inLight );
+			break;
+		
+		case kQ3LightTypeSpot:
+			AddSpotLight( inLight );
+			break;
+	}
 }
 
 
@@ -1084,13 +1516,10 @@ QORenderer::ProgramCache*	QORenderer::PerPixelLighting::ProgCache()
 /*!
 	@function	StartPass
 	@abstract	Begin a rendering pass.
-	@discussion	This is where we check whether per-pixel lighting is
-				desired.  If so, we set up the shaders and program.
+	@discussion	If per-pixel lighting is desired, we set up the shaders and program.
 */
-void	QORenderer::PerPixelLighting::StartPass()
+void	QORenderer::PerPixelLighting::StartPass( TQ3CameraObject inCamera )
 {
-	CheckIfShading();
-	
 	if (mIsShading)
 	{
 		mProgramCharacteristic.mIlluminationType = kQ3IlluminationTypeNULL;
@@ -1098,11 +1527,20 @@ void	QORenderer::PerPixelLighting::StartPass()
 		mCurrentProgram = nullptr;
 		mMayNeedProgramChange = true;
 		mProgramCharacteristic.mIsCartoonish = (mQuantization > 0.0f);
+		mIsSpecularMapped = false;
+		
+		mProgramCharacteristic.mIsUsingClippingPlane = false;
+		mClippingPlane.x = 999999.0f;
+		
+		mProgramCharacteristic.mFogModeCombined = kFogModeOff;
+		mMaxFogOpacity = 1.0f;
 
 		TQ3Boolean angleAffectsAlpha = kQ3True;
 		Q3Object_GetProperty( mRendererObject, kQ3RendererPropertyAngleAffectsAlpha,
 			sizeof(TQ3Boolean), nullptr, &angleAffectsAlpha );
 		mProgramCharacteristic.mAngleAffectsAlpha = (angleAffectsAlpha == kQ3True);
+		
+		Q3Camera_GetWorldToView( inCamera, &mWorldToView );
 		
 		if (ProgCache()->VertexShaderID() != 0)
 		{
@@ -1143,16 +1581,38 @@ void	QORenderer::PerPixelLighting::ChooseProgram()
 			if (theProgram != mCurrentProgram)
 			{
 				mCurrentProgram = theProgram;
+				(void)glGetError();	// discard any previous unknown error
 				mFuncs.glUseProgram( theProgram->mProgram );
-				CHECK_GL_ERROR;
+				CHECK_GL_ERROR_FMT("glUseProgram");
+			#if Q3_DEBUG
+				if ( (sGLError != GL_NO_ERROR) && (mFuncs.glIsProgram != nullptr) )
+				{
+					GLboolean isProgram = (*mFuncs.glIsProgram)( theProgram->mProgram );
+					Q3_MESSAGE_FMT("Program name %u is%s known to be a program",
+						(unsigned int)theProgram->mProgram,
+						isProgram? "" : " not" );
+				}
+			#endif
 			
 				SetUniformValues( *theProgram );
 			}
 			
-			// Even if we didn't change the program, we need to update the
-			// specular mapping and flipping uniforms.
+			// Even if we didn't change the program, we need to update some
+			// uniforms.
 			mFuncs.glUniform1i( theProgram->mIsSpecularMappingUniformLoc, mIsSpecularMapped );
 			mFuncs.glUniform1i( theProgram->mIsFlippingNormalsUniformLoc, mIsFlippingNormals );
+			if (mProgramCharacteristic.mFogModeCombined != kFogModeOff)
+			{
+				mFuncs.glUniform1f( theProgram->mMaxFogOpacityUniformLoc, mMaxFogOpacity );
+				if (mProgramCharacteristic.mFogModeCombined == kFogModeHalfspace)
+				{
+					mFuncs.glUniform1f( theProgram->mHalfspaceFogRateUniformLoc,
+						mHalfspaceFogRate );
+					mFuncs.glUniform4f( theProgram->mHalfspaceFogPlaneUniformLoc,
+						mHalfspaceFogPlane.x, mHalfspaceFogPlane.y,
+						mHalfspaceFogPlane.z, mHalfspaceFogPlane.w );
+				}
+			}
 		}
 	}
 }
@@ -1169,35 +1629,31 @@ void	QORenderer::PerPixelLighting::SetUniformValues( const ProgramRec& ioProgram
 
 	// Set the quantization uniform variables.
 	mFuncs.glUniform1f( ioProgram.mQuantizationUniformLoc, mQuantization );
-	CHECK_GL_ERROR;
+	CHECK_GL_ERROR_FMT("glUniform1f mQuantization");
 	mFuncs.glUniform1f( ioProgram.mLightNearEdgeUniformLoc, mLightNearEdge );
-	CHECK_GL_ERROR;
+	CHECK_GL_ERROR_FMT("glUniform1f mLightNearEdge");
 	
-	// Retrieve hot angles, cutoff angles for any spot lights.
+	// Set lighting uniform arrays.
 	const int kNumLights = static_cast<int>(mLights.size());
-	mHotAngles.resize( kNumLights );
-	mCutoffAngles.resize( kNumLights );
-	for (int i = 0; i < kNumLights; ++i)
-	{
-		float theHotAngle = 0.0f;
-		float theCutoffAngle = 0.0f;
-		if (Q3Light_GetType( mLights[i].get() ) == kQ3LightTypeSpot)
-		{
-			Q3SpotLight_GetHotAngle( mLights[i].get(), &theHotAngle );
-			Q3SpotLight_GetOuterAngle( mLights[i].get(), &theCutoffAngle );
-		}
-		mHotAngles[ i ] = theHotAngle;
-		mCutoffAngles[ i ] = theCutoffAngle;
-	}
-	
-	// Set hot angle, cutoff angle uniform arrays.
 	if (kNumLights > 0)
 	{
 		mFuncs.glUniform1fv( ioProgram.mSpotHotAngleUniformLoc, kNumLights,
-			&mHotAngles[0] );
+			&mSpotLightHotAngles[0] );
 		mFuncs.glUniform1fv( ioProgram.mSpotCutoffAngleUniformLoc, kNumLights,
-			&mCutoffAngles[0] );
+			&mSpotLightCutoffAngles[0] );
+		
+		mFuncs.glUniform4fv( ioProgram.mLightPositionUniformLoc, kNumLights,
+			&mLightPositions[0].x );
+		mFuncs.glUniform4fv( ioProgram.mLightColorUniformLoc, kNumLights,
+			&mLightColors[0].r );
+		mFuncs.glUniform3fv( ioProgram.mSpotLightDirectionUniformLoc, kNumLights,
+			&mSpotLightDirections[0].x );
+		mFuncs.glUniform3fv( ioProgram.mLightAttenuationUniformLoc, kNumLights,
+			&mLightAttenuations[0].x );
 	}
+	
+	// Set extra fog parameters.
+	mFuncs.glUniform1f( ioProgram.mMaxFogOpacityUniformLoc, mMaxFogOpacity );
 }
 
 /*!
@@ -1211,7 +1667,6 @@ void	QORenderer::PerPixelLighting::EndPass()
 		mFuncs.glUseProgram( 0 );
 		mCurrentProgram = nullptr;
 	}
-	mIsShading = false;
 }
 
 
@@ -1241,11 +1696,36 @@ void	QORenderer::PerPixelLighting::InitUniformLocations( ProgramRec& ioProgram )
 	ioProgram.mIsFlippingNormalsUniformLoc = mFuncs.glGetUniformLocation(
 		ioProgram.mProgram, kFlippingNormalsFlagUniformName );
 	CHECK_GL_ERROR;
+	ioProgram.mClippingPlaneUniformLoc = mFuncs.glGetUniformLocation(
+		ioProgram.mProgram, kClippingPlaneUniformName );
+	CHECK_GL_ERROR;
+	ioProgram.mMaxFogOpacityUniformLoc = mFuncs.glGetUniformLocation(
+		ioProgram.mProgram, kMaxFogOpacityUniformName );
+	CHECK_GL_ERROR;
+	ioProgram.mHalfspaceFogRateUniformLoc = mFuncs.glGetUniformLocation(
+		ioProgram.mProgram, kHSFogRateUniformName );
+	CHECK_GL_ERROR;
+	ioProgram.mHalfspaceFogPlaneUniformLoc = mFuncs.glGetUniformLocation(
+		ioProgram.mProgram, kHSFogPlaneUniformName );
+	CHECK_GL_ERROR;
+	ioProgram.mLightPositionUniformLoc = mFuncs.glGetUniformLocation(
+		ioProgram.mProgram, kLightPositionUniformName );
+	CHECK_GL_ERROR;
+	ioProgram.mLightColorUniformLoc = mFuncs.glGetUniformLocation(
+		ioProgram.mProgram, kLightColorUniformName );
+	CHECK_GL_ERROR;
+	ioProgram.mLightAttenuationUniformLoc = mFuncs.glGetUniformLocation(
+		ioProgram.mProgram, kLightAttenuationUniformName );
+	CHECK_GL_ERROR;
+	ioProgram.mSpotLightDirectionUniformLoc = mFuncs.glGetUniformLocation(
+		ioProgram.mProgram, kSpotLightDirectionUniformName );
+	CHECK_GL_ERROR;
+	
 }
 
 /*!
 	@function	CheckIfShading
-	@abstract	Check whether we are doing per-pixel lighting on this pass.
+	@abstract	Check whether we are doing per-pixel lighting on this frame.
 */
 void	QORenderer::PerPixelLighting::CheckIfShading()
 {
@@ -1287,14 +1767,17 @@ static GLuint CreateAndCompileShader( GLenum inShaderType,
 									const QORenderer::GLSLFuncs& inFuncs )
 {
 	GLuint shaderID = inFuncs.glCreateShader( inShaderType );
+	CHECK_GL_ERROR_FMT( "glCreateShader(%X)", (unsigned int)inShaderType );
 	if (shaderID != 0)
 	{
 		// Supply source code
 		GLint sourceLen = (GLint) std::strlen( inSource );
 		inFuncs.glShaderSource( shaderID, 1, &inSource, &sourceLen );
+		CHECK_GL_ERROR_FMT("glShaderSource");
 		
 		// Compile the shader
 		inFuncs.glCompileShader( shaderID );
+		CHECK_GL_ERROR_FMT("glCompileShader");
 		
 		// Check for compile success
 		GLint	status;
@@ -1304,6 +1787,22 @@ static GLuint CreateAndCompileShader( GLenum inShaderType,
 		{
 			Q3_MESSAGE( "Failed to compile GLSL shader.\n" );
 			LogShaderCompileError( shaderID, inFuncs );
+			
+			// Log out the source code.
+			GLint sourceLength;
+			inFuncs.glGetShaderiv( shaderID, GL_SHADER_SOURCE_LENGTH, &sourceLength );
+			if (sourceLength <= 0)
+			{
+				Q3_MESSAGE( "No source read back from shader.\n" );
+			}
+			else
+			{
+				Q3_MESSAGE( "Source of shader:\n" );
+				char*	theLog = (char*) Q3Memory_Allocate( sourceLength );
+				inFuncs.glGetShaderSource( shaderID, sourceLength, nullptr, theLog );
+				E3LogMessage( (const char*) theLog );
+				Q3Memory_Free( &theLog );
+			}
 			
 			// Try again.
 			(void) glGetError();
@@ -1368,8 +1867,15 @@ void	QORenderer::PerPixelLighting::InitVertexShader()
 {
 	if (ProgCache()->VertexShaderID() == 0)
 	{
+		std::string shaderSource( kVertexShaderStart );
+		if ( ! mExtensions.ATICard )
+		{
+			shaderSource += kVertexShaderClipVertex;
+		}
+		shaderSource += kVertexShaderEnd;
+		
 		GLuint vertexShader = CreateAndCompileShader( GL_VERTEX_SHADER,
-			kVertexShaderSource, mFuncs );
+			shaderSource.c_str(), mFuncs );
 		
 		if (vertexShader == 0)
 		{
@@ -1377,12 +1883,48 @@ void	QORenderer::PerPixelLighting::InitVertexShader()
 		}
 		else
 		{
+			++sVertexShaderCount;
+			//Q3_MESSAGE_FMT("Created vertex shader number %d, ID %d",
+			//	sVertexShaderCount, (int)vertexShader );
 			ProgCache()->SetVertexShaderID( vertexShader );
 		}
 	}
 }
 
 
+static std::string DescribeProgram( const QORenderer::ProgramRec& inProgram )
+{
+	std::ostringstream desc;
+	desc << "L(";
+	const unsigned long kLightCount = inProgram.mCharacteristic.mPattern.size();
+	unsigned long i;
+	for (i = 0; i < kLightCount; ++i)
+	{
+		if (i > 0)
+		{
+			desc << ',';
+		}
+		desc << inProgram.mCharacteristic.mPattern[i];
+	}
+	desc << ')';
+	desc << (inProgram.mCharacteristic.mIsTextured? "T+" : "T-");
+	switch (inProgram.mCharacteristic.mIlluminationType)
+	{
+	case kQ3IlluminationTypePhong:
+		desc << "I=P";
+		break;
+	case kQ3IlluminationTypeLambert:
+		desc << "I=L";
+		break;
+	case kQ3IlluminationTypeNULL:
+		desc << "I=0";
+		break;
+	case kQ3IlluminationTypeNondirectional:
+		desc << "I=n";
+		break;
+	}
+	return desc.str();
+}
 
 /*!
 	@function	InitProgram
@@ -1390,6 +1932,7 @@ void	QORenderer::PerPixelLighting::InitVertexShader()
 */
 void	QORenderer::PerPixelLighting::InitProgram()
 {
+	CHECK_GL_ERROR_FMT("InitProgram start");
 	ProgramRec	newProgram;
 	
 	newProgram.mCharacteristic = mProgramCharacteristic;
@@ -1401,16 +1944,22 @@ void	QORenderer::PerPixelLighting::InitProgram()
 	// Create the fragment shader
 	GLint shaderID = CreateAndCompileShader( GL_FRAGMENT_SHADER,
 		fragSource.c_str(), mFuncs );
+	CHECK_GL_ERROR_FMT("InitProgram after CreateAndCompileShader");
 
 	if (shaderID != 0)
 	{
 		// Create a program.
 		newProgram.mProgram = mFuncs.glCreateProgram();
-		CHECK_GL_ERROR;
+		CHECK_GL_ERROR_FMT("glCreateProgram");
 	
 		if (newProgram.mProgram != 0)
 		{
 			GLuint vertexShader = ProgCache()->VertexShaderID();
+
+			++sProgramCount;
+			std::string desc( DescribeProgram( newProgram ) );
+			Q3_MESSAGE_FMT("Created program number %d, ID %u, of type %s",
+				sProgramCount, (unsigned int)newProgram.mProgram, desc.c_str() );
 
 			// Attach the vertex shader to the program.
 			mFuncs.glAttachShader( newProgram.mProgram, vertexShader );
@@ -1435,7 +1984,6 @@ void	QORenderer::PerPixelLighting::InitProgram()
 			// Check for link success
 			GLint	linkStatus;
 			mFuncs.glGetProgramiv( newProgram.mProgram, GL_LINK_STATUS, &linkStatus );
-			Q3_ASSERT( linkStatus == GL_TRUE );
 			CHECK_GL_ERROR;
 		
 			// Use program
@@ -1447,8 +1995,6 @@ void	QORenderer::PerPixelLighting::InitProgram()
 			}
 			else
 			{
-				E3ErrorManager_PostWarning( kQ3WarningShaderProgramLinkFailed );
-			
 			#if Q3_DEBUG
 				GLint	logSize = 0;
 				mFuncs.glGetProgramiv( newProgram.mProgram, GL_INFO_LOG_LENGTH, &logSize );
@@ -1466,8 +2012,16 @@ void	QORenderer::PerPixelLighting::InitProgram()
 						Q3Memory_Free( &theLog );
 					}
 				}
+				else
+				{
+					Q3_MESSAGE_FMT("Failed to link program, but log was empty!");
+				}
 			#endif
 
+				E3ErrorManager_PostWarning( kQ3WarningShaderProgramLinkFailed );
+			
+				Q3_MESSAGE_FMT("Deleted program number %d", sProgramCount);
+				--sProgramCount;
 				mFuncs.glDeleteProgram( newProgram.mProgram );
 			}
 		}
@@ -1556,23 +2110,92 @@ void	QORenderer::PerPixelLighting::UpdateBackfacingStyle(
 	}
 }
 
+static QORenderer::EFogModeCombined
+CombinedFogMode( const TQ3FogStyleExtendedData& inFog )
+{
+	QORenderer::EFogModeCombined mode = QORenderer::kFogModeOff;
+	if (inFog.state == kQ3On)
+	{
+		if (inFog.halfspaceFogState == kQ3On)
+		{
+			mode = QORenderer::kFogModeHalfspace;
+		}
+		else if ( (inFog.mode >= kQ3FogModeLinear) &&
+			(inFog.mode <= kQ3FogModeExponentialSquared) )
+		{
+			mode = static_cast< QORenderer::EFogModeCombined >( inFog.mode );
+		}
+	}
+	return mode;
+}
+
+static bool operator!=( const TQ3RationalPoint4D& a, const TQ3RationalPoint4D& b )
+{
+	return fabsf( a.x - b.x ) + fabsf( a.y - b.y ) + fabsf( a.z - b.z ) +
+		fabsf( a.w - b.w ) > kQ3RealZero;
+}
+
+static TQ3RationalPoint4D
+ConvertPlaneWorldToEye( TQ3ViewObject inView,
+						const TQ3RationalPoint4D& inWorldPlane )
+{
+	// Normalize the normal of the plane, so that the "rate" will have a more
+	// predictable effect.
+	TQ3RationalPoint4D normalizedWorldPlane;
+	float length = sqrtf( inWorldPlane.x * inWorldPlane.x +
+		inWorldPlane.y * inWorldPlane.y +
+		inWorldPlane.z * inWorldPlane.z );
+	float invLength = 1.0f / (length + kQ3MinFloat);
+	normalizedWorldPlane.x = inWorldPlane.x * invLength; 
+	normalizedWorldPlane.y = inWorldPlane.y * invLength;
+	normalizedWorldPlane.z = inWorldPlane.z * invLength;
+	normalizedWorldPlane.w = inWorldPlane.w * invLength;
+
+	// Like a normal vector, a plane must be transformed by the inverse transpose.
+	TQ3RationalPoint4D eyePlane;
+	TQ3Matrix4x4 worldToView, viewToWorld, viewToWorldTranspose;
+	CQ3ObjectRef theCamera( CQ3View_GetCamera( inView ) );
+	Q3Camera_GetWorldToView( theCamera.get(), &worldToView );
+	Q3Matrix4x4_Invert( &worldToView, &viewToWorld );
+	Q3Matrix4x4_Transpose( &viewToWorld, &viewToWorldTranspose );
+	Q3RationalPoint4D_Transform( &normalizedWorldPlane, &viewToWorldTranspose,
+		&eyePlane );
+	
+	return eyePlane;
+}
+
 /*!
 	@function	UpdateFogStyle
 	@abstract	Notification that fog style has changed.
 */
-void	QORenderer::PerPixelLighting::UpdateFogStyle( const TQ3FogStyleData& inFog )
+void	QORenderer::PerPixelLighting::UpdateFogStyle(
+									TQ3ViewObject inView,
+									const TQ3FogStyleExtendedData& inFog )
 {
 	if (mIsShading)
 	{
-		if ( (inFog.state != mProgramCharacteristic.mFogState) ||
+		QORenderer::EFogModeCombined newMode = CombinedFogMode( inFog );
+		TQ3RationalPoint4D newEyePlane = { 0.0f, 1.0f, 0.0f, 0.0f };
+		if (newMode == kFogModeHalfspace)
+		{
+			newEyePlane = ConvertPlaneWorldToEye( inView, inFog.halfspaceFogPlane );
+		}
+	
+		if ( (newMode != mProgramCharacteristic.mFogModeCombined) ||
+			( (newMode != kFogModeOff) && (inFog.maxOpacity != mMaxFogOpacity) ) ||
 			(
-				(mProgramCharacteristic.mFogState == kQ3On) &&
-				(inFog.mode != mProgramCharacteristic.mFogMode)
+				(newMode == kFogModeHalfspace) &&
+				(
+					(inFog.halfspaceFogRate != mHalfspaceFogRate) ||
+					(newEyePlane != mHalfspaceFogPlane)
+				)
 			)
 		)
 		{
-			mProgramCharacteristic.mFogState = inFog.state;
-			mProgramCharacteristic.mFogMode = inFog.mode;
+			mProgramCharacteristic.mFogModeCombined = newMode;
+			mMaxFogOpacity = inFog.maxOpacity;
+			mHalfspaceFogRate = inFog.halfspaceFogRate;
+			mHalfspaceFogPlane = newEyePlane;
 			
 			mMayNeedProgramChange = true;
 		}
@@ -1644,7 +2267,15 @@ void	QORenderer::PerPixelLighting::PreGeomSubmit( TQ3GeometryObject inGeom )
 {
 	if ( mIsShading )
 	{
+		CQ3ObjectRef lightGroup( CQ3View_GetLightGroup( mView.get() ) );
+		TQ3Uns32 lightGroupEditIndex = Q3Shared_GetEditIndex( lightGroup.get() );
+		if (lightGroupEditIndex != mLightGroupEditIndex)
+		{
+			UpdateLighting();
+		}
+
 		bool cartoonUpdate = false;
+		CHECK_GL_ERROR_FMT("PreGeomSubmit 1");
 		
 		if ( (inGeom != nullptr) && (mQuantization > 0.0f) )
 		{
@@ -1663,6 +2294,17 @@ void	QORenderer::PerPixelLighting::PreGeomSubmit( TQ3GeometryObject inGeom )
 			}
 		}
 		
+		TQ3Status hadProp = Q3Object_GetProperty( mRendererObject,
+			kQ3RendererPropertyClippingPlane, sizeof(TQ3RationalPoint4D), nullptr,
+			&mClippingPlane );
+		bool useClipPlane = (hadProp == kQ3Success);
+		if (useClipPlane != mProgramCharacteristic.mIsUsingClippingPlane)
+		{
+			mProgramCharacteristic.mIsUsingClippingPlane = useClipPlane;
+			mMayNeedProgramChange = true;
+		}
+		CHECK_GL_ERROR_FMT("PreGeomSubmit 2");
+		
 		ChooseProgram();
 		
 		if (cartoonUpdate && (mCurrentProgram != nullptr))
@@ -1670,7 +2312,12 @@ void	QORenderer::PerPixelLighting::PreGeomSubmit( TQ3GeometryObject inGeom )
 			mFuncs.glUniform1f( mCurrentProgram->mQuantizationUniformLoc,
 				mProgramCharacteristic.mIsCartoonish? mQuantization : 0.0f );
 		}
+		
+		if ( useClipPlane && (mCurrentProgram != nullptr) )
+		{
+			mFuncs.glUniform4f( mCurrentProgram->mClippingPlaneUniformLoc,
+				mClippingPlane.x, mClippingPlane.y,
+				mClippingPlane.z, mClippingPlane.w );
+		}
 	}
 }
-
-

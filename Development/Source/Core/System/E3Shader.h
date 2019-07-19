@@ -5,7 +5,7 @@
         Header file for E3Shader.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2015, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -130,6 +130,7 @@ TQ3ObjectType			E3IlluminationShader_GetType(TQ3ShaderObject shader);
 TQ3ShaderObject			E3PhongIllumination_New(void);
 TQ3ShaderObject			E3LambertIllumination_New(void);
 TQ3ShaderObject			E3NULLIllumination_New(void);
+TQ3ShaderObject			E3NondirectionalIllumination_New(void);
 
 TQ3ObjectType			E3SurfaceShader_GetType(TQ3SurfaceShaderObject shader);
 

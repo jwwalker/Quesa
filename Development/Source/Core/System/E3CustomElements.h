@@ -92,6 +92,15 @@ void		E3TextureFlippedRowsElement_Add( TQ3TextureObject inTexture );
 TQ3Boolean	E3TextureFlippedRowsElement_IsPresent( TQ3TextureObject inTexture );
 void		E3TextureFlippedRowsElement_Remove( TQ3TextureObject inTexture );
 
+float		E3FogMaxElement_Get( TQ3StyleObject inFogStyle );
+void		E3FogMaxElement_Set( TQ3StyleObject ioFogStyle, float inMaxOpacity );
+
+TQ3Status	E3HalfspaceFogElement_Get( TQ3StyleObject inFogStyle,
+										TCEHalfspaceFogData* outData );
+void		E3HalfspaceFogElement_Set( TQ3StyleObject inFogStyle,
+										const TCEHalfspaceFogData* inData );
+
+
 /*!
 	@function	E3SpecularMapElement_Copy
 	@abstract	Retrieve a specular map texture from an object.

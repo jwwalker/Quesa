@@ -632,3 +632,87 @@ CETextureFlippedRowsElement_Remove( TQ3TextureObject inTexture )
 	
 	E3TextureFlippedRowsElement_Remove( inTexture );
 }
+
+#pragma mark -
+
+/*!
+	@function	CEFogMaxElement_Get
+	@abstract	Get the maximum fog opacity for a fog style.
+	@param		inFogStyle		A fog style object.
+	@result		The maximum fog opacity, in the range [0, 1].  Defaults to 1
+				if it has not been defined on the fog style.
+*/
+float
+CEFogMaxElement_Get( TQ3StyleObject inFogStyle )
+{
+	Q3_REQUIRE_OR_RESULT( inFogStyle != nullptr, 1.0f );
+	Q3_REQUIRE_OR_RESULT( inFogStyle->IsObjectValid(), 1.0f );
+	
+	E3System_Bottleneck();
+	
+	return E3FogMaxElement_Get( inFogStyle );
+}
+
+/*!
+	@function	CEFogMaxElement_Set
+	@abstract	Set the maximum fog opacity for a fog style.
+	@discussion	Whichever fog density function you choose, you end up doing a
+				blend,
+				resultColor = opacity * fogColor + (1-opacity) * fragmentColor.
+				By setting an upper limit on opacity, you ensure that the
+				geometry fragments are not completely effaced.
+	@param		ioFogStyle		A fog style object.
+	@param		inMaxOpacity	Maximum fog density, in the range [0, 1].
+								Passing 1 is equivalent to no limit on fog
+								density.
+*/
+void
+CEFogMaxElement_Set( TQ3StyleObject ioFogStyle, float inMaxOpacity )
+{
+	Q3_REQUIRE( ioFogStyle != nullptr );
+	Q3_REQUIRE( ioFogStyle->IsObjectValid() );
+	
+	E3System_Bottleneck();
+	
+	E3FogMaxElement_Set( ioFogStyle, inMaxOpacity );
+}
+
+#pragma mark -
+
+/*!
+	@function	CEHalfspaceFogElement_GetData
+	@abstract	Get halfspace fog data attached to a fog style.
+	@param		inFogStyle		A fog style object.
+	@param		outData			Receives halfspace fog data.
+	@result		Success or failure of the operation, e.g., failure if the
+				element does not exist.
+*/
+TQ3Status
+CEHalfspaceFogElement_GetData( TQ3StyleObject inFogStyle,
+								TCEHalfspaceFogData* outData )
+{
+	Q3_REQUIRE_OR_RESULT( inFogStyle != nullptr, kQ3Failure );
+	Q3_REQUIRE_OR_RESULT( inFogStyle->IsObjectValid(), kQ3Failure );
+	
+	E3System_Bottleneck();
+	
+	return E3HalfspaceFogElement_Get( inFogStyle, outData );
+}
+
+/*!
+	@function	CEHalfspaceFogElement_SetData
+	@abstract	Add or remove halfspace fog parameters on a fog style.
+	@param		ioFogStyle		A fog style object.
+	@param		inData			Halfspace fog data, or nullptr to remove.
+*/
+void
+CEHalfspaceFogElement_SetData( TQ3StyleObject ioFogStyle,
+								const TCEHalfspaceFogData* inData )
+{
+	Q3_REQUIRE( ioFogStyle != nullptr );
+	Q3_REQUIRE( ioFogStyle->IsObjectValid() );
+	
+	E3System_Bottleneck();
+	
+	E3HalfspaceFogElement_Set( ioFogStyle, inData );
+}

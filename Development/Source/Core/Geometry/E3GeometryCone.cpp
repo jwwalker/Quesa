@@ -749,7 +749,7 @@ e3geom_cone_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ
 
 
 
-	// Add the cone attributes	
+	// Add the cone attributes
 	TQ3AttributeSet atts = geomData->coneAttributeSet;
 	if (atts != nullptr)
 		Q3Group_AddObject( theGroup, atts );

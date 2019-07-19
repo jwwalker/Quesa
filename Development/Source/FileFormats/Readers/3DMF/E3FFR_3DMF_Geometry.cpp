@@ -184,10 +184,10 @@ e3read_3dmf_merge_element_set( TQ3SetObject* ioElements, TQ3SetObject ioNewChild
 
 
 //=============================================================================
-//      e3read_3dmf_apply_element_set : Apply custom elements to a shape.
+//      E3Read_3DMF_Shape_Apply_Element_Set : Apply custom elements to a shape.
 //-----------------------------------------------------------------------------
-static void
-e3read_3dmf_apply_element_set( TQ3ShapeObject ioShape, TQ3SetObject& ioElements )
+void
+E3Read_3DMF_Shape_Apply_Element_Set( TQ3ShapeObject ioShape, TQ3SetObject& ioElements )
 {
 	if (ioElements != nullptr)
 	{
@@ -196,6 +196,34 @@ e3read_3dmf_apply_element_set( TQ3ShapeObject ioShape, TQ3SetObject& ioElements 
 		Q3Object_Dispose( ioElements );
 		ioElements = nullptr;
 	}
+}
+
+
+
+//=============================================================================
+//      E3Read_3DMF_Shape_Elements : Read custom elements, if any, of a shape.
+//									 Use for types that don't have specific
+//									 child objects or attributes.
+//-----------------------------------------------------------------------------
+TQ3SetObject
+E3Read_3DMF_Shape_Elements( TQ3FileObject theFile )
+{
+	TQ3SetObject			elementSet = nullptr;
+	
+	while (Q3File_IsEndOfContainer( theFile, nullptr ) == kQ3False)
+	{
+		TQ3Object childObject = Q3File_ReadObject( theFile );
+		if (Q3Object_IsType( childObject, kQ3SharedTypeSet ))
+		{
+			e3read_3dmf_merge_element_set( &elementSet, childObject );
+		}
+		else
+		{
+			Q3Object_Dispose( childObject );
+		}
+	}
+	
+	return elementSet;
 }
 
 
@@ -232,7 +260,7 @@ e3read_3dmf_geom_finish_default( TQ3GeometryObject ioGeom, TQ3FileObject ioFile 
 
 
 		// Apply any custom elements
-		e3read_3dmf_apply_element_set( ioGeom, elementSet );
+		E3Read_3DMF_Shape_Apply_Element_Set( ioGeom, elementSet );
 		}
 }
 
@@ -307,7 +335,7 @@ e3read_3dmf_group_subobjects( TQ3Object theGroup, TQ3FileObject theFile )
 			}
 		}
 
-	e3read_3dmf_apply_element_set( theGroup, elementSet );
+	E3Read_3DMF_Shape_Apply_Element_Set( theGroup, elementSet );
 	
 }
 
@@ -800,6 +828,36 @@ E3Read_3DMF_Texture_Pixmap(TQ3FileObject theFile)
 	theTexture = Q3PixmapTexture_New (&pixmap);
 	Q3Object_Dispose(pixmap.image);
 	
+	TQ3Object			childObject = nullptr;
+	TQ3SetObject		elementSet = nullptr;
+
+	// Read in the sub Objects
+	while (Q3File_IsEndOfContainer( theFile, nullptr ) == kQ3False)
+	{
+		childObject = Q3File_ReadObject(theFile);
+		if (childObject != nullptr)
+		{
+			if (Q3Object_IsType( childObject, kQ3SharedTypeSet ))
+			{
+				e3read_3dmf_merge_element_set( &elementSet, childObject );
+			}
+			else
+			{
+				Q3Object_Dispose(childObject);
+			}
+		}
+	}
+	
+	if ( (theTexture != nullptr) && (elementSet != nullptr) )
+	{
+		E3Read_3DMF_Shape_Apply_Element_Set( theTexture, elementSet );
+	}
+	
+	if (elementSet != nullptr)
+	{
+		Q3Object_Dispose( elementSet );
+	}
+	
 	return (theTexture);
 }
 
@@ -889,6 +947,37 @@ E3Read_3DMF_Texture_Mipmap(TQ3FileObject    theFile)
 	theTexture = Q3MipmapTexture_New (&mipmap);
 	Q3Object_Dispose(mipmap.image);
 	
+
+	TQ3Object			childObject = nullptr;
+	TQ3SetObject		elementSet = nullptr;
+
+	// Read in the sub Objects
+	while (Q3File_IsEndOfContainer( theFile, nullptr ) == kQ3False)
+	{
+		childObject = Q3File_ReadObject(theFile);
+		if (childObject != nullptr)
+		{
+			if (Q3Object_IsType( childObject, kQ3SharedTypeSet ))
+			{
+				e3read_3dmf_merge_element_set( &elementSet, childObject );
+			}
+			else
+			{
+				Q3Object_Dispose(childObject);
+			}
+		}
+	}
+	
+	if ( (theTexture != nullptr) && (elementSet != nullptr) )
+	{
+		E3Read_3DMF_Shape_Apply_Element_Set( theTexture, elementSet );
+	}
+	
+	if (elementSet != nullptr)
+	{
+		Q3Object_Dispose( elementSet );
+	}
+
 	return (theTexture);
 }
 
@@ -964,7 +1053,7 @@ E3Read_3DMF_Shader_Texture(TQ3FileObject theFile)
 			Q3Shader_SetVBoundary (theObject, vBoundary);
 			Q3Shader_SetUVTransform (theObject, &uvTransform);
 			// What I've to do with the shTransform????????
-			e3read_3dmf_apply_element_set( theObject, elementSet );
+			E3Read_3DMF_Shape_Apply_Element_Set( theObject, elementSet );
 			}
 		Q3Object_Dispose(theTexture);
 		}
@@ -1034,6 +1123,27 @@ E3Read_3DMF_Shader_NULL(TQ3FileObject theFile)
 
 	// Create the object
 	theObject = Q3NULLIllumination_New();
+	
+		
+	return(theObject);
+}
+
+
+
+
+
+//=============================================================================
+//      E3Read_3DMF_Shader_Nondirectional : Nondirectional illumination shader read object method.
+//-----------------------------------------------------------------------------
+//		Note : Nothing to read, just create the object
+//-----------------------------------------------------------------------------
+TQ3Object
+E3Read_3DMF_Shader_Nondirectional(TQ3FileObject theFile)
+{
+	TQ3Object		theObject;
+
+	// Create the object
+	theObject = Q3NondirectionalIllumination_New();
 	
 		
 	return(theObject);
@@ -1467,8 +1577,10 @@ E3Read_3DMF_Style_Fog(TQ3FileObject theFile)
 	
 	
 	// Create the style
-	theStyle =  Q3FogStyle_New (&styleData);
+	theStyle = Q3FogStyle_New( &styleData );
 		
+	TQ3SetObject elements = E3Read_3DMF_Shape_Elements( theFile );
+	E3Read_3DMF_Shape_Apply_Element_Set( theStyle, elements );
 
 	return(theStyle);
 }
@@ -1487,7 +1599,14 @@ E3Read_3DMF_Transform_Matrix(TQ3FileObject theFile)
 	
 	Q3Matrix4x4_Read(&theMatrix,theFile);
 	
-	return Q3MatrixTransform_New (&theMatrix);
+	TQ3SetObject elements = E3Read_3DMF_Shape_Elements( theFile );
+	
+	TQ3TransformObject theTransform = Q3MatrixTransform_New (&theMatrix);
+	
+	E3Read_3DMF_Shape_Apply_Element_Set( theTransform, elements );
+
+	
+	return theTransform;
 }
 
 
@@ -1542,7 +1661,12 @@ E3Read_3DMF_Transform_Rotate(TQ3FileObject theFile)
 	Q3Float32_Read(&data.radians, theFile);
 	
 	
-	return Q3RotateTransform_New (&data);
+	TQ3TransformObject theTransform = Q3RotateTransform_New (&data);
+	
+	TQ3SetObject elements = E3Read_3DMF_Shape_Elements( theFile );
+	E3Read_3DMF_Shape_Apply_Element_Set( theTransform, elements );
+	
+	return theTransform;
 }
 
 
@@ -1564,7 +1688,12 @@ E3Read_3DMF_Transform_RotateAboutPoint(TQ3FileObject theFile)
 	Q3Point3D_Read(&data.about, theFile);
 	
 	
-	return Q3RotateAboutPointTransform_New (&data);
+	TQ3TransformObject theTransform = Q3RotateAboutPointTransform_New (&data);
+	
+	TQ3SetObject elements = E3Read_3DMF_Shape_Elements( theFile );
+	E3Read_3DMF_Shape_Apply_Element_Set( theTransform, elements );
+	
+	return theTransform;
 }
 
 
@@ -1584,7 +1713,12 @@ E3Read_3DMF_Transform_RotateAboutAxis(TQ3FileObject theFile)
 	Q3Float32_Read(&data.radians, theFile);
 	
 	
-	return Q3RotateAboutAxisTransform_New (&data);
+	TQ3TransformObject theTransform = Q3RotateAboutAxisTransform_New (&data);
+	
+	TQ3SetObject elements = E3Read_3DMF_Shape_Elements( theFile );
+	E3Read_3DMF_Shape_Apply_Element_Set( theTransform, elements );
+	
+	return theTransform;
 }
 
 
@@ -1601,7 +1735,12 @@ E3Read_3DMF_Transform_Scale(TQ3FileObject theFile)
 	
 	Q3Vector3D_Read(&scale, theFile);	
 	
-	return Q3ScaleTransform_New (&scale);
+	TQ3TransformObject theTransform = Q3ScaleTransform_New (&scale);
+	
+	TQ3SetObject elements = E3Read_3DMF_Shape_Elements( theFile );
+	E3Read_3DMF_Shape_Apply_Element_Set( theTransform, elements );
+	
+	return theTransform;
 }
 
 
@@ -1618,7 +1757,12 @@ E3Read_3DMF_Transform_Translate(TQ3FileObject theFile)
 	
 	Q3Vector3D_Read(&translate, theFile);	
 	
-	return Q3TranslateTransform_New (&translate);
+	TQ3TransformObject theTransform = Q3TranslateTransform_New (&translate);
+	
+	TQ3SetObject elements = E3Read_3DMF_Shape_Elements( theFile );
+	E3Read_3DMF_Shape_Apply_Element_Set( theTransform, elements );
+	
+	return theTransform;
 }
 
 
@@ -1637,7 +1781,12 @@ E3Read_3DMF_Transform_Quaternion(TQ3FileObject theFile)
 	// I know that a quaternion is not the same than a Rationale point 4D
 	// but bytes are trasferred the same no matter they are called w or x
 	
-	return Q3QuaternionTransform_New (&quaternion);
+	TQ3TransformObject theTransform = Q3QuaternionTransform_New (&quaternion);
+	
+	TQ3SetObject elements = E3Read_3DMF_Shape_Elements( theFile );
+	E3Read_3DMF_Shape_Apply_Element_Set( theTransform, elements );
+	
+	return theTransform;
 }
 
 
@@ -1717,19 +1866,27 @@ E3Read_3DMF_Geom_Box(TQ3FileObject theFile)
 	theObject = Q3Box_New(&geomData);
 
 	// Apply any custom elements
-	e3read_3dmf_apply_element_set( theObject, elementSet );
+	E3Read_3DMF_Shape_Apply_Element_Set( theObject, elementSet );
 
 
 	// Clean up
 	if (geomData.boxAttributeSet != nullptr)
-		Q3Object_Dispose(geomData.boxAttributeSet);
+	{
+		TQ3AttributeSet boxAtts = geomData.boxAttributeSet;
+		Q3Object_Dispose( boxAtts );
+	}
 		
-	if(geomData.faceAttributeSet != nullptr){
-		for(i = 0; i< 6; i++){
+	if( geomData.faceAttributeSet != nullptr)
+	{
+		for(i = 0; i< 6; i++)
+		{
 			if (geomData.faceAttributeSet[i] != nullptr)
-				Q3Object_Dispose(geomData.faceAttributeSet[i]);
+			{
+				TQ3AttributeSet faceSet = geomData.faceAttributeSet[i];
+				Q3Object_Dispose( faceSet );
 			}
 		}
+	}
 		
 	return theObject;
 }
@@ -1782,7 +1939,7 @@ E3Read_3DMF_Geom_Box_Default(TQ3FileObject theFile)
 		}
 
 	// Apply any custom elements
-	e3read_3dmf_apply_element_set( theObject, elementSet );
+	E3Read_3DMF_Shape_Apply_Element_Set( theObject, elementSet );
 		
 	return theObject;
 }
@@ -1872,20 +2029,24 @@ E3Read_3DMF_Geom_Cone(TQ3FileObject theFile)
 
 
 	// Apply any custom elements
-	e3read_3dmf_apply_element_set( theObject, elementSet );
+	E3Read_3DMF_Shape_Apply_Element_Set( theObject, elementSet );
 
 	// Clean up
-	if (geomData.interiorAttributeSet != nullptr)
-		Q3Object_Dispose(geomData.interiorAttributeSet);
-		
-	if (geomData.faceAttributeSet != nullptr)
-		Q3Object_Dispose(geomData.faceAttributeSet);
-		
-	if (geomData.bottomAttributeSet != nullptr)
-		Q3Object_Dispose(geomData.bottomAttributeSet);
-		
-	if (geomData.coneAttributeSet != nullptr)
-		Q3Object_Dispose(geomData.coneAttributeSet);
+	TQ3AttributeSet atts = geomData.interiorAttributeSet;
+	if (atts != nullptr)
+		Q3Object_Dispose(atts);
+	
+	atts = geomData.faceAttributeSet;
+	if (atts != nullptr)
+		Q3Object_Dispose(atts);
+	
+	atts = geomData.bottomAttributeSet;
+	if (atts != nullptr)
+		Q3Object_Dispose(atts);
+	
+	atts = geomData.coneAttributeSet;
+	if (atts != nullptr)
+		Q3Object_Dispose(atts);
 		
 	return theObject;
 }
@@ -1947,7 +2108,7 @@ E3Read_3DMF_Geom_Cone_Default(TQ3FileObject theFile)
 
 
 	// Apply any custom elements
-	e3read_3dmf_apply_element_set( theObject, elementSet );
+	E3Read_3DMF_Shape_Apply_Element_Set( theObject, elementSet );
 	
 	
 	return theObject;
@@ -2043,23 +2204,28 @@ E3Read_3DMF_Geom_Cylinder(TQ3FileObject theFile)
 
 
 	// Apply any custom elements
-	e3read_3dmf_apply_element_set( theObject, elementSet );
+	E3Read_3DMF_Shape_Apply_Element_Set( theObject, elementSet );
 
 	// Clean up
-	if (geomData.interiorAttributeSet != nullptr)
-		Q3Object_Dispose(geomData.interiorAttributeSet);
+	TQ3AttributeSet atts = geomData.interiorAttributeSet;
+	if (atts != nullptr)
+		Q3Object_Dispose(atts);
 		
-	if (geomData.faceAttributeSet != nullptr)
-		Q3Object_Dispose(geomData.faceAttributeSet);
-		
-	if (geomData.topAttributeSet != nullptr)
-		Q3Object_Dispose(geomData.topAttributeSet);
-		
-	if (geomData.bottomAttributeSet != nullptr)
-		Q3Object_Dispose(geomData.bottomAttributeSet);
-		
-	if (geomData.cylinderAttributeSet != nullptr)
-		Q3Object_Dispose(geomData.cylinderAttributeSet);
+	atts = geomData.faceAttributeSet;
+	if (atts != nullptr)
+		Q3Object_Dispose(atts);
+	
+	atts = geomData.topAttributeSet;
+	if (atts != nullptr)
+		Q3Object_Dispose(atts);
+	
+	atts = geomData.bottomAttributeSet;
+	if (atts != nullptr)
+		Q3Object_Dispose(atts);
+	
+	atts = geomData.cylinderAttributeSet;
+	if (atts != nullptr)
+		Q3Object_Dispose(atts);
 		
 	return theObject;
 }
@@ -2132,7 +2298,7 @@ E3Read_3DMF_Geom_Cylinder_Default(TQ3FileObject theFile)
 
 
 	// Apply any custom elements
-	e3read_3dmf_apply_element_set( theObject, elementSet );
+	E3Read_3DMF_Shape_Apply_Element_Set( theObject, elementSet );
 
 
 	return theObject;
@@ -2205,11 +2371,12 @@ E3Read_3DMF_Geom_Disk(TQ3FileObject theFile)
 
 
 	// Apply any custom elements
-	e3read_3dmf_apply_element_set( theObject, elementSet );
+	E3Read_3DMF_Shape_Apply_Element_Set( theObject, elementSet );
 
 	// Clean up
-	if (geomData.diskAttributeSet != nullptr)
-		Q3Object_Dispose(geomData.diskAttributeSet);
+	TQ3AttributeSet atts = geomData.diskAttributeSet;
+	if (atts != nullptr)
+		Q3Object_Dispose(atts);
 		
 	return theObject;
 }
@@ -2294,11 +2461,12 @@ E3Read_3DMF_Geom_Ellipse(TQ3FileObject theFile)
 
 
 	// Apply any custom elements
-	e3read_3dmf_apply_element_set( theObject, elementSet );
+	E3Read_3DMF_Shape_Apply_Element_Set( theObject, elementSet );
 
 	// Clean up
-	if (geomData.ellipseAttributeSet != nullptr)
-		Q3Object_Dispose(geomData.ellipseAttributeSet);
+	TQ3AttributeSet atts = geomData.ellipseAttributeSet;
+	if (atts != nullptr)
+		Q3Object_Dispose(atts);
 		
 	return theObject;
 }
@@ -2399,15 +2567,17 @@ E3Read_3DMF_Geom_Ellipsoid(TQ3FileObject theFile)
 	theObject = Q3Ellipsoid_New(&geomData);
 
 	// Apply any custom elements
-	e3read_3dmf_apply_element_set( theObject, elementSet );
+	E3Read_3DMF_Shape_Apply_Element_Set( theObject, elementSet );
 	
 
 
 	// Clean up
-	if (geomData.ellipsoidAttributeSet != nullptr)
-		Q3Object_Dispose(geomData.ellipsoidAttributeSet);
-	if (geomData.interiorAttributeSet != nullptr)
-		Q3Object_Dispose(geomData.interiorAttributeSet);
+	TQ3AttributeSet atts = geomData.ellipsoidAttributeSet;
+	if (atts != nullptr)
+		Q3Object_Dispose(atts);
+	atts = geomData.interiorAttributeSet;
+	if (atts != nullptr)
+		Q3Object_Dispose(atts);
 		
 	return theObject;
 }
@@ -2519,26 +2689,32 @@ E3Read_3DMF_Geom_GeneralPolygon(TQ3FileObject theFile)
 	theObject = Q3GeneralPolygon_New(&geomData);
 
 	// Apply any custom elements
-	e3read_3dmf_apply_element_set( theObject, elementSet );
+	E3Read_3DMF_Shape_Apply_Element_Set( theObject, elementSet );
 
 
 	// Clean up
 cleanup:
-	if (geomData.generalPolygonAttributeSet != nullptr)
-		Q3Object_Dispose(geomData.generalPolygonAttributeSet);
+	TQ3AttributeSet atts = geomData.generalPolygonAttributeSet;
+	if (atts != nullptr)
+		Q3Object_Dispose(atts);
 			
-	if(geomData.contours != nullptr){
-		for(j = 0; j < geomData.numContours; j++){
-			if(geomData.contours[j].vertices != nullptr){
-				for(i = 0; i< geomData.contours[j].numVertices; i++){
-					if (geomData.contours[j].vertices[i].attributeSet != nullptr)
-						Q3Object_Dispose(geomData.contours[j].vertices[i].attributeSet);
-					}
-				Q3Memory_Free(&geomData.contours[j].vertices);
+	if (geomData.contours != nullptr)
+	{
+		for (j = 0; j < geomData.numContours; j++)
+		{
+			if (geomData.contours[j].vertices != nullptr)
+			{
+				for (i = 0; i< geomData.contours[j].numVertices; i++)
+				{
+					atts = geomData.contours[j].vertices[i].attributeSet;
+					if (atts != nullptr)
+						Q3Object_Dispose(atts);
 				}
+				Q3Memory_Free(&geomData.contours[j].vertices);
 			}
-		Q3Memory_Free(&geomData.contours);
 		}
+		Q3Memory_Free(&geomData.contours);
+	}
 	
 	return theObject;
 }
@@ -2602,15 +2778,18 @@ E3Read_3DMF_Geom_Line(TQ3FileObject theFile)
 
 
 	// Apply any custom elements
-	e3read_3dmf_apply_element_set( theObject, elementSet );
+	E3Read_3DMF_Shape_Apply_Element_Set( theObject, elementSet );
 
 	// Clean up
-	if (geomData.lineAttributeSet != nullptr)
-		Q3Object_Dispose(geomData.lineAttributeSet);
+	TQ3AttributeSet atts = geomData.lineAttributeSet;
+	if (atts != nullptr)
+		Q3Object_Dispose(atts);
 		
-	for(i = 0; i< 2; i++){
-		if (geomData.vertices[i].attributeSet != nullptr)
-			Q3Object_Dispose(geomData.vertices[i].attributeSet);
+	for (i = 0; i< 2; i++)
+	{
+		atts = geomData.vertices[i].attributeSet;
+		if (atts != nullptr)
+			Q3Object_Dispose(atts);
 		}
 
 	return(theObject);
@@ -2687,11 +2866,12 @@ E3Read_3DMF_Geom_Marker(TQ3FileObject theFile)
 
 
 	// Apply any custom elements
-	e3read_3dmf_apply_element_set( theObject, elementSet );
+	E3Read_3DMF_Shape_Apply_Element_Set( theObject, elementSet );
 
 	// Clean up
-	if (geomData.markerAttributeSet != nullptr)
-		Q3Object_Dispose(geomData.markerAttributeSet);
+	TQ3AttributeSet atts = geomData.markerAttributeSet;
+	if (atts != nullptr)
+		Q3Object_Dispose(atts);
 		
 	Q3Memory_Free(&geomData.bitmap.image);
 		
@@ -2990,13 +3170,14 @@ E3Read_3DMF_Geom_NURBCurve(TQ3FileObject theFile)
 	theObject =  Q3NURBCurve_New (&geomData);
 
 	// Apply any custom elements
-	e3read_3dmf_apply_element_set( theObject, elementSet );
+	E3Read_3DMF_Shape_Apply_Element_Set( theObject, elementSet );
 
 
 cleanup:
 	// Clean up
-	if (geomData.curveAttributeSet != nullptr)
-		Q3Object_Dispose(geomData.curveAttributeSet);
+	TQ3AttributeSet atts = geomData.curveAttributeSet;
+	if (atts != nullptr)
+		Q3Object_Dispose(atts);
 		
 	if(geomData.controlPoints != nullptr)
 		Q3Memory_Free(&geomData.controlPoints);
@@ -3087,13 +3268,14 @@ E3Read_3DMF_Geom_NURBPatch(TQ3FileObject theFile)
 	theObject =  Q3NURBPatch_New (&geomData);
 
 	// Apply any custom elements
-	e3read_3dmf_apply_element_set( theObject, elementSet );
+	E3Read_3DMF_Shape_Apply_Element_Set( theObject, elementSet );
 
 
 cleanup:
 	// Clean up
-	if (geomData.patchAttributeSet != nullptr)
-		Q3Object_Dispose(geomData.patchAttributeSet);
+	TQ3AttributeSet atts = geomData.patchAttributeSet;
+	if (atts != nullptr)
+		Q3Object_Dispose(atts);
 		
 	// When trim loops implemented, dispose of trim loop array (and any data hanging off it) here
 	
@@ -3161,13 +3343,14 @@ E3Read_3DMF_Geom_PixmapMarker(TQ3FileObject theFile)
 	theObject = Q3PixmapMarker_New (&geomData);
 
 	// Apply any custom elements
-	e3read_3dmf_apply_element_set( theObject, elementSet );
+	E3Read_3DMF_Shape_Apply_Element_Set( theObject, elementSet );
 
 
 	// Clean up
 cleanup:
-	if (geomData.pixmapMarkerAttributeSet != nullptr)
-		Q3Object_Dispose(geomData.pixmapMarkerAttributeSet);
+	TQ3AttributeSet atts = geomData.pixmapMarkerAttributeSet;
+	if (atts != nullptr)
+		Q3Object_Dispose(atts);
 		
 	if (geomData.pixmap.image != nullptr)
 		Q3Object_Dispose(geomData.pixmap.image);
@@ -3222,12 +3405,13 @@ E3Read_3DMF_Geom_Point(TQ3FileObject theFile)
 	theObject = Q3Point_New (&geomData);
 
 	// Apply any custom elements
-	e3read_3dmf_apply_element_set( theObject, elementSet );
+	E3Read_3DMF_Shape_Apply_Element_Set( theObject, elementSet );
 
 	
 	// Clean up
-	if (geomData.pointAttributeSet != nullptr)
-		Q3Object_Dispose(geomData.pointAttributeSet);
+	TQ3AttributeSet atts = geomData.pointAttributeSet;
+	if (atts != nullptr)
+		Q3Object_Dispose(atts);
 		
 	return (theObject);
 }
@@ -3330,24 +3514,30 @@ E3Read_3DMF_Geom_PolyLine(TQ3FileObject theFile)
 	theObject =  Q3PolyLine_New (&geomData);
 		
 	// Apply any custom elements
-	e3read_3dmf_apply_element_set( theObject, elementSet );
+	E3Read_3DMF_Shape_Apply_Element_Set( theObject, elementSet );
 
 		
 	// Clean up
-	if (geomData.polyLineAttributeSet != nullptr)
-		Q3Object_Dispose(geomData.polyLineAttributeSet);
+	TQ3AttributeSet atts = geomData.polyLineAttributeSet;
+	if (atts != nullptr)
+		Q3Object_Dispose(atts);
 		
-	for(i = 0; i< geomData.numVertices; i++){
-		if (geomData.vertices[i].attributeSet != nullptr)
-			Q3Object_Dispose(geomData.vertices[i].attributeSet);
+	for (i = 0; i< geomData.numVertices; i++)
+	{
+		atts = geomData.vertices[i].attributeSet;
+		if (atts != nullptr)
+			Q3Object_Dispose(atts);
+	}
+	if (geomData.segmentAttributeSet != nullptr)
+	{
+		for (i = 0; i< (geomData.numVertices-1); i++)
+		{
+			atts = geomData.segmentAttributeSet[i];
+			if (atts != nullptr)
+				Q3Object_Dispose(atts);
 		}
-	if(geomData.segmentAttributeSet != nullptr){
-		for(i = 0; i< (geomData.numVertices-1); i++){
-			if (geomData.segmentAttributeSet[i] != nullptr)
-				Q3Object_Dispose(geomData.segmentAttributeSet[i]);
-			}
 		Q3Memory_Free(&geomData.segmentAttributeSet);
-		}
+	}
 	Q3Memory_Free(&geomData.vertices);
 	
 	return (theObject);
@@ -3421,18 +3611,21 @@ E3Read_3DMF_Geom_Polygon(TQ3FileObject theFile)
 	theObject = Q3Polygon_New(&geomData);
 
 	// Apply any custom elements
-	e3read_3dmf_apply_element_set( theObject, elementSet );
+	E3Read_3DMF_Shape_Apply_Element_Set( theObject, elementSet );
 
 
 	// Clean up
 cleanup:
-	if (geomData.polygonAttributeSet != nullptr)
-		Q3Object_Dispose(geomData.polygonAttributeSet);
+	TQ3AttributeSet atts = geomData.polygonAttributeSet;
+	if (atts != nullptr)
+		Q3Object_Dispose(atts);
 		
-	for(i = 0; i< geomData.numVertices; i++){
-		if (geomData.vertices[i].attributeSet != nullptr)
-			Q3Object_Dispose(geomData.vertices[i].attributeSet);
-		}
+	for (i = 0; i< geomData.numVertices; i++)
+	{
+		atts = geomData.vertices[i].attributeSet;
+		if (atts != nullptr)
+			Q3Object_Dispose(atts);
+	}
 	
 	Q3Memory_Free(&geomData.vertices);
 	return theObject;
@@ -3540,15 +3733,17 @@ E3Read_3DMF_Geom_Torus(TQ3FileObject theFile)
 	theObject = Q3Torus_New(&geomData);
 
 	// Apply any custom elements
-	e3read_3dmf_apply_element_set( theObject, elementSet );
+	E3Read_3DMF_Shape_Apply_Element_Set( theObject, elementSet );
 
 
 	// Clean up
-	if (geomData.interiorAttributeSet != nullptr)
-		Q3Object_Dispose(geomData.interiorAttributeSet);
-		
-	if (geomData.torusAttributeSet != nullptr)
-		Q3Object_Dispose(geomData.torusAttributeSet);
+	TQ3AttributeSet atts = geomData.interiorAttributeSet;
+	if (atts != nullptr)
+		Q3Object_Dispose(atts);
+	
+	atts = geomData.torusAttributeSet;
+	if (atts != nullptr)
+		Q3Object_Dispose(atts);
 		
 	return theObject;
 }
@@ -3648,26 +3843,32 @@ E3Read_3DMF_Geom_TriGrid(TQ3FileObject theFile)
 	theObject = Q3TriGrid_New(&geomData);
 
 	// Apply any custom elements
-	e3read_3dmf_apply_element_set( theObject, elementSet );
+	E3Read_3DMF_Shape_Apply_Element_Set( theObject, elementSet );
 
 
 	// Clean up
 cleanup:
-	if (geomData.triGridAttributeSet != nullptr)
-		Q3Object_Dispose(geomData.triGridAttributeSet);
+	TQ3AttributeSet atts = geomData.triGridAttributeSet;
+	if (atts != nullptr)
+		Q3Object_Dispose(atts);
 		
-	if(geomData.facetAttributeSet != nullptr){
-		for(i = 0; i< 6; i++){
-			if (geomData.facetAttributeSet[i] != nullptr)
-				Q3Object_Dispose(geomData.facetAttributeSet[i]);
-			}
+	if (geomData.facetAttributeSet != nullptr)
+	{
+		for (i = 0; i< 6; i++)
+		{
+			atts = geomData.facetAttributeSet[i];
+			if (atts != nullptr)
+				Q3Object_Dispose(atts);
+		}
 		Q3Memory_Free(&geomData.facetAttributeSet);
-		}
+	}
 		
-	for(i = 0; i< numVertices; i++){
-		if (geomData.vertices[i].attributeSet != nullptr)
-			Q3Object_Dispose(geomData.vertices[i].attributeSet);
-		}
+	for (i = 0; i< numVertices; i++)
+	{
+		atts = geomData.vertices[i].attributeSet;
+		if (atts != nullptr)
+			Q3Object_Dispose(atts);
+	}
 	
 	Q3Memory_Free(&geomData.vertices);
 
@@ -3964,7 +4165,7 @@ E3Read_3DMF_Geom_TriMesh(TQ3FileObject theFile)
 
 	
 	// Apply any custom elements
-	e3read_3dmf_apply_element_set( theObject, elementSet );
+	E3Read_3DMF_Shape_Apply_Element_Set( theObject, elementSet );
 
 
 
@@ -4037,17 +4238,20 @@ E3Read_3DMF_Geom_Triangle(TQ3FileObject theFile)
 
 
 	// Apply any custom elements
-	e3read_3dmf_apply_element_set( theObject, elementSet );
+	E3Read_3DMF_Shape_Apply_Element_Set( theObject, elementSet );
 
 
 	// Clean up
-	if (geomData.triangleAttributeSet != nullptr)
-		Q3Object_Dispose(geomData.triangleAttributeSet);
+	TQ3AttributeSet atts = geomData.triangleAttributeSet;
+	if (atts != nullptr)
+		Q3Object_Dispose(atts);
 		
-	for(i = 0; i< 3; i++){
-		if (geomData.vertices[i].attributeSet != nullptr)
-			Q3Object_Dispose(geomData.vertices[i].attributeSet);
-		}
+	for (i = 0; i< 3; i++)
+	{
+		atts = geomData.vertices[i].attributeSet;
+		if (atts != nullptr)
+			Q3Object_Dispose(atts);
+	}
 		
 	return theObject;
 }

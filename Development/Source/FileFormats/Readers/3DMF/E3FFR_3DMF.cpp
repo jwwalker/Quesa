@@ -1,11 +1,11 @@
 /*  NAME:
-        E3FFR_3DMF.c
+        E3FFR_3DMF.cpp
 
     DESCRIPTION:
         Implementation of Quesa 3DMF FileFormat object.
         
     COPYRIGHT:
-        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -2797,6 +2797,7 @@ E3FFormat_3DMF_Reader_RegisterClass(void)
 	E3ClassTree::AddMethod(kQ3IlluminationTypePhong,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Shader_Phong);
 	E3ClassTree::AddMethod(kQ3IlluminationTypeLambert,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Shader_Lambert);
 	E3ClassTree::AddMethod(kQ3IlluminationTypeNULL,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Shader_NULL);
+	E3ClassTree::AddMethod(kQ3IlluminationTypeNondirectional,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Shader_Nondirectional);
 
 
 	// the Group read Methods

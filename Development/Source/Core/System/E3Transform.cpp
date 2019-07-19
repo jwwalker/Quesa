@@ -1690,7 +1690,8 @@ TQ3Status
 E3RotateAboutAxisTransform_SetData(TQ3TransformObject theTransform, const TQ3RotateAboutAxisTransformData *data)
 	{
 	// Set the data
-	( (E3RotateAboutAxisTransform*) theTransform )->instanceData = *data ;
+	E3RotateAboutAxisTransform* transform = (E3RotateAboutAxisTransform*) theTransform;
+	transform->instanceData = *data ;
 	Q3Shared_Edited ( theTransform ) ;
 
 	return kQ3Success ;
@@ -1789,7 +1790,8 @@ TQ3Status
 E3RotateAboutAxisTransform_SetOrigin(TQ3TransformObject theTransform, const TQ3Point3D *origin)
 	{
 	// Set the field
-	( (E3RotateAboutAxisTransform*) theTransform )->instanceData.origin = *origin;
+	E3RotateAboutAxisTransform* transform = (E3RotateAboutAxisTransform*) theTransform;
+	transform->instanceData.origin = *origin;
 	Q3Shared_Edited ( theTransform ) ;
 	
 	return kQ3Success ;

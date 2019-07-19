@@ -12,7 +12,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -244,6 +244,14 @@ typedef enum TQ3FogMode {
 } TQ3FogMode;
 
 
+enum
+{
+	/*!
+		@constant	kQ3FogStyleExtendedVersion
+					Current version of TQ3FogStyleExtendedData.
+	*/
+	kQ3FogStyleExtendedVersion = 1
+};
 
 
 
@@ -346,6 +354,44 @@ typedef struct TQ3FogStyleData {
     TQ3ColorARGB                                color;
 } TQ3FogStyleData;
 
+
+/*!
+	@struct		TQ3FogStyleExtendedData
+	@abstract	Extended fog style data.
+	@discussion	This structure contains the fog data contained in
+				TQ3FogStyleData, and passed to Q3FogStyle_New, plus additional
+				information that may be added as custom elements attached to
+				the fog style.  Renderers may be able to receive this
+				instead of TQ3FogStyleData.
+	@field version			The version of this structure, currently
+							kQ3FogStyleExtendedVersion.  It will be incremented
+							if more fields are appended.
+	@field state            Is fog active?
+	@field mode             The fog mode.
+	@field fogStart         The start point for fog (only used for linear fog).
+	@field fogEnd           The end point for fog (only used for linear fog).
+	@field density          The maximum density for fog (ignored in linear fog).
+	@field color            The fog color.
+	@field maxOpacity		The maximum fog opacity, in the range [0, 1].
+	@field halfspaceFogState	Whether halfspace fog is in use.
+	@field halfspaceFogRate	Rate of density change of halfspace fog as you move
+							away from the plane.
+	@field halfspaceFogPlane	Plane defining the halfspace, in world coordinates.
+*/
+typedef struct TQ3FogStyleExtendedData
+{
+	TQ3Int32                   version;
+    TQ3Switch                  state;
+    TQ3FogMode                 mode;
+    float                      fogStart;
+    float                      fogEnd;
+    float                      density;
+    TQ3ColorARGB               color;
+	TQ3Float32                 maxOpacity;
+	TQ3Switch                  halfspaceFogState;
+	float                      halfspaceFogRate;
+	TQ3RationalPoint4D         halfspaceFogPlane;
+} TQ3FogStyleExtendedData;
 
 
 

@@ -891,6 +891,27 @@ Q3NULLIllumination_New(void)
 
 
 //=============================================================================
+//      Q3NondirectionalIllumination_New : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3ShaderObject
+Q3NondirectionalIllumination_New(void)
+{
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return (E3NondirectionalIllumination_New());
+}
+
+
+
+
+
+//=============================================================================
 //      Q3SurfaceShader_GetType : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3ObjectType

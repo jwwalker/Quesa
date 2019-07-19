@@ -519,7 +519,7 @@ e3geom_box_cache_new( TQ3ViewObject theView, TQ3GeometryObject theGeom,
 
 
 
-	// Add the box attributes	
+	// Add the box attributes
 	TQ3AttributeSet atts = inBoxData->boxAttributeSet;
 	if (atts != nullptr)
 		Q3Group_AddObject( theGroup, atts );

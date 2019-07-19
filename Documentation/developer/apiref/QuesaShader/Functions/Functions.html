@@ -563,6 +563,19 @@ emissive color.
 </p>
 <dl><dt><i>function result</i></dt><dd>The new illumination shader.
  </dd></dl>
+<hr><a name="//Quesa/c/func/Q3NondirectionalIllumination_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3NondirectionalIllumination_New">Q3NondirectionalIllumination_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3ShaderObject _Nonnull ) Q3NondirectionalIllumination_New (void);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a nondirectional illumination shader.  This kind of illumination
+disregards the direction of light, but does account for brightness, shadows,
+distance attenuation of finite lights and angular fall-off of spot lights.
+<br><br>
+This kind of illumination is only available in OpenGL per-pixel lighting.
+<br><br>
+</p>
+<dl><dt><i>function result</i></dt><dd>The new illumination shader.
+ </dd></dl>
 <hr><a name="//Quesa/c/func/Q3PhongIllumination_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PhongIllumination_New">Q3PhongIllumination_New</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3ShaderObject _Nonnull ) Q3PhongIllumination_New (void);</tt><br>
@@ -921,5 +934,5 @@ to be untextured.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
-<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 7/16/2019)
+<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 7/19/2019)
 </p></body></html>
