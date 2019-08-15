@@ -32,10 +32,10 @@ Mesh::Mesh()
 {
 }
 
-void	Mesh::Process( uint32_t inStartOffset,
-										uint32_t inEndOffset )
+void	Mesh::Process( size_t inStartOffset,
+										size_t inEndOffset )
 {
-	uint32_t dataLen = inEndOffset - inStartOffset;
+	size_t dataLen = inEndOffset - inStartOffset;
 	
 	if (dataLen < 4)
 	{
@@ -55,7 +55,7 @@ void	Mesh::Process( uint32_t inStartOffset,
 	Out() << Indent() << Name() << " (\n" <<
 		Indent(1) << numVertices << "\t# numVertices\n";
 	
-	uint32_t offset = inStartOffset + 4;
+	size_t offset = inStartOffset + 4;
 	uint32_t i, j;
 	
 	for (i = 0; i < numVertices; ++i)

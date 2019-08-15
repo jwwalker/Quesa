@@ -54,9 +54,9 @@ AttributeArray::AttributeArray()
 {
 }
 
-void	AttributeArray::Process( uint32_t inStartOffset, uint32_t inEndOffset )
+void	AttributeArray::Process( size_t inStartOffset, size_t inEndOffset )
 {
-	uint32_t dataLen = inEndOffset - inStartOffset;
+	size_t dataLen = inEndOffset - inStartOffset;
 	
 	if (dataLen < 20)
 	{
@@ -218,10 +218,10 @@ void	AttributeArray::Process( uint32_t inStartOffset, uint32_t inEndOffset )
 	Out() << Indent() << ")\n";
 }
 
-void	AttributeArray::WriteUseArray( uint32_t inStartOffset,
+void	AttributeArray::WriteUseArray( size_t inStartOffset,
 									uint32_t inElementCount )
 {
-	uint32_t offset = inStartOffset;
+	size_t offset = inStartOffset;
 	
 	for (uint32_t element = 0; element < inElementCount; ++element)
 	{
@@ -231,10 +231,10 @@ void	AttributeArray::WriteUseArray( uint32_t inStartOffset,
 	}
 }
 
-void	AttributeArray::WriteSwitchArray( uint32_t inStartOffset,
+void	AttributeArray::WriteSwitchArray( size_t inStartOffset,
 									uint32_t inElementCount )
 {
-	uint32_t offset = inStartOffset;
+	size_t offset = inStartOffset;
 	
 	for (uint32_t element = 0; element < inElementCount; ++element)
 	{
@@ -244,11 +244,11 @@ void	AttributeArray::WriteSwitchArray( uint32_t inStartOffset,
 	}
 }
 
-void	AttributeArray::WriteFloatArray( uint32_t inStartOffset,
+void	AttributeArray::WriteFloatArray( size_t inStartOffset,
 										uint32_t inElementCount,
 										uint32_t inFloatsPerElement )
 {
-	uint32_t offset = inStartOffset;
+	size_t offset = inStartOffset;
 	
 	for (uint32_t element = 0; element < inElementCount; ++element)
 	{

@@ -30,7 +30,7 @@ class FormatException
 {
 public:
 					FormatException( const char* inClassName,
-									uint32_t inOffset )
+									size_t inOffset )
 						: mName( inClassName )
 						, mOffset( inOffset ) {}
 					FormatException( const FormatException& inOther )
@@ -38,11 +38,11 @@ public:
 						, mOffset( inOther.mOffset ) {}
 	
 	const char*		Name() const { return mName.c_str(); }
-	uint32_t		Offset() const { return mOffset; }
+	size_t			Offset() const { return mOffset; }
 	
 private:
 	std::string		mName;
-	uint32_t		mOffset;
+	size_t			mOffset;
 };
 
 
@@ -50,9 +50,9 @@ class DataLengthException : public FormatException
 {
 public:
 					DataLengthException( const char* inClassName,
-									uint32_t inStartOffset,
-									uint32_t inEndOffset,
-									uint32_t inExpectedLength )
+									size_t inStartOffset,
+									size_t inEndOffset,
+									size_t inExpectedLength )
 						: FormatException( inClassName, inStartOffset )
 						, mExpectedLength( inExpectedLength )
 						, mActualLength( inEndOffset - inStartOffset ) {}
@@ -61,10 +61,10 @@ public:
 						, mExpectedLength( inOther.mExpectedLength )
 						, mActualLength( inOther.mActualLength ) {}
 
-	uint32_t		Expected() const { return mExpectedLength; }
-	uint32_t		Actual() const { return mActualLength; }
+	size_t			Expected() const { return mExpectedLength; }
+	size_t			Actual() const { return mActualLength; }
 	
 private:
-	uint32_t		mExpectedLength;
-	uint32_t		mActualLength;
+	size_t			mExpectedLength;
+	size_t			mActualLength;
 };

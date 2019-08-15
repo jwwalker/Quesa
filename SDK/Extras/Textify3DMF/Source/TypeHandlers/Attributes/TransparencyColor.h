@@ -30,6 +30,6 @@ class TransparencyColor : public TypeHandler
 public:
 							TransparencyColor();
 	
-	virtual void			Process( uint32_t inStartOffset,
-									uint32_t inEndOffset );
+	virtual void			Process( size_t inStartOffset,
+									size_t inEndOffset );
 };

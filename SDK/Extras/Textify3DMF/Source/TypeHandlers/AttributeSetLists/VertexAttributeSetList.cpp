@@ -36,8 +36,8 @@ AttributeSetList::AttributeSetList(	TypeCode inType,
 }
 
 
-void	AttributeSetList::Process( uint32_t inStartOffset,
-										uint32_t inEndOffset )
+void	AttributeSetList::Process( size_t inStartOffset,
+										size_t inEndOffset )
 {
 	if ( inEndOffset - inStartOffset < 12 )
 	{
@@ -75,7 +75,7 @@ void	AttributeSetList::Process( uint32_t inStartOffset,
 		Out() << Indent(1) <<
 			nObjects << " " << packingWord << " " << nIndices;
 		
-		uint32_t indexOffset = inStartOffset + 12;
+		size_t indexOffset = inStartOffset + 12;
 		
 		for (uint32_t i = 0; i < nIndices; ++i)
 		{

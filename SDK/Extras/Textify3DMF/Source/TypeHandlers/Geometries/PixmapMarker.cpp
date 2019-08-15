@@ -52,10 +52,10 @@ PixmapMarker::PixmapMarker()
 {
 }
 
-void	PixmapMarker::Process( uint32_t inStartOffset,
-										uint32_t inEndOffset )
+void	PixmapMarker::Process( size_t inStartOffset,
+										size_t inEndOffset )
 {
-	uint32_t dataLen = inEndOffset - inStartOffset;
+	size_t dataLen = inEndOffset - inStartOffset;
 	
 	if (dataLen < 48)
 	{

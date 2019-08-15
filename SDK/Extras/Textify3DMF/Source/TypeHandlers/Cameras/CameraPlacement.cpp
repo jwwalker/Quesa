@@ -32,8 +32,8 @@ CameraPlacement::CameraPlacement()
 {
 }
 
-void	CameraPlacement::Process( uint32_t inStartOffset,
-										uint32_t inEndOffset )
+void	CameraPlacement::Process( size_t inStartOffset,
+										size_t inEndOffset )
 {
 	if (inEndOffset != inStartOffset + 36)
 	{

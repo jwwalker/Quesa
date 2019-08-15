@@ -32,8 +32,8 @@ EmissiveColor::EmissiveColor()
 {
 }
 
-void	EmissiveColor::Process( uint32_t inStartOffset,
-									uint32_t inEndOffset )
+void	EmissiveColor::Process( size_t inStartOffset,
+									size_t inEndOffset )
 {
 	if (inEndOffset != inStartOffset + 12)
 	{

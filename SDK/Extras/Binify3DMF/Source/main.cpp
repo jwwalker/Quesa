@@ -12,16 +12,9 @@ using namespace std;
 
 int main (int argc, char * const argv[])
 {
-	if ( argc < 2 )
+	if (argc != 2)
 	{
-		cerr << "Too few arguments.\n" <<
-					"Binify3DMF path.3dmf\n";
-		return 1;
-	}
-	if ( argc > 2 )
-	{
-		cerr << "Too many arguments.\n" <<
-					"Binify3DMF path.3dmf\n";
+		std::cerr << "Usage: Binify3DMF path.3dmf > outPath.3dmf\n";
 		return 1;
 	}
 	

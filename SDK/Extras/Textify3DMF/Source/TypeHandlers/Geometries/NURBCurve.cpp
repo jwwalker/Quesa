@@ -32,10 +32,10 @@ NURBCurve::NURBCurve()
 {
 }
 
-void	NURBCurve::Process( uint32_t inStartOffset,
-										uint32_t inEndOffset )
+void	NURBCurve::Process( size_t inStartOffset,
+										size_t inEndOffset )
 {
-	uint32_t dataLen = inEndOffset - inStartOffset;
+	size_t dataLen = inEndOffset - inStartOffset;
 	
 	if (dataLen < 8)
 	{
@@ -58,7 +58,7 @@ void	NURBCurve::Process( uint32_t inStartOffset,
 		Indent(1) << nPoints << "\t# numPoints\n" <<
 		Indent(1) << "# points\n";
 	
-	uint32_t i, offset;
+	size_t i, offset;
 	offset = inStartOffset + 8;
 	
 	for (i = 0; i < nPoints; ++i)

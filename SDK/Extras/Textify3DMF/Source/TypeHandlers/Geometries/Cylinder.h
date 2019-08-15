@@ -30,6 +30,6 @@ class Cylinder : public TypeHandler
 public:
 							Cylinder();
 	
-	virtual void			Process( uint32_t inStartOffset,
-									uint32_t inEndOffset );
+	virtual void			Process( size_t inStartOffset,
+									size_t inEndOffset );
 };

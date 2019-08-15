@@ -68,10 +68,10 @@ public:
 
 	void	RegisterHandler( TypeHandler* inHandler );
 	
-	void	Textify(  const uint8_t* inData, uint32_t inDataLength );
+	void	Textify(  const uint8_t* inData, size_t inDataLength );
 
 	
-	void	ProcessContents( uint32_t inStartOffset, uint32_t inEndOffset );
+	void	ProcessContents( size_t inStartOffset, size_t inEndOffset );
 	
 	std::ostream&	OutStream();
 	std::ostream&	ErrorStream();
@@ -82,14 +82,14 @@ public:
 
 	std::string		Indent( uint32_t inExtra = 0 );
 	
-	uint8_t			FetchUInt8( uint32_t inOffset );
-	uint16_t		FetchUInt16( uint32_t inOffset );
-	uint32_t		FetchUInt32( uint32_t inOffset );
-	uint64_t		FetchUInt64( uint32_t inOffset );
-	float			FetchFloat32( uint32_t inOffset );
-	bool			FetchString( uint32_t inStartOffset, uint32_t inEndOffset,
+	uint8_t			FetchUInt8( size_t inOffset );
+	uint16_t		FetchUInt16( size_t inOffset );
+	uint32_t		FetchUInt32( size_t inOffset );
+	uint64_t		FetchUInt64( size_t inOffset );
+	float			FetchFloat32( size_t inOffset );
+	bool			FetchString( size_t inStartOffset, size_t inEndOffset,
 								std::string& outString,
-								uint32_t& outBytesConsumed );
+								size_t& outBytesConsumed );
 
 	int				RecordTOCEntry( uint32_t inReferenceID,
 								uint64_t inObjectLocation,
@@ -109,13 +109,13 @@ private:
 	void			ChunkLoop();
 	void			ReadTOCs();
 	void			ProcessObject( uint32_t inType,
-								uint32_t inStartOffset, uint32_t inEndOffset );
+								size_t inStartOffset, size_t inEndOffset );
 	TypeHandler*	FindHandler( TypeCode inObjectType ) const;
-	void	ProcessContainer( uint32_t inStartOffset, uint32_t inEndOffset );
-	void	ProcessType( uint32_t inStartOffset, uint32_t inEndOffset );
+	void			ProcessContainer( size_t inStartOffset, size_t inEndOffset );
+	void			ProcessType( size_t inStartOffset, size_t inEndOffset );
 
 	const uint8_t*		mData;
-	uint32_t			mDataLen;
+	size_t				mDataLen;
 	std::ostream&		mOutStream;
 	std::ostream&		mErrStream;
 	uint64_t			mTOCOffset;
@@ -129,7 +129,7 @@ private:
 	bool				mSkipUnknowns;
 };
 
-static std::string MakeLabel( const std::string& inClass, int inIndex )
+static std::string MakeLabel( const std::string& inClass, size_t inIndex )
 {
 	std::ostringstream ss;
 	
@@ -175,7 +175,7 @@ void	XControllerImp::LastTriMeshCounts( uint32_t& outFaces,
 	}
 }
 
-void	XControllerImp::Textify(  const uint8_t* inData, uint32_t inDataLength )
+void	XControllerImp::Textify(  const uint8_t* inData, size_t inDataLength )
 {
 	mData = inData;
 	mDataLen = inDataLength;
@@ -259,14 +259,14 @@ bool	XControllerImp::ReadHeader()
 	return true;
 }
 
-void	XControllerImp::ProcessContents( uint32_t inStartOffset, uint32_t inEndOffset )
+void	XControllerImp::ProcessContents( size_t inStartOffset, size_t inEndOffset )
 {
 	bool	doContinue = true;
 	mContainerLevel += 1;
 	
 	while ( doContinue and (inStartOffset < inEndOffset) )
 	{
-		int32_t	chunkLen = inEndOffset - inStartOffset;
+		size_t	chunkLen = inEndOffset - inStartOffset;
 		if (chunkLen < 8)
 		{
 			mErrStream << "Premature end of data!" << std::endl;
@@ -276,7 +276,7 @@ void	XControllerImp::ProcessContents( uint32_t inStartOffset, uint32_t inEndOffs
 		{
 			uint32_t theType = FetchULong( mData, inStartOffset );
 			uint32_t dataLen = FetchULong( mData, inStartOffset+4 );
-			uint32_t chunkEndOff = inStartOffset + 8 + dataLen;
+			size_t chunkEndOff = inStartOffset + 8 + dataLen;
 			if (chunkEndOff > inEndOffset)
 			{
 				doContinue = false;
@@ -338,13 +338,13 @@ int		XControllerImp::GetTOCIndex( uint64_t inTOCOffset ) const
 {
 	int foundIndex = -1;
 	
-	const int kTOCCount = mTOCOffsets.size();
+	const size_t kTOCCount = mTOCOffsets.size();
 	
-	for (int i = 0; i < kTOCCount; ++i)
+	for (size_t i = 0; i < kTOCCount; ++i)
 	{
 		if (mTOCOffsets[i] == inTOCOffset)
 		{
-			foundIndex = i;
+			foundIndex = static_cast<int>( i );
 			break;
 		}
 	}
@@ -367,7 +367,7 @@ int		XControllerImp::RecordTOCEntry( uint32_t inReferenceID,
 								uint64_t inObjectLocation,
 								TypeCode inObjectType )
 {
-	int tocIndex = mTOC.size();
+	size_t tocIndex = mTOC.size();
 	
 	TOCEntry theEntry;
 	theEntry.objectLocation = inObjectLocation;
@@ -394,7 +394,7 @@ int		XControllerImp::RecordTOCEntry( uint32_t inReferenceID,
 	
 	mTOC.push_back( theEntry );
 	
-	return tocIndex;
+	return static_cast<int>( tocIndex );
 }
 
 bool	XControllerImp::FindTOCEntry( uint64_t inObjectLocation,
@@ -403,9 +403,9 @@ bool	XControllerImp::FindTOCEntry( uint64_t inObjectLocation,
 							std::string& outLabel )
 {
 	bool didFind = false;
-	const int kTOCSize = mTOC.size();
+	const size_t kTOCSize = mTOC.size();
 	
-	for (int i = 0; i < kTOCSize; ++i)
+	for (size_t i = 0; i < kTOCSize; ++i)
 	{
 		if (mTOC[i].objectLocation == inObjectLocation)
 		{
@@ -420,8 +420,8 @@ bool	XControllerImp::FindTOCEntry( uint64_t inObjectLocation,
 }
 
 void	XControllerImp::ProcessObject( uint32_t inType,
-										uint32_t inStartOffset,
-										uint32_t inEndOffset )
+										size_t inStartOffset,
+										size_t inEndOffset )
 {
 	uint32_t refID;
 	std::string className, label;
@@ -489,14 +489,14 @@ std::ostream&	XControllerImp::ErrorStream()
 }
 
 
-void	XControllerImp::ProcessContainer( uint32_t inStartOffset, uint32_t inEndOffset )
+void	XControllerImp::ProcessContainer( size_t inStartOffset, size_t inEndOffset )
 {
 	mOutStream << Indent() << "Container (\n";
 	ProcessContents( inStartOffset, inEndOffset );
 	mOutStream << Indent() << ")\n";
 }
 
-void	XControllerImp::ProcessType( uint32_t inStartOffset, uint32_t inEndOffset )
+void	XControllerImp::ProcessType( size_t inStartOffset, size_t inEndOffset )
 {
 	if (inEndOffset - inStartOffset < 8)
 	{
@@ -506,7 +506,7 @@ void	XControllerImp::ProcessType( uint32_t inStartOffset, uint32_t inEndOffset )
 	TypeCode theType = FetchUInt32( inStartOffset );
 	
 	std::string typeName;
-	uint32_t bytesConsumed;
+	size_t bytesConsumed;
 	bool didRead = FetchString( inStartOffset+4, inEndOffset, typeName,
 		bytesConsumed );
 	if ( (not didRead) or (bytesConsumed < inEndOffset - inStartOffset - 4) )
@@ -517,40 +517,40 @@ void	XControllerImp::ProcessType( uint32_t inStartOffset, uint32_t inEndOffset )
 	mTypeToNameMap[ theType ] = typeName;
 }
 
-uint8_t	XControllerImp::FetchUInt8( uint32_t inOffset )
+uint8_t	XControllerImp::FetchUInt8( size_t inOffset )
 {
 	return mData[ inOffset ];
 }
 
-uint16_t	XControllerImp::FetchUInt16( uint32_t inOffset )
+uint16_t	XControllerImp::FetchUInt16( size_t inOffset )
 {
 	return FetchUShort( mData, inOffset );
 }
 
-uint32_t	XControllerImp::FetchUInt32( uint32_t inOffset )
+uint32_t	XControllerImp::FetchUInt32( size_t inOffset )
 {
 	return FetchULong( mData, inOffset );
 }
 
-float	XControllerImp::FetchFloat32( uint32_t inOffset )
+float	XControllerImp::FetchFloat32( size_t inOffset )
 {
 	return FetchFloat( mData, inOffset );
 }
 
-uint64_t	XControllerImp::FetchUInt64( uint32_t inOffset )
+uint64_t	XControllerImp::FetchUInt64( size_t inOffset )
 {
 	return FetchU64(  mData, inOffset );
 }
 
-bool	XControllerImp::FetchString( uint32_t inStartOffset, uint32_t inEndOffset,
+bool	XControllerImp::FetchString( size_t inStartOffset, size_t inEndOffset,
 								std::string& outString,
-								uint32_t& outBytesConsumed )
+								size_t& outBytesConsumed )
 {
 	bool success = false;
 	if (mData != NULL)
 	{
 		// Look for a NUL byte
-		uint32_t nulOff;
+		size_t nulOff;
 		for (nulOff = inStartOffset; nulOff != inEndOffset; ++nulOff)
 		{
 			if (mData[ nulOff ] == '\0')
@@ -566,7 +566,7 @@ bool	XControllerImp::FetchString( uint32_t inStartOffset, uint32_t inEndOffset,
 			
 			int remainder = (outString.size() + 1) % 4;
 			int pad = (remainder == 0)? 0 : 4 - remainder;
-			uint32_t len = outString.size() + 1 + pad;
+			size_t len = outString.size() + 1 + pad;
 			if (len <= inEndOffset - inStartOffset)
 			{
 				outBytesConsumed = len;
@@ -608,12 +608,12 @@ void	Controller::LastTriMeshCounts( uint32_t& outFaces,
 }
 
 void	Controller::Textify(  const uint8_t* inData,
-								uint32_t inDataLength )
+								size_t inDataLength )
 {
 	mImp->Textify( inData, inDataLength );
 }
 
-void	Controller::ProcessContents( uint32_t inStartOffset, uint32_t inEndOffset )
+void	Controller::ProcessContents( size_t inStartOffset, size_t inEndOffset )
 {
 	mImp->ProcessContents( inStartOffset, inEndOffset );
 }
@@ -649,34 +649,34 @@ std::string		Controller::Indent( uint32_t inExtra )
 	return mImp->Indent( inExtra );
 }
 
-uint8_t		Controller::FetchUInt8( uint32_t inOffset )
+uint8_t		Controller::FetchUInt8( size_t inOffset )
 {
 	return mImp->FetchUInt8( inOffset );
 }
 
-uint16_t	Controller::FetchUInt16( uint32_t inOffset )
+uint16_t	Controller::FetchUInt16( size_t inOffset )
 {
 	return mImp->FetchUInt16( inOffset );
 }
 
-uint32_t	Controller::FetchUInt32( uint32_t inOffset )
+uint32_t	Controller::FetchUInt32( size_t inOffset )
 {
 	return mImp->FetchUInt32( inOffset );
 }
 
-uint64_t	Controller::FetchUInt64( uint32_t inOffset )
+uint64_t	Controller::FetchUInt64( size_t inOffset )
 {
 	return mImp->FetchUInt64( inOffset );
 }
 
-float	Controller::FetchFloat32( uint32_t inOffset )
+float	Controller::FetchFloat32( size_t inOffset )
 {
 	return mImp->FetchFloat32( inOffset );
 }
 
-bool	Controller::FetchString( uint32_t inStartOffset, uint32_t inEndOffset,
+bool	Controller::FetchString( size_t inStartOffset, size_t inEndOffset,
 								std::string& outString,
-								uint32_t& outBytesConsumed )
+								size_t& outBytesConsumed )
 {
 	return mImp->FetchString( inStartOffset, inEndOffset, outString,
 		outBytesConsumed );
@@ -702,8 +702,8 @@ int		Controller::GetTOCIndex( uint64_t inTOCOffset ) const
 	return mImp->GetTOCIndex( inTOCOffset );
 }
 
-void	Controller::ReadAndWriteHexData( uint32_t inStartOffset,
-								uint32_t inLength )
+void	Controller::ReadAndWriteHexData( size_t inStartOffset,
+								size_t inLength )
 {
 	OutStream() << std::hex << std::uppercase;
 	

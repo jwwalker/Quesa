@@ -32,10 +32,10 @@ TableOfContents::TableOfContents()
 {
 }
 
-void	TableOfContents::PreParse( uint32_t inStartOffset,
-									uint32_t inEndOffset )
+void	TableOfContents::PreParse( size_t inStartOffset,
+									size_t inEndOffset )
 {
-	uint32_t dataLen = inEndOffset - inStartOffset;
+	size_t dataLen = inEndOffset - inStartOffset;
 	
 	if (dataLen < 28)
 	{
@@ -77,10 +77,10 @@ void	TableOfContents::PreParse( uint32_t inStartOffset,
 	}
 }
 
-void	TableOfContents::Process( uint32_t inStartOffset,
-										uint32_t inEndOffset )
+void	TableOfContents::Process( size_t inStartOffset,
+										size_t inEndOffset )
 {
-	uint32_t dataLen = inEndOffset - inStartOffset;
+	size_t dataLen = inEndOffset - inStartOffset;
 	
 	if (dataLen < 28)
 	{

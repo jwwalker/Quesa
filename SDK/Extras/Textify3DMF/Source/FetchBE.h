@@ -7,13 +7,13 @@
 	---------------------------------------------------------------------------------------------
 */
 
-uint16_t FetchBEUShort( const uint8_t* inData, int32_t inOffset );
+uint16_t FetchBEUShort( const uint8_t* inData, size_t inOffset );
 
-uint32_t FetchBEULong( const uint8_t* inData, int32_t inOffset );
+uint32_t FetchBEULong( const uint8_t* inData, size_t inOffset );
 
-uint64_t FetchBEU64( const uint8_t* inData, int32_t inOffset );
+uint64_t FetchBEU64( const uint8_t* inData, size_t inOffset );
 
-float	FetchBEFloat( const uint8_t* inData, int32_t inOffset );
+float	FetchBEFloat( const uint8_t* inData, size_t inOffset );
 
-int32_t FetchBELong( const uint8_t* inData, int32_t inOffset );
+int32_t FetchBELong( const uint8_t* inData, size_t inOffset );
 

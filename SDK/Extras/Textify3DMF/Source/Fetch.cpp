@@ -4,19 +4,19 @@
 #include "FetchLE.h"
 
 
-static uint16_t (*sFetchUShort)( const uint8_t* inData, int32_t inOffset ) =
+static uint16_t (*sFetchUShort)( const uint8_t* inData, size_t inOffset ) =
 	FetchBEUShort;
 
-static uint32_t (*sFetchULong)( const uint8_t* inData, int32_t inOffset ) =
+static uint32_t (*sFetchULong)( const uint8_t* inData, size_t inOffset ) =
 	FetchBEULong;
 
-static uint64_t (*sFetchU64)( const uint8_t* inData, int32_t inOffset ) =
+static uint64_t (*sFetchU64)( const uint8_t* inData, size_t inOffset ) =
 	FetchBEU64;
 
-static float	(*sFetchFloat)( const uint8_t* inData, int32_t inOffset ) =
+static float	(*sFetchFloat)( const uint8_t* inData, size_t inOffset ) =
 	FetchBEFloat;
 
-static int32_t (*sFetchLong)( const uint8_t* inData, int32_t inOffset ) =
+static int32_t (*sFetchLong)( const uint8_t* inData, size_t inOffset ) =
 	FetchBELong;
 
 void	SetBigEndian( bool inBigEndian )
@@ -39,27 +39,27 @@ void	SetBigEndian( bool inBigEndian )
 	}
 }
 
-uint16_t FetchUShort( const uint8_t* inData, int32_t inOffset )
+uint16_t FetchUShort( const uint8_t* inData, size_t inOffset )
 {
 	return sFetchUShort( inData, inOffset );
 }
 
-uint32_t FetchULong( const uint8_t* inData, int32_t inOffset )
+uint32_t FetchULong( const uint8_t* inData, size_t inOffset )
 {
 	return sFetchULong( inData, inOffset );
 }
 
-uint64_t FetchU64( const uint8_t* inData, int32_t inOffset )
+uint64_t FetchU64( const uint8_t* inData, size_t inOffset )
 {
 	return sFetchU64( inData, inOffset );
 }
 
-float	FetchFloat( const uint8_t* inData, int32_t inOffset )
+float	FetchFloat( const uint8_t* inData, size_t inOffset )
 {
 	return sFetchFloat( inData, inOffset );
 }
 
-int32_t FetchLong( const uint8_t* inData, int32_t inOffset )
+int32_t FetchLong( const uint8_t* inData, size_t inOffset )
 {
 	return sFetchLong( inData, inOffset );
 }

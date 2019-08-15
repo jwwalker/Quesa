@@ -32,10 +32,10 @@ Translate::Translate()
 {
 }
 
-void	Translate::Process( uint32_t inStartOffset,
-										uint32_t inEndOffset )
+void	Translate::Process( size_t inStartOffset,
+										size_t inEndOffset )
 {
-	uint32_t dataLen = inEndOffset - inStartOffset;
+	size_t dataLen = inEndOffset - inStartOffset;
 
 	if (dataLen != 12)
 	{

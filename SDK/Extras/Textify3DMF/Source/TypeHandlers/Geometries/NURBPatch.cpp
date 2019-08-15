@@ -32,10 +32,10 @@ NURBPatch::NURBPatch()
 {
 }
 
-void	NURBPatch::Process( uint32_t inStartOffset,
-										uint32_t inEndOffset )
+void	NURBPatch::Process( size_t inStartOffset,
+										size_t inEndOffset )
 {
-	uint32_t dataLen = inEndOffset - inStartOffset;
+	size_t dataLen = inEndOffset - inStartOffset;
 	
 	if (dataLen < 16)
 	{
@@ -68,7 +68,7 @@ void	NURBPatch::Process( uint32_t inStartOffset,
 		Indent(1) << "# points\n";
 	
 	uint32_t i, j;
-	uint32_t offset = inStartOffset + 16;
+	size_t offset = inStartOffset + 16;
 	
 	for (i = 0; i < numUPoints; ++i)
 	{

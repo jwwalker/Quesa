@@ -360,20 +360,20 @@ E3MacSystem_UnloadPlugins(void)
 {
 		E3MacSystem_PluginSlotPtr nextSlot;
 		E3MacSystem_PluginSlotPtr currentSlot;
-		E3LogToConsole("E3MacSystem_UnloadPlugins 1");
+		Q3_MESSAGE("E3MacSystem_UnloadPlugins 1");
 
 		nextSlot = e3macsystem_pluginSlotHead;
 
 		while( nextSlot != nullptr){
 			currentSlot = nextSlot;
 			nextSlot = currentSlot->nextSlot;
-			E3LogToConsole("E3MacSystem_UnloadPlugins 2");
+			Q3_MESSAGE("E3MacSystem_UnloadPlugins 2");
 			CFBundleUnloadExecutable( currentSlot->pluginBundle );
-			E3LogToConsole("E3MacSystem_UnloadPlugins 3");
+			Q3_MESSAGE("E3MacSystem_UnloadPlugins 3");
 			CFRelease( currentSlot->pluginBundle );
-			E3LogToConsole("E3MacSystem_UnloadPlugins 4");
+			Q3_MESSAGE("E3MacSystem_UnloadPlugins 4");
 			Q3Memory_Free(&currentSlot);
-			E3LogToConsole("E3MacSystem_UnloadPlugins 5");
+			Q3_MESSAGE("E3MacSystem_UnloadPlugins 5");
 		}
 		
 	e3macsystem_pluginSlotHead = nullptr;

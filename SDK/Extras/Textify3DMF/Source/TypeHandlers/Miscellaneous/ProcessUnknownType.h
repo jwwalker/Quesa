@@ -39,7 +39,7 @@
 	@param		inTypeName		Class name of the type if known, else NULL.
 */
 void	ProcessUnknownType( uint32_t inType,
-							uint32_t inStartOffset,
-							uint32_t inEndOffset,
+							size_t inStartOffset,
+							size_t inEndOffset,
 							const char* inTypeName );
 

@@ -33,8 +33,8 @@ SurfaceUV::SurfaceUV()
 {
 }
 
-void	SurfaceUV::Process( uint32_t inStartOffset,
-									uint32_t inEndOffset )
+void	SurfaceUV::Process( size_t inStartOffset,
+									size_t inEndOffset )
 {
 	if (inEndOffset != inStartOffset + 8)
 	{

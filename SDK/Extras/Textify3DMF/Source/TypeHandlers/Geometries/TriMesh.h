@@ -31,25 +31,25 @@ class TriMesh : public TypeHandler
 public:
 							TriMesh();
 	
-	virtual void			Process( uint32_t inStartOffset,
-									uint32_t inEndOffset );
+	virtual void			Process( size_t inStartOffset,
+									size_t inEndOffset );
 
 	void					GetCounts( uint32_t& outFaces,
 									uint32_t& outEdges,
 									uint32_t& outPoints ) const;
 
 private:
-	uint32_t				FetchIndex( uint32_t inStartOffset, int inBytes );
-	void					WriteTriangles( uint32_t inStartOffset,
+	uint32_t				FetchIndex( size_t inStartOffset, int inBytes );
+	void					WriteTriangles( size_t inStartOffset,
 											uint32_t inNumFaces,
 											int inBytesPerPointIndex );
-	void					WriteEdges( uint32_t inStartOffset,
+	void					WriteEdges( size_t inStartOffset,
 											uint32_t inNumEdges,
 											int inBytesPerPointIndex,
 											int inBytesPerFaceIndex );
-	void					WritePoints( uint32_t inStartOffset,
+	void					WritePoints( size_t inStartOffset,
 											uint32_t inNumPoints );
-	void					WriteBoundingBox( uint32_t inStartOffset );
+	void					WriteBoundingBox( size_t inStartOffset );
 	
 	// Characteristings of the TriMesh last seen
 	uint32_t				mFaces;

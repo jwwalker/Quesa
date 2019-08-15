@@ -32,8 +32,8 @@ DirectionalLight::DirectionalLight()
 {
 }
 
-void	DirectionalLight::Process( uint32_t inStartOffset,
-										uint32_t inEndOffset )
+void	DirectionalLight::Process( size_t inStartOffset,
+										size_t inEndOffset )
 {
 	if (inEndOffset != inStartOffset + 16)
 	{

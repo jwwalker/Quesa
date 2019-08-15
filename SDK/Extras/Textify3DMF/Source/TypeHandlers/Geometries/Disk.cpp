@@ -32,10 +32,10 @@ Disk::Disk()
 {
 }
 
-void	Disk::Process( uint32_t inStartOffset,
-										uint32_t inEndOffset )
+void	Disk::Process( size_t inStartOffset,
+										size_t inEndOffset )
 {
-	uint32_t dataLen = inEndOffset - inStartOffset;
+	size_t dataLen = inEndOffset - inStartOffset;
 	
 	if (dataLen == 0)
 	{
