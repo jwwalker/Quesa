@@ -43,8 +43,8 @@ FogStyle::FogStyle()
 {
 }
 
-void	FogStyle::Process( uint32_t inStartOffset,
-									uint32_t inEndOffset )
+void	FogStyle::Process( size_t inStartOffset,
+									size_t inEndOffset )
 {
 	if (inEndOffset != inStartOffset + 36)
 	{

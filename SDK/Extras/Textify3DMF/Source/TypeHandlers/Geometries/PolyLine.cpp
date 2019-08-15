@@ -32,9 +32,9 @@ PolyLine::PolyLine()
 {
 }
 
-void	PolyLine::Process( uint32_t inStartOffset, uint32_t inEndOffset )
+void	PolyLine::Process( size_t inStartOffset, size_t inEndOffset )
 {
-	uint32_t dataLen = inEndOffset - inStartOffset;
+	size_t dataLen = inEndOffset - inStartOffset;
 	
 	if (dataLen < 4)
 	{
@@ -54,7 +54,7 @@ void	PolyLine::Process( uint32_t inStartOffset, uint32_t inEndOffset )
 	
 	for (uint32_t i = 0; i < numVerts; ++i)
 	{
-		uint32_t vertOff = inStartOffset + 4 + i * 12;
+		size_t vertOff = inStartOffset + 4 + i * 12;
 		Out() << Indent(1) <<
 			FetchFloat32( vertOff ) << ' ' <<
 			FetchFloat32( vertOff+4 ) << ' ' <<

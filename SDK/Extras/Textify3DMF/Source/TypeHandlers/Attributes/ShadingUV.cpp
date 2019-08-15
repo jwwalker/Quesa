@@ -32,8 +32,8 @@ ShadingUV::ShadingUV()
 {
 }
 
-void	ShadingUV::Process( uint32_t inStartOffset,
-									uint32_t inEndOffset )
+void	ShadingUV::Process( size_t inStartOffset,
+									size_t inEndOffset )
 {
 	if (inEndOffset != inStartOffset + 8)
 	{

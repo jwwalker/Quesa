@@ -37,8 +37,8 @@ SimpleTypeHandler::SimpleTypeHandler(
 {
 }
 
-void	SimpleTypeHandler::Process( uint32_t inStartOffset,
-									uint32_t inEndOffset )
+void	SimpleTypeHandler::Process( size_t inStartOffset,
+									size_t inEndOffset )
 {
 	if (inEndOffset != inStartOffset)
 	{

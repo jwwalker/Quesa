@@ -33,8 +33,8 @@ HighlightState::HighlightState()
 {
 }
 
-void	HighlightState::Process( uint32_t inStartOffset,
-									uint32_t inEndOffset )
+void	HighlightState::Process( size_t inStartOffset,
+									size_t inEndOffset )
 {
 	if (inEndOffset != inStartOffset + 4)
 	{

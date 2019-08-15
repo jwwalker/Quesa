@@ -45,10 +45,10 @@ void	TriMesh::GetCounts( uint32_t& outFaces,
 	outPoints = mPoints;
 }
 
-void	TriMesh::Process( uint32_t inStartOffset,
-										uint32_t inEndOffset )
+void	TriMesh::Process( size_t inStartOffset,
+										size_t inEndOffset )
 {
-	uint32_t dataLen = inEndOffset - inStartOffset;
+	size_t dataLen = inEndOffset - inStartOffset;
 	
 	if (dataLen < 52)
 	{
@@ -116,7 +116,7 @@ void	TriMesh::Process( uint32_t inStartOffset,
 }
 
 
-uint32_t	TriMesh::FetchIndex( uint32_t inStartOffset, int inBytes )
+uint32_t	TriMesh::FetchIndex( size_t inStartOffset, int inBytes )
 {
 	uint32_t result = 0;
 	
@@ -144,7 +144,7 @@ uint32_t	TriMesh::FetchIndex( uint32_t inStartOffset, int inBytes )
 	return result;
 }
 
-void	TriMesh::WriteTriangles( uint32_t inStartOffset,
+void	TriMesh::WriteTriangles( size_t inStartOffset,
 										uint32_t inNumFaces,
 										int inBytesPerPointIndex )
 {
@@ -170,7 +170,7 @@ void	TriMesh::WriteTriangles( uint32_t inStartOffset,
 	}
 }
 
-void	TriMesh::WriteEdges( uint32_t inStartOffset,
+void	TriMesh::WriteEdges( size_t inStartOffset,
 										uint32_t inNumEdges,
 										int inBytesPerPointIndex,
 										int inBytesPerFaceIndex )
@@ -200,7 +200,7 @@ void	TriMesh::WriteEdges( uint32_t inStartOffset,
 	}
 }
 
-void	TriMesh::WritePoints( uint32_t inStartOffset, uint32_t inNumPoints )
+void	TriMesh::WritePoints( size_t inStartOffset, uint32_t inNumPoints )
 {
 	for (uint32_t i = 0; i < inNumPoints; ++i)
 	{
@@ -219,7 +219,7 @@ void	TriMesh::WritePoints( uint32_t inStartOffset, uint32_t inNumPoints )
 	}
 }
 
-void	TriMesh::WriteBoundingBox( uint32_t inStartOffset )
+void	TriMesh::WriteBoundingBox( size_t inStartOffset )
 {
 	float xMin = FetchFloat32( inStartOffset );
 	float yMin = FetchFloat32( inStartOffset+4 );

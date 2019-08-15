@@ -39,11 +39,11 @@ public:
 	
 	
 	void			Textify(  const uint8_t* inData,
-								uint32_t inDataLength );
+								size_t inDataLength );
 
 	void			RegisterHandler( TypeHandler* inHandler );
 
-	void			ProcessContents( uint32_t inStartOffset, uint32_t inEndOffset );
+	void			ProcessContents( size_t inStartOffset, size_t inEndOffset );
 
 	std::ostream&	OutStream();
 	std::ostream&	ErrorStream();
@@ -54,16 +54,16 @@ public:
 	
 	std::string		Indent( uint32_t inExtra = 0 );
 	
-	uint8_t			FetchUInt8( uint32_t inOffset );
-	uint16_t		FetchUInt16( uint32_t inOffset );
-	uint32_t		FetchUInt32( uint32_t inOffset );
-	uint64_t		FetchUInt64( uint32_t inOffset );
-	float			FetchFloat32( uint32_t inOffset );
-	bool			FetchString( uint32_t inStartOffset, uint32_t inEndOffset,
+	uint8_t			FetchUInt8( size_t inOffset );
+	uint16_t		FetchUInt16( size_t inOffset );
+	uint32_t		FetchUInt32( size_t inOffset );
+	uint64_t		FetchUInt64( size_t inOffset );
+	float			FetchFloat32( size_t inOffset );
+	bool			FetchString( size_t inStartOffset, size_t inEndOffset,
 								std::string& outString,
-								uint32_t& outBytesConsumed );
-	void			ReadAndWriteHexData( uint32_t inStartOffset,
-								uint32_t inLength );
+								size_t& outBytesConsumed );
+	void			ReadAndWriteHexData( size_t inStartOffset,
+								size_t inLength );
 
 	int				RecordTOCEntry( uint32_t inReferenceID,
 								uint64_t inObjectLocation,

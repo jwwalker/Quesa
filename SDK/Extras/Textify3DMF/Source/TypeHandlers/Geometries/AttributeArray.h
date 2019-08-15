@@ -30,17 +30,17 @@ class AttributeArray : public TypeHandler
 public:
 							AttributeArray();
 	
-	virtual void			Process( uint32_t inStartOffset,
-									uint32_t inEndOffset );
+	virtual void			Process( size_t inStartOffset,
+									size_t inEndOffset );
 
 private:
-	void					WriteFloatArray( uint32_t inStartOffset,
+	void					WriteFloatArray( size_t inStartOffset,
 									uint32_t inElementCount,
 									uint32_t inFloatsPerElement );
 
-	void					WriteSwitchArray( uint32_t inStartOffset,
+	void					WriteSwitchArray( size_t inStartOffset,
 									uint32_t inElementCount );
 
-	void					WriteUseArray( uint32_t inStartOffset,
+	void					WriteUseArray( size_t inStartOffset,
 									uint32_t inElementCount );
 };

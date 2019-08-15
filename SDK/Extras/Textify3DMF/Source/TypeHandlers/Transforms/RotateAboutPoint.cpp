@@ -37,8 +37,8 @@ RotateAboutPoint::RotateAboutPoint()
 {
 }
 
-void	RotateAboutPoint::Process( uint32_t inStartOffset,
-										uint32_t inEndOffset )
+void	RotateAboutPoint::Process( size_t inStartOffset,
+										size_t inEndOffset )
 {
 	if (inEndOffset != inStartOffset + 20)
 	{

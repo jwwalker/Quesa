@@ -38,16 +38,9 @@ using namespace std;
 
 int main (int argc, char * const argv[])
 {
-	if ( argc < 2 )
+	if ( (argc < 2) || (argc > 3) )
 	{
-		cerr << "Too few arguments.\n" <<
-					"Textify3DMF [--skipUnknowns] path.3dmf\n";
-		return 1;
-	}
-	if ( argc > 3 )
-	{
-		cerr << "Too many arguments.\n" <<
-					"Textify3DMF [--skipUnknowns] path.3dmf\n";
+		std::cerr << "Usage: Textify3DMF [--skipUnknowns] path.3dmf > outpath.3dmf\n";
 		return 1;
 	}
 	
@@ -76,13 +69,13 @@ int main (int argc, char * const argv[])
 	}
 
 	fseek( inFile, 0, SEEK_END );
-	int32_t fileLen = ftell( inFile );
+	long fileLen = ftell( inFile );
 	fseek( inFile, 0, SEEK_SET );
 
 	// Read the whole file into a buffer.
 	vector<uint8_t>	dataBuf( fileLen );
 	uint8_t*	bufStart = &dataBuf[0];
-	int32_t	numRead = fread( bufStart, 1, fileLen, inFile );
+	size_t	numRead = fread( bufStart, 1, fileLen, inFile );
 
 	if (numRead < fileLen)
 	{

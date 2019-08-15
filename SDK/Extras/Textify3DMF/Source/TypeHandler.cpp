@@ -45,12 +45,12 @@ std::string		TypeHandler::Indent( uint32_t inExtra )
 	return Boss()->Indent( inExtra );
 }
 
-float		TypeHandler::FetchFloat32( uint32_t inOffset )
+float		TypeHandler::FetchFloat32( size_t inOffset )
 {
 	return Controller::Get()->FetchFloat32( inOffset );
 }
 
-uint32_t	TypeHandler::FetchUInt32( uint32_t inOffset )
+uint32_t	TypeHandler::FetchUInt32( size_t inOffset )
 {
 	return Controller::Get()->FetchUInt32( inOffset );
 }

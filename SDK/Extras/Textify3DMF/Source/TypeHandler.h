@@ -47,11 +47,11 @@ public:
 	
 	std::ostream&			Out();
 	std::string				Indent( uint32_t inExtra = 0 );
-	float					FetchFloat32( uint32_t inOffset );
-	uint32_t				FetchUInt32( uint32_t inOffset );
+	float					FetchFloat32( size_t inOffset );
+	uint32_t				FetchUInt32( size_t inOffset );
 
-	virtual void			Process( uint32_t inStartOffset,
-									uint32_t inEndOffset ) = 0;
+	virtual void			Process( size_t inStartOffset,
+									size_t inEndOffset ) = 0;
 
 protected:
 							TypeHandler(	TypeCode inType,

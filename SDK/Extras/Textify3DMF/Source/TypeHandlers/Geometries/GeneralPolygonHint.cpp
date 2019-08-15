@@ -37,8 +37,8 @@ GeneralPolygonHint::GeneralPolygonHint()
 {
 }
 
-void	GeneralPolygonHint::Process( uint32_t inStartOffset,
-										uint32_t inEndOffset )
+void	GeneralPolygonHint::Process( size_t inStartOffset,
+										size_t inEndOffset )
 {
 	if (inEndOffset != inStartOffset + 4)
 	{

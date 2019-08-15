@@ -35,8 +35,8 @@ ViewAngleAspectCamera::ViewAngleAspectCamera()
 }
 
 
-void	ViewAngleAspectCamera::Process( uint32_t inStartOffset,
-										uint32_t inEndOffset )
+void	ViewAngleAspectCamera::Process( size_t inStartOffset,
+										size_t inEndOffset )
 {
 	if (inEndOffset != inStartOffset + 8)
 	{

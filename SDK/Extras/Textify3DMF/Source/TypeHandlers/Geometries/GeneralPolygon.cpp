@@ -33,9 +33,9 @@ GeneralPolygon::GeneralPolygon()
 {
 }
 
-void	GeneralPolygon::Process( uint32_t inStartOffset, uint32_t inEndOffset )
+void	GeneralPolygon::Process( size_t inStartOffset, size_t inEndOffset )
 {
-	uint32_t dataLen = inEndOffset - inStartOffset;
+	size_t dataLen = inEndOffset - inStartOffset;
 	
 	if (dataLen < 4)
 	{
@@ -47,7 +47,7 @@ void	GeneralPolygon::Process( uint32_t inStartOffset, uint32_t inEndOffset )
 	Out() << Indent() << Name() << " (\n" <<
 		Indent(1) << numContours << "\t# numContours\n";
 	
-	uint32_t offset = inStartOffset + 4;
+	size_t offset = inStartOffset + 4;
 	
 	for (uint32_t i = 0; i < numContours; ++i)
 	{

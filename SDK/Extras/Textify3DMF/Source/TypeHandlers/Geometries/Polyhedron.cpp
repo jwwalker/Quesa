@@ -42,10 +42,10 @@ Polyhedron::Polyhedron()
 {
 }
 
-void	Polyhedron::Process( uint32_t inStartOffset,
-										uint32_t inEndOffset )
+void	Polyhedron::Process( size_t inStartOffset,
+										size_t inEndOffset )
 {
-	uint32_t dataLen = inEndOffset - inStartOffset;
+	size_t dataLen = inEndOffset - inStartOffset;
 	
 	if (dataLen < 12)
 	{
@@ -68,7 +68,7 @@ void	Polyhedron::Process( uint32_t inStartOffset,
 		numTriangles << "\t# numVertices, numEdges, numTriangles\n";
 	
 	uint32_t i;
-	uint32_t offset = inStartOffset + 12;
+	size_t offset = inStartOffset + 12;
 	
 	// Vertices
 	for (i = 0; i < numVertices; ++i)

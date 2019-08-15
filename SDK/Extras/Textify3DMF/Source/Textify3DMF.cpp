@@ -31,7 +31,7 @@
 #include "RegisterHandlers.h"
 
 void	Textify3DMF( const uint8_t* inData,
-					uint32_t inDataLength,
+					size_t inDataLength,
 					bool inSkipUnknowns )
 {
 	Controller::Get()->SetSkipUnknowns( inSkipUnknowns );

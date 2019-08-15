@@ -1,6 +1,6 @@
 #include "FetchBE.h"
 
-uint32_t FetchBEULong( const uint8_t* inData, int32_t inOffset )
+uint32_t FetchBEULong( const uint8_t* inData, size_t inOffset )
 {
 	uint32_t theNum =
 		((uint32_t)inData[inOffset] << 24) |
@@ -11,7 +11,7 @@ uint32_t FetchBEULong( const uint8_t* inData, int32_t inOffset )
 	return theNum;
 }
 
-uint16_t FetchBEUShort( const uint8_t* inData, int32_t inOffset )
+uint16_t FetchBEUShort( const uint8_t* inData, size_t inOffset )
 {
 	uint16_t theNum =
 		((uint32_t)inData[inOffset] << 8) |
@@ -20,7 +20,7 @@ uint16_t FetchBEUShort( const uint8_t* inData, int32_t inOffset )
 	return theNum;
 }
 
-uint64_t FetchBEU64( const uint8_t* inData, int32_t inOffset )
+uint64_t FetchBEU64( const uint8_t* inData, size_t inOffset )
 {
 	uint64_t theNum =
 		((uint64_t)inData[inOffset] << 56) |
@@ -35,14 +35,14 @@ uint64_t FetchBEU64( const uint8_t* inData, int32_t inOffset )
 	return theNum;
 }
 
-float	FetchBEFloat( const uint8_t* inData, int32_t inOffset )
+float	FetchBEFloat( const uint8_t* inData, size_t inOffset )
 {
 	uint32_t	theLong = FetchBEULong( inData, inOffset );
 	float	theFloat = *(float*)&theLong;
 	return theFloat;
 }
 
-int32_t FetchBELong( const uint8_t* inData, int32_t inOffset )
+int32_t FetchBELong( const uint8_t* inData, size_t inOffset )
 {
 	uint32_t	theLong = FetchBEULong( inData, inOffset );
 	return *(int32_t*)&theLong;

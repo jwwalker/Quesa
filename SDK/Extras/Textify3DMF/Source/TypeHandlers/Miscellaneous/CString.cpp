@@ -73,8 +73,8 @@ static std::string QuoteStringFor3DMF( const std::string& inStr )
 	return result;
 }
 
-void	CString::Process( uint32_t inStartOffset,
-									uint32_t inEndOffset )
+void	CString::Process( size_t inStartOffset,
+									size_t inEndOffset )
 {
 	if (inEndOffset - inStartOffset < 4)
 	{
@@ -82,7 +82,7 @@ void	CString::Process( uint32_t inStartOffset,
 	}
 	
 	std::string theString;
-	uint32_t bytesConsumed;
+	size_t bytesConsumed;
 	bool didRead = Boss()->FetchString( inStartOffset, inEndOffset, theString,
 		bytesConsumed );
 	

@@ -32,8 +32,8 @@ BeginGroup::BeginGroup()
 {
 }
 
-void	BeginGroup::Process( uint32_t inStartOffset,
-										uint32_t inEndOffset )
+void	BeginGroup::Process( size_t inStartOffset,
+										size_t inEndOffset )
 {
 	Out() << Indent() << Name() << " (\n";
 	

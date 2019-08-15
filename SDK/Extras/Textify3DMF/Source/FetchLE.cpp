@@ -1,7 +1,7 @@
 #include "FetchLE.h"
 
 
-uint32_t FetchLEULong( const uint8_t* inData, int32_t inOffset )
+uint32_t FetchLEULong( const uint8_t* inData, size_t inOffset )
 {
 	uint32_t theNum =
 		((uint32_t)inData[inOffset] << 0) |
@@ -12,7 +12,7 @@ uint32_t FetchLEULong( const uint8_t* inData, int32_t inOffset )
 	return theNum;
 }
 
-uint16_t FetchLEUShort( const uint8_t* inData, int32_t inOffset )
+uint16_t FetchLEUShort( const uint8_t* inData, size_t inOffset )
 {
 	uint16_t theNum =
 		((uint32_t)inData[inOffset] << 0) |
@@ -21,7 +21,7 @@ uint16_t FetchLEUShort( const uint8_t* inData, int32_t inOffset )
 	return theNum;
 }
 
-uint64_t FetchLEU64( const uint8_t* inData, int32_t inOffset )
+uint64_t FetchLEU64( const uint8_t* inData, size_t inOffset )
 {
 	uint64_t theNum =
 		((uint64_t)inData[inOffset] << 0) |
@@ -36,14 +36,14 @@ uint64_t FetchLEU64( const uint8_t* inData, int32_t inOffset )
 	return theNum;
 }
 
-float	FetchLEFloat( const uint8_t* inData, int32_t inOffset )
+float	FetchLEFloat( const uint8_t* inData, size_t inOffset )
 {
 	uint32_t	theLong = FetchLEULong( inData, inOffset );
 	float	theFloat = *(float*)&theLong;
 	return theFloat;
 }
 
-int32_t FetchLELong( const uint8_t* inData, int32_t inOffset )
+int32_t FetchLELong( const uint8_t* inData, size_t inOffset )
 {
 	uint32_t	theLong = FetchLEULong( inData, inOffset );
 	return *(int32_t*)&theLong;
