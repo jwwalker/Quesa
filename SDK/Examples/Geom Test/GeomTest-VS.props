@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ImportGroup Label="PropertySheets" />
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <OutDir>.\$(Platform)\$(Configuration)\</OutDir>
+    <IntDir>.\$(Platform)\$(Configuration)\Intermediate\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>../Qut;../../Includes/Quesa;../../Extras/Utility Sources/Mutating Algorithms;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>QUESA_OS_WIN32=1;_MBCS;WIN32;_DEBUG;_WINDOWS;QD3D_NO_DIRECTDRAW;%(PreprocessorDefinitions)%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ObjectFileName>.\$(Platform)\$(Configuration)\Intermediate\</ObjectFileName>
+    </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>..\..\Libraries\Windows\$(Platform)\Stub</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Quesa.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <PostBuildEvent>
+      <Command>copy /y "..\..\Libraries\Windows\$(Platform)\$(Configuration)\Quesa.dll" ".\$(Platform)\$(Configuration)" </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup />
+</Project>
