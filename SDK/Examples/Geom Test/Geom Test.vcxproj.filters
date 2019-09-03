@@ -10,18 +10,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Geom Test.c">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Qut\Qut.c">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Qut\QutTexture.c">
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Qut\Windows\QutWindows.c">
-      <Filter>Source</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Extras\Utility Sources\Mutating Algorithms\ApplyTransformsToGeometries.cpp">
       <Filter>Source\Utility Algorithms</Filter>
     </ClCompile>
@@ -49,11 +37,18 @@
     <ClCompile Include="..\..\Extras\Utility Sources\Mutating Algorithms\TransformGeometry.cpp">
       <Filter>Source\Utility Algorithms</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="..\..\Libraries\Windows\Stub\Quesa.lib">
+    <ClCompile Include="Geom Test.cpp">
       <Filter>Source</Filter>
-    </Library>
+    </ClCompile>
+    <ClCompile Include="..\Qut\Qut.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Qut\QutTexture.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Qut\Windows\QutWindows.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\Qut\Windows\Qut.rc">
@@ -87,6 +82,12 @@
     </ClInclude>
     <ClInclude Include="..\..\Extras\Utility Sources\Mutating Algorithms\TransformGeometry.h">
       <Filter>Source\Utility Algorithms</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Qut\Qut.h">
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Qut\QutTexture.h">
+      <Filter>Source</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

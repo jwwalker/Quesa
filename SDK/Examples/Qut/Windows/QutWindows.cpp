@@ -102,7 +102,7 @@ qut_build_renderer_menu(void)
 
 
 	// Get the renderer menu
-	theMenu = GetMenu(gWindow);
+	theMenu = GetMenu((HWND)gWindow);
 	theMenu = GetSubMenu(theMenu, kMenuRenderer);
 	if (theMenu == NULL)
 		return;
@@ -473,18 +473,18 @@ qut_initialise_platform(int nCmdShow)
 	ShowWindow((HWND) gWindow, nCmdShow);
 
 	gAccelTable = LoadAccelerators(gInstance, (LPCTSTR)IDC_QUT);
-	gTimer      = SetTimer(gWindow, WM_TIMER, kQutTimer, NULL);
+	gTimer      = SetTimer((HWND)gWindow, WM_TIMER, kQutTimer, NULL);
 
 
 
 	// Adjust the menu bar
-	RemoveMenu(GetSubMenu(GetMenu(gWindow), kMenuRenderer), 0, MF_BYPOSITION);
-	RemoveMenu(GetSubMenu(GetMenu(gWindow), kMenuSpecial),  0, MF_BYPOSITION);
+	RemoveMenu(GetSubMenu(GetMenu((HWND)gWindow), kMenuRenderer), 0, MF_BYPOSITION);
+	RemoveMenu(GetSubMenu(GetMenu((HWND)gWindow), kMenuSpecial),  0, MF_BYPOSITION);
 
 	if (!gSpecialMenu)
-		RemoveMenu(GetMenu(gWindow), kMenuSpecial, MF_BYPOSITION);
+		RemoveMenu(GetMenu((HWND)gWindow), kMenuSpecial, MF_BYPOSITION);
 
-	DrawMenuBar(gWindow);
+	DrawMenuBar((HWND)gWindow);
 
 	return(TRUE);
 }
@@ -506,7 +506,7 @@ qut_terminate_platform(void)
 	if (gDC != NULL)
 		ReleaseDC((HWND) gWindow, gDC);
 
-	KillTimer(gWindow, gTimer);
+	KillTimer((HWND)gWindow, gTimer);
 
     DestroyWindow((HWND) gWindow);
 
@@ -745,7 +745,7 @@ Qut_CreateMenuItem(TQ3Uns32 itemNum, char *itemText)
 
 
 	// Get the special menu
-	theMenu = GetMenu(gWindow);
+	theMenu = GetMenu((HWND)gWindow);
 	theMenu = GetSubMenu(theMenu, kMenuSpecial);
 	if (theMenu == NULL)
 		return;

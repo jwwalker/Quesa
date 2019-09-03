@@ -2835,7 +2835,7 @@ static const TQ3Vector3D* findVertexNormals( const TQ3TriMeshData* inTMData )
 	{
 		if (inTMData->vertexAttributeTypes[i].attributeType == kQ3AttributeTypeNormal)
 		{
-			theNormals = inTMData->vertexAttributeTypes[i].data;
+			theNormals = (TQ3Vector3D *) inTMData->vertexAttributeTypes[i].data;
 		}
 	}
 	return theNormals;
@@ -2857,7 +2857,7 @@ static const TQ3Vector3D* findFaceNormals( const TQ3TriMeshData* inTMData )
 	{
 		if (inTMData->triangleAttributeTypes[i].attributeType == kQ3AttributeTypeNormal)
 		{
-			theNormals = inTMData->triangleAttributeTypes[i].data;
+			theNormals = (TQ3Vector3D *) inTMData->triangleAttributeTypes[i].data;
 		}
 	}
 	return theNormals;

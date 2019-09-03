@@ -49,7 +49,6 @@
 #if !defined(TARGET_RT_MAC_MACHO) || !TARGET_RT_MAC_MACHO
 	#include "Quesa.h"
 	#include "QuesaCamera.h"
-	#include "QuesaController.h"
 	#include "QuesaCustomElements.h"
 	#include "QuesaDrawContext.h"
 	#include "QuesaErrors.h"
@@ -69,12 +68,10 @@
 	#include "QuesaStyle.h"
 	#include "QuesaTransform.h"
 	#include "QuesaView.h"
-	#include "QuesaViewer.h"
 // Mac OS X Mach-O framework layout
 #else
 	#include <Quesa/Quesa.h>
 	#include <Quesa/QuesaCamera.h>
-	#include <Quesa/QuesaController.h>
 	#include <Quesa/QuesaCustomElements.h>
 	#include <Quesa/QuesaDrawContext.h>
 	#include <Quesa/QuesaErrors.h>
@@ -94,7 +91,6 @@
 	#include <Quesa/QuesaStyle.h>
 	#include <Quesa/QuesaTransform.h>
 	#include <Quesa/QuesaView.h>
-	#include <Quesa/QuesaViewer.h>
 #endif
 
 #include <stdlib.h>
