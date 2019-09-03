@@ -645,12 +645,16 @@ CETextureFlippedRowsElement_Remove( TQ3TextureObject inTexture )
 float
 CEFogMaxElement_Get( TQ3StyleObject inFogStyle )
 {
-	Q3_REQUIRE_OR_RESULT( inFogStyle != nullptr, 1.0f );
-	Q3_REQUIRE_OR_RESULT( inFogStyle->IsObjectValid(), 1.0f );
-	
-	E3System_Bottleneck();
-	
-	return E3FogMaxElement_Get( inFogStyle );
+	float maxOpacity = 1.0f;
+	if (inFogStyle != nullptr)
+	{
+		Q3_REQUIRE_OR_RESULT(inFogStyle->IsObjectValid(), 1.0f);
+
+		E3System_Bottleneck();
+
+		maxOpacity = E3FogMaxElement_Get(inFogStyle);
+	}
+	return maxOpacity;
 }
 
 /*!
@@ -691,12 +695,16 @@ TQ3Status
 CEHalfspaceFogElement_GetData( TQ3StyleObject inFogStyle,
 								TCEHalfspaceFogData* outData )
 {
-	Q3_REQUIRE_OR_RESULT( inFogStyle != nullptr, kQ3Failure );
-	Q3_REQUIRE_OR_RESULT( inFogStyle->IsObjectValid(), kQ3Failure );
-	
-	E3System_Bottleneck();
-	
-	return E3HalfspaceFogElement_Get( inFogStyle, outData );
+	TQ3Status success = kQ3Failure;
+	if (inFogStyle != nullptr)
+	{
+		Q3_REQUIRE_OR_RESULT(inFogStyle->IsObjectValid(), kQ3Failure);
+
+		E3System_Bottleneck();
+
+		success = E3HalfspaceFogElement_Get(inFogStyle, outData);
+	}
+	return success;
 }
 
 /*!

@@ -580,7 +580,7 @@ CETextureFlippedRowsElement_Remove( TQ3TextureObject _Nonnull inTexture );
 				if it has not been defined on the fog style.
 */
 Q3_EXTERN_API_C( float )
-CEFogMaxElement_Get( TQ3StyleObject _Nonnull inFogStyle );
+CEFogMaxElement_Get( TQ3StyleObject _Nullable inFogStyle );
 
 /*!
 	@function	CEFogMaxElement_Set
@@ -613,7 +613,7 @@ CEFogMaxElement_Set( TQ3StyleObject _Nonnull ioFogStyle, float inMaxOpacity );
 				element does not exist.
 */
 Q3_EXTERN_API_C( TQ3Status )
-CEHalfspaceFogElement_GetData( TQ3StyleObject _Nonnull inFogStyle,
+CEHalfspaceFogElement_GetData( TQ3StyleObject _Nullable inFogStyle,
 								TCEHalfspaceFogData* _Nonnull outData );
 
 /*!
