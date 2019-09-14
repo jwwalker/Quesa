@@ -192,5 +192,5 @@ public:
 												CQ3ObjectRef& outTexture ) const;
 	
 private:
-	std::auto_ptr<XVRMLReaderImp>		mImp;
+	std::unique_ptr<XVRMLReaderImp>		mImp;
 };

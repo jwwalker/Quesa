@@ -2,25 +2,25 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>VRML-Reader</string>
+	<key>CFBundleGetInfoString</key>
+	<string>kUnquotedVersion ©2005 Quesa Developers</string>
 	<key>CFBundleIdentifier</key>
-	<string>org.Quesa.VRML-Reader</string>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
 	<key>CFBundleName</key>
 	<string>VRML-reader</string>
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>kUnquotedVersion</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>kUnquotedVersion</string>
-	<key>CFBundleShortVersionString</key>
-	<string>kUnquotedVersion</string>
-	<key>CFBundleGetInfoString</key>
-	<string>kUnquotedVersion ©2005 Quesa Developers</string>
-	<key>CFBundleDevelopmentRegion</key>
-	<string>English</string>
-	<key>CFBundleInfoDictionaryVersion</key>
-	<string>6.0</string>
-	<key>CFBundleExecutable</key>
-	<string>VRML-Reader</string>
 </dict>
 </plist>

@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		BE775A3209F809A5006C1ED3 /* Quesa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE775A3109F809A5006C1ED3 /* Quesa.framework */; };
 		BE8D81F61328AAFC009324C6 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D81F51328AAFC009324C6 /* main.cpp */; };
 		BE8D81F81328AB2B009324C6 /* quesa-methods.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D81F71328AB2B009324C6 /* quesa-methods.cpp */; };
 		BE8D81FA1328AB34009324C6 /* CVRMLReader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8D81F91328AB34009324C6 /* CVRMLReader.cpp */; };
@@ -74,6 +73,8 @@
 			isa = PBXBuildRule;
 			compilerSpec = com.apple.compilers.gcc;
 			fileType = sourcecode.c;
+			inputFiles = (
+			);
 			isEditable = 1;
 			outputFiles = (
 			);
@@ -82,6 +83,8 @@
 			isa = PBXBuildRule;
 			compilerSpec = com.apple.compilers.gcc;
 			fileType = sourcecode.cpp;
+			inputFiles = (
+			);
 			isEditable = 1;
 			outputFiles = (
 			);
@@ -241,7 +244,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BE775A3209F809A5006C1ED3 /* Quesa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -505,6 +507,7 @@
 		089C1669FE841209C02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				LastUpgradeCheck = 1100;
 			};
 			buildConfigurationList = BEC95CB308A86B3C001E16B9 /* Build configuration list for PBXProject "VRML-Reader" */;
 			compatibilityVersion = "Xcode 3.0";
@@ -649,6 +652,7 @@
 		BE7C488208AF202E00559F64 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				PRODUCT_BUNDLE_IDENTIFIER = "net.Quesa.VRML-Reader";
 			};
 			name = Release;
 		};
@@ -656,12 +660,14 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BE90C9B80AFBD2AC00976226 /* VRML-reader.xcconfig */;
 			buildSettings = {
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_OPTIMIZATION_LEVEL = s;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					$inherited,
 					"NDEBUG=1",
 				);
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 			};
 			name = Release;
@@ -669,6 +675,7 @@
 		BEC95CB008A86B3C001E16B9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				PRODUCT_BUNDLE_IDENTIFIER = "net.Quesa.VRML-Reader";
 			};
 			name = Debug;
 		};
@@ -676,11 +683,15 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BE90C9B80AFBD2AC00976226 /* VRML-reader.xcconfig */;
 			buildSettings = {
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(GCC_PREPROCESSOR_DEFINITIONS)",
 					"DEBUG=1",
 				);
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				ONLY_ACTIVE_ARCH = YES;
 			};
 			name = Debug;
 		};

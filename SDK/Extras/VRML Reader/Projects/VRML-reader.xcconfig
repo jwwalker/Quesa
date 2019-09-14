@@ -3,17 +3,15 @@ ARCHS = x86_64
 
 // Compiler version
 GCC_VERSION = 
-//GCC_VERSION[arch=ppc] = 4.0
 
 // Build Locations
 SDKROOT = macosx
-//SDKROOT[arch=ppc] = macosx10.4
 SYMROOT = Output-Xcode
 
 // Search Paths
 ALWAYS_SEARCH_USER_PATHS = NO
-HEADER_SEARCH_PATHS = $(Boost) $(PROJECT_DIR)/../Resources
-FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/../../../Libraries/Mac/Framework_Modern/$(CONFIGURATION)"
+HEADER_SEARCH_PATHS = $(Boost) "$(PROJECT_DIR)/../../../Includes" "$(PROJECT_DIR)/../Resources"
+OTHER_LDFLAGS = "$(PROJECT_DIR)/../../../Libraries/Mac/Framework_Modern/$(CONFIGURATION)/Quesa.framework/Quesa"
 
 // Build Options
 DEBUG_INFORMATION_FORMAT = dwarf
@@ -30,6 +28,7 @@ WRAPPER_EXTENSION = quesaplug
 INFOPLIST_FILE = ../Resources/Info.plist
 INFOPLIST_PREPROCESS = YES
 INFOPLIST_PREFIX_HEADER = ../Resources/version.h
+PRODUCT_BUNDLE_IDENTIFIER = net.Quesa.VRML-Reader
 
 // Deployment
 MACOSX_DEPLOYMENT_TARGET = 10.7
