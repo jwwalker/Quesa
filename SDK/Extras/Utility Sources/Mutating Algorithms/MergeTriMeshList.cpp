@@ -143,16 +143,16 @@ CQ3ObjectRef	MergeTriMeshList( const std::vector< CQ3ObjectRef >& inObs )
 	{
 		TrimMeshPeek	tmPeek( *i );
 		const TQ3TriMeshData&	tmData( *tmPeek );
-		long	numPointsBefore = mergedPoints.size();
-		long	numFacesBefore = mergedFaces.size();
-		long	numEdgesBefore = mergedEdges.size();
+		size_t	numPointsBefore = mergedPoints.size();
+		size_t	numFacesBefore = mergedFaces.size();
+		size_t	numEdgesBefore = mergedEdges.size();
 
 		AppendArrayToVec( mergedPoints, tmData.points, tmData.numPoints );
 		AppendArrayToVec( mergedFaces, tmData.triangles, tmData.numTriangles );
 		AppendArrayToVec( mergedEdges, tmData.edges, tmData.numEdges );
 		
 		// Update point indices in faces
-		TQ3Uns32 j;
+		size_t j;
 		for (j = numFacesBefore; j < mergedFaces.size(); ++j)
 		{
 			TQ3TriMeshTriangleData&	theFace( mergedFaces[j] );
@@ -232,7 +232,7 @@ CQ3ObjectRef	MergeTriMeshList( const std::vector< CQ3ObjectRef >& inObs )
 
 	TQ3BoundingBox	theBounds;
 	Q3BoundingBox_SetFromPoints3D( &theBounds, VecAddr(mergedPoints),
-		mergedPoints.size(), sizeof(TQ3Point3D) );
+		static_cast<TQ3Uns32>(mergedPoints.size()), sizeof(TQ3Point3D) );
 
 	TQ3TriMeshAttributeData	faceAtt = {
 		kQ3AttributeTypeNormal,
@@ -292,17 +292,17 @@ CQ3ObjectRef	MergeTriMeshList( const std::vector< CQ3ObjectRef >& inObs )
 	
 	TQ3TriMeshData	mergedData = {
 		overallAtts.get(),
-		mergedFaces.size(),
+		static_cast<TQ3Uns32>(mergedFaces.size()),
 		VecAddr(mergedFaces),
-		(mergedFaceNormals.size() == mergedFaces.size()? 1 : 0),
+		static_cast<TQ3Uns32>((mergedFaceNormals.size() == mergedFaces.size()? 1 : 0)),
 		&faceAtt,
-		mergedEdges.size(),
+		static_cast<TQ3Uns32>(mergedEdges.size()),
 		VecAddr(mergedEdges),
 		0,
 		NULL,
-		mergedPoints.size(),
+		static_cast<TQ3Uns32>(mergedPoints.size()),
 		VecAddr(mergedPoints),
-		vertAtts.size(),
+		static_cast<TQ3Uns32>(vertAtts.size()),
 		VecAddr(vertAtts),
 		theBounds
 	};

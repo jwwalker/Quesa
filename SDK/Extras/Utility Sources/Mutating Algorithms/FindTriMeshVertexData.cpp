@@ -66,7 +66,7 @@
 const void* FindTriMeshVertexData( const TQ3TriMeshData* inTMData,
 									TQ3AttributeType inAttType )
 {
-	const void*	theData = NULL;
+	const void*	theData = nullptr;
 	
 	for (TQ3Uns32 i = 0; i < inTMData->numVertexAttributeTypes; ++i)
 	{

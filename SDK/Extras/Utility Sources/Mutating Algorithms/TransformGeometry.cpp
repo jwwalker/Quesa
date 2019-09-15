@@ -175,7 +175,7 @@ static void TransformLine( const TQ3Matrix4x4* inMatrix,
 static void TransformNormalAttribute( TQ3AttributeSet ioAtts,
 										const TQ3Matrix4x4& inMatrix )
 {
-	if (ioAtts != NULL)
+	if (ioAtts != nullptr)
 	{
 		TQ3Vector3D		theNormal;
 		if (kQ3Success == Q3AttributeSet_Get( ioAtts, kQ3AttributeTypeNormal,
@@ -273,7 +273,7 @@ static void TransformGeneralPolygon( const TQ3Matrix4x4* inMatrix,
 
 static TQ3Vector3D*	FindNormals( TQ3TriMeshAttributeData* inAtts, int inNumAttTypes )
 {
-	TQ3Vector3D*	theNormals = NULL;
+	TQ3Vector3D*	theNormals = nullptr;
 	
 	for (int i = 0; i < inNumAttTypes; ++i)
 	{
@@ -298,7 +298,7 @@ static void NormalizeNormals( TQ3Vector3D* ioNormals, TQ3Uns32 inCount )
 static void TransformTriMesh( const TQ3Matrix4x4* inMatrix,
 								TQ3GeometryObject ioGeom )
 {
-	TQ3TriMeshData*	tmData = NULL;
+	TQ3TriMeshData*	tmData = nullptr;
 	Q3TriMesh_LockData( ioGeom, kQ3False, &tmData );
 	
 	// Points
@@ -314,7 +314,7 @@ static void TransformTriMesh( const TQ3Matrix4x4* inMatrix,
 	// vertex normal vectors
 	TQ3Vector3D*	normals = FindNormals( tmData->vertexAttributeTypes,
 		tmData->numVertexAttributeTypes );
-	if (normals != NULL)
+	if (normals != nullptr)
 	{
 		Q3Vector3D_To3DTransformArray( normals, &normalTrans, normals,
 			tmData->numPoints, sizeof(TQ3Vector3D), sizeof(TQ3Vector3D) );
@@ -324,7 +324,7 @@ static void TransformTriMesh( const TQ3Matrix4x4* inMatrix,
 	// face normal vectors
 	normals = FindNormals( tmData->triangleAttributeTypes,
 		tmData->numTriangleAttributeTypes );
-	if (normals != NULL)
+	if (normals != nullptr)
 	{
 		Q3Vector3D_To3DTransformArray( normals, &normalTrans, normals,
 			tmData->numTriangles, sizeof(TQ3Vector3D), sizeof(TQ3Vector3D) );

@@ -8,7 +8,7 @@
 		Initial version written by James W. Walker.
 
     COPYRIGHT:
-        Copyright (c) 2007-2010, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2016, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -122,10 +122,10 @@ static bool	CopyAttributes( TQ3AttributeSet inSrcSet, TQ3AttributeSet inDestSet,
 				break;
 			
 			case kQ3AttributeTypeSurfaceShader:
-				theShader = NULL;
+				theShader = nullptr;
 				changedOne =
 				CopyOneAtt( inSrcSet, inDestSet, inOverride, attType, &theShader );
-				if (theShader != NULL)
+				if (theShader != nullptr)
 				{
 					// Q3AttributeSet_Get gets a new reference to the shader.
 					// Q3AttributeSet_Add gets another reference, for ownership
@@ -165,7 +165,7 @@ bool	Lowerer::DoLower( TQ3Object ioGroup )
 	TQ3GroupPosition	pos, nextPos;
 
 	Q3Group_GetFirstPosition( ioGroup, &pos );
-	while (pos != NULL)
+	while (pos != nullptr)
 	{
 		// Find the next position now, before we possibly remove the current
 		// position.
@@ -195,12 +195,12 @@ bool	Lowerer::DoLower( TQ3Object ioGroup )
 				theMember.get() ) );
 			if (! geomAtts.isvalid())
 			{
-				Q3Geometry_SetAttributeSet( theMember.get(), mAttStack.back().get() );
+				CQ3ObjectRef newAtts( Q3AttributeSet_New() );
+				Q3Geometry_SetAttributeSet( theMember.get(), newAtts.get() );
+				geomAtts.swap( newAtts );
 			}
-			else
-			{
-				CopyAttributes( mAttStack.back().get(), geomAtts.get(), false );
-			}
+			mDidChange = CopyAttributes( mAttStack.back().get(), geomAtts.get(),
+				false ) || mDidChange;
 		}
 		else if (Q3Object_IsType( theMember.get(), kQ3SurfaceShaderTypeTexture ))
 		{

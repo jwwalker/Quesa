@@ -63,10 +63,10 @@
 void	RemoveExtraReferences( TQ3GroupObject ioGroup )
 {
 	TQ3GroupPosition	pos, nextPos;
-	TQ3Object	prevMember = NULL;
+	TQ3Object	prevMember = nullptr;
 	
 	Q3Group_GetFirstPosition( ioGroup, &pos );
-	while (pos != NULL)
+	while (pos != nullptr)
 	{
 		// Find the next position now, before we possibly remove the current
 		// position.

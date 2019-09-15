@@ -110,9 +110,9 @@ static int NumCompare( T inA, T inB )
 static int ObjectCompare( TQ3Object inA, TQ3Object inB )
 {
 	// Major order is by type
-	TQ3ObjectType	typeA = (inA == NULL)? kQ3ObjectTypeInvalid :
+	TQ3ObjectType	typeA = (inA == nullptr)? kQ3ObjectTypeInvalid :
 		Q3Object_GetLeafType( inA );
-	TQ3ObjectType	typeB = (inB == NULL)? kQ3ObjectTypeInvalid :
+	TQ3ObjectType	typeB = (inB == nullptr)? kQ3ObjectTypeInvalid :
 		Q3Object_GetLeafType( inB );
 	
 	int	compResult = NumCompare( typeA, typeB );
@@ -191,7 +191,7 @@ bool StateLess::operator()( CQ3ObjectRef inGpA, CQ3ObjectRef inGpB ) const
 		{
 			break;
 		}
-		else if (memA.get() == NULL)	// and hence memB is also NULL
+		else if (memA.get() == nullptr)	// and hence memB is also NULL
 		{
 			break;
 		}
