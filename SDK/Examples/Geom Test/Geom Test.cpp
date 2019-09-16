@@ -5,7 +5,7 @@
         Geometry test.
 
     COPYRIGHT:
-        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -47,6 +47,8 @@
 
 #if QUESA_OS_MACINTOSH && !QUESA_UH_IN_FRAMEWORKS
 	#include <Timer.h>
+#elif QUESA_OS_WIN32
+	#include <direct.h>
 #elif QUESA_OS_UNIX
 	#include <sys/time.h>
 #endif
@@ -97,13 +99,13 @@
 	#define		QUESA_FACE5_PATH	"5.tga"
 	#define		QUESA_FACE6_PATH	"6.tga"
 #elif QUESA_PATH_STYLE == QUESA_PATH_STYLE_WINDOWS
-	#define		QUESA_LOGO_PATH		"..\\Support Files\\Images\\Quesa.tga"
-	#define		QUESA_FACE1_PATH	"..\\Support Files\\Images\\1.tga"
-	#define		QUESA_FACE2_PATH	"..\\Support Files\\Images\\2.tga"
-	#define		QUESA_FACE3_PATH	"..\\Support Files\\Images\\3.tga"
-	#define		QUESA_FACE4_PATH	"..\\Support Files\\Images\\4.tga"
-	#define		QUESA_FACE5_PATH	"..\\Support Files\\Images\\5.tga"
-	#define		QUESA_FACE6_PATH	"..\\Support Files\\Images\\6.tga"
+	#define		QUESA_LOGO_PATH		"..\\..\\..\\Support Files\\Images\\Quesa.tga"
+	#define		QUESA_FACE1_PATH	"..\\..\\..\\Support Files\\Images\\1.tga"
+	#define		QUESA_FACE2_PATH	"..\\..\\..\\Support Files\\Images\\2.tga"
+	#define		QUESA_FACE3_PATH	"..\\..\\..\\Support Files\\Images\\3.tga"
+	#define		QUESA_FACE4_PATH	"..\\..\\..\\Support Files\\Images\\4.tga"
+	#define		QUESA_FACE5_PATH	"..\\..\\..\\Support Files\\Images\\5.tga"
+	#define		QUESA_FACE6_PATH	"..\\..\\..\\Support Files\\Images\\6.tga"
 #else
 	// Assume that we're building the "Unix make" version
 	#define		QUESA_LOGO_PATH		"./Images/Quesa.tga"
@@ -656,6 +658,17 @@ loadTextureFromSupportFile( const char* inPath )
 		}
 	return result;
 #else
+#if QUESA_OS_WIN32
+	// Set the working directory to the directory containing the .exe
+	wchar_t exePath[2048];
+	GetModuleFileNameW(nullptr, exePath, 2048);
+	wchar_t* lastSep = wcsrchr(exePath, '\\');
+	if (lastSep != nullptr)
+	{
+		*lastSep = '\0';
+		_wchdir(exePath);
+	}
+#endif
 	return QutTexture_CreateTextureFromTGAFile( inPath );
 #endif
 }
@@ -675,7 +688,7 @@ createGeomTexturedBox(void)
 	TQ3GeometryObject	theBox;
 	TQ3Uns32			n;
 	TQ3ShaderObject		texShader;
-	char*				textureNames[6] = { QUESA_FACE1_PATH, QUESA_FACE2_PATH, QUESA_FACE3_PATH,
+	const char*			textureNames[6] = { QUESA_FACE1_PATH, QUESA_FACE2_PATH, QUESA_FACE3_PATH,
 											QUESA_FACE4_PATH, QUESA_FACE5_PATH, QUESA_FACE6_PATH };
 	
 	// Set up the data
@@ -2597,7 +2610,8 @@ static TQ3Object TextureImportCallback( const char* inURL,
 {
 	TQ3Object	theTexture = NULL;
 	
-#if QUESA_OS_MACINTOSH && TARGET_API_MAC_CARBON
+#if 0//QUESA_OS_MACINTOSH && TARGET_API_MAC_CARBON
+#warning update TextureImportCallback for Mac
 	if (Q3Object_IsType( inStorage, kQ3MacintoshStorageTypeFSSpec ))
 	{
 		FSSpec	baseSpec;
@@ -3684,7 +3698,7 @@ static void updateRotation(){
 static void showMessage( const char* inMessage )
 {
 	unsigned char	msg[256];
-	int		msgLen;
+	size_t		msgLen;
 	
 	msgLen = strlen( inMessage );
 	if (msgLen > 255)
