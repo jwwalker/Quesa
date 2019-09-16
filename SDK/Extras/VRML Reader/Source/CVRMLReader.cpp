@@ -99,7 +99,7 @@ struct XVRMLReaderImp
 	TQ3FFormatBaseData*		mBaseData;
 	PolyValue::PolyVec		mNodes;
 	TQ3Uns32				mNextNodeIndex;
-	std::auto_ptr<std::ostringstream>	mDebugStream;
+	std::unique_ptr<std::ostringstream>	mDebugStream;
 	std::vector<SVRML1State>	mV1StateStack;
 	NameToTexture			mTextureCache;
 };

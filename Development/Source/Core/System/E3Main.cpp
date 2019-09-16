@@ -692,6 +692,9 @@ e3root_delete( TQ3Object theObject, void *privateData )
 	if ( instanceData->prev != nullptr )
 	{
 		NEXTLINK( instanceData->prev ) = instanceData->next;
+	}
+	if ( instanceData->next != nullptr )
+	{
 		PREVLINK( instanceData->next ) = instanceData->prev;
 	}
 

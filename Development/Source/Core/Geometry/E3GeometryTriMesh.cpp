@@ -1944,6 +1944,7 @@ E3TriMesh_SetData(TQ3GeometryObject theTriMesh, const TQ3TriMeshData *triMeshDat
 	}
 
 	Q3Shared_Edited ( triMesh );
+	Q3Shared_Edited ( triMesh->instanceData.nakedTriMesh );
 
 	return qd3dStatus;
 }
