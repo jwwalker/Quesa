@@ -46,45 +46,278 @@
 #include "Qut.h"
 #include "QutInternal.h"
 #include "QutMac.h"
-
-
-
-
-
-//=============================================================================
-//      Carbon pre-amble
-//-----------------------------------------------------------------------------
-//		Note :	At the moment we only use Carbon Events on X, but we should be
-//				able to turn this on for 8/9 when running with CarbonLib 1.1.
-//-----------------------------------------------------------------------------
-#ifndef QUT_MAC_CARBON_EVENTS
-	#if defined(TARGET_RT_MAC_MACHO) && (TARGET_RT_MAC_MACHO)
-		#define QUT_MAC_CARBON_EVENTS				1
-	#else
-		#define QUT_MAC_CARBON_EVENTS				0
-	#endif
-#endif
-
-#if QUT_MAC_CARBON_EVENTS
-	#include <Carbon/Carbon.h>
-#endif
-
-
-
+#import <Cocoa/Cocoa.h>
+#import <Quesa/CQ3ObjectRef_Gets.h>
 
 
 //=============================================================================
 //      Internal constants
 //-----------------------------------------------------------------------------
-#define kMenuBarQut										128
-#define kDialogAbout									128
-
 #define kQutMacUpdateSeconds							0.005f
 #define kQutMacUpdateSecondsFPS							0.001f
 #define kSleepTicksDefault								1
 #define kSleepTicksFPS									0
 #define kWindowMinSize									50
 #define kWindowMaxSize									5000
+
+
+
+//=============================================================================
+//      Internal globals
+//-----------------------------------------------------------------------------
+NSMenu*						gMenuSpecial = nil;
+TQ3Boolean					gShouldQuit  = kQ3False;
+TQ3Boolean					gShowFPS     = kQ3False;
+TQ3Uns32					gSleepTime   = kSleepTicksDefault;
+
+#if QUT_MAC_CARBON_EVENTS
+EventLoopTimerRef			gUpdateTimer = nullptr;
+#endif
+
+
+
+int main(int argc, const char * argv[])
+{
+	return NSApplicationMain(argc, argv);
+}
+
+
+//-----------------------------------------------------------------------------
+//      Qut_CreateWindow : Create the window.
+//-----------------------------------------------------------------------------
+#pragma mark -
+void
+Qut_CreateWindow( const char	*windowTitle,
+					TQ3Uns32	theWidth,
+					TQ3Uns32	theHeight,
+					TQ3Boolean	canResize)
+{
+	@autoreleasepool
+	{
+		NSScreen* mainScreen = [[NSScreen screens] objectAtIndex: 0];
+		CGFloat windowY = NSMaxY(mainScreen.frame) - theHeight - 50.0;
+		NSWindow* theWindow = [[NSWindow alloc]
+			initWithContentRect: NSMakeRect( 20.0, windowY, theWidth, theHeight )
+			styleMask: NSWindowStyleMaskTitled | NSWindowStyleMaskResizable
+			backing: NSBackingStoreBuffered
+			defer: NO];
+		theWindow.title = @(windowTitle);
+		
+		NSOpenGLPixelFormatAttribute atts[] =
+		{
+			NSOpenGLPFAAccelerated,
+			NSOpenGLPFAWindow,
+			NSOpenGLPFADoubleBuffer,
+			NSOpenGLPFADepthSize,
+			24,
+			NSOpenGLPFAStencilSize,
+			8,
+			0
+		};
+		NSOpenGLPixelFormat* pixFmt = [[NSOpenGLPixelFormat alloc] initWithAttributes:atts];
+		NSView* content = theWindow.contentView;
+		QutOpenGLView* glView = [[QutOpenGLView alloc]
+			initWithFrame: content.bounds
+			pixelFormat: pixFmt];
+		[content addSubview: glView];
+		glView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+		(void) [glView openGLContext];
+		
+		[theWindow makeKeyAndOrderFront: nil];
+		gWindowCanResize = canResize;
+		gWindow = (void*)CFBridgingRetain(theWindow);
+	}
+}
+
+
+
+
+
+//=============================================================================
+//		Qut_CreateDrawContext : Create the draw context.
+//-----------------------------------------------------------------------------
+TQ3DrawContextObject
+Qut_CreateDrawContext(void)
+{
+	TQ3CocoaDrawContextData	macDrawContextData;
+	TQ3Boolean				resetDrawContext;
+	TQ3DrawContextObject	theDrawContext = nullptr;
+
+
+
+	// Get our window
+	NSWindow* theWindow = (__bridge NSWindow*) gWindow;
+	NSOpenGLView* glView = (NSOpenGLView*) [theWindow.contentView.subviews objectAtIndex: 0];
+
+
+	// See if we've got an existing draw context we can reuse. If we
+	// do, we grab as much of its state data as we can - this means we
+	// wil preserve any changes made by the app's view-configure method.
+	resetDrawContext = kQ3True;
+	if (gView != NULL)
+	{
+		CQ3ObjectRef drawContext( CQ3View_GetDrawContext( gView ));
+		if (drawContext.isvalid())
+		{
+			resetDrawContext = kQ3False;
+			Q3DrawContext_GetData(drawContext.get(), &macDrawContextData.drawContextData);
+		}
+	}
+
+
+
+	// Reset the draw context data if required
+	if (resetDrawContext)
+	{
+		// Fill in the draw context data
+		macDrawContextData.drawContextData.clearImageMethod  = kQ3ClearMethodWithColor;
+		macDrawContextData.drawContextData.clearImageColor.a = 1.0f;
+		macDrawContextData.drawContextData.clearImageColor.r = 1.0f;
+		macDrawContextData.drawContextData.clearImageColor.g = 1.0f;
+		macDrawContextData.drawContextData.clearImageColor.b = 1.0f;
+		macDrawContextData.drawContextData.paneState         = kQ3False;
+		macDrawContextData.drawContextData.maskState		 = kQ3False;	
+		macDrawContextData.drawContextData.doubleBufferState = kQ3True;
+	}
+
+
+
+	// Reset the fields which are always updated
+	NSRect bounds = glView.bounds;
+	macDrawContextData.drawContextData.pane.min.x = (float) NSMinX( bounds );
+	macDrawContextData.drawContextData.pane.min.y = (float) NSMinY( bounds );
+	macDrawContextData.drawContextData.pane.max.x = (float) NSMaxX( bounds );
+	macDrawContextData.drawContextData.pane.max.y = (float) NSMaxY( bounds );
+	macDrawContextData.nsView = (__bridge void* _Nonnull) glView;
+
+
+
+	// Create the draw context object
+	theDrawContext = Q3CocoaDrawContext_New( &macDrawContextData );
+	return(theDrawContext);
+}
+
+
+
+
+//=============================================================================
+//		Qut_SelectMetafileToSaveTo : Select a metafile to save to.
+//-----------------------------------------------------------------------------
+TQ3StorageObject
+Qut_SelectMetafileToSaveTo(TQ3FileMode* fileMode)
+{
+	TQ3StorageObject	theStorage = nullptr;
+	
+	@autoreleasepool
+	{
+		NSSavePanel* panel = [NSSavePanel savePanel];
+		panel.allowedFileTypes = @[ @"3dmf" ];
+		panel.canCreateDirectories = YES;
+		
+		NSModalResponse resp = [panel runModal];
+		if (resp == NSFileHandlingPanelOKButton)
+		{
+			NSURL* destURL = panel.URL;
+			theStorage = Q3PathStorage_New( destURL.path.UTF8String );
+		}
+	}
+
+	return(theStorage);
+}
+
+
+
+
+//=============================================================================
+//		Qut_SelectMetafileToOpen : Select a metafile for opening.
+//-----------------------------------------------------------------------------
+TQ3StorageObject
+Qut_SelectMetafileToOpen(void)
+{
+	TQ3StorageObject	theStorage = nullptr;
+	@autoreleasepool
+	{
+		NSOpenPanel* panel = [NSOpenPanel openPanel];
+		panel.allowedFileTypes = @[ @"3dmf" ];
+		panel.canChooseFiles = YES;
+		panel.canChooseDirectories = NO;
+		panel.allowsMultipleSelection = NO;
+		
+		NSModalResponse resp = [panel runModal];
+		if (resp == NSFileHandlingPanelOKButton)
+		{
+			NSURL* destURL = panel.URL;
+			theStorage = Q3PathStorage_New( destURL.path.UTF8String );
+		}
+	}
+
+	return(theStorage);
+}
+
+
+
+
+
+//=============================================================================
+//      Qut_CreateMenu : Create the Special menu.
+//-----------------------------------------------------------------------------
+void
+Qut_CreateMenu(qutFuncAppMenuSelect appMenuSelect)
+{
+	@autoreleasepool
+	{
+		NSMenu* menuBar = NSApp.mainMenu;
+		NSMenuItem* specialItem = [[NSMenuItem alloc]
+			initWithTitle: @"Special"
+			action: nil
+			keyEquivalent: @""];
+		[menuBar addItem: specialItem];
+		gMenuSpecial = [[NSMenu alloc] initWithTitle: @"Special"];
+		specialItem.submenu = gMenuSpecial;
+	}
+
+
+	// Set the callback
+	gAppMenuSelect = appMenuSelect;
+}
+
+
+
+
+
+//=============================================================================
+//      Qut_CreateMenuItem : Create a menu item on the Special menu.
+//-----------------------------------------------------------------------------
+void
+Qut_CreateMenuItem(TQ3Uns32 itemNum, const char *itemText)
+{
+	// Make sure we have a menu
+	if (gMenuSpecial == nil)
+		return;
+
+	@autoreleasepool
+	{
+		NSMenuItem* theItem = nil;
+		if (strcmp(itemText, kMenuItemDivider) == 0)
+		{
+			theItem = [NSMenuItem separatorItem];
+		}
+		else
+		{
+			theItem = [[NSMenuItem alloc]
+				initWithTitle: @(itemText)
+				action: nil
+				keyEquivalent: @""];
+		}
+		
+		[gMenuSpecial addItem: theItem];
+	}
+}
+
+
+#if 0
+#define kMenuBarQut										128
+#define kDialogAbout									128
 
 #define kMenuApple										128
 #define kMenuAppleAbout									1
@@ -132,22 +365,6 @@ enum {
 	kQutCommandStyleSubdivisionScreenSpace2				= FOUR_CHAR_CODE('sc25'),
 	kQutCommandStyleSubdivisionScreenSpace3				= FOUR_CHAR_CODE('sc26')
 };
-
-
-
-
-
-//=============================================================================
-//      Internal globals
-//-----------------------------------------------------------------------------
-MenuHandle					gMenuSpecial = NULL;
-TQ3Boolean					gShouldQuit  = kQ3False;
-TQ3Boolean					gShowFPS     = kQ3False;
-TQ3Uns32					gSleepTime   = kSleepTicksDefault;
-
-#if QUT_MAC_CARBON_EVENTS
-EventLoopTimerRef			gUpdateTimer = NULL;
-#endif
 
 
 
@@ -1021,119 +1238,6 @@ qut_build_renderer_menu(void)
 
 
 
-
-//=============================================================================
-//      qut_initialise_platform : Initialise ourselves.
-//-----------------------------------------------------------------------------
-static void
-qut_initialise_platform(void)
-{
-	TQ3Status		qd3dStatus;
-#if QUT_MAC_CARBON_EVENTS
-    OSStatus		theErr;
-#else
-	Handle			theMenuBar;
-#endif
-
-#if !TARGET_API_MAC_CARBON
-	TQ3Uns32		n;
-#endif
-
-
-
-	// Initialise our globals
-	gShouldQuit = kQ3False;
-
-
-
-	// Initialise the Toolbox if we're not on Carbon
-#if !TARGET_API_MAC_CARBON
-	MaxApplZone();
-	for (n = 0; n < 5; n++)
-		MoreMasters();
-
-	InitGraf(&qd.thePort);
-	InitFonts();
-	InitWindows();
-	InitMenus();
-	TEInit();
-	InitDialogs(NULL);
-	InitCursor();
-#endif
-
-
-
-	// Initialise Quesa
-	qd3dStatus = Q3Initialize();
-	if (qd3dStatus != kQ3Success)
-		exit(-1);
-
-
-
-	// Set up the menu bar
-#if QUT_MAC_CARBON_EVENTS
-	// Use a nib for Mac OS X
-	theErr = SetMenuBarFromNib(qut_carbon_get_nib(), CFSTR("MainMenu"));
-
-	if (theErr != noErr)
-		{
-		fprintf(stderr, "Can't load MenuBar %d\n", (int) theErr);
-		ExitToShell();
-		}
-#else
-	// Or use the resource fork for classic Mac OS
-	theMenuBar = GetNewMBar(kMenuBarQut);
-	if (theMenuBar == NULL)
-		exit(-1);
-	
-	SetMenuBar(theMenuBar);
-	DisposeHandle(theMenuBar);
-	
-	AppendResMenu(GetMenuHandle(kMenuApple), 'DRVR');
-#endif
-
-
-
-	// Install a handler for the quit AppleEvent.  The host application
-	// is free to override this by installing its own handler in the
-	// App_Initialise function.
-	AEInstallEventHandler(kCoreEventClass, kAEQuitApplication, 
-						  NewAEEventHandlerUPP(qut_quit_handler),
-						  0, false);
-
-
-
-	// Build the renderer menu
-	qut_build_renderer_menu();
-}
-
-
-
-
-
-//=============================================================================
-//      qut_terminate_platform : Terminate ourselves.
-//-----------------------------------------------------------------------------
-static void
-qut_terminate_platform(void)
-{	TQ3Status		qd3dStatus;
-
-
-
-	// Clean up
-	if (gWindow != NULL)
-		DisposeWindow(gWindow);
-
-
-
-	// Terminate Quesa
-	qd3dStatus = Q3Exit();
-}
-
-
-
-
-
 //=============================================================================
 //      qut_mainloop : Run until we're done.
 //-----------------------------------------------------------------------------
@@ -1578,28 +1682,6 @@ QutMac_SelectMetafileToSaveTo( FSRef* outFileRef )
 
 
 
-//=============================================================================
-//		Qut_SelectMetafileToSaveTo : Select a metafile to save to.
-//-----------------------------------------------------------------------------
-TQ3StorageObject
-Qut_SelectMetafileToSaveTo(TQ3FileMode* fileMode)
-{
-	FSRef				theFSRef;
-	TQ3StorageObject	theStorage = NULL;
-
-
-
-	// If we have Navigation services, use it
-	if (QutMac_SelectMetafileToSaveTo( &theFSRef ))
-		{
-		// Create a storage object for the file
-		theStorage = Q3FSRefStorage_New(&theFSRef);
-		}
-	return(theStorage);
-}
-
-
-
 
 
 //=============================================================================
@@ -1684,165 +1766,6 @@ Qut_SelectPictureFile(void *theFile, TQ3Uns32 fileLen)
 
 
 //=============================================================================
-//		Qut_CreateDrawContext : Create the draw context.
-//-----------------------------------------------------------------------------
-TQ3DrawContextObject
-Qut_CreateDrawContext(void)
-{	TQ3MacDrawContextData	macDrawContextData;
-	TQ3Boolean				resetDrawContext;
-	TQ3DrawContextObject	theDrawContext;
-	TQ3Status				qd3dStatus;
-	CGrafPtr				thePort;
-	Rect					theRect;
-
-
-
-	// Get our window
-	thePort = (CGrafPtr) gWindow;
-
-
-
-	// See if we've got an existing draw context we can reuse. If we
-	// do, we grab as much of its state data as we can - this means we
-	// wil preserve any changes made by the app's view-configure method.
-	resetDrawContext = kQ3True;
-	if (gView != NULL)
-		{
-		qd3dStatus = Q3View_GetDrawContext(gView, &theDrawContext);
-		if (qd3dStatus == kQ3Success)
-			{
-			resetDrawContext = kQ3False;
-			Q3DrawContext_GetData(theDrawContext, &macDrawContextData.drawContextData);
-			Q3Object_Dispose(theDrawContext);
-			}
-		}
-
-
-
-	// Reset the draw context data if required
-	if (resetDrawContext)
-		{
-		// Fill in the draw context data
-		macDrawContextData.drawContextData.clearImageMethod  = kQ3ClearMethodWithColor;
-		macDrawContextData.drawContextData.clearImageColor.a = 1.0f;
-		macDrawContextData.drawContextData.clearImageColor.r = 1.0f;
-		macDrawContextData.drawContextData.clearImageColor.g = 1.0f;
-		macDrawContextData.drawContextData.clearImageColor.b = 1.0f;
-		macDrawContextData.drawContextData.paneState         = kQ3False;
-		macDrawContextData.drawContextData.maskState		 = kQ3False;	
-		macDrawContextData.drawContextData.doubleBufferState = kQ3True;
-		}
-
-
-
-	// Reset the fields which are always updated
-    GetPortBounds(GetWindowPort(gWindow), &theRect);
-	macDrawContextData.drawContextData.pane.min.x = (float) theRect.left;
-	macDrawContextData.drawContextData.pane.min.y = (float) theRect.top;
-	macDrawContextData.drawContextData.pane.max.x = (float) theRect.right;
-	macDrawContextData.drawContextData.pane.max.y = (float) theRect.bottom;
-	macDrawContextData.window	                  = gWindow;
-	macDrawContextData.library	                  = kQ3Mac2DLibraryNone;
-	macDrawContextData.viewPort                   = NULL;
-	macDrawContextData.grafPort                   = NULL;
-
-
-
-	// Create the draw context object
-	theDrawContext = Q3MacDrawContext_New(&macDrawContextData);
-	return(theDrawContext);
-}
-
-
-
-
-
-//=============================================================================
-//      Qut_CreateMenu : Create the Special menu.
-//-----------------------------------------------------------------------------
-void
-Qut_CreateMenu(qutFuncAppMenuSelect appMenuSelect)
-{
-
-#if QUT_MAC_CARBON_EVENTS
-
-	// Create the Special menu
-	gMenuSpecial = GetMenuHandle(kMenuSpecial);
-    DeleteMenuItem(gMenuSpecial,1);
-
-#else
-
-	// Create the Special menu
-	gMenuSpecial = NewMenu(kMenuSpecial, "\pSpecial");
-	if (gMenuSpecial == NULL)
-		return;
-
-
-	// Insert the menu and redraw
-	InsertMenu(gMenuSpecial, 0);
-	DrawMenuBar();
-#endif
-
-
-
-	// Set the callback
-	gAppMenuSelect = appMenuSelect;
-}
-
-
-
-
-
-//=============================================================================
-//      Qut_CreateMenuItem : Create a menu item.
-//-----------------------------------------------------------------------------
-void
-Qut_CreateMenuItem(TQ3Uns32 itemNum, char *itemText)
-{	TQ3Uns32	numItems, finalItemNum;
-	Str255		theStr;
-
-
-
-	// Make sure we have a menu
-	if (gMenuSpecial == NULL)
-		return;
-
-
-
-	// Convert the text to a Pascal string
-	theStr[0] = strlen(itemText);
-	memcpy(&theStr[1], itemText, theStr[0]);
-
-
-
-	// Work out where the item is going to be
-	numItems = CountMenuItems(gMenuSpecial);
-	if (itemNum == 0)
-		finalItemNum = 1;
-	else if (itemNum > numItems)
-		finalItemNum = numItems + 1;
-	else
-		finalItemNum = itemNum;
-
-
-
-	// Insert the item and redraw the menu bar
-	if (strcmp(itemText, kMenuItemDivider) == 0)
-		InsertMenuItem(gMenuSpecial, "\p-", itemNum);
-	else
-		{
-		InsertMenuItem(gMenuSpecial,  "\pmoof",     itemNum);
-		SetMenuItemText(gMenuSpecial, finalItemNum, theStr);
-		}
-
-	DrawMenuBar();
-}
-
-
-
-
-
-//=============================================================================
 //      main : App entry point.
 //-----------------------------------------------------------------------------
 int main(void)
@@ -1868,3 +1791,140 @@ int main(void)
 
 	return(0);
 }
+#endif
+
+
+
+
+
+
+
+
+//=============================================================================
+//      qut_terminate_platform : Terminate ourselves.
+//-----------------------------------------------------------------------------
+static void
+qut_terminate_platform(void)
+{	TQ3Status		qd3dStatus;
+
+
+
+	// Clean up
+
+
+
+	// Terminate Quesa
+	qd3dStatus = Q3Exit();
+}
+
+@implementation QutOpenGLView
+
+- (void) drawRect:(NSRect)rect
+{
+	if (gView != nullptr)
+	{
+		Qut_RenderFrame();
+	}
+}
+
+- (void) reshape
+{
+	if (gView != nullptr)
+	{
+		CQ3ObjectRef camera( CQ3View_GetCamera( gView ) );
+		if (camera.isvalid())
+		{
+			float aspect = NSWidth( self.bounds ) / NSHeight( self.bounds );
+			Q3ViewAngleAspectCamera_SetAspectRatio( camera.get(), aspect );
+		}
+	}
+
+	[super reshape];
+}
+
+@end
+
+
+#pragma mark -
+
+@implementation QutAppDelegate
+
+- (void) setRenderer: (id) sender
+{
+	
+}
+
+- (void) buildRendererMenu
+{
+	TQ3SubClassData		rendererData;
+	TQ3Status			qd3dStatus;
+	TQ3Uns32			n, m;
+	TQ3ObjectClassNameString	className;
+
+
+	// Collect the renderers which are available
+	qd3dStatus = Q3ObjectHierarchy_GetSubClassData(kQ3SharedTypeRenderer, &rendererData);
+	if (qd3dStatus != kQ3Success)
+		return;
+
+
+
+	// If we can find any renderers, add them to the menu
+	if (rendererData.numClasses != 0)
+	{
+		m = 0;
+		
+		
+		// Fill the remaining slots
+		for (n = 0; n < rendererData.numClasses; n++)
+		{
+			// Skip the generic renderer, since it can't actually render
+			if (rendererData.classTypes[n] != kQ3RendererTypeGeneric)
+			{
+				// Grab the nick name, falling back to the class name if that fails
+				qd3dStatus = Q3RendererClass_GetNickNameString(rendererData.classTypes[n], (char *) className );
+				if (qd3dStatus == kQ3Failure || className[0] == 0x00)
+					qd3dStatus = Q3ObjectHierarchy_GetStringFromType(rendererData.classTypes[n], (char *) className );
+
+
+				// Add the menu item and save the type
+				if (qd3dStatus == kQ3Success)
+				{
+					size_t nameLen = strlen(className);
+					if (nameLen > 0)
+					{
+						[self.rendererMenu addItemWithTitle: @(className)
+											action: @selector(setRenderer:)
+											keyEquivalent: @""];
+						gRenderers[m++] = rendererData.classTypes[n];
+					}
+				}
+			}
+		}
+	}
+
+
+
+	// Clean up
+	Q3ObjectHierarchy_EmptySubClassData(&rendererData);
+}
+
+- (void) applicationDidFinishLaunching:(NSNotification *)notification
+{
+	Q3Initialize();
+	
+	[self buildRendererMenu];
+	
+	Qut_Initialise();
+	App_Initialise();
+}
+
+- (void)applicationWillTerminate:(NSNotification *)notification
+{
+	App_Terminate();
+	Qut_Terminate();
+	
+	Q3Exit();
+}
+
+@end

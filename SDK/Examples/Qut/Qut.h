@@ -105,21 +105,6 @@
 //      Platform specific
 //-----------------------------------------------------------------------------
 #if QUESA_OS_MACINTOSH
-  	#if QUESA_UH_IN_FRAMEWORKS
-		#include <Carbon/Carbon.h>
-		#include <QuickTime/QuickTime.h>
-  	#else
-		#include <Events.h>
-		#include <Devices.h>
-		#include <Fonts.h>
-		#include <Menus.h>
-		#include <Navigation.h>
-		#include <Windows.h>
-		#include <ToolUtils.h>
-		#include <QDOffscreen.h>
-		#include <QuickTimeComponents.h>
-		#include <ImageCompression.h>
-	#endif
 	
 	#include "QutMac.h"
 #endif
@@ -220,7 +205,7 @@ TQ3StorageObject		Qut_SelectMetafileToOpen(void);
 TQ3StorageObject		Qut_SelectMetafileToSaveTo(TQ3FileMode* fileMode);
 TQ3Status				Qut_SelectPictureFile(void *theFile, TQ3Uns32 fileLen);
 void					Qut_CreateMenu(qutFuncAppMenuSelect appMenuSelect);
-void					Qut_CreateMenuItem(TQ3Uns32 itemNum, char *itemText);
+void					Qut_CreateMenuItem(TQ3Uns32 itemNum, const char *itemText);
 
 
 

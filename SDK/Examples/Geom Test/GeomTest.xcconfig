@@ -1,21 +1,19 @@
 // Architectures
-ARCHS = ppc i386
+ARCHS = x86_64
+SDKROOT = macosx
 
 // Compiler version
-//		This has implications for other settings.
-//		If you use GCC 4.2 or later, you cannot use the 10.4u SDK, and PowerPC
-//		code will not run on G3s.
-GCC_VERSION = 4.2
-GCC_VERSION[arch=ppc] = 4.0
+GCC_VERSION =
 
 // Build Locations
-SDKROOT =
-SDKROOT[arch=ppc] = macosx10.4
+SYMROOT = $(PROJECT_DIR)/build
+CONFIGURATION_BUILD_DIR = $(PROJECT_DIR)/build/$(CONFIGURATION)
 
 // Search Paths
 HEADER_SEARCH_PATHS = ../Qut/Mac ../Qut
-FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "$(SRCROOT)/../../Libraries/Mac/Framework_Universal/Release"
-FRAMEWORK_SEARCH_PATHS = $(SDKROOT)/System/Library/Frameworks $(FRAMEWORK_SEARCH_PATHS_QUOTED_1)
+FRAMEWORK_SEARCH_PATHS_QUOTED_1 = "$(SRCROOT)/../../Libraries/Mac/Framework_Modern/Release"
+FRAMEWORK_SEARCH_PATHS = $(FRAMEWORK_SEARCH_PATHS_QUOTED_1)
+ALWAYS_SEARCH_USER_PATHS = NO
 
 // Build Options
 DEBUG_INFORMATION_FORMAT = dwarf
@@ -35,6 +33,11 @@ COPY_PHASE_STRIP = NO					// Strip Debug Symbols During Copy
 // Language
 GCC_PREFIX_HEADER = Geom Test_Prefix.pch
 GCC_PRECOMPILE_PREFIX_HEADER = YES
+GCC_C_LANGUAGE_STANDARD = gnu11
+CLANG_CXX_LANGUAGE_STANDARD = gnu++0x
+CLANG_CXX_LIBRARY = libc++
+CLANG_ENABLE_OBJC_WEAK = YES
+CLANG_ENABLE_OBJC_ARC = YES
 
 // Code Generation
 GCC_DEBUGGING_SYMBOLS = full			// Level of Debug Symbols
@@ -50,5 +53,5 @@ GCC_WARN_ABOUT_RETURN_TYPE = YES		// Mismatched Return Type
 GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO
 
 // Preprocessing
-GCC_PREPROCESSOR_DEFINITIONS = QUESA_OS_MACINTOSH=1 TARGET_API_MAC_CARBON=1
+GCC_PREPROCESSOR_DEFINITIONS = QUESA_OS_COCOA=1 QUESA_OS_MACINTOSH=1 TARGET_API_MAC_CARBON=1
 

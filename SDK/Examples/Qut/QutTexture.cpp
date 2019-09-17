@@ -56,24 +56,6 @@
 #define	kTGATypeColorRLE						10
 #define	kTGADescTopToBottom						0x20
 
-#if QUESA_OS_MACINTOSH
-// The constant kNativeEndianPixMap is defined in the framework versions of
-// QDOffscreen.h but not in the CFM (universal interfaces) versions.  We only
-// need this flag when building natively for Intel, in which case we will be
-// using framework headers.  Hence we can use 0 in other cases.
-	#if TARGET_RT_MAC_CFM
-		enum
-		{
-			kQ3NativeEndianPixMap           = 0
-		};
-	#else
-		enum
-		{
-			kQ3NativeEndianPixMap           = kNativeEndianPixMap
-		};
-	#endif
-#endif
-
 
 //=============================================================================
 //      Types
@@ -346,7 +328,7 @@ QutTexture_CreateTextureFromTGAFile( const char* inFilePath )
 
 
 
-#if QUESA_OS_MACINTOSH
+#if 0//QUESA_OS_MACINTOSH
 
 //-----------------------------------------------------------------------------
 //		QutTexture_CreateGWorldFromPICT : Create a GWorld from a PICT.
