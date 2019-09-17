@@ -51,6 +51,10 @@
 
 @property (weak) IBOutlet NSMenu* rendererMenu;
 
+@property (weak) NSWindow*		window;
+@property (weak) NSOpenGLView*	glView;
+@property (copy) NSString*		savedWindowTitle;
+
 @end
 
 

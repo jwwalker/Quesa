@@ -348,7 +348,17 @@
                 </menuItem>
                 <menuItem title="Renderer" id="uQZ-H7-1PB">
                     <modifierMask key="keyEquivalentModifierMask"/>
-                    <menu key="submenu" title="Renderer" id="QAH-6s-xgL"/>
+                    <menu key="submenu" title="Renderer" id="QAH-6s-xgL">
+                        <items>
+                            <menuItem title="Display Frames per Second" id="Qj1-AO-Dtd">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="displayFPS:" target="-1" id="LPe-Q0-qcn"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="7Kj-WK-pj1"/>
+                        </items>
+                    </menu>
                 </menuItem>
                 <menuItem title="Style" id="KKt-fN-bxf">
                     <modifierMask key="keyEquivalentModifierMask"/>

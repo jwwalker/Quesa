@@ -121,7 +121,11 @@ Qut_CreateWindow( const char	*windowTitle,
 			pixelFormat: pixFmt];
 		[content addSubview: glView];
 		glView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
-		(void) [glView openGLContext];
+		//(void) [glView openGLContext];
+		
+		QutAppDelegate* myDelegate = (QutAppDelegate*) NSApp.delegate;
+		myDelegate.window = theWindow;
+		myDelegate.glView = glView;
 		
 		[theWindow makeKeyAndOrderFront: nil];
 		gWindowCanResize = canResize;
@@ -314,6 +318,13 @@ Qut_CreateMenuItem(TQ3Uns32 itemNum, const char *itemText)
 	}
 }
 
+static double qut_time()
+{
+	clock_t		theClocks = clock();
+	return theClocks / ((double) CLOCKS_PER_SEC);
+}
+
+#pragma mark -
 
 #if 0
 #define kMenuBarQut										128
@@ -1796,27 +1807,6 @@ int main(void)
 
 
 
-
-
-
-
-//=============================================================================
-//      qut_terminate_platform : Terminate ourselves.
-//-----------------------------------------------------------------------------
-static void
-qut_terminate_platform(void)
-{	TQ3Status		qd3dStatus;
-
-
-
-	// Clean up
-
-
-
-	// Terminate Quesa
-	qd3dStatus = Q3Exit();
-}
-
 @implementation QutOpenGLView
 
 - (void) drawRect:(NSRect)rect
@@ -1848,17 +1838,15 @@ qut_terminate_platform(void)
 #pragma mark -
 
 @implementation QutAppDelegate
-
-- (void) setRenderer: (id) sender
 {
-	
+	NSTimer*		_drawTimer;
 }
 
 - (void) buildRendererMenu
 {
 	TQ3SubClassData		rendererData;
 	TQ3Status			qd3dStatus;
-	TQ3Uns32			n, m;
+	TQ3Uns32			n;
 	TQ3ObjectClassNameString	className;
 
 
@@ -1872,9 +1860,6 @@ qut_terminate_platform(void)
 	// If we can find any renderers, add them to the menu
 	if (rendererData.numClasses != 0)
 	{
-		m = 0;
-		
-		
 		// Fill the remaining slots
 		for (n = 0; n < rendererData.numClasses; n++)
 		{
@@ -1893,10 +1878,11 @@ qut_terminate_platform(void)
 					size_t nameLen = strlen(className);
 					if (nameLen > 0)
 					{
-						[self.rendererMenu addItemWithTitle: @(className)
+						NSMenuItem* menuItem = [self.rendererMenu
+											addItemWithTitle: @(className)
 											action: @selector(setRenderer:)
 											keyEquivalent: @""];
-						gRenderers[m++] = rendererData.classTypes[n];
+						menuItem.tag = rendererData.classTypes[n];
 					}
 				}
 			}
@@ -1917,14 +1903,79 @@ qut_terminate_platform(void)
 	
 	Qut_Initialise();
 	App_Initialise();
+	_drawTimer = [NSTimer scheduledTimerWithTimeInterval: kQutMacUpdateSeconds
+		target: self
+		selector: @selector(timedDraw:)
+		userInfo: nil
+		repeats: YES];
 }
 
 - (void)applicationWillTerminate:(NSNotification *)notification
 {
+	[_drawTimer invalidate];
 	App_Terminate();
 	Qut_Terminate();
 	
 	Q3Exit();
+}
+
+- (void) timedDraw:(NSTimer *)timer
+{
+	[self.glView setNeedsDisplay: YES];
+	if (gShowFPS)
+	{
+		[self.window displayIfNeeded];
+		
+		static double sNextUpdateFPSTime = 0.0;
+		double curTime = qut_time();
+		if (curTime > sNextUpdateFPSTime)
+		{
+			self.window.title = [NSString stringWithFormat: @"FPS: %.2f", gFPS];
+			sNextUpdateFPSTime = curTime + 1.0;
+		}
+	}
+}
+
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem
+{
+	BOOL isValid = YES;
+	SEL theAction = menuItem.action;
+	if (theAction == @selector(displayFPS:))
+	{
+		menuItem.state = gShowFPS? NSControlStateValueOn : NSControlStateValueOff;
+	}
+	
+	return isValid;
+}
+
+#pragma mark Actions
+
+- (void) displayFPS: (id) sender
+{
+	NSTimeInterval interval = gShowFPS? kQutMacUpdateSecondsFPS : kQutMacUpdateSeconds;
+	[_drawTimer invalidate];
+	_drawTimer = [NSTimer scheduledTimerWithTimeInterval: interval
+		target: self
+		selector: @selector(timedDraw:)
+		userInfo: nil
+		repeats: YES];
+	gShowFPS = gShowFPS? kQ3False : kQ3True;
+	
+	if (gShowFPS)
+	{
+		self.savedWindowTitle = self.window.title;
+	}
+	else
+	{
+		self.window.title = self.savedWindowTitle;
+	}
+}
+
+- (void) setRenderer: (id) sender
+{
+	NSMenuItem* item = (NSMenuItem*) sender;
+	Q3View_SetRendererByType(gView, (TQ3ObjectType) item.tag);
+	[self.glView setNeedsDisplay: YES];
 }
 
 @end
