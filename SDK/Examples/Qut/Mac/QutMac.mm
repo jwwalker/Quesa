@@ -49,6 +49,12 @@
 #import <Cocoa/Cocoa.h>
 #import <Quesa/CQ3ObjectRef_Gets.h>
 
+@interface QutAppDelegate ()
+
+- (void) specialCmd: (id) sender;
+
+@end
+
 
 //=============================================================================
 //      Internal constants
@@ -310,11 +316,12 @@ Qut_CreateMenuItem(TQ3Uns32 itemNum, const char *itemText)
 		{
 			theItem = [[NSMenuItem alloc]
 				initWithTitle: @(itemText)
-				action: nil
+				action: @selector(specialCmd:)
 				keyEquivalent: @""];
 		}
 		
 		[gMenuSpecial addItem: theItem];
+		theItem.tag = [gMenuSpecial indexOfItem: theItem] + 1;
 	}
 }
 
@@ -1983,6 +1990,13 @@ int main(void)
 	NSMenuItem* item = (NSMenuItem*) sender;
 	Qut_InvokeStyleCommand( (TQ3Int32) item.tag );
 	[self.glView setNeedsDisplay: YES];
+}
+
+- (void) specialCmd: (id) sender
+{
+	NSMenuItem* item = (NSMenuItem*) sender;
+	
+	(gAppMenuSelect)( gView, (TQ3Uns32) item.tag );
 }
 
 @end

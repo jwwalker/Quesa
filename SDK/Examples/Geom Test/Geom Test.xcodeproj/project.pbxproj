@@ -464,6 +464,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				PRODUCT_BUNDLE_IDENTIFIER = net.Quesa.GeomTest;
+				STRIP_INSTALLED_PRODUCT = NO;
 			};
 			name = Debug;
 		};

@@ -505,16 +505,6 @@
                         </items>
                     </menu>
                 </menuItem>
-                <menuItem title="Special" id="oCp-tj-BAp">
-                    <modifierMask key="keyEquivalentModifierMask"/>
-                    <menu key="submenu" title="Special" id="uMH-UA-Qw6">
-                        <items>
-                            <menuItem title="Item" id="pbF-Go-fXO">
-                                <modifierMask key="keyEquivalentModifierMask"/>
-                            </menuItem>
-                        </items>
-                    </menu>
-                </menuItem>
                 <menuItem title="Window" id="aUF-d1-5bR">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="Window" systemMenu="window" id="Td7-aD-5lo">

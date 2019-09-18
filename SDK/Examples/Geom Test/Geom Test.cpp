@@ -385,14 +385,13 @@ createWorldBounds( TQ3ViewObject inView )
 //      createLocalBounds : Create the local-coordinate bounds.
 //-----------------------------------------------------------------------------
 static TQ3GroupObject
-createLocalBounds(TQ3GeometryObject theGeom)
+createLocalBounds(TQ3ViewObject theView, TQ3GeometryObject theGeom)
 {	TQ3ColorRGB			boxColour = { 0.0f, 1.0f, 0.0f };
 	TQ3BoundingBox		theBounds;
 	TQ3ShaderObject		theShader;
 	TQ3StyleObject		theStyle;
 	TQ3GroupObject		theGroup;
 	TQ3BoxData			boxData;
-	TQ3ViewObject		theView;
 	TQ3GeometryObject	theBox;
 
 
@@ -429,12 +428,10 @@ createLocalBounds(TQ3GeometryObject theGeom)
 
 
 	// Calculate the bounding box
-	theView = Q3View_New();
 	if (theView == NULL)
 		return(NULL);
 
 	Qut_CalcBounds(theView, theGeom, &theBounds);
-	Q3Object_Dispose(theView);
 
 
 
@@ -474,14 +471,13 @@ createLocalBounds(TQ3GeometryObject theGeom)
 //      createLocalBoundingSphere : Create the local-coordinate  bounding sphere.
 //-----------------------------------------------------------------------------
 static TQ3GroupObject
-createLocalBoundingSphere(TQ3GeometryObject theGeom)
+createLocalBoundingSphere( TQ3ViewObject theView, TQ3GeometryObject theGeom)
 {	TQ3ColorRGB			ellipsoidColour = { 0.5f, 0.5f, 0.0f };
 	TQ3BoundingSphere	theBoundingSphere;
 	TQ3ShaderObject		theShader;
 	TQ3StyleObject		theStyle;
 	TQ3GroupObject		theGroup;
 	TQ3EllipsoidData	ellipsoidData;
-	TQ3ViewObject		theView;
 	TQ3GeometryObject	theEllipsoid;
 
 
@@ -518,12 +514,10 @@ createLocalBoundingSphere(TQ3GeometryObject theGeom)
 
 
 	// Calculate the bounding sphere
-	theView = Q3View_New();
 	if (theView == NULL)
 		return(NULL);
 
 	Qut_CalcBoundingSphere(theView, theGeom, &theBoundingSphere);
-	Q3Object_Dispose(theView);
 
 
 
@@ -3301,7 +3295,7 @@ appMenuSelect(TQ3ViewObject theView, TQ3Uns32 menuItem)
 		case kMenuItemToggleLocalBoundingBox:
 			// Create or dispose of the bounding geometry
 			if (gSceneBounds == NULL)
-				gSceneBounds = createLocalBounds(gSceneGeometry);
+				gSceneBounds = createLocalBounds(theView, gSceneGeometry);
 			else
 				{
 				Q3Object_Dispose(gSceneBounds);
@@ -3316,7 +3310,7 @@ appMenuSelect(TQ3ViewObject theView, TQ3Uns32 menuItem)
 		case kMenuItemToggleLocalBoundingSphere:
 			// Create or dispose of the bounding sphere geometry
 			if (gSceneBoundingSphere == NULL)
-				gSceneBoundingSphere = createLocalBoundingSphere(gSceneGeometry);
+				gSceneBoundingSphere = createLocalBoundingSphere(theView, gSceneGeometry);
 			else
 				{
 				Q3Object_Dispose(gSceneBoundingSphere);
@@ -3489,13 +3483,13 @@ appMenuSelect(TQ3ViewObject theView, TQ3Uns32 menuItem)
 		if (gSceneBounds != NULL)
 			{
 			Q3Object_Dispose(gSceneBounds);
-			gSceneBounds = createLocalBounds(gSceneGeometry);
+			gSceneBounds = createLocalBounds(theView, gSceneGeometry);
 			}
 
 		if (gSceneBoundingSphere != NULL)
 			{
 			Q3Object_Dispose(gSceneBoundingSphere);
-			gSceneBoundingSphere = createLocalBoundingSphere(gSceneGeometry);
+			gSceneBoundingSphere = createLocalBoundingSphere(theView, gSceneGeometry);
 			}
 			
 		}
