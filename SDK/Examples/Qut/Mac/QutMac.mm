@@ -5,7 +5,7 @@
         Quesa Utility Toolkit - Mac.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1975,6 +1975,13 @@ int main(void)
 {
 	NSMenuItem* item = (NSMenuItem*) sender;
 	Q3View_SetRendererByType(gView, (TQ3ObjectType) item.tag);
+	[self.glView setNeedsDisplay: YES];
+}
+
+- (void) styleCmd: (id) sender
+{
+	NSMenuItem* item = (NSMenuItem*) sender;
+	Qut_InvokeStyleCommand( (TQ3Int32) item.tag );
 	[self.glView setNeedsDisplay: YES];
 }
 

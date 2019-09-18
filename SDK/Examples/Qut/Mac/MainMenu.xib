@@ -364,124 +364,142 @@
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <menu key="submenu" title="Style" id="PnD-71-Kdg">
                         <items>
-                            <menuItem title="Shader NULL Illumination" id="0Lc-WT-4Ud">
+                            <menuItem title="Shader NULL Illumination" tag="1" id="0Lc-WT-4Ud">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
-                                    <action selector="styleNULLIllumination:" target="-1" id="R69-DW-68w"/>
+                                    <action selector="styleCmd:" target="-1" id="o5u-6g-VSp"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Shader Lambert Illumination" id="4Jv-AP-ZQP">
+                            <menuItem title="Shader Lambert Illumination" tag="2" id="4Jv-AP-ZQP">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
-                                    <action selector="styleLambertIllumination:" target="-1" id="Cth-4Z-kNp"/>
+                                    <action selector="styleCmd:" target="-1" id="w4I-Do-hkE"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Shader Phong Illumination" id="Qno-gV-4hN">
+                            <menuItem title="Shader Phong Illumination" tag="3" id="Qno-gV-4hN">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
-                                    <action selector="stylePhongIllumination:" target="-1" id="n7X-43-lx9"/>
+                                    <action selector="styleCmd:" target="-1" id="7y9-Kb-rZh"/>
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="TMA-8u-2Oe"/>
-                            <menuItem title="Fill Style Filled" id="eHj-QZ-0iq">
+                            <menuItem title="Fill Style Filled" tag="5" id="eHj-QZ-0iq">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
-                                    <action selector="styleFillFill:" target="-1" id="Hpm-p9-TQS"/>
+                                    <action selector="styleCmd:" target="-1" id="UPc-WM-LQK"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Fill Style Edges" id="e7X-ES-RNv">
+                            <menuItem title="Fill Style Edges" tag="6" id="e7X-ES-RNv">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
-                                    <action selector="styleEdgeFill:" target="-1" id="UJR-ME-Pg0"/>
+                                    <action selector="styleCmd:" target="-1" id="0vr-jj-sJb"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Fill Style Points" id="Bho-G4-fIT">
+                            <menuItem title="Fill Style Points" tag="7" id="Bho-G4-fIT">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
-                                    <action selector="stylePointFill:" target="-1" id="9Xg-na-2RM"/>
+                                    <action selector="styleCmd:" target="-1" id="ZzP-jm-K8H"/>
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="uhh-Sa-yDp"/>
-                            <menuItem title="Backfacing Style Both" id="hYG-Uj-JT3">
+                            <menuItem title="Backfacing Style Both" tag="9" id="hYG-Uj-JT3">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
-                                    <action selector="styleBackfacingBoth:" target="-1" id="ThH-ok-rah"/>
+                                    <action selector="styleCmd:" target="-1" id="1Fs-Fm-RlV"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Backfacing Style Remove" id="SD4-wr-2AV">
+                            <menuItem title="Backfacing Style Remove" tag="10" id="SD4-wr-2AV">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
-                                    <action selector="styleBackfacingRemove:" target="-1" id="DKY-vh-ilL"/>
+                                    <action selector="styleCmd:" target="-1" id="prL-GP-qgv"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Backfacing Style Remove Front" id="Qxh-I5-NwC">
+                            <menuItem title="Backfacing Style Remove Front" tag="50" id="Qxh-I5-NwC">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
-                                    <action selector="styleBackfacingRemoveFront:" target="-1" id="uqR-eQ-h9u"/>
+                                    <action selector="styleCmd:" target="-1" id="st9-i2-Fhx"/>
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="xYZ-OF-ZsR"/>
-                            <menuItem title="Interpolation Style None" id="izC-tJ-4Gh">
+                            <menuItem title="Interpolation Style None" tag="13" id="izC-tJ-4Gh">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
-                                    <action selector="styleInterpolationNone:" target="-1" id="cDc-Zh-FgO"/>
+                                    <action selector="styleCmd:" target="-1" id="FK5-nM-eqO"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Interpolation Style Vertex" id="Pfy-cz-wPn">
+                            <menuItem title="Interpolation Style Vertex" tag="14" id="Pfy-cz-wPn">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
-                                    <action selector="styleInterpolationVertex:" target="-1" id="8GH-jh-xmf"/>
+                                    <action selector="styleCmd:" target="-1" id="jqB-qB-OK7"/>
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="4Gk-sI-rJU"/>
-                            <menuItem title="Orientation Style Clockwise" id="yfO-jk-CWj">
+                            <menuItem title="Orientation Style Clockwise" tag="17" id="yfO-jk-CWj">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
-                                    <action selector="styleOrientationClockwise:" target="-1" id="mxX-zK-TTq"/>
+                                    <action selector="styleCmd:" target="-1" id="Zcj-Im-Kb9"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Orientation Style Counterclockwise" id="KqB-Hm-akC">
+                            <menuItem title="Orientation Style Counterclockwise" tag="18" id="KqB-Hm-akC">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
-                                    <action selector="styleOrientationCounterclockwise:" target="-1" id="fcK-gY-IHB"/>
+                                    <action selector="styleCmd:" target="-1" id="n1R-A4-u7V"/>
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="XEH-aW-dRa"/>
-                            <menuItem title="Fog Style On" id="HFR-l3-nP4">
+                            <menuItem title="Fog Style On" tag="24" id="HFR-l3-nP4">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
-                                    <action selector="styleFogOn:" target="-1" id="Egv-6I-YaF"/>
+                                    <action selector="styleCmd:" target="-1" id="8R9-PU-CwH"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Fog Style Off" id="Q79-hX-SWT">
+                            <menuItem title="Fog Style Off" tag="25" id="Q79-hX-SWT">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
-                                    <action selector="styleFogOff:" target="-1" id="wSM-4G-kop"/>
+                                    <action selector="styleCmd:" target="-1" id="I0k-qh-nfM"/>
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="p28-df-UdN"/>
-                            <menuItem title="Subdivision Style Constant (5, 5)" id="918-hc-1MQ">
+                            <menuItem title="Subdivision Style Constant (5, 5)" tag="27" id="918-hc-1MQ">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
-                                    <action selector="styleSub5_5:" target="-1" id="eOK-1O-pFQ"/>
+                                    <action selector="styleCmd:" target="-1" id="Yx6-rn-uQ3"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Subdivision Style Constant (25, 25)" id="eyQ-j5-g10">
+                            <menuItem title="Subdivision Style Constant (25, 25)" tag="28" id="eyQ-j5-g10">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
-                                    <action selector="styleSub25_25:" target="-1" id="05F-3r-0Dj"/>
+                                    <action selector="styleCmd:" target="-1" id="sUn-gD-8gY"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Subdivision Style Constant (50, 50)" id="tPV-NR-J1X">
+                            <menuItem title="Subdivision Style Constant (50, 50)" tag="29" id="tPV-NR-J1X">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
-                                    <action selector="styleSub50_50:" target="-1" id="rbA-Li-4O9"/>
+                                    <action selector="styleCmd:" target="-1" id="Hnr-DB-hbB"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Subdivision Style Constant (50, 5)" id="Ao7-Ka-Sb9">
+                            <menuItem title="Subdivision Style Constant (50, 5)" tag="30" id="Ao7-Ka-Sb9">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <connections>
-                                    <action selector="styleSub50_5:" target="-1" id="iIn-tG-Kdc"/>
+                                    <action selector="styleCmd:" target="-1" id="nTP-EV-CcK"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Subdivision Style World (0.1)" tag="31" id="f3D-B8-HhL">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="styleCmd:" target="-1" id="INn-yz-Yk3"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Subdivision Style World (0.5)" tag="32" id="LNk-bs-GTl">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="styleCmd:" target="-1" id="kjy-2G-IBz"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Subdivision Style World (2.5)" tag="33" id="e3s-0P-iAy">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="styleCmd:" target="-1" id="pyD-3r-JsS"/>
                                 </connections>
                             </menuItem>
                         </items>

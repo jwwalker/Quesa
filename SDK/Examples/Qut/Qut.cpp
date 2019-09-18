@@ -5,7 +5,7 @@
         Quesa Utility Toolkit.
 
     COPYRIGHT:
-        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -866,6 +866,10 @@ Qut_InvokeStyleCommand(TQ3Int32 theCmd)
 
 		case kStyleCmdBackfacingRemove:
 			gStyleBackfacing = kQ3BackfacingStyleRemove;
+			break;
+
+		case kStyleCmdBackfacingRemoveFront:
+			gStyleBackfacing = kQ3BackfacingStyleRemoveFront;
 			break;
 
 		case kStyleCmdBackfacingFlip:

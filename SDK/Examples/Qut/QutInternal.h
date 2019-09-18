@@ -77,6 +77,7 @@ extern "C" {
 #define kStyleCmdDummy2									8
 #define kStyleCmdBackfacingBoth							9
 #define kStyleCmdBackfacingRemove						10
+#define kStyleCmdBackfacingRemoveFront					50
 #define kStyleCmdBackfacingFlip							11
 #define kStyleCmdDummy3									12
 #define kStyleCmdInterpolationNone						13
