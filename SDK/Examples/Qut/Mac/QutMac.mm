@@ -1839,6 +1839,34 @@ int main(void)
 	[super reshape];
 }
 
+- (void) mouseDown:(NSEvent *)event
+{
+ 	if (gFuncAppMouseDown != nullptr)
+ 	{
+		CGFloat viewHeight = NSHeight( self.bounds );
+		NSPoint local_point = [self convertPoint:event.locationInWindow fromView:nil];
+ 		TQ3Point2D hitPt = {
+			static_cast<float>(local_point.x),
+			static_cast<float>(viewHeight - local_point.y)
+ 		};
+ 		(*gFuncAppMouseDown)( gView, hitPt );
+ 	}
+}
+
+- (void) mouseUp:(NSEvent *)event
+{
+ 	if (gFuncAppMouseUp != nullptr)
+ 	{
+		CGFloat viewHeight = NSHeight( self.bounds );
+		NSPoint local_point = [self convertPoint:event.locationInWindow fromView:nil];
+ 		TQ3Point2D hitPt = {
+			static_cast<float>(local_point.x),
+			static_cast<float>(viewHeight - local_point.y)
+ 		};
+ 		(*gFuncAppMouseUp)( gView, hitPt );
+ 	}
+}
+
 @end
 
 
