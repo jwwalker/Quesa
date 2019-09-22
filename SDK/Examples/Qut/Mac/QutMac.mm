@@ -248,7 +248,7 @@ Qut_SelectMetafileToOpen(void)
 	@autoreleasepool
 	{
 		NSOpenPanel* panel = [NSOpenPanel openPanel];
-		panel.allowedFileTypes = @[ @"3dmf" ];
+		panel.allowedFileTypes = @[ @"3dmf" , @"wrl"];
 		panel.canChooseFiles = YES;
 		panel.canChooseDirectories = NO;
 		panel.allowsMultipleSelection = NO;

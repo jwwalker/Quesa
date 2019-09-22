@@ -5,7 +5,7 @@
         Header file for QutTexture.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -71,6 +71,11 @@ TQ3TextureObject	QutTexture_CreateTextureObjectFromTGAFile( const char* inFilePa
 TQ3ShaderObject		QutTexture_CreateTextureFromTGAFile( const char* inFilePath );
 
 #if QUESA_OS_MACINTOSH
+TQ3TextureObject	QutTexture_CreateTextureObjectFromFile(	CFURLRef		fileURL,
+														TQ3Boolean		wantMipMaps);
+#endif
+
+#if 0//QUESA_OS_MACINTOSH
 
 GWorldPtr			QutTexture_CreateGWorldFromPICT(	PicHandle		thePicture,
 														TQ3PixelType	pixelType);

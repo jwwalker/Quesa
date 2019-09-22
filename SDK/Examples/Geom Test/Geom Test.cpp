@@ -2598,60 +2598,45 @@ doSaveModel(TQ3ViewObject theView)
 
 //=============================================================================
 //      TextureImportCallback : Read textures used in VRML files.
+//
+//	The inURL parameter is probably not really a URL, but just a file name or
+//	relative path.  The inStorage parameter is the storage of the VRML file,
+//	so if it's a path storage, it can be used to find the path to the directory
+//	upon which the relative path is based.
 //-----------------------------------------------------------------------------
 static TQ3Object TextureImportCallback( const char* inURL,
 					TQ3StorageObject inStorage )
 {
 	TQ3Object	theTexture = NULL;
 	
-#if 0//QUESA_OS_MACINTOSH && TARGET_API_MAC_CARBON
-#warning update TextureImportCallback for Mac
-	if (Q3Object_IsType( inStorage, kQ3MacintoshStorageTypeFSSpec ))
+#if QUESA_OS_MACINTOSH
+	if (Q3Object_IsType( inStorage, kQ3StorageTypePath ))
 	{
-		FSSpec	baseSpec;
-		if (kQ3Success == Q3FSSpecStorage_Get( inStorage, &baseSpec ))
+		char	thePath[1024];
+		if (kQ3Success == Q3PathStorage_Get( inStorage, thePath ))
 		{
-			FSRef	baseRef, parentRef, targetRef;
-			HFSUniStr255	name255;
-			OSErr	err;
-			name255.length = 0;
-			err = FSpMakeFSRef( &baseSpec, &baseRef );
-			if (err == noErr)
+			long	dirLen, urlLen;
+			char*	lastSlash = strrchr( thePath, '/' );
+			lastSlash[1] = '\0';
+			dirLen = strlen( thePath );
+			urlLen = strlen( inURL );
+			
+			if (dirLen + urlLen + 1 < sizeof(thePath))
 			{
-				err = FSGetCatalogInfo( &baseRef, kFSCatInfoNone,
-					NULL, NULL, NULL, &parentRef );
-			}
-			if (err == noErr)
-			{
-				CFStringRef	nameCF = CFStringCreateWithCString( NULL,
-					inURL, kCFStringEncodingUTF8 );
-				if (nameCF != NULL)
+				strcat( thePath, inURL );
+				CFStringRef pathStr = CFStringCreateWithCString( NULL,
+					thePath, kCFStringEncodingUTF8 );
+				if (pathStr != NULL)
 				{
-					CFIndex	nameLen = CFStringGetLength( nameCF );
-					if (nameLen <= 255)
-					{
-						CFStringGetCharacters( nameCF,
-							CFRangeMake( 0, nameLen ),
-							name255.unicode );
-						name255.length = nameLen;
-					}
-				}
-			}
-			if (name255.length > 0)
-			{
-				err = FSMakeFSRefUnicode( &parentRef, name255.length,
-					name255.unicode, kTextEncodingUnknown,
-					&targetRef );
-				if (err == noErr)
-				{
-					FSSpec	textureSpec;
-					err = FSGetCatalogInfo( &targetRef, kFSCatInfoNone,
-						NULL, NULL, &textureSpec, NULL );
+					CFURLRef cfURL = CFURLCreateWithFileSystemPath( NULL,
+						pathStr, kCFURLPOSIXPathStyle, false );
+					CFRelease( pathStr );
 					
-					if (err == noErr)
+					if (cfURL != NULL)
 					{
 						theTexture = QutTexture_CreateTextureObjectFromFile(
-							&textureSpec, kQ3PixelTypeRGB32, kQ3True );
+							cfURL, kQ3True );
+						CFRelease( cfURL );
 					}
 				}
 			}

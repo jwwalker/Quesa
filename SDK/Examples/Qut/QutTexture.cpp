@@ -5,7 +5,7 @@
         Quesa Utility Toolkit - texture utilities.
 
     COPYRIGHT:
-        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -325,6 +325,94 @@ QutTexture_CreateTextureFromTGAFile( const char* inFilePath )
 }
 
 
+#if QUESA_OS_MACINTOSH
+TQ3TextureObject	QutTexture_CreateTextureObjectFromFile(	CFURLRef		fileURL,
+														TQ3Boolean		wantMipMaps)
+{
+	TQ3TextureObject	texture = NULL;
+	
+	CGImageSourceRef imSrc = CGImageSourceCreateWithURL( fileURL, NULL );
+	if (imSrc != NULL)
+	{
+		CGImageRef imRef = CGImageSourceCreateImageAtIndex( imSrc, 0, NULL );
+		CFRelease( imSrc );
+		if (imRef != NULL)
+		{
+			CGBitmapInfo bitInfo = CGImageGetBitmapInfo( imRef );
+			bitInfo = bitInfo & kCGBitmapAlphaInfoMask;
+			bool hasAlpha = (bitInfo != kCGImageAlphaNone) &&
+				(bitInfo != kCGImageAlphaNoneSkipFirst) &&
+				(bitInfo != kCGImageAlphaNoneSkipLast);
+			bitInfo = kCGBitmapByteOrder32Little |
+				(hasAlpha? kCGImageAlphaPremultipliedFirst : kCGImageAlphaNoneSkipFirst);
+			
+			size_t theWidth = CGImageGetWidth( imRef );
+			size_t theHeight = CGImageGetHeight( imRef );
+			size_t rowBytes = theWidth * 4;
+			
+			CGContextRef imDst = CGBitmapContextCreate( NULL,
+				theWidth, theHeight, 8,
+				rowBytes, CGImageGetColorSpace( imRef ),
+				bitInfo );
+			if (imDst != NULL)
+			{
+				CGRect bounds = CGRectMake( 0.0, 0.0, theWidth, theHeight );
+				CGContextClearRect( imDst, bounds );
+				CGContextDrawImage( imDst, bounds, imRef );
+				
+				TQ3PixelType pixelType = hasAlpha?
+					kQ3PixelTypeARGB32 : kQ3PixelTypeRGB32;
+				const unsigned char* pixelData = (const unsigned char*)
+					CGBitmapContextGetData( imDst );
+				
+				TQ3StorageObject qd3dMemoryStorage =
+					Q3MemoryStorage_New( pixelData,
+						(TQ3Uns32)(theHeight * rowBytes) );
+				if (qd3dMemoryStorage)
+				{
+					if (wantMipMaps)
+					{
+						TQ3StoragePixmap	qd3dPixMap;
+						
+						qd3dPixMap.image    = qd3dMemoryStorage;
+						qd3dPixMap.width	= (TQ3Uns32) theWidth;
+						qd3dPixMap.height	= (TQ3Uns32) theHeight;
+						qd3dPixMap.rowBytes	= (TQ3Uns32) rowBytes;
+						qd3dPixMap.pixelSize	= 32;
+						qd3dPixMap.pixelType	= pixelType;
+						qd3dPixMap.bitOrder	= kQ3EndianLittle;
+						qd3dPixMap.byteOrder	= kQ3EndianLittle;
+						texture	= Q3PixmapTexture_New(&qd3dPixMap);
+					}
+					else
+					{
+						TQ3Mipmap				qd3dMipMap;
+						qd3dMipMap.image         = qd3dMemoryStorage;
+						qd3dMipMap.useMipmapping = kQ3False;
+						qd3dMipMap.pixelType	 = pixelType;
+						qd3dMipMap.bitOrder		 = kQ3EndianLittle;
+						qd3dMipMap.byteOrder	 = kQ3EndianLittle;
+						qd3dMipMap.reserved		 = 0;
+
+						qd3dMipMap.mipmaps[0].width    = (TQ3Uns32) theWidth;
+						qd3dMipMap.mipmaps[0].height   = (TQ3Uns32) theHeight;
+						qd3dMipMap.mipmaps[0].rowBytes = (TQ3Uns32) rowBytes;
+						qd3dMipMap.mipmaps[0].offset   = 0;
+					
+						texture = Q3MipmapTexture_New(&qd3dMipMap);
+					}
+					
+					Q3Object_Dispose(qd3dMemoryStorage);
+				}
+
+				CGContextRelease( imDst );
+			}
+		}
+	}
+
+	return texture;
+}
+#endif
 
 
 
