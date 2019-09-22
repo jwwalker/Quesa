@@ -90,65 +90,72 @@ enum
 	kMenuItemGeometryTriMesh
 };
 
-static TQ3ShaderObject createTextureFromFile(NSString * fileName)
-{    // doesn't work in 64 bit
+static TQ3ShaderObject createTextureFromFile(NSURL * fileName)
+{
 	// create the texture return shader object or null if error
-
 	TQ3ShaderObject	shader = NULL;
-	NSBitmapImageRep	*theImage;	
-
-	NSLog(@"createTextureFromFile:fileName:[%@]", fileName);
-
-	theImage = (NSBitmapImageRep*) [NSImageRep imageRepWithContentsOfFile: fileName];
-
-	if ([theImage isKindOfClass: [NSBitmapImageRep class]])
+	
+	CGImageSourceRef imSrc = CGImageSourceCreateWithURL( (CFURLRef) fileName, NULL );
+	if (imSrc != NULL)
 	{
-		int	bitsPPixel, theWidth, theHeight, rowBytes;
-		bitsPPixel	= (int) [theImage bitsPerPixel];
-		rowBytes	= (int) [theImage bytesPerRow];
-		theWidth	= (int) [theImage pixelsWide];
-		theHeight	= (int) [theImage pixelsHigh];
-
-
-		NSLog(@"createTextureFromFile: imageRepWithContentsOfFile OK: width = %d, height = %d,  %d bpp, %d rowBytes\n",
-		theWidth, theHeight, bitsPPixel, rowBytes);
-
-
-		TQ3TextureObject	qd3dTextureObject;	
-		TQ3StoragePixmap	qd3dPixMap;
-		TQ3StorageObject	qd3dMemoryStorage;
-		TQ3PixelType	pixelType = kQ3PixelTypeRGB24;
-
-
-		switch (bitsPPixel)
+		CGImageRef imRef = CGImageSourceCreateImageAtIndex( imSrc, 0, NULL );
+		CFRelease( imSrc );
+		if (imRef != NULL)
 		{
-			case 16: pixelType = kQ3PixelTypeRGB16; break;
-			case 24: pixelType = kQ3PixelTypeRGB24; break;
-			case 32: pixelType = kQ3PixelTypeARGB32; break;
-		}
+			CGBitmapInfo bitInfo = CGImageGetBitmapInfo( imRef );
+			bitInfo = bitInfo & kCGBitmapAlphaInfoMask;
+			BOOL hasAlpha = (bitInfo != kCGImageAlphaNone) &&
+				(bitInfo != kCGImageAlphaNoneSkipFirst) &&
+				(bitInfo != kCGImageAlphaNoneSkipLast);
+			bitInfo = kCGBitmapByteOrder32Little |
+				(hasAlpha? kCGImageAlphaPremultipliedFirst : kCGImageAlphaNoneSkipFirst);
+			
+			size_t theWidth = CGImageGetWidth( imRef );
+			size_t theHeight = CGImageGetHeight( imRef );
+			size_t rowBytes = theWidth * 4;
+			
+			CGContextRef imDst = CGBitmapContextCreate( NULL,
+				theWidth, theHeight, 8,
+				rowBytes, CGImageGetColorSpace( imRef ),
+				bitInfo );
+			if (imDst != NULL)
+			{
+				CGRect bounds = CGRectMake( 0.0, 0.0, theWidth, theHeight );
+				CGContextClearRect( imDst, bounds );
+				CGContextDrawImage( imDst, bounds, imRef );
+				
+				TQ3PixelType pixelType = hasAlpha?
+					kQ3PixelTypeARGB32 : kQ3PixelTypeRGB32;
+				const unsigned char* pixelData = CGBitmapContextGetData( imDst );
+				
+				TQ3StorageObject qd3dMemoryStorage =
+					Q3MemoryStorage_New( pixelData,
+						(TQ3Uns32)(theHeight * rowBytes) );
+				if (qd3dMemoryStorage)
+				{
+					TQ3StoragePixmap	qd3dPixMap;
+					qd3dPixMap.image    = qd3dMemoryStorage;
+					qd3dPixMap.width	= (TQ3Uns32) theWidth;
+					qd3dPixMap.height	= (TQ3Uns32) theHeight;
+					qd3dPixMap.rowBytes	= (TQ3Uns32) rowBytes;
+					qd3dPixMap.pixelSize	= 32;
+					qd3dPixMap.pixelType	= pixelType;
+					qd3dPixMap.bitOrder	= kQ3EndianLittle;
+					qd3dPixMap.byteOrder	= kQ3EndianLittle;
+					TQ3TextureObject qd3dTextureObject	= Q3PixmapTexture_New(&qd3dPixMap);
+					if (qd3dTextureObject)
+					{	// create shader from texture object
+						shader = Q3TextureShader_New(qd3dTextureObject);
+						Q3Object_Dispose(qd3dTextureObject);
+					}
+					Q3Object_Dispose(qd3dMemoryStorage);
+				}
 
-
-		qd3dMemoryStorage	= Q3MemoryStorage_New([theImage bitmapData], theHeight * rowBytes);
-		if (qd3dMemoryStorage)
-		{
-			qd3dPixMap.image        = qd3dMemoryStorage;
-			qd3dPixMap.width	= theWidth;
-			qd3dPixMap.height	= theHeight;
-			qd3dPixMap.rowBytes	= rowBytes;
-			qd3dPixMap.pixelSize	= bitsPPixel;
-			qd3dPixMap.pixelType	= pixelType;
-			qd3dPixMap.bitOrder	= kQ3EndianLittle;
-			qd3dPixMap.byteOrder	= kQ3EndianLittle;
-			qd3dTextureObject	= Q3PixmapTexture_New(&qd3dPixMap);
-			if (qd3dTextureObject)
-			{	// create shader from textured object
-				shader = Q3TextureShader_New(qd3dTextureObject);
-				Q3Object_Dispose(qd3dTextureObject);
+				CGContextRelease( imDst );
 			}
-			Q3Object_Dispose(qd3dMemoryStorage);
 		}
-
 	}
+
 	return shader;
 }
 
@@ -776,8 +783,7 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 	[panel setCanChooseDirectories: NO];
 	[panel setAllowsMultipleSelection: NO];
 	[panel setResolvesAliases: YES];
-	[panel setAllowedFileTypes:
-		[NSArray arrayWithObjects: @"public.image", @"com.adobe.pdf", nil] ];
+	[panel setAllowedFileTypes: @[ @"public.image" ] ];
 	
 	[panel beginSheetModalForWindow: [quesa3dView window]
 		completionHandler:
@@ -787,7 +793,7 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 				(mSceneGeometry != NULL) )
 			{
 				NSURL* theURL = [[panel URLs] objectAtIndex: 0];
-				TQ3ShaderObject txShader = createTextureFromFile( [theURL path] );
+				TQ3ShaderObject txShader = createTextureFromFile( theURL );
 			
 				if (txShader != NULL)
 				{
