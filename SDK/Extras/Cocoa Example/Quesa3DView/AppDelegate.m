@@ -90,12 +90,51 @@ enum
 	kMenuItemGeometryTriMesh
 };
 
-static TQ3ShaderObject createTextureFromFile(NSURL * fileName)
+static TQ3TextureObject qutTexture_CreateTextureObjectFromBitmap(
+		CGContextRef inBitmapContext,
+		BOOL inHasAlpha )
+{
+	TQ3TextureObject	texture = NULL;
+
+	TQ3PixelType pixelType = inHasAlpha?
+		kQ3PixelTypeARGB32 : kQ3PixelTypeRGB32;
+	const unsigned char* pixelData = (const unsigned char*)
+		CGBitmapContextGetData( inBitmapContext );
+	size_t theWidth = CGBitmapContextGetWidth( inBitmapContext );
+	size_t theHeight = CGBitmapContextGetHeight( inBitmapContext );
+	size_t rowBytes = CGBitmapContextGetBytesPerRow( inBitmapContext );
+	
+	TQ3StorageObject qd3dMemoryStorage =
+		Q3MemoryStorage_New( pixelData,
+			(TQ3Uns32)(theHeight * rowBytes) );
+	if (qd3dMemoryStorage)
+	{
+		TQ3StoragePixmap	qd3dPixMap;
+		
+		qd3dPixMap.image    = qd3dMemoryStorage;
+		qd3dPixMap.width	= (TQ3Uns32) theWidth;
+		qd3dPixMap.height	= (TQ3Uns32) theHeight;
+		qd3dPixMap.rowBytes	= (TQ3Uns32) rowBytes;
+		qd3dPixMap.pixelSize	= 32;
+		qd3dPixMap.pixelType	= pixelType;
+		qd3dPixMap.bitOrder	= kQ3EndianLittle;
+		qd3dPixMap.byteOrder	= kQ3EndianLittle;
+		texture	= Q3PixmapTexture_New(&qd3dPixMap);
+		
+		Q3Object_Dispose(qd3dMemoryStorage);
+	}
+	
+	return texture;
+}
+
+
+static TQ3ShaderObject createTextureFromFile(NSURL * fileURL)
 {
 	// create the texture return shader object or null if error
 	TQ3ShaderObject	shader = NULL;
+	TQ3TextureObject qd3dTextureObject = NULL;
 	
-	CGImageSourceRef imSrc = CGImageSourceCreateWithURL( (CFURLRef) fileName, NULL );
+	CGImageSourceRef imSrc = CGImageSourceCreateWithURL( (CFURLRef) fileURL, NULL );
 	if (imSrc != NULL)
 	{
 		CGImageRef imRef = CGImageSourceCreateImageAtIndex( imSrc, 0, NULL );
@@ -124,36 +163,60 @@ static TQ3ShaderObject createTextureFromFile(NSURL * fileName)
 				CGContextClearRect( imDst, bounds );
 				CGContextDrawImage( imDst, bounds, imRef );
 				
-				TQ3PixelType pixelType = hasAlpha?
-					kQ3PixelTypeARGB32 : kQ3PixelTypeRGB32;
-				const unsigned char* pixelData = CGBitmapContextGetData( imDst );
-				
-				TQ3StorageObject qd3dMemoryStorage =
-					Q3MemoryStorage_New( pixelData,
-						(TQ3Uns32)(theHeight * rowBytes) );
-				if (qd3dMemoryStorage)
-				{
-					TQ3StoragePixmap	qd3dPixMap;
-					qd3dPixMap.image    = qd3dMemoryStorage;
-					qd3dPixMap.width	= (TQ3Uns32) theWidth;
-					qd3dPixMap.height	= (TQ3Uns32) theHeight;
-					qd3dPixMap.rowBytes	= (TQ3Uns32) rowBytes;
-					qd3dPixMap.pixelSize	= 32;
-					qd3dPixMap.pixelType	= pixelType;
-					qd3dPixMap.bitOrder	= kQ3EndianLittle;
-					qd3dPixMap.byteOrder	= kQ3EndianLittle;
-					TQ3TextureObject qd3dTextureObject	= Q3PixmapTexture_New(&qd3dPixMap);
-					if (qd3dTextureObject)
-					{	// create shader from texture object
-						shader = Q3TextureShader_New(qd3dTextureObject);
-						Q3Object_Dispose(qd3dTextureObject);
-					}
-					Q3Object_Dispose(qd3dMemoryStorage);
-				}
+				qd3dTextureObject = qutTexture_CreateTextureObjectFromBitmap( imDst, hasAlpha );
 
 				CGContextRelease( imDst );
 			}
 		}
+	}
+	
+	if ( (qd3dTextureObject == NULL) &&
+		[fileURL.pathExtension isEqualToString: @"pdf"] )
+	{
+		CGPDFDocumentRef doc = CGPDFDocumentCreateWithURL( (CFURLRef) fileURL );
+		if (doc != NULL)
+		{
+			CGPDFPageRef page = CGPDFDocumentGetPage( doc, 1 );
+			if (page != NULL)
+			{
+				CGRect box = CGPDFPageGetBoxRect( page, kCGPDFTrimBox );
+				size_t theWidth = box.size.width;
+				size_t theHeight = box.size.height;
+				size_t rowBytes = ((theWidth * 4 + 15) / 16) * 16;
+				CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+				CGContextRef imDst = CGBitmapContextCreate( NULL,
+					theWidth, theHeight, 8,
+					rowBytes, colorSpace,
+					kCGBitmapByteOrder32Little | kCGImageAlphaNoneSkipFirst );
+				CFRelease( colorSpace );
+				if (imDst != NULL)
+				{
+					CGRect bounds = CGRectMake( 0.0, 0.0, theWidth, theHeight );
+					CGFloat fillColor[] = { 1.0, 1.0, 1.0, 1.0 };
+					CGContextSetFillColor( imDst, fillColor );
+					CGContextFillRect( imDst, bounds );
+					
+					CGAffineTransform transform = CGPDFPageGetDrawingTransform(
+						page, kCGPDFTrimBox, bounds, 0, false );
+					CGContextConcatCTM( imDst, transform );
+					CGContextClipToRect( imDst, CGPDFPageGetBoxRect( page,
+						kCGPDFTrimBox ) );
+					
+					CGContextDrawPDFPage( imDst, page );
+					
+					qd3dTextureObject = qutTexture_CreateTextureObjectFromBitmap( imDst, false );
+
+					CGContextRelease( imDst );
+				}
+			}
+			CFRelease( doc );
+		}
+	}
+
+	if (qd3dTextureObject)
+	{	// create shader from texture object
+		shader = Q3TextureShader_New(qd3dTextureObject);
+		Q3Object_Dispose(qd3dTextureObject);
 	}
 
 	return shader;
@@ -783,7 +846,7 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 	[panel setCanChooseDirectories: NO];
 	[panel setAllowsMultipleSelection: NO];
 	[panel setResolvesAliases: YES];
-	[panel setAllowedFileTypes: @[ @"public.image" ] ];
+	[panel setAllowedFileTypes: @[ @"public.image", @"com.adobe.pdf" ] ];
 	
 	[panel beginSheetModalForWindow: [quesa3dView window]
 		completionHandler:
