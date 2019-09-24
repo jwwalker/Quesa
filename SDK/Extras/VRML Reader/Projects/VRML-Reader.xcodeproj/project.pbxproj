@@ -92,6 +92,13 @@
 /* End PBXBuildRule section */
 
 /* Begin PBXContainerItemProxy section */
+		BE0A24542332A6B8003E6635 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BECECD301B4DF51700276CE7 /* Quesa.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D07F2BC0486CC7A007CD1D0;
+			remoteInfo = Framework;
+		};
 		BECECD351B4DF51700276CE7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BECECD301B4DF51700276CE7 /* Quesa.xcodeproj */;
@@ -479,6 +486,7 @@
 				BEC95E6F08A87E66001E16B9 /* PBXBuildRule */,
 			);
 			dependencies = (
+				BE0A24552332A6B8003E6635 /* PBXTargetDependency */,
 			);
 			name = "VRML-Reader";
 			productInstallPath = "$(HOME)/Library/Bundles";
@@ -605,6 +613,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		BE0A24552332A6B8003E6635 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Framework;
+			targetProxy = BE0A24542332A6B8003E6635 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		BE7C488208AF202E00559F64 /* Release */ = {

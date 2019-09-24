@@ -5,7 +5,7 @@
         Internal header for Qut.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -77,6 +77,7 @@ extern "C" {
 #define kStyleCmdDummy2									8
 #define kStyleCmdBackfacingBoth							9
 #define kStyleCmdBackfacingRemove						10
+#define kStyleCmdBackfacingRemoveFront					50
 #define kStyleCmdBackfacingFlip							11
 #define kStyleCmdDummy3									12
 #define kStyleCmdInterpolationNone						13

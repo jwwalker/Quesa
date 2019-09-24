@@ -2,10 +2,10 @@
         QutMac.h
 
     DESCRIPTION:
-        Header file for QutMac.c
+        Header file for QutMac.mm
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -42,53 +42,26 @@
 */
 #ifndef QUT_MAC_HDR
 #define QUT_MAC_HDR
-//=============================================================================
-//      Carbon compatibility macros
-//-----------------------------------------------------------------------------
-#if !TARGET_API_MAC_CARBON
-	// Get the bounds for a port
-	#define GetPortBounds(_port, _rect)				*(_rect) = _port->portRect;
+
+#if __OBJC__
+
+#import <Cocoa/Cocoa.h>
+
+@interface QutAppDelegate : NSObject <NSApplicationDelegate>
+
+@property (weak) IBOutlet NSMenu* rendererMenu;
+
+@property (weak) NSWindow*		window;
+@property (weak) NSOpenGLView*	glView;
+@property (copy) NSString*		savedWindowTitle;
+
+@end
 
 
-	// Get the port for a window
-	#ifndef GetWindowPort
-		#define GetWindowPort(_window)				(GrafPtr) (_window);
-	#endif
+@interface QutOpenGLView : NSOpenGLView
 
-
-	// Get the data for an AE descriptor
-	#define AEGetDescData(_ae, _ptr, _size)			noErr; memcpy(_ptr, *((_ae)->dataHandle), _size);
-	
-	
-	// Get the port bits of a port
-	#define GetPortBitMapForCopyBits(_port)			&((GrafPtr) _port)->portBits
-
-
-	// Validate a port rect
-	#define ValidWindowRect(_window, _rect)			\
-		do											\
-			{	GrafPtr		_savePort;				\
-													\
-			GetPort(&_savePort);					\
-			SetPort((GrafPtr) _window);				\
-			ValidRect(_rect);						\
-			SetPort(_savePort);						\
-			}										\
-		while (0)
-
-
-	// Older UH support
-	#if (UNIVERSAL_INTERFACES_VERSION == 0x0320)
-		#ifndef DisposeNavEventUPP
-			#define DisposeNavEventUPP(userUPP)		DisposeRoutineDescriptor(userUPP)
-		#endif
-	#endif
+@end
 
 #endif
-
-
-Boolean		QutMac_SelectMetafileToOpen(FSSpec* fileSpecPtr);
-
-Boolean		QutMac_SelectMetafileToSaveTo( FSRef* outFileRef );
 
 #endif

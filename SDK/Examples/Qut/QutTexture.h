@@ -5,7 +5,7 @@
         Header file for QutTexture.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -71,66 +71,10 @@ TQ3TextureObject	QutTexture_CreateTextureObjectFromTGAFile( const char* inFilePa
 TQ3ShaderObject		QutTexture_CreateTextureFromTGAFile( const char* inFilePath );
 
 #if QUESA_OS_MACINTOSH
-
-GWorldPtr			QutTexture_CreateGWorldFromPICT(	PicHandle		thePicture,
-														TQ3PixelType	pixelType);
-
-GWorldPtr			QutTexture_CreateGWorldFromFile(	const FSSpec *	theFSSpec,
-														TQ3PixelType	pixelType);
-
-TQ3ShaderObject		QutTexture_CreateTextureFromPixmap(	PixMapHandle	thePixMap,
-														TQ3PixelType	pixelType,
+TQ3TextureObject	QutTexture_CreateTextureObjectFromFile(	CFURLRef		fileURL,
 														TQ3Boolean		wantMipMaps);
-														
-														
-TQ3ShaderObject		QutTexture_CreateCompressedTextureFromPixmap(
-														PixMapHandle	thePixMap,
-														TQ3PixelType	pixelType,
-														TQ3Boolean		wantMipMaps);
-
-TQ3ShaderObject		QutTexture_CreateTextureFromGWorld(	GWorldPtr		theGWorld,
-														TQ3PixelType	pixelType,
-							 							TQ3Boolean		wantMipMaps);
-
-TQ3ShaderObject		QutTexture_CreateTextureFromFile(	const FSSpec *	theFSSpec,
-														TQ3PixelType	pixelType,
-														TQ3Boolean		wantMipMaps);
-														
-														
-TQ3ShaderObject		QutTexture_CreateCompressedTextureFromFile(
-														const FSSpec *	theFSSpec,
-														TQ3PixelType	pixelType,
-														TQ3Boolean		wantMipMaps);
-
-
-TQ3TextureObject	QutTexture_CreateTextureObjectFromPixmap(
-														PixMapHandle		thePixMap,
-														TQ3PixelType	pixelType,
-														TQ3Boolean		wantMipMaps);
-														
-TQ3TextureObject	QutTexture_CreateCompressedTextureObjectFromPixmap( 	
-														PixMapHandle	sourcePixmap,
-														TQ3PixelType	pixelType,
-														TQ3Boolean	 	wantMipMaps);
-
-
-TQ3TextureObject	QutTexture_CreateTextureObjectFromGWorld(
-														GWorldPtr		theGWorld,
-														TQ3PixelType	pixelType,
-							 							TQ3Boolean		wantMipMaps);
-
-TQ3TextureObject	QutTexture_CreateTextureObjectFromFile(
-														const FSSpec *	theFSSpec,
-														TQ3PixelType	pixelType,
-														TQ3Boolean		wantMipMaps);
-
-
-TQ3TextureObject	QutTexture_CreateCompressedTextureObjectFromFile(
-														const FSSpec *	theFSSpec,
-														TQ3PixelType	pixelType,
-														TQ3Boolean		wantMipMaps);
-
 #endif
+
 
 
 

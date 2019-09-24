@@ -5,7 +5,7 @@
         Geometry test.
 
     COPYRIGHT:
-        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -47,6 +47,8 @@
 
 #if QUESA_OS_MACINTOSH && !QUESA_UH_IN_FRAMEWORKS
 	#include <Timer.h>
+#elif QUESA_OS_WIN32
+	#include <direct.h>
 #elif QUESA_OS_UNIX
 	#include <sys/time.h>
 #endif
@@ -97,13 +99,13 @@
 	#define		QUESA_FACE5_PATH	"5.tga"
 	#define		QUESA_FACE6_PATH	"6.tga"
 #elif QUESA_PATH_STYLE == QUESA_PATH_STYLE_WINDOWS
-	#define		QUESA_LOGO_PATH		"..\\Support Files\\Images\\Quesa.tga"
-	#define		QUESA_FACE1_PATH	"..\\Support Files\\Images\\1.tga"
-	#define		QUESA_FACE2_PATH	"..\\Support Files\\Images\\2.tga"
-	#define		QUESA_FACE3_PATH	"..\\Support Files\\Images\\3.tga"
-	#define		QUESA_FACE4_PATH	"..\\Support Files\\Images\\4.tga"
-	#define		QUESA_FACE5_PATH	"..\\Support Files\\Images\\5.tga"
-	#define		QUESA_FACE6_PATH	"..\\Support Files\\Images\\6.tga"
+	#define		QUESA_LOGO_PATH		"..\\..\\..\\Support Files\\Images\\Quesa.tga"
+	#define		QUESA_FACE1_PATH	"..\\..\\..\\Support Files\\Images\\1.tga"
+	#define		QUESA_FACE2_PATH	"..\\..\\..\\Support Files\\Images\\2.tga"
+	#define		QUESA_FACE3_PATH	"..\\..\\..\\Support Files\\Images\\3.tga"
+	#define		QUESA_FACE4_PATH	"..\\..\\..\\Support Files\\Images\\4.tga"
+	#define		QUESA_FACE5_PATH	"..\\..\\..\\Support Files\\Images\\5.tga"
+	#define		QUESA_FACE6_PATH	"..\\..\\..\\Support Files\\Images\\6.tga"
 #else
 	// Assume that we're building the "Unix make" version
 	#define		QUESA_LOGO_PATH		"./Images/Quesa.tga"
@@ -383,14 +385,13 @@ createWorldBounds( TQ3ViewObject inView )
 //      createLocalBounds : Create the local-coordinate bounds.
 //-----------------------------------------------------------------------------
 static TQ3GroupObject
-createLocalBounds(TQ3GeometryObject theGeom)
+createLocalBounds(TQ3ViewObject theView, TQ3GeometryObject theGeom)
 {	TQ3ColorRGB			boxColour = { 0.0f, 1.0f, 0.0f };
 	TQ3BoundingBox		theBounds;
 	TQ3ShaderObject		theShader;
 	TQ3StyleObject		theStyle;
 	TQ3GroupObject		theGroup;
 	TQ3BoxData			boxData;
-	TQ3ViewObject		theView;
 	TQ3GeometryObject	theBox;
 
 
@@ -427,12 +428,10 @@ createLocalBounds(TQ3GeometryObject theGeom)
 
 
 	// Calculate the bounding box
-	theView = Q3View_New();
 	if (theView == NULL)
 		return(NULL);
 
 	Qut_CalcBounds(theView, theGeom, &theBounds);
-	Q3Object_Dispose(theView);
 
 
 
@@ -472,14 +471,13 @@ createLocalBounds(TQ3GeometryObject theGeom)
 //      createLocalBoundingSphere : Create the local-coordinate  bounding sphere.
 //-----------------------------------------------------------------------------
 static TQ3GroupObject
-createLocalBoundingSphere(TQ3GeometryObject theGeom)
+createLocalBoundingSphere( TQ3ViewObject theView, TQ3GeometryObject theGeom)
 {	TQ3ColorRGB			ellipsoidColour = { 0.5f, 0.5f, 0.0f };
 	TQ3BoundingSphere	theBoundingSphere;
 	TQ3ShaderObject		theShader;
 	TQ3StyleObject		theStyle;
 	TQ3GroupObject		theGroup;
 	TQ3EllipsoidData	ellipsoidData;
-	TQ3ViewObject		theView;
 	TQ3GeometryObject	theEllipsoid;
 
 
@@ -516,12 +514,10 @@ createLocalBoundingSphere(TQ3GeometryObject theGeom)
 
 
 	// Calculate the bounding sphere
-	theView = Q3View_New();
 	if (theView == NULL)
 		return(NULL);
 
 	Qut_CalcBoundingSphere(theView, theGeom, &theBoundingSphere);
-	Q3Object_Dispose(theView);
 
 
 
@@ -656,6 +652,17 @@ loadTextureFromSupportFile( const char* inPath )
 		}
 	return result;
 #else
+#if QUESA_OS_WIN32
+	// Set the working directory to the directory containing the .exe
+	wchar_t exePath[2048];
+	GetModuleFileNameW(nullptr, exePath, 2048);
+	wchar_t* lastSep = wcsrchr(exePath, '\\');
+	if (lastSep != nullptr)
+	{
+		*lastSep = '\0';
+		_wchdir(exePath);
+	}
+#endif
 	return QutTexture_CreateTextureFromTGAFile( inPath );
 #endif
 }
@@ -675,7 +682,7 @@ createGeomTexturedBox(void)
 	TQ3GeometryObject	theBox;
 	TQ3Uns32			n;
 	TQ3ShaderObject		texShader;
-	char*				textureNames[6] = { QUESA_FACE1_PATH, QUESA_FACE2_PATH, QUESA_FACE3_PATH,
+	const char*			textureNames[6] = { QUESA_FACE1_PATH, QUESA_FACE2_PATH, QUESA_FACE3_PATH,
 											QUESA_FACE4_PATH, QUESA_FACE5_PATH, QUESA_FACE6_PATH };
 	
 	// Set up the data
@@ -2591,59 +2598,45 @@ doSaveModel(TQ3ViewObject theView)
 
 //=============================================================================
 //      TextureImportCallback : Read textures used in VRML files.
+//
+//	The inURL parameter is probably not really a URL, but just a file name or
+//	relative path.  The inStorage parameter is the storage of the VRML file,
+//	so if it's a path storage, it can be used to find the path to the directory
+//	upon which the relative path is based.
 //-----------------------------------------------------------------------------
 static TQ3Object TextureImportCallback( const char* inURL,
 					TQ3StorageObject inStorage )
 {
 	TQ3Object	theTexture = NULL;
 	
-#if QUESA_OS_MACINTOSH && TARGET_API_MAC_CARBON
-	if (Q3Object_IsType( inStorage, kQ3MacintoshStorageTypeFSSpec ))
+#if QUESA_OS_MACINTOSH
+	if (Q3Object_IsType( inStorage, kQ3StorageTypePath ))
 	{
-		FSSpec	baseSpec;
-		if (kQ3Success == Q3FSSpecStorage_Get( inStorage, &baseSpec ))
+		char	thePath[1024];
+		if (kQ3Success == Q3PathStorage_Get( inStorage, thePath ))
 		{
-			FSRef	baseRef, parentRef, targetRef;
-			HFSUniStr255	name255;
-			OSErr	err;
-			name255.length = 0;
-			err = FSpMakeFSRef( &baseSpec, &baseRef );
-			if (err == noErr)
+			long	dirLen, urlLen;
+			char*	lastSlash = strrchr( thePath, '/' );
+			lastSlash[1] = '\0';
+			dirLen = strlen( thePath );
+			urlLen = strlen( inURL );
+			
+			if (dirLen + urlLen + 1 < sizeof(thePath))
 			{
-				err = FSGetCatalogInfo( &baseRef, kFSCatInfoNone,
-					NULL, NULL, NULL, &parentRef );
-			}
-			if (err == noErr)
-			{
-				CFStringRef	nameCF = CFStringCreateWithCString( NULL,
-					inURL, kCFStringEncodingUTF8 );
-				if (nameCF != NULL)
+				strcat( thePath, inURL );
+				CFStringRef pathStr = CFStringCreateWithCString( NULL,
+					thePath, kCFStringEncodingUTF8 );
+				if (pathStr != NULL)
 				{
-					CFIndex	nameLen = CFStringGetLength( nameCF );
-					if (nameLen <= 255)
-					{
-						CFStringGetCharacters( nameCF,
-							CFRangeMake( 0, nameLen ),
-							name255.unicode );
-						name255.length = nameLen;
-					}
-				}
-			}
-			if (name255.length > 0)
-			{
-				err = FSMakeFSRefUnicode( &parentRef, name255.length,
-					name255.unicode, kTextEncodingUnknown,
-					&targetRef );
-				if (err == noErr)
-				{
-					FSSpec	textureSpec;
-					err = FSGetCatalogInfo( &targetRef, kFSCatInfoNone,
-						NULL, NULL, &textureSpec, NULL );
+					CFURLRef cfURL = CFURLCreateWithFileSystemPath( NULL,
+						pathStr, kCFURLPOSIXPathStyle, false );
+					CFRelease( pathStr );
 					
-					if (err == noErr)
+					if (cfURL != NULL)
 					{
 						theTexture = QutTexture_CreateTextureObjectFromFile(
-							&textureSpec, kQ3PixelTypeRGB32, kQ3True );
+							cfURL, kQ3True );
+						CFRelease( cfURL );
 					}
 				}
 			}
@@ -3287,7 +3280,7 @@ appMenuSelect(TQ3ViewObject theView, TQ3Uns32 menuItem)
 		case kMenuItemToggleLocalBoundingBox:
 			// Create or dispose of the bounding geometry
 			if (gSceneBounds == NULL)
-				gSceneBounds = createLocalBounds(gSceneGeometry);
+				gSceneBounds = createLocalBounds(theView, gSceneGeometry);
 			else
 				{
 				Q3Object_Dispose(gSceneBounds);
@@ -3302,7 +3295,7 @@ appMenuSelect(TQ3ViewObject theView, TQ3Uns32 menuItem)
 		case kMenuItemToggleLocalBoundingSphere:
 			// Create or dispose of the bounding sphere geometry
 			if (gSceneBoundingSphere == NULL)
-				gSceneBoundingSphere = createLocalBoundingSphere(gSceneGeometry);
+				gSceneBoundingSphere = createLocalBoundingSphere(theView, gSceneGeometry);
 			else
 				{
 				Q3Object_Dispose(gSceneBoundingSphere);
@@ -3475,13 +3468,13 @@ appMenuSelect(TQ3ViewObject theView, TQ3Uns32 menuItem)
 		if (gSceneBounds != NULL)
 			{
 			Q3Object_Dispose(gSceneBounds);
-			gSceneBounds = createLocalBounds(gSceneGeometry);
+			gSceneBounds = createLocalBounds(theView, gSceneGeometry);
 			}
 
 		if (gSceneBoundingSphere != NULL)
 			{
 			Q3Object_Dispose(gSceneBoundingSphere);
-			gSceneBoundingSphere = createLocalBoundingSphere(gSceneGeometry);
+			gSceneBoundingSphere = createLocalBoundingSphere(theView, gSceneGeometry);
 			}
 			
 		}
@@ -3684,7 +3677,7 @@ static void updateRotation(){
 static void showMessage( const char* inMessage )
 {
 	unsigned char	msg[256];
-	int		msgLen;
+	size_t		msgLen;
 	
 	msgLen = strlen( inMessage );
 	if (msgLen > 255)
