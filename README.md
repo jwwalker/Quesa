@@ -1,6 +1,6 @@
 # README #
 
-Quesa is a 3D rendering and scene graph library for macOS and Windows, with a BSD license.  It was begun way back in the year 2000 as a re-implementation of Apple's QuickDraw 3D APIs, using OpenGL 2.  One can still get a pretty good understanding of how it works, such as the use of reference counted objects and the 3DMF object file format, in [Apple's QuickDraw 3D manual](ftp://ftp.jwwalker.com/qd3d-manual.pdf).
+Quesa is a 3D rendering and scene graph library for macOS and Windows, with a BSD license.  It was begun way back in the year 2000 as a re-implementation of Apple's QuickDraw 3D APIs, using OpenGL 2.  One can still get a pretty good understanding of how it works, such as the use of reference counted objects and the 3DMF object file format, in [Apple's QuickDraw 3D manual](https://jwwalker.com/downloads/qd3d-manual.pdf).
 
 ## Authorship
 
