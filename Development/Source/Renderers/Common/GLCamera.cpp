@@ -5,7 +5,7 @@
         Quesa OpenGL camera support.
 
     COPYRIGHT:
-        Copyright (c) 1999-2011, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -48,6 +48,7 @@
 #include "GLUtils.h"
 #include "E3Debug.h"
 #include "QuesaMath.h"
+#include "QOGLShadingLanguage.h"
 
 #if Q3_DEBUG && QUESA_OS_MACINTOSH && QUESA_UH_IN_FRAMEWORKS && QUESA_TRACE_GL
 	#include <OpenGL/CGLProfiler.h>
@@ -66,6 +67,11 @@
 		TRACE_MSG( "  %8.4f %8.4f %8.4f %8.4f", inMatrix[8], inMatrix[9], inMatrix[10], inMatrix[11] );
 		TRACE_MSG( "  %8.4f %8.4f %8.4f %8.4f", inMatrix[12], inMatrix[13], inMatrix[14], inMatrix[15] );
 	}
+	
+	static void TraceGLMatrix( const TQ3Matrix4x4& inMatrix )
+	{
+		TraceGLMatrix( (const GLfloat*) &inMatrix.value[0][0] );
+	}
 #else
 	#define		TraceGLMatrix(x)
 #endif
@@ -79,9 +85,9 @@
 //		Note :	We assume the correct OpenGL context is already active.
 //-----------------------------------------------------------------------------
 void
-GLCamera_SetProjection(const TQ3Matrix4x4 *cameraToFrustum)
+GLCamera_SetProjection(const TQ3Matrix4x4 *cameraToFrustum,
+					QORenderer::PerPixelLighting& inPPL )
 {	TQ3Matrix4x4		cameraToNDC;
-	GLfloat				glMatrix[16];
 
 
 
@@ -125,15 +131,9 @@ GLCamera_SetProjection(const TQ3Matrix4x4 *cameraToFrustum)
 
 
 
-	// Initialise the matrix
-	GLUtils_ConvertMatrix4x4(&cameraToNDC, glMatrix);
-
-
-
 	// Load the new matrix
-	glMatrixMode(GL_PROJECTION);
-	glLoadMatrixf(glMatrix);
-	TraceGLMatrix(glMatrix);
+	inPPL.SetProjectionMatrix( cameraToNDC );
+	TraceGLMatrix(cameraToNDC);
 }
 
 
@@ -146,8 +146,9 @@ GLCamera_SetProjection(const TQ3Matrix4x4 *cameraToFrustum)
 //		Note :	We assume the correct OpenGL context is already active.
 //-----------------------------------------------------------------------------
 void
-GLCamera_SetModelView(const TQ3Matrix4x4 *localToCamera)
-{	GLfloat				glMatrix[16];
+GLCamera_SetModelView(const TQ3Matrix4x4 *localToCamera,
+						QORenderer::PerPixelLighting& inPPL )
+{
 
 
 
@@ -156,14 +157,8 @@ GLCamera_SetModelView(const TQ3Matrix4x4 *localToCamera)
 
 
 
-	// Initialise the matrix
-	GLUtils_ConvertMatrix4x4(localToCamera, glMatrix);
-
-
-
 	// Load the new matrix
-	glMatrixMode(GL_MODELVIEW);
-	glLoadMatrixf(glMatrix);
-	TraceGLMatrix(glMatrix);
+	inPPL.SetModelViewMatrix( *localToCamera );
+	TraceGLMatrix(*localToCamera);
 }
 

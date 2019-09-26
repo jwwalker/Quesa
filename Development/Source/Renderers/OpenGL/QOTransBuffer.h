@@ -189,19 +189,10 @@ private:
 											TQ3ViewObject inView,
 											TQ3Float32 inAlphaThreshold );
 	void							SetEmissiveColor( const TQ3ColorRGB& inColor );
-	void							SetDiffuseColor(
-											const QORenderer::Vertex& inVert );
-	void							SetDiffuseColor(
-											const GLfloat* inColor4 );
-	bool							PrimShouldSetDepth(
-											const TransparentPrim* inPrim,
-											float inDepthAlphaThreshold ) const;
 	
 	void							UpdateCameraToFrustum(
 											const TransparentPrim& inPrim,
 											TQ3ViewObject inView );
-	void							UpdateLightingEnable(
-											const TransparentPrim& inPrim );
 	void							UpdateTexture(
 											const TransparentPrim& inPrim );
 	void							UpdateSpecular(
@@ -224,10 +215,6 @@ private:
 	void							UpdateEmission(
 											const TransparentPrim& inPrim );
 
-	void							Render(
-											const TransparentPrim& inPrim );
-	void							RenderForDepth(
-											const TransparentPrim& inPrim );
 	void							RenderPrimGroup(
 											TQ3ViewObject inView );
 	void							RenderPrimGroupForDepth(
@@ -255,10 +242,6 @@ private:
 	TQ3Uns32						mCurUVTransformIndex;
 	TQ3ShaderUVBoundary				mCurUBoundary;
 	TQ3ShaderUVBoundary				mCurVBoundary;
-	GLfloat							mCurSpecularColor[4];
-	float							mCurSpecularControl;
-	TQ3ColorRGB						mCurEmissiveColor;
-	GLfloat							mCurDiffuseColor[4];
 	GLenum							mSrcBlendFactor;
 	GLenum							mDstBlendFactor;
 	

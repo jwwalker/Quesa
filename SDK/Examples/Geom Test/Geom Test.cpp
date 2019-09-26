@@ -129,7 +129,6 @@ enum {
 #if !TARGET_API_MAC_OS8
 	kMenuItemToggleVertexNormals,
 	kMenuItemToggleTriangleNormals,
-	kMenuItemTogglePerPixelLighting,
 	kMenuItemToggleShadows,
 #endif
 	kMenuItemDivider0,
@@ -3223,28 +3222,6 @@ appMouseDown(TQ3ViewObject theView, TQ3Point2D mousePoint)
 
 
 
-//=============================================================================
-//      togglePerPixelLighting : Turn per-pixel lighting on and off.
-//-----------------------------------------------------------------------------
-#if !TARGET_API_MAC_OS8
-static void
-togglePerPixelLighting( TQ3ViewObject theView )
-{
-	TQ3Object	theRenderer;
-	TQ3Boolean	theFlag = kQ3False;
-
-	Q3View_GetRenderer( theView, &theRenderer );
-	Q3Object_GetProperty( theRenderer,
-		kQ3RendererPropertyPerPixelLighting, sizeof(theFlag), NULL,
-		&theFlag );
-	theFlag = theFlag? kQ3False : kQ3True;
-	Q3Object_SetProperty( theRenderer, kQ3RendererPropertyPerPixelLighting,
-		sizeof(theFlag), &theFlag );
-	Q3Object_Dispose( theRenderer );
-}
-#endif
-
-
 #if !TARGET_API_MAC_OS8
 static void
 toggleShadows( TQ3ViewObject theView )
@@ -3314,10 +3291,6 @@ appMenuSelect(TQ3ViewObject theView, TQ3Uns32 menuItem)
 
 		case kMenuItemToggleTriangleNormals:
 			gShowFaceNormals = (TQ3Boolean) !gShowFaceNormals;
-			break;
-		
-		case kMenuItemTogglePerPixelLighting:
-			togglePerPixelLighting( theView );
 			break;
 		
 		case kMenuItemToggleShadows:
@@ -3838,7 +3811,6 @@ App_Initialise(void)
 #if !TARGET_API_MAC_OS8
 	Qut_CreateMenuItem(kMenuItemLast, "Toggle Vertex Normals");
 	Qut_CreateMenuItem(kMenuItemLast, "Toggle Triangle Normals");
-	Qut_CreateMenuItem(kMenuItemLast, "Toggle Per-Pixel Lighting");
 	Qut_CreateMenuItem(kMenuItemLast, "Toggle Shadows");
 #endif
 	Qut_CreateMenuItem(kMenuItemLast, kMenuItemDivider);

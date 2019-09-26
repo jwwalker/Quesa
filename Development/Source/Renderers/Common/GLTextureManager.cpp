@@ -346,7 +346,7 @@ TQ3TextureCachePtr	GLTextureMgr_GetTextureCache( TQ3GLContext glContext )
 #if Q3_DEBUG
 	Q3_ASSERT( IsValidTextureCache( theCache ) );
 #endif
-	
+
 	return theCache;
 }
 

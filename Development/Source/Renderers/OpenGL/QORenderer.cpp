@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -87,17 +87,20 @@ QORenderer::GLContextCleanup::~GLContextCleanup()
 	}
 }
 
-QORenderer::GLStencilFuncs::GLStencilFuncs()
+QORenderer::GLFuncs::GLFuncs()
+	: glStencilFuncSeparate( nullptr )
+	, glStencilOpSeparate( nullptr )
+	, glStencilMaskSeparate( nullptr )
+	, glGenBuffersProc( nullptr )
+	, glBindBufferProc( nullptr )
+	, glDeleteBuffersProc( nullptr )
+	, glIsBufferProc( nullptr )
+	, glBufferDataProc( nullptr )
+	, glBufferSubDataProc( nullptr )
+	, glGetBufferParameterivProc( nullptr )
+	, glGenerateMipmapProc( nullptr )
+	, glActiveTexture( nullptr )
 {
-	SetNULL();
-}
-
-void	QORenderer::GLStencilFuncs::SetNULL()
-{
-	glActiveStencilFace = nullptr;
-	glStencilFuncSeparate = nullptr;
-	glStencilOpSeparate = nullptr;
-	glStencilMaskSeparate = nullptr;
 }
 
 /*!
@@ -105,22 +108,58 @@ void	QORenderer::GLStencilFuncs::SetNULL()
 	@abstract	Get the function pointers.  This should be called just
 				after the OpenGL context is created.
 */
-void	QORenderer::GLStencilFuncs::Initialize( const TQ3GLExtensions& inExts )
+void	QORenderer::GLFuncs::Initialize( const TQ3GLExtensions& inExts )
 {
-	SetNULL();
+	// Stencil
+	GLGetProcAddress( glStencilFuncSeparate, "glStencilFuncSeparate" );
+	GLGetProcAddress( glStencilOpSeparate, "glStencilOpSeparate" );
+	GLGetProcAddress( glStencilMaskSeparate, "glStencilMaskSeparate" );
+
+	// VBO
+	GLGetProcAddress( glGenBuffersProc, "glGenBuffers", "glGenBuffersARB" );
+	GLGetProcAddress( glBindBufferProc, "glBindBuffer", "glBindBufferARB" );
+	GLGetProcAddress( glDeleteBuffersProc, "glDeleteBuffers", "glDeleteBuffersARB" );
+	GLGetProcAddress( glIsBufferProc, "glIsBuffer", "glIsBufferARB" );
+	GLGetProcAddress( glBufferDataProc, "glBufferData", "glBufferDataARB" );
+	GLGetProcAddress( glBufferSubDataProc, "glBufferSubData", "glBufferSubDataARB" );
+	GLGetProcAddress( glGetBufferParameterivProc, "glGetBufferParameteriv",
+		"glGetBufferParameterivARB" );
 	
-	if (inExts.stencilTwoSide)
-	{
-		GLGetProcAddress( glActiveStencilFace, "glActiveStencilFaceEXT" );
-	}
+	// Misc
+	GLGetProcAddress( glGenerateMipmapProc, "glGenerateMipmap" );
+	GLGetProcAddress( glActiveTexture, "glActiveTexture", "glActiveTextureARB" );
+	GLGetProcAddress( glGenVertexArrays, "glGenVertexArrays" );
+	GLGetProcAddress( glBindVertexArray, "glBindVertexArray" );
 	
-	if (inExts.separateStencil)
-	{
-		GLGetProcAddress( glStencilFuncSeparate, "glStencilFuncSeparate" );
-		GLGetProcAddress( glStencilOpSeparate, "glStencilOpSeparate" );
-		GLGetProcAddress( glStencilMaskSeparate, "glStencilMaskSeparate" );
-	}
+	// Fatal assertion failure if we fail to get any function
+	Q3_ASSERT( glStencilFuncSeparate != nullptr );
+	Q3_ASSERT( glStencilOpSeparate != nullptr );
+	Q3_ASSERT( glGenBuffersProc != nullptr );
+	
+	Q3_ASSERT( glBindBufferProc != nullptr );
+	Q3_ASSERT( glDeleteBuffersProc != nullptr );
+	Q3_ASSERT( glIsBufferProc != nullptr );
+	Q3_ASSERT( glBufferDataProc != nullptr );
+	Q3_ASSERT( glBufferSubDataProc != nullptr );
+	Q3_ASSERT( glGetBufferParameterivProc != nullptr );
+	Q3_ASSERT( glStencilFuncSeparate != nullptr );
+	
+	Q3_ASSERT( glGenerateMipmapProc != nullptr );
+	Q3_ASSERT( glActiveTexture != nullptr );
+	Q3_ASSERT( glGenVertexArrays != nullptr );
+	Q3_ASSERT( glBindVertexArray != nullptr );
 }
+
+/*!
+	@function	InitializeForBufferDelete
+	@abstract	Get just the functions needed to delete VBOs.
+*/
+void	QORenderer::GLFuncs::InitializeForBufferDelete()
+{
+	GLGetProcAddress( glDeleteBuffersProc, "glDeleteBuffers", "glDeleteBuffersARB" );
+	GLGetProcAddress( glIsBufferProc, "glIsBuffer", "glIsBufferARB" );
+}
+
 
 
 #pragma mark -
@@ -143,12 +182,11 @@ QORenderer::Renderer::Renderer( TQ3RendererObject inRenderer )
 	, mGLContext( nullptr )
 	, mCleanup( mGLContext )
 	, mSLFuncs()
-	, mStencilFuncs()
-	, mPPLighting( mSLFuncs, mRendererObject, mGLContext, mGLExtensions )
+	, mFuncs()
+	, mPPLighting( *this, mSLFuncs, mRendererObject, mGLContext, mGLExtensions )
 	, mRendererEditIndex( Q3Shared_GetEditIndex( inRenderer ) )
 	, mDrawContextEditIndex( 0 )
 	, mGLClearFlags( 0 )
-	, mGLBlendEqProc( nullptr )
 	, mPassIndex( 0 )
 	, mNumPasses( 1 )
 	, mAllowLineSmooth( true )
@@ -157,11 +195,11 @@ QORenderer::Renderer::Renderer( TQ3RendererObject inRenderer )
 	, mLineWidth( 1.0f )
 	, mAttributesMask( kQ3XAttributeMaskAll )
 	, mUpdateShader( true )
-	, mLights( mGLExtensions, mStencilFuncs, mMatrixState, mStyleState,
-		mPPLighting, mGLContext, mBufferFuncs, mIsCachingShadows )
+	, mGLClientStates( mSLFuncs, mPPLighting )
+	, mLights( *this )
 	, mTriBuffer( *this )
 	, mTransBuffer( *this, mPPLighting )
-	, mTextures( mRendererObject, mGLContext, mGLExtensions, mPPLighting )
+	, mTextures( *this )
 {
 	Q3Object_AddElement( mRendererObject, kQ3ElementTypeDepthBits,
 		&kDefaultDepthBits );

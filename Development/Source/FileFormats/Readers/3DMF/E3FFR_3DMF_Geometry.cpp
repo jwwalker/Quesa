@@ -827,7 +827,7 @@ E3Read_3DMF_Texture_Pixmap(TQ3FileObject theFile)
 	
 	theTexture = Q3PixmapTexture_New (&pixmap);
 	Q3Object_Dispose(pixmap.image);
-	
+
 	TQ3Object			childObject = nullptr;
 	TQ3SetObject		elementSet = nullptr;
 
@@ -2790,7 +2790,7 @@ E3Read_3DMF_Geom_Line(TQ3FileObject theFile)
 		atts = geomData.vertices[i].attributeSet;
 		if (atts != nullptr)
 			Q3Object_Dispose(atts);
-		}
+	}
 
 	return(theObject);
 }

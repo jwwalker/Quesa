@@ -69,51 +69,11 @@
 //      Types
 //-----------------------------------------------------------------------------
 
-#ifndef GL_ARB_vertex_buffer_object
-    typedef std::ptrdiff_t GLintptrARB;
-    typedef std::ptrdiff_t GLsizeiptrARB;
-#endif
 
-typedef void (GL_PROC_TYPE * BindBufferProcPtr) (GLenum target,
-												GLuint buffer);
-typedef void (GL_PROC_TYPE * DeleteBuffersProcPtr) (GLsizei n,
-												const GLuint *buffers);
-typedef void (GL_PROC_TYPE * GenBuffersProcPtr) (GLsizei n,
-												GLuint *buffers);
-typedef GLboolean (GL_PROC_TYPE * IsBufferProcPtr) (GLuint buffer);
-typedef void (GL_PROC_TYPE * BufferDataProcPtr) (GLenum target,
-												GLsizeiptrARB size,
-												const GLvoid *data,
-												GLenum usage);
-typedef void (GL_PROC_TYPE * BufferSubDataProcPtr) (GLenum target,
-												GLintptrARB offset,
-												GLsizeiptrARB size,
-												const GLvoid *data);
-typedef void (GL_PROC_TYPE * ClientActiveTextureProcPtr)( GLenum unit );
-typedef void (GL_PROC_TYPE * MultiTexCoord1fProcPtr)( GLenum unit, GLfloat s );
-typedef void (GL_PROC_TYPE * GetBufferParameterivProcPtr)(GLenum target, GLenum value, GLint * data);
-
-
-struct GLBufferFuncs
+namespace QORenderer
 {
-			GLBufferFuncs();
-
-	void	Initialize( const TQ3GLExtensions& inExts );
-	void	InitializeForDelete();
-	
-	GenBuffersProcPtr			glGenBuffersProc;
-	BindBufferProcPtr			glBindBufferProc;
-	DeleteBuffersProcPtr		glDeleteBuffersProc;
-	IsBufferProcPtr				glIsBufferProc;
-	BufferDataProcPtr			glBufferDataProc;
-	BufferSubDataProcPtr		glBufferSubDataProc;
-	ClientActiveTextureProcPtr	glClientActiveTextureProc;
-	MultiTexCoord1fProcPtr		glMultiTexCoord1fProc;
-	GetBufferParameterivProcPtr	glGetBufferParameterivProc;
-
-private:
-			GLBufferFuncs( const GLBufferFuncs& inOther );
-};
+	class Renderer;
+}
 
 
 //=============================================================================
@@ -132,13 +92,11 @@ extern "C" {
 /*!
 	@function		UpdateVBOCacheLimit
 	@abstract		Update the limit on memory that can be used in this cache.
-	@param			glContext		An OpenGL context.
-	@param			inFuncs			OpenGL buffer function pointers.
+	@param			inRenderer		An OpenGL renderer.
 	@param			inMaxMemK		New memory limit in K-bytes.
 */
 void				UpdateVBOCacheLimit(
-									TQ3GLContext glContext,
-									const GLBufferFuncs& inFuncs,
+									const QORenderer::Renderer& inRenderer,
 									TQ3Uns32 inMaxMemK );
 
 /*!
@@ -151,15 +109,13 @@ void				UpdateVBOCacheLimit(
 					The caller should have activated the GL context and called
 					glEnableClientState to enable or disable arrays as
 					appropriate.
-	@param			glContext		An OpenGL context.
-	@param			inFuncs			OpenGL buffer function pointers.
+	@param			inRenderer		An OpenGL renderer.
 	@param			inGeom			A geometry object.
 	@param			inMode			OpenGL mode, e.g., GL_TRIANGLES.
 	@result			True if the object was found and rendered.
 */
 TQ3Boolean			RenderCachedVBO(
-									TQ3GLContext glContext,
-									const GLBufferFuncs& inFuncs,
+									const QORenderer::Renderer& inRenderer,
 									TQ3GeometryObject inGeom,
 									GLenum inMode );
 
@@ -167,8 +123,7 @@ TQ3Boolean			RenderCachedVBO(
 	@function		AddVBOToCache
 	@abstract		Add VBO data to the cache.  Do not call this unless
 					RenderCachedVBO has just returned false.
-	@param			glContext		An OpenGL context.
-	@param			inFuncs			OpenGL buffer function pointers.
+	@param			inRenderer		An OpenGL renderer.
 	@param			inGeom			A geometry object.
 	@param			inNumPoints		Number of points (vertices).
 	@param			inPoints		Array of point locations.
@@ -180,8 +135,7 @@ TQ3Boolean			RenderCachedVBO(
 	@param			inIndices		Array of vertex indices.
 */
 void				AddVBOToCache(
-									TQ3GLContext glContext,
-									const GLBufferFuncs& inFuncs,
+									const QORenderer::Renderer& inRenderer,
 									TQ3GeometryObject inGeom,
 									TQ3Uns32 inNumPoints,
 									const TQ3Point3D* inPoints,
@@ -197,12 +151,10 @@ void				AddVBOToCache(
 	@function		FlushVBOCache
 	@abstract		Delete any cached VBOs for geometries that are no longer
 					referenced elsewhere.
-	@param			glContext		An OpenGL context.
-	@param			inFuncs			OpenGL buffer function pointers.
+	@param			inRenderer		An OpenGL renderer.
 */
 void				FlushVBOCache(
-									TQ3GLContext glContext,
-									const GLBufferFuncs& inFuncs );
+									const QORenderer::Renderer& inRenderer );
 
 #if 0//Q3_DEBUG
 

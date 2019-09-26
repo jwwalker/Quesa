@@ -48,6 +48,7 @@
 #include "GLUtils.h"
 #include "E3Debug.h"
 #include "QuesaMemory.h"
+#include "QOGLShadingLanguage.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -164,7 +165,7 @@ GLUtils_ConvertMatrix4x4(const TQ3Matrix4x4 *qd3dMatrix, GLfloat *glMatrix)
 //      GLUtils_ConvertUVBoundary : Convert a QD3D UV boundary.
 //-----------------------------------------------------------------------------
 void
-GLUtils_ConvertUVBoundary(TQ3ShaderUVBoundary qd3dBounds, GLint *glBounds, TQ3Boolean clampToEdgeAvailable)
+GLUtils_ConvertUVBoundary(TQ3ShaderUVBoundary qd3dBounds, GLint *glBounds )
 {
 
 
@@ -181,10 +182,7 @@ GLUtils_ConvertUVBoundary(TQ3ShaderUVBoundary qd3dBounds, GLint *glBounds, TQ3Bo
 		
 		case kQ3ShaderUVBoundaryClamp:
 		default:
-			if (clampToEdgeAvailable)
-				*glBounds = GL_CLAMP_TO_EDGE;
-			else
-				*glBounds = GL_CLAMP;
+			*glBounds = GL_CLAMP_TO_EDGE;
 			break;
 		}
 }
@@ -300,171 +298,18 @@ GLUtils_SizeOfPixelType(TQ3PixelType pixelType)
 void
 GLUtils_CheckExtensions( TQ3GLExtensions* featureFlags )
 {
-	const char*	openGLVersion = (const char*)glGetString( GL_VERSION );
-	const char*	openGLExtensions = (const char*)glGetString( GL_EXTENSIONS );
-	const char*	openGLVendor = (const char*)glGetString( GL_VENDOR );
+	//const char*	openGLVendor = (const char*)glGetString( GL_VENDOR );
 	
 	short j = 0;
 	short shiftVal = 8;
-	unsigned short glVersion = 0;
 	
 	// Initialize to default value, all off.
 	memset( featureFlags, 0, sizeof(TQ3GLExtensions) );
 	
-	if (openGLVersion != nullptr)
-	{
-		// Get BCD version.
-		while (((openGLVersion[j] <= '9') && (openGLVersion[j] >= '0')) || (openGLVersion[j] == '.'))
-		{ 
-			if ((openGLVersion[j] <= '9') && (openGLVersion[j] >= '0'))
-			{
-				glVersion += (openGLVersion[j] - '0') << shiftVal;
-				shiftVal -= 4;
-			}
-			j++;
-		}
-
-		// Check for extensions.
-		if ( glVersion >= 0x0120 ||
-			 isOpenGLExtensionPresent( openGLExtensions, "GL_EXT_separate_specular_color" ) )
-		{
-			featureFlags->separateSpecularColor = kQ3True;
-		}
-			
-		if ( glVersion >= 0x0120 ||
-			 isOpenGLExtensionPresent( openGLExtensions, "GL_EXT_texture_edge_clamp" ) ||
-			 isOpenGLExtensionPresent( openGLExtensions, "GL_SGIS_texture_edge_clamp" ) )
-		{
-			featureFlags->clampToEdge = kQ3True;
-		}
-		
-		if (isOpenGLExtensionPresent( openGLExtensions, "GL_ARB_multitexture" ))
-		{
-			featureFlags->multitexture = kQ3True;
-		}
-		
-		if (isOpenGLExtensionPresent( openGLExtensions, "GL_EXT_blend_minmax" ) ||
-			isOpenGLExtensionPresent( openGLExtensions, "GL_ARB_imaging" ) )
-		{
-			featureFlags->blendMinMax = kQ3True;
-		}
-
-		if ( (glVersion >= 0x0150) ||
-			 isOpenGLExtensionPresent( openGLExtensions, "GL_ARB_vertex_buffer_object" ) )
-		{
-			featureFlags->vertexBufferObjects = kQ3True;
-			
-			// There seems to be a crashing bug in the driver for an Intel 82845G card.
-			if ( (glVersion <= 0x0130) && (strcmp( openGLVendor, "Intel" ) == 0) )
-			{
-				featureFlags->vertexBufferObjects = kQ3False;
-			}
-		}
-		
-		if (isOpenGLExtensionPresent( openGLExtensions, "GL_EXT_framebuffer_object" ))
-		{
-			featureFlags->frameBufferObjects = kQ3True;
-		}
-
-		if ( (glVersion >= 0x0300) ||
-				isOpenGLExtensionPresent( openGLExtensions, "GL_EXT_framebuffer_multisample" ) )
-		{
-			featureFlags->multisampleFBO = kQ3True;
-		}
-		
-		if ( (glVersion >= 0x0200) ||
-			(
-				isOpenGLExtensionPresent( openGLExtensions, "GL_ARB_shading_language_100" ) &&
-				isOpenGLExtensionPresent( openGLExtensions, "GL_ARB_shader_objects" ) &&
-				isOpenGLExtensionPresent( openGLExtensions, "GL_ARB_vertex_shader" ) &&
-				isOpenGLExtensionPresent( openGLExtensions, "GL_ARB_fragment_shader" )
-			)
-		)
-		{
-			featureFlags->shadingLanguage = kQ3True;
-		}
-		
-		if (glVersion >= 0x0120)
-		{
-			// There is an extension GL_EXT_packed_pixels, but that does not
-			// cover the reversed formats like GL_UNSIGNED_INT_8_8_8_8_REV.
-			featureFlags->packedPixels = kQ3True;
-		}
-
-		if (isOpenGLExtensionPresent( openGLExtensions, "GL_NV_depth_clamp" ) ||
-			isOpenGLExtensionPresent( openGLExtensions, "GL_ARB_depth_clamp" ))
-		{
-			featureFlags->depthClamp = kQ3True;
-		}
-
-		if (isOpenGLExtensionPresent( openGLExtensions, "GL_EXT_stencil_two_side" ))
-		{
-			featureFlags->stencilTwoSide = kQ3True;
-		}
-		
-		if (glVersion >= 0x0200)
-		{
-			featureFlags->separateStencil = kQ3True;
-		}
-		
-		if ( (glVersion >= 0x0140) ||
-			isOpenGLExtensionPresent( openGLExtensions, "GL_EXT_stencil_wrap" ) )
-		{
-			featureFlags->stencilWrap = kQ3True;
-		}
-
-		if (isOpenGLExtensionPresent( openGLExtensions, "GL_EXT_packed_depth_stencil" ))
-		{
-			featureFlags->packedDepthStencil = kQ3True;
-		}
-		
-		if ( (glVersion >= 0x0200) ||
-			isOpenGLExtensionPresent( openGLExtensions, "GL_ARB_texture_non_power_of_two") )
-		{
-			featureFlags->NPOTTexture = kQ3True;
-		}
-		
-		
-		GLint	sampleBuffers = 0;
-		glGetIntegerv( GL_SAMPLE_BUFFERS_ARB, &sampleBuffers );
-		featureFlags->multiSample = (sampleBuffers > 0)? kQ3True : kQ3False;
-
-		// How many OpenGL non-ambient lights can we have?
-		glGetIntegerv( GL_MAX_LIGHTS, &featureFlags->maxLights );
-
-		// Depth of stencil buffer of current context
-		featureFlags->stencilBits = 0;
-		glGetIntegerv( GL_STENCIL_BITS, &featureFlags->stencilBits );
-		
-		if ( (openGLVendor == strstr( openGLVendor, "ATI" )) ||
-			(openGLVendor == strstr( openGLVendor, "AMD" )) )
-		{
-			featureFlags->ATICard = kQ3True;
-		}
-	}
+	GLint	sampleBuffers = 0;
+	glGetIntegerv( GL_SAMPLE_BUFFERS_ARB, &sampleBuffers );
+	featureFlags->multiSample = (sampleBuffers > 0)? kQ3True : kQ3False;
 }
-
-
-
-
-
-//=============================================================================
-//      GLUtils_UpdateClientState : Enable or disable a client state if it has changed
-//-----------------------------------------------------------------------------
-void
-GLUtils_UpdateClientState( TQ3Boolean enable, TQ3Boolean* stateFlag, GLenum whichArray )
-{
-	if (*stateFlag != enable)
-	{
-		*stateFlag = enable;
-		
-		if (enable == kQ3True)
-			glEnableClientState( whichArray );
-		else
-			glDisableClientState( whichArray );
-	}
-}
-
 
 
 
@@ -473,8 +318,17 @@ GLUtils_UpdateClientState( TQ3Boolean enable, TQ3Boolean* stateFlag, GLenum whic
 //      GLUtils_LoadShaderUVTransform : Load the OpenGL texture matrix with a Quesa UV transform matrix
 //-----------------------------------------------------------------------------
 void
-GLUtils_LoadShaderUVTransform( const TQ3Matrix3x3* qMatrix )
+GLUtils_LoadShaderUVTransform( const TQ3Matrix3x3* qMatrix,
+								QORenderer::PerPixelLighting& inPPL )
 {
+	TQ3Matrix4x4 textureMtx = {
+		{
+			{ qMatrix->value[0][0], qMatrix->value[0][1], 0.0f, qMatrix->value[0][2] },
+			{ qMatrix->value[1][0], qMatrix->value[1][1], 0.0f, qMatrix->value[1][2] },
+			{ 0.0f, 0.0f, 1.0f, 0.0f },
+			{ qMatrix->value[2][0], qMatrix->value[2][1], 0.0f, qMatrix->value[2][2] },
+		}	
+	};
 	GLfloat		glMatrix[16];
 	glMatrix[0]  = qMatrix->value[0][0];
 	glMatrix[1]  = qMatrix->value[0][1];
@@ -496,8 +350,7 @@ GLUtils_LoadShaderUVTransform( const TQ3Matrix3x3* qMatrix )
 	glMatrix[14] = 0.0f;
 	glMatrix[15] = qMatrix->value[2][2];
 
-	glMatrixMode( GL_TEXTURE );
-	glLoadMatrixf( glMatrix );
+	inPPL.SetTextureMatrix( textureMtx );
 }
 
 

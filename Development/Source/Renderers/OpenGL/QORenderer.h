@@ -171,24 +171,44 @@ struct MeshArrays
 	const TQ3ColorRGB*	edgeColor;
 };
 
-// Function pointer type for GL_EXT_stencil_two_side
-typedef void (QO_PROCPTR_TYPE glActiveStencilFaceEXTProcPtr) (GLenum face);
-
 // Function pointer types for separate stencil, GL 2.0
 typedef void (QO_PROCPTR_TYPE glStencilFuncSeparateProcPtr) (GLenum face, GLenum func, GLint ref, GLuint mask);
 typedef void (QO_PROCPTR_TYPE glStencilOpSeparateProcPtr) (GLenum face, GLenum fail, GLenum zfail, GLenum zpass);
 typedef void (QO_PROCPTR_TYPE glStencilMaskSeparateProcPtr) (GLenum face, GLuint mask);
 
+// Function pointer types for VBOs
+typedef void (QO_PROCPTR_TYPE BindBufferProcPtr) (GLenum target,
+												GLuint buffer);
+typedef void (QO_PROCPTR_TYPE DeleteBuffersProcPtr) (GLsizei n,
+												const GLuint *buffers);
+typedef void (QO_PROCPTR_TYPE GenBuffersProcPtr) (GLsizei n,
+												GLuint *buffers);
+typedef GLboolean (GL_PROC_TYPE * IsBufferProcPtr) (GLuint buffer);
+typedef void (QO_PROCPTR_TYPE BufferDataProcPtr) (GLenum target,
+												GLsizeiptr size,
+												const GLvoid *data,
+												GLenum usage);
+typedef void (QO_PROCPTR_TYPE BufferSubDataProcPtr) (GLenum target,
+												GLintptr offset,
+												GLsizeiptr size,
+												const GLvoid *data);
+typedef void (QO_PROCPTR_TYPE GetBufferParameterivProcPtr)(GLenum target, GLenum value, GLint * data);
+
+// Miscellaneous function pointer types
+typedef void (QO_PROCPTR_TYPE GenerateMipmapProcPtr) (GLenum target);
+typedef void (QO_PROCPTR_TYPE ActiveTextureProcPtr) (GLenum texture);
+typedef void (QO_PROCPTR_TYPE GenVertexArraysProcPtr) (GLsizei n, GLuint *arrays);
+typedef void (QO_PROCPTR_TYPE BindVertexArrayProcPtr) (GLuint array);
+
+
 /*!
-	@struct		GLStencilFuncs
-	@abstract	OpenGL function pointers for two-sided stencils.
+	@struct		GLFuncs
+	@abstract	Function pointers for some functions not present in OpenGL 1.1.
 */
-struct GLStencilFuncs
+struct GLFuncs
 {
-								GLStencilFuncs();
-								
-	void						SetNULL();
-	
+								GLFuncs();
+
 	/*!
 		@function	Initialize
 		@abstract	Get the function pointers.  This should be called just
@@ -196,10 +216,31 @@ struct GLStencilFuncs
 	*/
 	void						Initialize( const TQ3GLExtensions& inExts );
 	
-	glActiveStencilFaceEXTProcPtr	glActiveStencilFace;
+	/*!
+		@function	InitializeForBufferDelete
+		@abstract	Get just the functions needed to delete VBOs.
+	*/
+	void						InitializeForBufferDelete();
+
+	// Stencil
 	glStencilFuncSeparateProcPtr	glStencilFuncSeparate;
 	glStencilOpSeparateProcPtr		glStencilOpSeparate;
 	glStencilMaskSeparateProcPtr	glStencilMaskSeparate;
+	
+	// VBO
+	GenBuffersProcPtr				glGenBuffersProc;
+	BindBufferProcPtr				glBindBufferProc;
+	DeleteBuffersProcPtr			glDeleteBuffersProc;
+	IsBufferProcPtr					glIsBufferProc;
+	BufferDataProcPtr				glBufferDataProc;
+	BufferSubDataProcPtr			glBufferSubDataProc;
+	GetBufferParameterivProcPtr		glGetBufferParameterivProc;
+	
+	// Other
+	GenerateMipmapProcPtr			glGenerateMipmapProc;
+	ActiveTextureProcPtr			glActiveTexture;
+	GenVertexArraysProcPtr			glGenVertexArrays;
+	BindVertexArrayProcPtr			glBindVertexArray;
 };
 
 //=============================================================================
@@ -217,6 +258,23 @@ struct GLStencilFuncs
 */
 class Renderer
 {
+public:
+	const TQ3GLContext&		GLContext() const { return mGLContext; }
+	TQ3GLContext&			GLContext() { return mGLContext; }
+	const GLSLFuncs&		SLFuncs() const { return mSLFuncs; }
+	const GLFuncs&			Funcs() const { return mFuncs; }
+	const PerPixelLighting&	Shader() const { return mPPLighting; }
+	PerPixelLighting&		Shader() { return mPPLighting; }
+	const TQ3GLExtensions&	GLExtensions() const { return mGLExtensions; }
+	MatrixState&			GetMatrixState() { return mMatrixState; }
+	StyleState&				GetStyleState() { return mStyleState; }
+	bool&					IsCachingShadows() { return mIsCachingShadows; }
+	ClientStates&			GetClientStates() { return mGLClientStates; }
+	TQ3RendererObject		GetQuesaRenderer() const { return mRendererObject; }
+	float					LineWidth() const { return mLineWidth; }
+	
+	void					RefreshMaterials();
+
 protected:
 							Renderer( TQ3RendererObject inRenderer );
 							~Renderer();
@@ -328,6 +386,9 @@ protected:
 	void					UpdateSpecularMaterial();
 	void					UpdateEmissiveMaterial();
 	void					SetEmissiveMaterial( const TQ3ColorRGB& inColor );
+	void					SetSpecularColor( const TQ3ColorRGB& inColor );
+	void					SetSpecularControl( float inSpecControl );
+	
 	SlowPathMask			FindTriMeshData(
 									const TQ3TriMeshData& inGeomData,
 									MeshArrays& outArrays );
@@ -348,25 +409,6 @@ protected:
 									const TQ3Vector3D* inVertNormals,
 									const TQ3ColorRGB* inVertColors,
 									const TQ3ColorRGB* inEdgeColors );
-	void					RenderCulledEdges(
-									TQ3ViewObject inView,
-									const TQ3TriMeshData& inGeomData,
-									const TQ3ColorRGB* inVertColors,
-									const TQ3ColorRGB* inEdgeColors );
-	void					RenderFaceEdges(
-									TQ3GeometryObject inTriMesh,
-									const TQ3TriMeshData& inGeomData,
-									const TQ3Vector3D* inVertNormals,
-									const TQ3ColorRGB* inVertColors );
-	void					RenderFaceEdgesTransparent(
-									TQ3GeometryObject inTriMesh,
-									const TQ3TriMeshData& inGeomData,
-									const TQ3Vector3D* inVertNormals,
-									const TQ3ColorRGB* inVertColors );
-	void					SimulateSeparateSpecularColor(
-									TQ3Uns32 inNumIndices,
-									const TQ3Uns32* inIndices );
-	bool					IsFakeSeparateSpecularColorNeeded() const;
 	bool					IsFirstPass() const { return (mPassIndex == 0) &&
 														mLights.IsFirstPass(); }
 	void					RenderTransparent( TQ3ViewObject inView );
@@ -377,14 +419,12 @@ protected:
 	TQ3GLContext			mGLContext;
 	GLContextCleanup		mCleanup;
 	GLSLFuncs				mSLFuncs;
-	GLBufferFuncs			mBufferFuncs;
-	GLStencilFuncs			mStencilFuncs;
+	GLFuncs					mFuncs;
 	TQ3GLExtensions			mGLExtensions;
 	PerPixelLighting		mPPLighting;
 	TQ3Uns32				mRendererEditIndex;
 	TQ3Uns32				mDrawContextEditIndex;
 	GLbitfield				mGLClearFlags;
-	TQ3BlendEquationProcPtr	mGLBlendEqProc;
 	MatrixState				mMatrixState;
 	TQ3Int32				mPassIndex;
 	TQ3Int32				mNumPasses;
@@ -402,7 +442,7 @@ protected:
 	TQ3ObjectType			mViewIllumination;
 	ColorState				mViewState;
 	ColorState				mGeomState;
-	GLfloat					mCurrentSpecularColor[4];
+	TQ3ColorRGB				mCurrentSpecularColor;
 	float					mCurrentSpecularControl;
 	TQ3ColorRGB				mCurrentEmissiveColor;
 	float 					mLineWidth;

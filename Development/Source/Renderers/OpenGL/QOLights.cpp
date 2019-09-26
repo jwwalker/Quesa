@@ -111,12 +111,6 @@ using namespace std;
 // These constants are defined in the Mac framework version of gl.h,
 // but if we are building a CFM binary, we may be using an older header.
 // Such a situation could also occur on other platforms.
-// The numbers are defined in the EXT_separate_specular_color specification.
-#ifndef GL_LIGHT_MODEL_COLOR_CONTROL
-	#define GL_LIGHT_MODEL_COLOR_CONTROL      0x81F8
-	#define GL_SINGLE_COLOR                   0x81F9
-	#define GL_SEPARATE_SPECULAR_COLOR        0x81FA
-#endif
 
 #ifndef GL_DEPTH_CLAMP_NV
 	#define	GL_DEPTH_CLAMP_NV					0x864F
@@ -156,7 +150,7 @@ static void CalcLightColor( const TQ3LightData& inLightData,
 	
 	@abstract	Turn a Quesa ambient light object into OpenGL ambient light.
 */
-static void ConvertAmbientLight( TQ3LightObject inLight, GLfloat* ioAmbientColor )
+static void ConvertAmbientLight( TQ3LightObject inLight, TQ3ColorRGB& ioAmbientColor )
 {
 	// Get light data
 	TQ3LightData		lightData;
@@ -167,10 +161,9 @@ static void ConvertAmbientLight( TQ3LightObject inLight, GLfloat* ioAmbientColor
 	CalcLightColor( lightData, lightColor );
 	
 	// Add this light into the ambient illumination
-	for (int i = 0; i < 3; ++i)	// deliberately not touching component 3
-	{
-		ioAmbientColor[i] += lightColor[i];
-	}
+	ioAmbientColor.r += lightColor[0];
+	ioAmbientColor.g += lightColor[1];
+	ioAmbientColor.b += lightColor[2];
 }
 
 /*!
@@ -302,6 +295,25 @@ static bool IsIgnorablePositionalLight( TQ3LightObject inLight,
 //=============================================================================
 //      Class Implementations
 //-----------------------------------------------------------------------------
+QORenderer::Lights::Lights( QORenderer::Renderer& inRenderer )
+	: mRenderer( inRenderer )
+	, mLightCount( 0 )
+	, mIsShadowFrame( false )
+	, mIsFirstPass( false )
+	, mIsShadowPhase( false )
+	, mIsNextPassShadowPhase( false )
+	, mIsAnotherPassNeeded( false )
+	, mIsShadowMarkingPass( false )
+	, mStartingLightIndexForPass( 0 )
+	, mMaxGLLights( 8 )
+	, mSavedYon( std::numeric_limits<float>::infinity() )
+	, mShadowMarker( inRenderer, inRenderer.GetMatrixState(), inRenderer.GetStyleState(), inRenderer.Shader(),
+		mGLLightPosition, inRenderer.GLContext(), inRenderer.GLExtensions(),
+		inRenderer.Funcs(), inRenderer.IsCachingShadows() )
+	, mIsLowDMode( false )
+{
+	
+}
 
 /*!
 	@function	AddDirectionalLight
@@ -318,32 +330,13 @@ void QORenderer::Lights::AddDirectionalLight( TQ3LightObject inLight,
 	mLightBrightness = lightData.lightData.brightness;
 	
 	// Transform the direction to view coordinates
-	Q3Vector3D_Transform( &lightData.direction, &inWorldToView,
-		&lightData.direction );
-	
-	// Normalize the direction, to help per-pixel lighting.
-	Q3FastVector3D_Normalize( &lightData.direction, &lightData.direction );
+	lightData.direction = Q3Normalize3D( lightData.direction * inWorldToView );
 	
 	// Set up the light direction as OpenGL likes it
 	mGLLightPosition[0] = -lightData.direction.x;
 	mGLLightPosition[1] = -lightData.direction.y;
 	mGLLightPosition[2] = -lightData.direction.z;
 	mGLLightPosition[3] = 0.0f;
-
-	// Find the light color
-	GLfloat		lightColor[4];
-	CalcLightColor( lightData.lightData, lightColor );
-
-	// Set up the light
-	GLenum	lightIndex = GL_LIGHT0 + mLightCount;
-	glEnable( lightIndex );
-	glLighti( lightIndex, GL_SPOT_CUTOFF, 180 );
-	glLightfv( lightIndex, GL_DIFFUSE,  lightColor );
-	glLightfv( lightIndex, GL_SPECULAR, lightColor );
-	glLightfv( lightIndex, GL_POSITION, mGLLightPosition );
-	glLightf( lightIndex, GL_CONSTANT_ATTENUATION, 1.0f );
-	glLightf( lightIndex, GL_LINEAR_ATTENUATION, 0.0f );
-	glLightf( lightIndex, GL_QUADRATIC_ATTENUATION, 0.0f );
 }
 
 /*!
@@ -361,35 +354,13 @@ void QORenderer::Lights::AddPointLight( TQ3LightObject inLight,
 	mLightBrightness = lightData.lightData.brightness;
 
 	// Transform the location to view coordinates
-	Q3Point3D_Transform( &lightData.location, &inWorldToView,
-		&lightData.location );
+	lightData.location = lightData.location * inWorldToView;
 	
 	// and put the location in OpenGL form
 	mGLLightPosition[0] = lightData.location.x;
 	mGLLightPosition[1] = lightData.location.y;
 	mGLLightPosition[2] = lightData.location.z;
 	mGLLightPosition[3] = 1.0f;
-
-	// Find the light color
-	GLfloat		lightColor[4];
-	CalcLightColor( lightData.lightData, lightColor );
-	
-	// Find attenuation values
-	GLfloat		attConstant, attLinear, attQuadratic;
-	mLightAttenuation = lightData.attenuation;
-	SetAttenuationParams( lightData.attenuation,
-		attConstant, attLinear, attQuadratic );
-
-	// Set up the light
-	GLenum	lightIndex = GL_LIGHT0 + mLightCount;
-	glEnable( lightIndex );
-	glLighti( lightIndex, GL_SPOT_CUTOFF, 180 );
-	glLightfv( lightIndex, GL_DIFFUSE, lightColor );
-	glLightfv( lightIndex, GL_SPECULAR, lightColor );
-	glLightfv( lightIndex, GL_POSITION, mGLLightPosition );
-	glLightf( lightIndex, GL_CONSTANT_ATTENUATION, attConstant );
-	glLightf( lightIndex, GL_LINEAR_ATTENUATION, attLinear );
-	glLightf( lightIndex, GL_QUADRATIC_ATTENUATION, attQuadratic );
 }
 
 /*!
@@ -407,52 +378,14 @@ void QORenderer::Lights::AddSpotLight( TQ3LightObject inLight,
 	mLightBrightness = lightData.lightData.brightness;
 
 	// Transform the direction and location to view coordinates
-	Q3Point3D_Transform( &lightData.location, &inWorldToView,
-		&lightData.location );
-	Q3Vector3D_Transform( &lightData.direction, &inWorldToView,
-		&mSpotLightDirection );
-	
-	// Normalize the spot direction... this is probably not needed for the
-	// fixed-function pipeline, but saves a little work for per-pixel lighting.
-	Q3FastVector3D_Normalize( &mSpotLightDirection, &mSpotLightDirection );
+	lightData.location = lightData.location * inWorldToView;
+	mSpotLightDirection = Q3Normalize3D( lightData.direction * inWorldToView );
 		
-	// Put direction and location in OpenGL form
-	GLfloat		lightDirection[3];
-	lightDirection[0] = mSpotLightDirection.x;
-	lightDirection[1] = mSpotLightDirection.y;
-	lightDirection[2] = mSpotLightDirection.z;
-
+	// Put location in OpenGL form
 	mGLLightPosition[0] = lightData.location.x;
 	mGLLightPosition[1] = lightData.location.y;
 	mGLLightPosition[2] = lightData.location.z;
 	mGLLightPosition[3] = 1.0f;
-	
-	// Find the light color
-	GLfloat		lightColor[4];
-	CalcLightColor( lightData.lightData, lightColor );
-	
-	// Find attenuation values
-	GLfloat		attConstant, attLinear, attQuadratic;
-	mLightAttenuation = lightData.attenuation;
-	SetAttenuationParams( lightData.attenuation,
-		attConstant, attLinear, attQuadratic );
-	
-	// Find the cutoff angle
-	GLfloat		lightOuterAngle = Q3Math_RadiansToDegrees( lightData.outerAngle );
-	mSpotAngleCosine = cos( lightData.outerAngle );
-	
-	
-	// Set up the light
-	GLenum	lightIndex = GL_LIGHT0 + mLightCount;
-	glEnable( lightIndex );
-	glLightfv( lightIndex, GL_DIFFUSE, lightColor );
-	glLightfv( lightIndex, GL_SPECULAR, lightColor );
-	glLightfv( lightIndex, GL_POSITION, mGLLightPosition );
-	glLightfv( lightIndex, GL_SPOT_DIRECTION, lightDirection );
-	glLightf( lightIndex, GL_SPOT_CUTOFF, lightOuterAngle );
-	glLightf( lightIndex, GL_CONSTANT_ATTENUATION, attConstant );
-	glLightf( lightIndex, GL_LINEAR_ATTENUATION, attLinear );
-	glLightf( lightIndex, GL_QUADRATIC_ATTENUATION, attQuadratic );
 }
 
 /*!
@@ -466,52 +399,10 @@ void QORenderer::Lights::AddLight( TQ3LightObject inLight,
 	mLightType = Q3Light_GetType( inLight );
 	bool isRecognizedLightType = false;
 	
-	if (mPerPixelLighting.IsShading())
-	{
-		// If this is a shadow pass, then there is one light and
-		// it needs to be submitted to OpenGL so that the shadow
-		// renderer can find it.
-		if (mLightCount == 0)
-		{
-			switch (mLightType)
-			{
-				case kQ3LightTypeDirectional:
-					AddDirectionalLight( inLight, inWorldToView );
-					isRecognizedLightType = true;
-					break;
-					
-				case kQ3LightTypePoint:
-					AddPointLight( inLight, inWorldToView );
-					isRecognizedLightType = true;
-					break;
-					
-				case kQ3LightTypeSpot:
-					AddSpotLight( inLight, inWorldToView );
-					isRecognizedLightType = true;
-					break;
-			}
-		}
-		else
-		{
-			// Otherwise, there is no need to bother with traditional
-			// glLight calls, and doing so could be trouble if there
-			// are more than 8 lights in a pass.
-			switch (mLightType)
-			{
-				case kQ3LightTypeDirectional:
-				case kQ3LightTypePoint:
-				case kQ3LightTypeSpot:
-					isRecognizedLightType = true;
-					break;
-			}
-		}
-		
-		if (isRecognizedLightType)
-		{
-			mPerPixelLighting.AddLight( inLight );
-		}
-	}
-	else
+	// If this is a shadow pass, then there is one light and
+	// it needs to be submitted to OpenGL so that the shadow
+	// renderer can find it.
+	if (mLightCount == 0)
 	{
 		switch (mLightType)
 		{
@@ -531,6 +422,25 @@ void QORenderer::Lights::AddLight( TQ3LightObject inLight,
 				break;
 		}
 	}
+	else
+	{
+		// Otherwise, there is no need to bother with traditional
+		// glLight calls, and doing so could be trouble if there
+		// are more than 8 lights in a pass.
+		switch (mLightType)
+		{
+			case kQ3LightTypeDirectional:
+			case kQ3LightTypePoint:
+			case kQ3LightTypeSpot:
+				isRecognizedLightType = true;
+				break;
+		}
+	}
+	
+	if (isRecognizedLightType)
+	{
+		mRenderer.Shader().AddLight( inLight );
+	}
 	
 	if (isRecognizedLightType)
 	{
@@ -549,27 +459,16 @@ void	QORenderer::Lights::Reset( bool inEnableLighting )
 	
 	if (inEnableLighting)
 	{
-		glEnable( GL_LIGHTING );
-		glLightModeli( GL_LIGHT_MODEL_LOCAL_VIEWER, GL_FALSE );
-		
-		GLfloat	noAmbient[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
-		glLightModelfv( GL_LIGHT_MODEL_AMBIENT, noAmbient );
-		
-		if (mGLExtensions.separateSpecularColor == kQ3True)
-		{
-			glLightModeli( GL_LIGHT_MODEL_COLOR_CONTROL,
-				GL_SEPARATE_SPECULAR_COLOR );
-		}
+		TQ3ColorRGB noLight = {
+			0.0f, 0.0f, 0.0f
+		};
+		mRenderer.Shader().SetAmbientLight( noLight );
 	}
 	else
 	{
-		glDisable( GL_LIGHTING );
-		if (mGLExtensions.depthClamp)
-		{
-			// This gets turned on in the shadow marking phase.  If we leave it
-			// on, it can cause blending artifacts in shadow lighting phases.
-			glDisable( GL_DEPTH_CLAMP_NV );
-		}
+		// This gets turned on in the shadow marking phase.  If we leave it
+		// on, it can cause blending artifacts in shadow lighting phases.
+		glDisable( GL_DEPTH_CLAMP_NV );
 	}
 }
 
@@ -580,8 +479,7 @@ void	QORenderer::Lights::Reset( bool inEnableLighting )
 */
 void	QORenderer::Lights::ClassifyLights( TQ3ViewObject inView )
 {
-	mGlAmbientLight[0] = mGlAmbientLight[1] = mGlAmbientLight[2] = 0.0f;
-	mGlAmbientLight[3] = 1.0f;
+	mGlAmbientLight.r = mGlAmbientLight.g = mGlAmbientLight.b = 0.0f;
 	
 	mNonShadowingLights.clear();
 	mShadowingLights.clear();
@@ -672,16 +570,12 @@ void	QORenderer::Lights::SetUpShadowMarkingPass( const TQ3Matrix4x4& inWorldToVi
 	// light now.
 	AddLight( mShadowingLights[ mStartingLightIndexForPass ].get(),
 		inWorldToView );
-	glDisable( GL_LIGHT0 );
 	mLightCount = 0;
-	glDisable( GL_LIGHTING );
+	mRenderer.Shader().UpdateIllumination( kQ3IlluminationTypeNULL );
 	
-	if (mGLExtensions.depthClamp)
-	{
-		// This should help prevent problems if shadow-casting geometry is in
-		// front of the near plane.
-		glEnable( GL_DEPTH_CLAMP_NV );
-	}
+	// This should help prevent problems if shadow-casting geometry is in
+	// front of the near plane.
+	glEnable( GL_DEPTH_CLAMP_NV );
 
 	glDisable( GL_CULL_FACE );
 	
@@ -702,42 +596,21 @@ void	QORenderer::Lights::SetUpShadowMarkingPass( const TQ3Matrix4x4& inWorldToVi
 	
 	glEnable( GL_STENCIL_TEST );
 	
-	GLenum	decrEnum = mGLExtensions.stencilWrap? GL_DECR_WRAP_EXT : GL_DECR;
-	GLenum	incrEnum = mGLExtensions.stencilWrap? GL_INCR_WRAP_EXT : GL_INCR;
+	GLenum	decrEnum = GL_DECR_WRAP_EXT;
+	GLenum	incrEnum = GL_INCR_WRAP_EXT;
 	
-	if (mGLExtensions.separateStencil)
-	{
-		mGLStencilFuncs.glStencilOpSeparate(
-			GL_BACK,
-			GL_KEEP,			// stencil test fail
-			incrEnum, 			// depth test fail
-			GL_KEEP );			// depth test pass
-		mGLStencilFuncs.glStencilOpSeparate(
-			GL_FRONT,
-			GL_KEEP,			// stencil test fail
-			decrEnum,			// depth test fail
-			GL_KEEP );			// depth test pass
-		glStencilMask( ~0U );
-		glStencilFunc( GL_ALWAYS, 0, ~0U );
-	}
-	else if (mGLExtensions.stencilTwoSide)
-	{
-		glEnable( GL_STENCIL_TEST_TWO_SIDE_EXT );
-		
-		mGLStencilFuncs.glActiveStencilFace( GL_BACK );
-		glStencilOp( GL_KEEP,	// stencil test fail
-			incrEnum, 			// depth test fail
-			GL_KEEP );			// depth test pass
-		glStencilMask( ~0U );
-		glStencilFunc( GL_ALWAYS, 0, ~0U );
-
-		mGLStencilFuncs.glActiveStencilFace( GL_FRONT );
-		glStencilOp( GL_KEEP,	// stencil test fail
-			decrEnum,			// depth test fail
-			GL_KEEP );			// depth test pass
-		glStencilMask( ~0U );
-		glStencilFunc( GL_ALWAYS, 0, ~0U );
-	}
+	mRenderer.Funcs().glStencilOpSeparate(
+		GL_BACK,
+		GL_KEEP,			// stencil test fail
+		incrEnum, 			// depth test fail
+		GL_KEEP );			// depth test pass
+	mRenderer.Funcs().glStencilOpSeparate(
+		GL_FRONT,
+		GL_KEEP,			// stencil test fail
+		decrEnum,			// depth test fail
+		GL_KEEP );			// depth test pass
+	glStencilMask( ~0U );
+	glStencilFunc( GL_ALWAYS, 0, ~0U );
 
 	glDepthMask( GL_FALSE );	// no writes to depth buffer
 	glDepthFunc( GL_LESS );
@@ -752,10 +625,8 @@ void	QORenderer::Lights::SetUpShadowMarkingPass( const TQ3Matrix4x4& inWorldToVi
 */
 void	QORenderer::Lights::SetUpShadowLightingPass()
 {
-	glEnable( GL_LIGHT0 );
-	glEnable( GL_LIGHTING );
 	mLightCount = 1;
-	mGlAmbientLight[0] = mGlAmbientLight[1] = mGlAmbientLight[2] = 0.0f;
+	mGlAmbientLight.r = mGlAmbientLight.g = mGlAmbientLight.b = 0.0f;
 	
 	mStartingLightIndexForPass += 1;
 	if (mStartingLightIndexForPass < mShadowingLights.size())
@@ -766,24 +637,9 @@ void	QORenderer::Lights::SetUpShadowLightingPass()
 	// do write to color buffer
 	glColorMask( GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE );
 	
-	if (mGLExtensions.separateStencil)
-	{
-		glStencilFunc( GL_EQUAL, 128, ~0U );
-		glStencilOp( GL_KEEP, GL_KEEP, GL_KEEP );
-		glStencilMask( 0 );
-	}
-	else if (mGLExtensions.stencilTwoSide)
-	{
-		mGLStencilFuncs.glActiveStencilFace( GL_BACK );
-		glStencilFunc( GL_EQUAL, 128, ~0U );
-		glStencilOp( GL_KEEP, GL_KEEP, GL_KEEP );
-		glStencilMask( 0 );
-		
-		mGLStencilFuncs.glActiveStencilFace( GL_FRONT );
-		glStencilFunc( GL_EQUAL, 128, ~0U );
-		glStencilOp( GL_KEEP, GL_KEEP, GL_KEEP );
-		glStencilMask( 0 );
-	}
+	glStencilFunc( GL_EQUAL, 128, ~0U );
+	glStencilOp( GL_KEEP, GL_KEEP, GL_KEEP );
+	glStencilMask( 0 );
 
 	glDepthMask( GL_FALSE );	// no writes to depth buffer
 	glDepthFunc( GL_LEQUAL );	// pass depth test on equal
@@ -801,7 +657,7 @@ void	QORenderer::Lights::SetUpNonShadowLightingPass( const TQ3Matrix4x4& inWorld
 	if (mIsFirstPass)
 	{
 		// A previous Reset call turned off ambient light.
-		glLightModelfv( GL_LIGHT_MODEL_AMBIENT, mGlAmbientLight );
+		mRenderer.Shader().SetAmbientLight( mGlAmbientLight );
 	}
 	
 	TQ3Uns32 endIndex = E3Num_Min<TQ3Uns32>( static_cast<TQ3Uns32>(mNonShadowingLights.size()),
@@ -849,47 +705,6 @@ void	QORenderer::Lights::SetUpNonShadowLightingPass( const TQ3Matrix4x4& inWorld
 	}
 }
 
-/*!
-	@function	UpdateFogColor
-	@abstract	Update the fog color depending on whether this is the first pass.
-*/
-void	QORenderer::Lights::UpdateFogColor()
-{
-	// Here's why we need to mess with the fog color:  The contributions of
-	// lighting passes are blended additively, which roughly looks like:
-	//   pixelColor = geomColor*light1 + geomColor*light2 + ...
-	// The computation of fog looks like
-	//   fragColor = (1-fog)*fogColor + fog*fragColor.
-	// What we would like to get as the fogged result is
-	//   pixelColor = (1-fog)*fogColor + fog*(geomColor*light1 + geomColor*light2 + ...)
-	// But if we used fog in the normal way in each pass, we would end up with
-	//	  pixelColor = (1-fog)*fogColor + fog*geomColor*light1 +
-	//		(1-fog)*fogColor + fog*geomColor*light2 + ...
-	// To avoid these multiple contributions of the fog color, we set the fog
-	// color to black for all but the first pass.
-	if (mIsFirstPass)
-	{
-		const TQ3FogStyleExtendedData& fogData(
-			mStyleState.mFogStyles[ mStyleState.mCurFogStyleIndex ] );
-		GLfloat	fogColor[4] = {
-			fogData.color.r,
-			fogData.color.g,
-			fogData.color.b,
-			fogData.color.a
-		};
-		glFogfv( GL_FOG_COLOR, fogColor );
-	}
-	else
-	{
-		GLfloat	blackFog[4] = {
-			0.0f,
-			0.0f,
-			0.0f,
-			1.0f
-		};
-		glFogfv( GL_FOG_COLOR, blackFog );
-	}
-}
 
 /*!
 	@function	StartFrame
@@ -908,8 +723,8 @@ void	QORenderer::Lights::StartFrame( TQ3ViewObject inView,
 	mSavedYon = std::numeric_limits<float>::infinity();
 
 	// How many OpenGL non-ambient lights can we have?
-	mPerPixelLighting.StartFrame( inView );
-	mMaxGLLights = mPerPixelLighting.GetMaxLightsPerPass();
+	mRenderer.Shader().StartFrame( inView );
+	mMaxGLLights = mRenderer.Shader().GetMaxLightsPerPass();
 	
 	ClassifyLights( inView );
 	
@@ -927,8 +742,17 @@ void	QORenderer::Lights::StartFrame( TQ3ViewObject inView,
 		{
 			// We need to know the minimum color that is distinguishable from
 			// black, which depends on the bit depth of the color buffer.
-			GLint	colorBits;
-			glGetIntegerv( GL_GREEN_BITS, &colorBits );
+			GLint	colorBits = 8;
+			
+			// We used to be able to query the number of color bits using
+			//   glGetIntegerv( GL_GREEN_BITS, &colorBits );
+			// but that is no longer allowed.
+			// In some GL version, but apparently not 3.2, one can use
+			// glGetFramebufferAttachmentParameteriv to query
+			// GL_FRAMEBUFFER_ATTACHMENT_GREEN_SIZE.  There does not seem to
+			// be a way to do it in the default framebuffer in core profile 3.2.
+			// So I'll just assume I'm using 24-bit color.
+			
 			mAttenuatedLightThreshold = 1.0f / (1L << colorBits);
 		}
 	}
@@ -952,11 +776,11 @@ void	QORenderer::Lights::StartPass(
 	// transform to the identity. Since lights are translated before geometry,
 	// we need to transform their direction/positions ourselves in order to
 	// put them into the OpenGL camera's coordinate system.
-	TQ3Matrix4x4	savedModelViewMatrix = mMatrixState.GetLocalToCamera();
-	TQ3Matrix4x4	worldToView;
+	TQ3Matrix4x4	savedModelViewMatrix = mRenderer.GetMatrixState().GetLocalToCamera();
+	TQ3Matrix4x4	worldToView, ident;
 	Q3Camera_GetWorldToView( inCamera, &worldToView );
-	glMatrixMode( GL_MODELVIEW );
-	glLoadIdentity();
+	Q3Matrix4x4_SetIdentity( &ident );
+	GLCamera_SetModelView( &ident, mRenderer.Shader() );
 	
 	if (mIsNextPassShadowPhase)
 	{
@@ -976,13 +800,15 @@ void	QORenderer::Lights::StartPass(
 		
 		if (mIsShadowMarkingPass)
 		{
+			//Q3_MESSAGE_FMT("Shadow marking pass");
 			passInfo.passType = kQ3RendererPassShadowMarking;
 			
-			mPerPixelLighting.ClearLights();
+			mRenderer.Shader().ClearLights();
 			SetUpShadowMarkingPass( worldToView );
 		}
 		else	// shadow lighting pass
 		{
+			//Q3_MESSAGE_FMT("Shadow lighting pass");
 			passInfo.passType = kQ3RendererPassShadowLighting;
 			
 			SetUpShadowLightingPass();
@@ -990,16 +816,15 @@ void	QORenderer::Lights::StartPass(
 	}
 	else	// non-shadowing phase
 	{
+		//Q3_MESSAGE_FMT("Non-shadow pass");
 		passInfo.light = nullptr;
 		passInfo.passType = kQ3RendererPassNonShadow;
 		
-		mPerPixelLighting.ClearLights();
+		mRenderer.Shader().ClearLights();
 		SetUpNonShadowLightingPass( worldToView );
 	}
 	
-	GLCamera_SetModelView( &savedModelViewMatrix );
-	
-	UpdateFogColor();
+	GLCamera_SetModelView( &savedModelViewMatrix, mRenderer.Shader() );
 	
 	Q3Object_SetProperty( inRenderer, kQ3RendererPropertyPassType,
 		sizeof(passInfo), &passInfo );
@@ -1015,13 +840,6 @@ void	QORenderer::Lights::StartPass(
 */
 bool	QORenderer::Lights::EndPass()
 {
-	CHECK_GL_ERROR_FMT("Lights::EndPass");
-	for (GLint i = 0; i < mGLExtensions.maxLights; ++i)
-	{
-		glDisable( GL_LIGHT0 + i );
-		CHECK_GL_ERROR_FMT("glDisable( GL_LIGHT0 + %u )", (unsigned int) i );
-	}
-	
 	Reset( false );
 		
 	mIsFirstPass = ! mIsAnotherPassNeeded; // mIsFirstPass becames false only in the second pass DUE to the lights
@@ -1074,55 +892,16 @@ void	QORenderer::Lights::SetLowDimensionalMode( bool inLowD, TQ3ObjectType inIll
 	{
 		mIsLowDMode = inLowD;
 		
-		if (mPerPixelLighting.IsShading())
+		if (inLowD)
 		{
-			if (inLowD)
+			if (inIlluminationType != kQ3IlluminationTypeNULL)
 			{
-				if (inIlluminationType != kQ3IlluminationTypeNULL)
-				{
-					mPerPixelLighting.UpdateIllumination( kQ3IlluminationTypeNondirectional );
-				}
-				else
-				{
-					mPerPixelLighting.UpdateIllumination( inIlluminationType );
-				}
+				mRenderer.Shader().UpdateIllumination( kQ3IlluminationTypeNondirectional );
 			}
-		}
-		else
-		{
-			if (inLowD)
+			else
 			{
-				// Initialize the only-ambient color to the usual ambient color
-				for (i = 0; i < 4; ++i)
-				{
-					mOnlyAmbient[i] = mGlAmbientLight[i];
-				}
-			
-				for (i = 0; i < mLightCount; ++i)
-				{
-					GLfloat	lightColor[4];
-					glGetLightfv( GL_LIGHT0 + i, GL_DIFFUSE, lightColor );
-					glDisable( GL_LIGHT0 + i );
-					
-					for (j = 0; j < 3; ++j)
-					{
-						mOnlyAmbient[j] += lightColor[j];
-					}
-				}
-				
-				glLightModelfv( GL_LIGHT_MODEL_AMBIENT, mOnlyAmbient );
+				mRenderer.Shader().UpdateIllumination( inIlluminationType );
 			}
-			else	// restore normal state
-			{
-				for (i = 0; i < mLightCount; ++i)
-				{
-					glEnable( GL_LIGHT0 + i );
-				}
-				
-				glLightModelfv( GL_LIGHT_MODEL_AMBIENT, mGlAmbientLight );
-			}
-			
-			mPerPixelLighting.UpdateLighting();
 		}
 	}
 }
@@ -1170,7 +949,7 @@ bool	QORenderer::Lights::IsLit( const TQ3BoundingBox& inBounds ) const
 	{
 		// Find the bounds in eye (camera) coordinates.
 		TQ3BoundingBox		cameraBounds;
-		E3BoundingBox_Transform( &inBounds, &mMatrixState.GetLocalToCamera(),
+		E3BoundingBox_Transform( &inBounds, &mRenderer.GetMatrixState().GetLocalToCamera(),
 			&cameraBounds );
 		
 		// Find the distance from the light to the object

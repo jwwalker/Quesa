@@ -49,7 +49,6 @@
 #include "CQ3ObjectRef_Gets.h"
 #include "GLUtils.h"
 #include "GLVBOManager.h"
-#include "GLDisplayListManager.h"
 
 #include <algorithm>
 
@@ -236,37 +235,8 @@ void	QORenderer::Renderer::UpdateIlluminationShader(
 	}
 	mPPLighting.UpdateIllumination( mViewIllumination );
 	
-	
-	// Update OpenGL specular state
-	GLfloat	dullSpecular[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
-	GLfloat	dullSpecularControl = 0.0f;
-	
 	// Texturing note:  The legacy behavior is that unless the illumination is
 	// NULL, the texture completely overrides the underlying color.
-	
-	switch (mViewIllumination)
-	{
-		default:
-		case kQ3IlluminationTypeNULL:
-			glDisable( GL_LIGHTING );
-			glMaterialfv( GL_FRONT_AND_BACK, GL_SPECULAR,  dullSpecular );
-			glMaterialf( GL_FRONT_AND_BACK, GL_SHININESS, dullSpecularControl );
-			break;
-		
-		case kQ3IlluminationTypeLambert:
-			glEnable( GL_LIGHTING );
-			glMaterialfv( GL_FRONT_AND_BACK, GL_SPECULAR,  dullSpecular );
-			glMaterialf( GL_FRONT_AND_BACK, GL_SHININESS, dullSpecularControl );
-			break;
-		
-		case kQ3IlluminationTypePhong:
-			glEnable( GL_LIGHTING );
-			glMaterialfv( GL_FRONT_AND_BACK, GL_SPECULAR,
-				mCurrentSpecularColor );
-			glMaterialf( GL_FRONT_AND_BACK, GL_SHININESS,
-				GLUtils_SpecularControlToGLShininess( mCurrentSpecularControl ) );
-			break;
-	}
 }
 
 void	QORenderer::Renderer::UpdateInterpolationStyle(
@@ -286,19 +256,6 @@ void	QORenderer::Renderer::UpdateInterpolationStyle(
 	
 	mStyleState.mInterpolation = *inStyleData;
 	
-	
-	switch (mStyleState.mInterpolation)
-	{
-		case kQ3InterpolationStyleNone:
-			glShadeModel( GL_FLAT );
-			break;
-		
-		default:
-		case kQ3InterpolationStyleVertex:
-		case kQ3InterpolationStylePixel:
-			glShadeModel( GL_SMOOTH );
-			break;
-	}
 	
 	mPPLighting.UpdateInterpolationStyle( mStyleState.mInterpolation );
 }
@@ -325,13 +282,11 @@ void	QORenderer::Renderer::UpdateBackfacingStyle(
 	switch (mStyleState.mBackfacing)
 	{
 		case kQ3BackfacingStyleRemove:
-			glLightModeli( GL_LIGHT_MODEL_TWO_SIDE, GL_FALSE );
 			glCullFace( GL_BACK );
 			glEnable( GL_CULL_FACE );
 			break;
 
 		case kQ3BackfacingStyleRemoveFront:
-			glLightModeli( GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE );
 			glCullFace( GL_FRONT );
 			glEnable( GL_CULL_FACE );
 			break;
@@ -339,7 +294,6 @@ void	QORenderer::Renderer::UpdateBackfacingStyle(
 		default:
 		case kQ3BackfacingStyleBoth:
 		case kQ3BackfacingStyleFlip:
-			glLightModeli( GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE );
 			glDisable( GL_CULL_FACE );
 			break;
 	}
@@ -373,7 +327,10 @@ void	QORenderer::Renderer::UpdateFillStyle(
 			break;
 
 		case kQ3FillStyleEdges:
-			glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+			//glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+			glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
+			// Line fill style is now handled using geometry shaders, so that
+			// line widths other than 1 can be supported.
 			break;
 
 		case kQ3FillStyleFilled:
@@ -382,6 +339,7 @@ void	QORenderer::Renderer::UpdateFillStyle(
 			break;
 	}
 
+	mPPLighting.UpdateFillStyle();
 }
 
 void	QORenderer::Renderer::UpdateOrientationStyle(
@@ -458,11 +416,9 @@ void	QORenderer::Renderer::UpdateAntiAliasStyle(
 	
 	// Currently there is no way to vary point size.
 	glPointSize( 1.0f );
-	glLineWidth( mLineWidth );
 
 
 	// Turn everything off
-	glDisable( GL_POINT_SMOOTH );
 	glDisable( GL_LINE_SMOOTH );
 	glDisable( GL_POLYGON_SMOOTH );
 	if (mGLExtensions.multiSample)
@@ -483,8 +439,6 @@ void	QORenderer::Renderer::UpdateAntiAliasStyle(
 		}
 		else
 		{
-			glEnable(GL_POINT_SMOOTH);
-			
 			if ( ((inStyleData->mode & kQ3AntiAliasModeMaskEdges) != 0) &&
 				mAllowLineSmooth )
 			{
@@ -518,36 +472,6 @@ void	QORenderer::Renderer::UpdateFogStyle(
 	mTriBuffer.Flush();
 	
 	
-	if (inStyleData->state == kQ3On)
-	{
-		glEnable(GL_FOG);
-		
-		switch (inStyleData->mode)
-		{
-			case kQ3FogModeExponential:
-				glFogi( GL_FOG_MODE, GL_EXP);
-				glFogf( GL_FOG_DENSITY, inStyleData->density );
-				break;
-				
-			case kQ3FogModeExponentialSquared:
-				glFogi( GL_FOG_MODE, GL_EXP2);
-				glFogf( GL_FOG_DENSITY, inStyleData->density );
-				break;
-				
-			case kQ3FogModeLinear:
-			default:
-				glFogi( GL_FOG_MODE, GL_LINEAR);
-				glFogf( GL_FOG_START, inStyleData->fogStart );
-				glFogf( GL_FOG_END, inStyleData->fogEnd );
-				break;
-		}
-	}
-	else
-	{
-		glDisable( GL_FOG );
-	}
-	
-	
 	// Update fog state in my instance data.  This is needed for buffered
 	// transparent triangles.
 	// Note that the find operation uses a custom operator== for fog data.
@@ -571,7 +495,6 @@ void	QORenderer::Renderer::UpdateFogStyle(
 	}
 	
 	
-	mLights.UpdateFogColor();
 	mPPLighting.UpdateFogStyle( inView, *inStyleData );
 }
 
@@ -627,5 +550,6 @@ void	QORenderer::Renderer::UpdateLineWidthStyle(
 	
 	
 	mLineWidth = inStyleData;
-	glLineWidth( mLineWidth );
+	
+	mPPLighting.UpdateLineWidthStyle();
 }

@@ -102,12 +102,14 @@ Qut_CreateWindow( const char	*windowTitle,
 		NSOpenGLPixelFormatAttribute atts[] =
 		{
 			NSOpenGLPFAAccelerated,
-			NSOpenGLPFAWindow,
 			NSOpenGLPFADoubleBuffer,
 			NSOpenGLPFADepthSize,
 			24,
 			NSOpenGLPFAStencilSize,
 			8,
+			NSOpenGLPFASampleBuffers, 1,
+			NSOpenGLPFASamples, 4,
+			NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersion3_2Core,
 			0
 		};
 		NSOpenGLPixelFormat* pixFmt = [[NSOpenGLPixelFormat alloc] initWithAttributes:atts];

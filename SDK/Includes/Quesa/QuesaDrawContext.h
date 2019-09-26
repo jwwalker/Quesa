@@ -352,11 +352,7 @@ typedef struct TQ3PixmapDrawContextData {
 				handle the hardware acceleration for the pixmap context.
 	@field		masterDrawContext			An on-screen draw context, see
 											discussion.
-	@field		copyFromPixmapAtFrameStart	Whether to copy the pixmap to the
-											rendering context at the beginning
-											of each frame.  This could be useful
-											if using a pixmap as a background
-											image.
+	@field		xcopyFromPixmapAtFrameStart	OBSOLETE.
 	@field		copyToPixmapAtFrameEnd		Whether to copy the rendered image
 											to the pixmap at the end of the
 											last pass of each frame.
@@ -364,7 +360,7 @@ typedef struct TQ3PixmapDrawContextData {
 typedef struct TQ3AcceleratedOffscreenPropertyData
 {
 	TQ3Object _Nonnull		masterDrawContext;
-	TQ3Boolean		copyFromPixmapAtFrameStart;
+	TQ3Boolean		xcopyFromPixmapAtFrameStart;
 	TQ3Boolean		copyToPixmapAtFrameEnd;
 } TQ3AcceleratedOffscreenPropertyData;
 

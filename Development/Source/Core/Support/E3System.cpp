@@ -5,7 +5,7 @@
         Quesa platform specific routines.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -46,11 +46,7 @@
 #include "E3Prefix.h"
 #include "E3System.h"
 #include "GNRegister.h"
-#include "IRRegister.h"
 #include "QORegister.h"
-#include "WFRenderer.h"
-#include "CartoonRenderer.h"
-#include "HiddenLine.h"
 
 
 
@@ -151,14 +147,7 @@ E3System_LoadPlugins(void)
 	// Register the built-in plug-ins
 #if QUESA_REGISTER_BUILTIN_PLUGINS
 	GNRenderer_Register();
-	WireFrameRenderer_Register();
-	IRRenderer_Register();
 	QORenderer_Register();
-
-#if !(QUESA_OS_MACINTOSH && TARGET_API_MAC_OS8)
-	CartoonRenderer_Register();
-	HiddenLine_Register();
-#endif
 #endif
 }
 
@@ -186,14 +175,7 @@ E3System_UnloadPlugins(void)
 	// Unregister the built-in plug-ins
 #if QUESA_REGISTER_BUILTIN_PLUGINS
 	GNRenderer_Unregister();
-	WireFrameRenderer_Unregister();
-	IRRenderer_Unregister();
 	QORenderer_Unregister();
-
-#if (QUESA_OS_MACINTOSH && !TARGET_API_MAC_OS8) || QUESA_OS_WIN32
-	CartoonRenderer_Unregister();
-	HiddenLine_Unregister();
-#endif
 #endif
 
 

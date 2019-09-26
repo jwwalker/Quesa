@@ -521,10 +521,13 @@ E3Memory_Reallocate(void **thePtr, TQ3Uns32 newSize)
 
 	// If we have a pointer, we're either going to resize or free it
 	if (realPtr != nullptr)
-		{
+	{
 		// Check it looks OK
 		Q3_ASSERT_VALID_PTR(realPtr);
-		}
+	#if Q3_DEBUG
+		Q3_ASSERT( E3Memory_IsValidBlock( realPtr ) );
+	#endif
+	}
 
 
 

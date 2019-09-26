@@ -5,7 +5,7 @@
         Implementation of Quesa TriGrid geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -119,7 +119,7 @@ e3geom_trigrid_copydata(const TQ3TriGridData *src, TQ3TriGridData *dst, TQ3Boole
 			atts = src->vertices[i].attributeSet;
 			if (atts != nullptr)
 				dst->vertices[i].attributeSet = Q3Object_Duplicate( atts );
-			}
+		}
 			
 		if (src->facetAttributeSet != nullptr)
 		{
@@ -137,7 +137,7 @@ e3geom_trigrid_copydata(const TQ3TriGridData *src, TQ3TriGridData *dst, TQ3Boole
 						{
 							qd3dStatus = kQ3Failure;
 							break;
-							}
+						}
 					}
 				}
 			}

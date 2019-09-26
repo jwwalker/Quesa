@@ -108,17 +108,19 @@ struct ProgramCharacteristic
 							ProgramCharacteristic();
 							ProgramCharacteristic( const ProgramCharacteristic& inOther );
 							~ProgramCharacteristic() {}
-
+	
 	ProgramCharacteristic&	operator=( const ProgramCharacteristic& inOther );
 
 	LightPattern			mPattern;
 	TQ3ObjectType			mIlluminationType;
 	TQ3InterpolationStyle	mInterpolationStyle;
+	TQ3FillStyle			mFillStyle;
 	bool					mIsTextured;
 	bool					mIsCartoonish;
 	EFogModeCombined		mFogModeCombined;
 	bool					mIsUsingClippingPlane;
 	bool					mAngleAffectsAlpha;
+	int						mDimension;
 	
 	void					swap( ProgramCharacteristic& ioOther );
 	
@@ -147,6 +149,7 @@ struct ProgramRec
 	
 	ProgramCharacteristic	mCharacteristic;
 	
+	// Locations of shader uniform variables
 	GLint			mTextureUnit0UniformLoc;
 	GLint			mTextureUnit1UniformLoc;
 	GLint			mQuantizationUniformLoc;
@@ -157,6 +160,10 @@ struct ProgramRec
 	GLint			mIsLayerShiftingUniformLoc;
 	GLint			mIsFlippingNormalsUniformLoc;
 	GLint			mClippingPlaneUniformLoc;
+	GLint			mFogColorUniformLoc;
+	GLint			mFogDensityUniformLoc;
+	GLint			mLinearFogEndUniformLoc;
+	GLint			mLinearFogScaleUniformLoc;
 	GLint			mMaxFogOpacityUniformLoc;
 	GLint			mHalfspaceFogRateUniformLoc;
 	GLint			mHalfspaceFogPlaneUniformLoc;
@@ -164,6 +171,26 @@ struct ProgramRec
 	GLint			mLightColorUniformLoc;
 	GLint			mLightAttenuationUniformLoc;
 	GLint			mSpotLightDirectionUniformLoc;
+	GLint			mModelViewMtxUniformLoc;
+	GLint			mProjectionMtxUniformLoc;
+	GLint			mTextureMtxUniformLoc;
+	GLint			mNormalMtxUniformLoc;
+	GLint			mSpecularColorUniformLoc;
+	GLint			mShininessUniformLoc;
+	GLint			mEmissiveColorUniformLoc;
+	GLint			mAmbientLightUniformLoc;
+	GLint			mAlphaThresholdUniformLoc;
+	GLint			mLineWidthUniformLoc;
+	GLint			mViewportSizeUniformLoc;
+	GLint			mCullFrontFacesUniformLoc;
+	GLint			mCullBackFacesUniformLoc;
+	
+	// Locations of shader vertex attributes
+	GLint			mVertexAttribLoc;		// vec4 quesaVertex
+	GLint			mNormalAttribLoc;		// vec3 quesaNormal
+	GLint			mTexCoordAttribLoc;		// vec2 quesaTexCoord0
+	GLint			mColorAttribLoc;		// vec4 quesaColor
+	GLint			mLayerShiftAttribLoc;	// float quesaLayerShift
 };
 
 

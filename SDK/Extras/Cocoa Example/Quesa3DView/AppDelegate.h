@@ -41,9 +41,11 @@
     ___________________________________________________________________________
 */
 #import <Cocoa/Cocoa.h>
-#include <Quesa/Quesa.h>
+#import <Quesa/Quesa.h>
+#import <Quesa/QuesaStyle.h>
 
 @class Quesa3DView;
+
 
 
 /*!
@@ -66,36 +68,49 @@
 	NSTimer*			mAnimationTimer;
 	BOOL				mAnimates;
 	BOOL				mDrawsShadows;
-	BOOL				mPerPixelLighting;
+	BOOL				_directionalLight;
+	BOOL				_pointLight;
+	BOOL				_ambientLight;
+	BOOL				_flatInterpolation;
 	TQ3Object			mSceneBounds;
 	BOOL				mFullScreenAntialias;
 	TQ3ObjectType		mRendererType;
 	TQ3Matrix4x4		mCurrentMatrix;
 	TQ3Matrix4x4		mRotationFactor;
 	TQ3ShaderObject		mIlluminationShader;
+	TQ3StyleObject		_backfacingStyleObject;
+	TQ3StyleObject		_fillStyleObject;
+	TQ3StyleObject		_interpolationStyleObject;
+	TQ3StyleObject		_fogStyleObject;
 	TQ3ShapeObject		mSceneGeometry;
-	TQ3StyleObject		mFog;
 	float				mXRotation;
 	float				mYRotation;
 	float				mZRotation;
 	int					mIlluminationShaderType;
+	TQ3BackfacingStyle	_backfacingStyle;
+	TQ3FillStyle		_fillStyle;
+	int					_fogStyleTag;
 }
 
 @property (assign) BOOL		drawsShadows;
-@property (assign) BOOL		perPixelLighting;
 @property (assign) BOOL		animates;
 @property (assign) BOOL		drawsBounds;
 @property (assign) BOOL		fullScreenAntialias;
-@property (assign) BOOL		halfspaceFog;
+@property (assign) BOOL		directionalLight;
+@property (assign) BOOL		pointLight;
+@property (assign) BOOL		ambientLight;
+@property (assign) BOOL		flatInterpolation;
 
 @property (assign) TQ3ObjectType	rendererType;
 
-@property (assign) float	xRotation;
-@property (assign) float	yRotation;
-@property (assign) float	zRotation;
+@property (assign)	float	xRotation;
+@property (assign)	float	yRotation;
+@property (assign)	float	zRotation;
 
-@property (assign) int		illuminationType;
-
+@property (assign)	int		illuminationType;
+@property (assign) TQ3BackfacingStyle	backfacingStyle;
+@property (assign) TQ3FillStyle			fillStyle;
+@property (assign) int		fogStyleTag;
 
 - (IBAction)setGeometryFromTag:(id)sender;
 

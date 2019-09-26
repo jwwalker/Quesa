@@ -60,6 +60,8 @@
 #include <Quesa/QuesaStorage.h> 
 #include <Quesa/QuesaTransform.h> 
 #include <Quesa/QuesaRenderer.h> 
+#include <Quesa/CQ3ObjectRef_Gets.h>
+#include <Quesa/Q3GroupIterator.h>
 
 #import "Quesa3DView.h"
 #import "DemoGeometry.h"
@@ -89,6 +91,16 @@ enum
 	kMenuItemGeometryTriGrid,
 	kMenuItemGeometryTriMesh
 };
+
+enum EFogTag
+{
+	kFogTagNone,
+	kFogTagLinear,
+	kFogTagExponential,
+	kFogTagExponentialSquared,
+	kFogTagHalfspace
+};
+
 
 static TQ3TextureObject qutTexture_CreateTextureObjectFromBitmap(
 		CGContextRef inBitmapContext,
@@ -168,6 +180,7 @@ static TQ3ShaderObject createTextureFromFile(NSURL * fileURL)
 				CGContextRelease( imDst );
 			}
 		}
+		CGImageRelease( imRef );
 	}
 	
 	if ( (qd3dTextureObject == NULL) &&
@@ -348,7 +361,6 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 
 @implementation AppDelegate
 
-
 //==================================================================================
 //	init
 //==================================================================================
@@ -361,10 +373,18 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 		Q3Initialize();
 		mIlluminationShader = Q3PhongIllumination_New();
 		
-		mFullScreenAntialias = YES;
-		mDrawsShadows = YES;
-		mPerPixelLighting = YES;
-
+		_backfacingStyle = kQ3BackfacingStyleBoth;
+		_backfacingStyleObject = Q3BackfacingStyle_New( _backfacingStyle );
+		_fillStyle = kQ3FillStyleFilled;
+		_fillStyleObject = Q3FillStyle_New( _fillStyle );
+		
+		_directionalLight = YES;
+		_pointLight = YES;
+		_ambientLight = YES;
+		
+		_interpolationStyleObject = Q3InterpolationStyle_New( kQ3InterpolationStyleVertex );
+		_flatInterpolation = NO;
+		
 		TQ3FogStyleData fogData =
 		{
 			kQ3Off,
@@ -379,7 +399,7 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 				1.0f
 			}
 		};
-		mFog = Q3FogStyle_New( &fogData );
+		_fogStyleObject = Q3FogStyle_New( &fogData );
 		TCEHalfspaceFogData halfFog =
 		{
 			1.0f,
@@ -387,7 +407,7 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 				0.0f, 1.0f, 0.0f, 0.0f
 			}
 		};
-		CEHalfspaceFogElement_SetData( mFog, &halfFog );
+		CEHalfspaceFogElement_SetData( _fogStyleObject, &halfFog );
 	}
 	return self;
 }
@@ -412,10 +432,10 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 	{
 		Q3Object_Dispose( mSceneGeometry );
 	}
-	if (mFog != NULL)
-	{
-		Q3Object_Dispose( mFog );
-	}
+	Q3Object_Dispose( _backfacingStyleObject );
+	Q3Object_Dispose( _fillStyleObject );
+	Q3Object_Dispose( _interpolationStyleObject );
+	Q3Object_Dispose( _fogStyleObject );
 	
 	[super dealloc];
 }
@@ -477,10 +497,24 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 	[self buildRendererMenu];
 	[objectMenu selectItemWithTitle: @"Quesa Logo"];
 
+	TQ3Int32				glAttributes[] =
+	{
+		NSOpenGLPFADoubleBuffer,
+		NSOpenGLPFADepthSize, 24,
+		NSOpenGLPFAStencilSize, 8,
+		NSOpenGLPFASampleBuffers, 1,
+		NSOpenGLPFASamples, 4,
+		NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersion3_2Core,
+		0
+	};
+	
+	NSOpenGLPixelFormat* pixelFormat  = [[[NSOpenGLPixelFormat alloc]
+		initWithAttributes: (NSOpenGLPixelFormatAttribute*) glAttributes] autorelease];
+	quesa3dView.pixelFormat = pixelFormat;
+
 	Q3Matrix4x4_SetIdentity(&mCurrentMatrix);
   	Q3Matrix4x4_SetRotate_XYZ(&mRotationFactor, 0.03f, 0.05f, 0.005f);
     mSceneGeometry = createGeomQuesa();
-    
     self.animates = YES;
     mRendererType = 0;
     [rendererMenu selectItemWithTag: kQ3RendererTypeOpenGL];
@@ -510,28 +544,6 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 
 
 //==================================================================================
-//	updateRendererPerPixelLighting
-//==================================================================================
-- (void) updateRendererPerPixelLighting
-{
-	TQ3RendererObject	theRenderer = NULL;
-	TQ3Boolean			pplFlag;
-
-	Q3View_GetRenderer( [quesa3dView qd3dView], &theRenderer );
-	if (theRenderer != NULL)
-	{
-		pplFlag = [self perPixelLighting]? kQ3True : kQ3False;
-		Q3Object_SetProperty( theRenderer, kQ3RendererPropertyPerPixelLighting,
-				sizeof(pplFlag), &pplFlag );
-			
-		Q3Object_Dispose( theRenderer );
-	}
-	
-	[quesa3dView setNeedsDisplay:YES];
-}
-
-
-//==================================================================================
 //	updateRendererFullScreenAntialias
 //==================================================================================
 - (void) updateRendererFullScreenAntialias
@@ -548,7 +560,6 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 		Q3Object_Dispose( theRenderer );
 		
 		[self updateRendererShadowFlag];
-		[self updateRendererPerPixelLighting];
 	}
 	
 	[quesa3dView setNeedsDisplay:YES];
@@ -641,25 +652,89 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 
 
 //==================================================================================
-//	perPixelLighting
+//	directionalLight
 //==================================================================================
-- (BOOL) perPixelLighting
+- (BOOL) directionalLight
 {
-	return mPerPixelLighting;
+	return _directionalLight;
 }
 
 //==================================================================================
-//	setPerPixelLighting:
+//	setDirectionalLight:
 //==================================================================================
-- (void) setPerPixelLighting: (BOOL) ppl
+- (void) setDirectionalLight: (BOOL) dirLight
 {
-	if (ppl != mPerPixelLighting)
+	if (dirLight != _directionalLight)
 	{
-		mPerPixelLighting = ppl;
-		[self updateRendererPerPixelLighting];
+		_directionalLight = dirLight;
+		
+		CQ3ObjectRef lightGroup( CQ3View_GetLightGroup( quesa3dView.qd3dView ) );
+		Q3GroupIterator iter( lightGroup.get(), kQ3LightTypeDirectional );
+		CQ3ObjectRef	theItem;
+		while ( (theItem = iter.NextObject()).isvalid() )
+		{
+			Q3Light_SetState( theItem.get(), dirLight? kQ3True : kQ3False );
+		}
+		[quesa3dView setNeedsDisplay:YES];
 	}
 }
 
+
+//==================================================================================
+//	pointLight
+//==================================================================================
+- (BOOL) pointLight
+{
+	return _pointLight;
+}
+
+//==================================================================================
+//	setPointLight:
+//==================================================================================
+- (void) setPointLight: (BOOL) dirLight
+{
+	if (dirLight != _pointLight)
+	{
+		_pointLight = dirLight;
+		
+		CQ3ObjectRef lightGroup( CQ3View_GetLightGroup( quesa3dView.qd3dView ) );
+		Q3GroupIterator iter( lightGroup.get(), kQ3LightTypePoint );
+		CQ3ObjectRef	theItem;
+		while ( (theItem = iter.NextObject()).isvalid() )
+		{
+			Q3Light_SetState( theItem.get(), dirLight? kQ3True : kQ3False );
+		}
+		[quesa3dView setNeedsDisplay: YES];
+	}
+}
+
+//==================================================================================
+//	ambientLight
+//==================================================================================
+- (BOOL) ambientLight
+{
+	return _ambientLight;
+}
+
+//==================================================================================
+//	setAmbientLight:
+//==================================================================================
+- (void) setAmbientLight: (BOOL) ambientLight
+{
+	if (ambientLight != _ambientLight)
+	{
+		_ambientLight = ambientLight;
+		
+		CQ3ObjectRef lightGroup( CQ3View_GetLightGroup( quesa3dView.qd3dView ) );
+		Q3GroupIterator iter( lightGroup.get(), kQ3LightTypeAmbient );
+		CQ3ObjectRef	theItem;
+		while ( (theItem = iter.NextObject()).isvalid() )
+		{
+			Q3Light_SetState( theItem.get(), ambientLight? kQ3True : kQ3False );
+		}
+		[quesa3dView setNeedsDisplay: YES];
+	}
+}
 
 //==================================================================================
 //	drawsBounds
@@ -708,7 +783,7 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 	if (antialias != mFullScreenAntialias)
 	{
 		mFullScreenAntialias = antialias;
-		
+		[quesa3dView setNeedsDisplay: YES];
 	}
 }
 
@@ -733,7 +808,6 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 		
 		Q3View_SetRendererByType([quesa3dView qd3dView], mRendererType);
 		[self updateRendererFullScreenAntialias];
-		[self updateRendererPerPixelLighting];
 		[self updateRendererShadowFlag];
 		[quesa3dView setNeedsDisplay:YES];
 	}
@@ -832,10 +906,122 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 				mIlluminationShader = Q3NondirectionalIllumination_New();
 				break;
 		}
-		[quesa3dView setNeedsDisplay:YES];
+		[quesa3dView setNeedsDisplay: YES];
 	}
 }
 
+- (TQ3BackfacingStyle) backfacingStyle
+{
+	return _backfacingStyle;
+}
+
+- (void) setBackfacingStyle: (TQ3BackfacingStyle) backfacingStyle
+{
+	if (backfacingStyle != _backfacingStyle)
+	{
+		_backfacingStyle = backfacingStyle;
+		
+		Q3BackfacingStyle_Set( _backfacingStyleObject, _backfacingStyle );
+		[quesa3dView setNeedsDisplay: YES];
+	}
+}
+
+- (TQ3FillStyle) fillStyle
+{
+	return _fillStyle;
+}
+
+- (void) setFillStyle: (TQ3FillStyle) fillStyle
+{
+	if (fillStyle != _fillStyle)
+	{
+		_fillStyle = fillStyle;
+		
+		Q3FillStyle_Set( _fillStyleObject, _fillStyle );
+		[quesa3dView setNeedsDisplay: YES];
+	}
+}
+
+- (int) fogStyleTag
+{
+	return _fogStyleTag;
+}
+
+- (void) setFogStyleTag: (int) fogStyleTag
+{
+	if (fogStyleTag != _fogStyleTag)
+	{
+		_fogStyleTag = fogStyleTag;
+		
+		TQ3FogStyleData fogData;
+		Q3FogStyle_GetData( _fogStyleObject, &fogData );
+		
+		switch (_fogStyleTag)
+		{
+			case kFogTagNone:
+				fogData.state = kQ3Off;
+				break;
+			
+			case kFogTagLinear:
+				fogData.state = kQ3On;
+				fogData.mode = kQ3FogModeLinear;
+				fogData.fogStart = 4.5f;
+				fogData.fogEnd = 5.5f;
+				break;
+			
+			case kFogTagExponential:
+				fogData.state = kQ3On;
+				fogData.mode = kQ3FogModeExponential;
+				fogData.density = 0.15f;
+				break;
+			
+			case kFogTagExponentialSquared:
+				fogData.state = kQ3On;
+				fogData.mode = kQ3FogModeExponentialSquared;
+				fogData.density = 0.2f;
+				break;
+			
+			case kFogTagHalfspace:
+				fogData.state = kQ3On;
+				fogData.mode = kQ3FogModeExponential;
+				fogData.density = 0.4f;
+				break;
+		}
+		
+		Q3FogStyle_SetData( _fogStyleObject, &fogData );
+		
+		if (_fogStyleTag == kFogTagHalfspace)
+		{
+			TCEHalfspaceFogData	halfspaceData = {
+				1.0f,
+				{ 1.0f, 0.0f, 0.0f, 0.0f }
+			};
+		
+			CEHalfspaceFogElement_SetData( _fogStyleObject, &halfspaceData );
+		}
+		else
+		{
+			CEHalfspaceFogElement_SetData( _fogStyleObject, nullptr );
+		}
+		[quesa3dView setNeedsDisplay: YES];
+	}
+}
+
+- (BOOL) flatInterpolation
+{
+	return _flatInterpolation;
+}
+
+- (void) setFlatInterpolation: (BOOL) flatInterpolation
+{
+	if (_flatInterpolation != flatInterpolation)
+	{
+		_flatInterpolation = flatInterpolation;
+		Q3InterpolationStyle_Set( _interpolationStyleObject,
+			flatInterpolation? kQ3InterpolationStyleNone : kQ3InterpolationStyleVertex );
+		[quesa3dView setNeedsDisplay: YES];
+	}
+}
 
 #pragma mark action methods
 
@@ -1065,20 +1251,16 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 		kQ3SubdivisionMethodConstant,
 		30.0f,
 		30.0f
-	};
-	TQ3FogStyleData fogData;
-	Q3FogStyle_GetData( mFog, &fogData );
-	fogData.state = self.halfspaceFog? kQ3On : kQ3Off;
-	Q3FogStyle_SetData( mFog, &fogData );
-	
+	};	
 
 	// Submit the styles
-	Q3BackfacingStyle_Submit(kQ3BackfacingStyleBoth, [inView qd3dView]);
-	Q3InterpolationStyle_Submit(kQ3InterpolationStyleVertex, [inView qd3dView]);
+	Q3Object_Submit( _backfacingStyleObject, [inView qd3dView] );
+	Q3Object_Submit( _fillStyleObject, [inView qd3dView] );
+	Q3Object_Submit( _interpolationStyleObject, [inView qd3dView] );
+	Q3Object_Submit( _fogStyleObject, [inView qd3dView] );
 	Q3SubdivisionStyle_Submit(&subdivStyle,                  [inView qd3dView]);
 	fullAntialias.state = ([self fullScreenAntialias]? kQ3On : kQ3Off);
 	Q3AntiAliasStyle_Submit( &fullAntialias, [inView qd3dView] );
-	Q3Object_Submit( mFog, [inView qd3dView] );
 
 
 	// Submit the scene

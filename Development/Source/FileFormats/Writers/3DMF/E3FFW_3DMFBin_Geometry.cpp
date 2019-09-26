@@ -123,13 +123,13 @@ e3ffw_3DMF_storage_write(TQ3StorageObject theStorage,TQ3Uns32 expectedSize,TQ3Fi
 				basePtr = (TQ3Uns8 *) Q3Memory_Allocate(bufferSize);
 			
 			if (basePtr != nullptr)
-				{
+			{
 				qd3dStatus = Q3Storage_GetData(theStorage, 0, bufferSize, (unsigned char*)basePtr, &validSize);
 				wasCopied = (TQ3Boolean) (qd3dStatus == kQ3Success);
 				
 				if (qd3dStatus != kQ3Success)
 					Q3Memory_Free(&basePtr);
-				}
+			}
 			
 			// If we opened the storage, close it.
 			if (wasOpened)
@@ -138,7 +138,7 @@ e3ffw_3DMF_storage_write(TQ3StorageObject theStorage,TQ3Uns32 expectedSize,TQ3Fi
 			}
 		}
 			break;
-		}
+	}
 
 	
 	

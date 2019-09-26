@@ -53,8 +53,13 @@
 #if QUESA_OS_MACINTOSH
 
 	#if QUESA_UH_IN_FRAMEWORKS
+	#if 0 // test GL3
+		#include <OpenGL/gl3.h>
+		#include "glu3.h"
+	#else
 		#include <OpenGL/gl.h>
 		#include <OpenGL/glu.h>
+	#endif
 		#if QUESA_SUPPORT_HITOOLBOX
 			#include <AGL/agl.h>
 			#include <AGL/aglRenderers.h>
@@ -97,30 +102,15 @@
 //=============================================================================
 //      Types
 //-----------------------------------------------------------------------------
+namespace QORenderer
+{
+	class PerPixelLighting;
+}
 
 // OpenGL extension availability flags
 struct TQ3GLExtensions
 {
-	TQ3Boolean				separateSpecularColor;
-	TQ3Boolean				clampToEdge;
-	TQ3Boolean				multitexture;			// GL_ARB_multitexture
-	TQ3Boolean				blendMinMax;
-	TQ3Boolean				vertexBufferObjects;
-	TQ3Boolean				frameBufferObjects;		// GL_EXT_framebuffer_object
-	TQ3Boolean				shadingLanguage;
-	TQ3Boolean				packedPixels;			// GL 1.2
-	TQ3Boolean				depthClamp;				// GL_NV_depth_clamp
-	TQ3Boolean				stencilTwoSide;			// GL_EXT_stencil_two_side
-	TQ3Boolean				separateStencil;		// GL 2.0
-	TQ3Boolean				stencilWrap;			// GL_EXT_stencil_wrap
-	TQ3Boolean				packedDepthStencil;		// GL_EXT_packed_depth_stencil
 	TQ3Boolean				multiSample;			// GL_SAMPLE_BUFFERS_ARB > 0
-	TQ3Boolean				multisampleFBO;			// GL 3.0 or GL_EXT_framebuffer_multisample
-	TQ3Boolean				NPOTTexture;			// GL_ARB_texture_non_power_of_two or GL 2.0
-	TQ3Boolean				ATICard;				// vendor starts with ATI or AMD
-	
-	GLint					maxLights;				// GL_MAX_LIGHTS
-	GLint					stencilBits;			// GL_STENCIL_BITS
 };
 
 
@@ -147,7 +137,7 @@ public:
 	
 	virtual void		SwapBuffers() = 0;
 	
-	virtual void		StartFrame() {}
+	virtual void		StartFrame( QORenderer::PerPixelLighting& inPPL ) {}
 
 						// Make the platform OpenGL context current, but
 						// do not alter the framebuffer binding.
@@ -199,5 +189,19 @@ typedef	void*		TQ3GLContext;
 	typedef void (CALLBACK *GLcallback)();
 
 #endif
+
+//=============================================================================
+//      Functions
+//-----------------------------------------------------------------------------
+
+inline GLvoid* GLBufferObPtr( GLuint offset )
+{
+	return reinterpret_cast<GLvoid*>( static_cast<uintptr_t>( offset ) );
+}
+
+inline GLvoid* GLBufferObPtr( GLsizeiptr offset )
+{
+	return reinterpret_cast<GLvoid*>( static_cast<uintptr_t>( offset ) );
+}
 
 #endif

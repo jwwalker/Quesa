@@ -1420,7 +1420,7 @@ E3MemoryStorage::GetBuffer ( unsigned char **buffer, TQ3Uns32 *validSize, TQ3Uns
 //-----------------------------------------------------------------------------
 TQ3StorageObject
 E3PathStorage_New(const char *pathName, TQ3Boolean owned)
-	{
+{
 	TQ3PathStorageData data;
 	data.theFile = nullptr;
 	data.thePath = (char *) pathName;
@@ -1436,7 +1436,7 @@ E3PathStorage_New(const char *pathName, TQ3Boolean owned)
 	
 	// Create the object
 	return E3ClassTree::CreateInstance ( kQ3StorageTypePath, kQ3False, &data ) ;
-	}
+}
 
 
 

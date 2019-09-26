@@ -47,9 +47,9 @@
 #include "QORenderer.h"
 #include "GLDrawContext.h"
 #include "CQ3ObjectRef_Gets.h"
+#include "GLImmediateVBO.h"
 #include "GLUtils.h"
 #include "GLVBOManager.h"
-#include "GLDisplayListManager.h"
 #include "MakeStrip.h"
 #include "OptimizedTriMeshElement.h"
 #include "E3GeometryTriMesh.h"
@@ -311,26 +311,8 @@ void	QORenderer::Renderer::UpdateSpecularMaterial()
 {
 	if (mViewIllumination == kQ3IlluminationTypePhong)
 	{
-		if ( (mGeomState.specularColor->r != mCurrentSpecularColor[0]) ||
-			(mGeomState.specularColor->g != mCurrentSpecularColor[1]) ||
-			(mGeomState.specularColor->b != mCurrentSpecularColor[2]) )
-		{
-			mCurrentSpecularColor[0] = mGeomState.specularColor->r;
-			mCurrentSpecularColor[1] = mGeomState.specularColor->g;
-			mCurrentSpecularColor[2] = mGeomState.specularColor->b;
-			mCurrentSpecularColor[3] = 1.0f;
-			
-			glMaterialfv( GL_FRONT_AND_BACK, GL_SPECULAR,
-				mCurrentSpecularColor );
-		}
-		
-		if (mGeomState.specularControl != mCurrentSpecularControl)
-		{
-			mCurrentSpecularControl = mGeomState.specularControl;
-			
-			glMaterialf( GL_FRONT_AND_BACK, GL_SHININESS,
-				GLUtils_SpecularControlToGLShininess( mCurrentSpecularControl ) );
-		}
+		SetSpecularColor( *mGeomState.specularColor );
+		SetSpecularControl( mGeomState.specularControl );
 	}
 }
 
@@ -340,14 +322,7 @@ void	QORenderer::Renderer::UpdateSpecularMaterial()
 */
 void	QORenderer::Renderer::UpdateEmissiveMaterial()
 {
-	if (
-		mLights.IsEmissionUsed() &&
-		(
-			(mGeomState.emissiveColor->r != mCurrentEmissiveColor.r) ||
-			(mGeomState.emissiveColor->g != mCurrentEmissiveColor.g) ||
-			(mGeomState.emissiveColor->b != mCurrentEmissiveColor.b)
-		)
-	)
+	if ( mLights.IsEmissionUsed() )
 	{
 		SetEmissiveMaterial( *mGeomState.emissiveColor );
 	}
@@ -356,17 +331,70 @@ void	QORenderer::Renderer::UpdateEmissiveMaterial()
 
 void	QORenderer::Renderer::SetEmissiveMaterial( const TQ3ColorRGB& inColor )
 {
-	GLfloat		theColor[4] =
+	if ( (inColor.r != mCurrentEmissiveColor.r) ||
+		(inColor.g != mCurrentEmissiveColor.g) ||
+		(inColor.b != mCurrentEmissiveColor.b) )
 	{
-		inColor.r,
-		inColor.g,
-		inColor.b,
-		1.0f
-	};
+		mCurrentEmissiveColor = inColor;
+		
+		if (Shader().CurrentProgram() != nullptr)
+		{
+			SLFuncs().glUniform3fv( Shader().CurrentProgram()->mEmissiveColorUniformLoc, 1,
+				&mCurrentEmissiveColor.r );
+		}
+	}
+}
+
+void	QORenderer::Renderer::SetSpecularColor( const TQ3ColorRGB& inColor )
+{
+	if ( (inColor.r != mCurrentSpecularColor.r) ||
+		(inColor.g != mCurrentSpecularColor.g) ||
+		(inColor.b != mCurrentSpecularColor.b) )
+	{
+		mCurrentSpecularColor = inColor;
+		
+		if (Shader().CurrentProgram() != nullptr)
+		{
+			SLFuncs().glUniform3fv( Shader().CurrentProgram()->mSpecularColorUniformLoc, 1,
+				&mCurrentSpecularColor.r );
+		}
+	}
+}
+
+void	QORenderer::Renderer::SetSpecularControl( float inSpecControl )
+{
+	if (inSpecControl != mCurrentSpecularControl)
+	{
+		mCurrentSpecularControl = inSpecControl;
+		
+		if (Shader().CurrentProgram() != nullptr)
+		{
+			GLfloat shininess = GLUtils_SpecularControlToGLShininess( mCurrentSpecularControl );
+			SLFuncs().glUniform1fv( Shader().CurrentProgram()->mShininessUniformLoc, 1,
+				&shininess );
+		}
+	}
+}
+
+
+/*!
+	@function		RefreshMaterials
 	
-	glMaterialfv( GL_FRONT_AND_BACK, GL_EMISSION, theColor );
+	@abstract		Send the current emissive and specular materials to the shader.
 	
-	mCurrentEmissiveColor = inColor;
+	@discussion		This is called when we switch to a different shader program.
+*/
+void	QORenderer::Renderer::RefreshMaterials()
+{
+	SLFuncs().glUniform3fv( Shader().CurrentProgram()->mEmissiveColorUniformLoc, 1,
+		&mCurrentEmissiveColor.r );
+
+	SLFuncs().glUniform3fv( Shader().CurrentProgram()->mSpecularColorUniformLoc, 1,
+		&mCurrentSpecularColor.r );
+	
+	GLfloat shininess = GLUtils_SpecularControlToGLShininess( mCurrentSpecularControl );
+	SLFuncs().glUniform1fv( Shader().CurrentProgram()->mShininessUniformLoc, 1,
+		&shininess );
 }
 
 /*!
@@ -733,74 +761,6 @@ QORenderer::SlowPathMask	QORenderer::Renderer::FindTriMeshData(
 	return slowMask;
 }
 
-static void ImmediateRenderTriangles(
-								const TQ3TriMeshData& inGeomData,
-								const TQ3Vector3D* inVertNormals,
-								const TQ3Param2D* inVertUVs,
-								const TQ3ColorRGB* inVertColors )
-{
-	glVertexPointer( 3, GL_FLOAT, sizeof(TQ3Point3D), inGeomData.points );
-	TraceGLVertexArray( inGeomData.points, inGeomData.numPoints );
-	
-	glNormalPointer( GL_FLOAT, sizeof(TQ3Vector3D), inVertNormals );
-	CHECK_GL_ERROR;
-	TraceGLNormalArray( inVertNormals, inGeomData.numPoints );
-	
-	if (inVertUVs != nullptr)
-	{
-		glTexCoordPointer( 2, GL_FLOAT, sizeof(TQ3Param2D), inVertUVs );
-		CHECK_GL_ERROR;
-		TraceGLTexCoordArray( inVertUVs, inGeomData.numPoints );
-	}
-	
-	if (inVertColors != nullptr)
-	{
-		glColorPointer( 3, GL_FLOAT, sizeof(TQ3ColorRGB), inVertColors );
-		CHECK_GL_ERROR;
-	}
-	
-	Q3_CHECK_DRAW_ELEMENTS( inGeomData.numPoints, 3 * inGeomData.numTriangles,
-		(const TQ3Uns32*)inGeomData.triangles );
-	glDrawElements( GL_TRIANGLES, 3 * inGeomData.numTriangles,
-		GL_UNSIGNED_INT, inGeomData.triangles );
-	CHECK_GL_ERROR;
-	TraceGLDrawElements( 3 * inGeomData.numTriangles, &inGeomData.triangles[0].pointIndices[0] );
-}
-
-static void ImmediateRenderTriangleStrip(
-								const TQ3TriMeshData& inGeomData,
-								const TQ3Vector3D* inVertNormals,
-								const TQ3Param2D* inVertUVs,
-								const TQ3ColorRGB* inVertColors,
-								const std::vector<TQ3Uns32>& inStrip )
-{
-	glVertexPointer( 3, GL_FLOAT, sizeof(TQ3Point3D), inGeomData.points );
-	TraceGLVertexArray( inGeomData.points, inGeomData.numPoints );
-	
-	glNormalPointer( GL_FLOAT, sizeof(TQ3Vector3D), inVertNormals );
-	CHECK_GL_ERROR;
-	TraceGLNormalArray( inVertNormals, inGeomData.numPoints );
-	
-	if (inVertUVs != nullptr)
-	{
-		glTexCoordPointer( 2, GL_FLOAT, sizeof(TQ3Param2D), inVertUVs );
-		CHECK_GL_ERROR;
-		TraceGLTexCoordArray( inVertUVs, inGeomData.numPoints );
-	}
-	
-	if (inVertColors != nullptr)
-	{
-		glColorPointer( 3, GL_FLOAT, sizeof(TQ3ColorRGB), inVertColors );
-		CHECK_GL_ERROR;
-	}
-	
-	Q3_CHECK_DRAW_ELEMENTS( inGeomData.numPoints, static_cast<TQ3Uns32>(inStrip.size()), &inStrip[0] );
-	Q3_MESSAGE_FMT("glDrawElements in ImmediateRenderTriangleStrip");
-	glDrawElements( GL_TRIANGLE_STRIP, static_cast<TQ3Uns32>(inStrip.size()),
-		GL_UNSIGNED_INT, &inStrip[0] );
-	CHECK_GL_ERROR;
-	TraceGLDrawElements( inStrip.size(), &inStrip[0] );
-}
 
 /*!
 	@function	GetCachedTriangleStrip
@@ -1066,9 +1026,9 @@ void	QORenderer::Renderer::RenderSlowPathTriMesh(
 		//Q3_MESSAGE_FMT("Screen area %f (%f x %f)", screenArea, screenWidth, screenHeight );
 		if (screenArea > 10.0f)
 		{
-		mTransBuffer.AddTriMesh( inGeomData, inData );
-		return;
-	}
+			mTransBuffer.AddTriMesh( inGeomData, inData );
+			return;
+		}
 		else
 		{
 			suppressTransparency = true; // render teeny thing without alpha
@@ -1169,14 +1129,14 @@ void	QORenderer::Renderer::RenderFastPathTriMesh(
 		(mViewIllumination != kQ3IlluminationTypeNULL) &&
 		(inVertUVs != nullptr) )
 	{
-		glColor3fv( &kWhiteColor.r );
+		mSLFuncs.glVertexAttrib3fv( Shader().CurrentProgram()->mColorAttribLoc, &kWhiteColor.r );
 		inVertColors = nullptr;
 	}
 	
 	// If no vertex colors, set the color.
 	else if (inVertColors == nullptr)
 	{
-		glColor3fv( &mGeomState.diffuseColor->r );
+		mSLFuncs.glVertexAttrib3fv( Shader().CurrentProgram()->mColorAttribLoc, &mGeomState.diffuseColor->r );
 	}
 	
 	// Enable/disable array states.
@@ -1190,15 +1150,13 @@ void	QORenderer::Renderer::RenderFastPathTriMesh(
 		std::vector<TQ3Uns32>	triangleStrip;
 		CQ3ObjectRef nakedMesh( E3TriMesh_GetNakedGeometry( inTriMesh ) );
 		
-		// If we can use VBOs, do so.
-		if (mGLExtensions.vertexBufferObjects == kQ3True)
 		{
 			// In edge fill style, the degenerate triangles created by
 			// MakeStrip draw bogus edges.
 			GLenum	mode = (mStyleState.mFill == kQ3FillStyleEdges)?
 				GL_TRIANGLES : GL_TRIANGLE_STRIP;
 			
-			if (kQ3False == RenderCachedVBO( mGLContext, mBufferFuncs, nakedMesh.get(), mode ))
+			if (kQ3False == RenderCachedVBO( *this, nakedMesh.get(), mode ))
 			{
 				if (mode == GL_TRIANGLE_STRIP)
 				{
@@ -1211,7 +1169,7 @@ void	QORenderer::Renderer::RenderFastPathTriMesh(
 					Q3_CHECK_DRAW_ELEMENTS( inGeomData.numPoints,
 						3 * inGeomData.numTriangles,
 						inGeomData.triangles[0].pointIndices );
-					AddVBOToCache( mGLContext, mBufferFuncs, nakedMesh.get(), inGeomData.numPoints,
+					AddVBOToCache( *this, nakedMesh.get(), inGeomData.numPoints,
 						inGeomData.points, inVertNormals, inVertColors, inVertUVs,
 						GL_TRIANGLES, 3 * inGeomData.numTriangles,
 						inGeomData.triangles[0].pointIndices );
@@ -1221,61 +1179,119 @@ void	QORenderer::Renderer::RenderFastPathTriMesh(
 					Q3_CHECK_DRAW_ELEMENTS( inGeomData.numPoints,
 						static_cast<TQ3Uns32>(triangleStrip.size()),
 						&triangleStrip[0] );
-					AddVBOToCache( mGLContext, mBufferFuncs, nakedMesh.get(), inGeomData.numPoints,
+					AddVBOToCache( *this, nakedMesh.get(), inGeomData.numPoints,
 						inGeomData.points, inVertNormals, inVertColors, inVertUVs,
 						GL_TRIANGLE_STRIP, static_cast<TQ3Uns32>(triangleStrip.size()),
 						&triangleStrip[0] );
 				}
 				
-				RenderCachedVBO( mGLContext, mBufferFuncs, nakedMesh.get(), mode );
-			}
-		}
-		else // if not, use display lists.
-		{
-			if (kQ3False == RenderCachedDisplayList( mGLContext, inTriMesh,
-				mStyleState.mFill ))
-			{
-				// In edge fill style, the degenerate triangles created by
-				// MakeStrip draw bogus edges.
-				if (mStyleState.mFill != kQ3FillStyleEdges)
-				{
-					GetCachedTriangleStrip( mRendererObject, inTriMesh,
-						inGeomData, triangleStrip );
-				}
-				
-				GLuint	displayListID = glGenLists( 1 );
-				glNewList( displayListID, GL_COMPILE );
-				GLenum	mode;
-				
-				if (triangleStrip.empty())
-				{
-					ImmediateRenderTriangles( inGeomData, inVertNormals,
-						inVertUVs, inVertColors );
-					mode = GL_TRIANGLES;
-				}
-				else
-				{
-					ImmediateRenderTriangleStrip( inGeomData, inVertNormals,
-						inVertUVs, inVertColors, triangleStrip );
-					mode = GL_TRIANGLE_STRIP;
-				}
-				
-				glEndList();
-				
-				CacheDisplayList( displayListID, mGLContext, inTriMesh, mode );
-				
-				RenderCachedDisplayList( mGLContext, inTriMesh,
-					mStyleState.mFill );
+				RenderCachedVBO( *this, nakedMesh.get(), mode );
 			}
 		}
 	}
 	else // small geometry or immediate mode, draw immediately
 	{
-		ImmediateRenderTriangles( inGeomData, inVertNormals, inVertUVs,
-			inVertColors );
+		RenderImmediateVBO( GL_TRIANGLES, *this, inGeomData.numPoints,
+			(const TQ3Point3D* _Nonnull) inGeomData.points,
+			inVertNormals, inVertColors, inVertUVs,
+			3 * inGeomData.numTriangles, inGeomData.triangles[0].pointIndices );
 	}
 }
 
+
+/*!
+	@function	FindExplicitEdgesOfFrontFaces
+	
+	@abstract	Find which edges belong to at least one front-facing triangle.
+*/
+static void FindExplicitEdgesOfFrontFaces(
+									TQ3ViewObject inView,
+									const TQ3TriMeshData& inGeomData,
+									TQ3OrientationStyle inOrientation,
+									std::vector< TQ3Uns32 >& outEdgeIndices )
+{
+	outEdgeIndices.reserve( inGeomData.numEdges );
+
+	// Find world to local transformation
+	TQ3Matrix4x4	localToWorld;
+	Q3View_GetLocalToWorldMatrixState( inView, &localToWorld );
+	TQ3Matrix4x4 worldToLocal = Q3Invert( localToWorld );
+	
+	// Get camera placement and type
+	CQ3ObjectRef	theCamera( CQ3View_GetCamera( inView ) );
+	TQ3CameraPlacement	thePlacement;
+	Q3Camera_GetPlacement( theCamera.get(), &thePlacement );
+	bool	isOrthographic = (Q3Camera_GetType( theCamera.get() ) ==
+		kQ3CameraTypeOrthographic);
+	
+	TQ3Vector3D		viewVector, faceNormalVector;
+	TQ3Uns32	faceIndex;
+	TQ3Point3D	cameraLocal;
+	
+	if (isOrthographic)
+	{
+		// Get the view vector in local coordinates
+		viewVector = (thePlacement.pointOfInterest - thePlacement.cameraLocation) * worldToLocal;
+		
+		if (inOrientation == kQ3OrientationStyleClockwise)
+		{
+			// Logically we should flip the normal vector, but it is equivalent
+			// to flip the view vector.
+			viewVector = -viewVector;
+		}
+	}
+	else
+	{
+		// Get the camera location in local coordinates
+		cameraLocal = thePlacement.cameraLocation * worldToLocal;
+	}
+	
+	for (TQ3Uns32 edgeIndex = 0; edgeIndex < inGeomData.numEdges; ++edgeIndex)
+	{
+		const TQ3TriMeshEdgeData& edgeData( inGeomData.edges[edgeIndex] );
+		bool isFront = false;
+		
+		for (int whichFace = 0; whichFace < 2; ++whichFace)
+		{
+			faceIndex = edgeData.triangleIndices[whichFace];
+			
+			if (faceIndex != kQ3ArrayIndexNULL)
+			{
+				const TQ3TriMeshTriangleData& faceData(
+					inGeomData.triangles[ faceIndex ] );
+				
+				Q3FastPoint3D_CrossProductTri(
+					&inGeomData.points[ faceData.pointIndices[0] ],
+					&inGeomData.points[ faceData.pointIndices[1] ],
+					&inGeomData.points[ faceData.pointIndices[2] ],
+					&faceNormalVector );
+				
+				if (! isOrthographic)
+				{
+					viewVector = inGeomData.points[ faceData.pointIndices[0] ] - cameraLocal;
+					
+					if (inOrientation == kQ3OrientationStyleClockwise)
+					{
+						// Logically we should flip the normal vector, but it is equivalent
+						// to flip the view vector.
+						viewVector = -viewVector;
+					}
+				}
+				
+				if (Q3Dot3D( faceNormalVector, viewVector ) < 0.0f)
+				{
+					isFront = true;
+					break;
+				}
+			}
+		}
+		
+		if (isFront)
+		{
+			outEdgeIndices.push_back( edgeIndex );
+		}
+	}
+}
 
 /*!
 	@function	RenderExplicitEdges
@@ -1292,359 +1308,102 @@ void	QORenderer::Renderer::RenderExplicitEdges(
 {
 	// Turn off texturing.
 	mTextures.SetCurrentTexture( nullptr, nullptr );
-
-	// Enable/disable array states.
-	mGLClientStates.EnableNormalArray( inVertNormals != nullptr );
-	mGLClientStates.EnableTextureArray( false );
-	mGLClientStates.EnableColorArray( inVertColors != nullptr );
 	
-	// Set array pointers.
-	glVertexPointer( 3, GL_FLOAT, sizeof(TQ3Point3D), inGeomData.points );
-	TraceGLVertexArray( inGeomData.points, inGeomData.numPoints );
+	// If we are culling back faces, we will only render edges belonging to front-facing triangles.
+	std::vector< TQ3Uns32 >		renderedEdgeIndices;
+	size_t edgeCount = inGeomData.numEdges;
+	if (mStyleState.mBackfacing == kQ3BackfacingStyleRemove)
+	{
+		FindExplicitEdgesOfFrontFaces( inView, inGeomData, mStyleState.mOrientation, renderedEdgeIndices );
+		edgeCount = renderedEdgeIndices.size();
+	}
+	if (edgeCount == 0)
+	{
+		return;	// nothing to render
+	}
+	
+	// With the old glBegin( GL_LINES ) way of doing things, we could handle per-edge colors
+	// by calling glColor3fv inside the loop.  That's not possible with OpenGL 3's compulsory
+	// array drawing.  We can only use per-vertex colors.  A vertex may have different colors
+	// as members of different edges, so we must create new arrays, treating each edge
+	// separately.
+	std::vector< TQ3Point3D > points( 2 * edgeCount );
+	std::vector< TQ3Vector3D > normals;
+	std::vector< TQ3ColorRGB > colors;
 	if (inVertNormals != nullptr)
 	{
-		glNormalPointer( GL_FLOAT, sizeof(TQ3Vector3D), inVertNormals );
-		TraceGLNormalArray( inVertNormals, inGeomData.numPoints );
+		normals.resize( 2 * edgeCount );
 	}
-	if (inVertColors != nullptr)
+	if ( (inVertColors != nullptr) || (inEdgeColors != nullptr) )
 	{
-		glColorPointer( 3, GL_FLOAT, sizeof(TQ3ColorRGB), inVertColors );
+		colors.resize( 2 * edgeCount );
 	}
-
-	// If no vertex or edge colors, set the color.
-	if ( (inVertColors == nullptr) && (inEdgeColors == nullptr) )
-	{
-		glColor3fv( &mGeomState.diffuseColor->r );
-	}
-	
-	
-	// Render edges one line at a time.
-	glBegin( GL_LINES );
+	TQ3Uns32 edgeIndex;
 	
 	if (mStyleState.mBackfacing == kQ3BackfacingStyleRemove)
 	{
-		RenderCulledEdges( inView, inGeomData, inVertColors, inEdgeColors );
-	}
-	else
-	{
-		for (TQ3Uns32 i = 0; i < inGeomData.numEdges; ++i)
+		for (size_t i = 0; i < edgeCount; ++i)
 		{
-			if ( (inVertColors == nullptr) && (inEdgeColors != nullptr) )
+			edgeIndex = renderedEdgeIndices[i];
+
+			points[ 2 * edgeIndex ] = inGeomData.points[ inGeomData.edges[edgeIndex].pointIndices[ 0 ] ];
+			points[ 2 * edgeIndex + 1 ] = inGeomData.points[ inGeomData.edges[edgeIndex].pointIndices[ 1 ] ];
+			if (inVertNormals != nullptr)
 			{
-				glColor3fv( (const GLfloat *) &inEdgeColors[ i ] );
+				normals[ 2 * edgeIndex ] = inVertNormals[ inGeomData.edges[edgeIndex].pointIndices[ 0 ] ];
+				normals[ 2 * edgeIndex + 1 ] = inVertNormals[ inGeomData.edges[edgeIndex].pointIndices[ 1 ] ];
 			}
-
-			glArrayElement( inGeomData.edges[i].pointIndices[ 0 ] );
-			glArrayElement( inGeomData.edges[i].pointIndices[ 1 ] );
-		}
-	}
-	
-	glEnd();
-}
-
-
-/*!
-	@function	RenderCulledEdges
-	@abstract	Render lines for edges that belong to at least one front-facing
-				triangle.
-*/
-void	QORenderer::Renderer::RenderCulledEdges(
-								TQ3ViewObject inView,
-								const TQ3TriMeshData& inGeomData,
-								const TQ3ColorRGB* inVertColors,
-								const TQ3ColorRGB* inEdgeColors )
-{
-	// Find world to local transformation
-	TQ3Matrix4x4	localToWorld, worldToLocal;
-	Q3View_GetLocalToWorldMatrixState( inView, &localToWorld );
-	Q3Matrix4x4_Invert( &localToWorld, &worldToLocal );
-	
-	// Get camera placement and type
-	CQ3ObjectRef	theCamera( CQ3View_GetCamera( inView ) );
-	TQ3CameraPlacement	thePlacement;
-	Q3Camera_GetPlacement( theCamera.get(), &thePlacement );
-	bool	isOrthographic = (Q3Camera_GetType( theCamera.get() ) ==
-		kQ3CameraTypeOrthographic);
-	
-	TQ3Vector3D		viewVector, normalVector;
-	TQ3Uns32	faceIndex;
-	TQ3Point3D	cameraLocal;
-	
-	if (isOrthographic)
-	{
-		// Get the view vector in local coordinates
-		Q3FastPoint3D_Subtract( &thePlacement.pointOfInterest,
-			&thePlacement.cameraLocation, &viewVector );
-		Q3Vector3D_Transform( &viewVector, &worldToLocal, &viewVector );
-		
-		if (mStyleState.mOrientation == kQ3OrientationStyleClockwise)
-		{
-			// Logically we should flip the normal vector, but it is equivalent
-			// to flip the view vector.
-			Q3FastVector3D_Negate( &viewVector, &viewVector );
+			if (inVertColors != nullptr)
+			{
+				colors[ 2 * edgeIndex ] = inVertColors[ inGeomData.edges[edgeIndex].pointIndices[ 0 ] ];
+				colors[ 2 * edgeIndex + 1 ] = inVertColors[ inGeomData.edges[edgeIndex].pointIndices[ 1 ] ];
+			}
+			else if (inEdgeColors != nullptr)
+			{
+				colors[ 2 * edgeIndex ] = inEdgeColors[ edgeIndex ];
+				colors[ 2 * edgeIndex + 1 ] = inEdgeColors[ edgeIndex ];
+			}
 		}
 	}
 	else
 	{
-		// Get the camera location in local coordinates
-		Q3Point3D_Transform( &thePlacement.cameraLocation, &worldToLocal, &cameraLocal );
-	}
-	
-	for (TQ3Uns32 n = 0; n < inGeomData.numEdges; ++n)
-	{
-		const TQ3TriMeshEdgeData& edgeData( inGeomData.edges[n] );
-		bool isFront = false;
-		
-		for (int whichFace = 0; whichFace < 2; ++whichFace)
+		for (edgeIndex = 0; edgeIndex < edgeCount; ++edgeIndex)
 		{
-			faceIndex = edgeData.triangleIndices[whichFace];
-			
-			if (faceIndex != kQ3ArrayIndexNULL)
+			points[ 2 * edgeIndex ] = inGeomData.points[ inGeomData.edges[edgeIndex].pointIndices[ 0 ] ];
+			points[ 2 * edgeIndex + 1 ] = inGeomData.points[ inGeomData.edges[edgeIndex].pointIndices[ 1 ] ];
+			if (inVertNormals != nullptr)
 			{
-				const TQ3TriMeshTriangleData& faceData(
-					inGeomData.triangles[ faceIndex ] );
-				
-				Q3FastPoint3D_CrossProductTri(
-					&inGeomData.points[ faceData.pointIndices[0] ],
-					&inGeomData.points[ faceData.pointIndices[1] ],
-					&inGeomData.points[ faceData.pointIndices[2] ],
-					&normalVector );
-				
-				if (! isOrthographic)
-				{
-					Q3FastPoint3D_Subtract(
-						&inGeomData.points[ faceData.pointIndices[0] ],
-						&cameraLocal, &viewVector );
-					
-					if (mStyleState.mOrientation == kQ3OrientationStyleClockwise)
-					{
-						// Logically we should flip the normal vector, but it is equivalent
-						// to flip the view vector.
-						Q3FastVector3D_Negate( &viewVector, &viewVector );
-					}
-				}
-				
-				if (Q3FastVector3D_Dot( &normalVector, &viewVector ) < 0.0f)
-				{
-					isFront = true;
-					break;
-				}
+				normals[ 2 * edgeIndex ] = inVertNormals[ inGeomData.edges[edgeIndex].pointIndices[ 0 ] ];
+				normals[ 2 * edgeIndex + 1 ] = inVertNormals[ inGeomData.edges[edgeIndex].pointIndices[ 1 ] ];
+			}
+			if (inVertColors != nullptr)
+			{
+				colors[ 2 * edgeIndex ] = inVertColors[ inGeomData.edges[edgeIndex].pointIndices[ 0 ] ];
+				colors[ 2 * edgeIndex + 1 ] = inVertColors[ inGeomData.edges[edgeIndex].pointIndices[ 1 ] ];
+			}
+			else if (inEdgeColors != nullptr)
+			{
+				colors[ 2 * edgeIndex ] = inEdgeColors[ edgeIndex ];
+				colors[ 2 * edgeIndex + 1 ] = inEdgeColors[ edgeIndex ];
 			}
 		}
-		
-		if (isFront)
-		{
-			if ( (inVertColors == nullptr) && (inEdgeColors != nullptr) )
-			{
-				glColor3fv( (const GLfloat *) &inEdgeColors[ n ] );
-			}
-
-			glArrayElement( edgeData.pointIndices[0] );
-			glArrayElement( edgeData.pointIndices[1] );
-		}
 	}
-}
-
-
-/*!
-	@function	RenderFaceEdgesTransparent
-	@abstract	Render the edges of all triangles.
-	@discussion	The obvious way to do this is to rely on
-				glPolygonMode( GL_FRONT_AND_BACK, GL_LINE ), but that has major
-				bugs on some video cards.
-*/
-void	QORenderer::Renderer::RenderFaceEdgesTransparent(
-								TQ3GeometryObject inTriMesh,
-								const TQ3TriMeshData& inGeomData,
-								const TQ3Vector3D* inVertNormals,
-								const TQ3ColorRGB* inVertColors )
-{
-	if (inTriMesh == nullptr)
-	{
-		QOCalcTriMeshEdges( inGeomData, mEdges, nullptr );
-	}
-	else
-	{
-		QOGetCachedTriMeshEdges( inTriMesh, mScratchBuffer, mEdges,
-			mFacesToEdges );
-	}
-	
-	// Turn off edge-fill style to avoid bugs.
-	TQ3FillStyle saveFillStyle = mStyleState.mFill;
-	mStyleState.mFill = kQ3FillStyleFilled;
-	
-	const TQ3Uns32 kEdgeCount = mEdges.size();
-	Vertex	verts[2];
-	VertexFlags flags = kVertexHaveDiffuse | kVertexHaveTransparency;
-	if (inVertNormals != nullptr)
-	{
-		flags |= kVertexHaveNormal;
-	}
-	verts[0].flags = verts[1].flags = flags;
-	verts[0].diffuseColor = verts[1].diffuseColor = *mGeomState.diffuseColor;
-	verts[0].vertAlpha = verts[1].vertAlpha = mGeomState.alpha;
-
-	for (TQ3Uns32 i = 0; i < kEdgeCount; ++i)
-	{
-		if (inVertColors != nullptr)
-		{
-			verts[0].diffuseColor = inVertColors[ mEdges[i].pointIndices[0] ];
-			verts[1].diffuseColor = inVertColors[ mEdges[i].pointIndices[1] ];
-		}
-		if (inVertNormals != nullptr)
-		{
-			verts[0].normal = inVertNormals[ mEdges[i].pointIndices[0] ];
-			verts[1].normal = inVertNormals[ mEdges[i].pointIndices[1] ];
-		}
-		verts[0].point = inGeomData.points[ mEdges[i].pointIndices[0] ];
-		verts[1].point = inGeomData.points[ mEdges[i].pointIndices[1] ];
-		mTransBuffer.AddLine( verts );
-	}
-	
-	mStyleState.mFill = saveFillStyle;
-}
-
-/*!
-	@function	RenderFaceEdges
-	@abstract	Render the edges of all triangles.
-	@discussion	The obvious way to do this is to rely on
-				glPolygonMode( GL_FRONT_AND_BACK, GL_LINE ), but that has major
-				performance problems on some video cards.
-*/
-void	QORenderer::Renderer::RenderFaceEdges(
-								TQ3GeometryObject inTriMesh,
-								const TQ3TriMeshData& inGeomData,
-								const TQ3Vector3D* inVertNormals,
-								const TQ3ColorRGB* inVertColors )
-{
-	// We are currently in edge-fill style, but we will be drawing lines, not
-	// triangles, so edge-fill style should be irrelevant.  Furthermore, I saw
-	// a driver bug in a prerelease of Mac OS X 10.7 when drawing lines in
-	// edge style.  So let's go back to polygon-fill style for now.
-	glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
-
-	// Turn off texturing.
-	mTextures.SetCurrentTexture( nullptr, nullptr );
 
 	// Enable/disable array states.
 	mGLClientStates.EnableNormalArray( inVertNormals != nullptr );
 	mGLClientStates.EnableTextureArray( false );
-	mGLClientStates.EnableColorArray( inVertColors != nullptr );
+	mGLClientStates.EnableColorArray( (inVertColors != nullptr) || (inEdgeColors != nullptr) );
 	
-	// Set array pointers.
-	glVertexPointer( 3, GL_FLOAT, sizeof(TQ3Point3D), inGeomData.points );
-	TraceGLVertexArray( inGeomData.points, inGeomData.numPoints );
-	if (inVertNormals != nullptr)
-	{
-		glNormalPointer( GL_FLOAT, sizeof(TQ3Vector3D), inVertNormals );
-		TraceGLNormalArray( inVertNormals, inGeomData.numPoints );
-	}
-	if (inVertColors != nullptr)
-	{
-		glColorPointer( 3, GL_FLOAT, sizeof(TQ3ColorRGB), inVertColors );
-	}
-
-	// If no vertex colors, set the color.
-	if ( inVertColors == nullptr )
-	{
-		glColor3fv( &mGeomState.diffuseColor->r );
-	}
-	
-	if ( (inTriMesh != nullptr) &&
-		(inGeomData.numTriangles >= kMinTrianglesToCache) &&
-		(mGLExtensions.vertexBufferObjects == kQ3True) )
-	{
-		CQ3ObjectRef nakedMesh( E3TriMesh_GetNakedGeometry( inTriMesh ) );
-		
-		if (kQ3False == RenderCachedVBO( mGLContext, mBufferFuncs, nakedMesh.get(), GL_LINES ))
-		{
-			if (inTriMesh == nullptr)
-			{
-				QOCalcTriMeshEdges( inGeomData, mEdges, nullptr );
-			}
-			else
-			{
-				QOGetCachedTriMeshEdges( inTriMesh, mScratchBuffer, mEdges,
-					mFacesToEdges );
-			}
-			
-			AddVBOToCache( mGLContext, mBufferFuncs, nakedMesh.get(), inGeomData.numPoints,
-				inGeomData.points, inVertNormals, inVertColors, nullptr,
-				GL_LINES, mEdges.size() * 2, &mEdges[0].pointIndices[0] );
-			
-			RenderCachedVBO( mGLContext, mBufferFuncs, nakedMesh.get(), GL_LINES );
-		}
-	}
-	else
-	{
-		if (inTriMesh == nullptr)
-		{
-			QOCalcTriMeshEdges( inGeomData, mEdges, nullptr );
-		}
-		else
-		{
-			QOGetCachedTriMeshEdges( inTriMesh, mScratchBuffer, mEdges,
-				mFacesToEdges );
-		}
-		
-		Q3_CHECK_DRAW_ELEMENTS( inGeomData.numPoints, mEdges.size() * 2,
-			&mEdges[0].pointIndices[0] );
-		glDrawElements( GL_LINES, mEdges.size() * 2, GL_UNSIGNED_INT, &mEdges[0] );
-		TraceGLDrawElements( mEdges.size() * 2, &mEdges[0].pointIndices[0] );
-	}
-	
-	// Resume previous edge fill style.
-	glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+	RenderImmediateVBO( GL_LINES, *this, static_cast<TQ3Uns32>(2 * edgeCount),
+		&points[0], (inVertNormals != nullptr)? &normals[0] : nullptr,
+		(inVertColors != nullptr) || (inEdgeColors != nullptr)? &colors[0] : nullptr,
+		nullptr, 0, nullptr );
 }
 
 
 
-/*!
-	@function	SimulateSeparateSpecularColor
-	
-	@abstract	Fake specular highlights on textured geometry.
-	
-	@discussion	If the video card supports GL_EXT_separate_specular_color,
-				QORenderer::Lights::StartPass turns on separate specular color,
-				which adds specular highlights after texturing.  If that
-				extension is not available, we need to fake it.
-*/
-void	QORenderer::Renderer::SimulateSeparateSpecularColor(
-									TQ3Uns32 inNumIndices,
-									const TQ3Uns32* inIndices )
-{
-	glPushAttrib( GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT | GL_ENABLE_BIT |
-		GL_LIGHTING_BIT );
-	
-	// Set diffuse color to black.
-	mGLClientStates.DisableColorArray();
-	glDisable( GL_COLOR_MATERIAL );
-	glMaterialfv( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, kGLBlackColor );
-	
-	// Turn off writes to the depth buffer, but match on equal depth.
-	glDepthMask( GL_FALSE );
-	glDepthFunc( GL_EQUAL );
-	
-	// Turn off texturing.
-	glDisable( GL_TEXTURE_2D );
-	mGLClientStates.DisableTextureArray();
-	
-	// Add the specular highlights to the existing image.
-	glEnable( GL_BLEND );
-	glBlendFunc( GL_ONE, GL_ONE );
 
-	// Use max rather than addition if possible
-	// so that color components do not get too big.
-	if (mGLBlendEqProc != nullptr)
-		(*mGLBlendEqProc)( GL_MAX_EXT );
-	
-	// And draw again.
-	glDrawElements( GL_TRIANGLES, inNumIndices,
-		GL_UNSIGNED_INT, inIndices );
-	TraceGLDrawElements( inNumIndices, inIndices );
-	
-	glPopAttrib();
-}
+
 
 
 /*!
@@ -1689,18 +1448,6 @@ static void	ImmediateModePop(
 	}
 }
 
-/*!
-	@function	IsFakeSeparateSpecularColorNeeded
-	@abstract	Test whether we need to take special measures to make specular
-				highlights on textured geometry.
-*/
-bool	QORenderer::Renderer::IsFakeSeparateSpecularColorNeeded() const
-{
-	return (kQ3False == mGLExtensions.separateSpecularColor) &&
-			(mViewIllumination == kQ3IlluminationTypePhong) &&
-			mTextures.IsTextureActive();
-}
-
 
 
 /*!
@@ -1717,7 +1464,7 @@ bool	QORenderer::Renderer::SubmitTriMesh(
 	{
 		return false;	// theoretically impossible
 	}
-	if (inGeomData->numPoints == 0)
+	if ( (inGeomData->numPoints == 0) || (inGeomData->points == nullptr) )
 	{
 		return true; // not sure if this can happen
 	}
@@ -1800,15 +1547,14 @@ bool	QORenderer::Renderer::SubmitTriMesh(
 		}
 	}
 	
-	// Notify per-pixel lighting
-	mPPLighting.PreGeomSubmit( inTriMesh );
-
 	// Special handling when shadow marking
 	if (mLights.IsShadowMarkingPass())
 	{
 		if ( (mStyleState.mFill == kQ3FillStyleFilled) &&
 			((whyNotFastPath & kSlowPathMask_Transparency) == 0) )
 		{
+			mPPLighting.PreGeomSubmit( inTriMesh, 2 );
+
 			mLights.MarkShadowOfTriMesh( inTriMesh, *inGeomData,
 				dataArrays.faceNormal, inView );
 		}
@@ -1822,6 +1568,8 @@ bool	QORenderer::Renderer::SubmitTriMesh(
 	{
 		if (inGeomData->numEdges > 0)
 		{
+			mPPLighting.PreGeomSubmit( inTriMesh, 1 );
+			
 			RenderExplicitEdges( inView, *inGeomData, dataArrays.vertNormal,
 								dataArrays.vertColor, dataArrays.edgeColor );
 			didHandle = true;
@@ -1830,49 +1578,22 @@ bool	QORenderer::Renderer::SubmitTriMesh(
 		{
 			didHandle = true;
 		}
-		else if ( (mStyleState.mBackfacing == kQ3BackfacingStyleBoth) ||
-			(mStyleState.mBackfacing == kQ3BackfacingStyleFlip) )
-		{
-			if ((whyNotFastPath & kSlowPathMask_Transparency) == 0)
-			{
-				RenderFaceEdges( inTriMesh, *inGeomData,
-					dataArrays.vertNormal, dataArrays.vertColor );
-			}
-			else
-			{
-				RenderFaceEdgesTransparent( inTriMesh, *inGeomData,
-					dataArrays.vertNormal, dataArrays.vertColor );
-			}
-			didHandle = true;
-		}
-		// Note: the case we have not handled is where there are no explicit
-		// edges and we want to cull faces.
 	}
 
 	if ( (whyNotFastPath == kSlowPathMask_FastPath) && (! didHandle) )
 	{
+		mPPLighting.PreGeomSubmit( inTriMesh, 2 );
+		
 		RenderFastPathTriMesh( inTriMesh, *inGeomData, dataArrays.vertNormal,
 			dataArrays.vertUV, dataArrays.vertColor );
 		
 		didHandle = true;
-		
-		if ( IsFakeSeparateSpecularColorNeeded() )
-		{
-			// Although we just rendered the geometry, we may have done so using a
-			// display list or something, so the vertex array may not be set.
-			glVertexPointer( 3, GL_FLOAT, sizeof(TQ3Point3D), inGeomData->points );
-			TraceGLVertexArray( inGeomData->points, inGeomData->numPoints );
-			mGLClientStates.EnableNormalArray( true );
-			glNormalPointer( GL_FLOAT, sizeof(TQ3Vector3D), dataArrays.vertNormal );
-			TraceGLNormalArray( dataArrays.vertNormal, inGeomData->numPoints );
-
-			SimulateSeparateSpecularColor( 3 * inGeomData->numTriangles,
-				inGeomData->triangles[0].pointIndices );
-		}
 	}
 	
 	if (! didHandle)
 	{
+		mPPLighting.PreGeomSubmit( inTriMesh, 2 );
+		
 		RenderSlowPathTriMesh( inTriMesh, inView, *inGeomData, dataArrays );
 		didHandle = true;
 	}
@@ -1918,10 +1639,41 @@ void	QORenderer::Renderer::SubmitTriangle(
 		true );
 	
 	// Notify per-pixel lighting
-	if (! mLights.IsShadowMarkingPass())
+	mPPLighting.PreGeomSubmit( inTriangle, 2 );
+
+#if 0//Q3_DEBUG
+	const TQ3Matrix4x4& modelView( mPPLighting.GetModelViewMatrix() );
+	const TQ3Matrix4x4& localToCamera( mMatrixState.GetLocalToCamera() );
+	if (mLights.IsShadowPhase())
 	{
-		mPPLighting.PreGeomSubmit( inTriangle );
+		if (mLights.IsShadowMarkingPass())
+		{
+			Q3_MESSAGE_FMT("Shadow marking pass");
+		}
+		else
+		{
+			Q3_MESSAGE_FMT("Shadow lighting pass");
+		}
 	}
+	else
+	{
+		Q3_MESSAGE_FMT("Non-shadow pass");
+	}
+	{
+		float mDiff = 0.0f;
+		for (int ii = 0; ii < 4; ++ii)
+		{
+			for (int jj = 0; jj < 4; ++jj)
+			{
+				mDiff += fabsf( modelView.value[ii][jj] - localToCamera.value[ii][jj] );
+			}
+		}
+		if (mDiff > 0.001f)
+		{
+			Q3_MESSAGE_FMT("Check it out");
+		}
+	}
+#endif
 	
 	// Get the vertices
 	Vertex		theVertices[3];
@@ -2022,8 +1774,14 @@ void	QORenderer::Renderer::SubmitPoint(
 	HandleGeometryAttributes( inGeomData->pointAttributeSet, nullptr,
 		false );
 	
+	// It does not make sense to me for the appearance of a Point to
+	// depend on the direction of the light.
+	// Temporarily turn off all non-ambient lights, and
+	// boost the ambient light by an equal intensity.
+	mLights.SetLowDimensionalMode( true, mViewIllumination );
+		
 	// Notify per-pixel lighting
-	mPPLighting.PreGeomSubmit( nullptr );
+	mPPLighting.PreGeomSubmit( nullptr, 0 );
 
 	// Turn the point into a vertex
 	TQ3Vertex3D	srcVertex;
@@ -2040,32 +1798,14 @@ void	QORenderer::Renderer::SubmitPoint(
 	}
 	else
 	{
-		// It does not make sense to me for the appearance of a Point to
-		// depend on the direction of the light.
-		// Temporarily turn off all non-ambient lights, and
-		// boost the ambient light by an equal intensity.
-		mLights.SetLowDimensionalMode( true, mViewIllumination );
-		
-		glBegin( GL_POINTS );
-		
-		if ( (dstVertex.flags & kVertexHaveNormal) != 0 )
-		{
-			glNormal3fv( (const GLfloat *) &dstVertex.normal );
-		}
-		
-		if ( (dstVertex.flags & kVertexHaveDiffuse) != 0 )
-		{
-			glColor3fv( (const GLfloat *) &dstVertex.diffuseColor );
-		}
-		
-		if ( (dstVertex.flags & kVertexHaveEmissive) != 0 )
-		{
-			SetEmissiveMaterial( dstVertex.emissiveColor );
-		}
-		
-		glVertex3fv( (const GLfloat *) &dstVertex.point );
-		
-		glEnd();
+		mGLClientStates.EnableNormalArray( (dstVertex.flags & kVertexHaveNormal) != 0 );
+		mGLClientStates.EnableColorArray( ((dstVertex.flags & kVertexHaveDiffuse) != 0) );
+		mGLClientStates.EnableTextureArray( false );
+
+		RenderImmediateVBO( GL_POINTS, *this, 1, &dstVertex.point,
+			((dstVertex.flags & kVertexHaveNormal) != 0)? &dstVertex.normal : nullptr,
+			((dstVertex.flags & kVertexHaveDiffuse) != 0)? &dstVertex.diffuseColor : nullptr,
+			nullptr, 0, nullptr );
 	}
 	
 	mNumPrimitivesRenderedInFrame += 1;
@@ -2098,8 +1838,14 @@ void	QORenderer::Renderer::SubmitLine(
 	HandleGeometryAttributes( inGeomData->lineAttributeSet, nullptr,
 		false );
 	
+	// It does not make sense to me for the appearance of a Line to
+	// depend on the direction of the light.
+	// Temporarily turn off all non-ambient lights, and
+	// boost the ambient light by an equal intensity.
+	mLights.SetLowDimensionalMode( true, mViewIllumination );
+		
 	// Notify per-pixel lighting
-	mPPLighting.PreGeomSubmit( nullptr );
+	mPPLighting.PreGeomSubmit( nullptr, 1 );
 
 	// Get the vertices
 	Vertex	theVertices[2];
@@ -2119,40 +1865,38 @@ void	QORenderer::Renderer::SubmitLine(
 	}
 	else
 	{
-		// It does not make sense to me for the appearance of a Line to
-		// depend on the direction of the light.
-		// Temporarily turn off all non-ambient lights, and
-		// boost the ambient light by an equal intensity.
-		mLights.SetLowDimensionalMode( true, mViewIllumination );
-		
-		glBegin( GL_LINES );
+		VertexFlags flagUnion = theVertices[0].flags | theVertices[1].flags;
+		TQ3Point3D points[2];
+		TQ3Vector3D normals[2];
+		TQ3Param2D uvs[2];
+		TQ3ColorRGB colors[2];
 		
 		for (i = 0; i < 2; ++i)
 		{
-			if ( (theVertices[i].flags & kVertexHaveNormal) != 0 )
+			points[i] = theVertices[i].point;
+			if ( (flagUnion & kVertexHaveNormal) != 0 )
 			{
-				glNormal3fv( (const GLfloat *) &theVertices[i].normal );
+				normals[i] = theVertices[i].normal;
 			}
-			
-			if ( (theVertices[i].flags & kVertexHaveUV) != 0 )
+			if ( (flagUnion & kVertexHaveUV) != 0 )
 			{
-				glTexCoord2fv( (const GLfloat *) &theVertices[i].uv );
+				uvs[i] = theVertices[i].uv;
 			}
-			
-			if ( (theVertices[i].flags & kVertexHaveDiffuse) != 0 )
+			if ( (flagUnion & kVertexHaveDiffuse) != 0 )
 			{
-				glColor3fv( (const GLfloat *) &theVertices[i].diffuseColor );
+				colors[i] = theVertices[i].diffuseColor;
 			}
-			
-			if ( (theVertices[i].flags & kVertexHaveEmissive) != 0 )
-			{
-				SetEmissiveMaterial( theVertices[i].emissiveColor );
-			}
-			
-			glVertex3fv( (const GLfloat *) &theVertices[i].point );
 		}
 		
-		glEnd();
+		mGLClientStates.EnableNormalArray( (flagUnion & kVertexHaveNormal) != 0 );
+		mGLClientStates.EnableTextureArray( (flagUnion & kVertexHaveUV) != 0 );
+		mGLClientStates.EnableColorArray( (flagUnion & kVertexHaveDiffuse) != 0 );
+		
+		RenderImmediateVBO( GL_LINES, *this, 
+			2, points, ((flagUnion & kVertexHaveNormal) != 0)? normals : nullptr,
+			((flagUnion & kVertexHaveDiffuse) != 0)? colors : nullptr,
+			((flagUnion & kVertexHaveUV) != 0)? uvs : nullptr,
+			0, nullptr );
 	}
 	
 	mNumPrimitivesRenderedInFrame += 1;
@@ -2237,8 +1981,14 @@ void	QORenderer::Renderer::SubmitPolyLine(
 	HandleGeometryAttributes( inGeomData->polyLineAttributeSet, nullptr,
 		false );
 	
+	// It does not make sense to me for the appearance of a Line to
+	// depend on the direction of the light.
+	// Temporarily turn off all non-ambient lights, and
+	// boost the ambient light by an equal intensity.
+	mLights.SetLowDimensionalMode( true, mViewIllumination );
+	
 	// Notify per-pixel lighting
-	mPPLighting.PreGeomSubmit( inPolyLine );
+	mPPLighting.PreGeomSubmit( inPolyLine, 1 );
 	
 	// Get the vertices
 	std::vector< Vertex >	theVertices( inGeomData->numVertices );
@@ -2248,23 +1998,30 @@ void	QORenderer::Renderer::SubmitPolyLine(
 		CalcVertexState( inGeomData->vertices[i], theVertices[i] );
 	}
 	
-	// It does not make sense to me for the appearance of a Line to
-	// depend on the direction of the light.
-	// Temporarily turn off all non-ambient lights, and
-	// boost the ambient light by an equal intensity.
-	mLights.SetLowDimensionalMode( true, mViewIllumination );
-
-
-	// We draw the line as a series of line segments, 2 vertices at a time.
-	// This allows us  to defer any transparent line segments for sorting,
-	// while drawing opaque sections.
-	glBegin( GL_LINES );
+	// Set up working arrays for vertex attributes
+	E3FastArray<TQ3Point3D>		points;
+	E3FastArray<TQ3Vector3D>	normals;
+	E3FastArray<TQ3Param2D>		uvs;
+	E3FastArray<TQ3ColorRGB>	colors;
+	GLuint maxIndices = 2 * (inGeomData->numVertices - 1);
+	points.reserve( maxIndices );
+	normals.reserve( maxIndices );
+	uvs.reserve( maxIndices );
+	colors.reserve( maxIndices );
 	
+	// Figure out which arrays we actually need for at least one point.
+	VertexFlags	flagUnion = 0;
+	for (i = 0; i < inGeomData->numVertices; ++i)
+	{
+		flagUnion |= theVertices[i].flags;
+	}
+	
+	// For each line segment, either defer it if it uses transparency,
+	// or add it to an array for immediate rendering.
 	for (i = 0; i < inGeomData->numVertices - 1; ++i)
 	{
-		VertexFlags	flagUnion = theVertices[i].flags | theVertices[i+1].flags;
-		
-		if ( (flagUnion & kVertexHaveTransparency) != 0 )
+		VertexFlags segFlags = theVertices[i].flags | theVertices[i+1].flags;
+		if ( (segFlags & kVertexHaveTransparency) != 0 )
 		{
 			mTransBuffer.AddLine( &theVertices[i] );
 		}
@@ -2272,32 +2029,36 @@ void	QORenderer::Renderer::SubmitPolyLine(
 		{
 			for (int j = 0; j < 2; ++j)
 			{
-				if ( (theVertices[i+j].flags & kVertexHaveNormal) != 0 )
+				points.push_back( theVertices[i+j].point );
+				if ( (flagUnion & kVertexHaveNormal) != 0 )
 				{
-					glNormal3fv( (const GLfloat *) &theVertices[i+j].normal );
+					normals.push_back( theVertices[i+j].normal );
 				}
-				
-				if ( (theVertices[i+j].flags & kVertexHaveUV) != 0 )
+				if ( (flagUnion & kVertexHaveUV) != 0 )
 				{
-					glTexCoord2fv( (const GLfloat *) &theVertices[i+j].uv );
+					uvs.push_back( theVertices[i+j].uv );
 				}
-				
-				if ( (theVertices[i+j].flags & kVertexHaveDiffuse) != 0 )
+				if ( (flagUnion & kVertexHaveDiffuse) != 0 )
 				{
-					glColor3fv( (const GLfloat *) &theVertices[i+j].diffuseColor );
+					colors.push_back( theVertices[i+j].diffuseColor );
 				}
-				
-				if ( (theVertices[i].flags & kVertexHaveEmissive) != 0 )
-				{
-					SetEmissiveMaterial( theVertices[i+j].emissiveColor );
-				}
-
-				glVertex3fv( (const GLfloat *) &theVertices[i+j].point );
 			}
 		}
 	}
 	
-	glEnd();
+	// If we have some to render immediately, do it.
+	if (points.size() > 0)
+	{
+		mGLClientStates.EnableNormalArray( (flagUnion & kVertexHaveNormal) != 0 );
+		mGLClientStates.EnableTextureArray( (flagUnion & kVertexHaveUV) != 0 );
+		mGLClientStates.EnableColorArray( (flagUnion & kVertexHaveDiffuse) != 0 );
+		
+		RenderImmediateVBO( GL_LINES, *this, points.size(), &points[0],
+			((flagUnion & kVertexHaveNormal) != 0)? &normals[0] : nullptr,
+			((flagUnion & kVertexHaveDiffuse) != 0)? &colors[0] : nullptr,
+			((flagUnion & kVertexHaveUV) != 0)? &uvs[0] : nullptr,
+			0, nullptr );
+	}
 	
 	mNumPrimitivesRenderedInFrame += inGeomData->numVertices - 1;
 }

@@ -154,17 +154,17 @@ typedef enum TQ3PolyhedronEdgeMasks {
 						that this geometry should be rendered normally.
 						
 						Data type: TQ3Boolean.  Default value: kQ3False.
-	@constant	kQ3GeometryPropertyCustomTextureCoordinates
+	@constant	kQ3GeometryPropertyLayerShifts
 						This property, attached to a TriMesh, can be used to provide
-						nonstandard texture coordinates to an OpenGL Shading Language
-						vertex shader.
+						small shifts toward or away from the camera to a vertex
+						shader.
 						
-						Data type: TQ3CustomTextureCoordinates (variable length).
+						Data type: TQ3LayerShifts (variable length).
 */
 enum
 {
 	kQ3GeometryPropertyNonCartoon                   = Q3_OBJECT_TYPE('n', 'c', 'a', 'r'),
-	kQ3GeometryPropertyCustomTextureCoordinates     = Q3_OBJECT_TYPE('t', 'e', 'x', 'c')
+	kQ3GeometryPropertyLayerShifts     				= Q3_OBJECT_TYPE('l', 'y', 's', 'f')
 };
 
 
@@ -1209,24 +1209,18 @@ typedef struct TQ3TriMeshData {
 	#pragma warning( disable : 4200 )
 #endif
 /*!
-	@struct		TQ3CustomTextureCoordinates
-	@abstract	Data of kQ3GeometryPropertyCustomTextureCoordinates.
+	@struct		TQ3LayerShifts
+	@abstract	Data of kQ3GeometryPropertyLayerShifts.
 	@field		numPoints		Number of points (vertices) in the TriMesh.
-	@field		coordsPerPoint	Number of floating-point coordinates per point.
-								Must be 1, 2, 3, or 4.
-	@field		textureUnit		Texture unit to which the coordinates will be
-								provided.  Enter simply 1, for example, not
-								GL_TEXTURE1.
 	@field		coords			Array of coordinate data.  The number of values
-								here must be numPoints * coordsPerPoint.
+								here must be numPoints, or in other words
+								the data size is 4 * numPoints bytes.
 */
-typedef struct TQ3CustomTextureCoordinates
+typedef struct TQ3LayerShifts
 {
 	TQ3Uns32	numPoints;
-	TQ3Uns32	coordsPerPoint;
-	TQ3Uns32	textureUnit;
 	TQ3Float32	coords[];
-} TQ3CustomTextureCoordinates;
+} TQ3LayerShifts;
 #ifdef _MSC_VER
 	#pragma warning( pop )
 #endif

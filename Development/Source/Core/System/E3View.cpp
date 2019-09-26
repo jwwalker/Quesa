@@ -3867,7 +3867,7 @@ E3View_StartRendering(TQ3ViewObject theView)
 			
 		if ( ( (E3View*) theView )->instanceData.theCamera == nullptr )
 			E3ErrorManager_PostError ( kQ3ErrorCameraNotSet, kQ3False ) ;
-			
+		
 		Q3_MESSAGE_FMT("E3View_StartRendering failing due to missing objects");
 		return kQ3Failure ;
 		}

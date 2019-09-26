@@ -5,7 +5,7 @@
         Windows debug implementation.
 
     COPYRIGHT:
-        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -161,10 +161,11 @@ void		E3LogMessage( const char* inMessage )
 				setvbuf( sLogFile, NULL, _IONBF, 0 );
 
 				char dateStr[200], timeStr[200];
-				GetDateFormat( LOCALE_SYSTEM_DEFAULT, 0,
-					NULL, "d MMM yyyy", dateStr, sizeof(dateStr) );
-				GetTimeFormat( LOCALE_SYSTEM_DEFAULT, 0, NULL, NULL,
-					timeStr, sizeof(timeStr) );
+				wchar_t dateStrw[100], timeStrw[100];
+				int dateCharCount = GetDateFormatEx(L"en-US", 0, NULL, L"d MMM yyyy", dateStrw, 100, NULL);
+				WideCharToMultiByte(CP_UTF8, 0, dateStrw, dateCharCount, dateStr, 200, NULL, NULL);
+				int timeCharCount = GetTimeFormatEx(L"en-US", TIME_FORCE24HOURFORMAT, NULL, NULL, timeStrw, 100);
+				WideCharToMultiByte(CP_UTF8, 0, timeStrw, timeCharCount, timeStr, 200, NULL, NULL);
 				fprintf( sLogFile, "\n\n**** LOG START %s %s ****\n\n", dateStr, timeStr );
 			}
 		}

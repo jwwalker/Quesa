@@ -125,7 +125,8 @@ enum
 
 	@constant	kQ3RendererPropertyPerPixelLighting
 					Whether we should used per-pixel lighting if possible.
-					Only implemented by the OpenGL renderer.
+					OBSOLETE, now the OpenGL renderer always uses a
+					fragment shader.
 					Data type: TQ3Boolean.  Default value: kQ3False.
 
 	@constant	kQ3RendererPropertyConvertToPremultipliedAlpha
@@ -163,6 +164,9 @@ enum
 					Allow the renderer to use vertex buffer objects provided
 					that the OpenGL driver claims to support them.  This could
 					be used to disable VBO usage for buggy graphics drivers.
+					THIS OPTION IS NO LONGER IMPLEMENTED, but is maintained
+					for documentation purposes.  VBOs are now mandatory in the
+					OpenGL renderer.
 					Data type: TQ3Boolean.  Default value: kQ3True.
 	
 	@constant	kQ3RendererPropertyVBOLimit
@@ -257,6 +261,12 @@ enum
 					renderer.
 					
 					Data type: TQ3Uns64.
+
+	@constant	kQ3RendererPropertyIsLayerShifting
+					You can use this property to disable layer shifting via a custom
+					texture coordinate.
+					
+					Data type: TQ3Boolean.  Default: kQ3True.
 					
 	@constant	kQ3RendererPropertyClippingPlane
 					Use this property to supply a clipping plane to the per-pixel
@@ -289,10 +299,11 @@ enum
 	kQ3RendererPropertyCartoonLightNearEdge         = Q3_OBJECT_TYPE('p', 'p', 'c', 'e'),
 	kQ3RendererPropertyPassType                     = Q3_OBJECT_TYPE('r', 'p', 't', 'y'),
 	kQ3RendererPropertyDepthAlphaThreshold          = Q3_OBJECT_TYPE('d', 'p', 'a', 't'),
-	kQ3RendererPropertyAlphaThreshold               = Q3_OBJECT_TYPE('a', 'l', 'p', 't'),
 	kQ3RendererPropertyAngleAffectsAlpha            = Q3_OBJECT_TYPE('a', 'n', 'a', 'a'),
+	kQ3RendererPropertyAlphaThreshold               = Q3_OBJECT_TYPE('a', 'l', 'p', 't'),
 	kQ3RendererPropertyShadowVBOLimit               = Q3_OBJECT_TYPE('s', 'h', 'v', 'l'),
 	kQ3RendererPropertyPrimitivesRenderedCount      = Q3_OBJECT_TYPE('p', 'r', 'n', 'c'),
+	kQ3RendererPropertyIsLayerShifting              = Q3_OBJECT_TYPE('r', 'i', 'l', 's'),
 	kQ3RendererPropertyClippingPlane                = Q3_OBJECT_TYPE('c', 'l', 'i', 'p'),
 	kQ3RendererPropertyCastShadowsOverride          = Q3_OBJECT_TYPE('c', 's', 'o', 'c')
 };

@@ -47,14 +47,12 @@
 //-----------------------------------------------------------------------------
 #include "GLPrefix.h"
 
+namespace QORenderer
+{
+	struct GLFuncs;
+}
 
 
-//=============================================================================
-//		C++ preamble
-//-----------------------------------------------------------------------------
-#ifdef __cplusplus
-extern "C" {
-#endif
 
 
 
@@ -71,22 +69,13 @@ extern "C" {
 									value by its alpha value.  Use this if your
 									texture data has an alpha channel and is NOT
 									set up with premultiplied alpha.
-	@param		inAllowNPOT			Whether to allow NPOT (non-power-of-two)
-									textures.
+	@param		inFuncs				OpenGL function pointers.
 	@result		An OpenGL texture "name", or 0 on failure.
 */
 GLuint	GLTextureLoader( TQ3TextureObject inTexture,
 						TQ3Boolean inPremultiplyAlpha,
-						TQ3Boolean inAllowNPOT );
+						const QORenderer::GLFuncs& inFuncs );
 
-
-
-//=============================================================================
-//		C++ postamble
-//-----------------------------------------------------------------------------
-#ifdef __cplusplus
-}
-#endif
 
 
 #endif

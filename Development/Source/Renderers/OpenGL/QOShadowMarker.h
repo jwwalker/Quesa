@@ -65,7 +65,9 @@ namespace QORenderer
 {
 class MatrixState;
 struct StyleState;
-
+class PerPixelLighting;
+class Renderer;
+struct GLFuncs;
 
 /*!
 	@class		ShadowMarker
@@ -75,19 +77,22 @@ class ShadowMarker
 {
 public:
 							ShadowMarker(
+									const Renderer& inRenderer,
 									const MatrixState& inMatrixState,
 									const StyleState& inStyleState,
+									const PerPixelLighting& inPerPixelLighting,
 									const GLfloat* inGLLightPosition,
-									TQ3GLContext& inGLContext,
+									const TQ3GLContext& inGLContext,
 									const TQ3GLExtensions& inGLExtensions,
-									const GLBufferFuncs& inFuncs,
-									bool& inCachingShadows )
-								: mMatrixState( inMatrixState )
+									const GLFuncs& inFuncs,
+									const bool& inCachingShadows )
+								: mRenderer( inRenderer )
+								, mMatrixState( inMatrixState )
 								, mStyleState( inStyleState )
+							#if Q3_DEBUG
+								, mPerPixelLighting( inPerPixelLighting )
+							#endif
 								, mGLLightPosition( inGLLightPosition )
-								, mGLContext( inGLContext )
-								, mGLExtensions( inGLExtensions )
-								, mBufferFuncs( inFuncs )
 								, mIsCachingShadows( inCachingShadows ) {}
 	
 	void					MarkShadowOfTriMesh(
@@ -115,15 +120,13 @@ private:
 									const TQ3TriMeshTriangleData* inFaces,
 									const TQ3TriangleEdges* inFacesToEdges,
 									const TQ3RationalPoint4D& inLocalLightPos,
-									TQ3Uns32& outNumTriIndices,
-									TQ3Uns32& outNumQuadIndices );
+									TQ3Uns32& outNumTriIndices );
 	void					BuildShadowOfTriMesh(
 									TQ3GeometryObject inTMObject,
 									const TQ3TriMeshData& inTMData,
 									const TQ3Vector3D* inFaceNormals,
 									const TQ3RationalPoint4D& inLocalLightPos,
-									TQ3Uns32& outNumTriIndices,
-									TQ3Uns32& outNumQuadIndices );
+									TQ3Uns32& outNumTriIndices );
 	void					MarkShadowOfTriMeshImmediate(
 									TQ3GeometryObject inTMObject,
 									const TQ3TriMeshData& inTMData,
@@ -137,14 +140,14 @@ private:
 									const TQ3TriMeshTriangleData*& outFaces,
 									const TQ3TriangleEdges*& outFacesToEdges );
 
-
+	const Renderer&			mRenderer;
 	const MatrixState&		mMatrixState;
 	const StyleState&		mStyleState;
+#if Q3_DEBUG
+	const PerPixelLighting&	mPerPixelLighting;
+#endif
 	const GLfloat*			mGLLightPosition;
-	TQ3GLContext&			mGLContext;
-	const TQ3GLExtensions&	mGLExtensions;
-	const GLBufferFuncs&	mBufferFuncs;
-	bool&					mIsCachingShadows;
+	const bool&				mIsCachingShadows;
 
 	E3FastArray<char>		mScratchBuffer;
 	TQ3EdgeVec				mShadowEdges;

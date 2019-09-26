@@ -621,7 +621,7 @@ e3fformat_3dmf_bin_skipobject ( E3File* theFile )
 		
 		if ( result != kQ3Failure )
 		{
-		instanceData->MFData.baseData.currentStoragePosition += objectSize ;
+			instanceData->MFData.baseData.currentStoragePosition += objectSize ;
 		}
 	}
 		
@@ -791,6 +791,7 @@ e3fformat_3dmf_bin_readobject ( E3File* theFile )
 			
 			objectType = kQ3LightData ; // This is because in QuickDraw3D, Apple used the code 'lght' for both the light object and the light data sub object. 
 			// N.B. falls through to default case - no break
+			[[clang::fallthrough]];
 			
 		default:
 			{

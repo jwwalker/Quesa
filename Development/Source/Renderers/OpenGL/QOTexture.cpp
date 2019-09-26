@@ -52,6 +52,7 @@
 #include "E3Shader.h"
 #include "QuesaCustomElements.h"
 #include "QOGLShadingLanguage.h"
+#include "QORenderer.h"
 
 #include <algorithm>
 
@@ -176,17 +177,10 @@ static bool IsTextureMipmapped( TQ3TextureObject inTexture )
 //-----------------------------------------------------------------------------
 
 Texture::Texture(
-									TQ3RendererObject inRenderer,
-									const TQ3GLContext& inGLContext,
-									const TQ3GLExtensions& inExtensions,
-									PerPixelLighting& ioPPLighting )
+									QORenderer::Renderer& inRenderer )
 	: mRenderer( inRenderer )
-	, mGLContext( inGLContext )
-	, mGLExtensions( inExtensions )
-	, mPPLighting( ioPPLighting )
 	, mTextureCache( nullptr )
 	, mPendingTextureRemoval( true )
-	, mGLActiveTexture( nullptr )
 {
 	mState.Reset();
 }
@@ -198,9 +192,9 @@ Texture::~Texture()
 
 void	Texture::FlushCache()
 {
-	if (mGLContext != nullptr)
+	if (mRenderer.GLContext() != nullptr)
 	{
-		GLDrawContext_SetCurrent( mGLContext, kQ3False );
+		GLDrawContext_SetCurrent( mRenderer.GLContext(), kQ3False );
 		
 		GLTextureMgr_FlushUnreferencedTextures( mTextureCache );
 	}
@@ -213,7 +207,7 @@ void	Texture::SetOpenGLTextureFiltering(
 								bool isMipmapped )
 {
 	TQ3TextureFilter	raveFilter;
-	Q3InteractiveRenderer_GetRAVETextureFilter( mRenderer, &raveFilter );
+	Q3InteractiveRenderer_GetRAVETextureFilter( mRenderer.GetQuesaRenderer(), &raveFilter );
 	
 	GLuint	magFilter, minFilter;
 	
@@ -271,27 +265,24 @@ void	Texture::SetOpenGLTexturingParameters()
 	
 	// boundary behavior
 	GLint		glBoundsU, glBoundsV;
-	GLUtils_ConvertUVBoundary( mState.mShaderUBoundary, &glBoundsU,
-		mGLExtensions.clampToEdge );
-	GLUtils_ConvertUVBoundary( mState.mShaderVBoundary, &glBoundsV,
-		mGLExtensions.clampToEdge );
+	GLUtils_ConvertUVBoundary( mState.mShaderUBoundary, &glBoundsU );
+	GLUtils_ConvertUVBoundary( mState.mShaderVBoundary, &glBoundsV );
 	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, glBoundsU );
 	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, glBoundsV );
 	
 	
 	// UV transform
-	GLUtils_LoadShaderUVTransform( &mState.mUVTransform );
+	GLUtils_LoadShaderUVTransform( &mState.mUVTransform, mRenderer.Shader() );
 	
 	
 	// Alpha test
 	if (mState.mIsTextureAlphaTest)
 	{
-		glEnable( GL_ALPHA_TEST );
-		glAlphaFunc( GL_GREATER, mState.mAlphaTestThreshold );
+		mRenderer.Shader().SetAlphaThreshold( mState.mAlphaTestThreshold );
 	}
 	else
 	{
-		glDisable( GL_ALPHA_TEST );
+		mRenderer.Shader().SetAlphaThreshold( 0.0f );
 	}
 }
 
@@ -312,7 +303,7 @@ void Texture::TextureState::Reset()
 */
 void	Texture::UpdateTextureCache()
 {
-	mTextureCache = GLTextureMgr_GetTextureCache( mGLContext );
+	mTextureCache = GLTextureMgr_GetTextureCache( mRenderer.GLContext() );
 }
 
 
@@ -336,7 +327,6 @@ void	Texture::StartPass()
 {
 	mState.Reset();
 	mPendingTextureRemoval = true;
-	GLGetProcAddress( mGLActiveTexture, "glActiveTexture", "glActiveTextureARB" );
 }
 
 
@@ -359,11 +349,10 @@ TQ3CachedTexturePtr		Texture::CacheTexture( TQ3TextureObject inTexture )
 	TQ3CachedTexturePtr	cacheRec = nullptr;
 	TQ3Boolean	convertAlpha = kQ3False;
 	
-	Q3Object_GetProperty( mRenderer, kQ3RendererPropertyConvertToPremultipliedAlpha,
+	Q3Object_GetProperty( mRenderer.GetQuesaRenderer(), kQ3RendererPropertyConvertToPremultipliedAlpha,
 		sizeof(convertAlpha), nullptr, &convertAlpha );
 	
-	GLuint	textureName = GLTextureLoader( inTexture, convertAlpha,
-		mGLExtensions.NPOTTexture );
+	GLuint	textureName = GLTextureLoader( inTexture, convertAlpha, mRenderer.Funcs() );
 	
 	if (textureName != 0)
 	{
@@ -382,21 +371,19 @@ void	Texture::HandlePendingTextureRemoval()
 {
 	if (mPendingTextureRemoval)
 	{
-		GLDrawContext_SetCurrent( mGLContext, kQ3False );
+		GLDrawContext_SetCurrent( mRenderer.GLContext(), kQ3False );
 		
-		glDisable( GL_TEXTURE_2D );
-		glDisable( GL_ALPHA_TEST );
 		glBindTexture( GL_TEXTURE_2D, 0 );
-		glMatrixMode( GL_TEXTURE );
-		glLoadIdentity();
 		
-		if (mGLActiveTexture != nullptr)
-		{
-			(*mGLActiveTexture)( GL_TEXTURE1_ARB );
-			glBindTexture( GL_TEXTURE_2D, 0 );
-			(*mGLActiveTexture)( GL_TEXTURE0_ARB );
-		}
-		mPPLighting.UpdateSpecularMapping( false );
+		TQ3Matrix4x4 ident;
+		Q3Matrix4x4_SetIdentity( &ident );
+		mRenderer.Shader().SetTextureMatrix( ident );
+		
+		(*mRenderer.Funcs().glActiveTexture)( GL_TEXTURE1_ARB );
+		glBindTexture( GL_TEXTURE_2D, 0 );
+		(*mRenderer.Funcs().glActiveTexture)( GL_TEXTURE0_ARB );
+
+		mRenderer.Shader().UpdateSpecularMapping( false );
 		
 		mPendingTextureRemoval = false;
 	}
@@ -410,6 +397,9 @@ void	Texture::SetCurrentTexture(
 								TQ3TextureObject inTexture,
 								TQ3ShaderObject inShader )
 {
+#if 0//WIN32
+	Q3_MESSAGE_FMT("      +Texture::SetCurrentTexture");
+#endif
 	if (inTexture == nullptr)	// disable texturing
 	{
 		mState.mIsTextureActive = false;
@@ -419,7 +409,7 @@ void	Texture::SetCurrentTexture(
 	else	// enable texturing
 	{
 		// Activate our context
-		GLDrawContext_SetCurrent( mGLContext, kQ3False );
+		GLDrawContext_SetCurrent( mRenderer.GLContext(), kQ3False );
 	
 	
 		// Put it in the cache if need be
@@ -446,7 +436,6 @@ void	Texture::SetCurrentTexture(
 				(pixelType == kQ3PixelTypeARGB16));
 			mState.mIsTextureMipmapped = IsTextureMipmapped( inTexture );
 			
-			glEnable( GL_TEXTURE_2D );
 			glBindTexture( GL_TEXTURE_2D, mState.mGLTextureObject );
 			
 			mPendingTextureRemoval = false;
@@ -458,6 +447,9 @@ void	Texture::SetCurrentTexture(
 		}
 	}
 	SetOpenGLTexturingParameters();
+#if 0//WIN32
+	Q3_MESSAGE_FMT("      -Texture::SetCurrentTexture");
+#endif
 }
 
 
@@ -469,7 +461,7 @@ void	Texture::SetCurrentTexture(
 */
 void	Texture::SetSpecularMap( TQ3ShaderObject inShader )
 {
-	if ( (inShader != nullptr) && (mGLActiveTexture != nullptr) )
+	if ( inShader != nullptr )
 	{
 		CQ3ObjectRef shininessTexture( CESpecularMapElement_Copy( inShader ) );
 		if (shininessTexture.isvalid())
@@ -478,26 +470,22 @@ void	Texture::SetSpecularMap( TQ3ShaderObject inShader )
 				mTextureCache, shininessTexture.get() );
 			if (cachedTexture == nullptr)
 			{
-				(*mGLActiveTexture)( GL_TEXTURE1_ARB );
+				(*mRenderer.Funcs().glActiveTexture)( GL_TEXTURE1_ARB );
 				cachedTexture = CacheTexture( shininessTexture.get() );
 			}
 			if (cachedTexture != nullptr)
 			{
 				GLuint textureName = GLTextureMgr_GetOpenGLTexture( cachedTexture );
-				(*mGLActiveTexture)( GL_TEXTURE1_ARB );
-				// Note: a fragment shader can ignore the enabled state of a
-				// texture unit.  We disable this one in case per-pixel lighting
-				// is not running, so as not to disrupt the fixed-function pipeline.
-				glDisable( GL_TEXTURE_2D );
+				(*mRenderer.Funcs().glActiveTexture)( GL_TEXTURE1_ARB );
 				glBindTexture( GL_TEXTURE_2D, textureName );
 				SetOpenGLTexturingParameters();
-				(*mGLActiveTexture)( GL_TEXTURE0_ARB );
-				mPPLighting.UpdateSpecularMapping( true );
+				(*mRenderer.Funcs().glActiveTexture)( GL_TEXTURE0_ARB );
+				mRenderer.Shader().UpdateSpecularMapping( true );
 			}
 		}
 		else
 		{
-			mPPLighting.UpdateSpecularMapping( false );
+			mRenderer.Shader().UpdateSpecularMapping( false );
 		}
 	}
 }

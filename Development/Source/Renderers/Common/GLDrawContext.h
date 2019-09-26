@@ -46,7 +46,10 @@
 //      Include files
 //-----------------------------------------------------------------------------
 // Include files go here
-
+namespace QORenderer
+{
+	class PerPixelLighting;
+}
 
 
 
@@ -77,7 +80,8 @@ void				GLDrawContext_SwapBuffers(
 								void					*glContext);
 
 void				GLDrawContext_StartFrame(
-								void					*glContext);
+								void					*glContext,
+								QORenderer::PerPixelLighting& inPPL );
 
 void				GLDrawContext_SetCurrent(
 								void					*glContext,

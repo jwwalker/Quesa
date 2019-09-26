@@ -5,7 +5,7 @@
         Quesa tessellator functions.
 
     COPYRIGHT:
-        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -849,13 +849,13 @@ e3tessellate_dispose_state(E3TessellateState *theState)
 
 	// Dispose of the tessellator state
 	for (n = 0; n < theState->numTempVertices; n++)
-		{
+	{
 		TQ3AttributeSet atts = theState->tempVertexList[n]->attributeSet;
 		if (atts != nullptr)
 			Q3Object_Dispose( atts );
 		
 		Q3Memory_Free(&theState->tempVertexList[n]);
-		}
+	}
 	
 	Q3Memory_Free(&theState->triMeshVertexList);
 	Q3Memory_Free(&theState->tempVertexList);

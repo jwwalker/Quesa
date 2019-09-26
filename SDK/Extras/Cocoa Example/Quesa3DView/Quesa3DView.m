@@ -93,16 +93,16 @@
 //	initWithFrame:
 //==================================================================================
 
-- (id)initWithFrame:(NSRect)frameRect
+- (id) initWithFrame:(NSRect)frameRect
 {
-	self = [super initWithFrame:frameRect];
+	self = [super initWithFrame: frameRect];
 	
 	if (self != nil)
 	{
 	}
-		
+
     return self;
-	}
+}
 
 - (id) initWithCoder:(NSCoder *)decoder
 {
@@ -110,7 +110,7 @@
 	if (self != nil)
 	{
 	}
-    return self;
+	return self;
 }
 
 //==================================================================================
@@ -125,7 +125,7 @@
 	if (self.drawContext != NULL)
 		Q3Object_Dispose(self.drawContext);
 
-  [super dealloc];
+	[super dealloc];
 }
 
 //==================================================================================
@@ -136,7 +136,7 @@
 {
     if (self.qd3dView == NULL)
     {
-          [self setupQD3D];
+		[self setupQD3D];
     }
     [self drawQD3D];
 }
@@ -257,10 +257,10 @@
 
 - (void)sendEventToDelegate:(NSEvent*)inEvent
 {
-  if(qd3dDelegate && [qd3dDelegate respondsToSelector:@selector(qd3dView:eventOccurred:)])
-  {
-    [qd3dDelegate qd3dView:self eventOccurred:inEvent];
-  }
+	if(qd3dDelegate && [qd3dDelegate respondsToSelector:@selector(qd3dView:eventOccurred:)])
+	{
+		[qd3dDelegate qd3dView:self eventOccurred:inEvent];
+	}
 }
 
 //==================================================================================
@@ -307,15 +307,15 @@
 	// wil preserve any changes made by the app's view-configure method.
 	resetDrawContext = kQ3True;
 	if (self.qd3dView != NULL)
-		{
+	{
 		qd3dStatus = Q3View_GetDrawContext(self.qd3dView, &_drawContext);
-          if (qd3dStatus == kQ3Success)
-			{
+		if (qd3dStatus == kQ3Success)
+		{
 			resetDrawContext = kQ3False;
 			Q3DrawContext_GetData(self.drawContext, &cocoaDrawContextData.drawContextData);
 			Q3Object_Dispose(self.drawContext);
-			}
 		}
+	}
 
 	// Reset the draw context data if required
 	if (resetDrawContext)
@@ -364,32 +364,29 @@
 
 - (void)initQ3View
 {	
-	TQ3Status				qd3dStatus;
- 
-
 	// Create the view
 	if (self.drawContext != NULL)
-    {
-      // Create the view
+	{
+		// Create the view
 		self.qd3dView = Q3View_New();
 		if (self.qd3dView != NULL)
-      {
-        // Configure the view
-			qd3dStatus = Q3View_SetDrawContext(self.qd3dView,    self.drawContext);
-			qd3dStatus = Q3View_SetRendererByType(self.qd3dView, kQ3RendererTypeOpenGL);
-        [self createDefaultCamera];
-        [self createDefaultLights];
-    
-        if(qd3dDelegate && [qd3dDelegate respondsToSelector:@selector(qd3dViewDidInit:)])
-        {
-            [qd3dDelegate qd3dViewDidInit:self];
-        }
-      }
+		{
+			// Configure the view
+			Q3View_SetDrawContext(self.qd3dView,    self.drawContext);
+			Q3View_SetRendererByType(self.qd3dView, kQ3RendererTypeOpenGL);
+			[self createDefaultCamera];
+			[self createDefaultLights];
+
+			if (qd3dDelegate && [qd3dDelegate respondsToSelector:@selector(qd3dViewDidInit:)])
+			{
+				[qd3dDelegate qd3dViewDidInit:self];
+			}
+		}
 	}
 	else
 	{
-          NSLog(@"TQ3DrawContext is NULL in initQ3View!");
-    }
+	  NSLog(@"TQ3DrawContext is NULL in initQ3View!");
+	}
 }
 
 //==================================================================================
@@ -400,11 +397,12 @@
 {	
     TQ3Vector3D					sunDirection = {-1.0f, 0.0f, -1.0f};
 	TQ3Vector3D					eyeDirection = { 0.0f, 0.0f, -1.0f};
+	TQ3Point3D					pointLocation = { -10.0f, 0.0f,  10.0f};
 	TQ3ColorRGB					colourWhite  = { 1.0f, 1.0f,  1.0f};
 	TQ3LightData				ambientLight;
 	TQ3DirectionalLightData		sunLight;
 	TQ3DirectionalLightData		eyeLight;
-	
+	TQ3PointLightData			pointLight;
 
 
 	// Set up the ambient light
@@ -417,22 +415,31 @@
 	// Set up the directional lights
 	sunLight.lightData.isOn       = kQ3True;
 	sunLight.lightData.color      = colourWhite;
-	sunLight.lightData.brightness = 1.0f;
+	sunLight.lightData.brightness = 0.8f;
 	sunLight.castsShadows         = kQ3True;
 	sunLight.direction            = sunDirection;
 
 	eyeLight.lightData.isOn       = kQ3True;
 	eyeLight.lightData.color      = colourWhite;
 	eyeLight.lightData.brightness = 0.2f;
-	eyeLight.castsShadows         = kQ3True;
+	eyeLight.castsShadows         = kQ3False;
 	eyeLight.direction            = eyeDirection;
 
 
+	// Set up the point light
+	pointLight.lightData.isOn       = kQ3True;
+	pointLight.lightData.color      = colourWhite;
+	pointLight.lightData.brightness = 0.8f;
+	pointLight.castsShadows         = kQ3True;
+	pointLight.location				= pointLocation;
+	pointLight.attenuation			= kQ3AttenuationTypeNone;
+
 
 	// Add the lights
-	[self createLight:kQ3LightTypeAmbient withData:&ambientLight];
-	[self createLight:kQ3LightTypeDirectional withData:&sunLight];
-	[self createLight:kQ3LightTypeDirectional withData:&eyeLight];
+	[self createLight: kQ3LightTypeAmbient withData: &ambientLight];
+	[self createLight: kQ3LightTypeDirectional withData: &sunLight];
+	[self createLight: kQ3LightTypeDirectional withData: &eyeLight];
+	[self createLight: kQ3LightTypePoint withData: &pointLight];
 }
 
 //==================================================================================
@@ -448,7 +455,6 @@
 	float 							yon 		= 10.0f;
 	float							rectWidth, rectHeight;
 	TQ3ViewAngleAspectCameraData	cameraData;
-	TQ3Status						qd3dStatus;
 	TQ3CameraObject					theCamera;
 	TQ3Area							theArea;
 
@@ -456,7 +462,7 @@
     if (self.qd3dView == NULL)
       return;
 	// Get the size of the image we're rendering
-	qd3dStatus = Q3DrawContext_GetPane(self.drawContext, &theArea);
+	Q3DrawContext_GetPane(self.drawContext, &theArea);
 
 
 
@@ -480,7 +486,7 @@
 
 	// Create the camera object
 	theCamera = Q3ViewAngleAspectCamera_New(&cameraData);
-    qd3dStatus = Q3View_SetCamera(self.qd3dView,         theCamera);
+    Q3View_SetCamera(self.qd3dView,         theCamera);
 	if (theCamera != NULL)
 		Q3Object_Dispose(theCamera);
 
@@ -488,6 +494,7 @@
 
 - (void) reshape
 {
+	[super reshape];
 	TQ3Area							theArea;
 	TQ3CameraObject	theCamera;
 	float	aspect;
@@ -495,7 +502,7 @@
 	if ( (self.drawContext != NULL) && (self.qd3dView != NULL) )
 	{
 		Q3DrawContext_GetPane(self.drawContext, &theArea);
-	
+		
 		aspect = (theArea.max.x - theArea.min.x) / (theArea.max.y - theArea.min.y);
 	
 		Q3View_GetCamera( self.qd3dView, &theCamera );

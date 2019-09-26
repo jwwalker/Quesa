@@ -5,7 +5,7 @@
         Header file for GLCamera.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -47,7 +47,10 @@
 //-----------------------------------------------------------------------------
 // Include files go here
 
-
+namespace QORenderer
+{
+	class PerPixelLighting;
+}
 
 
 
@@ -66,11 +69,13 @@ extern "C" {
 //      Function prototypes
 //-----------------------------------------------------------------------------
 // Set the projection transform
-void		GLCamera_SetProjection(const TQ3Matrix4x4 *cameraToFrustum);
+void		GLCamera_SetProjection(const TQ3Matrix4x4 *cameraToFrustum,
+									QORenderer::PerPixelLighting& inPPL );
 
 
 // Set the model-view transform
-void		GLCamera_SetModelView(const TQ3Matrix4x4 *localToCamera);
+void		GLCamera_SetModelView(const TQ3Matrix4x4 *localToCamera,
+									QORenderer::PerPixelLighting& inPPL );
 
 
 

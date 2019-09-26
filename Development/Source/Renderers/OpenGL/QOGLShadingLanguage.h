@@ -116,6 +116,8 @@ typedef void (QO_PROCPTR_TYPE glUniform4fProc )(GLint location, GLfloat v0,
 									GLfloat v1, GLfloat v2, GLfloat v3 );
 typedef void (QO_PROCPTR_TYPE glUniform1fvProc )(GLint location, GLsizei count,
 												const GLfloat* values);
+typedef void (QO_PROCPTR_TYPE glUniform2fvProc )(GLint location, GLsizei count,
+												const GLfloat* values);
 typedef void (QO_PROCPTR_TYPE glUniform3fvProc )(GLint location, GLsizei count,
 												const GLfloat* values);
 typedef void (QO_PROCPTR_TYPE glUniform4fvProc )(GLint location, GLsizei count,
@@ -141,6 +143,26 @@ typedef void (QO_PROCPTR_TYPE glGetShaderSourceProc)( GLuint shder,
 													GLsizei* outLength,
 													char* outSource );
 typedef GLboolean (QO_PROCPTR_TYPE glIsProgramProc)( GLuint program );
+typedef void (QO_PROCPTR_TYPE glUniformMatrix4fvProc)(GLint location,
+													GLsizei count,
+													GLboolean transpose,
+													const GLfloat *value);
+typedef void (QO_PROCPTR_TYPE glUniformMatrix3fvProc)(GLint location,
+													GLsizei count,
+													GLboolean transpose,
+													const GLfloat *value);
+
+typedef GLint (QO_PROCPTR_TYPE glGetAttribLocationProc)( GLuint program, const GLchar *name );
+typedef void (QO_PROCPTR_TYPE glEnableVertexAttribArrayProc)( GLuint index );
+typedef void (QO_PROCPTR_TYPE glDisableVertexAttribArrayProc)( GLuint index );
+typedef void (QO_PROCPTR_TYPE glVertexAttrib3fvProc)( GLuint index, const GLfloat *v );
+typedef void (QO_PROCPTR_TYPE glVertexAttribPointerProc)(
+													GLuint index,
+													GLint size,
+													GLenum type,
+													GLboolean normalized,
+													GLsizei stride,
+													const GLvoid *pointer );
 
 /*!
 	@struct		GLSLFuncs
@@ -172,14 +194,23 @@ struct GLSLFuncs
 	glUniform1fProc				glUniform1f;
 	glUniform4fProc				glUniform4f;
 	glUniform1fvProc			glUniform1fv;
+	glUniform2fvProc			glUniform2fv;
 	glUniform3fvProc			glUniform3fv;
 	glUniform4fvProc			glUniform4fv;
+	glUniformMatrix4fvProc		glUniformMatrix4fv;
+	glUniformMatrix3fvProc		glUniformMatrix3fv;
 	glDeleteShaderProc			glDeleteShader;
 	glDeleteProgramProc			glDeleteProgram;
 	glGetProgramInfoLogProc		glGetProgramInfoLog;
 	glGetShaderInfoLogProc		glGetShaderInfoLog;
 	glGetShaderSourceProc		glGetShaderSource;
 	glIsProgramProc				glIsProgram;
+	
+	glGetAttribLocationProc			glGetAttribLocation;
+	glEnableVertexAttribArrayProc	glEnableVertexAttribArray;
+	glDisableVertexAttribArrayProc	glDisableVertexAttribArray;
+	glVertexAttrib3fvProc			glVertexAttrib3fv;
+	glVertexAttribPointerProc		glVertexAttribPointer;
 
 private:
 	void						SetNULL();
@@ -194,6 +225,7 @@ class PerPixelLighting
 {
 public:
 								PerPixelLighting(
+										Renderer& inRenderer,
 										const GLSLFuncs& inFuncs,
 										TQ3RendererObject inRendererObject,
 										TQ3GLContext& inGLContext,
@@ -229,16 +261,6 @@ public:
 		@abstract	Finish a rendering pass.
 	*/
 	void						EndPass();
-	
-	/*!
-		@function	IsShading
-		@abstract	Test whether shader programs are being used on this
-					frame.  (Valid after StartFrame has been called.)
-	*/
-	bool						IsShading() const
-								{
-									return mIsShading;
-								}
 
 	/*!
 		@function	GetMaxLightsPerPass
@@ -247,8 +269,7 @@ public:
 	*/
 	int							GetMaxLightsPerPass() const
 								{
-									return IsShading()? mMaxLights :
-										mExtensions.maxLights;
+									return mMaxLights;
 								}
 	
 	/*!
@@ -282,6 +303,12 @@ public:
 	*/
 	void						UpdateInterpolationStyle(
 										TQ3InterpolationStyle inInterpolation );
+	
+	/*!
+		@function	UpdateLineWidthStyle
+		@abstract	Notification that the line width has changed.
+	*/
+	void						UpdateLineWidthStyle();
 
 	/*!
 		@function	UpdateBackfacingStyle
@@ -290,6 +317,12 @@ public:
 	*/
 	void						UpdateBackfacingStyle(
 										TQ3BackfacingStyle inBackfacing );
+	
+	/*!
+		@function	UpdateFillStyle
+		@abstract	Notification that the fill style may have changed.
+	*/
+	void						UpdateFillStyle();
 
 	/*!
 		@function	UpdateFogStyle
@@ -326,8 +359,63 @@ public:
 					geometry is passed, if available, so that cartoon parameters
 					may be updated.
 		@param		inGeom		Geometry being rendered.  May be nullptr.
+		@param		inDimension	Dimension of geometry being rendered.
+								Must be 0 (points), 1 (lines or polylines), or
+								2 (triangles).
 	*/
-	void						PreGeomSubmit( TQ3GeometryObject inGeom );
+	void						PreGeomSubmit( TQ3GeometryObject inGeom,
+												int inDimension );
+	
+	/*!
+		@function	SetAmbientLight
+		@abstract	Set the color/brightness of ambient light.
+		@param		inAmbientColor		Ambient light color.
+	*/
+	void						SetAmbientLight( const TQ3ColorRGB& inAmbientColor );
+
+	/*!
+		@function	SetAlphaThreshold
+		@abstract	Set a minimum alpha below which texels will be discarded.
+		@param		inThreshold		Alpha threshold.  Default is 0.0.
+	*/
+	void						SetAlphaThreshold( float inThreshold );
+
+	/*!
+		@function	SetModelViewMatrix
+		@abstract	Supply a new value for the model-view matrix.  It will be passed
+					to the current program and to any program that is subsequently
+					made current.
+		@param		inMtx					A new modelview matrix.
+	*/
+	void						SetModelViewMatrix( const TQ3Matrix4x4& inMtx );
+	
+	const TQ3Matrix4x4&			GetModelViewMatrix() const { return mModelViewMtx; }
+
+	/*!
+		@function	SetProjectionMatrix
+		@abstract	Supply a new value for the projection matrix.  It will be passed
+					to the current program and to any program that is subsequently
+					made current.
+		@param		inMtx					A new projection matrix.
+	*/
+	void						SetProjectionMatrix( const TQ3Matrix4x4& inMtx );
+
+	/*!
+		@function	SetTextureMatrix
+		@abstract	Supply a new value for the texture UV transformation matrix.  It will be passed
+					to the current program and to any program that is subsequently
+					made current.
+		@param		inMtx					A new texture UV transformation matrix.
+	*/
+	void						SetTextureMatrix( const TQ3Matrix4x4& inMtx );
+	
+	/*!
+		@function	CurrentProgram
+		@abstract	Accessor for the current program record.
+	*/
+	const ProgramRec*			CurrentProgram() const { return mCurrentProgram; }
+	
+	const GLSLFuncs&			Funcs() const { return mFuncs; }
 
 private:
 	void						CheckIfShading();
@@ -344,24 +432,36 @@ private:
 	void						AddSpotLight( TQ3LightObject inLight );
 	void						AddPointLight( TQ3LightObject inLight );
 	
+	Renderer&					mRenderer;
 	const GLSLFuncs&			mFuncs;
-	const TQ3GLExtensions&		mExtensions;
 	TQ3RendererObject			mRendererObject;
 	TQ3GLContext&				mGLContext;
 	CQ3WeakObjectRef			mView;
 	TQ3Uns32					mLightGroupEditIndex;
-	bool						mIsShading;
+	int							mPassNumber;
 	bool						mMayNeedProgramChange;
 	bool						mIsSpecularMapped;
 	bool						mIsFlippingNormals;
+	bool						mCullBackFaces;
+	bool						mCullFrontFaces;
+	TQ3ColorRGB					mAmbientLight;
 	TQ3Float32					mQuantization;
 	TQ3Float32					mLightNearEdge;
 	TQ3RationalPoint4D			mClippingPlane;
+	TQ3ColorRGB					mFogColor;
+	float						mFogDensity;
+	float						mLinearFogEnd;
+	float						mLinearFogScale;
 	TQ3Float32					mMaxFogOpacity;
 	float						mHalfspaceFogRate;
 	TQ3RationalPoint4D			mHalfspaceFogPlane; // in eye (view) coordinates
 	TQ3Matrix4x4				mWorldToView;
 	int							mMaxLights;
+	TQ3Matrix4x4				mModelViewMtx;
+	TQ3Matrix4x4				mProjectionMtx;
+	TQ3Matrix4x4				mTextureMtx;
+	TQ3Matrix3x3				mNormalMtx;
+	float						mAlphaThreshold;
 
 	ProgramCharacteristic		mProgramCharacteristic;
 

@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2010, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -233,30 +233,10 @@ TQ3Status	QORenderer::Renderer::UpdateLocalToCamera(
 	
 	
 	// Set the model-view transform
-	GLCamera_SetModelView( &inMatrix );
+	GLCamera_SetModelView( &inMatrix, mPPLighting );
 	
 	
-	// Adjust the normalisation state
-#if QUESA_NORMALIZE_NORMALS
-	//
-	// If the current transform doesn't have a scale component, we can turn off automatic
-	// normalization. Quesa's documented behaviour is that incoming TriMesh objects always
-	// have normalized normals, and we always normalize Triangle normals, so we can avoid
-	// having OpenGL do normalization if that is the case.
-	if (IsOrthogonalMatrix( inMatrix ))
-	{
-		glDisable( GL_NORMALIZE );
-	}
-	else
-	{
-		glEnable( GL_NORMALIZE );
-	}
-#else
-	// If QUESA_NORMALIZE_NORMALS is off, we make OpenGL do a little more work
-	// in order to save work on the CPU whenever we create or reset a TriMesh.
-	glEnable( GL_NORMALIZE );
-#endif
-
+	
 	return (kQ3Success);
 }
 
@@ -282,7 +262,7 @@ TQ3Status	QORenderer::Renderer::UpdateCameraToFrustum(
 	mMatrixState.SetCameraToFrustum( inMatrix );
 
 	// Set the projection transform
-	GLCamera_SetProjection( &inMatrix );
+	GLCamera_SetProjection( &inMatrix, mPPLighting );
 
 	return(kQ3Success);
 }

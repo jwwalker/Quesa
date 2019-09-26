@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14868" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.70"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14868"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -12,20 +12,20 @@
         <window title="Quesa3DView Demo" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="21" userLabel="MyWindow">
             <windowStyleMask key="styleMask" titled="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="37" y="307" width="742" height="481"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
+            <rect key="contentRect" x="37" y="307" width="869" height="613"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
             <view key="contentView" id="2">
-                <rect key="frame" x="0.0" y="0.0" width="742" height="481"/>
+                <rect key="frame" x="0.0" y="0.0" width="869" height="613"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <box title="Rotation" id="141">
-                        <rect key="frame" x="488" y="210" width="246" height="158"/>
+                        <rect key="frame" x="612" y="198" width="246" height="158"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                        <view key="contentView" id="vKd-FN-dbx">
-                            <rect key="frame" x="3" y="3" width="240" height="137"/>
+                        <view key="contentView" id="T3o-Ox-QeQ">
+                            <rect key="frame" x="3" y="3" width="240" height="138"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="147">
+                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" preferredMaxLayoutWidth="9" id="147">
                                     <rect key="frame" x="7" y="104" width="13" height="17"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="X" id="274">
@@ -34,7 +34,7 @@
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                 </textField>
-                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="148">
+                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" preferredMaxLayoutWidth="9" id="148">
                                     <rect key="frame" x="7" y="61" width="13" height="17"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Y" id="275">
@@ -43,7 +43,7 @@
                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                     </textFieldCell>
                                 </textField>
-                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="149">
+                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" preferredMaxLayoutWidth="9" id="149">
                                     <rect key="frame" x="7" y="19" width="13" height="17"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Z" id="276">
@@ -102,7 +102,7 @@
                         <font key="titleFont" metaFont="system"/>
                     </box>
                     <popUpButton verticalHuggingPriority="750" imageHugsTitle="YES" id="167">
-                        <rect key="frame" x="572" y="447" width="164" height="25"/>
+                        <rect key="frame" x="694" y="579" width="169" height="25"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <popUpButtonCell key="cell" type="push" title="Box" bezelStyle="rounded" alignment="left" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" tag="1" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="165" id="280">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -138,17 +138,8 @@
                             <action selector="setGeometryFromTag:" target="138" id="188"/>
                         </connections>
                     </popUpButton>
-                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="187">
-                        <rect key="frame" x="516" y="453" width="54" height="17"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Object: " id="281">
-                            <font key="font" metaFont="system"/>
-                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
                     <popUpButton verticalHuggingPriority="750" imageHugsTitle="YES" id="190">
-                        <rect key="frame" x="572" y="418" width="164" height="25"/>
+                        <rect key="frame" x="693" y="549" width="170" height="25"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <popUpButtonCell key="cell" type="push" title="Item1" bezelStyle="rounded" alignment="left" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="189" id="282">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -164,7 +155,7 @@
                         </connections>
                     </popUpButton>
                     <popUpButton verticalHuggingPriority="750" imageHugsTitle="YES" id="292">
-                        <rect key="frame" x="572" y="389" width="164" height="25"/>
+                        <rect key="frame" x="694" y="519" width="169" height="25"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <popUpButtonCell key="cell" type="push" title="Phong" bezelStyle="rounded" alignment="left" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" tag="2" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="295" id="293">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
@@ -173,7 +164,7 @@
                                 <items>
                                     <menuItem title="Phong" state="on" tag="2" id="295"/>
                                     <menuItem title="Lambert" tag="1" id="297"/>
-                                    <menuItem title="Nondirectional" tag="3" id="JBC-GD-bzJ"/>
+                                    <menuItem title="Nondirectional" tag="3" id="Yg6-4g-8WF"/>
                                     <menuItem title="NULL" id="298"/>
                                 </items>
                             </menu>
@@ -182,8 +173,45 @@
                             <binding destination="138" name="selectedTag" keyPath="illuminationType" id="299"/>
                         </connections>
                     </popUpButton>
-                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="194">
-                        <rect key="frame" x="505" y="424" width="65" height="17"/>
+                    <popUpButton verticalHuggingPriority="750" imageHugsTitle="YES" id="Kze-qh-hXV">
+                        <rect key="frame" x="693" y="489" width="170" height="25"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                        <popUpButtonCell key="cell" type="push" title="Both" bezelStyle="rounded" alignment="left" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="4N5-Iu-eEH" id="BTu-BS-4FF">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="menu"/>
+                            <menu key="menu" title="OtherViews" id="3bu-xJ-JEq">
+                                <items>
+                                    <menuItem title="Both" state="on" id="4N5-Iu-eEH"/>
+                                    <menuItem title="Flip" tag="2" id="13L-fs-d47"/>
+                                    <menuItem title="Remove" tag="1" id="vsZ-FQ-JJG"/>
+                                    <menuItem title="Remove Front" tag="3" id="3xn-ZF-I60"/>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                        <connections>
+                            <binding destination="138" name="selectedTag" keyPath="backfacingStyle" id="T5R-r9-ygH"/>
+                        </connections>
+                    </popUpButton>
+                    <popUpButton verticalHuggingPriority="750" imageHugsTitle="YES" id="DnV-Iv-0WD">
+                        <rect key="frame" x="693" y="459" width="170" height="25"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                        <popUpButtonCell key="cell" type="push" title="Filled" bezelStyle="rounded" alignment="left" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="1d3-gZ-5hh" id="chB-LN-6x6">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="menu"/>
+                            <menu key="menu" title="OtherViews" id="r6n-mG-Ed9">
+                                <items>
+                                    <menuItem title="Filled" state="on" id="1d3-gZ-5hh"/>
+                                    <menuItem title="Edges" tag="1" id="oEF-zs-PhX"/>
+                                    <menuItem title="Points" tag="2" id="TLG-BH-pua"/>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                        <connections>
+                            <binding destination="138" name="selectedTag" keyPath="fillStyle" id="gpA-ek-rdP"/>
+                        </connections>
+                    </popUpButton>
+                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" preferredMaxLayoutWidth="73" id="194">
+                        <rect key="frame" x="613" y="554" width="77" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Renderer:" id="283">
                             <font key="font" metaFont="system"/>
@@ -191,8 +219,8 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="290">
-                        <rect key="frame" x="486" y="395" width="84" height="17"/>
+                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" preferredMaxLayoutWidth="73" id="290">
+                        <rect key="frame" x="613" y="524" width="77" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Illumination:" id="291">
                             <font key="font" metaFont="system"/>
@@ -200,8 +228,17 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
+                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" preferredMaxLayoutWidth="73" id="Suu-QC-ahO">
+                        <rect key="frame" x="613" y="494" width="77" height="17"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Backfacing:" id="rsM-ol-fan">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
                     <button imageHugsTitle="YES" id="201">
-                        <rect key="frame" x="500" y="145" width="172" height="18"/>
+                        <rect key="frame" x="613" y="138" width="172" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Show Bounding Box" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="284">
                             <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
@@ -212,7 +249,7 @@
                         </connections>
                     </button>
                     <button imageHugsTitle="YES" id="203">
-                        <rect key="frame" x="500" y="175" width="87" height="18"/>
+                        <rect key="frame" x="613" y="158" width="87" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Animation" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="285">
                             <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
@@ -223,7 +260,7 @@
                         </connections>
                     </button>
                     <button imageHugsTitle="YES" id="206">
-                        <rect key="frame" x="500" y="115" width="200" height="18"/>
+                        <rect key="frame" x="613" y="118" width="200" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Full-screen Antialiasing" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="286">
                             <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
@@ -234,7 +271,7 @@
                         </connections>
                     </button>
                     <button imageHugsTitle="YES" id="208">
-                        <rect key="frame" x="500" y="85" width="200" height="18"/>
+                        <rect key="frame" x="613" y="98" width="200" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Shadows" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="287">
                             <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
@@ -245,37 +282,106 @@
                         </connections>
                     </button>
                     <button imageHugsTitle="YES" id="300">
-                        <rect key="frame" x="500" y="55" width="200" height="18"/>
+                        <rect key="frame" x="613" y="78" width="200" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="check" title="Per-pixel Lighting" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="301">
+                        <buttonCell key="cell" type="check" title="Directional Light" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="301">
                             <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
-                            <binding destination="138" name="value" keyPath="perPixelLighting" id="303"/>
+                            <binding destination="138" name="value" keyPath="directionalLight" id="KwR-04-BF7"/>
                         </connections>
                     </button>
-                    <openGLView wantsLayer="YES" colorSize="8bit_RGB" depthSize="24bit" stencilSize="8bit" antiAliasingType="multisample" rendererType="accelerated" samplingRate="4" useAuxiliaryDepthBufferStencil="NO" useDoubleBufferingEnabled="YES" allowOffline="YES" id="UYj-ZH-ihO" customClass="Quesa3DView">
-                        <rect key="frame" x="5" y="6" width="473" height="469"/>
+                    <button imageHugsTitle="YES" id="pyJ-VH-Dhq">
+                        <rect key="frame" x="613" y="58" width="200" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="Point Light" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="ocM-2Z-mWx">
+                            <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <binding destination="138" name="value" keyPath="pointLight" id="GGz-6z-7hq"/>
+                        </connections>
+                    </button>
+                    <button imageHugsTitle="YES" id="gUH-Mu-1Aj">
+                        <rect key="frame" x="613" y="38" width="200" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="Ambient Light" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="ol9-PA-iOG">
+                            <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <binding destination="138" name="value" keyPath="ambientLight" id="cOn-eM-Km7"/>
+                        </connections>
+                    </button>
+                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" preferredMaxLayoutWidth="73" id="0mX-eM-woV">
+                        <rect key="frame" x="613" y="464" width="77" height="17"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Fill:" id="VVb-M6-Gfb">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <button imageHugsTitle="YES" id="0Ma-C5-Hyt">
+                        <rect key="frame" x="613" y="18" width="200" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="Flat Interpolation" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="bO4-HH-v8y">
+                            <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <binding destination="138" name="value" keyPath="flatInterpolation" id="ZkI-DA-yCr"/>
+                        </connections>
+                    </button>
+                    <popUpButton verticalHuggingPriority="750" imageHugsTitle="YES" id="ZgU-Tt-ETE">
+                        <rect key="frame" x="693" y="431" width="170" height="25"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                        <popUpButtonCell key="cell" type="push" title="None" bezelStyle="rounded" alignment="left" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="7aV-fb-bXw" id="KkW-Vp-4eX">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="menu"/>
+                            <menu key="menu" title="OtherViews" id="e0V-TC-IVb">
+                                <items>
+                                    <menuItem title="None" state="on" id="7aV-fb-bXw"/>
+                                    <menuItem title="Linear" tag="1" id="OIH-p9-OUM"/>
+                                    <menuItem title="Exponential" tag="2" id="Y82-M9-d6j"/>
+                                    <menuItem title="Exponential Squared" tag="3" id="EFM-qU-b3U"/>
+                                    <menuItem title="Halfspace" tag="4" id="ylk-Bp-vWK"/>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                        <connections>
+                            <binding destination="138" name="selectedTag" keyPath="fogStyleTag" id="O8j-Tl-zFV"/>
+                        </connections>
+                    </popUpButton>
+                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" preferredMaxLayoutWidth="73" id="3mP-0L-BPV">
+                        <rect key="frame" x="613" y="436" width="77" height="17"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Fog:" id="No6-zI-Ymh">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <openGLView wantsLayer="YES" focusRingType="none" colorSize="8bit_RGB" depthSize="24bit" stencilSize="8bit" antiAliasingType="multisample" rendererType="accelerated" samplingRate="4" useAuxiliaryDepthBufferStencil="NO" useDoubleBufferingEnabled="YES" allowOffline="YES" useRecovery="YES" id="Co0-WJ-Fcv" customClass="Quesa3DView">
+                        <rect key="frame" x="5" y="6" width="600" height="660"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <connections>
-                            <outlet property="qd3dDelegate" destination="138" id="Kn4-Pv-OLd"/>
+                            <outlet property="qd3dDelegate" destination="138" id="Dj2-0o-7if"/>
                         </connections>
                     </openGLView>
-                    <button imageHugsTitle="YES" id="t3O-SC-gU3">
-                        <rect key="frame" x="500" y="25" width="196" height="18"/>
+                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" preferredMaxLayoutWidth="73" id="187">
+                        <rect key="frame" x="613" y="584" width="77" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="check" title="Halfspace Fog" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="5ms-h7-o7V">
-                            <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Object: " id="281">
                             <font key="font" metaFont="system"/>
-                        </buttonCell>
-                        <connections>
-                            <binding destination="138" name="value" keyPath="halfspaceFog" id="XfN-Nx-iSX"/>
-                        </connections>
-                    </button>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
                 </subviews>
             </view>
-            <point key="canvasLocation" x="140" y="338.5"/>
+            <point key="canvasLocation" x="182.5" y="227.5"/>
         </window>
         <menu title="MainMenu" systemMenu="main" id="29" userLabel="MainMenu">
             <items>
@@ -419,12 +525,11 @@
                     </menu>
                 </menuItem>
             </items>
-            <point key="canvasLocation" x="20" y="465"/>
         </menu>
         <customObject id="138" userLabel="AppDelegate" customClass="AppDelegate">
             <connections>
                 <outlet property="objectMenu" destination="167" id="205"/>
-                <outlet property="quesa3dView" destination="UYj-ZH-ihO" id="KF4-CY-anG"/>
+                <outlet property="quesa3dView" destination="Co0-WJ-Fcv" id="Col-6n-1e7"/>
                 <outlet property="rendererMenu" destination="190" id="198"/>
             </connections>
         </customObject>

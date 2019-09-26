@@ -91,6 +91,8 @@ e3ffw_3DMF_filter_in_toc(TE3FFormatW3DMF_Data *fileFormatPrivate,  TQ3Object the
 		case kQ3FFormatWriterType3DMFDatabaseBin:
 		case kQ3FFormatWriterType3DMFDatabaseBinSwap:
 			forceTOC = kQ3True;
+			[[clang::fallthrough]];
+			
 		case kQ3FFormatWriterType3DMFNormalBin:
 		case kQ3FFormatWriterType3DMFNormalBinSwap:
 			createReference = kQ3True;

@@ -48,6 +48,7 @@
 #include "GLGPUSharing.h"
 #include "GLUtils.h"
 #include "QuesaMath.h"
+#include "QOGLShadingLanguage.h"
 
 #if QUESA_OS_COCOA
 #include "GLCocoaContext.h"
@@ -68,6 +69,8 @@ extern int gDebugMode;
 	} while (false)
 
 static int sFBOCount = 0;
+
+
 
 //=============================================================================
 //		Internal constants
@@ -148,7 +151,7 @@ enum
 
 #if Q3_DEBUG
 	#undef		Q3_DEBUG_GL_ERRORS
-	#define		Q3_DEBUG_GL_ERRORS		0
+	#define		Q3_DEBUG_GL_ERRORS		1
 #endif
 
 static GLenum sGLError = 0;
@@ -160,8 +163,8 @@ static GLenum sGLError = 0;
 									{	\
 										char	xmsg[200];	\
 										snprintf( xmsg, sizeof(xmsg),	\
-											"glGetError() is 0x%04X", \
-											(unsigned int)sGLError );	\
+											"glGetError() is %s", \
+											GLUtils_GLErrorToString( sGLError ) );	\
 										E3Assert(__FILE__, __LINE__, xmsg);	\
 									} \
 								} while (false)
@@ -213,7 +216,6 @@ public:
 								TQ3Uns32 depthBits,
 								TQ3Uns32 stencilBits,
 								TQ3GLContext inMasterGLContext,
-								bool inCopyOnFrameStart,
 								bool inCopyOnSwapBuffer,
 								TQ3Uns32 inSamples );
 
@@ -227,7 +229,7 @@ public:
 
 	virtual void		SetCurrent( TQ3Boolean inForceSet );
 	
-	virtual void		StartFrame();
+	virtual void		StartFrame( QORenderer::PerPixelLighting& inPPL );
 
 	virtual bool		BindFrameBuffer( GLenum inTarget, GLuint inFrameBufferID );
 
@@ -263,7 +265,6 @@ private:
 	TQ3GLContext			masterContext;
 	GLint					fboViewPort[4];
 	GLint					masterViewPort[4];
-	bool					copyFromPixmapAtFrameStart;
 	bool					copyToPixMapOnSwapBuffer;
 	
 	// Multisampled buffer when multisampling, or single buffer when not
@@ -402,7 +403,8 @@ bool	CQ3GLContext::BindFrameBuffer( GLenum inTarget, GLuint inFrameBufferID )
 	if ( bindFrameBufferFunc != nullptr )
 	{
 		CHECK_GL_ERROR;
-		((glBindFramebufferEXTProcPtr) bindFrameBufferFunc)( inTarget, inFrameBufferID );
+		((glBindFramebufferEXTProcPtr) bindFrameBufferFunc)( inTarget,
+			inFrameBufferID );
 		CHECK_GL_ERROR;
 		
 		currentFrameBufferID = inFrameBufferID;
@@ -535,23 +537,6 @@ gldrawcontext_fbo_is_compatible_pixmap_format( TQ3DrawContextObject theDrawConte
 
 
 /*!
-	@function	gldrawcontext_fbo_standard_pixel_transfer
-	@abstract	Standardize OpenGL pixel transfer settings just for paranoia.
-*/
-static void
-gldrawcontext_fbo_standard_pixel_transfer()
-{
-	glPixelTransferf( GL_RED_SCALE, 1.0f );
-	glPixelTransferf( GL_GREEN_SCALE, 1.0f );
-	glPixelTransferf( GL_BLUE_SCALE, 1.0f );
-	glPixelTransferf( GL_RED_BIAS, 0.0f );
-	glPixelTransferf( GL_GREEN_BIAS, 0.0f );
-	glPixelTransferf( GL_BLUE_BIAS, 0.0f );
-	glPixelTransferi( GL_MAP_COLOR, 0 );
-}
-
-
-/*!
 	@function	gldrawcontext_fbo_convert_pixel_format
 	@abstract	Convert Quesa pixel format information to OpenGL values.
 */
@@ -636,12 +621,10 @@ FBORec::FBORec(
 		TQ3Uns32 depthBits,
 		TQ3Uns32 stencilBits,
 		TQ3GLContext inMasterGLContext,
-		bool inCopyOnFrameStart,
 		bool inCopyOnSwapBuffer,
 		TQ3Uns32 inSamples )
 	: CQ3GLContext( theDrawContext )
 	, masterContext( inMasterGLContext )
-	, copyFromPixmapAtFrameStart( inCopyOnFrameStart )
 	, copyToPixMapOnSwapBuffer( inCopyOnSwapBuffer )
 	, frameBufferID( 0 )
 	, colorRenderBufferID( 0 )
@@ -666,24 +649,15 @@ FBORec::FBORec(
 	GLGetProcAddress( glCheckFramebufferStatusEXT, "glCheckFramebufferStatus", "glCheckFramebufferStatusEXT" );
 	GLGetProcAddress( glFramebufferTexture2DEXT, "glFramebufferTexture2D", "glFramebufferTexture2DEXT" );
 	GLGetProcAddress( glIsFramebuffer, "glIsFramebuffer", "glIsFramebufferEXT");
-	if (inExtensionInfo.multisampleFBO == kQ3True)
+	GLGetProcAddress( glRenderbufferStorageMultisample,
+		"glRenderbufferStorageMultisample", "glRenderbufferStorageMultisampleEXT" );
+	GLGetProcAddress( glBlitFramebuffer,
+		"glBlitFramebuffer", "glBlitFramebufferEXT" );
+	GLint maxSamples;
+	glGetIntegerv( GL_MAX_SAMPLES_EXT, &maxSamples );
+	if ( E3Num_SafeGreater( inSamples, maxSamples ) )
 	{
-		GLGetProcAddress( glRenderbufferStorageMultisample,
-			"glRenderbufferStorageMultisample", "glRenderbufferStorageMultisampleEXT" );
-		GLGetProcAddress( glBlitFramebuffer,
-			"glBlitFramebuffer", "glBlitFramebufferEXT" );
-		GLint maxSamples;
-		glGetIntegerv( GL_MAX_SAMPLES_EXT, &maxSamples );
-		if ( E3Num_SafeGreater( inSamples, maxSamples ) )
-		{
-			inSamples = maxSamples;
-		}
-	}
-	else
-	{
-		glRenderbufferStorageMultisample = nullptr;
-		glBlitFramebuffer = nullptr;
-		inSamples = 0;
+		inSamples = maxSamples;
 	}
 
 	// Create and bind a (draw) framebuffer object
@@ -764,18 +738,6 @@ FBORec::FBORec(
 	// make SetCurrent set the viewport
 	BindFrameBuffer( GL_FRAMEBUFFER_EXT, 0 );
 	SetCurrent( kQ3False );
-	
-	// If stencil bits were requested, check whether we got them.
-	if (stencilBits > 0)
-	{
-		GLint	stencilDepth = 0;
-		glGetIntegerv( GL_STENCIL_BITS, &stencilDepth );
-		if ( E3Num_SafeLess( stencilDepth, stencilBits ) )
-		{
-			Q3_MESSAGE( "FBO did not get requested stencil bits.\n" );
-			E3ErrorManager_PostWarning( kQ3WarningNoOffscreenHardwareStencil );
-		}
-	}
 }
 
 void	FBORec::RenderBufferStorage(
@@ -840,7 +802,7 @@ void	FBORec::InitDepthAndStencil(
 
 	// if we need a stencil buffer, it is probably necessary to get a packed
 	// depth-stencil buffer.
-	if ( (stencilBits > 0) && inExtensionInfo.packedDepthStencil )
+	if ( stencilBits > 0 )
 	{
 		RenderBufferStorage( inSamples,
 			GL_DEPTH24_STENCIL8_EXT, inPaneWidth, inPaneHeight );
@@ -882,6 +844,15 @@ void	FBORec::InitDepthAndStencil(
 			checkResult = glCheckFramebufferStatusEXT( inTarget );
 			Q3_MESSAGE_FMT( "FBO depth-only status check returned error %X\n",
 				checkResult );
+		}
+		
+		// Check that we actually got stencil bits.
+		GLint actualStencilBits = 0;
+		glGetRenderbufferParameteriv( GL_RENDERBUFFER, GL_RENDERBUFFER_STENCIL_SIZE, &actualStencilBits );
+		if ( E3Num_SafeLess( actualStencilBits, stencilBits ) )
+		{
+			Q3_MESSAGE_FMT( "FBO requested %d stencil bits, only got %d.", (int)stencilBits, (int)actualStencilBits );
+			E3ErrorManager_PostWarning( kQ3WarningNoOffscreenHardwareStencil );
 		}
 	}
 	else
@@ -1098,7 +1069,6 @@ void	FBORec::SwapBuffers()
 		glPixelStorei( GL_PACK_SKIP_ROWS, 0 );
 		glPixelStorei( GL_PACK_SKIP_PIXELS, 0 );
 		glPixelStorei( GL_PACK_SWAP_BYTES, GL_FALSE );
-		gldrawcontext_fbo_standard_pixel_transfer();
 		
 		GLenum	pixelType, pixelFormat;
 		gldrawcontext_fbo_convert_pixel_format( bytesPerPixel, thePixMap.byteOrder,
@@ -1119,69 +1089,8 @@ void	FBORec::SwapBuffers()
 	@function	StartFrame
 	@abstract	If requested, copy the pixmap to the color buffer.
 */
-void	FBORec::StartFrame()
+void	FBORec::StartFrame( QORenderer::PerPixelLighting& inPPL )
 {
-	if (copyFromPixmapAtFrameStart)
-	{
-		TQ3Pixmap	thePixMap;
-		Q3PixmapDrawContext_GetPixmap( quesaDrawContext, &thePixMap );
-		TQ3Area		thePane;
-		Q3DrawContext_GetPane( quesaDrawContext, &thePane );
-		int		minX = static_cast<int>(thePane.min.x);
-		int		minY = static_cast<int>(thePane.min.y);
-		int		theWidth = static_cast<int>(thePane.max.x - thePane.min.x);
-		int		theHeight = static_cast<int>(thePane.max.y - thePane.min.y);
-		TQ3Uns8*	baseAddr = static_cast<TQ3Uns8*>( thePixMap.image );
-		TQ3Uns8*	panePixels = baseAddr + minY * thePixMap.rowBytes + minX;
-		int		bytesPerPixel = thePixMap.pixelSize / 8;
-		GLint	pixelsThatFitPerRow = thePixMap.rowBytes / bytesPerPixel;
-		int		alignment = gldrawcontext_fbo_get_pixmap_alignment( thePixMap );
-
-		gldrawcontext_common_flip_pixel_rows( panePixels, theWidth, theHeight,
-			bytesPerPixel, thePixMap.rowBytes );
-		
-		GLenum	pixelType, pixelFormat;
-		gldrawcontext_fbo_convert_pixel_format( bytesPerPixel, thePixMap.byteOrder,
-			pixelFormat, pixelType );
-	
-		// Set up matrices.  The modelview and projection matrices must be set up appropriately
-		// before calling glRasterPos.  In theory it should not be necessary to mess with the
-		// texture matrix, but there seems to be a Mac OS or NVidia bug that makes it necessary.
-		glMatrixMode( GL_MODELVIEW );
-		glLoadIdentity();
-
-		glMatrixMode( GL_TEXTURE );
-		glLoadIdentity();
-
-		glMatrixMode( GL_PROJECTION );
-		glLoadIdentity();
-		gluOrtho2D( 0, theWidth, 0, theHeight );
-		
-		glRasterPos2i( 0, 0 );
-		glPixelZoom( 1.0f, 1.0f );
-
-		glPixelStorei( GL_UNPACK_ROW_LENGTH, pixelsThatFitPerRow );
-		glPixelStorei( GL_UNPACK_ALIGNMENT, alignment );
-		glPixelStorei( GL_UNPACK_SKIP_ROWS, 0 );
-		glPixelStorei( GL_UNPACK_SKIP_PIXELS, 0 );
-		glPixelStorei( GL_UNPACK_SWAP_BYTES, GL_FALSE );
-
-		glPushAttrib( GL_ENABLE_BIT | GL_DEPTH_BUFFER_BIT );
-		
-		// Turn off unneeded fragment operations.
-		glDisable(GL_DEPTH_TEST);
-		glDisable(GL_ALPHA_TEST);
-		glDisable(GL_TEXTURE_2D);
-		glDisable(GL_LIGHTING);
-		glDisable( GL_DITHER );
-		glDepthMask( GL_FALSE );
-
-		glDrawBuffer( GL_COLOR_ATTACHMENT0_EXT );
-		glDrawPixels( theWidth, theHeight, pixelFormat,
-			pixelType, panePixels );
-
-		glPopAttrib();
-	}	
 }
 
 
@@ -1228,7 +1137,6 @@ gldrawcontext_fbo_new(	TQ3DrawContextObject theDrawContext,
 		TQ3GLExtensions		extFlags;
 		GLUtils_CheckExtensions( &extFlags );
 		
-		if (extFlags.frameBufferObjects && extFlags.packedPixels)
 		{
 			// Check whether the pane is too big
 			GLint	maxDimen;
@@ -1244,7 +1152,6 @@ gldrawcontext_fbo_new(	TQ3DrawContextObject theDrawContext,
 						paneWidth, paneHeight, extFlags,
 						depthBits, stencilBits,
 						masterGLContext,
-						propData.copyFromPixmapAtFrameStart == kQ3True,
 						propData.copyToPixmapAtFrameEnd == kQ3True,
 						samples );
 				}
@@ -1259,10 +1166,6 @@ gldrawcontext_fbo_new(	TQ3DrawContextObject theDrawContext,
 				Q3_LOG_FMT( "Pane size %dx%d too big for FBO.",
 					(int)paneWidth, (int)paneHeight );
 			}
-		}
-		else
-		{
-			Q3_LOG_FMT( "FBO extensions not available." );
 		}
 		
 		if (theContext == nullptr)
@@ -2858,12 +2761,12 @@ GLDrawContext_SwapBuffers( TQ3GLContext glContext )
 //		GLDrawContext_StartFrame : Any needed actions at start of frame.
 //-----------------------------------------------------------------------------
 void
-GLDrawContext_StartFrame( TQ3GLContext glContext )
+GLDrawContext_StartFrame( TQ3GLContext glContext, QORenderer::PerPixelLighting& inPPL )
 {
 	// Validate our parameters
 	Q3_REQUIRE(Q3_VALID_PTR(glContext));
 	
-	((CQ3GLContext*) glContext)->StartFrame();
+	((CQ3GLContext*) glContext)->StartFrame( inPPL );
 }
 
 
@@ -2876,6 +2779,13 @@ GLDrawContext_StartFrame( TQ3GLContext glContext )
 void
 GLDrawContext_SetCurrent( TQ3GLContext glContext, TQ3Boolean forceSet )
 {
+#if 0//QUESA_OS_MACINTOSH
+	// This was to debug saving of the OpenGL context when using FireMonkey,
+	// I think.
+	CFNotificationCenterRef theCenter = CFNotificationCenterGetLocalCenter();
+	CFNotificationCenterPostNotification( theCenter,
+		CFSTR("GLDrawContext_SetCurrent"), nullptr, nullptr, true );
+#endif
 
 	// Validate our parameters
 	Q3_REQUIRE(Q3_VALID_PTR(glContext));

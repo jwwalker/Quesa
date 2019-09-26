@@ -303,20 +303,20 @@ E3MacSystem_LoadPlugins(void)
 
 
 
-		// Plugins folder of bundle
-		CFBundleRef myBundle = CFBundleGetMainBundle();
-		if (myBundle != nullptr)
+	// Plugins folder of bundle
+	CFBundleRef myBundle = CFBundleGetMainBundle();
+	if (myBundle != nullptr)
+	{
+		CFURLRef	pluginsURL = CFBundleCopyBuiltInPlugInsURL( myBundle );
+		if (pluginsURL != nullptr)
 		{
-			CFURLRef	pluginsURL = CFBundleCopyBuiltInPlugInsURL( myBundle );
-			if (pluginsURL != nullptr)
+			if (CFURLGetFSRef( pluginsURL, &dirRef[ dirCount ] ))
 			{
-				if (CFURLGetFSRef( pluginsURL, &dirRef[ dirCount ] ))
-				{
-					++dirCount;
-				}
-				CFRelease( pluginsURL );
+				++dirCount;
 			}
+			CFRelease( pluginsURL );
 		}
+	}
 
 
 
@@ -360,20 +360,20 @@ E3MacSystem_UnloadPlugins(void)
 {
 		E3MacSystem_PluginSlotPtr nextSlot;
 		E3MacSystem_PluginSlotPtr currentSlot;
-		Q3_MESSAGE("E3MacSystem_UnloadPlugins 1");
+		E3LogToConsole("E3MacSystem_UnloadPlugins 1");
 
 		nextSlot = e3macsystem_pluginSlotHead;
 
 		while( nextSlot != nullptr){
 			currentSlot = nextSlot;
 			nextSlot = currentSlot->nextSlot;
-			Q3_MESSAGE("E3MacSystem_UnloadPlugins 2");
+			E3LogToConsole("E3MacSystem_UnloadPlugins 2");
 			CFBundleUnloadExecutable( currentSlot->pluginBundle );
-			Q3_MESSAGE("E3MacSystem_UnloadPlugins 3");
+			E3LogToConsole("E3MacSystem_UnloadPlugins 3");
 			CFRelease( currentSlot->pluginBundle );
-			Q3_MESSAGE("E3MacSystem_UnloadPlugins 4");
+			E3LogToConsole("E3MacSystem_UnloadPlugins 4");
 			Q3Memory_Free(&currentSlot);
-			Q3_MESSAGE("E3MacSystem_UnloadPlugins 5");
+			E3LogToConsole("E3MacSystem_UnloadPlugins 5");
 		}
 		
 	e3macsystem_pluginSlotHead = nullptr;

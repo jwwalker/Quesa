@@ -59,6 +59,7 @@
 //-----------------------------------------------------------------------------
 #include "QOShadowMarker.h"
 #include "QORenderer.h"
+#include "GLImmediateVBO.h"
 #include "GLShadowVolumeManager.h"
 #include "GLUtils.h"
 #include "CQ3ObjectRef_Gets.h"
@@ -377,8 +378,7 @@ void	QORenderer::ShadowMarker::BuildShadowOfTriMeshPositional(
 								const TQ3TriMeshTriangleData* inFaces,
 								const TQ3TriangleEdges* inFacesToEdges,
 								const TQ3RationalPoint4D& inLocalLightPos,
-								TQ3Uns32& outNumTriIndices,
-								TQ3Uns32& outNumQuadIndices )
+								TQ3Uns32& outNumTriIndices )
 {
 	TQ3Uns32 i;
 	
@@ -421,14 +421,14 @@ void	QORenderer::ShadowMarker::BuildShadowOfTriMeshPositional(
 	std::fill( edgeCounter, edgeCounter + kNumEdges, 0 );
 	
 	// Allocate space for indices.
-	// The front and back cap may contain up to two triangles for each original
-	// triangle, and the side silhouette may have up to 3 quads for each original
+	// The front and back cap may contain up to 2 triangles for each original
+	// triangle, and the side silhouette may have up to 3 quads (6 triangles) for each original
 	// triangle.  So the number of indices needed is at most
-	// 2*3 + 3*4 = 18 times the number of faces.
+	// 2*3 + 6*3 = 24 times the number of faces.
 	const TQ3Uns32	kNumFaces = inTMData.numTriangles;
-	if (mShadowVertIndices.size() < kNumFaces * 18)
+	if (mShadowVertIndices.size() < kNumFaces * 24)
 	{
-		mShadowVertIndices.resizeNotPreserving( kNumFaces * 18 );
+		mShadowVertIndices.resizeNotPreserving( kNumFaces * 24 );
 	}
 	
 	// Build front and back caps.
@@ -471,11 +471,8 @@ void	QORenderer::ShadowMarker::BuildShadowOfTriMeshPositional(
 			}
 		}
 	}
-	outNumTriIndices = numVertIndices;
 
 	// Build side silhouette quads.
-	vertIndices = &mShadowVertIndices[numVertIndices];
-	numVertIndices = 0;
 	for (i = 0; i < kNumEdges; ++i)
 	{
 		const TQ3EdgeEnds&	theEdge( theEdges[ i ] );
@@ -484,22 +481,30 @@ void	QORenderer::ShadowMarker::BuildShadowOfTriMeshPositional(
 
 		while (edgeCounter[i] > 0)
 		{
+			// quad edgeEnd, edgeStart, edgeStart + kNumPoints, edgeEnd + kNumPoints
 			vertIndices[ numVertIndices++ ] = edgeEnd;
 			vertIndices[ numVertIndices++ ] = edgeStart;
+			vertIndices[ numVertIndices++ ] = edgeStart + kNumPoints;
+			
+			vertIndices[ numVertIndices++ ] = edgeEnd;
 			vertIndices[ numVertIndices++ ] = edgeStart + kNumPoints;
 			vertIndices[ numVertIndices++ ] = edgeEnd + kNumPoints;
 			edgeCounter[i] -= 1;
 		}
 		while (edgeCounter[i] < 0)
 		{
+			// quad edgeStart, edgeEnd, edgeEnd + kNumPoints, edgeStart + kNumPoints
 			vertIndices[ numVertIndices++ ] = edgeStart;
 			vertIndices[ numVertIndices++ ] = edgeEnd;
+			vertIndices[ numVertIndices++ ] = edgeEnd + kNumPoints;
+			
+			vertIndices[ numVertIndices++ ] = edgeStart;
 			vertIndices[ numVertIndices++ ] = edgeEnd + kNumPoints;
 			vertIndices[ numVertIndices++ ] = edgeStart + kNumPoints;
 			edgeCounter[i] += 1;
 		}
 	}
-	outNumQuadIndices = numVertIndices;
+	outNumTriIndices = numVertIndices;
 }
 
 
@@ -514,8 +519,7 @@ void	QORenderer::ShadowMarker::BuildShadowOfTriMesh(
 								const TQ3TriMeshData& inTMData,
 								const TQ3Vector3D* inFaceNormals,
 								const TQ3RationalPoint4D& inLocalLightPos,
-								TQ3Uns32& outNumTriIndices,
-								TQ3Uns32& outNumQuadIndices )
+								TQ3Uns32& outNumTriIndices )
 {
 	const TQ3TriMeshTriangleData*	faces;
 	const TQ3TriangleEdges* facesToEdges;
@@ -527,12 +531,11 @@ void	QORenderer::ShadowMarker::BuildShadowOfTriMesh(
 	{
 		BuildShadowOfTriMeshDirectional( inTMData, faces, facesToEdges,
 			inLocalLightPos, outNumTriIndices );
-		outNumQuadIndices = 0;
 	}
 	else
 	{
 		BuildShadowOfTriMeshPositional( inTMData, faces, facesToEdges,
-			inLocalLightPos, outNumTriIndices, outNumQuadIndices );
+			inLocalLightPos, outNumTriIndices );
 	}
 }
 
@@ -543,28 +546,13 @@ void	QORenderer::ShadowMarker::MarkShadowOfTriMeshImmediate(
 								const TQ3Vector3D* inFaceNormals,
 								const TQ3RationalPoint4D& inLocalLightPos )
 {
-	TQ3Uns32 numTriIndices, numQuadIndices;
+	TQ3Uns32 numTriIndices;
 	
 	BuildShadowOfTriMesh( inTMObject, inTMData, inFaceNormals, inLocalLightPos,
-		numTriIndices, numQuadIndices );
+		numTriIndices );
 
-	// Pass the positions to OpenGL.
-	glVertexPointer( 4, GL_FLOAT, 0, &mShadowPoints[0] );
-
-	// Render triangles.
-	Q3_CHECK_DRAW_ELEMENTS( mShadowPoints.size(), numTriIndices,
-		(const TQ3Uns32*)&mShadowVertIndices[0] );
-	glDrawElements( GL_TRIANGLES, numTriIndices, GL_UNSIGNED_INT,
-		&mShadowVertIndices[0] );
-	
-	// Render quads, if any.
-	if (numQuadIndices > 0)
-	{
-		Q3_CHECK_DRAW_ELEMENTS( mShadowPoints.size(), numQuadIndices,
-			(const TQ3Uns32*)&mShadowVertIndices[numTriIndices] );
-		glDrawElements( GL_QUADS, numQuadIndices, GL_UNSIGNED_INT,
-			&mShadowVertIndices[numTriIndices] );
-	}
+	RenderImmediateShadowVolumeVBO( mRenderer,	
+		mShadowPoints.size(), &mShadowPoints[0], numTriIndices, &mShadowVertIndices[0] );
 }
 
 
@@ -650,7 +638,6 @@ void	QORenderer::ShadowMarker::MarkShadowOfTriMesh(
 	TQ3RationalPoint4D	localLightPos( CalcLocalLightPosition() );
 	
 	if ( (inTMObject == nullptr) ||
-		(mGLExtensions.vertexBufferObjects == kQ3False) ||
 		(! mIsCachingShadows) )
 	{
 		MarkShadowOfTriMeshImmediate( inTMObject, inTMData, inFaceNormals,
@@ -658,23 +645,21 @@ void	QORenderer::ShadowMarker::MarkShadowOfTriMesh(
 	}
 	else
 	{
-		CQ3ObjectRef nakedMesh( Q3TriMesh_GetNakedGeometry( inTMObject ) );
-		
-		if (kQ3False == ShadowVolMgr::RenderShadowVolume( mGLContext, mBufferFuncs, nakedMesh.get(),
+		if (kQ3False == ShadowVolMgr::RenderShadowVolume( mRenderer, inTMObject,
 			inLight, localLightPos ))
 		{
-			TQ3Uns32 numTriIndices, numQuadIndices;
+			TQ3Uns32 numTriIndices;
 			
 			BuildShadowOfTriMesh( inTMObject, inTMData, inFaceNormals,
-				localLightPos, numTriIndices, numQuadIndices );
+				localLightPos, numTriIndices );
 			
 			Q3_CHECK_DRAW_ELEMENTS( mShadowPoints.size(),
-				numTriIndices + numQuadIndices, (const TQ3Uns32*)&mShadowVertIndices[0] );
-			ShadowVolMgr::AddShadowVolume( mGLContext, mBufferFuncs, nakedMesh.get(), inLight,
+				numTriIndices, (const TQ3Uns32*)&mShadowVertIndices[0] );
+			ShadowVolMgr::AddShadowVolume( mRenderer, inTMObject, inLight,
 				localLightPos, mShadowPoints.size(), &mShadowPoints[0],
-				numTriIndices, numQuadIndices, &mShadowVertIndices[0] );
+				numTriIndices, &mShadowVertIndices[0] );
 			
-			ShadowVolMgr::RenderShadowVolume( mGLContext, mBufferFuncs, nakedMesh.get(), inLight,
+			ShadowVolMgr::RenderShadowVolume( mRenderer, inTMObject, inLight,
 				localLightPos );
 		}
 	}
@@ -693,6 +678,12 @@ void	QORenderer::ShadowMarker::MarkShadowOfTriangle(
 		return;
 	}
 	TQ3RationalPoint4D	localLightPos( CalcLocalLightPosition() );
+	//Q3_MESSAGE_FMT("Local light %f, %f, %f, %f", localLightPos.x, localLightPos.y, localLightPos.z, localLightPos.w);
+
+#if Q3_DEBUG
+	const TQ3Matrix4x4& modelView( mPerPixelLighting.GetModelViewMatrix() );
+	const TQ3Matrix4x4& localToCamera( mMatrixState.GetLocalToCamera() );
+#endif
 	
 	// Determine whether the triangle faces toward or away from the light.
 	TQ3Vector3D		faceNormal;
@@ -769,35 +760,67 @@ void	QORenderer::ShadowMarker::MarkShadowOfTriangle(
 		}
 	}
 	
-	// Pass the positions to OpenGL.
-	glVertexPointer( 4, GL_FLOAT, 0, &mShadowPoints[0] );
+	// Set up the indices for triangles.
+	GLuint	indices[24];
+	GLuint	numIndices = 0;
 	
 	// Draw the shadow sides.
 	if (localLightPos.w == 0.0f)	// directional light
 	{
-		GLuint	dirTris[] = {
-			3, 1, 0, 2, 1
-		};
-		glDrawElements( GL_TRIANGLE_FAN, 5, GL_UNSIGNED_INT, dirTris );
+		indices[ numIndices++ ] = 3;
+		indices[ numIndices++ ] = 1;
+		indices[ numIndices++ ] = 0;
+		
+		indices[ numIndices++ ] = 3;
+		indices[ numIndices++ ] = 2;
+		indices[ numIndices++ ] = 1;
+		
+		indices[ numIndices++ ] = 3;
+		indices[ numIndices++ ] = 0;
+		indices[ numIndices++ ] = 2;
 	}
 	else	// point or spot light
 	{
-		GLuint	pointQuads[] = {
-			0, 3, 1, 4, 2, 5, 0, 3
-		};
-		glDrawElements( GL_QUAD_STRIP, 8, GL_UNSIGNED_INT, pointQuads );
+		indices[ numIndices++ ] = 0;
+		indices[ numIndices++ ] = 3;
+		indices[ numIndices++ ] = 4;
+
+		indices[ numIndices++ ] = 0;
+		indices[ numIndices++ ] = 4;
+		indices[ numIndices++ ] = 1;
+
+		indices[ numIndices++ ] = 1;
+		indices[ numIndices++ ] = 4;
+		indices[ numIndices++ ] = 5;
+
+		indices[ numIndices++ ] = 1;
+		indices[ numIndices++ ] = 5;
+		indices[ numIndices++ ] = 2;
+
+		indices[ numIndices++ ] = 2;
+		indices[ numIndices++ ] = 5;
+		indices[ numIndices++ ] = 3;
+
+		indices[ numIndices++ ] = 2;
+		indices[ numIndices++ ] = 3;
+		indices[ numIndices++ ] = 0;
 	}
 	
 	// Draw the light cap.
 	{
-		GLuint	capTri[] = { 0, 1, 2 };
-		glDrawElements( GL_TRIANGLES, 3, GL_UNSIGNED_INT, capTri );
+		indices[ numIndices++ ] = 0;
+		indices[ numIndices++ ] = 1;
+		indices[ numIndices++ ] = 2;
 	}
 	
 	// Draw the dark cap (with opposite orientation).
 	if (localLightPos.w > 0.0f)	// point/spot light
 	{
-		GLuint	darkTri[] = { 5, 4, 3 };
-		glDrawElements( GL_TRIANGLES, 3, GL_UNSIGNED_INT, darkTri );
+		indices[ numIndices++ ] = 5;
+		indices[ numIndices++ ] = 4;
+		indices[ numIndices++ ] = 3;
 	}
+
+	RenderImmediateShadowVolumeVBO( mRenderer,
+		mShadowPoints.size(), &mShadowPoints[0], numIndices, indices );
 }

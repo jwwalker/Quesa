@@ -57,6 +57,7 @@
 #include "E3Debug.h"
 #include "E3ErrorManager.h"
 #include "E3Utils.h"
+#include "QORenderer.h"
 
 #include <algorithm>
 #include <new>
@@ -232,7 +233,6 @@ static TQ3Uns32 NextPowerOf2( TQ3Uns32 n )
 static void ConstrainTextureSize(
 									TQ3Uns32 inSrcWidth,
 									TQ3Uns32 inSrcHeight,
-									bool inAllowNPOT,
 									TQ3Uns32& outDstWidth,
 									TQ3Uns32& outDstHeight )
 {
@@ -242,39 +242,14 @@ static void ConstrainTextureSize(
 	GLint	maxGLSize;
 	glGetIntegerv( GL_MAX_TEXTURE_SIZE, &maxGLSize );
 	
-	if (inAllowNPOT)
+	if (E3Num_SafeGreater( outDstWidth, maxGLSize ))
 	{
-		if (E3Num_SafeGreater( outDstWidth, maxGLSize ))
-		{
-			outDstWidth = maxGLSize;
-		}
-
-		if (E3Num_SafeGreater( outDstHeight, maxGLSize ))
-		{
-			outDstHeight = maxGLSize;
-		}
+		outDstWidth = maxGLSize;
 	}
-	else
+
+	if (E3Num_SafeGreater( outDstHeight, maxGLSize ))
 	{
-		if (!IsPowerOf2( outDstWidth ))
-		{
-			outDstWidth = NextPowerOf2( outDstWidth );
-		}
-		
-		if (!IsPowerOf2( outDstHeight ))
-		{
-			outDstHeight = NextPowerOf2( outDstHeight );
-		}
-		
-		while ( E3Num_SafeGreater( outDstWidth, maxGLSize ) )
-		{
-			outDstWidth /= 2;
-		}
-		
-		while ( E3Num_SafeGreater( outDstHeight, maxGLSize ) )
-		{
-			outDstHeight /= 2;
-		}
+		outDstHeight = maxGLSize;
 	}
 }
 
@@ -838,7 +813,6 @@ static const TQ3Uns8*	ConvertImageForOpenGL(
 								TQ3Endian inSrcByteOrder,
 								TQ3Boolean inSrcRowsAreFlipped,
 								bool inPremultiplyAlpha,
-								bool inAllowNPOT,
 								TQ3Uns32& outDstWidth,
 								TQ3Uns32& outDstHeight,
 								GLint& outGLInternalFormat,
@@ -860,7 +834,7 @@ static const TQ3Uns8*	ConvertImageForOpenGL(
 			inSrcRowBytes, inSrcByteOrder, inSrcRowsAreFlipped,
 			inPremultiplyAlpha, dstData, outGLInternalFormat, outGLFormat ) )
 	{
-		ConstrainTextureSize( inSrcWidth, inSrcHeight, inAllowNPOT,
+		ConstrainTextureSize( inSrcWidth, inSrcHeight,
 			outDstWidth, outDstHeight );
 		
 		if ( (outDstWidth == inSrcWidth) && (outDstHeight == inSrcHeight) )
@@ -881,10 +855,61 @@ static const TQ3Uns8*	ConvertImageForOpenGL(
 
 
 
+/*!
+	@function	CreateFileStorageFromMemoryStorage
+	
+	@abstract	Create a path storage object containing the same data as a given
+				memory storage object.
+*/
+static TQ3StorageObject CreateFileStorageFromMemoryStorage(
+									TQ3StorageObject inMemStor,
+									const char* inPath )
+{
+	TQ3StorageObject pathStorage = nullptr;
+	TQ3Uns8*	dataAddr = nullptr;
+	TQ3Uns32	bufferSize = 0;
+	bool didWrite = false;
+	if (kQ3Success == Q3MemoryStorage_GetBuffer( inMemStor, &dataAddr, nullptr,
+		&bufferSize ))
+	{
+		pathStorage = Q3PathStorage_New( inPath );
+		if (pathStorage != nullptr)
+		{
+			if (Q3Storage_Open( pathStorage, kQ3True ))
+			{
+				TQ3Uns32 sizeWritten = 0;
+				didWrite = (kQ3Success == Q3Storage_SetData( pathStorage, 0,
+					bufferSize, dataAddr, &sizeWritten )) &&
+					(sizeWritten == bufferSize);
+				
+				Q3Storage_Close( pathStorage );
+			}
+			
+			if (didWrite)
+			{
+				// Copy elements from old to new storage
+				CQ3ObjectRef elementSet( CQ3Object_GetSet( inMemStor ) );
+				if (elementSet.isvalid())
+				{
+					Q3Object_SetSet( pathStorage, elementSet.get() );
+				}
+			}
+			else
+			{
+				Q3Object_Dispose( pathStorage );
+				pathStorage = nullptr;
+			}
+		}
+	}
+	return pathStorage;
+}
+
+
+
 static bool	LoadOpenGLWithPixmapTexture(
 								TQ3TextureObject inTexture,
 								bool inPremultiplyAlpha,
-								bool inAllowNPOT )
+								const QORenderer::GLFuncs& inFuncs )
 {
 	bool	didLoad = false;
 	TQ3StoragePixmap	thePixmap;
@@ -904,16 +929,17 @@ static bool	LoadOpenGLWithPixmapTexture(
 			const TQ3Uns8* imageData = ConvertImageForOpenGL( thePixmap.image, 0,
 				thePixmap.pixelType, thePixmap.width, thePixmap.height,
 				thePixmap.rowBytes, thePixmap.byteOrder, rowsAreFlipped,
-				inPremultiplyAlpha, inAllowNPOT,
+				inPremultiplyAlpha,
 				theWidth, theHeight,
 				glInternalFormat, glFormat );
 			
 			if (imageData != nullptr)
 			{
-				gluBuild2DMipmaps( GL_TEXTURE_2D, glInternalFormat,
-					theWidth, theHeight,
-					glFormat, GL_UNSIGNED_BYTE,
+				glTexImage2D( GL_TEXTURE_2D, 0, glInternalFormat,
+					theWidth, theHeight, 0, glFormat, GL_UNSIGNED_BYTE,
 					imageData );
+
+				inFuncs.glGenerateMipmapProc( GL_TEXTURE_2D );
 
 				didLoad = true;
 			}
@@ -928,8 +954,7 @@ static bool	LoadOpenGLWithPixmapTexture(
 
 static bool	LoadOpenGLWithMipmapTexture(
 								TQ3TextureObject inTexture,
-								bool inPremultiplyAlpha,
-								bool inAllowNPOT )
+								bool inPremultiplyAlpha )
 {
 	bool	didLoad = false;
 	TQ3Mipmap		theMipmap;
@@ -954,7 +979,7 @@ static bool	LoadOpenGLWithMipmapTexture(
 					theMipmap.mipmaps[i].width, theMipmap.mipmaps[i].height,
 					theMipmap.mipmaps[i].rowBytes,
 					theMipmap.byteOrder, rowsAreFlipped,
-					inPremultiplyAlpha, inAllowNPOT,
+					inPremultiplyAlpha,
 					theWidth, theHeight,
 					glInternalFormat, glFormat );
 				
@@ -1008,20 +1033,18 @@ static void MaybeCallBackAfterUpload( TQ3TextureObject inTexture )
 									value by its alpha value.  Use this if your
 									texture data has an alpha channel and is NOT
 									set up with premultiplied alpha.
-	@param		inAllowNPOT			Whether to allow NPOT (non-power-of-two)
-									textures.
+	@param		inFuncs				OpenGL function pointers.
 	@result		An OpenGL texture "name", or 0 on failure.
 */
 GLuint	GLTextureLoader( TQ3TextureObject inTexture,
 							TQ3Boolean inPremultiplyAlpha,
-							TQ3Boolean inAllowNPOT )
+							const QORenderer::GLFuncs& inFuncs )
 {
 	GLuint	resultTextureName = 0;
 	Q3_ASSERT( inTexture != nullptr );
 	
 	try
 	{
-		glEnable( GL_TEXTURE_2D );
 		GLuint	textureName;
 		glGenTextures( 1, &textureName );
 		glBindTexture( GL_TEXTURE_2D, textureName );
@@ -1040,13 +1063,12 @@ GLuint	GLTextureLoader( TQ3TextureObject inTexture,
 			case kQ3TextureTypePixmap:
 				didLoad = LoadOpenGLWithPixmapTexture( inTexture,
 					inPremultiplyAlpha == kQ3True,
-					inAllowNPOT == kQ3True );
+					inFuncs );
 				break;
 			
 			case kQ3TextureTypeMipmap:
 				didLoad = LoadOpenGLWithMipmapTexture( inTexture,
-					inPremultiplyAlpha == kQ3True,
-					inAllowNPOT == kQ3True );
+					inPremultiplyAlpha == kQ3True );
 				break;
 		}
 		

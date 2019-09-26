@@ -5,7 +5,7 @@
         Header for Quesa OpenGL renderer.
 		    
     COPYRIGHT:
-        Copyright (c) 2007, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -48,57 +48,95 @@
 
 #include "GLPrefix.h"
 #include "GLUtils.h"
+#include "QOGLShadingLanguage.h"
 
 //=============================================================================
 //     Class implementation
 //-----------------------------------------------------------------------------
 
-void QORenderer::ClientStates::StartPass()
+void QORenderer::ClientStates::StartProgram()
 {
-	glEnableClientState( GL_VERTEX_ARRAY );
+	mFuncs.glEnableVertexAttribArray( mShader.CurrentProgram()->mVertexAttribLoc );
+	mFuncs.glDisableVertexAttribArray( mShader.CurrentProgram()->mNormalAttribLoc );
+	mFuncs.glDisableVertexAttribArray( mShader.CurrentProgram()->mTexCoordAttribLoc );
+	mFuncs.glDisableVertexAttribArray( mShader.CurrentProgram()->mColorAttribLoc );
 	
-	// Other arrays initially off.
-	glDisableClientState( GL_NORMAL_ARRAY );
-	glDisableClientState( GL_TEXTURE_COORD_ARRAY );
-	glDisableClientState( GL_COLOR_ARRAY );
-	
-	mGLClientStateNormal = kQ3False;
-	mGLClientStateUV = kQ3False;
-	mGLClientStateColor = kQ3False;
+	mGLClientStateNormal = false;
+	mGLClientStateUV = false;
+	mGLClientStateColor = false;
 }
 
 void	QORenderer::ClientStates::EnableNormalArray( bool inEnable )
 {
-	GLUtils_UpdateClientState( inEnable? kQ3True : kQ3False,
-		&mGLClientStateNormal, GL_NORMAL_ARRAY );
+	if (inEnable != mGLClientStateNormal)
+	{
+		mGLClientStateNormal = inEnable;
+		if (inEnable)
+		{
+			mFuncs.glEnableVertexAttribArray( mShader.CurrentProgram()->mNormalAttribLoc );
+		}
+		else
+		{
+			mFuncs.glDisableVertexAttribArray( mShader.CurrentProgram()->mNormalAttribLoc );
+		}
+	}
 }
 
 void	QORenderer::ClientStates::DisableNormalArray()
 {
-	GLUtils_UpdateClientState( kQ3False, &mGLClientStateNormal,
-				GL_NORMAL_ARRAY );
+	if (mGLClientStateNormal)
+	{
+		mGLClientStateNormal = false;
+		mFuncs.glDisableVertexAttribArray( mShader.CurrentProgram()->mNormalAttribLoc );
+	}
 }
 
 void	QORenderer::ClientStates::EnableTextureArray( bool inEnable )
 {
-	GLUtils_UpdateClientState( inEnable? kQ3True : kQ3False,
-		&mGLClientStateUV, GL_TEXTURE_COORD_ARRAY );
+	if (inEnable != mGLClientStateUV)
+	{
+		mGLClientStateUV = inEnable;
+		if (inEnable)
+		{
+			mFuncs.glEnableVertexAttribArray( mShader.CurrentProgram()->mTexCoordAttribLoc );
+		}
+		else
+		{
+			mFuncs.glDisableVertexAttribArray( mShader.CurrentProgram()->mTexCoordAttribLoc );
+		}
+	}
 }
 
 void	QORenderer::ClientStates::DisableTextureArray()
 {
-	GLUtils_UpdateClientState( kQ3False, &mGLClientStateUV,
-				GL_TEXTURE_COORD_ARRAY );
+	if (mGLClientStateUV)
+	{
+		mGLClientStateUV = false;
+		mFuncs.glDisableVertexAttribArray( mShader.CurrentProgram()->mTexCoordAttribLoc );
+	}
 }
 
 void	QORenderer::ClientStates::EnableColorArray( bool inEnable )
 {
-	GLUtils_UpdateClientState( inEnable? kQ3True : kQ3False,
-		&mGLClientStateColor, GL_COLOR_ARRAY );
+	if (inEnable != mGLClientStateColor)
+	{
+		mGLClientStateColor = inEnable;
+		if (inEnable)
+		{
+			mFuncs.glEnableVertexAttribArray( mShader.CurrentProgram()->mColorAttribLoc );
+		}
+		else
+		{
+			mFuncs.glDisableVertexAttribArray( mShader.CurrentProgram()->mColorAttribLoc );
+		}
+	}
 }
 
 void	QORenderer::ClientStates::DisableColorArray()
 {
-	GLUtils_UpdateClientState( kQ3False, &mGLClientStateColor,
-				GL_COLOR_ARRAY );
+	if (mGLClientStateColor)
+	{
+		mGLClientStateColor = false;
+		mFuncs.glDisableVertexAttribArray( mShader.CurrentProgram()->mColorAttribLoc );
+	}
 }

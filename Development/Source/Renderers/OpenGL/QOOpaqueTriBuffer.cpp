@@ -45,7 +45,8 @@
 //      Include files
 //-----------------------------------------------------------------------------
 #include "QORenderer.h"
-
+#include "GLImmediateVBO.h"
+#include <cstddef>
 
 
 //=============================================================================
@@ -63,35 +64,6 @@ static bool operator==( const TQ3ColorRGB& inOne, const TQ3ColorRGB& inTwo )
 static bool operator!=( const TQ3ColorRGB& inOne, const TQ3ColorRGB& inTwo )
 {
 	return ! (inOne == inTwo);
-}
-
-static bool IsEmissivityVarying( const QORenderer::Vertex* inVertices )
-{
-	bool	isVarying = false;
-	
-	if (
-		(
-			(inVertices[0].flags & kVertexHaveEmissive) !=
-			(inVertices[1].flags & kVertexHaveEmissive)
-		)
-		||
-		(
-			(inVertices[0].flags & kVertexHaveEmissive) !=
-			(inVertices[2].flags & kVertexHaveEmissive)
-		)
-	)
-	{
-		isVarying = true;
-	}
-	else if ( (inVertices[0].flags & kVertexHaveEmissive) != 0 )
-	{
-		if ( (inVertices[0].emissiveColor != inVertices[1].emissiveColor) ||
-			(inVertices[0].emissiveColor != inVertices[2].emissiveColor) )
-		{
-			isVarying = true;
-		}
-	}
-	return isVarying;
 }
 
 
@@ -112,42 +84,6 @@ QORenderer::OpaqueTriBuffer::OpaqueTriBuffer(
 
 
 /*!
-	@function	RenderOneTriangle
-	@abstract	Draw a single triangle that cannot be done using
-				glDrawElements.
-*/
-void	QORenderer::OpaqueTriBuffer::RenderOneTriangle( const Vertex* inVertices )
-{
-	// Allow usual lighting
-	mRenderer.mLights.SetLowDimensionalMode( false, mRenderer.mViewIllumination );
-	
-	glBegin( GL_TRIANGLES );
-	
-	for (int i = 0; i < 3; ++i)
-	{
-		if ( (inVertices[i].flags & kVertexHaveNormal) != 0 )
-		{
-			glNormal3fv( (const GLfloat *) &inVertices[i].normal );
-		}
-		
-		if ( (inVertices[i].flags & kVertexHaveDiffuse) != 0 )
-		{
-			glColor3fv( (const GLfloat *) &inVertices[i].diffuseColor );
-		}
-		
-		if ( (inVertices[i].flags & kVertexHaveEmissive) != 0 )
-		{
-			mRenderer.SetEmissiveMaterial( inVertices[i].emissiveColor );
-		}
-		
-		glVertex3fv( (const GLfloat *) &inVertices[i].point );
-	}
-	
-	glEnd();
-}
-
-
-/*!
 	@function	Flush
 	@abstract	Draw and empty the buffer.
 */
@@ -159,69 +95,60 @@ void	QORenderer::OpaqueTriBuffer::Flush()
 		mRenderer.mLights.SetLowDimensionalMode( false, mRenderer.mViewIllumination );
 
 		// Maybe update fragment program.
-		mRenderer.mPPLighting.PreGeomSubmit( nullptr );
-		
+		mRenderer.mPPLighting.PreGeomSubmit( nullptr, 2 );
+
 		// Maybe emissive material
 		if ( (mTriBufferFlags & kVertexHaveEmissive) != 0 )
 		{
 			mRenderer.SetEmissiveMaterial( mTriBuffer.back().emissiveColor );
 		}
 
-		// Set up indices, one for each vertex
 		const int kNumVertices = static_cast<int>(mTriBuffer.size());
-		mTriBufferIndices.resize( kNumVertices );
-		int	i;
-		for (i = 0; i < kNumVertices; ++i)
-		{
-			mTriBufferIndices[i] = i;
-		}
 		
-		glVertexPointer( 3, GL_FLOAT, sizeof(QORenderer::Vertex),
-			&mTriBuffer[0].point );
+		mRenderer.mGLClientStates.EnableNormalArray( (mTriBufferFlags & kVertexHaveNormal) != 0 );
+		mRenderer.mGLClientStates.EnableTextureArray( (mTriBufferFlags & kVertexHaveUV) != 0 );
+		mRenderer.mGLClientStates.EnableColorArray( (mTriBufferFlags & kVertexHaveDiffuse) != 0 );
 		
-		// set up normals, UVs, diffuse colors when available
-		if ( (mTriBufferFlags & kVertexHaveNormal) != 0 )
+		if (SetUpImmediateVBO( mRenderer,
+			mTriBuffer.size() * sizeof(QORenderer::Vertex), 0 ))
 		{
-			mRenderer.mGLClientStates.EnableNormalArray();
-			glNormalPointer( GL_FLOAT, sizeof(QORenderer::Vertex),
-				&mTriBuffer[0].normal );
-		}
-		else
-		{
-			mRenderer.mGLClientStates.DisableNormalArray();
-		}
-		
-		if ( (mTriBufferFlags & kVertexHaveUV) != 0 )
-		{
-			mRenderer.mGLClientStates.EnableTextureArray();
-			glTexCoordPointer( 2, GL_FLOAT, sizeof(QORenderer::Vertex),
-				&mTriBuffer[0].uv );
-		}
-		else
-		{
-			mRenderer.mGLClientStates.DisableTextureArray();
-		}
-		
-		if ( (mTriBufferFlags & kVertexHaveDiffuse) != 0 )
-		{
-			mRenderer.mGLClientStates.EnableColorArray();
-			glColorPointer( 3, GL_FLOAT, sizeof(QORenderer::Vertex),
-				&mTriBuffer[0].diffuseColor );
-		}
-		else
-		{
-			mRenderer.mGLClientStates.DisableColorArray();
-		}
-		
-		glDrawElements( GL_TRIANGLES, kNumVertices, GL_UNSIGNED_INT,
-			&mTriBufferIndices[0] );
-		
-		
-		if ( mRenderer.IsFakeSeparateSpecularColorNeeded() )
-		{
-			mRenderer.SimulateSeparateSpecularColor( kNumVertices,
-				reinterpret_cast<const TQ3Uns32*>(&mTriBufferIndices[0]) );
-		}
+			// Load interleaved vertex data into VBO
+			BindImmediateVBOArrayBuffer( mRenderer );
+			(*mRenderer.mFuncs.glBufferSubDataProc)( GL_ARRAY_BUFFER, 0,
+				mTriBuffer.size() * sizeof(QORenderer::Vertex), &mTriBuffer[0] );
+				
+			// Set up pointers
+			mRenderer.mSLFuncs.glVertexAttribPointer( mRenderer.mPPLighting.CurrentProgram()->mVertexAttribLoc,
+				3, GL_FLOAT, GL_FALSE, sizeof(QORenderer::Vertex),
+				GLBufferObPtr( (GLuint)offsetof( QORenderer::Vertex, point ) ) );
+			
+			if ( (mTriBufferFlags & kVertexHaveNormal) != 0 )
+			{
+				mRenderer.mSLFuncs.glVertexAttribPointer( mRenderer.mPPLighting.CurrentProgram()->mNormalAttribLoc,
+					3, GL_FLOAT, GL_FALSE, sizeof(QORenderer::Vertex),
+					GLBufferObPtr( (GLuint)offsetof( QORenderer::Vertex, normal ) ) );
+			}
+			
+			if ( (mTriBufferFlags & kVertexHaveUV) != 0 )
+			{
+				mRenderer.mSLFuncs.glVertexAttribPointer( mRenderer.mPPLighting.CurrentProgram()->mTexCoordAttribLoc,
+					2, GL_FLOAT, GL_FALSE, sizeof(QORenderer::Vertex),
+					GLBufferObPtr( (GLuint)offsetof( QORenderer::Vertex, uv ) ) );
+			}
+			
+			if ( (mTriBufferFlags & kVertexHaveDiffuse) != 0 )
+			{
+				mRenderer.mSLFuncs.glVertexAttribPointer( mRenderer.mPPLighting.CurrentProgram()->mColorAttribLoc,
+					3, GL_FLOAT, GL_FALSE, sizeof(QORenderer::Vertex),
+					GLBufferObPtr( (GLuint)offsetof( QORenderer::Vertex, diffuseColor ) ) );
+			}
+			
+			// Draw
+			glDrawArrays( GL_TRIANGLES, 0, kNumVertices );
+			
+			(*mRenderer.mFuncs.glBindBufferProc)( GL_ARRAY_BUFFER, 0 );
+			(*mRenderer.mFuncs.glBindBufferProc)( GL_ELEMENT_ARRAY_BUFFER, 0 );
+		}		
 
 		mTriBuffer.clear();
 	}
@@ -234,29 +161,22 @@ void	QORenderer::OpaqueTriBuffer::Flush()
 */
 void	QORenderer::OpaqueTriBuffer::AddTriangle( const Vertex* inVertices )
 {
-	if (IsEmissivityVarying( inVertices ))
+	// Flush the buffer if the vertex format has changed
+	if (inVertices[0].flags != mTriBufferFlags)
 	{
-		RenderOneTriangle( inVertices );
+		Flush();
+		mTriBufferFlags = inVertices[0].flags;
 	}
-	else
+	
+	// Flush the buffer if the emissive color has changed
+	if ( (! mTriBuffer.empty()) &&
+		((mTriBufferFlags & kVertexHaveEmissive) != 0) &&
+		(inVertices[0].emissiveColor != mTriBuffer.back().emissiveColor)
+	)
 	{
-		// Flush the buffer if the vertex format has changed
-		if (inVertices[0].flags != mTriBufferFlags)
-		{
-			Flush();
-			mTriBufferFlags = inVertices[0].flags;
-		}
-		
-		// Flush the buffer if the emissive color has changed
-		if ( (! mTriBuffer.empty()) &&
-			((mTriBufferFlags & kVertexHaveEmissive) != 0) &&
-			(inVertices[0].emissiveColor != mTriBuffer.back().emissiveColor)
-		)
-		{
-			Flush();
-		}
-		
-		// Append the vertices to the buffer
-		mTriBuffer.insert( mTriBuffer.end(), inVertices, inVertices+3 );
+		Flush();
 	}
+	
+	// Append the vertices to the buffer
+	mTriBuffer.insert( mTriBuffer.end(), inVertices, inVertices+3 );
 }

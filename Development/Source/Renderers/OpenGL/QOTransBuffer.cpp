@@ -48,6 +48,7 @@
 #include "GLUtils.h"
 #include "E3Math.h"
 #include "E3Math_Intersect.h"
+#include "GLImmediateVBO.h"
 #include "QOGLShadingLanguage.h"
 #include "QuesaMathOperators.hpp"
 
@@ -869,8 +870,11 @@ void	TransBuffer::SortIndices()
 {
 	if (mIsSortNeeded)
 	{
+		//Q3_LOG_FMT( "TransBuffer::SortIndices 1" );
 		SortBlocks();
+		//Q3_LOG_FMT( "TransBuffer::SortIndices 2" );
 		SortPrimPtrsInEachBlock();
+		//Q3_LOG_FMT( "TransBuffer::SortIndices 3" );
 
 		mIsSortNeeded = false;
 	}
@@ -978,7 +982,6 @@ void	TransBuffer::InitGLState( TQ3ViewObject inView )
     // specular highlights.
 	glDepthMask( GL_FALSE );
 	
-	glEnable( GL_LIGHTING );
 	mIsLightingEnabled = true;
 	mIsSortNeeded = false;
 	
@@ -993,23 +996,18 @@ void	TransBuffer::InitGLState( TQ3ViewObject inView )
 	
 	glBlendFunc( mSrcBlendFactor, mDstBlendFactor );
 
-	glDisable( GL_TEXTURE_2D );
 	mCurTexture = UINT32_MAX;	// force initial update
+	mPerPixelLighting.UpdateTexture( false );
 	mCurUVTransformIndex = UINT32_MAX;
 	mCurUBoundary = kQ3ShaderUVBoundarySize32;
 	mCurVBoundary = kQ3ShaderUVBoundarySize32;
 	
-	// specular: set to illegal values to force initial update
-	mCurSpecularControl = -1.0f;
-	mCurSpecularColor[0] = -1.0f;
-	
-	// similar for diffuse color
-	mCurDiffuseColor[3] = -1.0f;
+	mRenderer.SetSpecularColor( kBlackColor );
+	mRenderer.SetSpecularControl( 0.0 );
 	
 	mForceUpdate = true; // force initial update of fog
 
-	mCurEmissiveColor = kBlackColor;
-	mRenderer.SetEmissiveMaterial( mCurEmissiveColor );
+	mRenderer.SetEmissiveMaterial( kBlackColor );
 }
 
 void	TransBuffer::UpdateCameraToFrustum(
@@ -1026,29 +1024,6 @@ void	TransBuffer::UpdateCameraToFrustum(
 	}
 }
 
-void	TransBuffer::UpdateLightingEnable(
-											const TransparentPrim& inPrim )
-{
-	bool	shouldLight = mStyles[ inPrim.mStyleIndex ].mIlluminationType !=
-		kQ3IlluminationTypeNULL;
-	
-	if (shouldLight != mIsLightingEnabled)
-	{
-		mIsLightingEnabled = shouldLight;
-		
-		if (mIsLightingEnabled)
-		{
-			glEnable( GL_LIGHTING );
-		}
-		else
-		{
-			glDisable( GL_LIGHTING );
-		}
-	}
-}
-
-
-
 
 void	TransBuffer::UpdateTexture( const TransparentPrim& inPrim )
 {
@@ -1056,13 +1031,8 @@ void	TransBuffer::UpdateTexture( const TransparentPrim& inPrim )
 	{
 		mCurTexture = inPrim.mTextureName;
 		
-		if (mCurTexture == 0)
+		if (mCurTexture != 0)
 		{
-			glDisable( GL_TEXTURE_2D );
-		}
-		else
-		{
-			glEnable( GL_TEXTURE_2D );
 			glBindTexture( GL_TEXTURE_2D, mCurTexture );
 		}
 		
@@ -1073,7 +1043,7 @@ void	TransBuffer::UpdateTexture( const TransparentPrim& inPrim )
 		(mCurTexture != 0) )
 	{
 		mCurUVTransformIndex = inPrim.mUVTransformIndex;
-		GLUtils_LoadShaderUVTransform( &mUVTransforms[ mCurUVTransformIndex ] );
+		GLUtils_LoadShaderUVTransform( &mUVTransforms[ mCurUVTransformIndex ], mPerPixelLighting );
 	}
 	
 	if ( (inPrim.mShaderUBoundary != mCurUBoundary) &&
@@ -1081,8 +1051,7 @@ void	TransBuffer::UpdateTexture( const TransparentPrim& inPrim )
 	{
 		mCurUBoundary = inPrim.mShaderUBoundary;
 		GLint	uBoundary;
-		GLUtils_ConvertUVBoundary( mCurUBoundary,
-			&uBoundary, mRenderer.mGLExtensions.clampToEdge );
+		GLUtils_ConvertUVBoundary( mCurUBoundary, &uBoundary );
 		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, uBoundary );
 	}
 	
@@ -1091,8 +1060,7 @@ void	TransBuffer::UpdateTexture( const TransparentPrim& inPrim )
 	{
 		mCurVBoundary = inPrim.mShaderVBoundary;
 		GLint	vBoundary;
-		GLUtils_ConvertUVBoundary( mCurVBoundary,
-			&vBoundary, mRenderer.mGLExtensions.clampToEdge );
+		GLUtils_ConvertUVBoundary( mCurVBoundary, &vBoundary );
 		glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, vBoundary );
 	}
 }
@@ -1151,43 +1119,7 @@ void	TransBuffer::UpdateLineWidth( const TransparentPrim& inPrim )
 
 void	TransBuffer::SetEmissiveColor( const TQ3ColorRGB& inColor )
 {
-	if ( (inColor.r != mCurEmissiveColor.r) ||
-		(inColor.g != mCurEmissiveColor.g) ||
-		(inColor.b != mCurEmissiveColor.b) )
-	{
-		mRenderer.SetEmissiveMaterial( inColor );
-		mCurEmissiveColor = inColor;
-	}
-}
-
-void	TransBuffer::SetDiffuseColor( const QORenderer::Vertex& inVert )
-{
-	// Premultiply alpha, so we can use GL_ONE as the source blend factor
-	// for both vertices and textures.
-	GLfloat	color4[4] = {
-		inVert.diffuseColor.r * inVert.vertAlpha,
-		inVert.diffuseColor.g * inVert.vertAlpha,
-		inVert.diffuseColor.b * inVert.vertAlpha,
-		inVert.vertAlpha
-	};
-	
-	SetDiffuseColor( color4 );
-}
-
-void	TransBuffer::SetDiffuseColor( const GLfloat* inColor4 )
-{
-	if ( (inColor4[3] != mCurDiffuseColor[3]) ||
-		(inColor4[0] != mCurDiffuseColor[0]) ||
-		(inColor4[1] != mCurDiffuseColor[1]) ||
-		(inColor4[2] != mCurDiffuseColor[2]) )
-	{
-		mCurDiffuseColor[0] = inColor4[0];
-		mCurDiffuseColor[1] = inColor4[1];
-		mCurDiffuseColor[2] = inColor4[2];
-		mCurDiffuseColor[3] = inColor4[3];
-
-		glColor4fv( mCurDiffuseColor );
-	}
+	mRenderer.SetEmissiveMaterial( inColor );
 }
 
 
@@ -1203,55 +1135,6 @@ void	TransBuffer::UpdateEmission( const TransparentPrim& inPrim )
 }
 
 
-void	TransBuffer::Render( const TransparentPrim& inPrim )
-{
-	// Render geometries of dimension 0 or 1 with only ambient light.
-	mRenderer.mLights.SetLowDimensionalMode( inPrim.mNumVerts < 3, mRenderer.mViewIllumination );
-	
-	// Maybe update fragment program.
-	mPerPixelLighting.PreGeomSubmit( nullptr );
-
-	switch (inPrim.mNumVerts)
-	{
-		case 3:
-			glBegin( GL_TRIANGLES );
-			break;
-
-		case 2:
-			glBegin( GL_LINES );
-			break;
-
-		case 1:
-			glBegin( GL_POINTS );
-			break;
-	}
-	
-	for (TQ3Uns32 i = 0; i < inPrim.mNumVerts; ++i)
-	{
-		const Vertex&	theVert( inPrim.mVerts[i] );
-		
-		if ((theVert.flags & kVertexHaveNormal) != 0)
-		{
-			glNormal3fv( (const GLfloat *) &theVert.normal );
-		}
-		
-		if ( (mCurTexture != 0) && ((theVert.flags & kVertexHaveUV) != 0) )
-		{
-			glTexCoord2fv( (const GLfloat *) &theVert.uv );
-		}
-		
-		if ((theVert.flags & kVertexHaveDiffuse) != 0)
-		{
-			SetDiffuseColor( theVert );
-		}
-		
-		glVertex3fv( (const GLfloat *) &theVert.point );
-	}
-	
-	glEnd();
-}
-
-
 void	TransBuffer::RenderPrimGroupForDepth(
 										TQ3ViewObject inView )
 {
@@ -1264,11 +1147,6 @@ void	TransBuffer::RenderPrimGroupForDepth(
 	UpdateBackfacing( leader );
 	UpdateLineWidth( leader );
 
-	if (mRenderGroup.size() == 1)
-	{
-		RenderForDepth( leader );
-	}
-	else
 	{
 		VertexFlags flags = leader.mVerts[0].flags;
 		TQ3Uns32 vertsPerPrim = leader.mNumVerts;
@@ -1324,18 +1202,6 @@ void	TransBuffer::RenderPrimGroupForDepth(
 			}
 		}
 
-	
-		// Pass array pointers to OpenGL.
-		glVertexPointer( 3, GL_FLOAT, 0, &mGroupPts[0] );
-		if ( haveUV )
-		{
-			glTexCoordPointer( 2, GL_FLOAT, 0, &mGroupUVs[0] );
-		}
-		if ( haveColor )
-		{
-			glColorPointer( 4, GL_FLOAT, 0, &mGroupColors[0] );
-		}
-		
 		// draw an array
 		GLenum arrayMode = GL_TRIANGLES;
 		if (vertsPerPrim == 2)
@@ -1346,65 +1212,21 @@ void	TransBuffer::RenderPrimGroupForDepth(
 		{
 			arrayMode = GL_POINTS;
 		}
-		glDrawArrays( arrayMode, 0, mRenderGroup.size() * vertsPerPrim );
-	}
-}
 
-void	TransBuffer::RenderForDepth( const TransparentPrim& inPrim )
-{
-	switch (inPrim.mNumVerts)
-	{
-		case 3:
-			mRenderer.mLights.SetLowDimensionalMode( false, mRenderer.mViewIllumination );
-			glBegin( GL_TRIANGLES );
-			break;
-
-		case 2:
-			mRenderer.mLights.SetLowDimensionalMode( true, mRenderer.mViewIllumination );
-			glBegin( GL_LINES );
-			break;
-
-		case 1:
-			mRenderer.mLights.SetLowDimensionalMode( true, mRenderer.mViewIllumination );
-			glBegin( GL_POINTS );
-			break;
+		RenderImmediateTransVBO( arrayMode, mRenderer,
+			mRenderGroup.size() * vertsPerPrim, &mGroupPts[0],
+			nullptr,
+			haveColor? &mGroupColors[0] : nullptr,
+			haveUV? &mGroupUVs[0] : nullptr,
+			0, nullptr );
 	}
-	
-	for (TQ3Uns32 i = 0; i < inPrim.mNumVerts; ++i)
-	{
-		const Vertex&	theVert( inPrim.mVerts[i] );
-		
-		if ( (mCurTexture != 0) && ((theVert.flags & kVertexHaveUV) != 0) )
-		{
-			glTexCoord2fv( (const GLfloat *) &theVert.uv );
-		}
-		
-		if ((theVert.flags & kVertexHaveDiffuse) != 0)
-		{
-			SetDiffuseColor( theVert );
-		}
-		
-		glVertex3fv( (const GLfloat *) &theVert.point );
-	}
-	
-	glEnd();
 }
 
 
 
 void	TransBuffer::UpdateSpecularColor( const TQ3ColorRGB& inColor )
 {
-	if ( (inColor.r != mCurSpecularColor[0]) ||
-		(inColor.g != mCurSpecularColor[1]) ||
-		(inColor.b != mCurSpecularColor[2]) )
-	{
-		mCurSpecularColor[0] = inColor.r;
-		mCurSpecularColor[1] = inColor.g;
-		mCurSpecularColor[2] = inColor.b;
-		mCurSpecularColor[3] = 1.0f;
-		
-		glMaterialfv( GL_FRONT_AND_BACK, GL_SPECULAR, mCurSpecularColor );
-	}
+	mRenderer.SetSpecularColor( inColor );
 }
 
 void	TransBuffer::UpdateSpecular( const TransparentPrim& inPrim )
@@ -1413,14 +1235,7 @@ void	TransBuffer::UpdateSpecular( const TransparentPrim& inPrim )
 	{
 		UpdateSpecularColor( inPrim.mSpecularColor );
 		
-		if (inPrim.mSpecularControl != mCurSpecularControl)
-		{
-			mCurSpecularControl = inPrim.mSpecularControl;
-			
-			GLfloat		shininess = GLUtils_SpecularControlToGLShininess(
-				mCurSpecularControl );
-			glMaterialf( GL_FRONT_AND_BACK, GL_SHININESS, shininess );
-		}
+		mRenderer.SetSpecularControl( inPrim.mSpecularControl );
 	}
 	else
 	{
@@ -1434,7 +1249,6 @@ void	TransBuffer::RenderPrimGroup(
 	const TransparentPrim& leader( *mRenderGroup[0] );
 	
 	UpdateCameraToFrustum( leader, inView );
-	UpdateLightingEnable( leader );
 	UpdateTexture( leader );
 	UpdateFog( inView, leader );
 	UpdateFill( leader );
@@ -1447,11 +1261,6 @@ void	TransBuffer::RenderPrimGroup(
 	UpdateEmission( leader );
 	mForceUpdate = false;
 
-	if (mRenderGroup.size() == 1)
-	{
-		Render( leader );
-	}
-	else
 	{
 		VertexFlags flags = leader.mVerts[0].flags;
 		TQ3Uns32 vertsPerPrim = leader.mNumVerts;
@@ -1462,7 +1271,7 @@ void	TransBuffer::RenderPrimGroup(
 		mRenderer.mLights.SetLowDimensionalMode( vertsPerPrim < 3, mRenderer.mViewIllumination );
 
 		// Maybe update fragment program.
-		mPerPixelLighting.PreGeomSubmit( nullptr );
+		mPerPixelLighting.PreGeomSubmit( nullptr, vertsPerPrim - 1 );
 
 		bool haveNormal = ((flags & kVertexHaveNormal) != 0);
 		bool haveUV = (leader.mTextureName != 0) && ((flags & kVertexHaveUV) != 0);
@@ -1520,21 +1329,6 @@ void	TransBuffer::RenderPrimGroup(
 				}
 			}
 		}
-	
-		// Pass array pointers to OpenGL.
-		glVertexPointer( 3, GL_FLOAT, 0, &mGroupPts[0] );
-		if (haveNormal)
-		{
-			glNormalPointer( GL_FLOAT, 0, &mGroupNormals[0] );
-		}
-		if ( haveUV )
-		{
-			glTexCoordPointer( 2, GL_FLOAT, 0, &mGroupUVs[0] );
-		}
-		if ( haveColor )
-		{
-			glColorPointer( 4, GL_FLOAT, 0, &mGroupColors[0] );
-		}
 		
 		// draw an array
 		GLenum arrayMode = GL_TRIANGLES;
@@ -1546,34 +1340,14 @@ void	TransBuffer::RenderPrimGroup(
 		{
 			arrayMode = GL_POINTS;
 		}
-		glDrawArrays( arrayMode, 0, mRenderGroup.size() * vertsPerPrim );
+		
+		RenderImmediateTransVBO( arrayMode, mRenderer,
+			mRenderGroup.size() * vertsPerPrim, &mGroupPts[0],
+			haveNormal? &mGroupNormals[0] : nullptr,
+			haveColor? &mGroupColors[0] : nullptr,
+			haveUV? &mGroupUVs[0] : nullptr,
+			0, nullptr );
 	}
-}
-
-
-/*!
-	@function	PrimShouldSetDepth
-	@abstract	Normally, transparent primitives do not write to the depth buffer.
-				However, if it is transparent by virtue of vertex alpha rather than
-				texture, and if its opacity (modified by angle) is great enough,
-				we will let it alter the depth buffer.
-*/
-bool	TransBuffer::PrimShouldSetDepth(
-											const TransparentPrim* inPrim,
-											float inDepthAlphaThreshold ) const
-{
-	bool setsDepth = false;
-	if (inPrim->mTextureName == 0)
-	{
-		float alpha = inPrim->mVerts[0].vertAlpha;
-		float cosAngle = fabsf( inPrim->mVerts[0].normal.z );
-		if ( (cosAngle < kQ3RealZero) or (alpha / cosAngle > inDepthAlphaThreshold) )
-		{
-			setsDepth = true;
-		}
-	}
-	
-	return setsDepth;
 }
 
 void	TransBuffer::DrawTransparency( TQ3ViewObject inView,
@@ -1582,28 +1356,16 @@ void	TransBuffer::DrawTransparency( TQ3ViewObject inView,
 {
 	if (! mBlocks.empty())
 	{
-		TQ3Float32	alphaThreshold = 1.0f;
-		Q3Object_GetProperty( mRenderer.mRendererObject,
-			kQ3RendererPropertyDepthAlphaThreshold, sizeof(alphaThreshold), nullptr,
-			&alphaThreshold );
-
 		mSrcBlendFactor = inSrcBlendFactor;
 		mDstBlendFactor = inDstBlendFactor;
 		
 		SortIndices();
 
-		// Previously I was calling glPushAttrib here and calling glPopAttrib at
-		// the end of the scope, to restore some state changed by InitGLState.
-		// However, I do not think it is necessary, and it is preferable to
-		// avoid glPushAttrib/glPopAttrib due to buggy drivers.
-		
 		InitGLState( inView );
 		
 		mRenderGroup.clear();
 		mRenderGroup.reserve( kRenderGroupReserve );
 		const TransparentPrim* gpLeader = nullptr;
-		bool gpLeaderSetDepth = false;
-		bool prevSetDepth = false;
 
 		for (TQ3Uns32 blockNum = 0; blockNum < mBlocks.size(); ++blockNum)
 		{
@@ -1611,39 +1373,21 @@ void	TransBuffer::DrawTransparency( TQ3ViewObject inView,
 			for (TQ3Uns32 primNum = 0; primNum < block.mPrims.size(); ++primNum)
 			{
 				const TransparentPrim& thePrim( *block.mPrimPtrs[primNum] );
-				bool curSetDepth = PrimShouldSetDepth( &thePrim, alphaThreshold );
 				if (gpLeader == nullptr)
 				{
 					gpLeader = &thePrim;
-					gpLeaderSetDepth = curSetDepth;
 					mRenderGroup.push_back( gpLeader );
 				}
-				else if (
-					(curSetDepth == gpLeaderSetDepth)
-					&&
-					(
-						(
-							(primNum > 0) &&
-							block.mHasUniformVertexFlags
-						)
-						||
-						IsSameState( thePrim, *gpLeader )
-					)
-				)
+				else if ( ((primNum > 0) && block.mHasUniformVertexFlags) ||
+					IsSameState( thePrim, *gpLeader ) )
 				{
 					mRenderGroup.push_back( &thePrim );
 				}
 				else // finish the group and start another
 				{
-					if (gpLeaderSetDepth != prevSetDepth)
-					{
-						glDepthMask( gpLeaderSetDepth? GL_TRUE : GL_FALSE );
-						prevSetDepth = gpLeaderSetDepth;
-					}
 					RenderPrimGroup( inView );
 					mRenderGroup.clear();
 					gpLeader = &thePrim;
-					gpLeaderSetDepth = curSetDepth;
 					mRenderGroup.push_back( gpLeader );
 				}
 			}
@@ -1651,15 +1395,9 @@ void	TransBuffer::DrawTransparency( TQ3ViewObject inView,
 
 		if (mRenderGroup.size() > 0)
 		{
-			if (gpLeaderSetDepth != prevSetDepth)
-			{
-				glDepthMask( gpLeaderSetDepth? GL_TRUE : GL_FALSE );
-				prevSetDepth = gpLeaderSetDepth;
-			}
 			RenderPrimGroup( inView );
 		}
 	}
-	glDepthMask( GL_FALSE );
 }
 
 void	TransBuffer::InitGLStateForDepth( TQ3ViewObject inView,
@@ -1684,9 +1422,9 @@ void	TransBuffer::InitGLStateForDepth( TQ3ViewObject inView,
 	mRenderer.UpdateBackfacingStyle( &theBackfacing );
 	
 	// Turn off unneeded fragment operations
-	glDisable( GL_LIGHTING );
+	mPerPixelLighting.UpdateIllumination( kQ3IlluminationTypeNULL );
+	mPerPixelLighting.UpdateTexture( false );
 	glDisable( GL_BLEND );
-	glDisable( GL_TEXTURE_2D );
 	mCurTexture = UINT32_MAX;
 	mCurUVTransformIndex = UINT32_MAX;
 	mCurUBoundary = kQ3ShaderUVBoundarySize32;
@@ -1709,18 +1447,11 @@ void	TransBuffer::InitGLStateForDepth( TQ3ViewObject inView,
 	glPolygonOffset( 1.0f, 1.0f );
 
 	// Set up alpha test
-	glEnable( GL_ALPHA_TEST );
-	glAlphaFunc( GL_GREATER, inAlphaThreshold );
+	mPerPixelLighting.SetAlphaThreshold( inAlphaThreshold );
 	
-	// specular: set to illegal values to force initial update
-	mCurSpecularControl = -1.0f;
-	mCurSpecularColor[0] = -1.0f;
-	
-	// similar for diffuse color
-	mCurDiffuseColor[3] = -1.0f;
-	
-	mCurEmissiveColor = kBlackColor;
-	mRenderer.SetEmissiveMaterial( mCurEmissiveColor );
+	mRenderer.SetSpecularColor( kBlackColor );
+	mRenderer.SetSpecularControl( 0.0 );
+	mRenderer.SetEmissiveMaterial( kBlackColor );	
 }
 
 /*!
@@ -1779,7 +1510,6 @@ void	TransBuffer::DrawDepth( TQ3ViewObject inView )
 		
 		// Restore GL state
 		glDisable( GL_POLYGON_OFFSET_FILL );
-		glDisable( GL_ALPHA_TEST );
 		glColorMask( GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE );
 	}
 }

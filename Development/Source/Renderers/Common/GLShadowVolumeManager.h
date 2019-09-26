@@ -10,7 +10,7 @@
     	GLUtils_CheckExtensions.
 
     COPYRIGHT:
-        Copyright (c) 2011-2016, Quesa Developers. All rights reserved.
+        Copyright (c) 2011-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -54,6 +54,10 @@
 #include "GLPrefix.h"
 #include "GLVBOManager.h"
 
+namespace QORenderer
+{
+	class Renderer;
+}
 
 //=============================================================================
 //      Function prototypes
@@ -64,12 +68,10 @@ namespace ShadowVolMgr
 /*!
 	@function	StartFrame
 	@abstract	Update the limit on memory that can be used in this cache.
-	@param			glContext		An OpenGL context.
-	@param			inFuncs			OpenGL buffer function pointers.
+	@param			inRenderer		An OpenGL renderer.
 	@param			memLimitK		New memory limit in K-bytes.
 */
-void			StartFrame(			TQ3GLContext glContext,
-									const GLBufferFuncs& inFuncs,
+void			StartFrame(			const QORenderer::Renderer& inRenderer,
 									TQ3Uns32 memLimitK );
 
 /*!
@@ -78,16 +80,14 @@ void			StartFrame(			TQ3GLContext glContext,
 				context, and shadow-casting light.  If we find one, render it.
 	@discussion		If we find the object in the cache, but the cached object
 					is stale, we delete it from the cache and return false.
-	@param			glContext		An OpenGL context.
-	@param			inFuncs			OpenGL buffer function pointers.
+	@param			inRenderer		An OpenGL renderer.
 	@param			inGeom			A geometry object.
 	@param			inLight			A light object.
 	@param			inLocalLightPos	The position of the light in local coordinates.
 	@result			True if the object was found and rendered.
 */
 TQ3Boolean		RenderShadowVolume(
-									TQ3GLContext glContext,
-									const GLBufferFuncs& inFuncs,
+									const QORenderer::Renderer& inRenderer,
 									TQ3GeometryObject inGeom,
 									TQ3LightObject inLight,
 									const TQ3RationalPoint4D& inLocalLightPos );
@@ -96,27 +96,23 @@ TQ3Boolean		RenderShadowVolume(
 	@function	AddShadowVolume
 	@abstract	Add a shadow volume mesh to the cache.  Do not call this unless
 				RenderCachedShadowVolume has just returned false.
-	@param			glContext			An OpenGL context.
-	@param			inFuncs			OpenGL buffer function pointers.
+	@param			inRenderer			An OpenGL renderer.
 	@param			inGeom				A geometry object.
 	@param			inLight				A light object.
 	@param			inLocalLightPos		The position of the light in local coordinates.
 	@param			inNumPoints			Number of points (vertices).
 	@param			inPoints			Array of point locations.
 	@param			inNumTriIndices		Number of triangle vertex indices to follow.
-	@param			inNumQuadIndices	Number of quad vertex indices to follow.
 	@param			inVertIndices		Array of vertex indices (triangle, then quad).
 */
 void			AddShadowVolume(
-									TQ3GLContext glContext,
-									const GLBufferFuncs& inFuncs,
+									const QORenderer::Renderer& inRenderer,
 									TQ3GeometryObject inGeom,
 									TQ3LightObject inLight,
 									const TQ3RationalPoint4D& inLocalLightPos,
 									TQ3Uns32 inNumPoints,
 									const TQ3RationalPoint4D* inPoints,
 									TQ3Uns32 inNumTriIndices,
-									TQ3Uns32 inNumQuadIndices,
 									const GLuint* inVertIndices );
 
 
@@ -125,14 +121,12 @@ void			AddShadowVolume(
 	@abstract		Delete any cached VBOs for geometries that are no longer
 					referenced elsewhere, or lights that are no longer
 					referenced elsewhere.
-	@param			glContext		An OpenGL context.
-	@param			inFuncs			OpenGL buffer function pointers.
-	@param			inRenderer		A Quesa renderer.
+	@param			inRenderer			An OpenGL renderer.
+	@param			inQuesaRenderer		A Quesa renderer.
 */
 void				Flush(
-									TQ3GLContext glContext,
-									const GLBufferFuncs& inFuncs,
-									TQ3RendererObject inRenderer );
+									const QORenderer::Renderer& inRenderer,
+									TQ3RendererObject inQuesaRenderer );
 
 
 

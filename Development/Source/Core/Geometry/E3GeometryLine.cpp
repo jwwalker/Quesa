@@ -5,7 +5,7 @@
         Implementation of Quesa Line geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -380,7 +380,7 @@ e3geom_line_pick_window_point(TQ3ViewObject theView, TQ3PickObject thePick, TQ3O
 	qd3dStatus = kQ3Success;
 
 	if (d <= pickData.edgeTolerance)
-		{
+	{
 		// Create a world to window matrix
 		E3View_GetWorldToFrustumMatrixState(theView,  &worldToFrustum);
 		E3View_GetFrustumToWindowMatrixState(theView, &frustumToWindow);
@@ -432,7 +432,7 @@ e3geom_line_pick_window_point(TQ3ViewObject theView, TQ3PickObject thePick, TQ3O
 		divisorX = hitXY.x * winVec.w - winVec.x;
 		divisorY = hitXY.y * winVec.w - winVec.y;
 		float t;
-
+		
 		if (fabsf( divisorX ) >= fabsf( divisorY ))
 		{
 			t = (winStart.x - hitXY.x * winStart.w) / divisorX;
@@ -447,7 +447,7 @@ e3geom_line_pick_window_point(TQ3ViewObject theView, TQ3PickObject thePick, TQ3O
 
 		// Record the hit
 		qd3dStatus = E3Pick_RecordHit(thePick, theView, &hitXYZ, nullptr, nullptr, nullptr);
-		}
+	}
 
 	return(qd3dStatus);
 }

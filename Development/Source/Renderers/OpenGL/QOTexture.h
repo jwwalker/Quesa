@@ -5,7 +5,7 @@
         Header for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2013, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -40,6 +40,7 @@
         SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     ___________________________________________________________________________
 */
+#pragma once
 
 //=============================================================================
 //      Include files
@@ -51,12 +52,6 @@
 
 #include <vector>
 
-#if QUESA_OS_WIN32
-	typedef void (__stdcall * EQ3ActiveTextureARBProcPtr) (GLenum texture);
-#else
-	typedef void (* EQ3ActiveTextureARBProcPtr) (GLenum texture);
-#endif
-
 //=============================================================================
 //      Class declaration
 //-----------------------------------------------------------------------------
@@ -65,6 +60,7 @@
 namespace QORenderer
 {
 	class PerPixelLighting;
+	class Renderer;
 	
 /*!
 	@class		Texture
@@ -91,10 +87,7 @@ public:
 	};
 	
 							Texture(
-									TQ3RendererObject inRenderer,
-									const TQ3GLContext& inGLContext,
-									const TQ3GLExtensions& inExtensions,
-									PerPixelLighting& ioPPLighting );
+									Renderer& inRenderer );
 							
 							~Texture();
 	
@@ -177,16 +170,12 @@ private:
 	void					FlushCache();
 	void					SetSpecularMap( TQ3ShaderObject inShader );
 
-	TQ3RendererObject		mRenderer;
-	const TQ3GLContext&		mGLContext;
-	const TQ3GLExtensions&	mGLExtensions;
-	PerPixelLighting&		mPPLighting;
+	Renderer&				mRenderer;
 	TQ3TextureCachePtr		mTextureCache;
 	TextureState			mState;
 	std::vector<TQ3Uns8>	mSrcImageData;
 	std::vector<GLubyte>	mGLFormatWork;
 	bool					mPendingTextureRemoval;
-	EQ3ActiveTextureARBProcPtr	mGLActiveTexture;
 };
 
 }

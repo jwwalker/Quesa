@@ -180,7 +180,8 @@ E3Pool_AllocateTagged(
 
 		// Link items into pool's list of free items
 		nextItemPtr = nullptr;
-		for ( ; static_cast<void>(((char*&) currItemPtr) -= itemSize), numItems > 0; nextItemPtr = currItemPtr, --numItems)
+		for ( ; static_cast<void>(((char*&) currItemPtr) -= itemSize), numItems > 0;
+			nextItemPtr = currItemPtr, --numItems)
 			currItemPtr->nextFreeItemPtr_private = nextItemPtr;
 		poolPtr->headFreeItemPtr_private = nextItemPtr;
 		

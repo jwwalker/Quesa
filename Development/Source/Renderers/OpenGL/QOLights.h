@@ -75,6 +75,7 @@ namespace QORenderer
 struct GLStencilFuncs;
 class MatrixState;
 struct StyleState;
+class Renderer;
 
 /*!
 	@class		Lights
@@ -84,33 +85,7 @@ struct StyleState;
 class Lights
 {
 public:
-							Lights( const TQ3GLExtensions& inExtensions,
-									const GLStencilFuncs& inStencilFuncs,
-									const MatrixState& inMatrixState,
-									const StyleState& inStyleState,
-									PerPixelLighting& ioPerPixelLighting,
-									TQ3GLContext& inGLContext,
-									const GLBufferFuncs& inFuncs,
-									bool& inCachingShadows )
-								: mGLExtensions( inExtensions )
-								, mGLStencilFuncs( inStencilFuncs )
-								, mMatrixState( inMatrixState )
-								, mStyleState( inStyleState )
-								, mPerPixelLighting( ioPerPixelLighting )
-								, mLightCount( 0 )
-								, mIsShadowFrame( false )
-								, mIsFirstPass( false )
-								, mIsShadowPhase( false )
-								, mIsNextPassShadowPhase( false )
-								, mIsAnotherPassNeeded( false )
-								, mIsShadowMarkingPass( false )
-								, mStartingLightIndexForPass( 0 )
-								, mMaxGLLights( 8 )
-								, mSavedYon( std::numeric_limits<float>::infinity() )
-								, mShadowMarker( mMatrixState, mStyleState,
-									mGLLightPosition, inGLContext, inExtensions,
-									inFuncs, inCachingShadows )
-								, mIsLowDMode( false ) {}
+							Lights( QORenderer::Renderer& inRenderer );
 
 	void					StartFrame(
 									TQ3ViewObject inView,
@@ -127,8 +102,6 @@ public:
 	
 	void					SetLowDimensionalMode( bool inLowD, TQ3ObjectType inIlluminationType );
 	
-	void					UpdateFogColor();
-
 	bool					IsEmissionUsed() const;
 	inline bool				IsShadowFrame() const {return mIsShadowFrame;}
 	inline bool				IsFirstPass() const {return mIsFirstPass;}
@@ -180,11 +153,7 @@ private:
 									TQ3LightObject inLight,
 									const TQ3Matrix4x4& inWorldToView );
 
-	const TQ3GLExtensions&	mGLExtensions;
-	const GLStencilFuncs&	mGLStencilFuncs;
-	const MatrixState&		mMatrixState;
-	const StyleState&		mStyleState;
-	PerPixelLighting&		mPerPixelLighting;
+	QORenderer::Renderer&	mRenderer;
 	TQ3Uns32				mLightCount;		// number of GL lights in this pass
 	bool					mIsShadowFrame;
 	bool					mIsFirstPass;
@@ -197,7 +166,7 @@ private:
 	GLfloat					mGLLightPosition[4];
 	float					mSavedYon;
 	
-	GLfloat					mGlAmbientLight[4];		// color of ambient light
+	TQ3ColorRGB				mGlAmbientLight;		// color of ambient light
 	ObVec					mNonShadowingLights;
 	ObVec					mShadowingLights;
 	ShadowMarker			mShadowMarker;
@@ -209,7 +178,6 @@ private:
 	float					mSpotAngleCosine;
 	
 	bool					mIsLowDMode;
-	GLfloat					mOnlyAmbient[4];
 };
 
 }

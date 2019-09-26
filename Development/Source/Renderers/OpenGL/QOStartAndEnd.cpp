@@ -48,7 +48,6 @@
 #include "GLDrawContext.h"
 #include "GLUtils.h"
 #include "GLVBOManager.h"
-#include "GLDisplayListManager.h"
 #include "CQ3ObjectRef_Gets.h"
 #include "GLShadowVolumeManager.h"
 
@@ -57,6 +56,33 @@
 #endif
 
 static const float kDefaultAlphaThreshold = 0.99f;
+
+static GLenum sGLError = 0;
+
+#if Q3_DEBUG
+	#define		CHECK_GL_ERROR	do {	\
+									sGLError = glGetError();	\
+									if (sGLError != GL_NO_ERROR)	\
+									{	\
+										E3Assert(__FILE__, __LINE__, GLUtils_GLErrorToString(sGLError));	\
+									} \
+								} while (false)
+	#define		CHECK_GL_ERROR_FMT(...) \
+								do { \
+									sGLError = glGetError();	\
+									if (sGLError != GL_NO_ERROR)	\
+									{	\
+										char customMsg_[400]; char wholeMsg_[800]; \
+										snprintf( customMsg_, sizeof(customMsg_), __VA_ARGS__ ); \
+										snprintf( wholeMsg_, sizeof(wholeMsg_), "%s %s", GLUtils_GLErrorToString(sGLError), customMsg_ ); \
+										E3Assert(__FILE__, __LINE__, wholeMsg_ );	\
+									}	\
+								} while (false)
+#else
+	#define		CHECK_GL_ERROR
+	#define		CHECK_GL_ERROR_FMT(...)
+#endif
+
 
 //=============================================================================
 //      Local Functions
@@ -179,6 +205,7 @@ TQ3Status	QORenderer::Renderer::StartFrame(
 		else
 		{
 			 GLDrawContext_SetCurrent( mGLContext, kQ3True );
+			 CHECK_GL_ERROR;
 		}
 
 		// Handle some common easy cases
@@ -228,6 +255,7 @@ TQ3Status	QORenderer::Renderer::StartFrame(
 				mPPLighting.Cleanup();
 				GLDrawContext_Destroy( &mGLContext );
 			}
+			CHECK_GL_ERROR;
 
 
 			// And try to build a new one
@@ -238,26 +266,22 @@ TQ3Status	QORenderer::Renderer::StartFrame(
 				Q3_MESSAGE_FMT("GLDrawContext_New failed in StartFrame");
 				return kQ3Failure;
 			}
+			CHECK_GL_ERROR;
 			
 			mTextures.UpdateTextureCache();
+			CHECK_GL_ERROR;
 
 
 			GLUtils_CheckExtensions( &mGLExtensions );
-			TQ3Boolean	allowVBO = kQ3True;
-			Q3Object_GetProperty( mRendererObject,
-				kQ3RendererPropertyAllowVBOs, sizeof(allowVBO), nullptr,
-				&allowVBO );
-			if (allowVBO == kQ3False)
-			{
-				mGLExtensions.vertexBufferObjects = kQ3False;
-			}
 			mSLFuncs.Initialize( mGLExtensions );
-			mBufferFuncs.Initialize( mGLExtensions );
-			mStencilFuncs.Initialize( mGLExtensions );
+			mFuncs.Initialize( mGLExtensions );
+			CHECK_GL_ERROR;
 			
-			
-			GLGetProcAddress( mGLBlendEqProc, "glBlendEquation",
-				"glBlendEquationEXT" );
+			GLuint vao;
+			mFuncs.glGenVertexArrays( 1, &vao );
+			CHECK_GL_ERROR;
+			mFuncs.glBindVertexArray( vao );
+			CHECK_GL_ERROR;
 		}
 
 
@@ -268,19 +292,20 @@ TQ3Status	QORenderer::Renderer::StartFrame(
 
 	// Activate our context (forcing it to be set at least once per frame)
 	GLDrawContext_SetCurrent( mGLContext, kQ3True );
-	GLDrawContext_StartFrame( mGLContext );
+	CHECK_GL_ERROR;
+	GLDrawContext_StartFrame( mGLContext, mPPLighting );
+	CHECK_GL_ERROR;
 
 	
 	// If shadows are desired, check whether we got a stencil buffer,
 	// and whether we have some form of 2-sided stencil.
-	bool	isShadowing = false;
-	if ( isShadowingRequested &&
-		(mGLExtensions.stencilTwoSide || mGLExtensions.separateStencil) &&
-		(mGLExtensions.stencilBits >= 8) )
-	{
-		isShadowing = true;
-	}
+	bool	isShadowing = isShadowingRequested;
+	// Previously we check whether the current framebuffer actually has stencil bits,
+	// but it does not seem possible to do that in OpenGL 3.2 Core Profile.
+	// We just hope that if someone wants shadows, they will request a pixel format
+	// with stencil bits.
 	glDisable( GL_STENCIL_TEST );
+	CHECK_GL_ERROR;
 	
 	
 	// Update the main VBO cache memory limit
@@ -289,18 +314,20 @@ TQ3Status	QORenderer::Renderer::StartFrame(
 		Q3Object_GetProperty( mRendererObject,
 				kQ3RendererPropertyVBOLimit, sizeof(vboCacheK), nullptr,
 				&vboCacheK );
-		UpdateVBOCacheLimit( mGLContext, mBufferFuncs, vboCacheK );
+		UpdateVBOCacheLimit( *this, vboCacheK );
 	}
+	CHECK_GL_ERROR;
 	
 	
 	// Update the shadow VBO cache memory limit
 	TQ3Uns32	shadowCacheMemK = 0;
-	if ( isShadowing && (mGLExtensions.vertexBufferObjects == kQ3True) )
+	if ( isShadowing )
 	{
 		Q3Object_GetProperty( mRendererObject,
 				kQ3RendererPropertyShadowVBOLimit, sizeof(shadowCacheMemK), nullptr,
 				&shadowCacheMemK );
-		ShadowVolMgr::StartFrame( mGLContext, mBufferFuncs, shadowCacheMemK );
+		ShadowVolMgr::StartFrame( *this, shadowCacheMemK );
+		CHECK_GL_ERROR;
 	}
 	mIsCachingShadows = (shadowCacheMemK > 0);
 	
@@ -308,10 +335,12 @@ TQ3Status	QORenderer::Renderer::StartFrame(
 	// Multi-pass lighting may have turned off depth writing, which would
 	// prevent clearing the depth buffer if we do not reset it.
 	GLDrawContext_SetDepthState( inDrawContext );
+	CHECK_GL_ERROR;
 
 	
 	// Tell light manager that a frame is starting
 	mLights.StartFrame( inView, isShadowing );
+	CHECK_GL_ERROR;
 
 
 	// Clear the context
@@ -363,16 +392,11 @@ void		QORenderer::Renderer::StartPass(
 		sizeof(mAlphaThreshold), nullptr, &mAlphaThreshold );
 	
 	// Initialize specularity and emission
-	mCurrentSpecularColor[0] = mCurrentSpecularColor[1] =
-		mCurrentSpecularColor[2] = 0.0f;
-	mCurrentSpecularColor[3] = 1.0f;
-	glMaterialfv( GL_FRONT_AND_BACK, GL_SPECULAR,
-				mCurrentSpecularColor );
+	mCurrentSpecularColor.r = mCurrentSpecularColor.g =
+		mCurrentSpecularColor.b = 0.0f;
 	mCurrentSpecularControl = 0.0f;
-	glMaterialf( GL_FRONT_AND_BACK, GL_SHININESS, 0.0f );
 	mCurrentEmissiveColor.r = mCurrentEmissiveColor.g =
 		mCurrentEmissiveColor.b = 0.0f;
-	SetEmissiveMaterial( mCurrentEmissiveColor );
 
 	// Initialize style states
 	mStyleState.mInterpolation = kQ3InterpolationStyleVertex;
@@ -390,24 +414,14 @@ void		QORenderer::Renderer::StartPass(
 	mStyleState.mFogStyles.push_back( noFog );
 	mStyleState.mCurFogStyleIndex = 0;
 	
-	glEnable( GL_COLOR_MATERIAL );
-	glColorMaterial( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE );
-
-	mGLClientStates.StartPass();
-	
-	glDisable( GL_ALPHA_TEST );
 	glDisable( GL_BLEND );
 	glDisable(GL_POLYGON_OFFSET_FILL);
 	glDisable(GL_POLYGON_OFFSET_LINE);
 	glDisable(GL_POLYGON_OFFSET_POINT);
 	glFrontFace( GL_CCW );	// orientation style
-	glLightModeli( GL_LIGHT_MODEL_TWO_SIDE, GL_TRUE );
-	glShadeModel( GL_SMOOTH );
 	glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );	// fill style
-	glTexEnvi( GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE );
 	glColorMask( GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE );
 	GLDrawContext_SetDepthState( mDrawContextObject );
-	glLineWidth( mLineWidth );
 	
 	mPPLighting.StartPass( inCamera );
 	mLights.StartPass( inCamera, mRendererObject );
@@ -531,16 +545,12 @@ TQ3ViewStatus		QORenderer::Renderer::EndPass(
 		GLDrawContext_SwapBuffers( mGLContext );
 	}
 	
-	if (mGLExtensions.vertexBufferObjects == kQ3True)
+	FlushVBOCache( *this );
+	
+	if ( mLights.IsShadowFrame() && mLights.IsLastLightingPass() )
 	{
-		FlushVBOCache( mGLContext, mBufferFuncs );
-		
-		if ( mLights.IsShadowFrame() && mLights.IsLastLightingPass() )
-		{
-			ShadowVolMgr::Flush( mGLContext, mBufferFuncs, mRendererObject );
-		}
+		ShadowVolMgr::Flush( *this, mRendererObject );
 	}
-	FlushDisplayListCache( mGLContext );
 
 	// Copy the primitive render count to a property where the user can get it
 	Q3Object_SetProperty( mRendererObject, kQ3RendererPropertyPrimitivesRenderedCount,

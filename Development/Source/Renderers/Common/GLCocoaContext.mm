@@ -54,7 +54,6 @@
 #import <AppKit/NSOpenGL.h>
 #import <AppKit/NSOpenGLView.h>
 #import <cstring>
-#import <vector>
 
 #import "GLPrefix.h"
 #import "GLCocoaContext.h"
@@ -64,7 +63,9 @@
 #import "E3CocoaPrefix.h"
 
 
-
+#ifndef GL_FRAMEBUFFER
+	#define GL_FRAMEBUFFER                    0x8D40
+#endif
 
 //=============================================================================
 //		Platform check
@@ -91,6 +92,30 @@
 @end
 
 
+#if Q3_DEBUG
+#undef Q3_DEBUG_GL_ERRORS
+#define Q3_DEBUG_GL_ERRORS 	1
+#endif
+
+static GLenum sGLError = 0;
+
+#if Q3_DEBUG_GL_ERRORS
+	#define		CHECK_GL_ERROR	do {	\
+									sGLError = glGetError();	\
+									if (sGLError != GL_NO_ERROR)	\
+									{	\
+										char	xmsg[200];	\
+										snprintf( xmsg, sizeof(xmsg),	\
+											"glGetError() is %s", \
+											GLUtils_GLErrorToString( sGLError ) );	\
+										E3Assert(__FILE__, __LINE__, xmsg);	\
+									} \
+								} while (false)
+#else
+	#define		CHECK_GL_ERROR
+#endif
+
+
 CocoaGLContext::CocoaGLContext(
 					TQ3DrawContextObject theDrawContext,
 					TQ3Boolean shareTextures )
@@ -104,6 +129,7 @@ CocoaGLContext::CocoaGLContext(
 		NSOpenGLPFADoubleBuffer,
 		NSOpenGLPFADepthSize, 24,
 		NSOpenGLPFAStencilSize, 8,
+		NSOpenGLPFAOpenGLProfile, NSOpenGLProfileVersion3_2Core,
 		0
 	};
 	TQ3ObjectType					drawContextType;
@@ -297,12 +323,7 @@ CocoaGLContext::CocoaGLContext(
 		// Get the function pointer to bind an FBO, if possible.  This cannot be done until
 		// after the context has been made current.
 		GLUtils_CheckExtensions( &extFlags );
-		if (extFlags.frameBufferObjects)
-		{
-			// The extension check is necessary; the function pointer may be
-			// available even if the extension is not.
-			bindFrameBufferFunc = GLGetProcAddress( "glBindFramebufferEXT" );
-		}
+		GLGetProcAddress( bindFrameBufferFunc, "glBindFramebuffer", "glBindFramebufferEXT" );
 
 
 
@@ -327,7 +348,6 @@ CocoaGLContext::CocoaGLContext(
 
 CocoaGLContext::~CocoaGLContext()
 {
-	Q3_MESSAGE_FMT("~CocoaGLContext");
 	@autoreleasepool
 	{
 		// Workaround for a weird problem: In some cases I destroyed the GL context for a
@@ -380,6 +400,7 @@ void	CocoaGLContext::SetCurrentBase( TQ3Boolean inForceSet )
 		{
 			//Q3_LOG_FMT("Quesa making context %p current", glContext);
 			[glContext makeCurrentContext];
+			CHECK_GL_ERROR;
 		}
 	}
 }
@@ -388,11 +409,14 @@ void	CocoaGLContext::SetCurrent( TQ3Boolean inForceSet )
 {
 	// Activate the context
 	SetCurrentBase( inForceSet );
+	CHECK_GL_ERROR;
 	
 	// Make sure that no FBO is active
-	if (BindFrameBuffer( GL_FRAMEBUFFER_EXT, 0 ))
+	if (BindFrameBuffer( GL_FRAMEBUFFER, 0 ))
 	{
+		CHECK_GL_ERROR;
 		glViewport( viewPort[0], viewPort[1], viewPort[2], viewPort[3] );
+		CHECK_GL_ERROR;
 	}
 }
 

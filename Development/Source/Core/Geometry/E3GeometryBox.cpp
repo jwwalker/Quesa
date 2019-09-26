@@ -5,7 +5,7 @@
         Implementation of Quesa Box geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -211,12 +211,12 @@ e3geom_box_duplicate (	E3Box* fromBox, const void *fromPrivateData,
 		toBox->instanceData.boxAttributeSet = Q3Object_Duplicate( atts );
 
 	if ( fromBox->instanceData.faceAttributeSet != nullptr )
-		{
+	{
 		// duplicate the faces attribute array
 		toBox->instanceData.faceAttributeSet = (TQ3AttributeSet*) Q3Memory_Allocate ( 6 * sizeof ( TQ3AttributeSet ) ) ;
 
 		if ( toBox->instanceData.faceAttributeSet != nullptr )
-			{
+		{
 			// duplicate the face attributes
 			for ( TQ3Uns32 n = 0 ; n < 6 ; ++n )
 			{

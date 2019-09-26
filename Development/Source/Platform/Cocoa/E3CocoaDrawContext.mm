@@ -336,13 +336,13 @@ E3CocoaDrawContext_UnregisterClass(void)
 //-----------------------------------------------------------------------------
 TQ3DrawContextObject
 E3CocoaDrawContext_New(const TQ3CocoaDrawContextData *drawContextData)
-	{
+{
 	TQ3DrawContextObject theDC = nullptr;
 	NSView* theView = (NSView*) drawContextData->nsView;
 	if ( (theView != nil) && ([theView window] != nil) && ([[theView window] windowNumber] > 0) )
 	{
 		theDC = E3ClassTree::CreateInstance(kQ3DrawContextTypeCocoa, 
-                                           kQ3False, drawContextData);
+											   kQ3False, drawContextData);
 		
 		if (theDC != nullptr)
 		{
@@ -355,7 +355,7 @@ E3CocoaDrawContext_New(const TQ3CocoaDrawContextData *drawContextData)
 		E3ErrorManager_PostError( kQ3ErrorInvalidParameter, kQ3False );
 	}
 	return theDC;
-	}
+}
 
 
 
@@ -439,12 +439,12 @@ E3CocoaDrawContext_SetNSView(TQ3DrawContextObject drawContext, void *nsView)
 
 	// Set the field and reset our flag
 	if (instanceData->data.cocoaData.theData.nsView != nsView)
-		{
+	{
 		instanceData->data.cocoaData.theData.nsView = nsView;
 		instanceData->theState                     |= kQ3XDrawContextValidationAll;
 		Q3Shared_Edited(drawContext);
-		}
-
+	}
+	
 	// Even if the NSView did not change, refreshed the cached view bounds.
 	NSView* theView = (NSView*) instanceData->data.cocoaData.theData.nsView;
 	if (theView != nil)

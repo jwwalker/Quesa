@@ -48,7 +48,10 @@
 #include "Quesa.h"
 #include "QuesaShader.h"
 
-
+namespace QORenderer
+{
+	class PerPixelLighting;
+}
 
 
 
@@ -71,7 +74,7 @@ void		GLUtils_ConvertMatrix4x4(const TQ3Matrix4x4 *qd3dMatrix, GLfloat *glMatrix
 
 
 // Convert a QD3D UV boundary to an OpenGL boundary
-void		GLUtils_ConvertUVBoundary(TQ3ShaderUVBoundary qd3dBounds, GLint *glBounds, TQ3Boolean clampToEdgeAvailable);
+void		GLUtils_ConvertUVBoundary( TQ3ShaderUVBoundary qd3dBounds, GLint *glBounds );
 
 
 // Convert a QD3D pixel type to an OpenGL texture format
@@ -86,16 +89,13 @@ TQ3Uns32	GLUtils_SizeOfPixelType(TQ3PixelType pixelType);
 void		GLUtils_CheckExtensions( TQ3GLExtensions* featureFlags );
 
 
-// Enable or disable a client state if it has changed
-void		GLUtils_UpdateClientState( TQ3Boolean enable, TQ3Boolean* stateFlag, GLenum whichArray );
-
-
 // Get a function pointer associated with an OpenGL extension
 void*		GLGetProcAddress( const char* funcName );
 
 
 // Load the OpenGL texture matrix with a Quesa UV transform matrix
-void		GLUtils_LoadShaderUVTransform( const TQ3Matrix3x3* qMatrix );
+void		GLUtils_LoadShaderUVTransform( const TQ3Matrix3x3* qMatrix,
+										QORenderer::PerPixelLighting& inPPL );
 
 
 // Map Quesa specular control to OpenGL shininess

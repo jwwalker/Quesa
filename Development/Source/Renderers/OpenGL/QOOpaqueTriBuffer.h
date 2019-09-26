@@ -11,7 +11,7 @@
         Header for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -75,14 +75,11 @@ public:
 	
 	void					AddTriangle( const Vertex* inVertices );
 	
-	void					RenderOneTriangle( const Vertex* inVertices );
-
 private:
 	Renderer&				mRenderer;
 
 	VertexFlags				mTriBufferFlags;
 	std::vector<Vertex>		mTriBuffer;
-	std::vector<GLuint>		mTriBufferIndices;
 };
 
 }

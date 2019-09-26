@@ -74,11 +74,13 @@ namespace
 QORenderer::ProgramCharacteristic::ProgramCharacteristic()
 	: mIlluminationType( kQ3IlluminationTypeNULL )
 	, mInterpolationStyle( kQ3InterpolationStyleVertex )
+	, mFillStyle( kQ3FillStyleFilled )
 	, mIsTextured( false )
 	, mIsCartoonish( false )
 	, mFogModeCombined( kFogModeOff )
 	, mIsUsingClippingPlane( false )
 	, mAngleAffectsAlpha( true )
+	, mDimension( 2 )
 {
 }
 
@@ -87,11 +89,13 @@ QORenderer::ProgramCharacteristic::ProgramCharacteristic(
 	: mPattern( inOther.mPattern )
 	, mIlluminationType( inOther.mIlluminationType )
 	, mInterpolationStyle( inOther.mInterpolationStyle )
+	, mFillStyle( inOther.mFillStyle )
 	, mIsTextured( inOther.mIsTextured )
 	, mIsCartoonish( inOther.mIsCartoonish )
 	, mFogModeCombined( inOther.mFogModeCombined )
 	, mIsUsingClippingPlane( inOther.mIsUsingClippingPlane )
 	, mAngleAffectsAlpha( inOther.mAngleAffectsAlpha )
+	, mDimension( inOther.mDimension )
 {
 }
 
@@ -101,11 +105,13 @@ bool	QORenderer::ProgramCharacteristic::operator==(
 	return (mIsTextured == inOther.mIsTextured) &&
 			(mIlluminationType == inOther.mIlluminationType) &&
 			(mInterpolationStyle == inOther.mInterpolationStyle) &&
+			(mFillStyle == inOther.mFillStyle) &&
 			(mIsCartoonish == inOther.mIsCartoonish) &&
 			(mPattern == inOther.mPattern) &&
 			(mFogModeCombined == inOther.mFogModeCombined ) &&
 			(mIsUsingClippingPlane == inOther.mIsUsingClippingPlane) &&
-			(mAngleAffectsAlpha == inOther.mAngleAffectsAlpha);
+			(mAngleAffectsAlpha == inOther.mAngleAffectsAlpha) &&
+			(mDimension == inOther.mDimension);
 }
 
 
@@ -116,11 +122,13 @@ void	QORenderer::ProgramCharacteristic::swap(
 	
 	std::swap( mIlluminationType, ioOther.mIlluminationType );
 	std::swap( mInterpolationStyle, ioOther.mInterpolationStyle );
+	std::swap( mFillStyle, ioOther.mFillStyle );
 	std::swap( mIsTextured, ioOther.mIsTextured );
 	std::swap( mIsCartoonish, ioOther.mIsCartoonish );
 	std::swap( mFogModeCombined, ioOther.mFogModeCombined );
 	std::swap( mIsUsingClippingPlane, ioOther.mIsUsingClippingPlane );
 	std::swap( mAngleAffectsAlpha, ioOther.mAngleAffectsAlpha );
+	std::swap( mDimension, ioOther.mDimension );
 }
 
 QORenderer::ProgramCharacteristic&	QORenderer::ProgramCharacteristic::operator=( const QORenderer::ProgramCharacteristic& inOther )
@@ -167,10 +175,9 @@ QORenderer::ProgramCache::~ProgramCache()
 		QORenderer::glDeleteProgramProc deleteProgram;
 		GLGetProcAddress( deleteProgram, "glDeleteProgram", "glDeleteObjectARB" );
 		
-		std::vector<ProgramRec>::iterator endIt = mPrograms.end();
-		for (std::vector<ProgramRec>::iterator i = mPrograms.begin(); i != endIt; ++i)
+		for (const ProgramRec& aProgram : mPrograms)
 		{
-			deleteProgram( i->mProgram );
+			deleteProgram( aProgram.mProgram );
 		}
 	}
 }

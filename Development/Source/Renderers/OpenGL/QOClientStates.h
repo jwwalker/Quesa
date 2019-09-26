@@ -11,7 +11,7 @@
         Header for Quesa OpenGL renderer.
 		    
     COPYRIGHT:
-        Copyright (c) 2007, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2018, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -59,7 +59,9 @@
 //-----------------------------------------------------------------------------
 namespace QORenderer
 {
-
+	struct GLSLFuncs;
+	class PerPixelLighting;
+	
 /*!
 	@class		ClientStates
 	
@@ -72,7 +74,13 @@ namespace QORenderer
 class ClientStates
 {
 public:
-	void			StartPass();
+					ClientStates( const GLSLFuncs& inFuncs,
+								const PerPixelLighting& inShader )
+						: mFuncs( inFuncs )
+						, mShader( inShader )
+					{}
+
+	void			StartProgram();
 	
 	void			EnableNormalArray( bool inEnable = true );
 	void			DisableNormalArray();
@@ -85,9 +93,12 @@ public:
 	
 
 private:
-	TQ3Boolean		mGLClientStateNormal;
-	TQ3Boolean		mGLClientStateColor;
-	TQ3Boolean		mGLClientStateUV;
+	const GLSLFuncs&			mFuncs;
+	const PerPixelLighting&		mShader;
+
+	bool		mGLClientStateNormal;
+	bool		mGLClientStateColor;
+	bool		mGLClientStateUV;
 };
 	
 }
