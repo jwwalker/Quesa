@@ -107,6 +107,7 @@ enum
 	#define GL_STENCIL_INDEX4_EXT              0x8D47
 	#define GL_STENCIL_INDEX8_EXT              0x8D48
 	#define GL_STENCIL_INDEX16_EXT             0x8D49
+	#define GL_RENDERBUFFER_STENCIL_SIZE	   0x8D55
 #endif
 
 #ifndef GL_EXT_framebuffer_blit
@@ -193,6 +194,7 @@ typedef void (APIENTRY* glGenRenderbuffersEXTProcPtr) (GLsizei n, GLuint *render
 typedef void (APIENTRY* glDeleteRenderbuffersEXTProcPtr) (GLsizei n, const GLuint *renderbuffers);
 typedef void (APIENTRY* glBindRenderbufferEXTProcPtr) (GLenum target, GLuint renderbuffer);
 typedef void (APIENTRY* glRenderbufferStorageEXTProcPtr) (GLenum target, GLenum internalformat, GLsizei width, GLsizei height);
+typedef void (APIENTRY* glGetRenderbufferParameterivProcPtr)(GLenum target, GLenum pname, GLint* params);
 
 typedef void (APIENTRY* glFramebufferRenderbufferEXTProcPtr) (GLenum target, GLenum attachment, GLenum renderbuffertarget, GLuint renderbuffer);
 typedef GLenum (APIENTRY* glCheckFramebufferStatusEXTProcPtr) (GLenum target);
@@ -292,6 +294,7 @@ private:
 	glRenderbufferStorageMultisampleProcPtr	glRenderbufferStorageMultisample;
 	glBlitFramebufferProcPtr				glBlitFramebuffer;
 	glIsFramebufferProcPtr					glIsFramebuffer;
+	glGetRenderbufferParameterivProcPtr		glGetRenderbufferParameteriv;
 };
 
 // Platform specific types
@@ -649,6 +652,7 @@ FBORec::FBORec(
 	GLGetProcAddress( glCheckFramebufferStatusEXT, "glCheckFramebufferStatus", "glCheckFramebufferStatusEXT" );
 	GLGetProcAddress( glFramebufferTexture2DEXT, "glFramebufferTexture2D", "glFramebufferTexture2DEXT" );
 	GLGetProcAddress( glIsFramebuffer, "glIsFramebuffer", "glIsFramebufferEXT");
+	GLGetProcAddress( glGetRenderbufferParameteriv, "glGetRenderbufferParameteriv", "glGetRenderbufferParameterivEXT");
 	GLGetProcAddress( glRenderbufferStorageMultisample,
 		"glRenderbufferStorageMultisample", "glRenderbufferStorageMultisampleEXT" );
 	GLGetProcAddress( glBlitFramebuffer,
@@ -848,7 +852,7 @@ void	FBORec::InitDepthAndStencil(
 		
 		// Check that we actually got stencil bits.
 		GLint actualStencilBits = 0;
-		glGetRenderbufferParameteriv( GL_RENDERBUFFER, GL_RENDERBUFFER_STENCIL_SIZE, &actualStencilBits );
+		glGetRenderbufferParameteriv(GL_RENDERBUFFER_EXT, GL_RENDERBUFFER_STENCIL_SIZE, &actualStencilBits );
 		if ( E3Num_SafeLess( actualStencilBits, stencilBits ) )
 		{
 			Q3_MESSAGE_FMT( "FBO requested %d stencil bits, only got %d.", (int)stencilBits, (int)actualStencilBits );

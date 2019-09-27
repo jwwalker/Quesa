@@ -47,7 +47,7 @@
 //-----------------------------------------------------------------------------
 // Quesa
 #include "Quesa.h"
-
+#include <stdint.h>
 
 // OpenGL
 #if QUESA_OS_MACINTOSH
@@ -74,6 +74,9 @@
 #elif QUESA_OS_WIN32
     #include <GL/gl.h>
     #include <GL/glu.h>
+	#include <stdint.h>
+	typedef intptr_t GLintptr;
+	typedef intptr_t GLsizeiptr;
 
 #elif QUESA_OS_UNIX
 // for glXGetProcAddressARB
@@ -199,7 +202,7 @@ inline GLvoid* GLBufferObPtr( GLuint offset )
 	return reinterpret_cast<GLvoid*>( static_cast<uintptr_t>( offset ) );
 }
 
-inline GLvoid* GLBufferObPtr( GLsizeiptr offset )
+inline GLvoid* GLBufferObPtr( intptr_t offset )
 {
 	return reinterpret_cast<GLvoid*>( static_cast<uintptr_t>( offset ) );
 }

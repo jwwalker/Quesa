@@ -35,23 +35,11 @@
     <Filter Include="Source\Renderers\Generic">
       <UniqueIdentifier>{162bd1e3-a848-4004-8b51-71763aaf1980}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source\Renderers\Interactive">
-      <UniqueIdentifier>{9b22ecc7-35bd-4ce2-b9ce-4a10c2e614aa}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Renderers\Wireframe">
-      <UniqueIdentifier>{4186a097-b19b-449d-a1fe-76585ea87d0d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Renderers\Cartoon">
-      <UniqueIdentifier>{2e07c4ec-4fd4-40ef-833b-403b8ffb3d41}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source\Renderers\MakeStrip">
       <UniqueIdentifier>{1ed0b6a5-0421-41ba-af74-e95ac81a573a}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\Renderers\OpenGL">
       <UniqueIdentifier>{4dc2c19b-8f46-4c5a-9ffa-b932f2bb704b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source\Renderers\HiddenLine">
-      <UniqueIdentifier>{6aca721d-d0b7-4859-9ab0-1382896af3b2}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source\FileFormats">
       <UniqueIdentifier>{0fe0ed1a-31c7-499f-9d11-985c42b8b5fc}</UniqueIdentifier>
@@ -76,9 +64,6 @@
     <ClCompile Include="..\..\Source\Core\System\E3Math_Intersect.cpp">
       <Filter>Source\Core\System</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Renderers\Common\GLDisplayListManager.cpp">
-      <Filter>Source\Renderers\Common</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Renderers\Common\GLGPUSharing.cpp">
       <Filter>Source\Renderers\Common</Filter>
     </ClCompile>
@@ -90,12 +75,6 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Renderers\Common\OptimizedTriMeshElement.cpp">
       <Filter>Source\Renderers\Common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Renderers\Wireframe\WFRenderer.cpp">
-      <Filter>Source\Renderers\Wireframe</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Renderers\Cartoon\CartoonRenderer.cpp">
-      <Filter>Source\Renderers\Cartoon</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Renderers\MakeStrip\MakeStrip.cpp">
       <Filter>Source\Renderers\MakeStrip</Filter>
@@ -153,9 +132,6 @@
     </ClCompile>
     <ClCompile Include="..\..\Source\Renderers\OpenGL\QOUpdate.cpp">
       <Filter>Source\Renderers\OpenGL</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Renderers\HiddenLine\HiddenLine.cpp">
-      <Filter>Source\Renderers\HiddenLine</Filter>
     </ClCompile>
     <ClCompile Include="..\..\Source\Renderers\MakeStrip\StripMaker_FreeFaceSet.cpp">
       <Filter>Source\Renderers\MakeStrip</Filter>
@@ -454,32 +430,8 @@
     <ClCompile Include="..\..\Source\Renderers\Generic\GNRenderer.cpp">
       <Filter>Source\Renderers\Generic</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Source\Renderers\Interactive\IRGeometry.cpp">
-      <Filter>Source\Renderers\Interactive</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Renderers\Interactive\IRGeometryTriMesh.cpp">
-      <Filter>Source\Renderers\Interactive</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Renderers\Interactive\IRLights.cpp">
-      <Filter>Source\Renderers\Interactive</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Renderers\Interactive\IRRegister.cpp">
-      <Filter>Source\Renderers\Interactive</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Renderers\Interactive\IRRenderer.cpp">
-      <Filter>Source\Renderers\Interactive</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Renderers\Interactive\IRTexture.cpp">
-      <Filter>Source\Renderers\Interactive</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Renderers\Interactive\IRTransparent.cpp">
-      <Filter>Source\Renderers\Interactive</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Renderers\Interactive\IRTriBuffer.cpp">
-      <Filter>Source\Renderers\Interactive</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\Source\Renderers\Interactive\IRUpdate.cpp">
-      <Filter>Source\Renderers\Interactive</Filter>
+    <ClCompile Include="..\..\Source\Renderers\Common\GLImmediateVBO.cpp">
+      <Filter>Source\Renderers\Common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -487,9 +439,6 @@
       <Filter>Source\Core\System</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Renderers\Common\GLCamera.h">
-      <Filter>Source\Renderers\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Renderers\Common\GLDisplayListManager.h">
       <Filter>Source\Renderers\Common</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Renderers\Common\GLDrawContext.h">
@@ -515,9 +464,6 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Renderers\Common\OptimizedTriMeshElement.h">
       <Filter>Source\Renderers\Common</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\Source\Renderers\Wireframe\WFRenderer.h">
-      <Filter>Source\Renderers\Wireframe</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Source\Renderers\MakeStrip\MakeStrip.h">
       <Filter>Source\Renderers\MakeStrip</Filter>
@@ -558,9 +504,6 @@
     <ClInclude Include="..\..\Source\Renderers\OpenGL\QOTransBuffer.h">
       <Filter>Source\Renderers\OpenGL</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Source\Renderers\HiddenLine\HiddenLine.h">
-      <Filter>Source\Renderers\HiddenLine</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\Source\Core\Support\E3FastArray.h">
       <Filter>Source\Core\Support</Filter>
     </ClInclude>
@@ -575,6 +518,9 @@
     </ClInclude>
     <ClInclude Include="..\..\Source\Renderers\OpenGL\QOShaderProgramCache.h">
       <Filter>Source\Renderers\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Renderers\Common\GLImmediateVBO.h">
+      <Filter>Source\Renderers\Common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

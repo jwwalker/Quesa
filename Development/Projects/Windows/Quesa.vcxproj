@@ -311,41 +311,21 @@
     <ClCompile Include="..\..\Source\Platform\Windows\E3WindowsSystem.cpp" />
     <ClCompile Include="..\..\Source\Renderers\Common\GLCamera.cpp" />
     <ClCompile Include="..\..\Source\Renderers\Common\GLDrawContext.cpp" />
+    <ClCompile Include="..\..\Source\Renderers\Common\GLImmediateVBO.cpp" />
     <ClCompile Include="..\..\Source\Renderers\Common\GLShadowVolumeManager.cpp" />
     <ClCompile Include="..\..\Source\Renderers\Common\GLTextureManager.cpp" />
     <ClCompile Include="..\..\Source\Renderers\Common\GLUtils.cpp" />
     <ClCompile Include="..\..\Source\Renderers\Generic\GNGeometry.cpp" />
     <ClCompile Include="..\..\Source\Renderers\Generic\GNRegister.cpp" />
     <ClCompile Include="..\..\Source\Renderers\Generic\GNRenderer.cpp" />
-    <ClCompile Include="..\..\Source\Renderers\Interactive\IRGeometry.cpp" />
-    <ClCompile Include="..\..\Source\Renderers\Interactive\IRGeometryTriMesh.cpp" />
-    <ClCompile Include="..\..\Source\Renderers\Interactive\IRLights.cpp" />
-    <ClCompile Include="..\..\Source\Renderers\Interactive\IRRegister.cpp" />
-    <ClCompile Include="..\..\Source\Renderers\Interactive\IRRenderer.cpp" />
-    <ClCompile Include="..\..\Source\Renderers\Interactive\IRTexture.cpp" />
-    <ClCompile Include="..\..\Source\Renderers\Interactive\IRTransparent.cpp" />
-    <ClCompile Include="..\..\Source\Renderers\Interactive\IRTriBuffer.cpp" />
-    <ClCompile Include="..\..\Source\Renderers\Interactive\IRUpdate.cpp" />
     <ClCompile Include="..\..\Source\Renderers\MakeStrip\StripMaker_FreeFaceSet.cpp" />
     <ClCompile Include="..\..\Source\Renderers\OpenGL\QOShaderProgramCache.cpp" />
     <ClCompile Include="..\..\Source\Renderers\OpenGL\QOShadowMarker.cpp" />
     <ClCompile Include="..\..\Source\Core\System\E3Math_Intersect.cpp" />
-    <ClCompile Include="..\..\Source\Renderers\Common\GLDisplayListManager.cpp" />
     <ClCompile Include="..\..\Source\Renderers\Common\GLGPUSharing.cpp" />
     <ClCompile Include="..\..\Source\Renderers\Common\GLTextureLoader.cpp" />
     <ClCompile Include="..\..\Source\Renderers\Common\GLVBOManager.cpp" />
     <ClCompile Include="..\..\Source\Renderers\Common\OptimizedTriMeshElement.cpp" />
-    <ClCompile Include="..\..\Source\Renderers\Wireframe\WFRenderer.cpp" />
-    <ClCompile Include="..\..\Source\Renderers\Cartoon\CartoonRenderer.cpp">
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
-    </ClCompile>
     <ClCompile Include="..\..\Source\Renderers\MakeStrip\MakeStrip.cpp" />
     <ClCompile Include="..\..\Source\Renderers\MakeStrip\StripMaker_FindAdjacencies.cpp" />
     <ClCompile Include="..\..\Source\Renderers\MakeStrip\StripMaker_InitFaces.cpp" />
@@ -365,17 +345,16 @@
     <ClCompile Include="..\..\Source\Renderers\OpenGL\QOTexture.cpp" />
     <ClCompile Include="..\..\Source\Renderers\OpenGL\QOTransBuffer.cpp" />
     <ClCompile Include="..\..\Source\Renderers\OpenGL\QOUpdate.cpp" />
-    <ClCompile Include="..\..\Source\Renderers\HiddenLine\HiddenLine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Core\Support\E3FastArray.h" />
     <ClInclude Include="..\..\Source\Core\Support\E3Version.h" />
+    <ClInclude Include="..\..\Source\Renderers\Common\GLImmediateVBO.h" />
     <ClInclude Include="..\..\Source\Renderers\Common\GLShadowVolumeManager.h" />
     <ClInclude Include="..\..\Source\Renderers\OpenGL\QOShaderProgramCache.h" />
     <ClInclude Include="..\..\Source\Renderers\OpenGL\QOShadowMarker.h" />
     <ClInclude Include="..\..\Source\Core\System\E3Math_Intersect.h" />
     <ClInclude Include="..\..\Source\Renderers\Common\GLCamera.h" />
-    <ClInclude Include="..\..\Source\Renderers\Common\GLDisplayListManager.h" />
     <ClInclude Include="..\..\Source\Renderers\Common\GLDrawContext.h" />
     <ClInclude Include="..\..\Source\Renderers\Common\GLGPUSharing.h" />
     <ClInclude Include="..\..\Source\Renderers\Common\GLPrefix.h" />
@@ -384,7 +363,6 @@
     <ClInclude Include="..\..\Source\Renderers\Common\GLUtils.h" />
     <ClInclude Include="..\..\Source\Renderers\Common\GLVBOManager.h" />
     <ClInclude Include="..\..\Source\Renderers\Common\OptimizedTriMeshElement.h" />
-    <ClInclude Include="..\..\Source\Renderers\Wireframe\WFRenderer.h" />
     <ClInclude Include="..\..\Source\Renderers\MakeStrip\MakeStrip.h" />
     <ClInclude Include="..\..\Source\Renderers\MakeStrip\StripMaker.h" />
     <ClInclude Include="..\..\Source\Renderers\OpenGL\QOClientStates.h" />
@@ -398,7 +376,6 @@
     <ClInclude Include="..\..\Source\Renderers\OpenGL\QOStatics.h" />
     <ClInclude Include="..\..\Source\Renderers\OpenGL\QOTexture.h" />
     <ClInclude Include="..\..\Source\Renderers\OpenGL\QOTransBuffer.h" />
-    <ClInclude Include="..\..\Source\Renderers\HiddenLine\HiddenLine.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\..\Source\Platform\Windows\Resources\Quesa.rc" />

@@ -152,7 +152,7 @@ typedef void (QO_PROCPTR_TYPE glUniformMatrix3fvProc)(GLint location,
 													GLboolean transpose,
 													const GLfloat *value);
 
-typedef GLint (QO_PROCPTR_TYPE glGetAttribLocationProc)( GLuint program, const GLchar *name );
+typedef GLint (QO_PROCPTR_TYPE glGetAttribLocationProc)( GLuint program, const char *name );
 typedef void (QO_PROCPTR_TYPE glEnableVertexAttribArrayProc)( GLuint index );
 typedef void (QO_PROCPTR_TYPE glDisableVertexAttribArrayProc)( GLuint index );
 typedef void (QO_PROCPTR_TYPE glVertexAttrib3fvProc)( GLuint index, const GLfloat *v );

@@ -141,6 +141,8 @@ void		E3LogMessage( const char* inMessage )
 		return;
 	}
 
+	OutputDebugStringA(inMessage);
+
 	if (sLogFile == NULL)
 	{
 		TCHAR thePath[MAX_PATH];

@@ -738,7 +738,7 @@ Qut_CreateMenu(qutFuncAppMenuSelect appMenuSelect)
 //      Qut_CreateMenuItem : Create a menu item.
 //-----------------------------------------------------------------------------
 void
-Qut_CreateMenuItem(TQ3Uns32 itemNum, char *itemText)
+Qut_CreateMenuItem(TQ3Uns32 itemNum, const char *itemText)
 {	TQ3Uns32	numItems, finalItemNum;
 	HMENU		theMenu;
 

@@ -244,6 +244,7 @@ TQ3Status	QORenderer::Renderer::StartFrame(
 					drawContextFlags &= ~kQ3XDrawContextValidationPane;
 				}
 			}
+			CHECK_GL_ERROR;
 		}
 
 		// Handle more complex cases by doing a rebuild
@@ -255,7 +256,6 @@ TQ3Status	QORenderer::Renderer::StartFrame(
 				mPPLighting.Cleanup();
 				GLDrawContext_Destroy( &mGLContext );
 			}
-			CHECK_GL_ERROR;
 
 
 			// And try to build a new one

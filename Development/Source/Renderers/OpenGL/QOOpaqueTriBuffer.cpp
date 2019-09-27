@@ -48,6 +48,10 @@
 #include "GLImmediateVBO.h"
 #include <cstddef>
 
+#ifndef GL_ARRAY_BUFFER
+#define GL_ARRAY_BUFFER		0x8892
+#define GL_ELEMENT_ARRAY_BUFFER		0x8893
+#endif
 
 //=============================================================================
 //      Local functions
