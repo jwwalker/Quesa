@@ -112,6 +112,12 @@ void		GLUtils_ValidateElements( TQ3Uns32 inNumPoints, TQ3Uns32 inNumIndices,
 const char* GLUtils_GLErrorToString( GLenum inGLError );
 
 
+// Check glGetError, and fail an assertion if it shows an error.
+void	GLUtils_CheckGLError( const char* inFileName, int inLineNum );
+void	GLUtils_CheckGLErrorFmt( const char* inFileName, int inLineNum,
+				const char* inFormat, ... );
+
+
 //=============================================================================
 //		C++ postamble
 //-----------------------------------------------------------------------------
@@ -120,6 +126,31 @@ const char* GLUtils_GLErrorToString( GLenum inGLError );
 #endif
 
 
+
+//=============================================================================
+//		Macros
+//-----------------------------------------------------------------------------
+
+#if Q3_DEBUG
+	#ifndef Q3_DEBUG_GL_ERRORS
+		#define Q3_DEBUG_GL_ERRORS 1
+	#endif
+#endif
+
+#if Q3_DEBUG_GL_ERRORS
+	#define 	CHECK_GL_ERROR \
+		GLUtils_CheckGLError( __FILE__, __LINE__ )
+	
+	#define 	CHECK_GL_ERROR_MSG(m) \
+		GLUtils_CheckGLErrorFmt( __FILE__, __LINE__, m )
+	
+	#define		CHECK_GL_ERROR_FMT( format, ...)	\
+		GLUtils_CheckGLErrorFmt( __FILE__, __LINE__, format, __VA_ARGS__ )
+#else
+	#define		CHECK_GL_ERROR_FMT(...)
+	#define 	CHECK_GL_ERROR
+	#define 	CHECK_GL_ERROR_MSG(m)
+#endif
 
 //=============================================================================
 //		C++ templates

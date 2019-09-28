@@ -52,6 +52,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <cstdarg>
 
 #if QUESA_OS_WIN32
 
@@ -444,6 +445,38 @@ const char* GLUtils_GLErrorToString( GLenum inGLError )
 	return result;
 }
 
+
+// Check glGetError, and fail an assertion if it shows an error.
+void	GLUtils_CheckGLError( const char* inFileName, int inLineNum )
+{
+	GLenum error = glGetError();
+	if (error != GL_NO_ERROR)
+	{
+		char xmsg[200];
+		
+		snprintf( xmsg, sizeof(xmsg), "glGetError() is %s", GLUtils_GLErrorToString(error) );
+		
+		E3Assert( inFileName, inLineNum, xmsg );
+	}
+}
+
+// Check glGetError, and fail an assertion if it shows an error.
+void	GLUtils_CheckGLErrorFmt( const char* inFileName, int inLineNum, const char* inFormat, ... )
+{
+	GLenum error = glGetError();
+	if (error != GL_NO_ERROR)
+	{
+		char customMsg[600]; char wholeMsg[800];
+		
+		va_list arglist;
+		va_start( arglist, inFormat );
+		vsnprintf( customMsg, sizeof(customMsg), inFormat, arglist );
+		va_end( arglist );
+		
+		snprintf( wholeMsg, sizeof(wholeMsg), "%s error=%s", GLUtils_GLErrorToString(error), customMsg );
+		E3Assert( inFileName, inLineNum, wholeMsg );
+	}
+}
 
 
 

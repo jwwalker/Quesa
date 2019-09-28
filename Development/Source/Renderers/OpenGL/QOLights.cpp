@@ -80,28 +80,6 @@ using namespace std;
 	#define		TraceGLMatrix(x)
 #endif
 
-#if Q3_DEBUG && !defined(Q3_DEBUG_GL_ERRORS)
-	#define		Q3_DEBUG_GL_ERRORS		1
-#endif
-
-#if Q3_DEBUG_GL_ERRORS
-	static GLenum	sGLError = 0;
-	
-	#define		CHECK_GL_ERROR_FMT(...) \
-								do { \
-									sGLError = glGetError();	\
-									if (sGLError != GL_NO_ERROR)	\
-									{	\
-										char customMsg_[400]; char wholeMsg_[800]; \
-										snprintf( customMsg_, sizeof(customMsg_), __VA_ARGS__ ); \
-										snprintf( wholeMsg_, sizeof(wholeMsg_), "%s %s", GLUtils_GLErrorToString(sGLError), customMsg_ ); \
-										E3Assert(__FILE__, __LINE__, wholeMsg_ );	\
-									}	\
-								} while (false)
-#else
-	#define		CHECK_GL_ERROR_FMT(...)
-#endif
-
 
 //=============================================================================
 //     Local constants

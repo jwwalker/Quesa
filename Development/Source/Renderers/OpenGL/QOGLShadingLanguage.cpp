@@ -1094,37 +1094,6 @@ namespace
 	GLenum	sGLError = 0;
 } // end of unnamed namespace
 
-#if Q3_DEBUG && !defined(Q3_DEBUG_GL_ERRORS)
-	#define		Q3_DEBUG_GL_ERRORS		0
-#endif
-
-#if Q3_DEBUG_GL_ERRORS
-	#define		CHECK_GL_ERROR	do {	\
-									sGLError = glGetError();	\
-									if (sGLError != GL_NO_ERROR)	\
-									{	\
-										char	xmsg[200];	\
-										snprintf( xmsg, sizeof(xmsg),	\
-											"glGetError() is %d", \
-											(int)sGLError );	\
-										E3Assert(__FILE__, __LINE__, xmsg);	\
-									} \
-								} while (false)
-	#define		CHECK_GL_ERROR_FMT(...) \
-								do { \
-									sGLError = glGetError();	\
-									if (sGLError != GL_NO_ERROR)	\
-									{	\
-										char customMsg_[400]; char wholeMsg_[800]; \
-										snprintf( customMsg_, sizeof(customMsg_), __VA_ARGS__ ); \
-										snprintf( wholeMsg_, sizeof(wholeMsg_), "%s %s", GLUtils_GLErrorToString(sGLError), customMsg_ ); \
-										E3Assert(__FILE__, __LINE__, wholeMsg_ );	\
-									}	\
-								} while (false)
-#else
-	#define		CHECK_GL_ERROR
-	#define		CHECK_GL_ERROR_FMT(...)
-#endif
 
 #pragma mark -
 //=============================================================================
@@ -1833,17 +1802,17 @@ void QORenderer::PerPixelLighting::GetLightTypes()
 void	QORenderer::PerPixelLighting::StartFrame( TQ3ViewObject inView )
 {
 	mPassNumber = 0;
-	CHECK_GL_ERROR_FMT("PerPixelLighting::StartFrame 1");
+	CHECK_GL_ERROR_MSG("PerPixelLighting::StartFrame 1");
 	// Save a reference to the view, and initialize the light group edit index
 	mView.Assign( inView );
 	CQ3ObjectRef lightGroup( CQ3View_GetLightGroup( inView ) );
 	mLightGroupEditIndex = Q3Shared_GetEditIndex( lightGroup.get() );
 
 	CheckIfShading();
-	CHECK_GL_ERROR_FMT("PerPixelLighting::StartFrame 2");
+	CHECK_GL_ERROR_MSG("PerPixelLighting::StartFrame 2");
 
 	CalcMaxLights();
-	CHECK_GL_ERROR_FMT("PerPixelLighting::StartFrame 3");
+	CHECK_GL_ERROR_MSG("PerPixelLighting::StartFrame 3");
 	InitVertexShader();
 }
 
@@ -2072,7 +2041,7 @@ void	QORenderer::PerPixelLighting::ChooseProgram()
 				mCurrentProgram = theProgram;
 				(void)glGetError();	// discard any previous unknown error
 				mFuncs.glUseProgram( theProgram->mProgram );
-				CHECK_GL_ERROR_FMT("glUseProgram");
+				CHECK_GL_ERROR_MSG("glUseProgram");
 			#if Q3_DEBUG
 				if ( (sGLError != GL_NO_ERROR) && (mFuncs.glIsProgram != nullptr) )
 				{
@@ -2149,9 +2118,9 @@ void	QORenderer::PerPixelLighting::SetUniformValues( const ProgramRec& ioProgram
 	if (ioProgram.mQuantizationUniformLoc != -1)
 	{
 		mFuncs.glUniform1f( ioProgram.mQuantizationUniformLoc, mQuantization );
-		CHECK_GL_ERROR_FMT("glUniform1f mQuantization");
+		CHECK_GL_ERROR_MSG("glUniform1f mQuantization");
 		mFuncs.glUniform1f( ioProgram.mLightNearEdgeUniformLoc, mLightNearEdge );
-		CHECK_GL_ERROR_FMT("glUniform1f mLightNearEdge");
+		CHECK_GL_ERROR_MSG("glUniform1f mLightNearEdge");
 	}
 	
 	// Set lighting uniform arrays.
@@ -2372,11 +2341,11 @@ static GLuint CreateAndCompileShader( GLenum inShaderType,
 		// Supply source code
 		GLint sourceLen = (GLint) std::strlen( inSource );
 		inFuncs.glShaderSource( shaderID, 1, &inSource, &sourceLen );
-		CHECK_GL_ERROR_FMT("glShaderSource");
+		CHECK_GL_ERROR_MSG("glShaderSource");
 		
 		// Compile the shader
 		inFuncs.glCompileShader( shaderID );
-		CHECK_GL_ERROR_FMT("glCompileShader");
+		CHECK_GL_ERROR_MSG("glCompileShader");
 		
 		// Check for compile success
 		GLint	status;
@@ -2515,7 +2484,7 @@ static std::string DescribeProgram( const QORenderer::ProgramRec& inProgram )
 */
 void	QORenderer::PerPixelLighting::InitProgram()
 {
-	CHECK_GL_ERROR_FMT("InitProgram start");
+	CHECK_GL_ERROR_MSG("InitProgram start");
 	ProgramRec	newProgram;
 	
 	newProgram.mCharacteristic = mProgramCharacteristic;
@@ -2527,7 +2496,7 @@ void	QORenderer::PerPixelLighting::InitProgram()
 	// Create the fragment shader
 	GLint fragShaderID = CreateAndCompileShader( GL_FRAGMENT_SHADER,
 		fragSource.c_str(), mFuncs );
-	CHECK_GL_ERROR_FMT("InitProgram after CreateAndCompileShader");
+	CHECK_GL_ERROR_MSG("InitProgram after CreateAndCompileShader");
 
 	// If processing lines, build the geometry shader
 	GLint geomShaderID = 0;
@@ -2554,7 +2523,7 @@ void	QORenderer::PerPixelLighting::InitProgram()
 	{
 		// Create a program.
 		newProgram.mProgram = mFuncs.glCreateProgram();
-		CHECK_GL_ERROR_FMT("glCreateProgram");
+		CHECK_GL_ERROR_MSG("glCreateProgram");
 	
 		if (newProgram.mProgram != 0)
 		{
@@ -2929,7 +2898,7 @@ void	QORenderer::PerPixelLighting::PreGeomSubmit( TQ3GeometryObject inGeom,
 	}
 
 	bool cartoonUpdate = false;
-	CHECK_GL_ERROR_FMT("PreGeomSubmit 1");
+	CHECK_GL_ERROR_MSG("PreGeomSubmit 1");
 	//Q3_MESSAGE_FMT("PreGeomSubmit dimension %d", inDimension );
 	
 	if ( (inGeom != nullptr) && (mQuantization > 0.0f) )
@@ -2958,7 +2927,7 @@ void	QORenderer::PerPixelLighting::PreGeomSubmit( TQ3GeometryObject inGeom,
 		mProgramCharacteristic.mIsUsingClippingPlane = useClipPlane;
 		mMayNeedProgramChange = true;
 	}
-	CHECK_GL_ERROR_FMT("PreGeomSubmit 2");
+	CHECK_GL_ERROR_MSG("PreGeomSubmit 2");
 	
 	if (inDimension != mProgramCharacteristic.mDimension)
 	{

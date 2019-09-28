@@ -5,7 +5,7 @@
         Quesa OpenGL vertex buffer object caching.
        
     COPYRIGHT:
-        Copyright (c) 2007-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -70,24 +70,6 @@
 
 #if Q3_DEBUG_VBO
 	#include <map>
-#endif
-
-static GLenum sGLError = 0;
-
-#if Q3_DEBUG_GL_ERRORS
-	#define		CHECK_GL_ERROR	do {	\
-									sGLError = glGetError();	\
-									if (sGLError != GL_NO_ERROR)	\
-									{	\
-										char	xmsg[200];	\
-										snprintf( xmsg, sizeof(xmsg),	\
-											"glGetError() is 0x%04X", \
-											(unsigned int)sGLError );	\
-										E3Assert(__FILE__, __LINE__, xmsg);	\
-									} \
-								} while (false)
-#else
-	#define		CHECK_GL_ERROR
 #endif
 
 static int sVBOCount = 0;

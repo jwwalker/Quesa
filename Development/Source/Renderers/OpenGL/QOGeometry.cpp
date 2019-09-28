@@ -60,24 +60,6 @@
 #include "QOCalcTriMeshEdges.h"
 #include "QuesaMathOperators.hpp"
 
-static GLenum sGLError = 0;
-
-#if Q3_DEBUG_GL_ERRORS
-	#define		CHECK_GL_ERROR	do {	\
-									sGLError = glGetError();	\
-									if (sGLError != GL_NO_ERROR)	\
-									{	\
-										char	xmsg[200];	\
-										snprintf( xmsg, sizeof(xmsg),	\
-											"glGetError() is 0x%04X", \
-											(unsigned int)sGLError );	\
-										E3Assert(__FILE__, __LINE__, xmsg);	\
-									} \
-								} while (false)
-#else
-	#define		CHECK_GL_ERROR
-#endif
-
 
 #if Q3_DEBUG && QUESA_OS_MACINTOSH && QUESA_UH_IN_FRAMEWORKS && QUESA_TRACE_GL
 	// This code allows one to see the values passed to certain functions in a
@@ -2062,3 +2044,4 @@ void	QORenderer::Renderer::SubmitPolyLine(
 	
 	mNumPrimitivesRenderedInFrame += inGeomData->numVertices - 1;
 }
+

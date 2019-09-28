@@ -5,7 +5,7 @@
         Quesa OpenGL vertex buffer object for immediate use.
        
     COPYRIGHT:
-        Copyright (c) 2018, Quesa Developers. All rights reserved.
+        Copyright (c) 2018-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -51,27 +51,6 @@
 	#define GL_ELEMENT_ARRAY_BUFFER			0x8893
 	#define GL_STATIC_DRAW                  0x88E4
 	#define GL_DYNAMIC_DRAW                 0x88E8
-#endif
-
-#if Q3_DEBUG && !defined(Q3_DEBUG_GL_ERRORS)
-	#define		Q3_DEBUG_GL_ERRORS		1
-#endif
-
-#if Q3_DEBUG_GL_ERRORS
-	static GLenum sGLError = 0;
-	#define		CHECK_GL_ERROR	do {	\
-									sGLError = glGetError();	\
-									if (sGLError != GL_NO_ERROR)	\
-									{	\
-										char	xmsg[200];	\
-										snprintf( xmsg, sizeof(xmsg),	\
-											"glGetError() is %s", \
-											GLUtils_GLErrorToString( sGLError ) );	\
-										E3Assert(__FILE__, __LINE__, xmsg);	\
-									} \
-								} while (false)
-#else
-	#define		CHECK_GL_ERROR
 #endif
 
 

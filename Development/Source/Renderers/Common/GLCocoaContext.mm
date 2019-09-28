@@ -97,24 +97,6 @@
 #define Q3_DEBUG_GL_ERRORS 	1
 #endif
 
-static GLenum sGLError = 0;
-
-#if Q3_DEBUG_GL_ERRORS
-	#define		CHECK_GL_ERROR	do {	\
-									sGLError = glGetError();	\
-									if (sGLError != GL_NO_ERROR)	\
-									{	\
-										char	xmsg[200];	\
-										snprintf( xmsg, sizeof(xmsg),	\
-											"glGetError() is %s", \
-											GLUtils_GLErrorToString( sGLError ) );	\
-										E3Assert(__FILE__, __LINE__, xmsg);	\
-									} \
-								} while (false)
-#else
-	#define		CHECK_GL_ERROR
-#endif
-
 
 CocoaGLContext::CocoaGLContext(
 					TQ3DrawContextObject theDrawContext,
