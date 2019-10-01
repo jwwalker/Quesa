@@ -19,7 +19,7 @@
 
         For the current release of Quesa, please see:
 
-            <http://www.quesa.org/>
+            <https://github.com/jwwalker/Quesa>
         
         Redistribution and use in source and binary forms, with or without
         modification, are permitted provided that the following conditions

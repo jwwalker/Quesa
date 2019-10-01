@@ -922,13 +922,13 @@ Qut_InvokeStyleCommand(TQ3Int32 theCmd)
 
 			// For more realistic fog, we try and use the clear colour of the draw context
 			if (Q3View_GetDrawContext(gView, &theDrawContext) == kQ3Success)
-				{
+			{
 				Q3DrawContext_GetData(theDrawContext, &drawContextData);
 				if (drawContextData.clearImageMethod == kQ3ClearMethodWithColor)
 					gStyleDataFog.color = drawContextData.clearImageColor;
 
 				Q3Object_Dispose(theDrawContext);
-				}
+			}
 			break;
 
 		case kStyleCmdFogOff:
