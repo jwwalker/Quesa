@@ -176,6 +176,10 @@
       <OutputFile>.\Debug/Quesa.bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent />
+    <PostBuildEvent>
+      <Command>copy /y $(OutDir)\$(TargetFileName) "$(OutDir)\..\..\..\..\Examples\Geom Test\Win32\Debug"</Command>
+      <Message>Copy DLL to Geom Test location</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Midl>
@@ -209,6 +213,12 @@
       <OutputFile>.\Debug/Quesa.bsc</OutputFile>
     </Bscmake>
     <PostBuildEvent />
+    <PostBuildEvent>
+      <Command>copy /y $(OutDir)\$(TargetFileName) "$(OutDir)\..\..\..\..\Examples\Geom Test\x64\Debug"</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>Copy DLL to Geom Test location</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Core\Geometry\E3Geometry.cpp" />

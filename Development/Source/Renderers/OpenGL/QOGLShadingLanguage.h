@@ -163,6 +163,8 @@ typedef void (QO_PROCPTR_TYPE glVertexAttribPointerProc)(
 													GLboolean normalized,
 													GLsizei stride,
 													const GLvoid *pointer );
+typedef void (QO_PROCPTR_TYPE glBindAttribLocationProc)(GLuint program, GLuint index, const char* name);
+
 
 /*!
 	@struct		GLSLFuncs
@@ -211,6 +213,7 @@ struct GLSLFuncs
 	glDisableVertexAttribArrayProc	glDisableVertexAttribArray;
 	glVertexAttrib3fvProc			glVertexAttrib3fv;
 	glVertexAttribPointerProc		glVertexAttribPointer;
+	glBindAttribLocationProc		glBindAttribLocation;
 
 private:
 	void						SetNULL();

@@ -127,7 +127,7 @@ namespace
 					// Transformed texture coordinate
 				"	vec2 texCoord;\n"
 					// Color
-					"vec4 interpolatedColor;\n"
+				"	vec4 interpolatedColor;\n"
 				"};\n"
 
 				"void main()\n"
@@ -1302,6 +1302,7 @@ void	QORenderer::GLSLFuncs::SetNULL()
 	glDisableVertexAttribArray = nullptr;
 	glVertexAttrib3fv = nullptr;
 	glVertexAttribPointer = nullptr;
+	glBindAttribLocation = nullptr;
 }
 
 void	QORenderer::GLSLFuncs::Initialize( const TQ3GLExtensions& inExts )
@@ -1339,6 +1340,7 @@ void	QORenderer::GLSLFuncs::Initialize( const TQ3GLExtensions& inExts )
 		GLGetProcAddress( glDisableVertexAttribArray, "glDisableVertexAttribArray" );
 		GLGetProcAddress( glVertexAttrib3fv, "glVertexAttrib3fv" );
 		GLGetProcAddress( glVertexAttribPointer, "glVertexAttribPointer" );
+		GLGetProcAddress(glBindAttribLocation, "glBindAttribLocation");
 
 		if ( (glCreateShader == nullptr) ||
 			(glShaderSource == nullptr) ||
@@ -1368,7 +1370,8 @@ void	QORenderer::GLSLFuncs::Initialize( const TQ3GLExtensions& inExts )
 			(glEnableVertexAttribArray == nullptr) ||
 			(glDisableVertexAttribArray == nullptr) ||
 			(glVertexAttrib3fv == nullptr) ||
-			(glVertexAttribPointer == nullptr)
+			(glVertexAttribPointer == nullptr) ||
+			(glBindAttribLocation == nullptr)
 			)
 		{
 			Q3_MESSAGE( "Shading functions NOT all present.\n" );
@@ -2350,6 +2353,9 @@ static GLuint CreateAndCompileShader( GLenum inShaderType,
 		// Check for compile success
 		GLint	status;
 		inFuncs.glGetShaderiv( shaderID, GL_COMPILE_STATUS, &status );
+
+		//Q3_MESSAGE_FMT("=== Shader of type %X ===", (int)inShaderType);
+		//E3LogMessage(inSource);
 		
 		if (status == GL_FALSE)
 		{
@@ -2547,6 +2553,11 @@ void	QORenderer::PerPixelLighting::InitProgram()
 			{
 				mFuncs.glAttachShader( newProgram.mProgram, geomShaderID );
 			}
+
+			// Bind generic attribute 0 to vertex positions.
+			// Some buggy drivers render nothing if attribute 0 happens to be
+			// a disabled array.
+			mFuncs.glBindAttribLocation(newProgram.mProgram, 0, "quesaVertex");
 			
 			// Link program
 			mFuncs.glLinkProgram( newProgram.mProgram );
