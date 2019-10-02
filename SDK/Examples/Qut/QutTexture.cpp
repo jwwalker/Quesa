@@ -158,8 +158,13 @@ QutTexture_CreateTextureObjectFromTGAFile( const char* inFilePath )
 			// Make a storage object to hold the pixels.
 			bytesPerPixel = theHeader.bitsPerPixel / 8;
 			numPixels = theHeader.width * theHeader.height;
+			if (numPixels <= 0)
+			{
+				fclose( theFile );
+				return theTexture;
+			}
 			bufferSize = numPixels * bytesPerPixel;
-			theBuffer = (unsigned char*) malloc( bufferSize );
+			theBuffer = (unsigned char*) calloc( 1, bufferSize );
 			if (theBuffer != NULL)
 			{
 				// Read the image.
@@ -408,6 +413,7 @@ TQ3TextureObject	QutTexture_CreateTextureObjectFromFile(	CFURLRef		fileURL,
 				CGContextRelease( imDst );
 			}
 		}
+		CGImageRelease( imRef );
 	}
 
 	return texture;

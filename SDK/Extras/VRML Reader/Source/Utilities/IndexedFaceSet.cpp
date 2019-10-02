@@ -355,6 +355,11 @@ float	CIndexedFaceSet::CalcAngleAtVertex( VertIndex inVertIndex ) const
 	// Find the given vertex among the vertices of this face.
 	size_t vertOnFace = SIZE_MAX;
 	const size_t kVertCount = theFace.mVertices.size();
+	if (kVertCount == 0)
+	{
+		// This probably can't happen, let static analyzer know
+		throw std::runtime_error("CalcAngleAtVertex empty face");
+	}
 	size_t i;
 	for (i = 0; i < kVertCount; ++i)
 	{

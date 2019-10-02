@@ -111,7 +111,6 @@ static void	Delete(
 	CVRMLReader*	reader = reinterpret_cast<CVRMLReader*>(
 		privateData->reserved1 );
 	delete reader;
-	privateData->reserved1 = NULL;
 }
 
 /*!

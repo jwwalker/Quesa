@@ -638,17 +638,17 @@ loadTextureFromSupportFile( const char* inPath )
 	CFStringRef	nameCF = CFStringCreateWithCString( NULL, inPath, kCFStringEncodingUTF8 );
 	CFURLRef	theURL = CFBundleCopyResourceURL( CFBundleGetMainBundle(),
 		nameCF, NULL, NULL );
-	if(theURL != NULL)
-		{
+	CFRelease( nameCF );
+	if (theURL != NULL)
+	{
 		CFStringRef	pathCF = CFURLCopyFileSystemPath( theURL, kCFURLPOSIXPathStyle );
 		char	pathC[1024];
 		CFStringGetCString( pathCF, pathC, sizeof(pathC), kCFStringEncodingUTF8 );
-		CFRelease( nameCF );
 		CFRelease( theURL );
 		CFRelease( pathCF );
 
 		result = QutTexture_CreateTextureFromTGAFile( pathC );
-		}
+	}
 	return result;
 #else
 #if QUESA_OS_WIN32
@@ -1247,7 +1247,7 @@ createGeomMesh(void)
 	if (theFace != NULL)
 		Q3Mesh_FaceToContour(theMesh, theFace, Q3Mesh_FaceNew(theMesh, 3, &meshVertices[8], NULL));
 
-	theFace = Q3Mesh_FaceNew(theMesh, 3, &meshVertices[5], theAttributes);
+	//theFace = Q3Mesh_FaceNew(theMesh, 3, &meshVertices[5], theAttributes);
 
 
 

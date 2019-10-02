@@ -147,14 +147,13 @@ qut_create_camera(TQ3DrawContextObject theDrawContext)
 #endif
     float                           rectWidth, rectHeight;
     TQ3ViewAngleAspectCameraData    cameraData;
-    TQ3Status                       qd3dStatus;
     TQ3CameraObject                 theCamera;
     TQ3Area                         theArea;
 
 
 
     // Get the size of the image we're rendering
-    qd3dStatus = Q3DrawContext_GetPane(theDrawContext, &theArea);
+    Q3DrawContext_GetPane(theDrawContext, &theArea);
 
 
 
@@ -367,8 +366,7 @@ qut_set_depth_and_stencil_size( TQ3ViewObject theView, TQ3DrawContextObject inDC
 void
 Qut_CreateView( qutFuncAppCreateView appCreateView, qutFuncAppConfigureView appConfigureView )
 {   TQ3DrawContextObject    theDrawContext;
-    TQ3Status               qd3dStatus;
-    TQ3CameraObject         theCamera;
+     TQ3CameraObject         theCamera;
 
 
 
@@ -390,9 +388,9 @@ Qut_CreateView( qutFuncAppCreateView appCreateView, qutFuncAppConfigureView appC
         if (gView != NULL)
             {
             // Configure the view
-            qd3dStatus = Q3View_SetDrawContext(gView,    theDrawContext);
-            qd3dStatus = Q3View_SetCamera(gView,         theCamera);
-            qd3dStatus = Q3View_SetRendererByType(gView, kQ3RendererTypeOpenGL);
+            Q3View_SetDrawContext(gView,    theDrawContext);
+            Q3View_SetCamera(gView,         theCamera);
+            Q3View_SetRendererByType(gView, kQ3RendererTypeOpenGL);
 
 			qut_set_depth_and_stencil_size( gView, theDrawContext );
             qut_create_lights(gView);
