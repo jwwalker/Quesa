@@ -526,17 +526,14 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 
 - (void) updateRendererShadowFlag
 {
-	TQ3RendererObject	theRenderer = NULL;
 	TQ3Boolean			shadowFlag;
 
-	Q3View_GetRenderer( [quesa3dView qd3dView], &theRenderer );
-	if (theRenderer != NULL)
+	CQ3ObjectRef renderer( CQ3View_GetRenderer( [quesa3dView qd3dView] ) );
+	if (renderer.isvalid())
 	{
 		shadowFlag = [self drawsShadows]? kQ3True : kQ3False;
-		Q3Object_SetProperty( theRenderer, kQ3RendererPropertyShadows,
+		Q3Object_SetProperty( renderer.get(), kQ3RendererPropertyShadows,
 				sizeof(shadowFlag), &shadowFlag );
-			
-		Q3Object_Dispose( theRenderer );
 	}
 	
 	[quesa3dView setNeedsDisplay:YES];
@@ -551,13 +548,11 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 	// In some cases, the driver disregards disabling of GL_MULTISAMPLE,
 	// so the only way to be sure we can turn antialiasing on and off is
 	// to recreate the renderer.
-	TQ3RendererObject	theRenderer = NULL;
-	Q3View_GetRenderer( [quesa3dView qd3dView], &theRenderer );
-	if (theRenderer != NULL)
+	CQ3ObjectRef renderer( CQ3View_GetRenderer( [quesa3dView qd3dView] ) );
+	if (renderer.isvalid())
 	{
-		TQ3ObjectType theType = Q3Renderer_GetType( theRenderer );
+		TQ3ObjectType theType = Q3Renderer_GetType( renderer.get() );
 		Q3View_SetRendererByType( [quesa3dView qd3dView], theType );
-		Q3Object_Dispose( theRenderer );
 		
 		[self updateRendererShadowFlag];
 	}
@@ -1020,6 +1015,26 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 		Q3InterpolationStyle_Set( _interpolationStyleObject,
 			flatInterpolation? kQ3InterpolationStyleNone : kQ3InterpolationStyleVertex );
 		[quesa3dView setNeedsDisplay: YES];
+	}
+}
+
+- (BOOL) cartoonStyle
+{
+	return _cartoonStyle;
+}
+
+- (void) setCartoonStyle:(BOOL)cartoonStyle
+{
+	if (_cartoonStyle != cartoonStyle)
+	{
+		_cartoonStyle = cartoonStyle;
+		
+		CQ3ObjectRef renderer( CQ3View_GetRenderer( [quesa3dView qd3dView] ) );
+		if (renderer.isvalid())
+		{
+			TQ3Float32 shadeCount = _cartoonStyle? 3.0f : 0.0f;
+			Q3Object_SetProperty( renderer.get(), kQ3RendererPropertyQuantizePerPixelLight, sizeof(shadeCount), &shadeCount );
+		}
 	}
 }
 

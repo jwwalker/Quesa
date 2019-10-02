@@ -72,6 +72,7 @@
 	BOOL				_pointLight;
 	BOOL				_ambientLight;
 	BOOL				_flatInterpolation;
+	BOOL				_cartoonStyle;
 	TQ3Object			mSceneBounds;
 	BOOL				mFullScreenAntialias;
 	TQ3ObjectType		mRendererType;
@@ -100,6 +101,7 @@
 @property (assign) BOOL		pointLight;
 @property (assign) BOOL		ambientLight;
 @property (assign) BOOL		flatInterpolation;
+@property (assign) BOOL		cartoonStyle;
 
 @property (assign) TQ3ObjectType	rendererType;
 

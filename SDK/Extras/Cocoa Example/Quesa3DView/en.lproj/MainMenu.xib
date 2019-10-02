@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="14868" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="15400" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14868"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15400"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -19,7 +19,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <box title="Rotation" id="141">
-                        <rect key="frame" x="612" y="198" width="246" height="158"/>
+                        <rect key="frame" x="612" y="239" width="246" height="158"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <view key="contentView" id="T3o-Ox-QeQ">
                             <rect key="frame" x="3" y="3" width="240" height="138"/>
@@ -238,7 +238,7 @@
                         </textFieldCell>
                     </textField>
                     <button imageHugsTitle="YES" id="201">
-                        <rect key="frame" x="613" y="138" width="172" height="18"/>
+                        <rect key="frame" x="613" y="166" width="172" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Show Bounding Box" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="284">
                             <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
@@ -249,7 +249,7 @@
                         </connections>
                     </button>
                     <button imageHugsTitle="YES" id="203">
-                        <rect key="frame" x="613" y="158" width="87" height="18"/>
+                        <rect key="frame" x="613" y="186" width="87" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Animation" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="285">
                             <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
@@ -260,7 +260,7 @@
                         </connections>
                     </button>
                     <button imageHugsTitle="YES" id="206">
-                        <rect key="frame" x="613" y="118" width="200" height="18"/>
+                        <rect key="frame" x="613" y="146" width="200" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Full-screen Antialiasing" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="286">
                             <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
@@ -271,7 +271,7 @@
                         </connections>
                     </button>
                     <button imageHugsTitle="YES" id="208">
-                        <rect key="frame" x="613" y="98" width="200" height="18"/>
+                        <rect key="frame" x="613" y="126" width="200" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Shadows" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="287">
                             <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
@@ -282,7 +282,7 @@
                         </connections>
                     </button>
                     <button imageHugsTitle="YES" id="300">
-                        <rect key="frame" x="613" y="78" width="200" height="18"/>
+                        <rect key="frame" x="613" y="106" width="200" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Directional Light" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="301">
                             <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
@@ -293,7 +293,7 @@
                         </connections>
                     </button>
                     <button imageHugsTitle="YES" id="pyJ-VH-Dhq">
-                        <rect key="frame" x="613" y="58" width="200" height="18"/>
+                        <rect key="frame" x="613" y="86" width="200" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Point Light" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="ocM-2Z-mWx">
                             <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
@@ -304,7 +304,7 @@
                         </connections>
                     </button>
                     <button imageHugsTitle="YES" id="gUH-Mu-1Aj">
-                        <rect key="frame" x="613" y="38" width="200" height="18"/>
+                        <rect key="frame" x="613" y="66" width="200" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Ambient Light" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="ol9-PA-iOG">
                             <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
@@ -324,7 +324,7 @@
                         </textFieldCell>
                     </textField>
                     <button imageHugsTitle="YES" id="0Ma-C5-Hyt">
-                        <rect key="frame" x="613" y="18" width="200" height="18"/>
+                        <rect key="frame" x="613" y="46" width="200" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Flat Interpolation" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="bO4-HH-v8y">
                             <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
@@ -379,6 +379,17 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
+                    <button imageHugsTitle="YES" id="fM9-LI-JCn">
+                        <rect key="frame" x="613" y="26" width="200" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="Cartoon Style" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="HVC-Oh-T0S">
+                            <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <binding destination="138" name="value" keyPath="cartoonStyle" id="85C-hq-iav"/>
+                        </connections>
+                    </button>
                 </subviews>
             </view>
             <point key="canvasLocation" x="182.5" y="227.5"/>
