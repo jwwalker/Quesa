@@ -68,11 +68,9 @@
 //      Internal types
 //-----------------------------------------------------------------------------
 @interface QuesaViewWatcher : NSObject
-{
-	TQ3DrawContextObject		drawContext;
-}
 
-- (instancetype) initWithDrawContext:(TQ3DrawContextObject)theContext;
+- (instancetype) initWithDrawContext:(TQ3DrawContextObject)theContext
+				view: (NSView*) view;
 
 @end
 
@@ -95,32 +93,39 @@ public :
 //      Internal functions
 //-----------------------------------------------------------------------------
 @implementation QuesaViewWatcher
+{
+	TQ3DrawContextObject		_drawContext;
+	NSView*						_view;
+}
 
 - (instancetype) initWithDrawContext:(TQ3DrawContextObject)theContext
+				view: (NSView*) view
 {
-	if ( (self = [super init]) != nil )
+	self = [super init];
+	if ( self != nil )
 	{
-		drawContext = theContext;
+		_drawContext = theContext;
+		_view = view;
 	}
 	return self;
 }
 
-
-- (void) viewDidResize:(NSNotification*)note
+- (void) refreshCachedBounds
 {
-	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *)
-		drawContext->FindLeafInstanceData();
-    NSRect						viewBounds;
-
-
-
 	// Grab our bounds
-	NSView* view = [note object];
-	viewBounds = [view bounds];
-
+	NSRect viewBounds = [_view bounds];
+	
+	// Adjustment for Retina screen on Catalina
+	if ( (_view.layer != nil) and (_view.layer.contentsScale > 1.0) )
+	{
+		viewBounds.size.width *= _view.layer.contentsScale;
+		viewBounds.size.height *= _view.layer.contentsScale;
+	}
 
 
 	// Reset our state, and update the size of the draw context pane    
+	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *)
+		_drawContext->FindLeafInstanceData();
 	instanceData->theState |= kQ3XDrawContextValidationWindowSize;
 	if (!instanceData->data.common.paneState)
 	{
@@ -132,22 +137,37 @@ public :
 	
 	
 	// Refresh cached bounds
-	Q3Object_SetProperty( drawContext, kViewBoundsProperty, sizeof(viewBounds), &viewBounds );
-	
+	Q3Object_SetProperty( _drawContext, kViewBoundsProperty, sizeof(viewBounds), &viewBounds );
+}
+
+- (void) viewDidResize: (NSNotification*)note
+{
+	[self refreshCachedBounds];
 }
 
 
-
-- (void)drawContextWillClose:(NSNotification*)note
+- (void) drawContextWillClose: (NSNotification*)note
 {
 	[[NSNotificationCenter defaultCenter] removeObserver: self];
+	[_view removeObserver: self
+			forKeyPath: @"layer.contentsScale"];
+	
 	[self release];
 }
 
+- (void) observeValueForKeyPath:(NSString *)keyPath
+		ofObject:(id)object
+		change:(NSDictionary<NSKeyValueChangeKey, id> *)change
+		context:(void *)context
+{
+	// When the view moves between a Retina screen and a non-Retina screen,
+	// the contentsScale of the layer backing the NSOpenGLView may change.
+	[self refreshCachedBounds];
+}
 
 @end
 
-
+#pragma mark -
 
 //-----------------------------------------------------------------------------
 //      e3drawcontext_cocoa_new : Cocoa draw context new method.
@@ -167,7 +187,10 @@ e3drawcontext_cocoa_new(TQ3Object theObject, void *privateData, const void *para
 
 
 	// Register our notification callback
-	QuesaViewWatcher* watcher = [[QuesaViewWatcher alloc] initWithDrawContext: theObject];
+	NSView* viewToWatch = (NSView*)cocoaData->nsView;
+	QuesaViewWatcher* watcher = [[QuesaViewWatcher alloc]
+		initWithDrawContext: theObject
+		view: viewToWatch];
 
 	NSNotificationCenter* defaultCenter = [NSNotificationCenter defaultCenter];
 	[defaultCenter addObserver: watcher
@@ -179,6 +202,11 @@ e3drawcontext_cocoa_new(TQ3Object theObject, void *privateData, const void *para
 						selector: @selector(drawContextWillClose:)
 						name: CocoaDrawContextWillCloseNotification
 						object: (NSView*)cocoaData->nsView];
+	
+	[viewToWatch addObserver: watcher
+					forKeyPath: @"layer.contentsScale"
+					options: 0
+					context: nil];
 
 	return(kQ3Success);
 }
