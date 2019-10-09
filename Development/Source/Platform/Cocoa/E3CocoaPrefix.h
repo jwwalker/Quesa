@@ -48,14 +48,6 @@
 // Include files go here
 
 
-/*!
-	@constant		kViewBoundsProperty
-	
-	@abstract		Property tag to cache the bounds of an NSView of a
-					Cocoa draw context.  This is recorded on the draw context
-					object to be later used in creation of a GLCocoaContext.
-*/
-const TQ3ObjectType	kViewBoundsProperty = 'nsvb';
 
 
 #endif

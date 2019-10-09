@@ -355,8 +355,10 @@ static double qut_time()
 {
  	if (gFuncAppMouseDown != nullptr)
  	{
-		CGFloat viewHeight = NSHeight( self.bounds );
+ 		NSRect viewBackingBounds = [self convertRectToBacking: self.bounds];
+		CGFloat viewHeight = NSHeight( viewBackingBounds );
 		NSPoint local_point = [self convertPoint:event.locationInWindow fromView:nil];
+		local_point = [self convertPointToBacking: local_point];
  		TQ3Point2D hitPt = {
 			static_cast<float>(local_point.x),
 			static_cast<float>(viewHeight - local_point.y)
@@ -369,8 +371,10 @@ static double qut_time()
 {
  	if (gFuncAppMouseUp != nullptr)
  	{
-		CGFloat viewHeight = NSHeight( self.bounds );
+ 		NSRect viewBackingBounds = [self convertRectToBacking: self.bounds];
+		CGFloat viewHeight = NSHeight( viewBackingBounds );
 		NSPoint local_point = [self convertPoint:event.locationInWindow fromView:nil];
+		local_point = [self convertPointToBacking: local_point];
  		TQ3Point2D hitPt = {
 			static_cast<float>(local_point.x),
 			static_cast<float>(viewHeight - local_point.y)

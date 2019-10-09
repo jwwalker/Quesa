@@ -249,11 +249,13 @@ CocoaGLContext::CocoaGLContext(
 
 				// Get the view bounds from the NSView for the initial gl viewport
 				// and the default draw context pane if it's needed.
-				// I get the bounds from a property where I cached in during creation
-				// of the draw context object, rather than directly from the NSView,
-				// because this function might be called from a non-main thread and
-				// [NSView bounds] should not be.
-				Q3Object_GetProperty( theDrawContext, kViewBoundsProperty, sizeof(viewFrame), nullptr, &viewFrame );
+				// Previously I was getting a cached version of the view frame because
+				// -[NSView bounds] can't be called from a thread other than the main
+				// thread.  But as of Catalina, more methods must be called from the
+				// main thread, such as -[NSOpenGLContext setView:] and
+				// -[NSOpenGLContext update], so I have given up on using NSView-based
+				// Quesa rendering off the main thread.
+				viewFrame = [theView convertRectToBacking: theView.bounds];
 			  break;
 
 			
@@ -407,9 +409,8 @@ bool	CocoaGLContext::UpdateWindowSize()
 {
 	[glContext update];
 	
-	// -[NSView bounds] must be used from main thread only
-	NSRect viewFrame;
-	Q3Object_GetProperty( quesaDrawContext, kViewBoundsProperty, sizeof(viewFrame), nullptr, &viewFrame );
+	NSView* theView = (NSView*) nsView;
+	NSRect viewFrame = [theView convertRectToBacking: theView.bounds];
 	
 	TQ3DrawContextData				drawContextData;
 	Q3DrawContext_GetData( quesaDrawContext, &drawContextData );
