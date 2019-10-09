@@ -13,7 +13,7 @@
             <windowStyleMask key="styleMask" titled="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="37" y="307" width="869" height="613"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
             <view key="contentView" id="2">
                 <rect key="frame" x="0.0" y="0.0" width="869" height="613"/>
                 <autoresizingMask key="autoresizingMask"/>
@@ -56,7 +56,7 @@
                                     <rect key="frame" x="27" y="16" width="208" height="27"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <sliderCell key="cell" continuous="YES" alignment="left" maxValue="360" tickMarkPosition="below" numberOfTickMarks="11" sliderType="linear" id="277">
-                                        <font key="font" size="12" name="Helvetica"/>
+                                        <font key="font" metaFont="user"/>
                                     </sliderCell>
                                     <connections>
                                         <binding destination="138" name="enabled" keyPath="animates" id="264">
@@ -71,7 +71,7 @@
                                     <rect key="frame" x="27" y="101" width="208" height="27"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <sliderCell key="cell" continuous="YES" alignment="left" maxValue="360" tickMarkPosition="below" numberOfTickMarks="11" sliderType="linear" id="278">
-                                        <font key="font" size="12" name="Helvetica"/>
+                                        <font key="font" metaFont="user"/>
                                     </sliderCell>
                                     <connections>
                                         <binding destination="138" name="enabled" keyPath="animates" id="258">
@@ -106,7 +106,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <popUpButtonCell key="cell" type="push" title="Box" bezelStyle="rounded" alignment="left" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" tag="1" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="165" id="280">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="menu"/>
+                            <font key="font" metaFont="system"/>
                             <menu key="menu" title="OtherViews" id="166">
                                 <items>
                                     <menuItem title="Box" state="on" tag="1" id="165"/>
@@ -143,7 +143,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <popUpButtonCell key="cell" type="push" title="Item1" bezelStyle="rounded" alignment="left" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="189" id="282">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="menu"/>
+                            <font key="font" metaFont="system"/>
                             <menu key="menu" title="OtherViews" id="193">
                                 <items>
                                     <menuItem title="Item1" state="on" id="189"/>
@@ -159,7 +159,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <popUpButtonCell key="cell" type="push" title="Phong" bezelStyle="rounded" alignment="left" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" tag="2" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="295" id="293">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="menu"/>
+                            <font key="font" metaFont="system"/>
                             <menu key="menu" title="OtherViews" id="294">
                                 <items>
                                     <menuItem title="Phong" state="on" tag="2" id="295"/>
@@ -178,7 +178,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <popUpButtonCell key="cell" type="push" title="Both" bezelStyle="rounded" alignment="left" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="4N5-Iu-eEH" id="BTu-BS-4FF">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="menu"/>
+                            <font key="font" metaFont="system"/>
                             <menu key="menu" title="OtherViews" id="3bu-xJ-JEq">
                                 <items>
                                     <menuItem title="Both" state="on" id="4N5-Iu-eEH"/>
@@ -197,7 +197,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <popUpButtonCell key="cell" type="push" title="Filled" bezelStyle="rounded" alignment="left" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="1d3-gZ-5hh" id="chB-LN-6x6">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="menu"/>
+                            <font key="font" metaFont="system"/>
                             <menu key="menu" title="OtherViews" id="r6n-mG-Ed9">
                                 <items>
                                     <menuItem title="Filled" state="on" id="1d3-gZ-5hh"/>
@@ -339,7 +339,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <popUpButtonCell key="cell" type="push" title="None" bezelStyle="rounded" alignment="left" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="7aV-fb-bXw" id="KkW-Vp-4eX">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="menu"/>
+                            <font key="font" metaFont="system"/>
                             <menu key="menu" title="OtherViews" id="e0V-TC-IVb">
                                 <items>
                                     <menuItem title="None" state="on" id="7aV-fb-bXw"/>
@@ -364,7 +364,7 @@
                         </textFieldCell>
                     </textField>
                     <openGLView wantsLayer="YES" focusRingType="none" colorSize="8bit_RGB" depthSize="24bit" stencilSize="8bit" antiAliasingType="multisample" rendererType="accelerated" samplingRate="4" useAuxiliaryDepthBufferStencil="NO" useDoubleBufferingEnabled="YES" allowOffline="YES" useRecovery="YES" id="Co0-WJ-Fcv" customClass="Quesa3DView">
-                        <rect key="frame" x="5" y="6" width="600" height="660"/>
+                        <rect key="frame" x="5" y="5" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <connections>
                             <outlet property="qd3dDelegate" destination="138" id="Dj2-0o-7if"/>
