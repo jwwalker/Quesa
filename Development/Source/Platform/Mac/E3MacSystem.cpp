@@ -48,12 +48,6 @@
 #include "E3MacLog.h"
 
 
-#if QUESA_SUPPORT_HITOOLBOX
-	#include <Carbon/Carbon.h>
-	#include <AGL/agl.h>
-#endif
-
-
 
 //=============================================================================
 //      Constants
@@ -245,20 +239,6 @@ E3MacSystem_Initialise(void)
 void
 E3MacSystem_Terminate(void)
 {
-
-
-
-
-#if QUESA_SUPPORT_HITOOLBOX
-	// Shut down OpenGL. This fixes a crash on exit on some apps on Mac OS 9
-	// if they exit without destroying renderer objects that use OpenGL.
-	//
-	// Since we may not have any renderers which use OpenGL, we assume that
-	// we've been weak linked and test for the symbol first.
-	if ( &aglResetLibrary != nullptr )
-		aglResetLibrary();
-#endif
-
 	FILE* logStream = E3GetLogStream( false );
 	if (logStream != nullptr)
 	{

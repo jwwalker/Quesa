@@ -5,7 +5,7 @@
         Header file for E3DrawContext.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2011, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -82,17 +82,6 @@ typedef struct TQ3DrawContextUnionData *TQ3DrawContextUnionDataPtr;
 
 // Draw context state
 #if QUESA_OS_MACINTOSH
-	#if QUESA_SUPPORT_HITOOLBOX
-	typedef struct TQ3MacDrawContextState {
-		TQ3MacDrawContextData			theData;
-		TQ3Boolean						paneState;
-		TQ3Area							thePane;
-		Rect							windowRect;
-	#if !TARGET_API_MAC_OS8
-		EventHandlerRef					displayNotificationHandler;
-	#endif
-	} TQ3MacDrawContextState;
-	#endif
 
 	#if QUESA_OS_COCOA
 	typedef struct TQ3CocoaDrawContextState {
@@ -147,9 +136,6 @@ typedef struct TQ3DrawContextUnionData {
 		TQ3PixmapDrawContextData		pixmapData;
 
 #if QUESA_OS_MACINTOSH
-#if QUESA_SUPPORT_HITOOLBOX
-		TQ3MacDrawContextState			macData;
-#endif
 #if QUESA_OS_COCOA
 		TQ3CocoaDrawContextState		cocoaData;
 #endif
@@ -239,22 +225,6 @@ TQ3Status				E3PixmapDrawContext_GetPixmap(TQ3DrawContextObject drawContext, TQ3
 
 
 // Mac specific
-#if QUESA_OS_MACINTOSH && QUESA_SUPPORT_HITOOLBOX
-TQ3Status				E3MacDrawContext_RegisterClass(void);
-TQ3Status				E3MacDrawContext_UnregisterClass(void);
-
-TQ3DrawContextObject	E3MacDrawContext_New(const TQ3MacDrawContextData *drawContextData);
-TQ3DrawContextObject	E3MacDrawContext_NewWithWindow(TQ3ObjectType drawContextType, void *drawContextTarget);
-TQ3Status				E3MacDrawContext_SetWindow(TQ3DrawContextObject drawContext, WindowRef window);
-TQ3Status				E3MacDrawContext_GetWindow(TQ3DrawContextObject drawContext, WindowRef *window);
-TQ3Status				E3MacDrawContext_SetGXViewPort(TQ3DrawContextObject drawContext, gxViewPort viewPort);
-TQ3Status				E3MacDrawContext_GetGXViewPort(TQ3DrawContextObject drawContext, gxViewPort *viewPort);
-TQ3Status				E3MacDrawContext_SetGrafPort(TQ3DrawContextObject drawContext, CGrafPtr grafPort);
-TQ3Status				E3MacDrawContext_GetGrafPort(TQ3DrawContextObject drawContext, CGrafPtr *grafPort);
-TQ3Status				E3MacDrawContext_Set2DLibrary(TQ3DrawContextObject drawContext, TQ3MacDrawContext2DLibrary library);
-TQ3Status				E3MacDrawContext_Get2DLibrary(TQ3DrawContextObject drawContext, TQ3MacDrawContext2DLibrary *library);
-#endif
-
 
 #if QUESA_OS_COCOA
 TQ3Status				E3CocoaDrawContext_RegisterClass(void);

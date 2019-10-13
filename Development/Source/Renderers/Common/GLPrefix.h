@@ -52,23 +52,12 @@
 // OpenGL
 #if QUESA_OS_MACINTOSH
 
-	#if QUESA_UH_IN_FRAMEWORKS
 	#if 0 // test GL3
 		#include <OpenGL/gl3.h>
 		#include "glu3.h"
 	#else
 		#include <OpenGL/gl.h>
 		#include <OpenGL/glu.h>
-	#endif
-		#if QUESA_SUPPORT_HITOOLBOX
-			#include <AGL/agl.h>
-			#include <AGL/aglRenderers.h>
-		#endif
-	#else
-		#include <gl.h>
-		#include <glu.h>
-		#include <agl.h>
-		#include <aglRenderers.h>
 	#endif
 
 #elif QUESA_OS_WIN32
@@ -94,12 +83,7 @@
 //=============================================================================
 //      Macros
 //-----------------------------------------------------------------------------
-// For Mac specific weak linking
-#if QUESA_OS_MACINTOSH && QUESA_SUPPORT_HITOOLBOX
-	#define QUESA_FOUND_OPENGL		(aglGetVersion != nullptr)
-#else
-	#define QUESA_FOUND_OPENGL		(1)
-#endif
+
 
 
 //=============================================================================

@@ -131,7 +131,6 @@
 		AB83B604055E72B90034F56A /* QuesaTransform.h in Headers */ = {isa = PBXBuildFile; fileRef = AB83B5EC055E72B90034F56A /* QuesaTransform.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AB83B605055E72B90034F56A /* QuesaView.h in Headers */ = {isa = PBXBuildFile; fileRef = AB83B5ED055E72B90034F56A /* QuesaView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AB83B99E055E77880034F56A /* E3MacDebug.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB83B95B055E77870034F56A /* E3MacDebug.cpp */; };
-		AB83B99F055E77880034F56A /* E3MacDrawContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB83B95C055E77870034F56A /* E3MacDrawContext.cpp */; };
 		AB83B9A0055E77880034F56A /* E3MacErrors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB83B95D055E77870034F56A /* E3MacErrors.cpp */; };
 		AB83B9A8055E77880034F56A /* E3MacSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB83B965055E77870034F56A /* E3MacSystem.cpp */; };
 		B1756B3D080A73C00056134C /* QD3DSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BC1055E63B100CA83BE /* QD3DSet.cpp */; };
@@ -216,7 +215,6 @@
 		B1756B9D080A73C00056134C /* QD3DStorage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BC3055E63B100CA83BE /* QD3DStorage.cpp */; };
 		B1756B9E080A73C00056134C /* E3Set.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C01055E63B100CA83BE /* E3Set.cpp */; };
 		B1756B9F080A73C00056134C /* E3MacSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB83B965055E77870034F56A /* E3MacSystem.cpp */; };
-		B1756BA0080A73C00056134C /* E3MacDrawContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB83B95C055E77870034F56A /* E3MacDrawContext.cpp */; };
 		B1756BA1080A73C00056134C /* E3Errors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BEB055E63B100CA83BE /* E3Errors.cpp */; };
 		B1756BA3080A73C00056134C /* E3ArrayOrList.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BCA055E63B100CA83BE /* E3ArrayOrList.cpp */; };
 		B1756BA4080A73C00056134C /* E3IOFileFormat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7C49055E63B100CA83BE /* E3IOFileFormat.cpp */; };
@@ -497,9 +495,7 @@
 		AB83B5EC055E72B90034F56A /* QuesaTransform.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QuesaTransform.h; sourceTree = "<group>"; };
 		AB83B5ED055E72B90034F56A /* QuesaView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QuesaView.h; sourceTree = "<group>"; };
 		AB83B95B055E77870034F56A /* E3MacDebug.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = E3MacDebug.cpp; sourceTree = "<group>"; };
-		AB83B95C055E77870034F56A /* E3MacDrawContext.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = E3MacDrawContext.cpp; sourceTree = "<group>"; };
 		AB83B95D055E77870034F56A /* E3MacErrors.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = E3MacErrors.cpp; sourceTree = "<group>"; };
-		AB83B95F055E77870034F56A /* E3MacPrefix.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3MacPrefix.h; sourceTree = "<group>"; };
 		AB83B965055E77870034F56A /* E3MacSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = E3MacSystem.cpp; sourceTree = "<group>"; };
 		B1756AFF080A71C30056134C /* libQuesa.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libQuesa.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE097F3A156DCE85009AACEF /* QuesaMathOperators.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = QuesaMathOperators.hpp; sourceTree = "<group>"; };
@@ -995,9 +991,7 @@
 			isa = PBXGroup;
 			children = (
 				AB83B95B055E77870034F56A /* E3MacDebug.cpp */,
-				AB83B95C055E77870034F56A /* E3MacDrawContext.cpp */,
 				AB83B95D055E77870034F56A /* E3MacErrors.cpp */,
-				AB83B95F055E77870034F56A /* E3MacPrefix.h */,
 				AB83B965055E77870034F56A /* E3MacSystem.cpp */,
 				BE98E73A09F764A60040CE1B /* E3CocoaStackCrawl.cpp */,
 				BEDC08D308A6B74200FB3A82 /* Info.plist */,
@@ -1311,7 +1305,6 @@
 				AB3A7D6A055E63B200CA83BE /* E3FFW_3DMFBin_Register.cpp in Sources */,
 				AB3A7D6C055E63B200CA83BE /* E3FFW_3DMFBin_Writer.cpp in Sources */,
 				AB83B99E055E77880034F56A /* E3MacDebug.cpp in Sources */,
-				AB83B99F055E77880034F56A /* E3MacDrawContext.cpp in Sources */,
 				AB83B9A0055E77880034F56A /* E3MacErrors.cpp in Sources */,
 				AB83B9A8055E77880034F56A /* E3MacSystem.cpp in Sources */,
 				BE6FD693076B88A800587852 /* GLTextureManager.cpp in Sources */,
@@ -1439,7 +1432,6 @@
 				B1756B9D080A73C00056134C /* QD3DStorage.cpp in Sources */,
 				B1756B9E080A73C00056134C /* E3Set.cpp in Sources */,
 				B1756B9F080A73C00056134C /* E3MacSystem.cpp in Sources */,
-				B1756BA0080A73C00056134C /* E3MacDrawContext.cpp in Sources */,
 				B1756BA1080A73C00056134C /* E3Errors.cpp in Sources */,
 				B1756BA3080A73C00056134C /* E3ArrayOrList.cpp in Sources */,
 				B1756BA4080A73C00056134C /* E3IOFileFormat.cpp in Sources */,

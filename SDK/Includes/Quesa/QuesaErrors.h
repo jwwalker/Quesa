@@ -886,7 +886,7 @@ Q3Notice_ToString (
 //      Mac OS function prototypes
 //-----------------------------------------------------------------------------
 #if QUESA_OS_MACINTOSH
-
+#include <Carbon/Carbon.h>
 /*!
  *  @function
  *      Q3MacintoshError_Get

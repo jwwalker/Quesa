@@ -593,6 +593,7 @@ Q3XNotice_Post (
 //      Mac OS function prototypes
 //-----------------------------------------------------------------------------
 #if QUESA_OS_MACINTOSH
+#include <Carbon/Carbon.h>
 
 /*!
  *  @function

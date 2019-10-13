@@ -301,11 +301,6 @@ E3DrawContext_RegisterClass(void)
 											E3PixmapDrawContext ) ;
 
 #if QUESA_OS_MACINTOSH
-	#if QUESA_SUPPORT_HITOOLBOX
-	if (qd3dStatus == kQ3Success)
-		qd3dStatus = E3MacDrawContext_RegisterClass();
-	#endif
-
 	#if QUESA_OS_COCOA
 		if (qd3dStatus == kQ3Success)
 			qd3dStatus = E3CocoaDrawContext_RegisterClass();
@@ -349,11 +344,6 @@ E3DrawContext_UnregisterClass(void)
 		&& success;
 
 #if QUESA_OS_MACINTOSH
-	#if QUESA_SUPPORT_HITOOLBOX
-		success = (kQ3Success == E3MacDrawContext_UnregisterClass())
-			&& success;
-	#endif
-
 	#if QUESA_OS_COCOA
 		success = (kQ3Success == E3CocoaDrawContext_UnregisterClass())
 			&& success;
@@ -431,12 +421,6 @@ E3DrawContext_New(TQ3ObjectType drawContextType, void *drawContextTarget)
 			break;
 	
 	#if QUESA_OS_MACINTOSH
-	#if QUESA_SUPPORT_HITOOLBOX
-		case kQ3DrawContextTypeMacintosh:
-			drawContext = E3MacDrawContext_NewWithWindow(drawContextType, drawContextTarget);
-			break;
-	#endif
-		
 	#if QUESA_OS_COCOA
 		case kQ3DrawContextTypeCocoa:
 			drawContext = E3CocoaDrawContext_NewWithWindow(drawContextType, drawContextTarget);

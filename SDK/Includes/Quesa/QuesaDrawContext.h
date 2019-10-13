@@ -68,13 +68,6 @@
 //=============================================================================
 //      Platform specific includes
 //-----------------------------------------------------------------------------
-#if QUESA_OS_MACINTOSH
-    #if QUESA_UH_IN_FRAMEWORKS
-        #include <Carbon/Carbon.h>
-    #else
-        #include <MacWindows.h>
-    #endif
-#endif // QUESA_OS_MACINTOSH
 
 #if QUESA_OS_WIN32
     #include <Windows.h>
@@ -235,25 +228,6 @@ typedef enum {
 
 /*!
  *  @enum
- *      TQ3MacDrawContext2DLibrary
- *  @discussion
- *      Mac draw context variants. These are legacy constants from QD3D, and for Quesa
- *      the library field should be set to kQ3Mac2DLibraryNone.
- *
- *  @constant kQ3Mac2DLibraryNone          Unspecified method should be used.
- *  @constant kQ3Mac2DLibraryQuickDraw     Renderers should use QuickDraw in the final stage of rendering.
- *  @constant kQ3Mac2DLibraryQuickDrawGX   Renderers should use QuickDraw GX in the final stage of rendering.
- */
-typedef enum {
-    kQ3Mac2DLibraryNone                         = 0,
-    kQ3Mac2DLibraryQuickDraw                    = 1,
-    kQ3Mac2DLibraryQuickDrawGX                  = 2,
-    kQ3Mac2DLibrarySize32                       = 0xFFFFFFFF
-} TQ3MacDrawContext2DLibrary;
-
-
-/*!
- *  @enum
  *      TQ3DirectDrawObjectSelector
  *  @discussion
  *      Windows DirectDraw interface selectors.
@@ -385,53 +359,6 @@ typedef struct TQ3AcceleratedOffscreenPropertyData
 */
 typedef Q3_CALLBACK_API_C( void, TQ3GLContextDestructionCallback )(
 	TQ3DrawContextObject _Nonnull inQuesaDC );
-
-
-
-//=============================================================================
-//      Mac OS types
-//-----------------------------------------------------------------------------
-#if QUESA_OS_MACINTOSH
-
-// QuickDraw GX type
-#if !defined(__GXTYPES__)
-    typedef struct OpaquegxViewPort             *gxViewPort;
-#endif
-
-
-/*!
- *  @struct
- *      TQ3MacDrawContextData
- *  @discussion
- *      Describes the state for a Mac OS draw context.
- *
- *      The library and viewPort fields are not supported by Quesa.
- *
- *      To render to the screen, either the window or grafPort fields must be
- *      valid. Rendering to an off-screen buffer (e.g., a GWorld) should be
- *      achieved by rendering to a suitably constructed Pixmap draw context.
- *
- *      If a window is supplied, its port will be obtained internally by Quesa
- *      and the grafPort field should be NULL. When rendering to a port which
- *      does not correspond to a valid WindowRef (e.g., a QD port constructed
- *      from a CoreGraphics context), the window field should be NULL and the
- *      port to render to supplied in the grafPort field.
- *
- *  @field drawContextData  The common state for the draw context.
- *  @field window           The window to render to.
- *  @field library          The library to use for rendering. Should be kQ3Mac2DLibraryNone.
- *  @field viewPort         The QuickDraw GX port to render to. Should be NULL.
- *  @field grafPort         The QuickDraw port to render to.
- */
-typedef struct TQ3MacDrawContextData {
-    TQ3DrawContextData                          drawContextData;
-    WindowRef _Nullable                                   window;
-    TQ3MacDrawContext2DLibrary                  library;
-    gxViewPort _Nullable                                  viewPort;
-    CGrafPtr _Nullable                                   grafPort;
-} TQ3MacDrawContextData;
-
-#endif // QUESA_OS_MACINTOSH
 
 
 
@@ -990,178 +917,6 @@ Q3PixmapDrawContext_GetPixmap (
     TQ3DrawContextObject _Nonnull            drawContext,
     TQ3Pixmap                     * _Nonnull pixmap
 );
-
-
-
-
-
-//=============================================================================
-//      Mac OS function prototypes
-//-----------------------------------------------------------------------------
-#if QUESA_OS_MACINTOSH
-/*!
-	@functiongroup	 MacOS Draw Context
-*/
-
-/*!
- *  @function
- *      Q3MacDrawContext_New
- *  @discussion
- *      Create a new Mac draw context object.
- *
- *  @param drawContextData  The data for the Mac draw context object.
- *  @result                 The new draw context object.
- */
-Q3_EXTERN_API_C ( TQ3DrawContextObject _Nonnull  )
-Q3MacDrawContext_New (
-    const TQ3MacDrawContextData   * _Nonnull drawContextData
-);
-
-
-
-/*!
- *  @function
- *      Q3MacDrawContext_SetWindow
- *  @discussion
- *      Set the window for a Mac draw context.
- *
- *  @param drawContext      The draw context to update.
- *  @param window           The new window for the draw context.
- *  @result                 Success or failure of the operation.
- */
-Q3_EXTERN_API_C ( TQ3Status  )
-Q3MacDrawContext_SetWindow (
-    TQ3DrawContextObject _Nonnull         drawContext,
-    WindowRef _Nonnull                    window
-);
-
-
-
-/*!
- *  @function
- *      Q3MacDrawContext_GetWindow
- *  @discussion
- *      Get the window of a Mac draw context.
- *
- *  @param drawContext      The draw context to query.
- *  @param window           Receives the window of the draw context.
- *  @result                 Success or failure of the operation.
- */
-Q3_EXTERN_API_C ( TQ3Status  )
-Q3MacDrawContext_GetWindow (
-    TQ3DrawContextObject _Nonnull           drawContext,
-    WindowRef _Nullable                    * _Nonnull window
-);
-
-
-
-/*!
- *  @function
- *      Q3MacDrawContext_SetGXViewPort
- *  @discussion
- *      Set the QuickDraw GX port for a Mac draw context.
- *
- *  @param drawContext      The draw context to update.
- *  @param viewPort         The new QuickDraw GX port for the draw context.
- *  @result                 Success or failure of the operation.
- */
-Q3_EXTERN_API_C ( TQ3Status  )
-Q3MacDrawContext_SetGXViewPort (
-    TQ3DrawContextObject _Nonnull          drawContext,
-    gxViewPort _Nonnull                    viewPort
-);
-
-
-
-/*!
- *  @function
- *      Q3MacDrawContext_GetGXViewPort
- *  @discussion
- *      Get the QuickDraw GX port of a Mac draw context.
- *
- *  @param drawContext      The draw context to query.
- *  @param viewPort         Receives the QuickDraw GX port of the draw context.
- *  @result                 Success or failure of the operation.
- */
-Q3_EXTERN_API_C ( TQ3Status  )
-Q3MacDrawContext_GetGXViewPort (
-    TQ3DrawContextObject _Nonnull            drawContext,
-    gxViewPort _Nullable                    * _Nonnull viewPort
-);
-
-
-
-/*!
- *  @function
- *      Q3MacDrawContext_SetGrafPort
- *  @discussion
- *      Set the Mac OS GrafPort for a Mac draw context.
- *
- *  @param drawContext      The draw context to update.
- *  @param grafPort         The new Mac OS GrafPort for the draw context.
- *  @result                 Success or failure of the operation.
- */
-Q3_EXTERN_API_C ( TQ3Status  )
-Q3MacDrawContext_SetGrafPort (
-    TQ3DrawContextObject _Nonnull          drawContext,
-    CGrafPtr _Nonnull                      grafPort
-);
-
-
-
-/*!
- *  @function
- *      Q3MacDrawContext_GetGrafPort
- *  @discussion
- *      Get the Mac OS GrafPort of a Mac draw context.
- *
- *  @param drawContext      The draw context to query.
- *  @param grafPort         Receives the Mac OS GrafPort of the draw context.
- *  @result                 Success or failure of the operation.
- */
-Q3_EXTERN_API_C ( TQ3Status  )
-Q3MacDrawContext_GetGrafPort (
-    TQ3DrawContextObject _Nonnull         drawContext,
-    CGrafPtr _Nonnull * _Nonnull          grafPort
-);
-
-
-
-/*!
- *  @function
- *      Q3MacDrawContext_Set2DLibrary
- *  @discussion
- *      Set the 2D library for a Mac draw context.
- *
- *  @param drawContext      The draw context to update.
- *  @param library          The new 2D library for the draw context.
- *  @result                 Success or failure of the operation.
- */
-Q3_EXTERN_API_C ( TQ3Status  )
-Q3MacDrawContext_Set2DLibrary (
-    TQ3DrawContextObject _Nonnull         drawContext,
-    TQ3MacDrawContext2DLibrary            library
-);
-
-
-
-/*!
- *  @function
- *      Q3MacDrawContext_Get2DLibrary
- *  @discussion
- *      Get the 2D library of a Mac draw context.
- *
- *  @param drawContext      The draw context to query.
- *  @param library          Receives the 2D library of the draw context.
- *  @result                 Success or failure of the operation.
- */
-Q3_EXTERN_API_C ( TQ3Status  )
-Q3MacDrawContext_Get2DLibrary (
-    TQ3DrawContextObject _Nonnull          drawContext,
-    TQ3MacDrawContext2DLibrary    * _Nonnull library
-);
-
-#endif // QUESA_OS_MACINTOSH
 
 
 

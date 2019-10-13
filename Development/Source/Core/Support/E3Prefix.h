@@ -88,10 +88,6 @@
 // Quesa (private, platform specific)
 #if QUESA_OS_MACINTOSH
 
-	#if QUESA_SUPPORT_HITOOLBOX
-		#include "E3MacPrefix.h"
-	#endif
-	
 	#if QUESA_OS_COCOA
 		#include "E3CocoaPrefix.h"
 	#endif
