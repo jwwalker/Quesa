@@ -177,28 +177,5 @@ typedef enum {
 <dt><a name="//Quesa/c/econst/kQ3ClearMethodWithColor"><tt>kQ3ClearMethodWithColor</tt></a></dt><dd>Clear the draw context to the clear colour before rendering.</dd>
 </dl>
 </blockquote>
-<hr><a name="//Quesa/c/tag/TQ3MacDrawContext2DLibrary"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3MacDrawContext2DLibrary">TQ3MacDrawContext2DLibrary</a></h2>
-</td></tr></table><hr><blockquote><pre>
-typedef enum {
-    kQ3Mac2DLibraryNone                         = 0,
-    kQ3Mac2DLibraryQuickDraw                    = 1,
-    kQ3Mac2DLibraryQuickDrawGX                  = 2,
-    kQ3Mac2DLibrarySize32                       = 0xFFFFFFFF
-} TQ3MacDrawContext2DLibrary;
-</pre>
-</blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Mac draw context variants. These are legacy constants from QD3D, and for Quesa
-the library field should be set to kQ3Mac2DLibraryNone.
-<br><br>
-</p>
-<h4>Constants</h4>
-<blockquote>
-<dl>
-<dt><a name="//Quesa/c/econst/kQ3Mac2DLibraryNone"><tt>kQ3Mac2DLibraryNone</tt></a></dt><dd>Unspecified method should be used.</dd>
-<dt><a name="//Quesa/c/econst/kQ3Mac2DLibraryQuickDraw"><tt>kQ3Mac2DLibraryQuickDraw</tt></a></dt><dd>Renderers should use QuickDraw in the final stage of rendering.</dd>
-<dt><a name="//Quesa/c/econst/kQ3Mac2DLibraryQuickDrawGX"><tt>kQ3Mac2DLibraryQuickDrawGX</tt></a></dt><dd>Renderers should use QuickDraw GX in the final stage of rendering.</dd>
-</dl>
-</blockquote>
-<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 7/19/2019)
+<p><p>&#169; 1999-2019 Quesa Developers (Last Updated 10/13/2019)
 </p></body></html>

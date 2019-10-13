@@ -10,7 +10,7 @@
 </td></tr></table><hr>Get the maximum fog opacity for a fog style.
 
 <blockquote><pre><tt>( float ) CEFogMaxElement_Get (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject _Nonnull inFogStyle
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject _Nullable inFogStyle
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
@@ -51,7 +51,7 @@ density.</dd>
 </td></tr></table><hr>Get halfspace fog data attached to a fog style.
 
 <blockquote><pre><tt>( TQ3Status ) CEHalfspaceFogElement_GetData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject _Nonnull inFogStyle,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject _Nullable inFogStyle,
 &nbsp;&nbsp;&nbsp;&nbsp;TCEHalfspaceFogData* _Nonnull outData
 );</tt><br>
 </pre></blockquote>
@@ -402,64 +402,5 @@ The URL element data will be copied by CEUrlElement_SetData.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
-<hr><a name="//Quesa/c/func/CEWireElement_EmptyData"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CEWireElement_EmptyData">CEWireElement_EmptyData</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) CEWireElement_EmptyData (
-&nbsp;&nbsp;&nbsp;&nbsp;QTAtomContainer *wireData
-);</tt><br>
-</pre></blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Release the data returned by CEWireElement_GetData.
-<br><br>
-</p>
-<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
-<blockquote>
-<dl>
-<dt><tt><em>wireData</em></tt></dt><dd>A pointer previously returned by CEWireElement_GetData.</dd>
-</dl>
-</blockquote>
-<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
- </dd></dl>
-<hr><a name="//Quesa/c/func/CEWireElement_GetData"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CEWireElement_GetData">CEWireElement_GetData</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) CEWireElement_GetData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object object,
-&nbsp;&nbsp;&nbsp;&nbsp;QTAtomContainer *wireData
-);</tt><br>
-</pre></blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the QuickTime wired element for an object.
-<br><br>
-The wireData parameter will receive a QTAtomContainer, or NULL if no
-wired element has been associated with the object. If a non-NULL pointer
-is returned, it must be disposed of with CEWireElement_EmptyData.
-<br><br>
-</p>
-<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
-<blockquote>
-<dl>
-<dt><tt><em>object</em></tt></dt><dd>The object to query.</dd>
-<dt><tt><em>wireData</em></tt></dt><dd>Receives the QuickTime wired element associated with the object.</dd>
-</dl>
-</blockquote>
-<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
- </dd></dl>
-<hr><a name="//Quesa/c/func/CEWireElement_SetData"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CEWireElement_SetData">CEWireElement_SetData</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) CEWireElement_SetData (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object object,
-&nbsp;&nbsp;&nbsp;&nbsp;QTAtomContainer wireData
-);</tt><br>
-</pre></blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the QuickTime wired element for an object.
-<br><br>
-</p>
-<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
-<blockquote>
-<dl>
-<dt><tt><em>object</em></tt></dt><dd>The object to assign the element to.</dd>
-<dt><tt><em>wireData</em></tt></dt><dd>The QuickTime wired element to associate with the object.</dd>
-</dl>
-</blockquote>
-<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
- </dd></dl>
-<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 7/19/2019)
+<p><p>&#169; 1999-2019 Quesa Developers (Last Updated 10/13/2019)
 </p></body></html>

@@ -473,175 +473,6 @@ draw context (e.g., the bounds of the window).
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
-<hr><a name="//Quesa/c/func/Q3MacDrawContext_Get2DLibrary"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MacDrawContext_Get2DLibrary">Q3MacDrawContext_Get2DLibrary</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3MacDrawContext_Get2DLibrary (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject _Nonnull drawContext,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3MacDrawContext2DLibrary * _Nonnull library
-);</tt><br>
-</pre></blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the 2D library of a Mac draw context.
-<br><br>
-</p>
-<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
-<blockquote>
-<dl>
-<dt><tt><em>drawContext</em></tt></dt><dd>The draw context to query.</dd>
-<dt><tt><em>library</em></tt></dt><dd>Receives the 2D library of the draw context.</dd>
-</dl>
-</blockquote>
-<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
- </dd></dl>
-<hr><a name="//Quesa/c/func/Q3MacDrawContext_GetGXViewPort"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MacDrawContext_GetGXViewPort">Q3MacDrawContext_GetGXViewPort</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3MacDrawContext_GetGXViewPort (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject _Nonnull drawContext,
-&nbsp;&nbsp;&nbsp;&nbsp;gxViewPort _Nullable * _Nonnull viewPort
-);</tt><br>
-</pre></blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the QuickDraw GX port of a Mac draw context.
-<br><br>
-</p>
-<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
-<blockquote>
-<dl>
-<dt><tt><em>drawContext</em></tt></dt><dd>The draw context to query.</dd>
-<dt><tt><em>viewPort</em></tt></dt><dd>Receives the QuickDraw GX port of the draw context.</dd>
-</dl>
-</blockquote>
-<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
- </dd></dl>
-<hr><a name="//Quesa/c/func/Q3MacDrawContext_GetGrafPort"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MacDrawContext_GetGrafPort">Q3MacDrawContext_GetGrafPort</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3MacDrawContext_GetGrafPort (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject _Nonnull drawContext,
-&nbsp;&nbsp;&nbsp;&nbsp;CGrafPtr _Nonnull * _Nonnull grafPort
-);</tt><br>
-</pre></blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the Mac OS GrafPort of a Mac draw context.
-<br><br>
-</p>
-<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
-<blockquote>
-<dl>
-<dt><tt><em>drawContext</em></tt></dt><dd>The draw context to query.</dd>
-<dt><tt><em>grafPort</em></tt></dt><dd>Receives the Mac OS GrafPort of the draw context.</dd>
-</dl>
-</blockquote>
-<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
- </dd></dl>
-<hr><a name="//Quesa/c/func/Q3MacDrawContext_GetWindow"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MacDrawContext_GetWindow">Q3MacDrawContext_GetWindow</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3MacDrawContext_GetWindow (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject _Nonnull drawContext,
-&nbsp;&nbsp;&nbsp;&nbsp;WindowRef _Nullable * _Nonnull window
-);</tt><br>
-</pre></blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the window of a Mac draw context.
-<br><br>
-</p>
-<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
-<blockquote>
-<dl>
-<dt><tt><em>drawContext</em></tt></dt><dd>The draw context to query.</dd>
-<dt><tt><em>window</em></tt></dt><dd>Receives the window of the draw context.</dd>
-</dl>
-</blockquote>
-<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
- </dd></dl>
-<hr><a name="//Quesa/c/func/Q3MacDrawContext_New"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MacDrawContext_New">Q3MacDrawContext_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3DrawContextObject _Nonnull ) Q3MacDrawContext_New (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3MacDrawContextData * _Nonnull drawContextData
-);</tt><br>
-</pre></blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new Mac draw context object.
-<br><br>
-</p>
-<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
-<blockquote>
-<dl>
-<dt><tt><em>drawContextData</em></tt></dt><dd>The data for the Mac draw context object.</dd>
-</dl>
-</blockquote>
-<dl><dt><i>function result</i></dt><dd>The new draw context object.
- </dd></dl>
-<hr><a name="//Quesa/c/func/Q3MacDrawContext_Set2DLibrary"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MacDrawContext_Set2DLibrary">Q3MacDrawContext_Set2DLibrary</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3MacDrawContext_Set2DLibrary (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject _Nonnull drawContext,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3MacDrawContext2DLibrary library
-);</tt><br>
-</pre></blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the 2D library for a Mac draw context.
-<br><br>
-</p>
-<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
-<blockquote>
-<dl>
-<dt><tt><em>drawContext</em></tt></dt><dd>The draw context to update.</dd>
-<dt><tt><em>library</em></tt></dt><dd>The new 2D library for the draw context.</dd>
-</dl>
-</blockquote>
-<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
- </dd></dl>
-<hr><a name="//Quesa/c/func/Q3MacDrawContext_SetGXViewPort"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MacDrawContext_SetGXViewPort">Q3MacDrawContext_SetGXViewPort</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3MacDrawContext_SetGXViewPort (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject _Nonnull drawContext,
-&nbsp;&nbsp;&nbsp;&nbsp;gxViewPort _Nonnull viewPort
-);</tt><br>
-</pre></blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the QuickDraw GX port for a Mac draw context.
-<br><br>
-</p>
-<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
-<blockquote>
-<dl>
-<dt><tt><em>drawContext</em></tt></dt><dd>The draw context to update.</dd>
-<dt><tt><em>viewPort</em></tt></dt><dd>The new QuickDraw GX port for the draw context.</dd>
-</dl>
-</blockquote>
-<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
- </dd></dl>
-<hr><a name="//Quesa/c/func/Q3MacDrawContext_SetGrafPort"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MacDrawContext_SetGrafPort">Q3MacDrawContext_SetGrafPort</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3MacDrawContext_SetGrafPort (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject _Nonnull drawContext,
-&nbsp;&nbsp;&nbsp;&nbsp;CGrafPtr _Nonnull grafPort
-);</tt><br>
-</pre></blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the Mac OS GrafPort for a Mac draw context.
-<br><br>
-</p>
-<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
-<blockquote>
-<dl>
-<dt><tt><em>drawContext</em></tt></dt><dd>The draw context to update.</dd>
-<dt><tt><em>grafPort</em></tt></dt><dd>The new Mac OS GrafPort for the draw context.</dd>
-</dl>
-</blockquote>
-<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
- </dd></dl>
-<hr><a name="//Quesa/c/func/Q3MacDrawContext_SetWindow"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MacDrawContext_SetWindow">Q3MacDrawContext_SetWindow</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3MacDrawContext_SetWindow (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject _Nonnull drawContext,
-&nbsp;&nbsp;&nbsp;&nbsp;WindowRef _Nonnull window
-);</tt><br>
-</pre></blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the window for a Mac draw context.
-<br><br>
-</p>
-<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
-<blockquote>
-<dl>
-<dt><tt><em>drawContext</em></tt></dt><dd>The draw context to update.</dd>
-<dt><tt><em>window</em></tt></dt><dd>The new window for the draw context.</dd>
-</dl>
-</blockquote>
-<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
- </dd></dl>
 <hr><a name="//Quesa/c/func/Q3PixmapDrawContext_GetPixmap"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PixmapDrawContext_GetPixmap">Q3PixmapDrawContext_GetPixmap</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3PixmapDrawContext_GetPixmap (
@@ -1059,7 +890,7 @@ context being destroyed.</dd>
 <blockquote><pre>
 typedef struct TQ3AcceleratedOffscreenPropertyData {
     TQ3Object _Nonnull    masterDrawContext;
-    TQ3Boolean    copyFromPixmapAtFrameStart;
+    TQ3Boolean    xcopyFromPixmapAtFrameStart;
     TQ3Boolean    copyToPixmapAtFrameEnd;
 } TQ3AcceleratedOffscreenPropertyData;
 </pre>
@@ -1079,11 +910,7 @@ handle the hardware acceleration for the pixmap context.
 <dl>
 <dt><tt>masterDrawContext</tt></dt><dd>An on-screen draw context, see
 discussion.</dd>
-<dt><tt>copyFromPixmapAtFrameStart</tt></dt><dd>Whether to copy the pixmap to the
-rendering context at the beginning
-of each frame.  This could be useful
-if using a pixmap as a background
-image.</dd>
+<dt><tt>xcopyFromPixmapAtFrameStart</tt></dt><dd>OBSOLETE.</dd>
 <dt><tt>copyToPixmapAtFrameEnd</tt></dt><dd>Whether to copy the rendered image
 to the pixmap at the end of the
 last pass of each frame.</dd>
@@ -1190,43 +1017,6 @@ renderers.
 <dt><tt>mask</tt></dt><dd>The clipping mask to be applied for rendering.</dd>
 <dt><tt>maskState</tt></dt><dd>indicates if the clipping mask is used.</dd>
 <dt><tt>doubleBufferState</tt></dt><dd>Indicates if rendering will be double-buffered.</dd>
-</dl>
-</blockquote>
-<hr><a name="//Quesa/c/tag/TQ3MacDrawContextData"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3MacDrawContextData">TQ3MacDrawContextData</a></h2>
-</td></tr></table><hr><blockquote><pre>
-typedef struct TQ3MacDrawContextData {
-    TQ3DrawContextData                          drawContextData;
-    WindowRef _Nullable                                   window;
-    TQ3MacDrawContext2DLibrary                  library;
-    gxViewPort _Nullable                                  viewPort;
-    CGrafPtr _Nullable                                   grafPort;
-} TQ3MacDrawContextData;
-</pre>
-</blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Describes the state for a Mac OS draw context.
-<br><br>
-The library and viewPort fields are not supported by Quesa.
-<br><br>
-To render to the screen, either the window or grafPort fields must be
-valid. Rendering to an off-screen buffer (e.g., a GWorld) should be
-achieved by rendering to a suitably constructed Pixmap draw context.
-<br><br>
-If a window is supplied, its port will be obtained internally by Quesa
-and the grafPort field should be NULL. When rendering to a port which
-does not correspond to a valid WindowRef (e.g., a QD port constructed
-from a CoreGraphics context), the window field should be NULL and the
-port to render to supplied in the grafPort field.
-<br><br>
-</p>
-<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
-<blockquote>
-<dl>
-<dt><tt>drawContextData</tt></dt><dd>The common state for the draw context.</dd>
-<dt><tt>window</tt></dt><dd>The window to render to.</dd>
-<dt><tt>library</tt></dt><dd>The library to use for rendering. Should be kQ3Mac2DLibraryNone.</dd>
-<dt><tt>viewPort</tt></dt><dd>The QuickDraw GX port to render to. Should be NULL.</dd>
-<dt><tt>grafPort</tt></dt><dd>The QuickDraw port to render to.</dd>
 </dl>
 </blockquote>
 <hr><a name="//Quesa/c/tag/TQ3PixmapDrawContextData"></a>
@@ -1502,28 +1292,5 @@ typedef enum {
 <dt><a name="//Quesa/c/econst/kQ3ClearMethodWithColor"><tt>kQ3ClearMethodWithColor</tt></a></dt><dd>Clear the draw context to the clear colour before rendering.</dd>
 </dl>
 </blockquote>
-<hr><a name="//Quesa/c/tag/TQ3MacDrawContext2DLibrary"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3MacDrawContext2DLibrary">TQ3MacDrawContext2DLibrary</a></h2>
-</td></tr></table><hr><blockquote><pre>
-typedef enum {
-    kQ3Mac2DLibraryNone                         = 0,
-    kQ3Mac2DLibraryQuickDraw                    = 1,
-    kQ3Mac2DLibraryQuickDrawGX                  = 2,
-    kQ3Mac2DLibrarySize32                       = 0xFFFFFFFF
-} TQ3MacDrawContext2DLibrary;
-</pre>
-</blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Mac draw context variants. These are legacy constants from QD3D, and for Quesa
-the library field should be set to kQ3Mac2DLibraryNone.
-<br><br>
-</p>
-<h4>Constants</h4>
-<blockquote>
-<dl>
-<dt><a name="//Quesa/c/econst/kQ3Mac2DLibraryNone"><tt>kQ3Mac2DLibraryNone</tt></a></dt><dd>Unspecified method should be used.</dd>
-<dt><a name="//Quesa/c/econst/kQ3Mac2DLibraryQuickDraw"><tt>kQ3Mac2DLibraryQuickDraw</tt></a></dt><dd>Renderers should use QuickDraw in the final stage of rendering.</dd>
-<dt><a name="//Quesa/c/econst/kQ3Mac2DLibraryQuickDrawGX"><tt>kQ3Mac2DLibraryQuickDrawGX</tt></a></dt><dd>Renderers should use QuickDraw GX in the final stage of rendering.</dd>
-</dl>
-</blockquote>
-<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 7/19/2019)
+<p><p>&#169; 1999-2019 Quesa Developers (Last Updated 10/13/2019)
 </p></body></html>

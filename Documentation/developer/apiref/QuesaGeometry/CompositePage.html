@@ -7173,32 +7173,6 @@ May be nullptr.</dd>
 <dt><tt>coneAttributeSet</tt></dt><dd>Attributes for all parts of the cone.  May be nullptr.</dd>
 </dl>
 </blockquote>
-<hr><a name="//Quesa/c/tag/TQ3CustomTextureCoordinates"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3CustomTextureCoordinates">TQ3CustomTextureCoordinates</a></h2>
-</td></tr></table><hr>Data of kQ3GeometryPropertyCustomTextureCoordinates.
-
-<blockquote><pre>
-typedef struct TQ3CustomTextureCoordinates {
-    TQ3Uns32  numPoints;
-    TQ3Uns32  coordsPerPoint;
-    TQ3Uns32  textureUnit;
-    TQ3Float32  coords[];
-} TQ3CustomTextureCoordinates;
-</pre>
-</blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
-<blockquote>
-<dl>
-<dt><tt>numPoints</tt></dt><dd>Number of points (vertices) in the TriMesh.</dd>
-<dt><tt>coordsPerPoint</tt></dt><dd>Number of floating-point coordinates per point.
-Must be 1, 2, 3, or 4.</dd>
-<dt><tt>textureUnit</tt></dt><dd>Texture unit to which the coordinates will be
-provided.  Enter simply 1, for example, not
-GL_TEXTURE1.</dd>
-<dt><tt>coords</tt></dt><dd>Array of coordinate data.  The number of values
-here must be numPoints * coordsPerPoint.</dd>
-</dl>
-</blockquote>
 <hr><a name="//Quesa/c/tag/TQ3CylinderData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3CylinderData">TQ3CylinderData</a></h2>
 </td></tr></table><hr><blockquote><pre>
@@ -7446,6 +7420,26 @@ which may be used by the renderer to optimize
 drawing.</dd>
 <dt><tt>generalPolygonAttributeSet</tt></dt><dd>Set of attributes for the polygon.
 May be nullptr.</dd>
+</dl>
+</blockquote>
+<hr><a name="//Quesa/c/tag/TQ3LayerShifts"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3LayerShifts">TQ3LayerShifts</a></h2>
+</td></tr></table><hr>Data of kQ3GeometryPropertyLayerShifts.
+
+<blockquote><pre>
+typedef struct TQ3LayerShifts {
+    TQ3Uns32  numPoints;
+    TQ3Float32  coords[];
+} TQ3LayerShifts;
+</pre>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt>numPoints</tt></dt><dd>Number of points (vertices) in the TriMesh.</dd>
+<dt><tt>coords</tt></dt><dd>Array of coordinate data.  The number of values
+here must be numPoints, or in other words
+the data size is 4 * numPoints bytes.</dd>
 </dl>
 </blockquote>
 <hr><a name="//Quesa/c/tag/TQ3LineData"></a>
@@ -8237,7 +8231,7 @@ typedef struct TQ3TriangleData {
 enum
 {
   kQ3GeometryPropertyNonCartoon                   = Q3_OBJECT_TYPE('n', 'c', 'a', 'r'),
-  kQ3GeometryPropertyCustomTextureCoordinates     = Q3_OBJECT_TYPE('t', 'e', 'x', 'c')
+  kQ3GeometryPropertyLayerShifts             = Q3_OBJECT_TYPE('l', 'y', 's', 'f')
 };
 </pre>
 </blockquote>
@@ -8251,11 +8245,11 @@ quantized per-pixel lighting mode of the OpenGL renderer
 that this geometry should be rendered normally.
 <br><br>
 Data type: TQ3Boolean.  Default value: kQ3False.</dd>
-<dt><a name="//Quesa/c/econst/kQ3GeometryPropertyCustomTextureCoordinates"><tt>kQ3GeometryPropertyCustomTextureCoordinates</tt></a></dt><dd>This property, attached to a TriMesh, can be used to provide
-nonstandard texture coordinates to an OpenGL Shading Language
-vertex shader.
+<dt><a name="//Quesa/c/econst/kQ3GeometryPropertyLayerShifts"><tt>kQ3GeometryPropertyLayerShifts</tt></a></dt><dd>This property, attached to a TriMesh, can be used to provide
+small shifts toward or away from the camera to a vertex
+shader.
 <br><br>
-Data type: TQ3CustomTextureCoordinates (variable length).</dd>
+Data type: TQ3LayerShifts (variable length).</dd>
 </dl>
 </blockquote>
 <hr><a name="//Quesa/c/tag/Nurb Limits"></a>
@@ -8330,5 +8324,5 @@ rendered.
 <dt><a name="//Quesa/c/econst/kQ3PolyhedronEdgeAll"><tt>kQ3PolyhedronEdgeAll</tt></a></dt><dd>Render all the edges.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 7/19/2019)
+<p><p>&#169; 1999-2019 Quesa Developers (Last Updated 10/13/2019)
 </p></body></html>

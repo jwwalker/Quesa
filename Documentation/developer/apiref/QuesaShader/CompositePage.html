@@ -376,100 +376,6 @@ Available in inline form as Q3FastColorRGB_Subtract.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Convenience pointer to the result.
  </dd></dl>
-<hr><a name="//Quesa/c/func/Q3CompressedPixmapTexture_CompressImage"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3CompressedPixmapTexture_CompressImage">Q3CompressedPixmapTexture_CompressImage</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3CompressedPixmapTexture_CompressImage (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CompressedPixmap * _Nonnull compressedPixmap,
-&nbsp;&nbsp;&nbsp;&nbsp;PixMapHandle sourcePixMap,
-&nbsp;&nbsp;&nbsp;&nbsp;CodecType codecType,
-&nbsp;&nbsp;&nbsp;&nbsp;CodecComponent codecComponent,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Int16 codedDepth,
-&nbsp;&nbsp;&nbsp;&nbsp;CodecQ codecQuality
-);</tt><br>
-</pre></blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a compressed pixmap from a PixMapHandle.
-<br><br>
-This function is only available on platforms that support QuickTime.
-<br><br>
-</p>
-<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
-<blockquote>
-<dl>
-<dt><tt><em>compressedPixmap</em></tt></dt><dd>Receives the compressed pixmap.</dd>
-<dt><tt><em>sourcePixMap</em></tt></dt><dd>The uncompressed PixMapHandle.</dd>
-<dt><tt><em>codecType</em></tt></dt><dd>The QuickTime codec to use for compression.</dd>
-<dt><tt><em>codecComponent</em></tt></dt><dd>The QuickTime component to use for compression.</dd>
-<dt><tt><em>codedDepth</em></tt></dt><dd>The depth the codec should compress to.</dd>
-<dt><tt><em>codecQuality</em></tt></dt><dd>The quality the codec should compress to.</dd>
-</dl>
-</blockquote>
-<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
- </dd></dl>
-<hr><a name="//Quesa/c/func/Q3CompressedPixmapTexture_GetCompressedPixmap"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3CompressedPixmapTexture_GetCompressedPixmap">Q3CompressedPixmapTexture_GetCompressedPixmap</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3CompressedPixmapTexture_GetCompressedPixmap (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3TextureObject texture,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CompressedPixmap * _Nonnull compressedPixmap
-);</tt><br>
-</pre></blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the compressed pixmap from a compressed pixmap texture.
-<br><br>
-This function is only available on platforms that support QuickTime.
-<br><br>
-The reference counts of the returned compressedImage and imageDesc
-fields are incremented, and the  caller must release their references
-when done.
-<br><br>
-</p>
-<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
-<blockquote>
-<dl>
-<dt><tt><em>texture</em></tt></dt><dd>The texture to query.</dd>
-<dt><tt><em>compressedPixmap</em></tt></dt><dd>Receives the compressed pixmap of the texture.</dd>
-</dl>
-</blockquote>
-<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
- </dd></dl>
-<hr><a name="//Quesa/c/func/Q3CompressedPixmapTexture_New"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3CompressedPixmapTexture_New">Q3CompressedPixmapTexture_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3TextureObject ) Q3CompressedPixmapTexture_New (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3CompressedPixmap * _Nonnull compressedPixmap
-);</tt><br>
-</pre></blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a compressed pixmap texture.
-<br><br>
-This function is only available on platforms that support QuickTime.
-<br><br>
-</p>
-<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
-<blockquote>
-<dl>
-<dt><tt><em>compressedPixmap</em></tt></dt><dd>The compressed pixmap for the texture.</dd>
-</dl>
-</blockquote>
-<dl><dt><i>function result</i></dt><dd>The new compressed pixmap texture.
- </dd></dl>
-<hr><a name="//Quesa/c/func/Q3CompressedPixmapTexture_SetCompressedPixmap"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3CompressedPixmapTexture_SetCompressedPixmap">Q3CompressedPixmapTexture_SetCompressedPixmap</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3CompressedPixmapTexture_SetCompressedPixmap (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3TextureObject texture,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3CompressedPixmap * _Nonnull compressedPixmap
-);</tt><br>
-</pre></blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the compressed pixmap for a compressed pixmap texture.
-<br><br>
-This function is only available on platforms that support QuickTime.
-<br><br>
-</p>
-<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
-<blockquote>
-<dl>
-<dt><tt><em>texture</em></tt></dt><dd>The texture to update.</dd>
-<dt><tt><em>compressedPixmap</em></tt></dt><dd>The new compressed pixmap for the texture.</dd>
-</dl>
-</blockquote>
-<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
- </dd></dl>
 <hr><a name="//Quesa/c/func/Q3IlluminationShader_GetType"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3IlluminationShader_GetType">Q3IlluminationShader_GetType</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3ObjectType ) Q3IlluminationShader_GetType (
@@ -1052,5 +958,5 @@ the threshold is considered completely transparent.
 Data type: TQ3Float32.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 7/19/2019)
+<p><p>&#169; 1999-2019 Quesa Developers (Last Updated 10/13/2019)
 </p></body></html>

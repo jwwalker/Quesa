@@ -98,32 +98,6 @@ May be nullptr.</dd>
 <dt><tt>coneAttributeSet</tt></dt><dd>Attributes for all parts of the cone.  May be nullptr.</dd>
 </dl>
 </blockquote>
-<hr><a name="//Quesa/c/tag/TQ3CustomTextureCoordinates"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3CustomTextureCoordinates">TQ3CustomTextureCoordinates</a></h2>
-</td></tr></table><hr>Data of kQ3GeometryPropertyCustomTextureCoordinates.
-
-<blockquote><pre>
-typedef struct TQ3CustomTextureCoordinates {
-    TQ3Uns32  numPoints;
-    TQ3Uns32  coordsPerPoint;
-    TQ3Uns32  textureUnit;
-    TQ3Float32  coords[];
-} TQ3CustomTextureCoordinates;
-</pre>
-</blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
-<blockquote>
-<dl>
-<dt><tt>numPoints</tt></dt><dd>Number of points (vertices) in the TriMesh.</dd>
-<dt><tt>coordsPerPoint</tt></dt><dd>Number of floating-point coordinates per point.
-Must be 1, 2, 3, or 4.</dd>
-<dt><tt>textureUnit</tt></dt><dd>Texture unit to which the coordinates will be
-provided.  Enter simply 1, for example, not
-GL_TEXTURE1.</dd>
-<dt><tt>coords</tt></dt><dd>Array of coordinate data.  The number of values
-here must be numPoints * coordsPerPoint.</dd>
-</dl>
-</blockquote>
 <hr><a name="//Quesa/c/tag/TQ3CylinderData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3CylinderData">TQ3CylinderData</a></h2>
 </td></tr></table><hr><blockquote><pre>
@@ -371,6 +345,26 @@ which may be used by the renderer to optimize
 drawing.</dd>
 <dt><tt>generalPolygonAttributeSet</tt></dt><dd>Set of attributes for the polygon.
 May be nullptr.</dd>
+</dl>
+</blockquote>
+<hr><a name="//Quesa/c/tag/TQ3LayerShifts"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3LayerShifts">TQ3LayerShifts</a></h2>
+</td></tr></table><hr>Data of kQ3GeometryPropertyLayerShifts.
+
+<blockquote><pre>
+typedef struct TQ3LayerShifts {
+    TQ3Uns32  numPoints;
+    TQ3Float32  coords[];
+} TQ3LayerShifts;
+</pre>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt>numPoints</tt></dt><dd>Number of points (vertices) in the TriMesh.</dd>
+<dt><tt>coords</tt></dt><dd>Array of coordinate data.  The number of values
+here must be numPoints, or in other words
+the data size is 4 * numPoints bytes.</dd>
 </dl>
 </blockquote>
 <hr><a name="//Quesa/c/tag/TQ3LineData"></a>
@@ -1152,5 +1146,5 @@ typedef struct TQ3TriangleData {
 <dt><tt>triangleAttributeSet</tt></dt><dd>Set of attributes for the triangle.  May be nullptr.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 7/19/2019)
+<p><p>&#169; 1999-2019 Quesa Developers (Last Updated 10/13/2019)
 </p></body></html>

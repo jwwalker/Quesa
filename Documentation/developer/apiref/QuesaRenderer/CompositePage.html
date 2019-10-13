@@ -1444,10 +1444,11 @@ enum
   kQ3RendererPropertyCartoonLightNearEdge         = Q3_OBJECT_TYPE('p', 'p', 'c', 'e'),
   kQ3RendererPropertyPassType                     = Q3_OBJECT_TYPE('r', 'p', 't', 'y'),
   kQ3RendererPropertyDepthAlphaThreshold          = Q3_OBJECT_TYPE('d', 'p', 'a', 't'),
-  kQ3RendererPropertyAlphaThreshold               = Q3_OBJECT_TYPE('a', 'l', 'p', 't'),
   kQ3RendererPropertyAngleAffectsAlpha            = Q3_OBJECT_TYPE('a', 'n', 'a', 'a'),
+  kQ3RendererPropertyAlphaThreshold               = Q3_OBJECT_TYPE('a', 'l', 'p', 't'),
   kQ3RendererPropertyShadowVBOLimit               = Q3_OBJECT_TYPE('s', 'h', 'v', 'l'),
   kQ3RendererPropertyPrimitivesRenderedCount      = Q3_OBJECT_TYPE('p', 'r', 'n', 'c'),
+  kQ3RendererPropertyIsLayerShifting              = Q3_OBJECT_TYPE('r', 'i', 'l', 's'),
   kQ3RendererPropertyClippingPlane                = Q3_OBJECT_TYPE('c', 'l', 'i', 'p'),
   kQ3RendererPropertyCastShadowsOverride          = Q3_OBJECT_TYPE('c', 's', 'o', 'c')
 };
@@ -1463,7 +1464,8 @@ for a TriMesh that lacks one.  Only used by the OpenGL
 renderer.  Data type: TQ3Boolean.  Default value: kQ3True.
 <br><br></dd>
 <dt><a name="//Quesa/c/econst/kQ3RendererPropertyPerPixelLighting"><tt>kQ3RendererPropertyPerPixelLighting</tt></a></dt><dd>Whether we should used per-pixel lighting if possible.
-Only implemented by the OpenGL renderer.
+OBSOLETE, now the OpenGL renderer always uses a
+fragment shader.
 Data type: TQ3Boolean.  Default value: kQ3False.
 <br><br></dd>
 <dt><a name="//Quesa/c/econst/kQ3RendererPropertyConvertToPremultipliedAlpha"><tt>kQ3RendererPropertyConvertToPremultipliedAlpha</tt></a></dt><dd>Whether textures with alpha should be converted from
@@ -1495,6 +1497,9 @@ Data type: TQ3Boolean.  Default value: kQ3True.
 <dt><a name="//Quesa/c/econst/kQ3RendererPropertyAllowVBOs"><tt>kQ3RendererPropertyAllowVBOs</tt></a></dt><dd>Allow the renderer to use vertex buffer objects provided
 that the OpenGL driver claims to support them.  This could
 be used to disable VBO usage for buggy graphics drivers.
+THIS OPTION IS NO LONGER IMPLEMENTED, but is maintained
+for documentation purposes.  VBOs are now mandatory in the
+OpenGL renderer.
 Data type: TQ3Boolean.  Default value: kQ3True.
 <br><br></dd>
 <dt><a name="//Quesa/c/econst/kQ3RendererPropertyVBOLimit"><tt>kQ3RendererPropertyVBOLimit</tt></a></dt><dd>Maximum amount of video memory, in K, that may be used to
@@ -1579,6 +1584,11 @@ the renderer was created.  Currently only supported by the OpenGL
 renderer.
 <br><br>
 Data type: TQ3Uns64.
+<br><br></dd>
+<dt><a name="//Quesa/c/econst/kQ3RendererPropertyIsLayerShifting"><tt>kQ3RendererPropertyIsLayerShifting</tt></a></dt><dd>You can use this property to disable layer shifting via a custom
+texture coordinate.
+<br><br>
+Data type: TQ3Boolean.  Default: kQ3True.
 <br><br></dd>
 <dt><a name="//Quesa/c/econst/kQ3RendererPropertyClippingPlane"><tt>kQ3RendererPropertyClippingPlane</tt></a></dt><dd>Use this property to supply a clipping plane to the per-pixel
 lighting fragment shader. The plane must be provided in view
@@ -1915,5 +1925,5 @@ enum {
 <br><br>
 The data for the attribute is a single TQ3CSGObjectID.
  </p>
-<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 7/19/2019)
+<p><p>&#169; 1999-2019 Quesa Developers (Last Updated 10/13/2019)
 </p></body></html>

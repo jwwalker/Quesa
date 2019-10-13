@@ -12,7 +12,7 @@
 <blockquote><pre>
 typedef struct TQ3AcceleratedOffscreenPropertyData {
     TQ3Object _Nonnull    masterDrawContext;
-    TQ3Boolean    copyFromPixmapAtFrameStart;
+    TQ3Boolean    xcopyFromPixmapAtFrameStart;
     TQ3Boolean    copyToPixmapAtFrameEnd;
 } TQ3AcceleratedOffscreenPropertyData;
 </pre>
@@ -32,11 +32,7 @@ handle the hardware acceleration for the pixmap context.
 <dl>
 <dt><tt>masterDrawContext</tt></dt><dd>An on-screen draw context, see
 discussion.</dd>
-<dt><tt>copyFromPixmapAtFrameStart</tt></dt><dd>Whether to copy the pixmap to the
-rendering context at the beginning
-of each frame.  This could be useful
-if using a pixmap as a background
-image.</dd>
+<dt><tt>xcopyFromPixmapAtFrameStart</tt></dt><dd>OBSOLETE.</dd>
 <dt><tt>copyToPixmapAtFrameEnd</tt></dt><dd>Whether to copy the rendered image
 to the pixmap at the end of the
 last pass of each frame.</dd>
@@ -145,43 +141,6 @@ renderers.
 <dt><tt>doubleBufferState</tt></dt><dd>Indicates if rendering will be double-buffered.</dd>
 </dl>
 </blockquote>
-<hr><a name="//Quesa/c/tag/TQ3MacDrawContextData"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3MacDrawContextData">TQ3MacDrawContextData</a></h2>
-</td></tr></table><hr><blockquote><pre>
-typedef struct TQ3MacDrawContextData {
-    TQ3DrawContextData                          drawContextData;
-    WindowRef _Nullable                                   window;
-    TQ3MacDrawContext2DLibrary                  library;
-    gxViewPort _Nullable                                  viewPort;
-    CGrafPtr _Nullable                                   grafPort;
-} TQ3MacDrawContextData;
-</pre>
-</blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Describes the state for a Mac OS draw context.
-<br><br>
-The library and viewPort fields are not supported by Quesa.
-<br><br>
-To render to the screen, either the window or grafPort fields must be
-valid. Rendering to an off-screen buffer (e.g., a GWorld) should be
-achieved by rendering to a suitably constructed Pixmap draw context.
-<br><br>
-If a window is supplied, its port will be obtained internally by Quesa
-and the grafPort field should be NULL. When rendering to a port which
-does not correspond to a valid WindowRef (e.g., a QD port constructed
-from a CoreGraphics context), the window field should be NULL and the
-port to render to supplied in the grafPort field.
-<br><br>
-</p>
-<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
-<blockquote>
-<dl>
-<dt><tt>drawContextData</tt></dt><dd>The common state for the draw context.</dd>
-<dt><tt>window</tt></dt><dd>The window to render to.</dd>
-<dt><tt>library</tt></dt><dd>The library to use for rendering. Should be kQ3Mac2DLibraryNone.</dd>
-<dt><tt>viewPort</tt></dt><dd>The QuickDraw GX port to render to. Should be NULL.</dd>
-<dt><tt>grafPort</tt></dt><dd>The QuickDraw port to render to.</dd>
-</dl>
-</blockquote>
 <hr><a name="//Quesa/c/tag/TQ3PixmapDrawContextData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3PixmapDrawContextData">TQ3PixmapDrawContextData</a></h2>
 </td></tr></table><hr><blockquote><pre>
@@ -282,5 +241,5 @@ of the fields have been assumed.
 <dt><tt>colorMapData</tt></dt><dd>The X11 color map data.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2012 Quesa Developers (Last Updated 7/19/2019)
+<p><p>&#169; 1999-2019 Quesa Developers (Last Updated 10/13/2019)
 </p></body></html>
