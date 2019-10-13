@@ -61,10 +61,6 @@
 
 #define __QD3DSHADER__
 
-#if QUESA_SUPPORT_QUICKTIME
-	#include <QuickTime/QuickTime.h>
-#endif
-
 
 
 
@@ -1053,97 +1049,6 @@ Q3MipmapTexture_SetMipmap (
 	@functiongroup Compressed Pixmap Textures
 */
 
-
-#if QUESA_SUPPORT_QUICKTIME
-/*!
- *  @function
- *      Q3CompressedPixmapTexture_New
- *  @discussion
- *      Create a compressed pixmap texture.
- *
- *      This function is only available on platforms that support QuickTime.
- *
- *  @param compressedPixmap The compressed pixmap for the texture.
- *  @result                 The new compressed pixmap texture.
- */
-Q3_EXTERN_API_C ( TQ3TextureObject  )
-Q3CompressedPixmapTexture_New (
-    const TQ3CompressedPixmap     * _Nonnull compressedPixmap
-);
-
-
-
-/*!
- *  @function
- *      Q3CompressedPixmapTexture_GetCompressedPixmap
- *  @discussion
- *      Get the compressed pixmap from a compressed pixmap texture.
- *
- *      This function is only available on platforms that support QuickTime.
- *
- *      The reference counts of the returned compressedImage and imageDesc
- *		fields are incremented, and the  caller must release their references
- *		when done.
- *
- *  @param texture          The texture to query.
- *  @param compressedPixmap Receives the compressed pixmap of the texture.
- *  @result                 Success or failure of the operation.
- */
-Q3_EXTERN_API_C ( TQ3Status  )
-Q3CompressedPixmapTexture_GetCompressedPixmap (
-    TQ3TextureObject              texture,
-    TQ3CompressedPixmap           * _Nonnull compressedPixmap
-);
-
-
-
-/*!
- *  @function
- *      Q3CompressedPixmapTexture_SetCompressedPixmap
- *  @discussion
- *      Set the compressed pixmap for a compressed pixmap texture.
- *
- *      This function is only available on platforms that support QuickTime.
- *
- *  @param texture          The texture to update.
- *  @param compressedPixmap The new compressed pixmap for the texture.
- *  @result                 Success or failure of the operation.
- */
-Q3_EXTERN_API_C ( TQ3Status  )
-Q3CompressedPixmapTexture_SetCompressedPixmap (
-    TQ3TextureObject              texture,
-    const TQ3CompressedPixmap     * _Nonnull compressedPixmap
-);
-
-
-
-/*!
- *  @function
- *      Q3CompressedPixmapTexture_CompressImage
- *  @discussion
- *      Create a compressed pixmap from a PixMapHandle.
- *
- *      This function is only available on platforms that support QuickTime.
- *
- *  @param compressedPixmap Receives the compressed pixmap.
- *  @param sourcePixMap     The uncompressed PixMapHandle.
- *  @param codecType        The QuickTime codec to use for compression.
- *  @param codecComponent   The QuickTime component to use for compression.
- *  @param codedDepth       The depth the codec should compress to.
- *  @param codecQuality     The quality the codec should compress to.
- *  @result                 Success or failure of the operation.
- */
-Q3_EXTERN_API_C ( TQ3Status  )
-Q3CompressedPixmapTexture_CompressImage (
-    TQ3CompressedPixmap           * _Nonnull compressedPixmap,
-    PixMapHandle                  sourcePixMap,
-    CodecType                     codecType,
-    CodecComponent                codecComponent,
-    TQ3Int16                      codedDepth,
-    CodecQ                        codecQuality
-);
-
-#endif // QUESA_SUPPORT_QUICKTIME
 
 
 

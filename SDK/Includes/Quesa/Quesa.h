@@ -154,15 +154,6 @@
     	#define		QUESA_HOST_IS_BIG_ENDIAN			1
     #endif
     
-    // Some of the APIs in QuickTime.framework are removed in 64 bit.
-    #ifndef QUESA_SUPPORT_QUICKTIME	
-        #if defined (__LP64__) && __LP64__
-            #define QUESA_SUPPORT_QUICKTIME				0
-        #else
-            #define QUESA_SUPPORT_QUICKTIME				1
-        #endif
-    #endif
-    
     #if defined(__GNUC__) && (defined(__APPLE_CPP__) || defined(__APPLE_CC__) || defined(__NEXT_CPP__))
         #define QUESA_UH_IN_FRAMEWORKS					1
     #elif defined(__MACH__) &&  __MACH__
@@ -230,12 +221,6 @@
 #endif
 
 
-// Default to not supporting QuickTime
-#ifndef QUESA_SUPPORT_QUICKTIME
-	#define QUESA_SUPPORT_QUICKTIME						0
-#endif
-
-
 // Default to allowing extensions to the QD3D API
 #ifndef QUESA_ALLOW_QD3D_EXTENSIONS
 	#define QUESA_ALLOW_QD3D_EXTENSIONS					1
@@ -281,13 +266,6 @@
 //=============================================================================
 //      Include files
 //-----------------------------------------------------------------------------
-#if QUESA_SUPPORT_QUICKTIME
-    #if ((QUESA_OS_MACINTOSH && QUESA_UH_IN_FRAMEWORKS) || (QUESA_OS_COCOA))
-        #include <QuickTime/Movies.h>
-    #else
-        #include <Movies.h>
-    #endif
-#endif
 
 // Disable QD3D header
 #if defined(__QD3D__)

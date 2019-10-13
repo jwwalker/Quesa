@@ -100,20 +100,6 @@ public :
 	
 
 
-#if QUESA_SUPPORT_QUICKTIME
-class E3WireElement : public E3Element  // This is a leaf class so no other classes use this,
-								// so it can be here in the .c file rather than in
-								// the .h file, hence all the fields can be public
-								// as nobody should be including this file
-	{
-Q3_CLASS_ENUMS ( kQ3ObjectTypeCustomElementWire, E3WireElement, E3Element )
-public :
-
-	QTAtomContainer							instanceData ;
-	} ;
-#endif
-	
-
 
 class E3BitDepthElement : public E3Element  // This is a leaf class so no other classes use this,
 								// so it can be here in the .c file rather than in
@@ -563,157 +549,6 @@ e3urlelement_metahandler(TQ3XMethodType methodType)
 
 	return(theMethod);
 }
-
-
-
-
-
-//=============================================================================
-//      e3wireelement_traverse : Traverse method (writing).
-//-----------------------------------------------------------------------------
-#if QUESA_SUPPORT_QUICKTIME
-#pragma mark -
-static TQ3Status
-e3wireelement_traverse (TQ3Object object, QTAtomContainer *atom, TQ3ViewObject view)
-{
-#pragma unused(object, atom, view)
-
-
-
-	// To be implemented...
-	return kQ3Failure;
-}
-
-
-
-
-
-//=============================================================================
-//      e3wireelement_write : Write method.
-//-----------------------------------------------------------------------------
-static TQ3Status
-e3wireelement_write (QTAtomContainer *urlData, TQ3FileObject file)
-{
-#pragma unused( urlData, file )
-
-	// To be implemented...
-	return kQ3Failure;
-}
-
-
-
-
-
-//=============================================================================
-//      e3wireelement_readdata : Read data method.
-//-----------------------------------------------------------------------------
-static TQ3Status
-e3wireelement_readdata (TQ3Object object, TQ3FileObject file)
-{
-#pragma unused( object, file )
-
-	// To be implemented...
-	return kQ3Failure;
-}
-
-
-
-
-
-//=============================================================================
-//      e3wireelement_copyadd : Copy add/get/duplicate method.
-//-----------------------------------------------------------------------------
-static TQ3Status
-e3wireelement_copyadd(QTAtomContainer *source, QTAtomContainer *dest)
-{
-
-
-	// Copy the element
-	*dest = *source;
-
-	return(kQ3Success);
-}
-
-
-
-
-
-//=============================================================================
-//      e3wireelement_copyreplace : Copy replace method.
-//-----------------------------------------------------------------------------
-static TQ3Status
-e3wireelement_copyreplace(QTAtomContainer *source, QTAtomContainer *dest)
-{
-
-
-	// Copy the element
-	*dest = *source;
-
-	return(kQ3Success);
-}
-
-
-
-
-
-//=============================================================================
-//      e3wireelement_delete : Delete method.
-//-----------------------------------------------------------------------------
-static TQ3Status
-e3wireelement_delete(QTAtomContainer *atom)
-{
-#pragma unused( atom )
-
-
-	// We don't currently copy the atom container, so nothing to do
-	return(kQ3Success);
-}
-
-
-
-
-
-//=============================================================================
-//      e3wireelement_metahandler : Wire element metahandler.
-//-----------------------------------------------------------------------------
-static TQ3XFunctionPointer
-e3wireelement_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = nullptr;
-
-
-
-	// Return our methods
-	switch (methodType) {
-		case kQ3XMethodTypeObjectTraverse:
-			theMethod = (TQ3XFunctionPointer) e3wireelement_traverse;
-			break;
-
-		case kQ3XMethodTypeObjectWrite:
-			theMethod = (TQ3XFunctionPointer) e3wireelement_write;
-			break;
-
-		case kQ3XMethodTypeObjectReadData:
-			theMethod = (TQ3XFunctionPointer) e3wireelement_readdata;
-			break;
-
-		case kQ3XMethodTypeElementCopyAdd:
-		case kQ3XMethodTypeElementCopyGet:
-		case kQ3XMethodTypeElementCopyDuplicate:
-			theMethod = (TQ3XFunctionPointer) e3wireelement_copyadd;
-			break;
-
-		case kQ3XMethodTypeElementCopyReplace:
-			theMethod = (TQ3XFunctionPointer) e3wireelement_copyreplace;
-			break;
-
-		case kQ3XMethodTypeElementDelete:
-			theMethod = (TQ3XFunctionPointer) e3wireelement_delete;
-			break;
-		}
-
-	return(theMethod);
-}
-#endif
 
 
 
@@ -1356,14 +1191,6 @@ E3CustomElements_RegisterClass(void)
 		}
 	}
 
-#if QUESA_SUPPORT_QUICKTIME
-	if (qd3dStatus == kQ3Success)
-		qd3dStatus = Q3_REGISTER_CLASS (	
-					kQ3ClassNameCustomElementWire,
-					e3wireelement_metahandler,
-					E3WireElement ) ;
-#endif
-
 	// The depth bits element does not need a metahandler, because it is plain old data
 	// and is never read or written (being attached to renderers, which aren't read or
 	// written).
@@ -1415,10 +1242,6 @@ E3CustomElements_UnregisterClass(void)
 
 
 	// Unregister the classes
-#if QUESA_SUPPORT_QUICKTIME
-	E3ClassTree::UnregisterClass(kQ3ObjectTypeCustomElementWire, kQ3True);
-#endif
-
 	E3ClassTree::UnregisterClass(kQ3ObjectTypeCustomElementName, kQ3True);
 	E3ClassTree::UnregisterClass(kQ3ObjectTypeCustomElementUrl,  kQ3True);
 	E3ClassTree::UnregisterClass(kQ3ElementTypeDepthBits,  kQ3True);
@@ -1672,76 +1495,6 @@ E3UrlElement_EmptyData(TCEUrlData **urlData)
 
 
 
-
-
-//=============================================================================
-//      E3WireElement_SetData : Set the atom container element.
-//-----------------------------------------------------------------------------
-//		Note : We don't currently copy atom containers.
-//-----------------------------------------------------------------------------
-#pragma mark -
-#if QUESA_SUPPORT_QUICKTIME
-TQ3Status
-E3WireElement_SetData(TQ3Object object, QTAtomContainer wireData)
-{	TQ3Status		qd3dStatus;
-
-
-
-	// Add the element
-	qd3dStatus = Q3Object_AddElement(object, kQ3ObjectTypeCustomElementWire, &wireData);
-
-	return(qd3dStatus);
-}
-
-
-
-
-
-//=============================================================================
-//      E3WireElement_GetData : Get the atom container element.
-//-----------------------------------------------------------------------------
-//		Note : We don't currently copy atom containers.
-//-----------------------------------------------------------------------------
-TQ3Status
-E3WireElement_GetData(TQ3Object object, QTAtomContainer *wireData)
-{	TQ3Status			qd3dStatus;
-
-
-
-	// Initialise a return value
-	*wireData = nullptr;
-
-
-
-	// Get the element
-	qd3dStatus = kQ3Success;
-	if (Q3Object_ContainsElement(object, kQ3ObjectTypeCustomElementWire))
-		qd3dStatus = Q3Object_GetElement(object, kQ3ObjectTypeCustomElementWire, wireData);
-
-	return(qd3dStatus);
-}
-
-
-
-
-
-//=============================================================================
-//      E3WireElement_EmptyData : Release an atom container element.
-//-----------------------------------------------------------------------------
-//		Note :	We don't currently copy atom containers, so for now we just
-//				reset the pointer.
-//-----------------------------------------------------------------------------
-TQ3Status
-E3WireElement_EmptyData(QTAtomContainer *wireData)
-{
-
-
-	// Reset the pointer
-	*wireData = nullptr;
-
-	return(kQ3Success);
-}
-#endif // QUESA_SUPPORT_QUICKTIME
 
 #pragma mark -
 

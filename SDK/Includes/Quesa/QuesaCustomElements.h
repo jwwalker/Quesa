@@ -61,10 +61,6 @@
 
 #define __QD3DCUSTOMELEMENTS__
 
-#if QUESA_SUPPORT_QUICKTIME
-	#include <QuickTime/QuickTime.h>
-#endif
-
 
 
 //=============================================================================
@@ -366,68 +362,6 @@ CEUrlElement_EmptyData (
     TCEUrlData * _Nullable * _Nonnull urlData
 );
 
-
-/*!
-	@functiongroup	Wire element
-*/
-
-#if QUESA_SUPPORT_QUICKTIME
-
-/*!
- *  @function
- *      CEWireElement_SetData
- *  @discussion
- *      Set the QuickTime wired element for an object.
- *
- *  @param object           The object to assign the element to.
- *  @param wireData         The QuickTime wired element to associate with the object.
- *  @result                 Success or failure of the operation.
- */
-Q3_EXTERN_API_C ( TQ3Status  )
-CEWireElement_SetData (
-    TQ3Object                     object,
-    QTAtomContainer               wireData
-);
-
-
-
-/*!
- *  @function
- *      CEWireElement_GetData
- *  @discussion
- *      Get the QuickTime wired element for an object.
- *
- *      The wireData parameter will receive a QTAtomContainer, or NULL if no
- *      wired element has been associated with the object. If a non-NULL pointer
- *      is returned, it must be disposed of with CEWireElement_EmptyData.
- *
- *  @param object           The object to query.
- *  @param wireData         Receives the QuickTime wired element associated with the object.
- *  @result                 Success or failure of the operation.
- */
-Q3_EXTERN_API_C ( TQ3Status  )
-CEWireElement_GetData (
-    TQ3Object                     object,
-    QTAtomContainer               *wireData
-);
-
-
-
-/*!
- *  @function
- *      CEWireElement_EmptyData
- *  @discussion
- *      Release the data returned by CEWireElement_GetData.
- *
- *  @param wireData         A pointer previously returned by CEWireElement_GetData.
- *  @result                 Success or failure of the operation.
- */
-Q3_EXTERN_API_C ( TQ3Status  )
-CEWireElement_EmptyData (
-    QTAtomContainer               *wireData
-);
-
-#endif // QUESA_SUPPORT_QUICKTIME
 
 /*!
 	@functiongroup	Triangle strip element

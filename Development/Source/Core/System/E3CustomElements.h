@@ -118,12 +118,6 @@ TQ3TextureObject	E3SpecularMapElement_Copy( TQ3ShaderObject shader );
 void				E3SpecularMapElement_Set( TQ3ShaderObject shader, TQ3TextureObject texture );
 
 
-#if QUESA_SUPPORT_QUICKTIME
-TQ3Status	E3WireElement_SetData(TQ3Object object, QTAtomContainer wireData);
-TQ3Status	E3WireElement_GetData(TQ3Object object, QTAtomContainer *wireData);
-TQ3Status	E3WireElement_EmptyData(QTAtomContainer *wireData);
-#endif
-
 const void*	E3Object_GetPropertyAddress( TQ3Object object,
 										TQ3ObjectType propType,
 										TQ3Uns32* actualSize );
