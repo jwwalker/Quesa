@@ -101,17 +101,6 @@ extern "C" {
 #define CEcUrlElementName                       "Apple Computer, Inc.:URLElement"
 
 /*!
-	@constant	CEcWireElementName
-	@discussion	Class name of the wire element.
-	
-				Ordinarily you will not need to use the class name, because you
-				can manipulate name elements using the functions
-				CEWireElement_SetData, CEWireElement_GetData, and
-				CEWireElement_EmptyData.
-*/
-#define CEcWireElementName                      "Apple Computer, Inc.:WireElement"
-
-/*!
 	@constant	kQ3ClassNameCustomElementTriangleStrip
 	@abstract	Class name of the triangle strip custom element.
 	@discussion	Ordinarily you will not need to use the class name, because you
