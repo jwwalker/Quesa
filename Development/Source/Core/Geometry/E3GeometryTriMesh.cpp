@@ -421,7 +421,7 @@ e3geom_nakedtrimesh_copydata(const TQ3TriMeshData *src, TQ3TriMeshData *dst )
 	// 8. bounding box
 	if (qd3dStatus == kQ3Success)
 		{
-        if (src->bBox.isEmpty)
+        if (src->bBox.isEmpty && (dst->numPoints > 0))
             Q3BoundingBox_SetFromPoints3D(&dst->bBox,
                                            dst->points,
                                            dst->numPoints,
