@@ -804,7 +804,7 @@ void	FBORec::InitDepthAndStencil(
 		
 		// Check that we actually got stencil bits.
 		GLint actualStencilBits = 0;
-		glGetRenderbufferParameteriv(GL_RENDERBUFFER_EXT, GL_RENDERBUFFER_STENCIL_SIZE, &actualStencilBits );
+		glGetRenderbufferParameteriv( GL_RENDERBUFFER_EXT, GL_RENDERBUFFER_STENCIL_SIZE, &actualStencilBits );
 		if ( E3Num_SafeLess( actualStencilBits, stencilBits ) )
 		{
 			Q3_MESSAGE_FMT( "FBO requested %d stencil bits, only got %d.", (int)stencilBits, (int)actualStencilBits );

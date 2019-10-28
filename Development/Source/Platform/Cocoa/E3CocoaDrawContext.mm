@@ -113,8 +113,12 @@ public :
 - (void) refreshCachedBounds
 {
 	// Grab our bounds
-	NSRect viewBounds = [_view convertRectToBacking: _view.bounds];
-
+	NSRect viewBounds = _view.bounds;
+	if ( [_view isKindOfClass: [NSOpenGLView class]] && (_view.layer != nil) && (_view.layer.contentsScale != 1.0) )
+	{
+		viewBounds.size.width *= _view.layer.contentsScale;
+		viewBounds.size.height *= _view.layer.contentsScale;
+	}
 
 	// Reset our state, and update the size of the draw context pane    
 	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *)
@@ -249,7 +253,12 @@ e3drawcontext_cocoa_get_dimensions(TQ3DrawContextObject theDrawContext, TQ3Area 
 	TQ3DrawContextUnionData* instanceData = (TQ3DrawContextUnionData *) theDrawContext->FindLeafInstanceData();
 	TQ3CocoaDrawContextData& cocoaData( instanceData->data.cocoaData.theData );
 	NSView* theView = (NSView*) cocoaData.nsView;
-	NSRect	viewBounds = [theView convertRectToBacking: theView.bounds];
+	NSRect	viewBounds = theView.bounds;
+	if ( [theView isKindOfClass: [NSOpenGLView class]] && (theView.layer != nil) && (theView.layer.contentsScale != 1.0) )
+	{
+		viewBounds.size.width *= theView.layer.contentsScale;
+		viewBounds.size.height *= theView.layer.contentsScale;
+	}
 	thePane->min.x = (float) viewBounds.origin.x;
 	thePane->min.y = (float) viewBounds.origin.y;
 	thePane->max.x = (float) (viewBounds.origin.x + viewBounds.size.width);
