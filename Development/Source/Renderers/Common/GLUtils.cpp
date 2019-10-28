@@ -92,6 +92,14 @@
 	#define	GL_MULTISAMPLE_ARB				0x809D
 #endif
 
+#ifndef GL_STACK_OVERFLOW
+#define GL_STACK_OVERFLOW                 0x0503
+#endif
+
+#ifndef GL_STACK_UNDERFLOW
+#define GL_STACK_UNDERFLOW                0x0504
+#endif
+
 //=============================================================================
 //      Private functions
 //-----------------------------------------------------------------------------
