@@ -1624,7 +1624,7 @@ E3Pick_RecordHit(TQ3PickObject				inPick,
 	try
 	{
 		// Allocate another hit record
-		std::auto_ptr<TQ3PickHit>	theHit( new TQ3PickHit );
+		std::unique_ptr<TQ3PickHit>	theHit( new TQ3PickHit );
 
 
 
