@@ -467,10 +467,10 @@ TQ3ViewStatus		QORenderer::Renderer::EndPass(
 	bool isFirstLightingPass = mLights.IsFirstPass();
 	if (isFirstLightingPass && mLights.IsLastLightingPass() && mTransBuffer.HasContent())
 	{
-		mPPLighting.EndPass();
-
 		mTransBuffer.DrawDepth( inView );
 		
+		mPPLighting.EndPass();
+
 		CQ3ObjectRef	theCamera( CQ3View_GetCamera( inView ) );
 		mPPLighting.StartPass( theCamera.get() );
 		
