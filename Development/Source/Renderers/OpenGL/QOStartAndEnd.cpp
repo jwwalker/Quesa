@@ -500,7 +500,6 @@ TQ3ViewStatus		QORenderer::Renderer::EndPass(
 	// reset some state to defaults
 
 	mTextures.EndPass();
-	mPPLighting.EndPass();
 	if (allDone == kQ3ViewStatusDone)
 	{
 		mLights.EndFrame( inView );
@@ -512,6 +511,8 @@ TQ3ViewStatus		QORenderer::Renderer::EndPass(
 	{
 		RenderTransparent( inView );
 	}
+
+	mPPLighting.EndPass();
 
 	// Swap the back buffer, unless asked not to
 	if ( (allDone == kQ3ViewStatusDone) && IsSwapWanted( inView ) )
