@@ -62,6 +62,16 @@ namespace QORenderer
 extern "C" {
 #endif
 
+#ifndef __has_attribute
+	#define __has_attribute(x) 0  // Compatibility with non-clang compilers.
+#endif
+
+#ifndef GL_FORMAT_FUNCTION
+#if __has_attribute(format)
+	#define GL_FORMAT_FUNCTION( F, A )	__attribute__((format(printf, F, A)))
+#endif
+#endif
+
 
 
 
@@ -115,7 +125,7 @@ const char* GLUtils_GLErrorToString( GLenum inGLError );
 // Check glGetError, and fail an assertion if it shows an error.
 void	GLUtils_CheckGLError( const char* inFileName, int inLineNum );
 void	GLUtils_CheckGLErrorFmt( const char* inFileName, int inLineNum,
-				const char* inFormat, ... );
+				const char* inFormat, ... ) GL_FORMAT_FUNCTION(3,4);
 
 
 //=============================================================================

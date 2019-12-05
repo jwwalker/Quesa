@@ -380,7 +380,7 @@ typedef Q3_CALLBACK_API_C( void, TQ3GLContextDestructionCallback )(
  */
 typedef struct TQ3Win32DCDrawContextData {
     TQ3DrawContextData                          drawContextData;
-    HDC                                         hdc;
+    HDC _Nonnull                                hdc;
 } TQ3Win32DCDrawContextData;
 
 
@@ -1211,9 +1211,9 @@ Q3XDrawContext_GetColormapData (
  *  @param drawContextData  The data for the Win32 DC draw context object.
  *  @result                 The new draw context object.
  */
-Q3_EXTERN_API_C ( TQ3DrawContextObject  )
+Q3_EXTERN_API_C ( TQ3DrawContextObject _Nullable  )
 Q3Win32DCDrawContext_New (
-    const TQ3Win32DCDrawContextData *drawContextData
+    const TQ3Win32DCDrawContextData * _Nonnull drawContextData
 );
 
 
@@ -1230,8 +1230,8 @@ Q3Win32DCDrawContext_New (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Win32DCDrawContext_SetDC (
-    TQ3DrawContextObject          drawContext,
-    HDC                           newHDC
+    TQ3DrawContextObject _Nonnull         drawContext,
+    HDC _Nonnull                           newHDC
 );
 
 
@@ -1248,8 +1248,8 @@ Q3Win32DCDrawContext_SetDC (
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Win32DCDrawContext_GetDC (
-    TQ3DrawContextObject          drawContext,
-    HDC                           *curHDC
+    TQ3DrawContextObject _Nonnull          drawContext,
+    HDC _Nullable               * _Nonnull curHDC
 );
 
 
