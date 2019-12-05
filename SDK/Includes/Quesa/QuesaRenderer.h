@@ -742,7 +742,7 @@ typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererSetConfigurationDataM
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererStartFrameMethod)(
                             TQ3ViewObject _Nonnull          theView,
                             void                    * _Nonnull rendererPrivate,
-                            TQ3DrawContextObject _Nonnull   theDrawContext);
+                            TQ3DrawContextObject _Nullable   theDrawContext);
 
 
 /*!
@@ -766,8 +766,8 @@ typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererStartFrameMethod)(
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererStartPassMethod)(
                             TQ3ViewObject _Nonnull      theView,
                             void                * _Nonnull rendererPrivate,
-                            TQ3CameraObject _Nonnull    theCamera,
-                            TQ3GroupObject _Nonnull     theLights);
+                            TQ3CameraObject _Nullable    theCamera,
+                            TQ3GroupObject _Nullable     theLights);
 
 
 /*!
@@ -1310,7 +1310,7 @@ typedef struct TQ3DialogAnchor {
  *  @field ownerWindow      The parent window of the configure dialog.
  */
 typedef struct TQ3DialogAnchor {
-    HWND                                        ownerWindow;
+    HWND _Nonnull                                        ownerWindow;
 } TQ3DialogAnchor;
 
 #endif // QUESA_OS_WIN32
