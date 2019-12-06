@@ -673,7 +673,7 @@ Q3FileStreamStorage_Set (
  */
 Q3_EXTERN_API_C ( TQ3StorageObject _Nonnull )
 Q3Win32Storage_New (
-    HANDLE                        hFile
+    HANDLE _Nonnull                        hFile
 );
 
 
@@ -691,7 +691,7 @@ Q3Win32Storage_New (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Win32Storage_Set (
     TQ3StorageObject _Nonnull             storage,
-    HANDLE                        hFile
+    HANDLE _Nonnull                        hFile
 );
 
 
@@ -709,7 +709,7 @@ Q3Win32Storage_Set (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Win32Storage_Get (
     TQ3StorageObject _Nonnull             storage,
-    HANDLE                        * _Nonnull hFile
+    HANDLE _Nonnull                       * _Nonnull hFile
 );
 
 #endif // QUESA_OS_WIN32

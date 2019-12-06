@@ -12,7 +12,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -922,7 +922,7 @@ Q3XView_SubmitSubObjectData (
     TQ3XObjectClass _Nonnull              objectClass,
     TQ3Uns32                      size,
     void                          * _Nonnull data,
-    TQ3XDataDeleteMethod _Nonnull         deleteData
+    TQ3XDataDeleteMethod _Nullable         deleteData
 );
 
 
@@ -1259,7 +1259,7 @@ Q3File_IsEndOfData (
 Q3_EXTERN_API_C ( TQ3Boolean  )
 Q3File_IsEndOfContainer (
     TQ3FileObject _Nonnull                theFile,
-    TQ3Object _Nonnull                    rootObject
+    TQ3Object _Nullable                    rootObject
 );
 
 
