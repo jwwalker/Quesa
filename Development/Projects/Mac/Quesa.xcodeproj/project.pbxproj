@@ -21,6 +21,11 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		7F55E9C8239A8A8800468537 /* QD3DController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7F55E9C7239A8A8800468537 /* QD3DController.cpp */; };
+		7F55E9C9239A8A8800468537 /* QD3DController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7F55E9C7239A8A8800468537 /* QD3DController.cpp */; };
+		7F55E9CC239A8AB300468537 /* E3Controller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7F55E9CA239A8AB300468537 /* E3Controller.cpp */; };
+		7F55E9CD239A8AB300468537 /* E3Controller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7F55E9CA239A8AB300468537 /* E3Controller.cpp */; };
+		7F55E9D0239A8B6E00468537 /* QuesaController.h in Headers */ = {isa = PBXBuildFile; fileRef = 7F55E9CF239A8B6E00468537 /* QuesaController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AB3A7CA6055E63B200CA83BE /* E3GeometryBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7B87055E63B100CA83BE /* E3GeometryBox.cpp */; };
 		AB3A7CA8055E63B200CA83BE /* E3GeometryCone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7B89055E63B100CA83BE /* E3GeometryCone.cpp */; };
 		AB3A7CAA055E63B200CA83BE /* E3GeometryCylinder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7B8B055E63B100CA83BE /* E3GeometryCylinder.cpp */; };
@@ -309,6 +314,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7F55E9C7239A8A8800468537 /* QD3DController.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; path = QD3DController.cpp; sourceTree = "<group>"; };
+		7F55E9CA239A8AB300468537 /* E3Controller.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; path = E3Controller.cpp; sourceTree = "<group>"; };
+		7F55E9CB239A8AB300468537 /* E3Controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = E3Controller.h; sourceTree = "<group>"; };
+		7F55E9CF239A8B6E00468537 /* QuesaController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QuesaController.h; sourceTree = "<group>"; };
 		8D07F2C80486CC7A007CD1D0 /* Quesa.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Quesa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB3A7B85055E63B100CA83BE /* E3Geometry.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; path = E3Geometry.cpp; sourceTree = "<group>"; };
 		AB3A7B86055E63B100CA83BE /* E3Geometry.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3Geometry.h; sourceTree = "<group>"; };
@@ -715,6 +724,7 @@
 		AB3A7BB1055E63B100CA83BE /* Glue */ = {
 			isa = PBXGroup;
 			children = (
+				7F55E9C7239A8A8800468537 /* QD3DController.cpp */,
 				AB3A7BB2055E63B100CA83BE /* QD3DCamera.cpp */,
 				AB3A7BB4055E63B100CA83BE /* QD3DCustomElements.cpp */,
 				AB3A7BB5055E63B100CA83BE /* QD3DDrawContext.cpp */,
@@ -775,6 +785,8 @@
 		AB3A7BE2055E63B100CA83BE /* System */ = {
 			isa = PBXGroup;
 			children = (
+				7F55E9CA239A8AB300468537 /* E3Controller.cpp */,
+				7F55E9CB239A8AB300468537 /* E3Controller.h */,
 				AB3A7BE3055E63B100CA83BE /* E3Camera.cpp */,
 				AB3A7BE4055E63B100CA83BE /* E3Camera.h */,
 				AB3A7BE7055E63B100CA83BE /* E3CustomElements.cpp */,
@@ -947,6 +959,7 @@
 		AB83B5D7055E72B90034F56A /* Quesa */ = {
 			isa = PBXGroup;
 			children = (
+				7F55E9CF239A8B6E00468537 /* QuesaController.h */,
 				BE392D070B6D0CCA00A351AC /* CQ3ObjectRef_Gets.h */,
 				BEDC045708A57B8100FB3A82 /* CQ3ObjectRef.h */,
 				BE11DD721D5A9DA20013C5ED /* CQ3WeakObjectRef.h */,
@@ -1104,6 +1117,7 @@
 				AB83B5FE055E72B90034F56A /* QuesaRenderer.h in Headers */,
 				AB83B5FF055E72B90034F56A /* QuesaSet.h in Headers */,
 				AB83B600055E72B90034F56A /* QuesaShader.h in Headers */,
+				7F55E9D0239A8B6E00468537 /* QuesaController.h in Headers */,
 				AB83B601055E72B90034F56A /* QuesaStorage.h in Headers */,
 				AB83B602055E72B90034F56A /* QuesaString.h in Headers */,
 				AB83B603055E72B90034F56A /* QuesaStyle.h in Headers */,
@@ -1266,9 +1280,11 @@
 				AB3A7CF2055E63B200CA83BE /* E3HashTable.cpp in Sources */,
 				AB3A7CF4055E63B200CA83BE /* E3Pool.cpp in Sources */,
 				AB3A7CF8055E63B200CA83BE /* E3System.cpp in Sources */,
+				7F55E9C8239A8A8800468537 /* QD3DController.cpp in Sources */,
 				AB3A7CFA055E63B200CA83BE /* E3Tessellate.cpp in Sources */,
 				AB3A7CFC055E63B200CA83BE /* E3Utils.cpp in Sources */,
 				AB3A7CFF055E63B200CA83BE /* E3Camera.cpp in Sources */,
+				7F55E9CC239A8AB300468537 /* E3Controller.cpp in Sources */,
 				AB3A7D03055E63B200CA83BE /* E3CustomElements.cpp in Sources */,
 				AB3A7D05055E63B200CA83BE /* E3DrawContext.cpp in Sources */,
 				AB3A7D07055E63B200CA83BE /* E3Errors.cpp in Sources */,
@@ -1400,9 +1416,11 @@
 				B1756B76080A73C00056134C /* E3GeometryCylinder.cpp in Sources */,
 				B1756B77080A73C00056134C /* GLDrawContext.cpp in Sources */,
 				B1756B78080A73C00056134C /* E3GeometryMesh.cpp in Sources */,
+				7F55E9C9239A8A8800468537 /* QD3DController.cpp in Sources */,
 				B1756B7A080A73C00056134C /* E3Style.cpp in Sources */,
 				B1756B7B080A73C00056134C /* E3GeometryDisk.cpp in Sources */,
 				B1756B7D080A73C00056134C /* E3ErrorManager.cpp in Sources */,
+				7F55E9CD239A8AB300468537 /* E3Controller.cpp in Sources */,
 				B1756B7E080A73C00056134C /* E3IOData.cpp in Sources */,
 				B1756B7F080A73C00056134C /* E3GeometryBox.cpp in Sources */,
 				B1756B80080A73C00056134C /* E3Renderer.cpp in Sources */,

@@ -5,11 +5,11 @@
         Header file for E3Controller.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2005, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
-            <http://www.quesa.org/>
+            <https://github.com/h-haris/Quesa>
         
         Redistribution and use in source and binary forms, with or without
         modification, are permitted provided that the following conditions

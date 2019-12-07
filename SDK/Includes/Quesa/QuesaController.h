@@ -51,11 +51,11 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
-            <http://www.quesa.org/>
+            <https://github.com/h-haris/Quesa>
         
         Redistribution and use in source and binary forms, with or without
         modification, are permitted provided that the following conditions
@@ -594,7 +594,7 @@ Q3Controller_Track2DCursor (
  *		<em>This function is implemented. No support for system cursor tracker under MacOS X.</em>
  *
  *  @param controllerRef    The controller reference.
- *  @param tracks3DCursor    Receives true or false as the controller is affecting
+ *  @param track3DCursor    Receives true or false as the controller is affecting
  *                          both the 2D system cursor and the z-axis values/orientation
  *                          of the system cursor.
  *  @result                 Success or failure of the operation.
@@ -800,7 +800,7 @@ Q3Controller_SetTrackerOrientation (
  *		<em>This function is implemented. No support for system cursor tracker under MacOS X.</em>
  *
  *  @param controllerRef    The controller to update.
- *  @param orientation      The delta to be added to the tracker orientation.
+ *  @param delta      The delta to be added to the tracker orientation.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
