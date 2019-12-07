@@ -549,7 +549,7 @@ normally the same as dataSize.</dd>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Win32Storage_Get">Q3Win32Storage_Get</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Win32Storage_Get (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject _Nonnull storage,
-&nbsp;&nbsp;&nbsp;&nbsp;HANDLE * _Nonnull hFile
+&nbsp;&nbsp;&nbsp;&nbsp;HANDLE _Nonnull * _Nonnull hFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the file handle for a Win32 storage object.
@@ -567,7 +567,7 @@ normally the same as dataSize.</dd>
 <hr><a name="//Quesa/c/func/Q3Win32Storage_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Win32Storage_New">Q3Win32Storage_New</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3StorageObject _Nonnull ) Q3Win32Storage_New (
-&nbsp;&nbsp;&nbsp;&nbsp;HANDLE hFile
+&nbsp;&nbsp;&nbsp;&nbsp;HANDLE _Nonnull hFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>This creates a storage object whose data is stored in a file,
@@ -588,7 +588,7 @@ object, and it is your responsibility to close the file later.
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Win32Storage_Set">Q3Win32Storage_Set</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Win32Storage_Set (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3StorageObject _Nonnull storage,
-&nbsp;&nbsp;&nbsp;&nbsp;HANDLE hFile
+&nbsp;&nbsp;&nbsp;&nbsp;HANDLE _Nonnull hFile
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the file handle for a Win32 storage object.
@@ -628,5 +628,5 @@ memory storage.</dd>
 <dt><a name="//Quesa/c/econst/kQ3StorageOpenness_Open"><tt>kQ3StorageOpenness_Open</tt></a></dt><dd>The storage is currently opened.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2019 Quesa Developers (Last Updated 10/13/2019)
+<p><p>&#169; 1999-2019 Quesa Developers (Last Updated 12/7/2019)
 </p></body></html>

@@ -119,13 +119,13 @@ extern "C" {
 //      Constants
 //-----------------------------------------------------------------------------
 /*!
- *	@defined 
+ *	@constant
  *      kQ3ControllerSetChannelMaxDataSize
- *	@discussion 
+ *	@abstract
  *		defines the maximum number of bytes transfered for a channel; here 256
 */
 // Max channel size
-#define kQ3ControllerSetChannelMaxDataSize      256
+const int kQ3ControllerSetChannelMaxDataSize = 256;
 
 
 

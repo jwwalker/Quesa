@@ -913,7 +913,7 @@ This method is optional.
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,           TQ3XRendererStartFrameMethod</b>) (<BR>
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull          theView,<BR>
 &nbsp;&nbsp;&nbsp;&nbsp;void                    * _Nonnull rendererPrivate,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject _Nonnull   theDrawContext<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject _Nullable   theDrawContext<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Invoked by Q3View_StartRendering to start a new frame.
 <br><br>
@@ -938,8 +938,8 @@ This method is required.
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,           TQ3XRendererStartPassMethod</b>) (<BR>
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull      theView,<BR>
 &nbsp;&nbsp;&nbsp;&nbsp;void                * _Nonnull rendererPrivate,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nonnull    theCamera,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject _Nonnull     theLights<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nullable    theCamera,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject _Nullable     theLights<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Invoked by Q3View_StartRendering to start a new pass.
 <br><br>
@@ -1347,7 +1347,7 @@ dialog state to the renderer.
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3DialogAnchor (Windows)">TQ3DialogAnchor (Windows)</a></h2>
 </td></tr></table><hr><blockquote><pre>
 typedef struct TQ3DialogAnchor {
-    HWND                                        ownerWindow;
+    HWND _Nonnull                                        ownerWindow;
 } TQ3DialogAnchor;
 </pre>
 </blockquote>
@@ -1925,5 +1925,5 @@ enum {
 <br><br>
 The data for the attribute is a single TQ3CSGObjectID.
  </p>
-<p><p>&#169; 1999-2019 Quesa Developers (Last Updated 10/13/2019)
+<p><p>&#169; 1999-2019 Quesa Developers (Last Updated 12/7/2019)
 </p></body></html>

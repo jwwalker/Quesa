@@ -810,7 +810,7 @@ Q3File_Close.
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3File_IsEndOfContainer">Q3File_IsEndOfContainer</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Boolean ) Q3File_IsEndOfContainer (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3FileObject _Nonnull theFile,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object _Nonnull rootObject
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object _Nullable rootObject
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Has the end of the current container in a file been reached?
@@ -2732,7 +2732,7 @@ Note that the result is a TQ3ViewStatus, not a TQ3Status.
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3XObjectClass _Nonnull objectClass,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 size,
 &nbsp;&nbsp;&nbsp;&nbsp;void * _Nonnull data,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDataDeleteMethod _Nonnull deleteData
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3XDataDeleteMethod _Nullable deleteData
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Submit a sub-object to a view for writing.
@@ -3582,5 +3582,5 @@ typedef enum TQ3FileReadGroupStateMasks {
 <dt><a name="//Quesa/c/econst/kQ3FileCurrentlyInsideGroup"><tt>kQ3FileCurrentlyInsideGroup</tt></a></dt><dd>Currently inside a group.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2019 Quesa Developers (Last Updated 10/13/2019)
+<p><p>&#169; 1999-2019 Quesa Developers (Last Updated 12/7/2019)
 </p></body></html>
