@@ -58,6 +58,17 @@
 #include "FlattenHierarchy.h"
 #include "MergeTriMeshes.h"
 
+#include <vector>
+
+#ifdef __APPLE__
+	#include <Quesa/CQ3ObjectRef.h>
+	#include <Quesa/CQ3ObjectRef_Gets.h>
+	#include <Quesa/Q3GroupIterator.h>
+#else
+	#include "CQ3ObjectRef.h"
+	#include "CQ3ObjectRef_Gets.h"
+	#include "Q3GroupIterator.h"
+#endif
 
 //=============================================================================
 //      Internal constants
@@ -165,7 +176,8 @@ enum {
 	kMenuItemQuesaLogo,
 	kMenuItemDivider3,
 	kMenuItemTestDepth,
-	kMenuItemTestRasterize
+	kMenuItemTestRasterize,
+	kMenuItemTestLayers
 };
 
 #define kTriGridRows										5
@@ -2453,6 +2465,176 @@ createTestRasterize(void)
 }
 
 
+static void DecomposeCylinder( CQ3ObjectRef& ioCylinder, TQ3ViewObject inView, TQ3StyleObject inSubStyle )
+{
+	CQ3ObjectRef atts( CQ3Geometry_GetAttributeSet( ioCylinder.get() ) );
+	
+	if (Q3View_StartBoundingBox( inView, kQ3ComputeBoundsExact ) == kQ3Success)
+	{
+		TQ3BoundingBox dummyBounds;
+		do
+		{
+			Q3Object_Submit( inSubStyle, inView );
+			
+			CQ3ObjectRef decomposed( Q3Geometry_GetDecomposed( ioCylinder.get(), inView ) );
+			ioCylinder = decomposed;
+		} while (Q3View_EndBoundingBox( inView, &dummyBounds ) == kQ3ViewStatusRetraverse);
+	}
+	
+	if (Q3Object_IsType( ioCylinder.get(), kQ3ShapeTypeGroup ))
+	{
+		Q3GroupIterator	iter( ioCylinder.get(), kQ3GeometryTypeTriMesh );
+		CQ3ObjectRef	theItem;
+		while ( (theItem = iter.NextObject()).isvalid() )
+		{
+			ioCylinder = theItem;
+			Q3Geometry_SetAttributeSet( ioCylinder.get(), atts.get() );
+			break;
+		}
+	}
+}
+
+static void SetLayerOfTriMesh( TQ3GeometryObject ioTriMesh, float inLayer )
+{
+	CQ3ObjectRef nakedGeom( Q3TriMesh_GetNakedGeometry( ioTriMesh ) );
+	
+	// Find out the number of vertices of the mesh data
+	TQ3Uns32 pointCount = 0;
+	TQ3TriMeshData* tmData = nullptr;
+	if (kQ3Success == Q3TriMesh_LockData( ioTriMesh, kQ3True, &tmData ))
+	{
+		pointCount = tmData->numPoints;
+		Q3TriMesh_UnlockData( ioTriMesh );
+	}
+	
+	if (pointCount > 0)
+	{
+		std::vector< float >	coords( pointCount + 1 );
+		TQ3LayerShifts* shifts = (TQ3LayerShifts*) &coords[0];
+		shifts->numPoints = pointCount;
+		for (TQ3Uns32 i = 0; i < pointCount; ++i)
+		{
+			shifts->coords[i] = inLayer;
+		}
+		Q3Object_SetProperty( nakedGeom.get(), kQ3GeometryPropertyLayerShifts,
+			(pointCount + 1) * sizeof(float), shifts );
+	}
+}
+
+
+//=============================================================================
+//      createLayerTest : Create group that will test layer shifting via
+// kQ3GeometryPropertyLayerShifts.
+//-----------------------------------------------------------------------------
+static TQ3Object createLayerTest( TQ3ViewObject inView )
+{
+	TQ3Object result = Q3DisplayGroup_New();
+	
+	// Make attribute sets for 3 colors
+	CQ3ObjectRef innerAtts( Q3AttributeSet_New() );
+	CQ3ObjectRef midAtts( Q3AttributeSet_New() );
+	CQ3ObjectRef outerAtts( Q3AttributeSet_New() );
+	TQ3ColorRGB innerColor = { 1.0f, 1.0f, 0.0f };
+	TQ3ColorRGB midColor = { 1.0f, 0.0f, 0.0f };
+	TQ3ColorRGB outerColor = { 0.0f, 0.0f, 1.0f };
+	Q3AttributeSet_Add( innerAtts.get(), kQ3AttributeTypeDiffuseColor, &innerColor );
+	Q3AttributeSet_Add( midAtts.get(), kQ3AttributeTypeDiffuseColor, &midColor );
+	Q3AttributeSet_Add( outerAtts.get(), kQ3AttributeTypeDiffuseColor, &outerColor );
+	
+	// Make cylinders
+	static const float kInnerRadius = 1.0f;
+	static const float kInnerHeight = 2.0f;
+	static const float kOriginZ = -2.0f;
+	TQ3CylinderData innerData = {
+		{ 0.0f, 0.0f, kOriginZ },	// origin
+		{ 0.0f, 0.0f, kInnerHeight },	// orientation
+		{ kInnerRadius, 0.0f, 0.0f },	// major axis
+		{ 0.0f, kInnerRadius, 0.0f },	// minor axis
+		0.0f, 1.0f,				// uMin, uMax
+		0.0f, 1.0f,				// vMin, vMax
+		kQ3EndCapNone,			// caps
+		nullptr,				// interiorAttributeSet
+		nullptr,				// topAttributeSet
+		nullptr,				// faceAttributeSet
+		nullptr,				// bottomAttributeSet
+		innerAtts.get()			// cylinderAttributeSet
+	};
+	CQ3ObjectRef innerCyl( Q3Cylinder_New( &innerData ) );
+	
+	static const float kMidRadius = 1.1f;
+	static const float kMidHeight = 1.5f;
+	static const float kMidOffset = 0.103f;
+	TQ3CylinderData midData = {
+		{ kMidOffset, 0.0f, kOriginZ },	// origin
+		{ 0.0f, 0.0f, kMidHeight },	// orientation
+		{ kMidRadius, 0.0f, 0.0f },	// major axis
+		{ 0.0f, kMidRadius, 0.0f },	// minor axis
+		0.0f, 1.0f,				// uMin, uMax
+		0.0f, 1.0f,				// vMin, vMax
+		kQ3EndCapNone,			// caps
+		nullptr,				// interiorAttributeSet
+		nullptr,				// topAttributeSet
+		nullptr,				// faceAttributeSet
+		nullptr,				// bottomAttributeSet
+		midAtts.get()			// cylinderAttributeSet
+	};
+	CQ3ObjectRef midCyl( Q3Cylinder_New( &midData ) );
+	
+	static const float kOuterRadius = 1.2f;
+	static const float kOuterHeight = 1.0f;
+	static const float kOuterOffset = 0.21f;
+	TQ3CylinderData outerData = {
+		{ kOuterOffset, 0.0f, kOriginZ },	// origin
+		{ 0.0f, 0.0f, kOuterHeight },	// orientation
+		{ kOuterRadius, 0.0f, 0.0f },	// major axis
+		{ 0.0f, kOuterRadius, 0.0f },	// minor axis
+		0.0f, 1.0f,				// uMin, uMax
+		0.0f, 1.0f,				// vMin, vMax
+		kQ3EndCapNone,			// caps
+		nullptr,				// interiorAttributeSet
+		nullptr,				// topAttributeSet
+		nullptr,				// faceAttributeSet
+		nullptr,				// bottomAttributeSet
+		outerAtts.get()			// cylinderAttributeSet
+	};
+	CQ3ObjectRef outerCyl( Q3Cylinder_New( &outerData ) );
+	
+	// Make a subdivision style
+	TQ3SubdivisionStyleData subData = {
+		kQ3SubdivisionMethodConstant, 120.0f, 60.0f
+	};
+	CQ3ObjectRef subStyle( Q3SubdivisionStyle_New( &subData ) );
+	
+	// Decompose cylinders to TriMeshes
+	DecomposeCylinder( innerCyl, inView, subStyle.get() );
+	DecomposeCylinder( outerCyl, inView, subStyle.get() );
+	DecomposeCylinder( midCyl, inView, subStyle.get() );
+	
+	// Make a subgroup of duplicates, offset
+	CQ3ObjectRef subgroup( Q3DisplayGroup_New() );
+	TQ3Vector3D translation = { 0.0f, 0.0f, 2.5f };
+	CQ3ObjectRef transform( Q3TranslateTransform_New( &translation ) );
+	Q3Group_AddObject( subgroup.get(), transform.get() );
+	CQ3ObjectRef innerDupe( Q3Object_Duplicate( innerCyl.get() ) );
+	CQ3ObjectRef midDupe( Q3Object_Duplicate( midCyl.get() ) );
+	CQ3ObjectRef outerDupe( Q3Object_Duplicate( outerCyl.get() ) );
+	Q3Group_AddObject( subgroup.get(), innerDupe.get() );
+	Q3Group_AddObject( subgroup.get(), midDupe.get() );
+	Q3Group_AddObject( subgroup.get(), outerDupe.get() );
+	
+	// Set layers just on originals, not offset duplicates
+	SetLayerOfTriMesh( midCyl.get(), 2.0f );
+	SetLayerOfTriMesh( outerCyl.get(), 4.0f );
+	
+	// Put things in the group
+	Q3Group_AddObject( result, outerCyl.get() );
+	Q3Group_AddObject( result, midCyl.get() );
+	Q3Group_AddObject( result, innerCyl.get() );
+	Q3Group_AddObject( result, subgroup.get() );
+	
+	return result;
+}
+
 
 
 
@@ -3423,6 +3605,10 @@ appMenuSelect(TQ3ViewObject theView, TQ3Uns32 menuItem)
 		case kMenuItemTestRasterize:
 			theGeom = createTestRasterize();
 			break;
+		
+		case kMenuItemTestLayers:
+			theGeom = createLayerTest( theView );
+			break;
 
 		default:
 			break;
@@ -3848,6 +4034,7 @@ App_Initialise(void)
 	Qut_CreateMenuItem(kMenuItemLast, kMenuItemDivider);
 	Qut_CreateMenuItem(kMenuItemLast, "Test Depth Buffer");
 	Qut_CreateMenuItem(kMenuItemLast, "Test Rasterize");
+	Qut_CreateMenuItem(kMenuItemLast, "Test Layers");
 }
 
 

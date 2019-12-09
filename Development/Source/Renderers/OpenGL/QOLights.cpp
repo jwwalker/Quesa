@@ -864,8 +864,6 @@ bool	QORenderer::Lights::IsShadowPhase() const
 */
 void	QORenderer::Lights::SetLowDimensionalMode( bool inLowD, TQ3ObjectType inIlluminationType )
 {
-	TQ3Uns32 i, j;
-	
 	if (mIsLowDMode != inLowD)
 	{
 		mIsLowDMode = inLowD;

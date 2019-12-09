@@ -5,7 +5,7 @@
         Header for Quesa OpenGL renderer.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -60,10 +60,12 @@ void QORenderer::ClientStates::StartProgram()
 	mFuncs.glDisableVertexAttribArray( mShader.CurrentProgram()->mNormalAttribLoc );
 	mFuncs.glDisableVertexAttribArray( mShader.CurrentProgram()->mTexCoordAttribLoc );
 	mFuncs.glDisableVertexAttribArray( mShader.CurrentProgram()->mColorAttribLoc );
+	mFuncs.glDisableVertexAttribArray( mShader.CurrentProgram()->mLayerShiftAttribLoc );
 	
 	mGLClientStateNormal = false;
 	mGLClientStateUV = false;
 	mGLClientStateColor = false;
+	mGLClientStateLayers = false;
 }
 
 void	QORenderer::ClientStates::EnableNormalArray( bool inEnable )
@@ -138,5 +140,22 @@ void	QORenderer::ClientStates::DisableColorArray()
 	{
 		mGLClientStateColor = false;
 		mFuncs.glDisableVertexAttribArray( mShader.CurrentProgram()->mColorAttribLoc );
+	}
+}
+
+void	QORenderer::ClientStates::EnableLayerShiftArray( bool inEnable )
+{
+	if (inEnable != mGLClientStateLayers)
+	{
+		mGLClientStateLayers = inEnable;
+		if (inEnable)
+		{
+			mFuncs.glEnableVertexAttribArray( mShader.CurrentProgram()->mLayerShiftAttribLoc );
+		}
+		else
+		{
+			mFuncs.glDisableVertexAttribArray( mShader.CurrentProgram()->mLayerShiftAttribLoc );
+		}
+		CHECK_GL_ERROR;
 	}
 }
