@@ -69,6 +69,8 @@ extern "C" {
 #ifndef GL_FORMAT_FUNCTION
 #if __has_attribute(format)
 	#define GL_FORMAT_FUNCTION( F, A )	__attribute__((format(printf, F, A)))
+#else
+    #define GL_FORMAT_FUNCTION( F, A )
 #endif
 #endif
 
