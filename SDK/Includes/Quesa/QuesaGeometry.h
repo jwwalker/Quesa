@@ -155,9 +155,9 @@ typedef enum TQ3PolyhedronEdgeMasks {
 						
 						Data type: TQ3Boolean.  Default value: kQ3False.
 	@constant	kQ3GeometryPropertyLayerShifts
-						This property, attached to a TriMesh, can be used to provide
-						small shifts toward or away from the camera to a vertex
-						shader.
+						This property, attached to the naked geometry within a TriMesh,
+						can be used to provide small shifts toward or away from the
+						camera to a vertex shader.
 						
 						Data type: TQ3LayerShifts (variable length).
 */

@@ -11,7 +11,7 @@
         Header for Quesa OpenGL renderer.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -78,6 +78,10 @@ public:
 								const PerPixelLighting& inShader )
 						: mFuncs( inFuncs )
 						, mShader( inShader )
+						, mGLClientStateNormal( false )
+						, mGLClientStateColor( false )
+						, mGLClientStateUV( false )
+						, mGLClientStateLayers( false )
 					{}
 
 	void			StartProgram();
@@ -91,6 +95,8 @@ public:
 	void			EnableColorArray( bool inEnable = true );
 	void			DisableColorArray();
 	
+	void			EnableLayerShiftArray( bool inEnable = true );
+	
 
 private:
 	const GLSLFuncs&			mFuncs;
@@ -99,6 +105,7 @@ private:
 	bool		mGLClientStateNormal;
 	bool		mGLClientStateColor;
 	bool		mGLClientStateUV;
+	bool		mGLClientStateLayers;
 };
 	
 }

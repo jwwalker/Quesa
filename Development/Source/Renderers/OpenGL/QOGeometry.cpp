@@ -1132,6 +1132,11 @@ void	QORenderer::Renderer::RenderFastPathTriMesh(
 		std::vector<TQ3Uns32>	triangleStrip;
 		CQ3ObjectRef nakedMesh( E3TriMesh_GetNakedGeometry( inTriMesh ) );
 		
+		TQ3Uns32 layerDataSize = 0;
+		TQ3Status hasLayers = Q3Object_GetProperty( nakedMesh.get(), kQ3GeometryPropertyLayerShifts,
+			0, &layerDataSize, nullptr );
+		mGLClientStates.EnableLayerShiftArray( hasLayers == kQ3Success );
+		
 		{
 			// In edge fill style, the degenerate triangles created by
 			// MakeStrip draw bogus edges.
@@ -2044,4 +2049,3 @@ void	QORenderer::Renderer::SubmitPolyLine(
 	
 	mNumPrimitivesRenderedInFrame += inGeomData->numVertices - 1;
 }
-
