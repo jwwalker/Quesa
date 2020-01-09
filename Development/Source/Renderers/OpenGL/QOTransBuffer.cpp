@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2020, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1155,6 +1155,7 @@ void	TransBuffer::RenderPrimGroupForDepth(
 		mGroupPts.reserve( pointsExpected );
 		
 		mRenderer.mLights.SetLowDimensionalMode( vertsPerPrim < 3, mRenderer.mViewIllumination );
+		mPerPixelLighting.PreGeomSubmit( nullptr, vertsPerPrim - 1 );
 		
 		bool haveUV = (leader.mTextureName != 0) && ((flags & kVertexHaveUV) != 0);
 		bool haveColor = ((flags & kVertexHaveDiffuse) != 0);
