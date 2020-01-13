@@ -15,7 +15,7 @@
 		output parameter.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2020, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -50,6 +50,8 @@
         SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     ___________________________________________________________________________
 */
+#ifndef	CQ3OBJECTREFGETS_HDR
+#define	CQ3OBJECTREFGETS_HDR
 
 #include "Quesa.h"
 #include "QuesaGeometry.h"
@@ -730,3 +732,6 @@ inline CQ3ObjectRef CQ3View_GetAttributeSetState(
 /*!
 	@functiongroup
 */
+
+#endif // CQ3OBJECTREFGETS_HDR
+

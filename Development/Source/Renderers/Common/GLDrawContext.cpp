@@ -5,7 +5,7 @@
         Quesa OpenGL draw context support.
 
     COPYRIGHT:
-        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -49,6 +49,7 @@
 #include "GLUtils.h"
 #include "QuesaMath.h"
 #include "QOGLShadingLanguage.h"
+#include "CQ3WeakObjectRef.h"
 
 #if QUESA_OS_COCOA
 #include "GLCocoaContext.h"
@@ -200,6 +201,7 @@ public:
 								const TQ3GLExtensions& inExtensionInfo,
 								TQ3Uns32 depthBits,
 								TQ3Uns32 stencilBits,
+								TQ3DrawContextObject inMasterDrawContext,
 								TQ3GLContext inMasterGLContext,
 								bool inCopyOnSwapBuffer,
 								TQ3Uns32 inSamples );
@@ -247,6 +249,7 @@ private:
 								GLsizei width,
 								GLsizei height );
 
+	CQ3WeakObjectRef		masterDrawContext;
 	TQ3GLContext			masterContext;
 	GLint					fboViewPort[4];
 	GLint					masterViewPort[4];
@@ -575,10 +578,12 @@ FBORec::FBORec(
 		const TQ3GLExtensions& inExtensionInfo,
 		TQ3Uns32 depthBits,
 		TQ3Uns32 stencilBits,
+		TQ3DrawContextObject inMasterDrawContext,
 		TQ3GLContext inMasterGLContext,
 		bool inCopyOnSwapBuffer,
 		TQ3Uns32 inSamples )
 	: CQ3GLContext( theDrawContext )
+	, masterDrawContext( inMasterDrawContext )
 	, masterContext( inMasterGLContext )
 	, copyToPixMapOnSwapBuffer( inCopyOnSwapBuffer )
 	, frameBufferID( 0 )
@@ -914,6 +919,8 @@ FBORec::~FBORec()
 
 void	FBORec::SetCurrent( TQ3Boolean inForceSet )
 {
+	Q3_ASSERT_MESSAGE( masterDrawContext.isvalid(),
+		"FBO being used after master context destroyed" );
 	SetCurrentBase( inForceSet );
 	
 	bool changedID = false;
@@ -1076,6 +1083,7 @@ gldrawcontext_fbo_new(	TQ3DrawContextObject theDrawContext,
 			kQ3DrawContextPropertyAcceleratedOffscreen, sizeof(propData),
 			&propSize, &propData )) &&
 		(propSize == sizeof(propData)) &&
+		(propData.masterDrawContext != nullptr) &&
 		(kQ3Success == Q3Object_GetProperty( propData.masterDrawContext,
 			kQ3DrawContextPropertyGLContext, sizeof(TQ3GLContext),
 			nullptr, &masterGLContext )) )
@@ -1107,6 +1115,7 @@ gldrawcontext_fbo_new(	TQ3DrawContextObject theDrawContext,
 					theContext = new FBORec( theDrawContext,
 						paneWidth, paneHeight, extFlags,
 						depthBits, stencilBits,
+						propData.masterDrawContext,
 						masterGLContext,
 						propData.copyToPixmapAtFrameEnd == kQ3True,
 						samples );
