@@ -9,7 +9,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -106,6 +106,25 @@ inline TQ3Vector2D& operator*=( TQ3Vector2D& ioA, float inScalar )
 	Q3FastVector2D_Scale( &ioA, inScalar, &ioA );
 	return ioA;
 }
+
+// uv = scalar * uv
+inline TQ3Param2D operator*( float inScalar, const TQ3Param2D& inUV )
+{
+	TQ3Param2D result = {
+		inScalar * inUV.u, inScalar * inUV.v
+	};
+	return result;
+}
+
+// uv = uv + uv
+inline TQ3Param2D operator+( const TQ3Param2D& inA, const TQ3Param2D& inB )
+{
+	TQ3Param2D result = {
+		inA.u + inB.u, inA.v + inB.v
+	};
+	return result;
+}
+
 
 // point = scalar * point (not usual in math, but useful in 3D computing)
 inline TQ3Point3D operator*( float inScalar, const TQ3Point3D& inVec )

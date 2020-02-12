@@ -94,6 +94,7 @@ extern "C" {
 #define kQ3ClassNameCameraOrthographic				"OrthographicCamera"
 #define kQ3ClassNameCameraViewAngle					"ViewAngleCamera"
 #define kQ3ClassNameCameraViewPlane					"ViewPlaneCamera"
+#define kQ3ClassNameCameraAllSeeing					"AllSeeingCamera"
 #define kQ3ClassNameCustomElementName				"Apple Computer, Inc.:NameElement"
 #define kQ3ClassNameCustomElementUrl				"Apple Computer, Inc.:URLElement"
 #define kQ3ClassNameCustomElementWire				"Apple Computer, Inc.:WireElement"

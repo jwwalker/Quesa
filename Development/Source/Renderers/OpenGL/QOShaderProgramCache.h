@@ -11,7 +11,7 @@
         Header for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2014-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 2014-2020, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -57,6 +57,7 @@
 #include "GLGPUSharing.h"
 
 #include <vector>
+#include <map>
 
 namespace QORenderer
 {
@@ -86,6 +87,12 @@ enum EFogModeCombined
 	kFogModeHalfspace
 };
 
+enum class ECameraProjectionType
+{
+	standardRectilinear = 0,
+	allSeeingEquirectangular
+};
+
 //=============================================================================
 //      Types
 //-----------------------------------------------------------------------------
@@ -100,8 +107,15 @@ typedef	std::vector<ELightType>	LightPattern;
 
 
 /*!
+	@typedef	ProjectionToVertexShader
+	@abstract	Map from a camera project type to a vertex shader ID.
+*/
+typedef std::map< ECameraProjectionType, GLuint >	ProjectionToVertexShader;
+
+
+/*!
 	@struct		ProgramCharacteristic
-	@abstract	Information identifying which fragment shader we will use.
+	@abstract	Information identifying which vertex, geometry, and fragment shader we will use.
 */
 struct ProgramCharacteristic
 {
@@ -111,6 +125,7 @@ struct ProgramCharacteristic
 	
 	ProgramCharacteristic&	operator=( const ProgramCharacteristic& inOther );
 
+	ECameraProjectionType	mProjectionType;
 	LightPattern			mPattern;
 	TQ3ObjectType			mIlluminationType;
 	TQ3InterpolationStyle	mInterpolationStyle;
@@ -184,6 +199,8 @@ struct ProgramRec
 	GLint			mViewportSizeUniformLoc;
 	GLint			mCullFrontFacesUniformLoc;
 	GLint			mCullBackFacesUniformLoc;
+	GLint			mCameraRangeUniformLoc;		// vec2: near and far
+	GLint			mCameraViewportUniformLoc; // vec4: origin.x, origin.y, width, height
 	
 	// Locations of shader vertex attributes
 	GLint			mVertexAttribLoc;		// vec4 quesaVertex
@@ -215,14 +232,14 @@ public:
 		@abstract			Get the "name" (ID number) of the vertex shader
 							(which might be 0 if initialization failed.)
 	*/
-	GLuint					VertexShaderID() const { return mVertexShaderID; }
+	GLuint					VertexShaderID( ECameraProjectionType inProj ) const;
 	
 	/*!
 		@function			SetVertexShaderID
 		@abstract			Supply a newly created and compiled vertex shader
 							(after VertexShaderID() has returned 0).
 	*/
-	void					SetVertexShaderID( GLuint inShaderID );
+	void					SetVertexShaderID( ECameraProjectionType inProj, GLuint inShaderID );
 	
 	/*!
 		@function			FindProgram
@@ -238,11 +255,10 @@ public:
 	void					AddProgram( const ProgramRec& inProgram );
 
 private:
-								ProgramCache()
-									: mVertexShaderID( 0 ) {}
+								ProgramCache() {}
 	virtual						~ProgramCache();
 
-	GLuint						mVertexShaderID;
+	ProjectionToVertexShader	mVertexShaderOfProjection;
 	std::vector<ProgramRec>		mPrograms;
 };
 

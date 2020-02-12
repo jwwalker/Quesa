@@ -5,7 +5,7 @@
         Geometry creation methods.
 
     COPYRIGHT:
-        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -40,6 +40,8 @@
         SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     ___________________________________________________________________________
 */
+#include "DemoGeometry.h"
+
 #import <Foundation/Foundation.h>
 #include <Quesa/Quesa.h>
 #include <Quesa/QuesaDrawContext.h>
@@ -54,8 +56,12 @@
 #include <Quesa/QuesaGeometry.h> 
 #include <Quesa/QuesaTransform.h> 
 #include <Quesa/QuesaStorage.h> 
+#include <Quesa/CQ3ObjectRef.h>
+#include <Quesa/Q3GroupIterator.h>
 
 #import "QuesaCocoaUtil.h"
+#import "QutTexture.h"
+#include "SubdivideTriMesh.h"
 
 //-----------------------------------------------------------------------------
 //      createUVsFromPoints : Create UV values from points.
@@ -1248,6 +1254,88 @@ createGeomQuesa(void)
 
 
 
+//=============================================================================
+//      createShadowTest : Create a minimal test of shadows.
+//-----------------------------------------------------------------------------
+TQ3GroupObject	createShadowTest(void)
+{
+	TQ3GroupObject result = Q3DisplayGroup_New();
+	
+	// Make a background geometry, which will receive shadows but not cast them.
+	CQ3ObjectRef backAtts( Q3AttributeSet_New() );
+	TQ3ColorRGB backColor = { 0.4f, 0.4f, 0.4f };
+	Q3AttributeSet_Add( backAtts.get(), kQ3AttributeTypeDiffuseColor, &backColor );
+	TQ3Point3D backPts[] = {
+		{ -4.0f, -4.0f, 0.0f },
+		{ 4.0f, -4.0f, 0.0f },
+		{ 4.0f, 4.0f, 0.0f },
+		{ -4.0f, 4.0f, 0.0f }
+	};
+	TQ3Vector3D vertNorms[] = {
+		{ 0.0f, 0.0f, 1.0f },
+		{ 0.0f, 0.0f, 1.0f },
+		{ 0.0f, 0.0f, 1.0f },
+		{ 0.0f, 0.0f, 1.0f }
+	};
+	TQ3TriMeshTriangleData		triangles[] =
+	{
+		{ 0, 1, 2 },
+		{ 0, 2, 3 },
+	};
+	TQ3TriMeshAttributeData vertAtt =
+	{
+		kQ3AttributeTypeNormal,
+		vertNorms,
+		nullptr
+	};
+	TQ3BoundingBox backBounds = {
+		{ -4.0f, -4.0f, 0.0f },
+		{ 4.0f, 4.0f, 0.0f },
+		kQ3False
+	};
+	TQ3TriMeshData backData = {
+		backAtts.get(),
+		2,
+		triangles,
+		0,
+		nullptr,
+		0,
+		nullptr,
+		0,
+		nullptr,
+		4,
+		backPts,
+		1,
+		&vertAtt,
+		backBounds
+	};
+	CQ3ObjectRef backMesh( Q3TriMesh_New( &backData ) );
+	
+	// Subgroup for the background.
+	CQ3ObjectRef backGp( Q3DisplayGroup_New() );
+	CQ3ObjectRef shadowStyle( Q3CastShadowsStyle_New( kQ3False ) );
+	Q3Group_AddObject( backGp.get(), shadowStyle.get() );
+	Q3Group_AddObject( backGp.get(), backMesh.get() );
+	Q3Group_AddObject( result, backGp.get() );
+	
+	// Triangle in the foreground
+	CQ3ObjectRef foreAtts( Q3AttributeSet_New() );
+	TQ3ColorRGB foreColor = { 1.0f, 0.0f, 0.0f };
+	Q3AttributeSet_Add( foreAtts.get(), kQ3AttributeTypeDiffuseColor, &foreColor );
+	TQ3TriangleData triData = {
+		{
+			{ { -2.0f, 0.0f, 1.0f }, nullptr },
+			{ { 0.0f, -2.0f, 1.0f }, nullptr },
+			{ { 0.0f, 2.0f, 1.0f }, nullptr }
+		},
+		foreAtts.get()
+	};
+	CQ3ObjectRef theTri( Q3Triangle_New( &triData ) );
+	Q3Group_AddObject( result, theTri.get() );
+	
+	return result;
+}
+
 
 
 //=============================================================================
@@ -1561,4 +1649,109 @@ createGeomBounds(TQ3GeometryObject theGeom, TQ3ViewObject aView)
 }									
 
 
+static TQ3ShaderObject LoadTextureShaderFromResource( NSString* inName )
+{
+	TQ3ShaderObject theShader = nullptr;
+	NSString* namePart = inName.stringByDeletingPathExtension;
+	NSString* extPart = inName.pathExtension;
+	NSURL* theURL = [[NSBundle mainBundle]
+		URLForResource: namePart withExtension: extPart];
+	if (theURL != nil)
+	{
+		theShader = QutTexture_CreateTextureFromTGAFile( theURL.path.UTF8String );
+	}
+	return theShader;
+}
 
+static TQ3AttributeSet MakeTextureAtts( NSString* inName )
+{
+	TQ3AttributeSet atts = Q3AttributeSet_New();
+	CQ3ObjectRef theShader( LoadTextureShaderFromResource( inName ) );
+	if (theShader.isvalid())
+	{
+		TQ3ShaderObject shaderVal = theShader.get();
+		Q3AttributeSet_Add( atts, kQ3AttributeTypeSurfaceShader, &shaderVal );
+	}
+
+	return atts;
+}
+
+TQ3GroupObject createBallAboutCamera(void)
+{
+	TQ3GroupObject theGroup = Q3DisplayGroup_New();
+	TQ3SubdivisionStyleData subData = {
+		kQ3SubdivisionMethodConstant,
+		100.0f, 100.0f
+	};
+	CQ3ObjectRef subStyle( Q3SubdivisionStyle_New( &subData ) );
+	Q3Group_AddObject( theGroup, subStyle.get() );
+	
+	CQ3ObjectRef tx1( MakeTextureAtts( @"US_$5_obverse.tga" ) );
+	TQ3EllipsoidData ballData = {
+		{ 0.0f, 0.0f, 5.0f },		// origin
+		{ 0.0f, 4.0f, 0.0f },		// orientation
+		{ 0.0f, 0.0f, 4.0f },		// major
+		{ 4.0f, 0.0f, 0.0f },		// minor
+		0.0f, 1.0f, 0.0f, 1.0f,
+		kQ3EndCapNone,
+		nullptr,
+		tx1.get()
+	};
+	CQ3ObjectRef ball( Q3Ellipsoid_New( &ballData ) );
+	Q3Group_AddObject( theGroup, ball.get() );
+	
+	return theGroup;
+}
+
+TQ3GeometryObject createBoxAboutCamera(void)
+{
+	CQ3ObjectRef tx1( MakeTextureAtts( @"1.tga" ) );
+	CQ3ObjectRef tx2( MakeTextureAtts( @"2.tga" ) );
+	CQ3ObjectRef tx3( MakeTextureAtts( @"3.tga" ) );
+	CQ3ObjectRef tx4( MakeTextureAtts( @"4.tga" ) );
+	CQ3ObjectRef tx5( MakeTextureAtts( @"5.tga" ) );
+	CQ3ObjectRef tx6( MakeTextureAtts( @"6.tga" ) );
+	TQ3AttributeSet faceAtts[] = {
+		tx1.get(), tx2.get(), tx3.get(), tx4.get(), tx5.get(), tx6.get()
+	};
+	TQ3BoxData boxData = {
+		{ -2.0f, -2.0f, 3.0f },		// origin
+		{ 0.0f, 0.0f, 4.0f },		// orientation
+		{ 4.0f, 0.0f, 0.0f },		// major
+		{ 0.0f, 4.0f, 0.0f },		// minor
+		faceAtts,					// faceAttributeSet
+		nullptr						// boxAttributeSet
+	};
+	TQ3GeometryObject theGeom = Q3Box_New( &boxData );
+	
+	return theGeom;
+}
+
+TQ3GroupObject createSubdividedBoxAboutCamera(TQ3ViewObject inView)
+{
+	TQ3GeometryObject theBox = createBoxAboutCamera();
+	TQ3BoundingBox dummyBounds;
+	TQ3GroupObject decomp = nullptr;
+	if (kQ3Success == Q3View_StartBoundingBox(inView, kQ3ComputeBoundsExact))
+	{
+		do
+		{
+			decomp = Q3Geometry_GetDecomposed( theBox, inView );
+		}
+		while (Q3View_EndBoundingBox(inView, &dummyBounds) == kQ3ViewStatusRetraverse);
+	}
+	
+	if (decomp != nullptr)
+	{
+		Q3GroupIterator	iter( decomp, kQ3GeometryTypeTriMesh );
+		CQ3ObjectRef	theItem;
+		while ( (theItem = iter.NextObject()).isvalid() )
+		{
+			CQ3ObjectRef subItem( SubdivideTriMesh( theItem.get(), 4 ) );
+			CQ3ObjectRef subNaked( Q3TriMesh_GetNakedGeometry( subItem.get() ) );
+			Q3TriMesh_SetNakedGeometry( theItem.get(), subNaked.get() );
+		}
+	}
+	
+	return decomp;
+}

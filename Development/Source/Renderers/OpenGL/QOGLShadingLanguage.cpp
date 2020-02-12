@@ -5,7 +5,7 @@
         Shading language functions for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2020, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -53,6 +53,7 @@
 #include "CQ3ObjectRef_Gets.h"
 #include "QuesaMathOperators.hpp"
 #include "QORenderer.h"
+#include "QOGLSLShaders.h"
 
 #include <cstring>
 #include <string>
@@ -87,6 +88,8 @@
 static int sVertexShaderCount = 0;
 static int sProgramCount = 0;
 
+using namespace QOGLSLShader;
+
 //=============================================================================
 //      Local constants
 //-----------------------------------------------------------------------------
@@ -98,977 +101,6 @@ namespace
 	const TQ3ColorRGB kBlackColor = { 0.0f, 0.0f, 0.0f };
 	const TQ3ColorRGB kWhiteColor = { 1.0f, 1.0f, 1.0f };
 
-	#pragma mark kVertexShaderStart
-	const char* kVertexShaderStart =
-				"#version 150 core\n"
-
-				// Switch for layer shifting
-				"uniform bool isLayerShifting;\n"
-				
-				// Basic matrices
-				"uniform mat4 quesaModelViewMtx;\n"
-				"uniform mat4 quesaProjectionMtx;\n"
-				"uniform mat4 quesaTextureMtx;\n"
-				"uniform mat3 quesaNormalMtx;\n"
-				
-				// Vertex attributes
-				"in vec4 quesaVertex;\n"
-				"in vec2 quesaTexCoord0;\n"
-				"in vec3 quesaNormal;\n"
-				"in vec4 quesaColor;\n"
-				"in float quesaLayerShift;\n"
-				
-				// Outputs
-				"out VertexData {\n"
-					// Normal vector in eye coordinates
-				"	vec3 ECNormal;\n"
-					// Position in eye coordinates
-				"	vec3 ECPos3;\n"
-					// Transformed texture coordinate
-				"	vec2 texCoord;\n"
-					// Color
-				"	vec4 interpolatedColor;\n"
-				"};\n"
-
-				"void main()\n"
-				"{\n"
-					// Transform normal to eye coordinates, and let it
-					// be interpolated across the primitive.
-					// There is no point normalizing yet.
-				"	ECNormal = quesaNormalMtx * quesaNormal;\n"
-
-				// Transform vertex position to eye coordinates.
-				"	vec4 ECPosition = quesaModelViewMtx * quesaVertex;\n";
-
-	#pragma mark kVertexShaderEnd
-	const char* kVertexShaderEnd =
-				// Convert to 3 dimensions.
-				"	ECPos3 = ECPosition.xyz / ECPosition.w;\n"
-				
-				// Layer shift.  Positive layers bring the vertex closer.
-				"	ECPos3.z += 0.00635 * quesaLayerShift * float(isLayerShifting);\n"
-				
-				// Compute position in device coordinates.
-				"	vec4 ecPos4 = (ECPosition.w == 0.0)? ECPosition : vec4( ECPos3, 1.0 );\n"
-				"	gl_Position = quesaProjectionMtx * ecPos4;\n"
-				//"	gl_Position = gl_ModelViewProjectionMatrix * gl_Vertex;\n"
-
-				"	texCoord = (quesaTextureMtx * vec4( quesaTexCoord0, 0.0, 0.0 )).st;\n"
-
-				"	interpolatedColor = quesaColor;\n"
-				"}\n";
-	
-	#pragma mark kFaceEdgeGeomShader
-	const char* kFaceEdgeGeomShader =
-				"#version 150 core\n"
-				"layout (triangles) in;\n"
-				"layout (triangle_strip, max_vertices=12) out;\n"
-				
-				// Uniforms
-				"uniform vec2 viewportSize;\n"
-				"uniform float lineWidth;\n"
-				"uniform bool cullFrontFaces;\n"
-				"uniform bool cullBackFaces;\n"
-				
-				// Inputs
-				"in VertexData {\n"
-					// Normal vector in eye coordinates
-				"	vec3 ECNormal;\n"
-					// Position in eye coordinates
-				"	vec3 ECPos3;\n"
-					// Transformed texture coordinate
-				"	vec2 texCoord;\n"
-					// Color
-					"vec4 interpolatedColor;\n"
-				"} gs_in[];\n"
-				
-				// Outputs
-				"out VertexData {\n"
-					// Normal vector in eye coordinates
-				"	vec3 ECNormal;\n"
-					// Position in eye coordinates
-				"	vec3 ECPos3;\n"
-					// Transformed texture coordinate
-				"	vec2 texCoord;\n"
-					// Color
-					"vec4 interpolatedColor;\n"
-				"} gs_out;\n"
-				
-				// Subroutines
-				"vec3 clipToNDC( in vec4 clipPt ) {\n"
-				"	return (1.0 / clipPt.w) * clipPt.xyz;\n"
-				"}\n"
-				
-				"vec4 ndcToClip( in vec3 ndcPt, in float w ) {\n"
-				"	return vec4( w * ndcPt, w );\n"
-				"}\n"
-				
-				"vec2 ndcToView( in vec3 ndcPt ) {\n"
-				"	return 0.5 * viewportSize * ndcPt.xy;\n"
-				"}\n"
-				
-				"vec3 viewToNDC( in vec2 viewPt ) {\n"
-				"	return vec3( (2.0 / viewportSize) * viewPt, 0.0 );\n"
-				"}\n"
-
-				"void lineToBox( in vec4 startClip, in vec4 endClip, in bool flip,\n"
-				"				out vec4 startClipPlus, out vec4 startClipMinus,\n"
-				"				out vec4 endClipPlus, out vec4 endClipMinus ) {\n"
-				"	float startW = startClip.w;\n"
-				"	float endW = endClip.w;\n"
-				"	vec3 startNDC = clipToNDC( startClip );\n"
-				"	vec3 endNDC = clipToNDC( endClip );\n"
-				"	vec2 diffView = ndcToView( endNDC - startNDC );\n"
-				"	vec2 perp = normalize(vec2( diffView.y, -diffView.x )) * (flip? -1.0 : 1.0);\n"
-				"	vec3 delta = 0.5 * lineWidth * viewToNDC( perp );\n"
-				"	startClipPlus = ndcToClip( startNDC + delta, startW );\n"
-				"	endClipPlus = ndcToClip( endNDC + delta, endW );\n"
-				"	startClipMinus = ndcToClip( startNDC - delta, startW );\n"
-				"	endClipMinus = ndcToClip( endNDC - delta, endW );\n"
-				"}\n"
-				
-				"void main() {\n"
-				// Culling
-				"	vec3 ndc0 = clipToNDC( gl_in[0].gl_Position );\n"
-				"	vec3 ndc1 = clipToNDC( gl_in[1].gl_Position );\n"
-				"	vec3 ndc2 = clipToNDC( gl_in[2].gl_Position );\n"
-				"	vec3 frontVec = cross( ndc1 - ndc0, ndc2 - ndc0 );\n"
-				"	bool facesFront = (frontVec.z > 0.0);\n"
-				"	if ( (cullFrontFaces && facesFront) || (cullBackFaces && (! facesFront) ) ) {\n"
-				"		return;\n"
-				"	}\n"
-				
-				// When I generate 2D geometry from the edges, it is normally front-facing.  But if
-				// we are culling front faces, we need to flip the orientation and normals.
-				"	bool flip = cullFrontFaces;\n"
-				"	float normalFlip = facesFront? 1.0 : -1.0;\n"
-				
-				// I tried doing this in a nicer way than just handling each edge separately,
-				// but couldn't get it to work, and it didn't seem worth the effort to pursue.
-				"	vec4 startPlusClip, startMinusClip, endPlusClip, endMinusClip;\n"
-				"	lineToBox( gl_in[0].gl_Position, gl_in[1].gl_Position, flip,\n"
-				"				startPlusClip, startMinusClip, endPlusClip, endMinusClip );\n"
-				
-				"	gl_Position = startPlusClip;\n"
-				"	gs_out.ECNormal = normalFlip * gs_in[0].ECNormal;\n"
-				"	gs_out.ECPos3 = gs_in[0].ECPos3;\n"
-				"	gs_out.texCoord = gs_in[0].texCoord;\n"
-				"	gs_out.interpolatedColor = gs_in[0].interpolatedColor;\n"
-				"	EmitVertex();\n"
-				
-				"	gl_Position = endPlusClip;\n"
-				"	gs_out.ECNormal = normalFlip * gs_in[1].ECNormal;\n"
-				"	gs_out.ECPos3 = gs_in[1].ECPos3;\n"
-				"	gs_out.texCoord = gs_in[1].texCoord;\n"
-				"	gs_out.interpolatedColor = gs_in[1].interpolatedColor;\n"
-				"	EmitVertex();\n"
-
-				"	gl_Position = startMinusClip;\n"
-				"	gs_out.ECNormal = normalFlip * gs_in[0].ECNormal;\n"
-				"	gs_out.ECPos3 = gs_in[0].ECPos3;\n"
-				"	gs_out.texCoord = gs_in[0].texCoord;\n"
-				"	gs_out.interpolatedColor = gs_in[0].interpolatedColor;\n"
-				"	EmitVertex();\n"
-				
-				"	gl_Position = endMinusClip;\n"
-				"	gs_out.ECNormal = normalFlip * gs_in[1].ECNormal;\n"
-				"	gs_out.ECPos3 = gs_in[1].ECPos3;\n"
-				"	gs_out.texCoord = gs_in[1].texCoord;\n"
-				"	gs_out.interpolatedColor = gs_in[1].interpolatedColor;\n"
-				"	EmitVertex();\n"
-				
-				"	EndPrimitive();\n"
-
-				"	lineToBox( gl_in[1].gl_Position, gl_in[2].gl_Position, flip,\n"
-				"				startPlusClip, startMinusClip, endPlusClip, endMinusClip );\n"
-				
-				"	gl_Position = startPlusClip;\n"
-				"	gs_out.ECNormal = normalFlip * gs_in[1].ECNormal;\n"
-				"	gs_out.ECPos3 = gs_in[1].ECPos3;\n"
-				"	gs_out.texCoord = gs_in[1].texCoord;\n"
-				"	gs_out.interpolatedColor = gs_in[1].interpolatedColor;\n"
-				"	EmitVertex();\n"
-				
-				"	gl_Position = endPlusClip;\n"
-				"	gs_out.ECNormal = normalFlip * gs_in[2].ECNormal;\n"
-				"	gs_out.ECPos3 = gs_in[2].ECPos3;\n"
-				"	gs_out.texCoord = gs_in[2].texCoord;\n"
-				"	gs_out.interpolatedColor = gs_in[2].interpolatedColor;\n"
-				"	EmitVertex();\n"
-
-				"	gl_Position = startMinusClip;\n"
-				"	gs_out.ECNormal = normalFlip * gs_in[1].ECNormal;\n"
-				"	gs_out.ECPos3 = gs_in[1].ECPos3;\n"
-				"	gs_out.texCoord = gs_in[1].texCoord;\n"
-				"	gs_out.interpolatedColor = gs_in[1].interpolatedColor;\n"
-				"	EmitVertex();\n"
-				
-				"	gl_Position = endMinusClip;\n"
-				"	gs_out.ECNormal = normalFlip * gs_in[2].ECNormal;\n"
-				"	gs_out.ECPos3 = gs_in[2].ECPos3;\n"
-				"	gs_out.texCoord = gs_in[2].texCoord;\n"
-				"	gs_out.interpolatedColor = gs_in[2].interpolatedColor;\n"
-				"	EmitVertex();\n"
-				
-				"	EndPrimitive();\n"
-
-				"	lineToBox( gl_in[2].gl_Position, gl_in[0].gl_Position, flip,\n"
-				"				startPlusClip, startMinusClip, endPlusClip, endMinusClip );\n"
-				
-				"	gl_Position = startPlusClip;\n"
-				"	gs_out.ECNormal = normalFlip * gs_in[2].ECNormal;\n"
-				"	gs_out.ECPos3 = gs_in[2].ECPos3;\n"
-				"	gs_out.texCoord = gs_in[2].texCoord;\n"
-				"	gs_out.interpolatedColor = gs_in[2].interpolatedColor;\n"
-				"	EmitVertex();\n"
-				
-				"	gl_Position = endPlusClip;\n"
-				"	gs_out.ECNormal = normalFlip * gs_in[0].ECNormal;\n"
-				"	gs_out.ECPos3 = gs_in[0].ECPos3;\n"
-				"	gs_out.texCoord = gs_in[0].texCoord;\n"
-				"	gs_out.interpolatedColor = gs_in[0].interpolatedColor;\n"
-				"	EmitVertex();\n"
-
-				"	gl_Position = startMinusClip;\n"
-				"	gs_out.ECNormal = normalFlip * gs_in[2].ECNormal;\n"
-				"	gs_out.ECPos3 = gs_in[2].ECPos3;\n"
-				"	gs_out.texCoord = gs_in[2].texCoord;\n"
-				"	gs_out.interpolatedColor = gs_in[2].interpolatedColor;\n"
-				"	EmitVertex();\n"
-				
-				"	gl_Position = endMinusClip;\n"
-				"	gs_out.ECNormal = normalFlip * gs_in[0].ECNormal;\n"
-				"	gs_out.ECPos3 = gs_in[0].ECPos3;\n"
-				"	gs_out.texCoord = gs_in[0].texCoord;\n"
-				"	gs_out.interpolatedColor = gs_in[0].interpolatedColor;\n"
-				"	EmitVertex();\n"
-				
-				"	EndPrimitive();\n"
-				"}\n";
-
-	#pragma mark kLineGeomShader
-	const char* kLineGeomShader =
-				"#version 150 core\n"
-				"layout (lines) in;\n"
-				"layout (triangle_strip, max_vertices=4) out;\n"
-				
-				// Uniforms
-				"uniform vec2 viewportSize;\n"
-				"uniform float lineWidth;\n"
-				
-				// Inputs
-				"in VertexData {\n"
-					// Normal vector in eye coordinates
-				"	vec3 ECNormal;\n"
-					// Position in eye coordinates
-				"	vec3 ECPos3;\n"
-					// Transformed texture coordinate
-				"	vec2 texCoord;\n"
-					// Color
-					"vec4 interpolatedColor;\n"
-				"} gs_in[];\n"
-				
-				// Outputs
-				"out VertexData {\n"
-					// Normal vector in eye coordinates
-				"	vec3 ECNormal;\n"
-					// Position in eye coordinates
-				"	vec3 ECPos3;\n"
-					// Transformed texture coordinate
-				"	vec2 texCoord;\n"
-					// Color
-					"vec4 interpolatedColor;\n"
-				"} gs_out;\n"
-				
-				// Subroutines
-				"vec3 clipToNDC( in vec4 clipPt ) {\n"
-				"	return (1.0 / clipPt.w) * clipPt.xyz;\n"
-				"}\n"
-				
-				"vec4 ndcToClip( in vec3 ndcPt, in float w ) {\n"
-				"	return vec4( w * ndcPt, w );\n"
-				"}\n"
-				
-				"vec2 ndcToView( in vec3 ndcPt ) {\n"
-				"	return 0.5 * viewportSize * ndcPt.xy;\n"
-				"}\n"
-				
-				"vec3 viewToNDC( in vec2 viewPt ) {\n"
-				"	return vec3( 2.0 / viewportSize * viewPt, 0.0 );\n"
-				"}\n"
-				
-				"void lineToBox( in vec4 startClip, in vec4 endClip,\n"
-				"				out vec4 startClipPlus, out vec4 startClipMinus,\n"
-				"				out vec4 endClipPlus, out vec4 endClipMinus ) {\n"
-				"	float startW = startClip.w;\n"
-				"	float endW = endClip.w;\n"
-				"	vec3 startNDC = clipToNDC( startClip );\n"
-				"	vec3 endNDC = clipToNDC( endClip );\n"
-				"	vec2 diffView = ndcToView( endNDC - startNDC );\n"
-				"	vec2 perp = normalize(vec2( diffView.y, -diffView.x ));\n"
-				"	vec3 delta = 0.5 * lineWidth * viewToNDC( perp );\n"
-				"	startClipPlus = ndcToClip( startNDC + delta, startW );\n"
-				"	endClipPlus = ndcToClip( endNDC + delta, endW );\n"
-				"	startClipMinus = ndcToClip( startNDC - delta, startW );\n"
-				"	endClipMinus = ndcToClip( endNDC - delta, endW );\n"
-				"}\n"
-				
-				"void main() {\n"
-				"	vec4 startPlusClip, startMinusClip, endPlusClip, endMinusClip;\n"
-				"	lineToBox( gl_in[0].gl_Position, gl_in[1].gl_Position,\n"
-				"				startPlusClip, startMinusClip, endPlusClip, endMinusClip );\n"
-				
-				"	gl_Position = startPlusClip;\n"
-				"	gs_out.ECNormal = gs_in[0].ECNormal;\n"
-				"	gs_out.ECPos3 = gs_in[0].ECPos3;\n"
-				"	gs_out.texCoord = gs_in[0].texCoord;\n"
-				"	gs_out.interpolatedColor = gs_in[0].interpolatedColor;\n"
-				"	EmitVertex();\n"
-				
-				"	gl_Position = endPlusClip;\n"
-				"	gs_out.ECNormal = gs_in[1].ECNormal;\n"
-				"	gs_out.ECPos3 = gs_in[1].ECPos3;\n"
-				"	gs_out.texCoord = gs_in[1].texCoord;\n"
-				"	gs_out.interpolatedColor = gs_in[1].interpolatedColor;\n"
-				"	EmitVertex();\n"
-
-				"	gl_Position = startMinusClip;\n"
-				"	gs_out.ECNormal = gs_in[0].ECNormal;\n"
-				"	gs_out.ECPos3 = gs_in[0].ECPos3;\n"
-				"	gs_out.texCoord = gs_in[0].texCoord;\n"
-				"	gs_out.interpolatedColor = gs_in[0].interpolatedColor;\n"
-				"	EmitVertex();\n"
-				
-				"	gl_Position = endMinusClip;\n"
-				"	gs_out.ECNormal = gs_in[1].ECNormal;\n"
-				"	gs_out.ECPos3 = gs_in[1].ECPos3;\n"
-				"	gs_out.texCoord = gs_in[1].texCoord;\n"
-				"	gs_out.interpolatedColor = gs_in[1].interpolatedColor;\n"
-				"	EmitVertex();\n"
-				
-				"	EndPrimitive();\n"
-				"}\n"
-				;
-
-	#pragma mark kFragmentShaderPrefix
-	const char*	kFragmentShaderPrefix =
-				"#version 150 core\n"
-
-				// Inputs
-				"in VertexData {\n"
-					// Normal vector in eye coordinates
-				"	vec3 ECNormal;\n"
-					// Position in eye coordinates
-				"	vec3 ECPos3;\n"
-					// Transformed texture coordinate
-				"	vec2 texCoord;\n"
-					// Color
-					"vec4 interpolatedColor;\n"
-				"};\n"
-				
-				// Color out
-				"out vec4 fragColor;\n"
-				
-				// Light quantization parameter
-				"uniform float quantization;\n"
-				
-				// Cartoon edges parameter
-				"uniform float lightNearEdge;\n"
-				
-				// Hot angles, cutoff angles for spot lights (in radians)
-				"uniform float hotAngle[gl_MaxLights];\n"
-				"uniform float cutoffAngle[gl_MaxLights];\n"
-				
-				// Light data, to replace gl_LightSource and gl_LightModel.ambient
-				"uniform vec4 lightPosition[gl_MaxLights];\n"
-				"uniform vec4 lightColor[gl_MaxLights];\n"
-				"uniform vec3 spotLightDirection[gl_MaxLights];\n"
-				"uniform vec3 lightAttenuation[gl_MaxLights];\n"
-				"uniform vec3 ambientLight;\n"
-				
-				// Specular map flag
-				"uniform bool isUsingSpecularMap;\n"
-				
-				// Specularity, replacing gl_FrontMaterial.specular.rgb, gl_FrontMaterial.shininess
-				"uniform vec3 specularColor;\n"
-				"uniform float shininess;\n"
-				
-				// Emissive color, replacing gl_FrontMaterial.emission.rgb
-				"uniform vec3 quesaEmissiveColor;\n"
-				
-				// Alpha test
-				"uniform float alphaThreshold;\n"
-				
-				// Flipping normals flag
-				"uniform bool isFlippingNormals;\n"
-				
-				// Clipping plane
-				"uniform vec4 ECClipPlane;\n"
-				
-				// Standard fog
-				"uniform vec3 fogColor;\n"
-				"uniform float fogDensity;\n"
-				"uniform float linearFogEnd;\n"
-				"uniform float linearFogScale;\n"
-				
-				// Extended fog
-				"uniform float maxFogOpacity;\n"
-				"uniform float HSFogRate;\n"
-				"uniform vec4 HSFogPlane;\n"
-
-				// Samplers for texture units
-				"uniform sampler2D tex0;\n"
-				"uniform sampler2D tex1;\n\n"
-				
-				"float FogSmooth( in float x )\n"
-				"{\n"
-				"	float y = x / maxFogOpacity;\n"
-				"	return x * ( y * (1.0 - y) + 1.0 );\n"
-				"}\n\n"
-				;
-	
-	#pragma mark kFragmentShaderQuantizeFuncs_Normal
-	const char*	kFragmentShaderQuantizeFuncs_Normal =
-				"vec3 QuantizeLight( in vec3 light )\n"
-				"{\n"
-				"	return light;\n"
-				"}\n\n"
-				
-				"float QuantizeDot( in float normalDotGeomToLight )\n"
-				"{\n"
-				"	return normalDotGeomToLight;\n"
-				"}\n\n"
-				
-				"vec3 QuantizeDiffuse( in vec3 light, in float normalDotGeomToLight )\n"
-				"{\n"
-				"	return light * normalDotGeomToLight;\n"
-				"}\n\n"
-				;
-	
-	#pragma mark kFragmentShaderQuantizeFuncs_Cartoonish
-	const char*	kFragmentShaderQuantizeFuncs_Cartoonish =
-				"vec3 QuantizeLight( in vec3 light )\n"
-				"{\n"
-				"	return floor( light * quantization + vec3(0.5) ) / quantization;\n"
-				"}\n\n"
-				
-				"float QuantizeDot( in float normalDotGeomToLight )\n"
-				"{\n"
-				"	return floor( 2.0 * normalDotGeomToLight );\n"
-				"}\n\n"
-				
-				"vec3 QuantizeDiffuse( in vec3 light, in float normalDotGeomToLight )\n"
-				"{\n"
-				"	vec3	result;\n"
-				"	result = mix( QuantizeLight( light * normalDotGeomToLight ), light, 0.3 );\n"
-				"	return result;\n"
-				"}\n\n"
-				;
-	
-	#pragma mark kDirectionalLightFragmentShaderSource
-	const char* kDirectionalLightFragmentShaderSource =
-				// This shader code computes the contribution of one directional
-				// light.  Copies of this code, with LIGHT_INDEX replaced by a
-				// specific integer, will be included inline.
-				// input: vec3 normal
-				// inout: vec3 diff, vec3 spec
-				"// Directional light, light LIGHT_INDEX\n"
-				"{\n"
-				"	float nDotVP = max( 0.0, dot( normal,\n"
-				"		lightPosition[LIGHT_INDEX].xyz ) );\n"
-				"	diff += QuantizeDiffuse( lightColor[LIGHT_INDEX].rgb, nDotVP );\n\n"
-				
-				"	vec3 geomToLight = normalize(lightPosition[LIGHT_INDEX].xyz);\n"
-				"	vec3 halfVector = normalize( geomToLight + geomToEyeDir );\n"
-				
-				"	float nDotHV = max( 0.0, \n"
-				"		dot( normal, halfVector ) );\n"
-				"	float pf1 = (specularExp <= 0.0)? 1.0 : pow( nDotHV, specularExp );\n"
-				"	float pf = (nDotVP > 0.0)? pf1 : 0.0;\n"
-				"	spec += QuantizeLight(lightColor[LIGHT_INDEX].rgb * pf);\n"
-				"}\n\n";
-
-	#pragma mark kDirectionalLightWithNondirIllumFragmentShaderSource
-	const char* kDirectionalLightWithNondirIllumFragmentShaderSource =
-				"// Directional light, light LIGHT_INDEX\n"
-				"{\n"
-					"	diff += QuantizeDiffuse( lightColor[LIGHT_INDEX].rgb, 1.0 );\n"
-				"}\n\n";
-
-	#pragma mark kSpotFalloffNoneSource
-	const char* kSpotFalloffNoneSource =
-				"// Spot light falloff function, none, for light LIGHT_INDEX\n"
-				"float SpotFalloff_LIGHT_INDEX( in float x )\n"
-				"{\n"
-				"	return 1.0;\n"
-				"}\n\n"
-				;
-
-	#pragma mark kSpotFalloffLinearSource
-	const char* kSpotFalloffLinearSource =
-				"// Spot light falloff function, linear, for light LIGHT_INDEX\n"
-				"float SpotFalloff_LIGHT_INDEX( in float x )\n"
-				"{\n"
-				"	return 1.0 - x;\n"
-				"}\n\n"
-				;
-
-	#pragma mark kSpotFalloffExponentialSource
-	const char* kSpotFalloffExponentialSource =
-				"// Spot light falloff function, exponential, for light LIGHT_INDEX\n"
-				"float SpotFalloff_LIGHT_INDEX( in float x )\n"
-				"{\n"
-				"	return (pow( 10.0, 1.0 - x ) - 1.0) / 9.0;\n"
-				"}\n\n"
-				;
-
-	#pragma mark kSpotFalloffCosineSource
-	const char* kSpotFalloffCosineSource =
-				"// Spot light falloff function, cosine, for light LIGHT_INDEX\n"
-				"float SpotFalloff_LIGHT_INDEX( in float x )\n"
-				"{\n"
-				"	return cos( radians( 90.0 * x ) );\n"
-				"}\n\n"
-				;
-
-	#pragma mark kSpotFalloffSmoothCubicSource
-	const char* kSpotFalloffSmoothCubicSource =
-				"// Spot light falloff function, smooth cubic, for light LIGHT_INDEX\n"
-				"float SpotFalloff_LIGHT_INDEX( in float x )\n"
-				"{\n"
-				"	return 1.0 - smoothstep( 0.0, 1.0, x );\n"
-				"}\n\n"
-				;
-
-	#pragma mark kPointLightFragmentShaderSource
-	const char* kPointLightFragmentShaderSource =
-				// This shader code computes the contribution of one point
-				// light.  Copies of this code, with LIGHT_INDEX replaced by a
-				// specific integer, will be included inline.
-				// input: vec3 geomToEyeDir, vec3 normal
-				// inout: vec3 diff, vec3 spec
-				"// Positional light, light LIGHT_INDEX\n"
-				"{\n"
-					// Compute vector from surface to light position
-				"	vec3 geomToLight = lightPosition[LIGHT_INDEX].xyz - ECPos3;\n"
-
-					// Compute distance between geometry and light
-				"	float d = length(geomToLight);\n"
-
-					// Normalize direction from geometry to light
-				"	geomToLight /= d;\n"
-
-					// Compute attenuation factor
-				"	float attenuation = 1.0 / \n"
-				"		(lightAttenuation[LIGHT_INDEX].x +\n"
-				"		lightAttenuation[LIGHT_INDEX].y * d +\n"
-				"		lightAttenuation[LIGHT_INDEX].z * d * d );\n"
-
-					// Compute the direction halfway between the geometry to light vector
-					// and the geometry to eye vectors.  This uses the assumption that
-					// geomToEyeDir and geomToLight are both normalized.
-				"	vec3 halfVector = normalize( geomToLight + geomToEyeDir );\n"
-
-				"	float nDotGeomToLight = max( 0.0, dot( normal, geomToLight ) );\n"
-				"	nDotGeomToLight = QuantizeDot( nDotGeomToLight );\n"
-
-				"	diff += QuantizeDiffuse( lightColor[LIGHT_INDEX].rgb * \n"
-				"				attenuation, nDotGeomToLight );\n"
-
-				"	float nDotHalf = max( 0.0, dot( normal, halfVector ) );\n"
-
-				"	float pf;\n"
-				"	if (nDotGeomToLight == 0.0)\n"
-				"		pf = 0.0;\n"
-				"	else\n"
-				"		pf = (specularExp <= 0.0)? 1.0 : pow( nDotHalf, specularExp );\n\n"
-
-				"	spec += QuantizeLight(lightColor[LIGHT_INDEX].rgb * pf * attenuation);\n"
-				"}\n\n";
-
-	#pragma mark kPointLightWithNondirIllumFragmentShaderSource
-	const char* kPointLightWithNondirIllumFragmentShaderSource =
-				"// Positional light, light LIGHT_INDEX\n"
-				"{\n"
-					// Compute vector from surface to light position
-				"	vec3 geomToLight = lightPosition[LIGHT_INDEX].xyz - ECPos3;\n"
-
-					// Compute distance between geometry and light
-				"	float d = length(geomToLight);\n"
-
-					// Compute attenuation factor
-				"	float attenuation = 1.0 / \n"
-				"		(lightAttenuation[LIGHT_INDEX].x +\n"
-				"		lightAttenuation[LIGHT_INDEX].y * d +\n"
-				"		lightAttenuation[LIGHT_INDEX].z * d * d );\n"
-
-				"	diff += QuantizeDiffuse( lightColor[LIGHT_INDEX].rgb * \n"
-				"				attenuation, 1.0 );\n"
-				"}\n\n";
-
-	#pragma mark kSpotLightFragmentShaderSource
-	const char* kSpotLightFragmentShaderSource =
-				// This shader code computes the contribution of one spot
-				// light.  Copies of this code, with LIGHT_INDEX replaced by a
-				// specific integer, will be included inline.
-				// input: vec3 geomToEyeDir, vec3 normal
-				// inout: vec3 diff, vec3 spec
-				"// Positional light, light LIGHT_INDEX\n"
-				"{\n"
-					// Compute vector from surface to light position
-				"	vec3 geomToLight = lightPosition[LIGHT_INDEX].xyz - ECPos3;\n"
-
-					// Compute distance between geometry and light
-				"	float d = length(geomToLight);\n"
-
-					// Normalize direction from geometry to light
-				"	geomToLight /= d;\n"
-
-					// Compute attenuation factor
-				"	float attenuation = 1.0 / "
-				"		(lightAttenuation[LIGHT_INDEX].x +"
-				"		lightAttenuation[LIGHT_INDEX].y * d +"
-				"		lightAttenuation[LIGHT_INDEX].z * d * d );\n"
-				
-					// Find the angle between the vector from the light to this
-					// fragment and the light direction vector.  The vectors are
-					// unit vectors, so the dot product is the cosine of the angle.
-					// Quesa never sets GL_SPOT_EXPONENT, meaning it has the
-					// default value of 0, and we need not look at
-					// gl_LightSource[LIGHT_INDEX].spotExponent.
-				"	float spotDot = dot( -geomToLight, spotLightDirection[LIGHT_INDEX] );\n"
-				"	float spotAngle = acos( spotDot );\n"
-				
-					// Compute a falloff factor.
-				"	float fallFrac = (spotAngle - hotAngle[LIGHT_INDEX]) /\n"
-				"		(cutoffAngle[LIGHT_INDEX] - hotAngle[LIGHT_INDEX]);\n"
-				"	float spotFalloff = (spotAngle < hotAngle[LIGHT_INDEX])?\n"
-				"		1.0 :\n"
-				"		((spotAngle > cutoffAngle[LIGHT_INDEX])?\n"
-				"			0.0 :\n"
-				"			SpotFalloff_LIGHT_INDEX( fallFrac ));\n"
-					
-					// See if point on surface is inside cone of illumination,
-					// and maybe attenuate by angle from center of spot.
-					// Set attenuation to 0 if outside the spot light cone.
-				"	attenuation *= spotFalloff;\n"
-
-					// Compute the direction halfway between the geometry to light vector
-					// and the geometry to eye vectors.  This uses the assumption that
-					// geomToEyeDir and geomToLight are both normalized.
-				"	vec3 halfVector = normalize( geomToLight + geomToEyeDir );\n"
-
-				"	float nDotGeomToLight = max( 0.0, dot( normal, geomToLight ) );\n"
-				"	nDotGeomToLight = QuantizeDot( nDotGeomToLight )\n;"
-
-				"	diff += QuantizeDiffuse( lightColor[LIGHT_INDEX].rgb * \n"
-				"				attenuation, nDotGeomToLight );\n"
-
-				"	float nDotHalf = max( 0.0, dot( normal, halfVector ) );\n"
-
-				"	float pf;\n"
-				"	if (nDotGeomToLight == 0.0)\n"
-				"		pf = 0.0;\n"
-				"	else\n"
-				"		pf = (specularExp <= 0.0)? 1.0 : pow( nDotHalf, specularExp );\n\n"
-
-				"	spec += QuantizeLight(lightColor[LIGHT_INDEX].rgb * pf * attenuation);\n"
-				"}\n\n";
-
-	#pragma mark kSpotLightWithNondirIllumFragmentShaderSource
-	const char* kSpotLightWithNondirIllumFragmentShaderSource =
-				"// Positional light, light LIGHT_INDEX\n"
-				"{\n"
-					// Compute vector from surface to light position
-				"	vec3 geomToLight = lightPosition[LIGHT_INDEX].xyz - ECPos3;\n"
-
-					// Compute distance between geometry and light
-				"	float d = length(geomToLight);\n"
-
-					// Normalize direction from geometry to light
-				"	geomToLight /= d;\n"
-
-					// Compute attenuation factor
-				"	float attenuation = 1.0 / "
-				"		(lightAttenuation[LIGHT_INDEX].x +"
-				"		lightAttenuation[LIGHT_INDEX].y * d +"
-				"		lightAttenuation[LIGHT_INDEX].z * d * d );\n"
-				
-					// Find the angle between the vector from the light to this
-					// fragment and the light direction vector.  The vectors are
-					// unit vectors, so the dot product is the cosine of the angle.
-					// Quesa never sets GL_SPOT_EXPONENT, meaning it has the
-					// default value of 0, and we need not look at
-					// gl_LightSource[LIGHT_INDEX].spotExponent.
-				"	float spotDot = dot( -geomToLight, spotLightDirection[LIGHT_INDEX] );\n"
-				"	float spotAngle = acos( spotDot );\n"
-				
-					// Compute a falloff factor.
-				"	float fallFrac = (spotAngle - hotAngle[LIGHT_INDEX]) /\n"
-				"		(cutoffAngle[LIGHT_INDEX] - hotAngle[LIGHT_INDEX]);\n"
-				"	float spotFalloff = (spotAngle < hotAngle[LIGHT_INDEX])?\n"
-				"		1.0 :\n"
-				"		((spotAngle > cutoffAngle[LIGHT_INDEX])?\n"
-				"			0.0 :\n"
-				"			SpotFalloff_LIGHT_INDEX( fallFrac ));\n"
-					
-					// See if point on surface is inside cone of illumination,
-					// and maybe attenuate by angle from center of spot.
-					// Set attenuation to 0 if outside the spot light cone.
-				"	attenuation *= spotFalloff;\n"
-
-				"	diff += QuantizeDiffuse( lightColor[LIGHT_INDEX].rgb * \n"
-				"				attenuation, 1.0 );\n"
-				"}\n\n";
-
-	#pragma mark kMainFragmentShaderStart
-	const char* kMainFragmentShaderStart =
-				"void main()\n"
-				"{\n"
-					// Color components of light, lights will add to these.
-				"	vec3		diff = vec3(0.0);\n"
-				"	vec3		spec = vec3(0.0);\n"
-				
-					// Color of fragment, to be determined later.
-				"	vec3	color;\n"
-				"	float	alpha;\n"
-				
-					// Specular exponent
-				"	float specularExp = isUsingSpecularMap?\n"
-				"		texture( tex1, texCoord ).a * 128.0 :\n"
-				"		shininess;\n\n"
-				
-					// Geometry position and direction to eye
-				"	vec3		geomPos = ECPos3;\n"
-				"	vec3		geomToEyeDir = - normalize( geomPos );\n"
-				
-					// Front face normal, used for backface flipping, flat shading
-				"	vec3	faceNormal = cross(dFdx(ECPos3), dFdy(ECPos3));\n";
-
-	#pragma mark kFragmentClipping
-	const char* kFragmentClipping =
-				"	if (dot( vec4( ECPos3, 1.0 ), ECClipPlane ) < 0.0)\n"
-				"	{\n"
-				"		discard;\n"
-				"	}\n"
-				;
-
-	#pragma mark kMainFragmentShaderStartSmooth
-	const char* kMainFragmentShaderStartSmooth =
-					// Eye coordinate normal vector.  Even if the vertex normals were normalized
-					// and the modelview matrix has no scaling, we would still have to normalize
-					// here due to interpolation.
-				"	vec3		normal = normalize(ECNormal);\n"
-
-					// Flip the normal for the back face.  If we are using
-					// backfacing style Remove, then back face triangles will
-					// not get here, in which case no harm is done.
-					// We have tried several methods, each with disadvantages.
-					// 1. Obvious way:
-					//		normal = gl_FrontFacing? normal : -normal;
-					//	  Problem:  gl_FrontFacing is poorly supported on
-					//	  some cards/drivers... it may simply fail, or it may cause
-					//    a fallback to software rendering.
-					// 2. Vertex normal way:
-					//		normal = faceforward( normal, geomPos, normal );
-					//    Sometimes, especially in models created by skeletal
-					//    animation, the vertex normals may
-					//    point a little away from the camera even though the
-					//    triangle faces front.
-					// 3. 2-sided lighting way:
-					//		glEnable( GL_VERTEX_PROGRAM_TWO_SIDE );
-					//    and in the vertex shader set gl_FrontSecondaryColor
-					//    and gl_BackSecondaryColor differently, and in the
-					//    fragment shader say
-					//      normal = (gl_SecondaryColor.r > 0.0)? normal : -normal;
-					//    Problem: on some ATI cards you may get a failure to
-					//    compile shaders, intermittently.
-					// 4. Calculus way:  Determine the front face normal as we
-					//    had previously done for flat shading, and then say
-					//      normal = faceforward( normal, normal, -faceNormal );
-					//    That is, we flip the normal if its dot with faceNormal
-					//    is negative.
-					//    Problems: This can occasionally produce incorrect
-					//    results in weird cases where vertex normals are
-					//    somewhat toward the back of the triangle.
-					//    It was also giving incorrect rendering in a case of using
-					//    edge-fill style and backfacing-both style, which I do
-					//    not understand.
-				"	normal = isFlippingNormals? (gl_FrontFacing? normal : -normal) : normal;\n"
-				;
-	
-	#pragma mark kMainFragmentShaderStartFlat
-	const char* kMainFragmentShaderStartFlat =
-					// Face normal vector for flat shading.
-					// If we could assume GLSL 1.30 or EXT_gpu_shader4, this
-					// could be done in a less tricky way, using the "flat"
-					// modifier for a varying variable.
-				"	vec3	normal = normalize(faceNormal);\n"
-
-					// In this case there is no need to flip for the backface,
-					// because faceNormal always is toward the eye.
-				;
-		
-		// Between part 1 and part 2, we will insert some light shader calls.
-
-	#pragma mark kColorCompForNULLIllumination
-	const char* kColorCompForNULLIllumination =
-				"	color = interpolatedColor.rgb + quesaEmissiveColor;\n"
-				"	alpha = interpolatedColor.a;\n"
-				;
-
-	#pragma mark kColorCompForLambertAndPhong
-	const char* kColorCompForLambertAndPhong =
-					// Start with emissive and global ambient color.
-					// I will assume that the only ambient light is global.
-				"	color = ambientLight * interpolatedColor.rgb +\n"
-				"         quesaEmissiveColor;\n"
-
-					// Add diffuse color.
-				"	color += diff * interpolatedColor.rgb;\n"
-				
-				"	alpha = interpolatedColor.a;\n"
-				;
-
-	#pragma mark kColorCompForLambertAndPhong_Cartoonish
-	const char* kColorCompForLambertAndPhong_Cartoonish =
-					// Start with emissive and global ambient color.
-					// I will assume that the only ambient light is global.
-				"	color = ambientLight * interpolatedColor.rgb + "
-							"quesaEmissiveColor;\n"
-
-					// Add diffuse color.
-					// Ordinarily we just add the diffuse light times the
-					// material color, but when doing a cartoonish style, we
-					// may darken areas nearly perpendicular to the eye.
-				"	if (dot( normal, geomToEyeDir ) > 0.5)\n"
-				"	{\n"
-				"		color += min( diff, 1.0 ) * interpolatedColor.rgb;\n"
-				"	}\n"
-				"	else\n"
-				"	{\n"
-				"		color += lightNearEdge * min( diff, 1.0 ) * interpolatedColor.rgb;\n"
-				"	}\n"
-				
-				"	alpha = interpolatedColor.a;\n"
-				;
-
-	#pragma mark kTexturedColorComp
-	const char* kTexturedColorComp =
-					// Texturing, GL_MODULATE mode
-				"	{\n"
-				"		vec4 texColor = texture( tex0, texCoord );\n"
-				"		color *= texColor.rgb;\n"
-				"		alpha *= texColor.a;\n"
-				"		if (texColor.a < alphaThreshold)\n"
-				"		{\n"
-				"			discard;\n"
-				"		}\n"
-				"	}\n"
-				;
-	
-	#pragma mark kAddSpecularColor
-	const char* kAddSpecularColor =
-					// Add specular color.  This is done after texturing, as with
-					// separate specular color.
-				"	vec3 specMat = isUsingSpecularMap?\n"
-				"		texture( tex1, texCoord ).rgb :\n"
-				"		specularColor;\n"
-				"	color += spec * specMat;\n"
-				;
-
-	#pragma mark kCalcFogLinear, kCalcFogExp, kCalcFogExp2
-	const char* kCalcFogLinear =
-				"	float dist = length( ECPos3 );\n"
-				"	float fog = (linearFogEnd - dist) * linearFogScale;\n"
-				;
-
-	const char* kCalcFogExp =
-				"	float dist = length( ECPos3 );\n"
-				"	float fog = exp( - fogDensity * dist );\n"
-				;
-
-	const char* kCalcFogExp2 =
-				"	float dist = length( ECPos3 );\n"
-				"	float fogProd = fogDensity * dist;\n"
-				"	float fog = exp( - fogProd * fogProd );\n"
-				;
-	
-	#pragma mark kCalcFogHalfspace
-	const char* kCalcFogHalfspace =
-				"	vec4 ECPos = vec4(ECPos3, 1.0);\n"
-				"	float p = dot( HSFogPlane, ECPos );\n"
-				"	float c = HSFogPlane.w;\n"
-				"	float D = fogDensity;\n"
-				"	float s = HSFogRate;\n"
-				"	float cpDiff = c - p;\n"
-				"	float adjDiff = sign(cpDiff) * (abs(cpDiff) + 0.000001);\n"
-				"	float outerFactor = length(ECPos3) * D / adjDiff;\n"
-				"	float densOverRate = D / s;\n"
-				"	float rateOverDens = 1.0 / densOverRate;\n"
-				"	float c2 = min( c, 0.0 );\n"
-				"	float p2 = min( p, 0.0 );\n"
-				"	float g = outerFactor * (c2 - p2 - densOverRate *\n"
-				"		(exp( c2 * rateOverDens ) - exp( p2 * rateOverDens )));\n"
-				"	float fog = exp( - g );\n"
-				;
-	
-	#pragma mark kMixFog
-	/*
-		Fog works by mixing the fog color with the fragment color.
-		This does not work well with premultiplied alpha, where
-		resultColor = 1 * premultipliedFragColor + (1 - alpha) * oldColor,
-		because if fog brightens the premultipliedFragColor, then the result
-		color will be bright no matter how small alpha is.  Therefore we must
-		do the fog mixing with unpremultiplied color.
-		
-		The FogSmooth function is intended to make the place where you hit the
-		maxFogOpacity be a less obvious transition.  It was chosen as a cubic
-		polynomial satisfying:
-		FogSmooth( 0 ) = 0
-		FogSmooth( maxFogOpacity ) = maxFogOpacity
-		FogSmooth'( 0 ) = 1				(where the prime indicates derivative)
-		FogSmooth'( maxFogOpacity ) = 0
-	*/
-	const char* kMixFog =
-				"	float opacity = 1.0 - fog;\n"
-				"	opacity = (maxFogOpacity > 0.99)?\n"
-				"		clamp( opacity, 0.0, 1.0) :\n"
-				"		((opacity < maxFogOpacity)?\n"
-				"			 FogSmooth(opacity) :\n"
-				"			maxFogOpacity);\n"
-				"	float unAlpha = 1.0 / (alpha + 0.0000001);\n"
-				"	vec3 unPreColor = clamp( unAlpha * color, 0.0, 1.0 );\n"
-				"	unPreColor = mix( unPreColor, fogColor, opacity );\n"
-				"	color = alpha * unPreColor;\n"
-				;
-
-	#pragma mark kAngleAffectOnAlpha
-	/*
-		If you have a sheet of translucent material at an angle to the eye, then you are
-		looking through more of it, so it should block more of the light.  The way the
-		math works out, the effective alpha is 1 - (1 - alpha)^(1/cos( angle )) .
-		The z coordinate of the eye normal vector is the cosine of the angle between the
-		fragment normal vector and the view vector.
-		When we change the alpha, we must un-premultiply and re-premultiply the color.
-	*/
-	const char*	kAngleAffectOnAlpha =
-				"	if ( (alpha < 0.999) && (normal.z > 0.0001) )\n"
-				"	{\n"
-				"		float unAlpha = 1.0 / (alpha + 0.0000001);\n"
-				"		vec3 unPreColor = clamp( unAlpha * color, 0.0, 1.0 );\n"
-				"		alpha = 1.0 - pow( 1.0 - alpha, 1.0/normal.z );\n"
-				"		color = alpha * unPreColor;\n"
-				"	}\n"
-				;
-
-	#pragma mark kMainFragmentShaderEndSource
-	const char* kMainFragmentShaderEndSource =
-				" 	fragColor.rgb = color;\n"
-				"	fragColor.a = alpha;\n"
-				"}\n";
-	
-					
 	const char*	kTextureUnit0UniformName		= "tex0";
 	const char*	kTextureUnit1UniformName		= "tex1";
 	const char* kSpecularMapFlagUniformName		= "isUsingSpecularMap";
@@ -1090,6 +122,8 @@ namespace
 	const char* kProjectionMtxUniformName		= "quesaProjectionMtx";
 	const char* kTextureMtxUniformName			= "quesaTextureMtx";
 	const char* kNormalMtxUniformName			= "quesaNormalMtx";
+	const char* kCameraRangeUniformName			= "quesaCameraRange";	// vec2: near and far
+	const char* kCameraViewportUniformName		= "quesaCameraViewport"; // vec4: origin.x, origin.y, width, height
 	
 	GLenum	sGLError = 0;
 } // end of unnamed namespace
@@ -1187,6 +221,8 @@ QORenderer::ProgramRec::ProgramRec( const ProgramRec& inOther )
 	, mViewportSizeUniformLoc( inOther.mViewportSizeUniformLoc )
 	, mCullFrontFacesUniformLoc( inOther.mCullFrontFacesUniformLoc )
 	, mCullBackFacesUniformLoc( inOther.mCullBackFacesUniformLoc )
+	, mCameraRangeUniformLoc( inOther.mCameraRangeUniformLoc )
+	, mCameraViewportUniformLoc( inOther.mCameraViewportUniformLoc )
 	, mVertexAttribLoc( inOther.mVertexAttribLoc )
 	, mNormalAttribLoc( inOther.mNormalAttribLoc )
 	, mTexCoordAttribLoc( inOther.mTexCoordAttribLoc )
@@ -1232,6 +268,8 @@ void	QORenderer::ProgramRec::swap( ProgramRec& ioOther )
 	std::swap( mViewportSizeUniformLoc, ioOther.mViewportSizeUniformLoc );
 	std::swap( mCullFrontFacesUniformLoc, ioOther.mCullFrontFacesUniformLoc );
 	std::swap( mCullBackFacesUniformLoc, ioOther.mCullBackFacesUniformLoc );
+	std::swap( mCameraRangeUniformLoc, ioOther.mCameraRangeUniformLoc );
+	std::swap( mCameraViewportUniformLoc, ioOther.mCameraViewportUniformLoc );
 	std::swap( mVertexAttribLoc, ioOther.mVertexAttribLoc );
 	std::swap( mNormalAttribLoc, ioOther.mNormalAttribLoc );
 	std::swap( mTexCoordAttribLoc, ioOther.mTexCoordAttribLoc );
@@ -1577,12 +615,22 @@ static void DescribeLights( const QORenderer::ProgramCharacteristic& inCharacter
 
 
 static void BuildFragmentShaderSource(	const QORenderer::ProgramCharacteristic& inProgramRec,
+										bool inHasGeometryShader,
 										std::string& outSource )
 {
 	const GLint kNumLights = static_cast<GLint>(inProgramRec.mPattern.size());
 	GLint i;
 	
 	outSource += kFragmentShaderPrefix;
+	
+	if (inHasGeometryShader)
+	{
+		outSource += kFragmentShaderInputWithGeomShader;
+	}
+	else
+	{
+		outSource += kFragmentShaderInputWithoutGeomShader;
+	}
 	
 	GLint shaderLightCount = std::max( kNumLights, 1 );
 	// If a uniform array size is 0, the shader won't compile.
@@ -1816,6 +864,13 @@ void	QORenderer::PerPixelLighting::StartFrame( TQ3ViewObject inView )
 
 	CalcMaxLights();
 	CHECK_GL_ERROR_MSG("PerPixelLighting::StartFrame 3");
+	
+	CQ3ObjectRef theCamera( CQ3View_GetCamera( inView ) );
+	mProgramCharacteristic.mProjectionType =
+		(Q3Camera_GetType( theCamera.get() ) == kQ3CameraTypeAllSeeing)?
+		ECameraProjectionType::allSeeingEquirectangular :
+		ECameraProjectionType::standardRectilinear;
+	
 	InitVertexShader();
 }
 
@@ -1999,7 +1054,7 @@ void	QORenderer::PerPixelLighting::StartPass( TQ3CameraObject inCamera )
 	Q3Matrix4x4_SetIdentity( &mTextureMtx );
 	Q3Matrix3x3_SetIdentity( &mNormalMtx );
 	
-	if (ProgCache()->VertexShaderID() != 0)
+	if (ProgCache()->VertexShaderID( mProgramCharacteristic.mProjectionType ) != 0)
 	{
 		GetLightTypes();
 	}
@@ -2016,7 +1071,7 @@ void	QORenderer::PerPixelLighting::StartPass( TQ3CameraObject inCamera )
 void	QORenderer::PerPixelLighting::ChooseProgram()
 {
 	if ( mMayNeedProgramChange &&
-		(ProgCache()->VertexShaderID() != 0) )
+		(ProgCache()->VertexShaderID( mProgramCharacteristic.mProjectionType ) != 0) )
 	{
 		mMayNeedProgramChange = false;
 		/*Q3_MESSAGE_FMT("Shader illumination type: %c%c%c%c",
@@ -2056,7 +1111,7 @@ void	QORenderer::PerPixelLighting::ChooseProgram()
 			#endif
 			
 				mRenderer.GetClientStates().StartProgram();
-				SetUniformValues( *theProgram );
+				SetUniformValues();
 				mRenderer.RefreshMaterials();
 			}
 			
@@ -2111,18 +1166,18 @@ void	QORenderer::PerPixelLighting::ChooseProgram()
 	@function	SetUniformValues
 	@abstract	Set values for the uniform variables needed in a newly activated program.
 */
-void	QORenderer::PerPixelLighting::SetUniformValues( const ProgramRec& ioProgram )
+void	QORenderer::PerPixelLighting::SetUniformValues()
 {
 	// Set texture units.
-	mFuncs.glUniform1i( ioProgram.mTextureUnit0UniformLoc, 0 );
-	mFuncs.glUniform1i( ioProgram.mTextureUnit1UniformLoc, 1 );
+	mFuncs.glUniform1i( mCurrentProgram->mTextureUnit0UniformLoc, 0 );
+	mFuncs.glUniform1i( mCurrentProgram->mTextureUnit1UniformLoc, 1 );
 
 	// Set the quantization uniform variables.
-	if (ioProgram.mQuantizationUniformLoc != -1)
+	if (mCurrentProgram->mQuantizationUniformLoc != -1)
 	{
-		mFuncs.glUniform1f( ioProgram.mQuantizationUniformLoc, mQuantization );
+		mFuncs.glUniform1f( mCurrentProgram->mQuantizationUniformLoc, mQuantization );
 		CHECK_GL_ERROR_MSG("glUniform1f mQuantization");
-		mFuncs.glUniform1f( ioProgram.mLightNearEdgeUniformLoc, mLightNearEdge );
+		mFuncs.glUniform1f( mCurrentProgram->mLightNearEdgeUniformLoc, mLightNearEdge );
 		CHECK_GL_ERROR_MSG("glUniform1f mLightNearEdge");
 	}
 	
@@ -2130,50 +1185,50 @@ void	QORenderer::PerPixelLighting::SetUniformValues( const ProgramRec& ioProgram
 	const int kNumLights = static_cast<int>(mLights.size());
 	if (kNumLights > 0)
 	{
-		mFuncs.glUniform1fv( ioProgram.mSpotHotAngleUniformLoc, kNumLights,
+		mFuncs.glUniform1fv( mCurrentProgram->mSpotHotAngleUniformLoc, kNumLights,
 			&mSpotLightHotAngles[0] );
-		mFuncs.glUniform1fv( ioProgram.mSpotCutoffAngleUniformLoc, kNumLights,
+		mFuncs.glUniform1fv( mCurrentProgram->mSpotCutoffAngleUniformLoc, kNumLights,
 			&mSpotLightCutoffAngles[0] );
 		
-		mFuncs.glUniform4fv( ioProgram.mLightPositionUniformLoc, kNumLights,
+		mFuncs.glUniform4fv( mCurrentProgram->mLightPositionUniformLoc, kNumLights,
 			&mLightPositions[0].x );
-		mFuncs.glUniform4fv( ioProgram.mLightColorUniformLoc, kNumLights,
+		mFuncs.glUniform4fv( mCurrentProgram->mLightColorUniformLoc, kNumLights,
 			&mLightColors[0].r );
-		mFuncs.glUniform3fv( ioProgram.mSpotLightDirectionUniformLoc, kNumLights,
+		mFuncs.glUniform3fv( mCurrentProgram->mSpotLightDirectionUniformLoc, kNumLights,
 			&mSpotLightDirections[0].x );
-		mFuncs.glUniform3fv( ioProgram.mLightAttenuationUniformLoc, kNumLights,
+		mFuncs.glUniform3fv( mCurrentProgram->mLightAttenuationUniformLoc, kNumLights,
 			&mLightAttenuations[0].x );
 	}
 	
 	// Ambient light.
-	mFuncs.glUniform3fv( ioProgram.mAmbientLightUniformLoc, 1, &mAmbientLight.r );
+	mFuncs.glUniform3fv( mCurrentProgram->mAmbientLightUniformLoc, 1, &mAmbientLight.r );
 	
 	// Set layer shifting flag.
 	TQ3Boolean isShifting = kQ3True;
 	Q3Object_GetProperty( mRendererObject, kQ3RendererPropertyIsLayerShifting,
 		sizeof(TQ3Boolean), nullptr, &isShifting );
-	mFuncs.glUniform1i( ioProgram.mIsLayerShiftingUniformLoc, isShifting );
+	mFuncs.glUniform1i( mCurrentProgram->mIsLayerShiftingUniformLoc, isShifting );
 	
 	// Set extra fog parameters.
-	mFuncs.glUniform1f( ioProgram.mMaxFogOpacityUniformLoc, mMaxFogOpacity );
+	mFuncs.glUniform1f( mCurrentProgram->mMaxFogOpacityUniformLoc, mMaxFogOpacity );
 	
 	// Set transform matrices
-	mFuncs.glUniformMatrix4fv( ioProgram.mModelViewMtxUniformLoc, 1, GL_FALSE, &mModelViewMtx.value[0][0] );
-	mFuncs.glUniformMatrix4fv( ioProgram.mProjectionMtxUniformLoc, 1, GL_FALSE, &mProjectionMtx.value[0][0] );
-	mFuncs.glUniformMatrix4fv( ioProgram.mTextureMtxUniformLoc, 1, GL_FALSE, &mTextureMtx.value[0][0] );
-	mFuncs.glUniformMatrix3fv( ioProgram.mNormalMtxUniformLoc, 1, GL_FALSE, &mNormalMtx.value[0][0] );
+	mFuncs.glUniformMatrix4fv( mCurrentProgram->mModelViewMtxUniformLoc, 1, GL_FALSE, &mModelViewMtx.value[0][0] );
+	SetCameraUniforms();
+	mFuncs.glUniformMatrix4fv( mCurrentProgram->mTextureMtxUniformLoc, 1, GL_FALSE, &mTextureMtx.value[0][0] );
+	mFuncs.glUniformMatrix3fv( mCurrentProgram->mNormalMtxUniformLoc, 1, GL_FALSE, &mNormalMtx.value[0][0] );
 	
 	// Initialize specular and emissive color.
-	mFuncs.glUniform1f( ioProgram.mShininessUniformLoc, 0.0f );
-	mFuncs.glUniform3fv( ioProgram.mSpecularColorUniformLoc, 1, &kZeroVec.x );
-	mFuncs.glUniform3fv( ioProgram.mEmissiveColorUniformLoc, 1, &kZeroVec.x );
+	mFuncs.glUniform1f( mCurrentProgram->mShininessUniformLoc, 0.0f );
+	mFuncs.glUniform3fv( mCurrentProgram->mSpecularColorUniformLoc, 1, &kZeroVec.x );
+	mFuncs.glUniform3fv( mCurrentProgram->mEmissiveColorUniformLoc, 1, &kZeroVec.x );
 	
-	if ( ioProgram.mViewportSizeUniformLoc != -1 )
+	if ( mCurrentProgram->mViewportSizeUniformLoc != -1 )
 	{
 		GLfloat port[4];
 		glGetFloatv( GL_VIEWPORT, port );
-		mFuncs.glUniform2fv( ioProgram.mViewportSizeUniformLoc, 1, &port[2] );
-		Q3_MESSAGE_FMT("Viewport size set to %f %f", port[2], port[3] );
+		mFuncs.glUniform2fv( mCurrentProgram->mViewportSizeUniformLoc, 1, &port[2] );
+		//Q3_MESSAGE_FMT("Viewport size set to %f %f", port[2], port[3] );
 	}
 }
 
@@ -2271,6 +1326,10 @@ void	QORenderer::PerPixelLighting::InitUniformLocations( ProgramRec& ioProgram )
 	ioProgram.mCullBackFacesUniformLoc = mFuncs.glGetUniformLocation(
 		ioProgram.mProgram, "cullBackFaces" );
 	CHECK_GL_ERROR;
+	ioProgram.mCameraRangeUniformLoc = mFuncs.glGetUniformLocation(
+		ioProgram.mProgram, kCameraRangeUniformName );
+	ioProgram.mCameraViewportUniformLoc = mFuncs.glGetUniformLocation(
+		ioProgram.mProgram, kCameraViewportUniformName );
 	
 	ioProgram.mModelViewMtxUniformLoc = mFuncs.glGetUniformLocation(
 		ioProgram.mProgram, kModelViewMtxUniformName );
@@ -2439,9 +1498,19 @@ static GLuint CreateAndCompileShader( GLenum inShaderType,
 */
 void	QORenderer::PerPixelLighting::InitVertexShader()
 {
-	if (ProgCache()->VertexShaderID() == 0)
+	if (ProgCache()->VertexShaderID( mProgramCharacteristic.mProjectionType ) == 0)
 	{
 		std::string shaderSource( kVertexShaderStart );
+		switch (mProgramCharacteristic.mProjectionType)
+		{
+			case ECameraProjectionType::standardRectilinear:
+				shaderSource += kVertexShaderStandardProjection;
+				break;
+			
+			case ECameraProjectionType::allSeeingEquirectangular:
+				shaderSource += kVertexShaderAllSeeingProjection;
+				break;
+		}
 		shaderSource += kVertexShaderEnd;
 		
 		GLuint vertexShader = CreateAndCompileShader( GL_VERTEX_SHADER,
@@ -2456,7 +1525,7 @@ void	QORenderer::PerPixelLighting::InitVertexShader()
 			++sVertexShaderCount;
 			//Q3_MESSAGE_FMT("Created vertex shader number %d, ID %d",
 			//	sVertexShaderCount, (int)vertexShader );
-			ProgCache()->SetVertexShaderID( vertexShader );
+			ProgCache()->SetVertexShaderID( mProgramCharacteristic.mProjectionType, vertexShader );
 		}
 	}
 }
@@ -2495,15 +1564,6 @@ void	QORenderer::PerPixelLighting::InitProgram()
 	
 	newProgram.mCharacteristic = mProgramCharacteristic;
 	
-	// Build the source of the fragment shader
-	std::string	fragSource;
-	BuildFragmentShaderSource( newProgram.mCharacteristic, fragSource );
-	
-	// Create the fragment shader
-	GLint fragShaderID = CreateAndCompileShader( GL_FRAGMENT_SHADER,
-		fragSource.c_str(), mFuncs );
-	CHECK_GL_ERROR_MSG("InitProgram after CreateAndCompileShader");
-
 	// If processing lines, build the geometry shader
 	GLint geomShaderID = 0;
 	if ( (mProgramCharacteristic.mDimension == 1) &&
@@ -2520,10 +1580,27 @@ void	QORenderer::PerPixelLighting::InitProgram()
 		geomShaderID = CreateAndCompileShader( GL_GEOMETRY_SHADER,
 			kFaceEdgeGeomShader, mFuncs );
 	}
+	else if ( (mProgramCharacteristic.mDimension == 2) &&
+		(mProgramCharacteristic.mFillStyle == kQ3FillStyleFilled) &&
+		(mProgramCharacteristic.mProjectionType == ECameraProjectionType::allSeeingEquirectangular) )
+	{
+		Q3_MESSAGE_FMT("Using all-seeing geometry shader");
+		geomShaderID = CreateAndCompileShader( GL_GEOMETRY_SHADER,
+			kAllSeeingGeomShader, mFuncs );
+	}
 	else
 	{
-		//Q3_MESSAGE_FMT("No geometry shader");
+		Q3_MESSAGE_FMT("No geometry shader");
 	}
+
+	// Build the source of the fragment shader
+	std::string	fragSource;
+	BuildFragmentShaderSource( newProgram.mCharacteristic, geomShaderID != 0, fragSource );
+	
+	// Create the fragment shader
+	GLint fragShaderID = CreateAndCompileShader( GL_FRAGMENT_SHADER,
+		fragSource.c_str(), mFuncs );
+	CHECK_GL_ERROR_MSG("InitProgram after CreateAndCompileShader");
 
 	if (fragShaderID != 0)
 	{
@@ -2533,7 +1610,7 @@ void	QORenderer::PerPixelLighting::InitProgram()
 	
 		if (newProgram.mProgram != 0)
 		{
-			GLuint vertexShader = ProgCache()->VertexShaderID();
+			GLuint vertexShader = ProgCache()->VertexShaderID( newProgram.mCharacteristic.mProjectionType );
 		
 			++sProgramCount;
 			std::string desc( DescribeProgram( newProgram ) );
@@ -3029,7 +2106,38 @@ void	QORenderer::PerPixelLighting::SetProjectionMatrix( const TQ3Matrix4x4& inMt
 	
 	if (mCurrentProgram != nullptr)
 	{
-		mFuncs.glUniformMatrix4fv( mCurrentProgram->mProjectionMtxUniformLoc, 1, GL_FALSE, &mProjectionMtx.value[0][0] );
+		SetCameraUniforms();
+	}
+}
+
+void	QORenderer::PerPixelLighting::SetCameraUniforms()
+{
+	mFuncs.glUniformMatrix4fv( mCurrentProgram->mProjectionMtxUniformLoc, 1, GL_FALSE, &mProjectionMtx.value[0][0] );
+	
+	if (mView.get() != nullptr)
+	{
+		CQ3ObjectRef theCamera( CQ3View_GetCamera( mView.get() ) );
+		TQ3CameraData camData;
+		Q3Camera_GetData( theCamera.get(), &camData );
+		
+		if (mCurrentProgram->mCameraRangeUniformLoc >= 0)
+		{
+			GLfloat range[] = {
+				camData.range.hither, camData.range.yon
+			};
+			mFuncs.glUniform2fv( mCurrentProgram->mCameraRangeUniformLoc, 1,
+				range );
+		}
+		
+		if (mCurrentProgram->mCameraViewportUniformLoc >= 0)
+		{
+			GLfloat viewport[] = {
+				camData.viewPort.origin.x, camData.viewPort.origin.y,
+				camData.viewPort.width, camData.viewPort.height
+			};
+			mFuncs.glUniform4fv( mCurrentProgram->mCameraViewportUniformLoc, 1,
+				viewport );
+		}
 	}
 }
 

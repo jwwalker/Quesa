@@ -5,7 +5,7 @@
         
 
     COPYRIGHT:
-        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -62,6 +62,9 @@
 #include <Quesa/QuesaRenderer.h> 
 #include <Quesa/CQ3ObjectRef_Gets.h>
 #include <Quesa/Q3GroupIterator.h>
+#include <Quesa/CQ3ObjectRef.h>
+#include <Quesa/CQ3ObjectRef_Gets.h>
+#include <Quesa/QuesaMathOperators.hpp>
 
 #import "Quesa3DView.h"
 #import "DemoGeometry.h"
@@ -89,7 +92,11 @@ enum
 	kMenuItemGeometryTorus,
 	kMenuItemGeometryTriangle,
 	kMenuItemGeometryTriGrid,
-	kMenuItemGeometryTriMesh
+	kMenuItemGeometryTriMesh,
+	kMenuItemGeometryShadowTest,
+	kMenuItemGeometryBoxAboutCamera,
+	kMenuItemGeometrySubdividedBoxAboutCamera,
+	kMenuItemGeometryBallAboutCamera
 };
 
 enum EFogTag
@@ -513,6 +520,7 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 	quesa3dView.pixelFormat = pixelFormat;
 
 	Q3Matrix4x4_SetIdentity(&mCurrentMatrix);
+	Q3Matrix4x4_SetIdentity(&_currentRotation);
   	Q3Matrix4x4_SetRotate_XYZ(&mRotationFactor, 0.03f, 0.05f, 0.005f);
     mSceneGeometry = createGeomQuesa();
     self.animates = YES;
@@ -566,10 +574,16 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 
 - (void) updateManualRotation
 {
-	Q3Matrix4x4_SetRotate_XYZ( &mCurrentMatrix,
+	Q3Matrix4x4_SetRotate_XYZ( &_currentRotation,
 		Q3Math_DegreesToRadians([self xRotation]),
 		Q3Math_DegreesToRadians([self yRotation]),
 		Q3Math_DegreesToRadians([self zRotation]) );
+	TQ3Matrix4x4 originToCenter, centerToOrigin;
+	Q3Matrix4x4_SetTranslate( &originToCenter,
+		_centerOfRotation.x, _centerOfRotation.y, _centerOfRotation.z );
+	Q3Matrix4x4_SetTranslate( &centerToOrigin,
+		-_centerOfRotation.x, -_centerOfRotation.y, -_centerOfRotation.z );
+	mCurrentMatrix = centerToOrigin * _currentRotation * originToCenter;
 	[quesa3dView setNeedsDisplay:YES];
 }
 
@@ -580,8 +594,112 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 
 - (void)animationTimerFired:(NSTimer*)timer
 {
-	Q3Matrix4x4_Multiply( &mCurrentMatrix, &mRotationFactor, &mCurrentMatrix );
+	_currentRotation = _currentRotation * mRotationFactor;
+	TQ3Matrix4x4 originToCenter, centerToOrigin;
+	Q3Matrix4x4_SetTranslate( &originToCenter,
+		_centerOfRotation.x, _centerOfRotation.y, _centerOfRotation.z );
+	Q3Matrix4x4_SetTranslate( &centerToOrigin,
+		-_centerOfRotation.x, -_centerOfRotation.y, -_centerOfRotation.z );
+	mCurrentMatrix = centerToOrigin * _currentRotation * originToCenter;
 	[quesa3dView setNeedsDisplay: YES];
+}
+
+- (void) makeViewAngleCamera
+{
+	TQ3Point3D 						cameraFrom 	= { 0.0f, 0.0f, 5.0f };
+	TQ3Point3D 						cameraTo 	= { 0.0f, 0.0f, 0.0f };
+	TQ3Vector3D 					cameraUp 	= { 0.0f, 1.0f, 0.0f };
+	float 							fieldOfView = Q3Math_DegreesToRadians(50.0f);
+	float 							hither 		=  0.1f;
+	float 							yon 		= 10.0f;
+	float							rectWidth, rectHeight;
+	TQ3ViewAngleAspectCameraData	cameraData;
+	TQ3Status						qd3dStatus;
+	TQ3Area							theArea;
+
+
+    if (quesa3dView.qd3dView == NULL)
+      return;
+	// Get the size of the image we're rendering
+	qd3dStatus = Q3DrawContext_GetPane(quesa3dView.drawContext, &theArea);
+
+
+
+	// Fill in the camera data
+	cameraData.cameraData.placement.cameraLocation 	= cameraFrom;
+	cameraData.cameraData.placement.pointOfInterest = cameraTo;
+	cameraData.cameraData.placement.upVector 		= cameraUp;
+	cameraData.cameraData.range.hither				= hither;
+	cameraData.cameraData.range.yon					= yon;
+	cameraData.cameraData.viewPort.origin.x			= -1.0f;
+	cameraData.cameraData.viewPort.origin.y			=  1.0f;
+	cameraData.cameraData.viewPort.width			=  2.0f;
+	cameraData.cameraData.viewPort.height			=  2.0f;
+	cameraData.fov									= fieldOfView;
+
+	rectWidth                  = theArea.max.x - theArea.min.x;
+	rectHeight                 = theArea.max.y - theArea.min.y;
+	cameraData.aspectRatioXToY = (rectWidth / rectHeight);
+
+
+	// Create the camera object
+	CQ3ObjectRef theCamera( Q3ViewAngleAspectCamera_New(&cameraData) );
+    qd3dStatus = Q3View_SetCamera(quesa3dView.qd3dView, theCamera.get() );
+}
+
+- (void) makeOrthographicCamera
+{
+	TQ3OrthographicCameraData orthoData =
+	{
+		{	// TQ3CameraData
+			{ // TQ3CameraPlacement
+				{ 0.0f, 0.0f, 5.0f },	// cameraLocation
+				{ 0.0f, 0.0f, 0.0f },	// pointOfInterest
+				{ 0.0f, 1.0f, 0.0f }	// upVector
+			},
+			{ // TQ3CameraRange
+				0.1f,					// hither
+				10.0f					// yon
+			},
+			{ // TQ3CameraViewPort
+				{
+					-1.0f, 1.0f
+				},
+				2.0f, 2.0f
+			}
+		},
+		-2.0f,
+		2.0f,
+		2.0f,
+		-2.0f
+	};
+	CQ3ObjectRef theCamera( Q3OrthographicCamera_New( &orthoData ) );
+	Q3View_SetCamera( quesa3dView.qd3dView, theCamera.get() );
+	
+	[self qd3dViewReshaped: quesa3dView ];
+}
+
+- (void) makeAllSeeingCamera
+{
+	TQ3CameraData camData = {
+		{ // TQ3CameraPlacement
+			{ 0.0f, 0.0f, 5.0f },	// cameraLocation
+			{ 0.0f, 0.0f, 0.0f },	// pointOfInterest
+			{ 0.0f, 1.0f, 0.0f }	// upVector
+		},
+		{ // TQ3CameraRange
+			0.1f,					// hither
+			10.0f					// yon
+		},
+		{ // TQ3CameraViewPort
+			{
+				-1.0f, 1.0f
+			},
+			2.0f, 2.0f
+		}
+	};
+	CQ3ObjectRef theCamera( Q3AllSeeingCamera_New( &camData ) );
+	Q3View_SetCamera( quesa3dView.qd3dView, theCamera.get() );
 }
 
 #pragma mark accessors (KVC and KVO compliant)
@@ -937,6 +1055,37 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 	}
 }
 
+- (int) cameraType
+{
+	return _cameraType;
+}
+
+- (void) setCameraType: (int)cameraType
+{
+	if (_cameraType != cameraType)
+	{
+		_cameraType = cameraType;
+		
+		switch (cameraType)
+		{
+			case 0:
+				[self makeViewAngleCamera];
+				break;
+			
+			case 1:
+				[self makeOrthographicCamera];
+				break;
+			
+			case 2:
+				[self makeAllSeeingCamera];
+				break;
+		}
+		_testViewport = !_testViewport;
+		self.testViewport = !_testViewport;
+		[quesa3dView setNeedsDisplay: YES];
+	}
+}
+
 - (int) fogStyleTag
 {
 	return _fogStyleTag;
@@ -1018,23 +1167,34 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 	}
 }
 
-- (BOOL) cartoonStyle
+- (BOOL) testViewport
 {
-	return _cartoonStyle;
+	return _testViewport;
 }
 
-- (void) setCartoonStyle:(BOOL)cartoonStyle
+- (void) setTestViewport:(BOOL)testViewport
 {
-	if (_cartoonStyle != cartoonStyle)
+	if (testViewport != _testViewport)
 	{
-		_cartoonStyle = cartoonStyle;
-		
-		CQ3ObjectRef renderer( CQ3View_GetRenderer( [quesa3dView qd3dView] ) );
-		if (renderer.isvalid())
+		_testViewport = testViewport;
+		TQ3CameraViewPort viewPort;
+		if (_testViewport)
 		{
-			TQ3Float32 shadeCount = _cartoonStyle? 3.0f : 0.0f;
-			Q3Object_SetProperty( renderer.get(), kQ3RendererPropertyQuantizePerPixelLight, sizeof(shadeCount), &shadeCount );
+			viewPort.origin.x = -0.2f;
+			viewPort.origin.y = 0.4f;
+			viewPort.width = 0.8f;
+			viewPort.height = 0.8f;
 		}
+		else
+		{
+			viewPort.origin.x = -1.0f;
+			viewPort.origin.y = 1.0f;
+			viewPort.width = 2.0f;
+			viewPort.height = 2.0f;
+		}
+		CQ3ObjectRef theCamera( CQ3View_GetCamera( quesa3dView.qd3dView ) );
+		Q3Camera_SetViewPort( theCamera.get(), &viewPort );
+		[quesa3dView setNeedsDisplay: YES];
 	}
 }
 
@@ -1113,6 +1273,11 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 		}];
 }
 
+- (IBAction)refreshImage:(id)sender
+{
+	[quesa3dView setNeedsDisplay: YES];
+}
+
 //==================================================================================
 //	setGeometryFromTag
 //==================================================================================
@@ -1121,6 +1286,7 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 {
   int tagVal = (int) [[sender selectedItem]tag];
   TQ3GeometryObject theGeom = NULL;
+  _centerOfRotation = TQ3Point3D{ 0.0f, 0.0f, 0.0f };
   
   switch(tagVal)
   {
@@ -1212,6 +1378,25 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
           theGeom = createGeomTriMesh();
           break;
 
+	case kMenuItemGeometryShadowTest:
+		theGeom = createShadowTest();
+		break;
+	
+	case kMenuItemGeometryBoxAboutCamera:
+		theGeom = createBoxAboutCamera();
+		_centerOfRotation = TQ3Point3D{ 0.0f, 0.0f, 5.0f };
+		break;
+	
+	case kMenuItemGeometrySubdividedBoxAboutCamera:
+		theGeom = createSubdividedBoxAboutCamera( [quesa3dView qd3dView] );
+		_centerOfRotation = TQ3Point3D{ 0.0f, 0.0f, 5.0f };
+		break;
+	
+	case kMenuItemGeometryBallAboutCamera:
+		  theGeom = createBallAboutCamera();
+		  _centerOfRotation = TQ3Point3D{ 0.0f, 0.0f, 5.0f };
+		  break;
+
       default:
           break;
   }
@@ -1294,5 +1479,41 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 
 }
 
+- (void) qd3dViewReshaped: (Quesa3DView*)inView
+{
+	CQ3ObjectRef theCamera( CQ3View_GetCamera( inView.qd3dView ) );
+	TQ3Area							theArea;
+	Q3DrawContext_GetPane( inView.drawContext, &theArea );
+	float aspect = (theArea.max.x - theArea.min.x) / (theArea.max.y - theArea.min.y);
+	
+	switch (Q3Camera_GetType( theCamera.get() ))
+	{
+		case kQ3CameraTypeViewAngleAspect:
+			Q3ViewAngleAspectCamera_SetAspectRatio( theCamera.get(), aspect );
+			break;
+		
+		case kQ3CameraTypeOrthographic:
+			{
+				TQ3OrthographicCameraData orthoData;
+				Q3OrthographicCamera_GetData( theCamera.get(), &orthoData );
+				if (aspect >= 1.0f)
+				{
+					orthoData.bottom = -2.0f;
+					orthoData.top = 2.0f;
+					orthoData.left = orthoData.bottom * aspect;
+					orthoData.right = orthoData.top * aspect;
+				}
+				else
+				{
+					orthoData.left = -2.0f;
+					orthoData.right = 2.0f;
+					orthoData.bottom = orthoData.left / aspect;
+					orthoData.top = orthoData.right / aspect;
+				}
+				Q3OrthographicCamera_SetData( theCamera.get(), &orthoData );
+			}
+			break;
+	}
+}
 
 @end

@@ -13,9 +13,26 @@
 		BE1352940C3C14F400B20B60 /* Quesa3DView.h in Headers */ = {isa = PBXBuildFile; fileRef = 2179FF0AFF19522C7F000001 /* Quesa3DView.h */; };
 		BE1352950C3C14F400B20B60 /* QuesaCocoaUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = 2D6A02D3FF1986E17F000001 /* QuesaCocoaUtil.h */; };
 		BE13529A0C3C14F400B20B60 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
-		BE13529C0C3C14F400B20B60 /* DemoGeometry.m in Sources */ = {isa = PBXBuildFile; fileRef = 1E8954AAFF19270E7F000001 /* DemoGeometry.m */; settings = {ATTRIBUTES = (); }; };
+		BE13529C0C3C14F400B20B60 /* DemoGeometry.mm in Sources */ = {isa = PBXBuildFile; fileRef = 1E8954AAFF19270E7F000001 /* DemoGeometry.mm */; settings = {ATTRIBUTES = (); }; };
 		BE13529D0C3C14F400B20B60 /* Quesa3DView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2179FF09FF19522C7F000001 /* Quesa3DView.m */; settings = {ATTRIBUTES = (); }; };
 		BE13529E0C3C14F400B20B60 /* QuesaCocoaUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D6A02D4FF1986E17F000001 /* QuesaCocoaUtil.m */; settings = {ATTRIBUTES = (); }; };
+		BE2BCA3D23F4BF3000AE7F4A /* US_$5_obverse.tga in Resources */ = {isa = PBXBuildFile; fileRef = BE2BCA3423F4BF3000AE7F4A /* US_$5_obverse.tga */; };
+		BE2BCA3E23F4BF3000AE7F4A /* 2.tga in Resources */ = {isa = PBXBuildFile; fileRef = BE2BCA3723F4BF3000AE7F4A /* 2.tga */; };
+		BE2BCA3F23F4BF3000AE7F4A /* 3.tga in Resources */ = {isa = PBXBuildFile; fileRef = BE2BCA3823F4BF3000AE7F4A /* 3.tga */; };
+		BE2BCA4023F4BF3000AE7F4A /* 6.tga in Resources */ = {isa = PBXBuildFile; fileRef = BE2BCA3923F4BF3000AE7F4A /* 6.tga */; };
+		BE2BCA4123F4BF3000AE7F4A /* 1.tga in Resources */ = {isa = PBXBuildFile; fileRef = BE2BCA3A23F4BF3000AE7F4A /* 1.tga */; };
+		BE2BCA4223F4BF3000AE7F4A /* 4.tga in Resources */ = {isa = PBXBuildFile; fileRef = BE2BCA3B23F4BF3000AE7F4A /* 4.tga */; };
+		BE2BCA4323F4BF3000AE7F4A /* 5.tga in Resources */ = {isa = PBXBuildFile; fileRef = BE2BCA3C23F4BF3000AE7F4A /* 5.tga */; };
+		BE2BCA4823F4C26100AE7F4A /* QutTexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE2BCA4423F4C26100AE7F4A /* QutTexture.cpp */; };
+		BE2BCA4923F4C26100AE7F4A /* QutTexture.h in Headers */ = {isa = PBXBuildFile; fileRef = BE2BCA4523F4C26100AE7F4A /* QutTexture.h */; };
+		BE2BCA4A23F4C26100AE7F4A /* QutInternal.h in Headers */ = {isa = PBXBuildFile; fileRef = BE2BCA4623F4C26100AE7F4A /* QutInternal.h */; };
+		BE2BCA4B23F4C26100AE7F4A /* QutMac.h in Headers */ = {isa = PBXBuildFile; fileRef = BE2BCA4723F4C26100AE7F4A /* QutMac.h */; };
+		BE2BCA4E23F4C2E100AE7F4A /* SubdivideTriMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE2BCA4C23F4C2E100AE7F4A /* SubdivideTriMesh.cpp */; };
+		BE2BCA4F23F4C2E100AE7F4A /* SubdivideTriMesh.h in Headers */ = {isa = PBXBuildFile; fileRef = BE2BCA4D23F4C2E100AE7F4A /* SubdivideTriMesh.h */; };
+		BE2BCA5423F4C30000AE7F4A /* FindTriMeshFaceData.h in Headers */ = {isa = PBXBuildFile; fileRef = BE2BCA5023F4C30000AE7F4A /* FindTriMeshFaceData.h */; };
+		BE2BCA5523F4C30000AE7F4A /* FindTriMeshVertexData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE2BCA5123F4C30000AE7F4A /* FindTriMeshVertexData.cpp */; };
+		BE2BCA5623F4C30000AE7F4A /* FindTriMeshVertexData.h in Headers */ = {isa = PBXBuildFile; fileRef = BE2BCA5223F4C30000AE7F4A /* FindTriMeshVertexData.h */; };
+		BE2BCA5723F4C30000AE7F4A /* FindTriMeshFaceData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE2BCA5323F4C30000AE7F4A /* FindTriMeshFaceData.cpp */; };
 		BE67F2591734626500A49604 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE67F2581734626500A49604 /* Cocoa.framework */; };
 		BEB0613222A47B0700B494D6 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = BEB0612E22A47B0700B494D6 /* MainMenu.xib */; };
 		BEB0613322A47B0700B494D6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = BEB0613022A47B0700B494D6 /* InfoPlist.strings */; };
@@ -63,7 +80,7 @@
 
 /* Begin PBXFileReference section */
 		17327D4CFF18F4807F000001 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		1E8954AAFF19270E7F000001 /* DemoGeometry.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DemoGeometry.m; sourceTree = "<group>"; };
+		1E8954AAFF19270E7F000001 /* DemoGeometry.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = DemoGeometry.mm; sourceTree = "<group>"; };
 		1E8954ACFF1927E77F000001 /* DemoGeometry.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DemoGeometry.h; sourceTree = "<group>"; };
 		2179FF09FF19522C7F000001 /* Quesa3DView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Quesa3DView.m; sourceTree = "<group>"; };
 		2179FF0AFF19522C7F000001 /* Quesa3DView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Quesa3DView.h; sourceTree = "<group>"; };
@@ -74,6 +91,23 @@
 		BE1352A80C3C14F400B20B60 /* QuesaCocoaTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = QuesaCocoaTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE13530F0C3C190300B20B60 /* project.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = project.xcconfig; sourceTree = "<group>"; };
 		BE1353140C3C1B9E00B20B60 /* Info-Quesa3DView.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; path = "Info-Quesa3DView.plist"; sourceTree = "<group>"; };
+		BE2BCA3423F4BF3000AE7F4A /* US_$5_obverse.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = US_$5_obverse.tga; path = "../../../Examples/Support Files/Images/US_$5_obverse.tga"; sourceTree = "<group>"; };
+		BE2BCA3723F4BF3000AE7F4A /* 2.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = 2.tga; path = "../../../Examples/Support Files/Images/2.tga"; sourceTree = "<group>"; };
+		BE2BCA3823F4BF3000AE7F4A /* 3.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = 3.tga; path = "../../../Examples/Support Files/Images/3.tga"; sourceTree = "<group>"; };
+		BE2BCA3923F4BF3000AE7F4A /* 6.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = 6.tga; path = "../../../Examples/Support Files/Images/6.tga"; sourceTree = "<group>"; };
+		BE2BCA3A23F4BF3000AE7F4A /* 1.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = 1.tga; path = "../../../Examples/Support Files/Images/1.tga"; sourceTree = "<group>"; };
+		BE2BCA3B23F4BF3000AE7F4A /* 4.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = 4.tga; path = "../../../Examples/Support Files/Images/4.tga"; sourceTree = "<group>"; };
+		BE2BCA3C23F4BF3000AE7F4A /* 5.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = 5.tga; path = "../../../Examples/Support Files/Images/5.tga"; sourceTree = "<group>"; };
+		BE2BCA4423F4C26100AE7F4A /* QutTexture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = QutTexture.cpp; path = ../../../Examples/Qut/QutTexture.cpp; sourceTree = "<group>"; };
+		BE2BCA4523F4C26100AE7F4A /* QutTexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QutTexture.h; path = ../../../Examples/Qut/QutTexture.h; sourceTree = "<group>"; };
+		BE2BCA4623F4C26100AE7F4A /* QutInternal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QutInternal.h; path = ../../../Examples/Qut/QutInternal.h; sourceTree = "<group>"; };
+		BE2BCA4723F4C26100AE7F4A /* QutMac.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QutMac.h; path = ../../../Examples/Qut/Mac/QutMac.h; sourceTree = "<group>"; };
+		BE2BCA4C23F4C2E100AE7F4A /* SubdivideTriMesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SubdivideTriMesh.cpp; path = "../../Utility Sources/Mutating Algorithms/SubdivideTriMesh.cpp"; sourceTree = "<group>"; };
+		BE2BCA4D23F4C2E100AE7F4A /* SubdivideTriMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SubdivideTriMesh.h; path = "../../Utility Sources/Mutating Algorithms/SubdivideTriMesh.h"; sourceTree = "<group>"; };
+		BE2BCA5023F4C30000AE7F4A /* FindTriMeshFaceData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FindTriMeshFaceData.h; path = "../../Utility Sources/Mutating Algorithms/FindTriMeshFaceData.h"; sourceTree = "<group>"; };
+		BE2BCA5123F4C30000AE7F4A /* FindTriMeshVertexData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FindTriMeshVertexData.cpp; path = "../../Utility Sources/Mutating Algorithms/FindTriMeshVertexData.cpp"; sourceTree = "<group>"; };
+		BE2BCA5223F4C30000AE7F4A /* FindTriMeshVertexData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FindTriMeshVertexData.h; path = "../../Utility Sources/Mutating Algorithms/FindTriMeshVertexData.h"; sourceTree = "<group>"; };
+		BE2BCA5323F4C30000AE7F4A /* FindTriMeshFaceData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FindTriMeshFaceData.cpp; path = "../../Utility Sources/Mutating Algorithms/FindTriMeshFaceData.cpp"; sourceTree = "<group>"; };
 		BE67F2581734626500A49604 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		BEB0612F22A47B0700B494D6 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		BEB0613122A47B0700B494D6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -98,7 +132,7 @@
 			isa = PBXGroup;
 			children = (
 				BE0A2475233BE1AF003E6635 /* AppDelegate.mm */,
-				1E8954AAFF19270E7F000001 /* DemoGeometry.m */,
+				1E8954AAFF19270E7F000001 /* DemoGeometry.mm */,
 				2D6A02D4FF1986E17F000001 /* QuesaCocoaUtil.m */,
 			);
 			name = Classes;
@@ -137,7 +171,17 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
+				BE2BCA5323F4C30000AE7F4A /* FindTriMeshFaceData.cpp */,
+				BE2BCA5023F4C30000AE7F4A /* FindTriMeshFaceData.h */,
+				BE2BCA5123F4C30000AE7F4A /* FindTriMeshVertexData.cpp */,
+				BE2BCA5223F4C30000AE7F4A /* FindTriMeshVertexData.h */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
+				BE2BCA4623F4C26100AE7F4A /* QutInternal.h */,
+				BE2BCA4723F4C26100AE7F4A /* QutMac.h */,
+				BE2BCA4423F4C26100AE7F4A /* QutTexture.cpp */,
+				BE2BCA4523F4C26100AE7F4A /* QutTexture.h */,
+				BE2BCA4C23F4C2E100AE7F4A /* SubdivideTriMesh.cpp */,
+				BE2BCA4D23F4C2E100AE7F4A /* SubdivideTriMesh.h */,
 			);
 			name = "Other Sources";
 			sourceTree = "<group>";
@@ -148,6 +192,13 @@
 				BEB0613022A47B0700B494D6 /* InfoPlist.strings */,
 				BEB0612E22A47B0700B494D6 /* MainMenu.xib */,
 				BE1353140C3C1B9E00B20B60 /* Info-Quesa3DView.plist */,
+				BE2BCA3A23F4BF3000AE7F4A /* 1.tga */,
+				BE2BCA3723F4BF3000AE7F4A /* 2.tga */,
+				BE2BCA3823F4BF3000AE7F4A /* 3.tga */,
+				BE2BCA3B23F4BF3000AE7F4A /* 4.tga */,
+				BE2BCA3C23F4BF3000AE7F4A /* 5.tga */,
+				BE2BCA3923F4BF3000AE7F4A /* 6.tga */,
+				BE2BCA3423F4BF3000AE7F4A /* US_$5_obverse.tga */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -214,10 +265,16 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE2BCA5623F4C30000AE7F4A /* FindTriMeshVertexData.h in Headers */,
 				BE1352920C3C14F400B20B60 /* AppDelegate.h in Headers */,
 				BE1352930C3C14F400B20B60 /* DemoGeometry.h in Headers */,
+				BE2BCA5423F4C30000AE7F4A /* FindTriMeshFaceData.h in Headers */,
+				BE2BCA4B23F4C26100AE7F4A /* QutMac.h in Headers */,
+				BE2BCA4F23F4C2E100AE7F4A /* SubdivideTriMesh.h in Headers */,
+				BE2BCA4A23F4C26100AE7F4A /* QutInternal.h in Headers */,
 				BE1352940C3C14F400B20B60 /* Quesa3DView.h in Headers */,
 				BE1352950C3C14F400B20B60 /* QuesaCocoaUtil.h in Headers */,
+				BE2BCA4923F4C26100AE7F4A /* QutTexture.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -301,7 +358,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE2BCA4323F4BF3000AE7F4A /* 5.tga in Resources */,
+				BE2BCA4123F4BF3000AE7F4A /* 1.tga in Resources */,
 				BEB0613222A47B0700B494D6 /* MainMenu.xib in Resources */,
+				BE2BCA3E23F4BF3000AE7F4A /* 2.tga in Resources */,
+				BE2BCA4223F4BF3000AE7F4A /* 4.tga in Resources */,
+				BE2BCA3D23F4BF3000AE7F4A /* US_$5_obverse.tga in Resources */,
+				BE2BCA4023F4BF3000AE7F4A /* 6.tga in Resources */,
+				BE2BCA3F23F4BF3000AE7F4A /* 3.tga in Resources */,
 				BEB0613322A47B0700B494D6 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -330,11 +394,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE2BCA5723F4C30000AE7F4A /* FindTriMeshFaceData.cpp in Sources */,
 				BE13529A0C3C14F400B20B60 /* main.m in Sources */,
-				BE13529C0C3C14F400B20B60 /* DemoGeometry.m in Sources */,
+				BE13529C0C3C14F400B20B60 /* DemoGeometry.mm in Sources */,
 				BE13529D0C3C14F400B20B60 /* Quesa3DView.m in Sources */,
 				BE0A2478233BE1AF003E6635 /* AppDelegate.mm in Sources */,
+				BE2BCA4E23F4C2E100AE7F4A /* SubdivideTriMesh.cpp in Sources */,
+				BE2BCA4823F4C26100AE7F4A /* QutTexture.cpp in Sources */,
 				BE13529E0C3C14F400B20B60 /* QuesaCocoaUtil.m in Sources */,
+				BE2BCA5523F4C30000AE7F4A /* FindTriMeshVertexData.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

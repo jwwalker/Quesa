@@ -1499,4 +1499,26 @@ Q3ViewAngleAspectCamera_GetAspectRatio(TQ3CameraObject camera, float *aspectRati
 
 
 
+/*!
+ *  @function
+ *      Q3AllSeeingCamera_New
+ *  @discussion
+ *      Create a new all-seeing camera object.
+ *
+ *  	This kind of camera sees in all directions, essentially using spherical coordinates.
+ *
+ *  @param cameraData       The data for the camera object.
+ *  @result                 The new camera object.
+ */
+TQ3CameraObject
+Q3AllSeeingCamera_New( const TQ3CameraData * cameraData )
+{
 
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3AllSeeingCamera_New(cameraData));
+}

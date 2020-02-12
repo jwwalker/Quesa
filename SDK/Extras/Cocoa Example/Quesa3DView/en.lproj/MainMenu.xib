@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="15400" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="15705" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15400"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15705"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -19,7 +19,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <box title="Rotation" id="141">
-                        <rect key="frame" x="612" y="239" width="246" height="158"/>
+                        <rect key="frame" x="612" y="198" width="246" height="158"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <view key="contentView" id="T3o-Ox-QeQ">
                             <rect key="frame" x="3" y="3" width="240" height="138"/>
@@ -109,28 +109,84 @@
                             <font key="font" metaFont="system"/>
                             <menu key="menu" title="OtherViews" id="166">
                                 <items>
-                                    <menuItem title="Box" state="on" tag="1" id="165"/>
-                                    <menuItem title="Cone" tag="2" id="163"/>
-                                    <menuItem title="Cylinder" tag="3" id="164"/>
-                                    <menuItem title="Disk" tag="4" id="168"/>
-                                    <menuItem title="Ellipse" tag="5" id="169"/>
-                                    <menuItem title="Ellipsoid" tag="6" id="170"/>
-                                    <menuItem title="General Polygon" tag="7" id="171"/>
-                                    <menuItem title="Line" tag="8" id="172"/>
-                                    <menuItem title="Marker" tag="9" id="173"/>
-                                    <menuItem title="Mesh" tag="10" id="174"/>
-                                    <menuItem title="NURB Curve" tag="11" id="175"/>
-                                    <menuItem title="NURB Patch" tag="12" id="176"/>
-                                    <menuItem title="Pixmap Marker" tag="13" id="177"/>
-                                    <menuItem title="Point" tag="14" id="178"/>
-                                    <menuItem title="PolyLine" tag="15" id="179"/>
-                                    <menuItem title="Polygon" tag="16" id="180"/>
-                                    <menuItem title="Polyhedron" tag="17" id="181"/>
-                                    <menuItem title="Quesa Logo" tag="18" id="182"/>
-                                    <menuItem title="Torus" tag="19" id="183"/>
-                                    <menuItem title="Triangle" tag="20" id="184"/>
-                                    <menuItem title="TriGrid" tag="21" id="185"/>
-                                    <menuItem title="TriMesh" tag="22" id="186"/>
+                                    <menuItem title="Box" state="on" tag="1" id="165">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
+                                    <menuItem title="Cone" tag="2" id="163">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
+                                    <menuItem title="Cylinder" tag="3" id="164">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
+                                    <menuItem title="Disk" tag="4" id="168">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
+                                    <menuItem title="Ellipse" tag="5" id="169">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
+                                    <menuItem title="Ellipsoid" tag="6" id="170">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
+                                    <menuItem title="General Polygon" tag="7" id="171">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
+                                    <menuItem title="Line" tag="8" id="172">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
+                                    <menuItem title="Marker" tag="9" id="173">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
+                                    <menuItem title="Mesh" tag="10" id="174">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
+                                    <menuItem title="NURB Curve" tag="11" id="175">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
+                                    <menuItem title="NURB Patch" tag="12" id="176">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
+                                    <menuItem title="Pixmap Marker" tag="13" id="177">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
+                                    <menuItem title="Point" tag="14" id="178">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
+                                    <menuItem title="PolyLine" tag="15" id="179">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
+                                    <menuItem title="Polygon" tag="16" id="180">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
+                                    <menuItem title="Polyhedron" tag="17" id="181">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
+                                    <menuItem title="Quesa Logo" tag="18" id="182">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
+                                    <menuItem title="Torus" tag="19" id="183">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
+                                    <menuItem title="Triangle" tag="20" id="184">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
+                                    <menuItem title="TriGrid" tag="21" id="185">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
+                                    <menuItem title="TriMesh" tag="22" id="186">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
+                                    <menuItem title="Shadow Test" tag="23" id="pGT-c0-ilG">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
+                                    <menuItem title="Box About Camera" tag="24" id="QSZ-8d-CpU">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
+                                    <menuItem title="Subdivided Box About Camera" tag="25" id="S8d-kT-zaz">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
+                                    <menuItem title="Ball About Camera" tag="26" id="f0Z-Rj-mHi">
+                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                    </menuItem>
                                 </items>
                             </menu>
                         </popUpButtonCell>
@@ -238,7 +294,7 @@
                         </textFieldCell>
                     </textField>
                     <button imageHugsTitle="YES" id="201">
-                        <rect key="frame" x="613" y="166" width="172" height="18"/>
+                        <rect key="frame" x="613" y="146" width="172" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Show Bounding Box" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="284">
                             <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
@@ -249,7 +305,7 @@
                         </connections>
                     </button>
                     <button imageHugsTitle="YES" id="203">
-                        <rect key="frame" x="613" y="186" width="87" height="18"/>
+                        <rect key="frame" x="613" y="166" width="87" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Animation" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="285">
                             <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
@@ -260,7 +316,7 @@
                         </connections>
                     </button>
                     <button imageHugsTitle="YES" id="206">
-                        <rect key="frame" x="613" y="146" width="200" height="18"/>
+                        <rect key="frame" x="613" y="126" width="200" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Full-screen Antialiasing" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="286">
                             <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
@@ -271,7 +327,7 @@
                         </connections>
                     </button>
                     <button imageHugsTitle="YES" id="208">
-                        <rect key="frame" x="613" y="126" width="200" height="18"/>
+                        <rect key="frame" x="613" y="106" width="200" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Shadows" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="287">
                             <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
@@ -282,7 +338,7 @@
                         </connections>
                     </button>
                     <button imageHugsTitle="YES" id="300">
-                        <rect key="frame" x="613" y="106" width="200" height="18"/>
+                        <rect key="frame" x="613" y="86" width="200" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Directional Light" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="301">
                             <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
@@ -293,7 +349,7 @@
                         </connections>
                     </button>
                     <button imageHugsTitle="YES" id="pyJ-VH-Dhq">
-                        <rect key="frame" x="613" y="86" width="200" height="18"/>
+                        <rect key="frame" x="613" y="66" width="200" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Point Light" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="ocM-2Z-mWx">
                             <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
@@ -304,7 +360,7 @@
                         </connections>
                     </button>
                     <button imageHugsTitle="YES" id="gUH-Mu-1Aj">
-                        <rect key="frame" x="613" y="66" width="200" height="18"/>
+                        <rect key="frame" x="613" y="46" width="200" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Ambient Light" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="ol9-PA-iOG">
                             <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
@@ -324,7 +380,7 @@
                         </textFieldCell>
                     </textField>
                     <button imageHugsTitle="YES" id="0Ma-C5-Hyt">
-                        <rect key="frame" x="613" y="46" width="200" height="18"/>
+                        <rect key="frame" x="613" y="26" width="200" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="check" title="Flat Interpolation" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="bO4-HH-v8y">
                             <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
@@ -332,6 +388,17 @@
                         </buttonCell>
                         <connections>
                             <binding destination="138" name="value" keyPath="flatInterpolation" id="ZkI-DA-yCr"/>
+                        </connections>
+                    </button>
+                    <button imageHugsTitle="YES" id="pzd-Iq-bUH">
+                        <rect key="frame" x="613" y="6" width="200" height="18"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="check" title="Test Camera Viewport" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="cDA-mJ-Q41">
+                            <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <binding destination="138" name="value" keyPath="testViewport" id="D8G-M9-iPz"/>
                         </connections>
                     </button>
                     <popUpButton verticalHuggingPriority="750" imageHugsTitle="YES" id="ZgU-Tt-ETE">
@@ -354,6 +421,24 @@
                             <binding destination="138" name="selectedTag" keyPath="fogStyleTag" id="O8j-Tl-zFV"/>
                         </connections>
                     </popUpButton>
+                    <popUpButton verticalHuggingPriority="750" imageHugsTitle="YES" id="jh2-Cq-Smr">
+                        <rect key="frame" x="693" y="404" width="170" height="25"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                        <popUpButtonCell key="cell" type="push" title="View Angle Aspect" bezelStyle="rounded" alignment="left" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="Xgv-mJ-Z86" id="J03-b1-Nxt">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                            <menu key="menu" title="OtherViews" id="BMf-7R-WL4">
+                                <items>
+                                    <menuItem title="View Angle Aspect" state="on" id="Xgv-mJ-Z86"/>
+                                    <menuItem title="Orthographic" tag="1" id="f9j-Qe-2cx"/>
+                                    <menuItem title="All Seeing" tag="2" id="hDa-8w-XD2"/>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                        <connections>
+                            <binding destination="138" name="selectedTag" keyPath="cameraType" id="uzE-NT-Nor"/>
+                        </connections>
+                    </popUpButton>
                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" preferredMaxLayoutWidth="73" id="3mP-0L-BPV">
                         <rect key="frame" x="613" y="436" width="77" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
@@ -364,7 +449,7 @@
                         </textFieldCell>
                     </textField>
                     <openGLView wantsLayer="YES" focusRingType="none" colorSize="8bit_RGB" depthSize="24bit" stencilSize="8bit" antiAliasingType="multisample" rendererType="accelerated" samplingRate="4" useAuxiliaryDepthBufferStencil="NO" useDoubleBufferingEnabled="YES" allowOffline="YES" useRecovery="YES" id="Co0-WJ-Fcv" customClass="Quesa3DView">
-                        <rect key="frame" x="5" y="5" width="600" height="600"/>
+                        <rect key="frame" x="5" y="6" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <connections>
                             <outlet property="qd3dDelegate" destination="138" id="Dj2-0o-7if"/>
@@ -379,15 +464,24 @@
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <button imageHugsTitle="YES" id="fM9-LI-JCn">
-                        <rect key="frame" x="613" y="26" width="200" height="18"/>
+                    <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" preferredMaxLayoutWidth="73" id="p1b-Ov-Zx9">
+                        <rect key="frame" x="613" y="409" width="77" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                        <buttonCell key="cell" type="check" title="Cartoon Style" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="HVC-Oh-T0S">
-                            <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Camera:" id="lqe-b3-xuH">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <button verticalHuggingPriority="750" id="wfW-E8-SdK">
+                        <rect key="frame" x="607" y="363" width="87" height="32"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                        <buttonCell key="cell" type="push" title="Refresh" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="AxE-BG-tOJ">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
-                            <binding destination="138" name="value" keyPath="cartoonStyle" id="85C-hq-iav"/>
+                            <action selector="refreshImage:" target="138" id="mmh-zO-jgS"/>
                         </connections>
                     </button>
                 </subviews>
