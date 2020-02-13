@@ -367,6 +367,9 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 }
 
 @implementation AppDelegate
+{
+	TQ3Vector3D		_axis;
+}
 
 //==================================================================================
 //	init
@@ -388,6 +391,7 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 		_directionalLight = YES;
 		_pointLight = YES;
 		_ambientLight = YES;
+		_axis = TQ3Vector3D{ 0.6f, 0.8f, 0.0f };
 		
 		_interpolationStyleObject = Q3InterpolationStyle_New( kQ3InterpolationStyleVertex );
 		_flatInterpolation = NO;
@@ -521,7 +525,6 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 
 	Q3Matrix4x4_SetIdentity(&mCurrentMatrix);
 	Q3Matrix4x4_SetIdentity(&_currentRotation);
-  	Q3Matrix4x4_SetRotate_XYZ(&mRotationFactor, 0.03f, 0.05f, 0.005f);
     mSceneGeometry = createGeomQuesa();
     self.animates = YES;
     mRendererType = 0;
@@ -594,7 +597,20 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 
 - (void)animationTimerFired:(NSTimer*)timer
 {
-	_currentRotation = _currentRotation * mRotationFactor;
+	// Precession of the axis
+	TQ3Matrix4x4 precessionRot;
+	Q3Matrix4x4_SetRotate_Z( &precessionRot, 0.002f );
+	_axis = Q3Normalize3D( _axis * precessionRot );
+	
+	// Change in rotation
+	const TQ3Point3D	kOrigin = { 0.0f, 0.0f, 0.0f };
+	TQ3Matrix4x4 deltaRot;
+	Q3Matrix4x4_SetRotateAboutAxis( &deltaRot, &kOrigin, &_axis, 0.07f );
+	
+	// Update pure rotation part
+	_currentRotation = _currentRotation * deltaRot;
+
+	// Make rotation about desired center
 	TQ3Matrix4x4 originToCenter, centerToOrigin;
 	Q3Matrix4x4_SetTranslate( &originToCenter,
 		_centerOfRotation.x, _centerOfRotation.y, _centerOfRotation.z );
@@ -1415,6 +1431,8 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 	}
           
 	Q3Matrix4x4_SetIdentity(&mCurrentMatrix);
+	Q3Matrix4x4_SetIdentity(&_currentRotation);
+	_axis = TQ3Vector3D{ 0.6f, 0.8f, 0.0f };
 	[quesa3dView setNeedsDisplay:YES];
 }
 

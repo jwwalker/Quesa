@@ -5,7 +5,7 @@
         Header file for AppDelegate.m.
 
     COPYRIGHT:
-        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -78,7 +78,6 @@
 	TQ3ObjectType		mRendererType;
 	TQ3Matrix4x4		mCurrentMatrix;
 	TQ3Matrix4x4		_currentRotation;
-	TQ3Matrix4x4		mRotationFactor;
 	TQ3Point3D			_centerOfRotation;
 	TQ3ShaderObject		mIlluminationShader;
 	TQ3StyleObject		_backfacingStyleObject;
