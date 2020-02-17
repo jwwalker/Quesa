@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1549,7 +1549,6 @@ e3view_pick_begin ( E3View* view, TQ3PickObject thePick )
 	TQ3CameraPlacement		thePlacement;
 	TQ3CameraRange			theRange;
 	TQ3Point2D				windowPoint;
-	TQ3Vector3D				theVector;
 
 
 

@@ -12,7 +12,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -988,6 +988,36 @@ Q3ViewPlaneCamera_GetCenterY (
     float * _Nonnull                       centerYOnViewPlane
 );
 
+
+/*!
+	@functiongroup All Seeing
+*/
+
+
+/*!
+ *  @function
+ *      Q3AllSeeingCamera_New
+ *  @discussion
+ *      Create a new all-seeing camera object.
+ *
+ *  	This kind of camera sees in all directions, using equirectangular coordinates.
+ *		
+ *		Rendering with this camera will experience some inaccuracy, due to the fact that
+ *		OpenGL works by linearly interpolating across triangles, while the equirectangular
+ *		projection is very much nonlinear.  Naturally, the greater the angular diameter of a
+ *		triangle as seen from the camera, the greater the inaccuracy.  Subdividing a
+ *		triangulation can reduce the nonlinearity artifacts.
+ *		
+ *		There will also be more artifacts around the "poles" of the map (much as one sees
+ *		in cartography), which correspond to the up and down directions of the camera.
+ *
+ *  @param cameraData       The data for the camera object.
+ *  @result                 The new camera object.
+ */
+Q3_EXTERN_API_C ( TQ3CameraObject _Nonnull  )
+Q3AllSeeingCamera_New(
+    const TQ3CameraData * _Nonnull cameraData
+);
 
 
 /*!

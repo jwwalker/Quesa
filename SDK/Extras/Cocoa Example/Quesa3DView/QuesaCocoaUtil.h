@@ -45,4 +45,13 @@
 #include <Quesa/QuesaGeometry.h>
 #include <Quesa/QuesaView.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
 void boundsForObject(TQ3ViewObject theView,TQ3Object theObject, TQ3BoundingBox* theBounds);
+
+#ifdef __cplusplus
+}
+#endif

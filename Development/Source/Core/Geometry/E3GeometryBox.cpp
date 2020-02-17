@@ -5,7 +5,7 @@
         Implementation of Quesa Box geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -517,6 +517,9 @@ e3geom_box_cache_new( TQ3ViewObject theView, TQ3GeometryObject theGeom,
 	theStyle = Q3OrientationStyle_New(kQ3OrientationStyleCounterClockwise);
 	Q3Group_AddObjectAndDispose(theGroup, &theStyle);
 
+
+	CQ3ObjectRef backfacing( Q3BackfacingStyle_New( kQ3BackfacingStyleBoth ) );
+	Q3Group_AddObject( theGroup, backfacing.get() );
 
 
 	// Add the box attributes

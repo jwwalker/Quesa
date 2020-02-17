@@ -2,10 +2,10 @@
         E3Camera.h
 
     DESCRIPTION:
-        Header file for E3Camera.c.
+        Header file for E3Camera.cpp.
 
     COPYRIGHT:
-        Copyright (c) 1999-2016, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -223,6 +223,18 @@ public :
 	} ;
 
 
+class E3AllSeeingCamera : public E3Camera
+{
+	Q3_CLASS_ENUMS ( kQ3CameraTypeAllSeeing, E3AllSeeingCamera, E3Camera )
+
+public :
+	static TQ3Boolean	IsOfMyClass ( TQ3Object object ) ;
+	
+	void				GetFrustumMatrix ( TQ3Matrix4x4 *theMatrix ) ;
+
+	friend TQ3Status e3camera_allseeing_new(TQ3Object theObject, void *privateData, const void *paramData) ;
+};
+
 
 
 //=============================================================================
@@ -232,6 +244,7 @@ public :
 TQ3CameraObject		E3OrthographicCamera_New(const TQ3OrthographicCameraData *orthographicData);
 TQ3CameraObject		E3ViewPlaneCamera_New(const TQ3ViewPlaneCameraData *cameraData);
 TQ3CameraObject		E3ViewAngleAspectCamera_New(const TQ3ViewAngleAspectCameraData *cameraData);
+TQ3CameraObject		E3AllSeeingCamera_New(const TQ3CameraData *cameraData);
 
 
 

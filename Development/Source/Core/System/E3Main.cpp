@@ -896,7 +896,7 @@ E3Initialize(void)
 			qd3dStatus = E3Tracker_RegisterClass();//new!
 			
 		if (qd3dStatus == kQ3Success)
-			qd3dStatus = E3ControllerState_RegisterClass();//new!	
+			qd3dStatus = E3ControllerState_RegisterClass();//new!
 #endif
             
 		if (qd3dStatus == kQ3Success)

@@ -85,4 +85,5 @@
 -(void)qd3dViewRenderFrame:(Quesa3DView*)inView;
 -(void)qd3dViewDidRender:(Quesa3DView*)inView;
 -(void)qd3dView:(Quesa3DView*)inView eventOccurred:(NSEvent*)inEvent;
+- (void) qd3dViewReshaped: (Quesa3DView*)inView;
 @end

@@ -13,7 +13,7 @@
         camera type.
 
     COPYRIGHT:
-        Copyright (c) 1999-2016, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -53,6 +53,7 @@
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
 #include "E3Camera.h"
+#include "QuesaMathOperators.hpp"
 
 #include <cstring>
 using namespace std;
@@ -437,9 +438,9 @@ e3camera_viewplane_metahandler ( TQ3XMethodType methodType )
 //-----------------------------------------------------------------------------
 static void
 e3camera_viewangle_frustum_matrix(TQ3CameraObject theCamera, TQ3Matrix4x4 *theMatrix)
-	{
-	( ( E3ViewAngleAspectCamera* ) theCamera )->GetFrustumMatrix ( theMatrix ) ;
-	}
+{
+	( ( E3ViewAngleAspectCamera* ) theCamera )->GetFrustumMatrix ( theMatrix );
+}
 
 
 
@@ -592,7 +593,111 @@ e3camera_viewangle_metahandler(TQ3XMethodType methodType)
 	return nullptr ;
 	}
 
+TQ3Status
+e3camera_allseeing_new(TQ3Object theObject, void *privateData, const void *paramData)
+{
+	( (E3Camera*) theObject )->SetData( (const TQ3CameraData*) paramData );
+	return kQ3Success;
+}
 
+static void
+e3camera_allseeing_frustum_matrix(TQ3CameraObject theCamera, TQ3Matrix4x4 *theMatrix)
+{
+	( ( E3AllSeeingCamera* ) theCamera )->GetFrustumMatrix( theMatrix );
+}
+
+static TQ3Status
+e3camera_allseeing_traverse( TQ3SharedObject theObject, void *data, TQ3ViewObject theView )
+{
+	TQ3Uns32 result = 1;
+	result &= Q3XView_SubmitSubObjectData ( theView, (TQ3XObjectClass) E3ClassTree::GetClass( kQ3CameraPlacment ), sizeof( TQ3CameraPlacement ), theObject, nullptr ) ;
+	result &= Q3XView_SubmitSubObjectData ( theView, (TQ3XObjectClass) E3ClassTree::GetClass( kQ3CameraRange ), sizeof( TQ3CameraRange ), theObject, nullptr ) ;
+	result &= Q3XView_SubmitSubObjectData ( theView, (TQ3XObjectClass) E3ClassTree::GetClass( kQ3CameraViewPort ), sizeof( TQ3CameraViewPort ), theObject, nullptr ) ;
+
+	return (TQ3Status) result ;
+}
+
+static TQ3Status
+e3camera_allseeing_write( TQ3ViewObject theObject, TQ3FileObject theFile )
+{
+	return kQ3Success;
+}
+
+static TQ3Object
+e3camera_allseeing_read( TQ3FileObject theFile )
+{
+	TQ3CameraData cameraData;
+	
+	// Initialise the camera data
+	Q3Memory_Clear( &cameraData, sizeof( cameraData ) );
+
+	// Read in the attributes
+	while ( Q3File_IsEndOfContainer ( theFile, nullptr ) == kQ3False )
+	{
+		TQ3Object childObject = Q3File_ReadObject ( theFile ) ;
+		if ( childObject != nullptr )
+		{
+			switch ( childObject->GetLeafType () )
+			{
+				case kQ3CameraPlacment :
+					{
+					memcpy( &cameraData.placement, childObject->FindLeafInstanceData(),  sizeof( TQ3CameraPlacement ) );
+					break ;
+					}
+				case kQ3CameraRange :
+					{
+					memcpy( &cameraData.range, childObject->FindLeafInstanceData(),  sizeof( TQ3CameraRange ) );
+					break ;
+					}
+				case kQ3CameraViewPort :
+					{
+					memcpy( &cameraData.viewPort, childObject->FindLeafInstanceData(),  sizeof( TQ3CameraViewPort ) );
+					break ;
+					}
+				case kQ3SharedTypeSet :
+					{
+					// Set must be at end so we know we've finished
+
+					TQ3CameraObject result = Q3AllSeeingCamera_New( &cameraData );
+					result->SetSet( childObject );
+					Q3Object_Dispose( childObject );
+					return result ;
+					}
+			}
+				
+			Q3Object_Dispose ( childObject ) ;
+		}
+	}
+
+
+
+	// Create the camera
+	return Q3AllSeeingCamera_New( &cameraData );
+}
+
+static TQ3XFunctionPointer
+e3camera_allseeing_metahandler(TQ3XMethodType methodType)
+{
+	switch ( methodType )
+	{
+		case kQ3XMethodTypeObjectNew:
+			return (TQ3XFunctionPointer) e3camera_allseeing_new;
+		
+		case kQ3XMethodTypeCameraFrustumMatrix:
+			return (TQ3XFunctionPointer) e3camera_allseeing_frustum_matrix;
+			
+		case kQ3XMethodTypeObjectTraverse:
+			return (TQ3XFunctionPointer) e3camera_allseeing_traverse;
+		
+		case kQ3XMethodTypeObjectWrite:
+			return (TQ3XFunctionPointer) e3camera_allseeing_write;
+		
+		case kQ3XMethodTypeObjectRead:
+			return (TQ3XFunctionPointer) e3camera_allseeing_read;
+	}
+	
+	return nullptr;
+}
 
 
 
@@ -648,6 +753,11 @@ E3Camera::RegisterClass(void)
 		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameCameraViewAngle,
 											e3camera_viewangle_metahandler,
 											E3ViewAngleAspectCamera ) ;
+
+	if (qd3dStatus == kQ3Success)
+		qd3dStatus = Q3_REGISTER_CLASS_NO_DATA (	kQ3ClassNameCameraAllSeeing,
+											e3camera_allseeing_metahandler,
+											E3AllSeeingCamera ) ;
 
 	return(qd3dStatus);
 }
@@ -861,51 +971,56 @@ E3Camera::GetViewPort ( TQ3CameraViewPort *viewPort )
 TQ3Status
 E3Camera::GetWorldToView ( TQ3Matrix4x4 *worldToView )
 	{
-	TQ3Matrix4x4		translateMatrix;
-	TQ3Vector3D			n, v, u;
+	// Compute the view coordinate vectors from the camera placement.
+	TQ3Vector3D backward = Q3Normalize3D(
+		cameraData.placement.cameraLocation - cameraData.placement.pointOfInterest );
+	TQ3Vector3D up = Q3Normalize3D( cameraData.placement.upVector );
+	TQ3Vector3D right = Q3Normalize3D( Q3Cross3D( up, backward ) );
+	
+	// At this point we know that all 3 vectors are of unit length, and that
+	// right is orthogonal to up and backward.  If the camera placement was
+	// properly defined, then up and backward would also be orthogonal to each
+	// other, but maybe there's some inaccuracy there.  So let's recompute up.
+	
+	up = Q3Normalize3D( Q3Cross3D( backward, right ) );
+	
+	// Now, suppose we let R be the 3x3 rotation matrix whose rows are right, up,
+	// and backward in that order, and let L be the camera location as a 1x3 row
+	// vector.  If we schematically define a 4x4 matrix
+	// M = R  0
+	//     L  1 ,
+	// we can see that (1, 0, 0, 0) (the first standard unit direction) maps to
+	// right, (0, 1, 0, 0) maps to up, (0, 0, 1, 0) maps to backward, and
+	// (0, 0, 0, 1) (the origin) maps to (L, 1).  Thus M is the view to world
+	// transformation.
+	
+	// To find the world to view transformation, we could just compute the inverse
+	// of M, but we can do it with more speed and accuracy due to the extra
+	// information we have about the structure of M.  The inverse of R is the
+	// transpose T(R), and one can check that the inverse of M is, schematically,
+	// T(R)      0
+	// -L T(R)   1 .
 
-
-
-	// Work out our vectors
-	Q3Point3D_Subtract(&cameraData.placement.cameraLocation,
-					   &cameraData.placement.pointOfInterest,
-					   &n);
-
-	Q3Vector3D_Normalize(&n, &n);
-	Q3Vector3D_Normalize(&cameraData.placement.upVector, &v);
-
-	Q3Vector3D_Cross(&v, &n, &u);
-	Q3Vector3D_Normalize(&u, &u);
-
-	Q3Vector3D_Cross(&n, &u, &v);
-	Q3Vector3D_Normalize(&v, &v);
-
-
-
-	// Set up the rotation matrix
 	Q3Matrix4x4_SetIdentity(worldToView);
 	
-	worldToView->value[0][0] = u.x;
-	worldToView->value[1][0] = u.y;
-	worldToView->value[2][0] = u.z;
+	worldToView->value[0][0] = right.x;
+	worldToView->value[1][0] = right.y;
+	worldToView->value[2][0] = right.z;
 	
-	worldToView->value[0][1] = v.x;
-	worldToView->value[1][1] = v.y;
-	worldToView->value[2][1] = v.z;
+	worldToView->value[0][1] = up.x;
+	worldToView->value[1][1] = up.y;
+	worldToView->value[2][1] = up.z;
 
-	worldToView->value[0][2] = n.x;
-	worldToView->value[1][2] = n.y;
-	worldToView->value[2][2] = n.z;
+	worldToView->value[0][2] = backward.x;
+	worldToView->value[1][2] = backward.y;
+	worldToView->value[2][2] = backward.z;
+	
+	const TQ3Vector3D& camLocation( reinterpret_cast<const TQ3Vector3D&>(
+		cameraData.placement.cameraLocation ) );
+	worldToView->value[3][0] = - Q3Dot3D( camLocation, right );
+	worldToView->value[3][1] = - Q3Dot3D( camLocation, up );
+	worldToView->value[3][2] = - Q3Dot3D( camLocation, backward );
 
-
-
-	// Multiply in the translation matrix
-	Q3Matrix4x4_SetTranslate(&translateMatrix,
-								- cameraData.placement.cameraLocation.x,
-								- cameraData.placement.cameraLocation.y,
-								- cameraData.placement.cameraLocation.z);
-
-	Q3Matrix4x4_Multiply(&translateMatrix, worldToView, worldToView);
 
 	return kQ3Success ;
 	}
@@ -923,12 +1038,11 @@ E3Camera::GetWorldToFrustum ( TQ3Matrix4x4 *worldToFrustum )
 	TQ3Matrix4x4		worldToView, viewToFrustum;
 	
 
-
 	// Get the two matrices we need, and multiply them together
-	Q3Camera_GetWorldToView( this ,   &worldToView);
-	Q3Camera_GetViewToFrustum( this , &viewToFrustum);
+	GetWorldToView( &worldToView );
+	GetViewToFrustum( &viewToFrustum);
 
-	Q3Matrix4x4_Multiply(&worldToView, &viewToFrustum, worldToFrustum);
+	*worldToFrustum = worldToView * viewToFrustum;
 
 	return kQ3Success ;
 	}
@@ -943,13 +1057,8 @@ E3Camera::GetWorldToFrustum ( TQ3Matrix4x4 *worldToFrustum )
 TQ3Status
 E3Camera::GetViewToFrustum ( TQ3Matrix4x4 *viewToFrustum )
 	{
-	TQ3Matrix4x4						viewPortMatrix;
-	TQ3CameraViewPort					viewPort;
-
-
-
 	// Initialise a return value
-	Q3Matrix4x4_SetIdentity(viewToFrustum); // Is this needed any more?
+	Q3Matrix4x4_SetIdentity(viewToFrustum); // in case frustumMatrixMethod fails
 
 
 
@@ -973,6 +1082,7 @@ E3Camera::GetViewToFrustum ( TQ3Matrix4x4 *viewToFrustum )
 	//
 	// The default view port corresponds to the full -1/+1 range, and so the
 	// additional transforms will be identity transforms for that case.
+	TQ3CameraViewPort	viewPort;
 	Q3Camera_GetViewPort( this, &viewPort);
 
 
@@ -980,18 +1090,18 @@ E3Camera::GetViewToFrustum ( TQ3Matrix4x4 *viewToFrustum )
 	// Translate the view port to the origin
 	float translateX = viewPort.origin.x + (viewPort.width  / 2.0f);
 	float translateY = viewPort.origin.y - (viewPort.height / 2.0f);
-
-	Q3Matrix4x4_SetTranslate(&viewPortMatrix, -translateX, -translateY, 0.0f);
-	Q3Matrix4x4_Multiply(viewToFrustum, &viewPortMatrix, viewToFrustum);
+	TQ3Matrix4x4	translateMtx;
+	Q3Matrix4x4_SetTranslate(&translateMtx, -translateX, -translateY, 0.0f);
+	*viewToFrustum = *viewToFrustum * translateMtx;
 
 
 
 	// Scale it back up to -1 to +1 in x and y
 	float scaleWidth  = 2.0f / viewPort.width;
 	float scaleHeight = 2.0f / viewPort.height;
-
- 	Q3Matrix4x4_SetScale(&viewPortMatrix, scaleWidth, scaleHeight, 1.0f);
-	Q3Matrix4x4_Multiply(viewToFrustum, &viewPortMatrix, viewToFrustum);
+	TQ3Matrix4x4 scaleMtx;
+ 	Q3Matrix4x4_SetScale(&scaleMtx, scaleWidth, scaleHeight, 1.0f);
+	*viewToFrustum = *viewToFrustum * scaleMtx;
 
 	return kQ3Success ;
 	}
@@ -1590,11 +1700,10 @@ E3ViewPlaneCamera::GetFrustumMatrix ( TQ3Matrix4x4 *theMatrix )
 	TQ3Matrix4x4	scalePort;
 	Q3Matrix4x4_SetScale( &scalePort, 1.0f / halfPortWidth, 1.0f / halfPortHeight, 1.0f );
 	// Compute the combined viewport matrix
-	TQ3Matrix4x4	viewportMtx;
-	Q3Matrix4x4_Multiply( &transPort, &scalePort, &viewportMtx );
+	TQ3Matrix4x4	viewportMtx = transPort * scalePort;
 	
 	// Finally get the view to frustum matrix
-	Q3Matrix4x4_Multiply( &viewToStdFrustum, &viewportMtx, theMatrix );
+	*theMatrix = viewToStdFrustum * viewportMtx;
 }
 
 
@@ -1783,3 +1892,74 @@ E3ViewAngleAspectCamera::GetFrustumMatrix ( TQ3Matrix4x4 *theMatrix )
 	theMatrix->value[3][3] = 0.0f;
 	}
 
+#pragma mark -
+
+TQ3CameraObject		E3AllSeeingCamera_New(const TQ3CameraData *cameraData)
+{
+	TQ3CameraObject theObject = E3ClassTree::CreateInstance( kQ3CameraTypeAllSeeing, kQ3True, cameraData );
+	return theObject;	
+}
+
+//=============================================================================
+//      E3AllSeeingCamera::IsOfMyClass : Check if object pointer is valid and of type camera
+//-----------------------------------------------------------------------------
+//		Replaces Q3Object_IsType ( object, kQ3CameraTypeAllSeeing )
+//		but call is smaller and does not call E3System_Bottleneck
+//		as this is (always?) done in the calling code as well
+//-----------------------------------------------------------------------------
+TQ3Boolean
+E3AllSeeingCamera::IsOfMyClass ( TQ3Object object )
+{
+	if ( object == nullptr )
+		return kQ3False ;
+		
+	if ( object->IsObjectValid () )
+		return Q3_OBJECT_IS_CLASS ( object, E3AllSeeingCamera ) ;
+		
+	return kQ3False ;
+}
+
+//=============================================================================
+//      E3AllSeeingCamera::GetFrustumMatrix : Return the view to frustum matrix.
+//
+//	The all-seeing camera does not really have a frustum, but I want to provide
+//	a matrix like a view angle camera for easier debugging.
+//-----------------------------------------------------------------------------
+void
+E3AllSeeingCamera::GetFrustumMatrix( TQ3Matrix4x4 *theMatrix )
+{
+	// Initialise ourselves
+	float zNear       = cameraData.range.hither;
+	float zFar        = cameraData.range.yon;
+	
+	static const float kTestFOV = 1.0f;
+	static const float kTestAspect = 1.0f;
+
+	float w = 1.0f / (float) tan ( kTestFOV * 0.5f ) ;
+	if ( kTestAspect > 1.0f )
+		w = w / kTestAspect;
+
+	float h = w * kTestAspect;
+
+
+	float q;
+	
+	if (isfinite( zFar ))
+	{
+		q = zFar / (zFar - zNear);
+	}
+	else
+	{
+		q = 1.0f;
+	}
+
+
+	// Set up the matrix
+	Q3Matrix4x4_SetIdentity(theMatrix);
+	theMatrix->value[0][0] = w;
+	theMatrix->value[1][1] = h;
+	theMatrix->value[2][2] = q;
+	theMatrix->value[2][3] = -1.0f;
+	theMatrix->value[3][2] = q * zNear;
+	theMatrix->value[3][3] = 0.0f;
+}

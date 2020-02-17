@@ -1,11 +1,14 @@
 /*  NAME:
-        DemoGeometry.h
+        TransformGeometry.h
 
     DESCRIPTION:
-        Header file for DemoGeometry.m.
+        Quesa utility header.
+	
+	AUTHORSHIP:
+		Initial version written by James W. Walker.
 
     COPYRIGHT:
-        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 2020, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -40,44 +43,49 @@
         SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     ___________________________________________________________________________
 */
-#import <Foundation/Foundation.h>
 
-#include <Quesa/QuesaGeometry.h> 
+#ifndef SubdivideTriMesh_hpp
+#define SubdivideTriMesh_hpp
+
+
+#if !TARGET_RT_MAC_MACHO
+	#include "Quesa.h"
+#else
+	#include <Quesa/Quesa.h>
+#endif
+
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-TQ3GeometryObject createGeomBox(void);
-TQ3GeometryObject createGeomCone(void);
-TQ3GeometryObject createGeomCylinder(void);
-TQ3GeometryObject createGeomDisk(void);
-TQ3GeometryObject createGeomEllipse(void);
-TQ3GeometryObject createGeomEllipsoid(void);
-TQ3GeometryObject createGeomGeneralPolygon(void);
-TQ3GeometryObject createGeomLine(void);
-TQ3GeometryObject createGeomMarker(void);
-TQ3GeometryObject createGeomMesh(void);
-TQ3GeometryObject createGeomNURBCurve(void);
-TQ3GeometryObject createGeomNURBPatch(void);
-TQ3GeometryObject createGeomPixmapMarker(void);
-TQ3GeometryObject createGeomPoint(void);
-TQ3GeometryObject createGeomPolygon(void);
-TQ3GeometryObject createGeomPolyhedron(void);
-TQ3GeometryObject createGeomPolyLine(void);
-TQ3GroupObject createGeomQuesa(void);
-TQ3GeometryObject createGeomTorus(void);
-TQ3GeometryObject createGeomTriangle(void);
-TQ3GeometryObject createGeomTriGrid(void);
-TQ3GeometryObject createGeomTriMesh(void);
-TQ3GroupObject	createShadowTest(void);
-TQ3GeometryObject createBoxAboutCamera(void);
-TQ3GroupObject createSubdividedBoxAboutCamera(TQ3ViewObject inView);
-TQ3GroupObject createBallAboutCamera(void);
-
-TQ3GroupObject createGeomBounds(TQ3GeometryObject theGeom, TQ3ViewObject aView);
+/*!
+	@function	SubdivideTriMesh
+	
+	@abstract	Subdivide each triangle of a TriMesh by drawing a certain number of splitting lines
+				parallel to each side.
+	
+	@discussion	Although barycentric coordinates can be helpful in understanding this subdivision,
+				this method is NOT what is known as "barycentric subdivision".  Whereas barycentric
+				subdivision produces triangles more acute than the original triangle, this method
+				produces triangles similar (in the technical sense) to the original.
+				
+				Each original triangle will be split into (inSplits + 1)*(inSplits + 1) triangles.
+				
+				Vertex normal vectors, vertex texture coordinates, and face normal vectors are
+				maintained appropriately.  Currently no other per-vertex or per-face attributes are
+				handled.
+	@param		inTriMesh		A TriMesh object.
+	@param		inSplits		Number of splitting lines parallel to each edge of each triangle.
+								Must be at least 1.
+	@result		A new subdivided TriMesh.
+*/
+TQ3GeometryObject SubdivideTriMesh( TQ3GeometryObject inTriMesh,
+									TQ3Uns32 inSplits );
 
 #ifdef __cplusplus
 }
 #endif
 
+
+#endif /* SubdivideTriMesh_hpp */

@@ -209,7 +209,7 @@
 {
     TQ3Status qd3dStatus;
 
-    if(qd3dDelegate && [qd3dDelegate 	
+    if (qd3dDelegate && [qd3dDelegate 	
                       respondsToSelector:@selector(qd3dViewWillRender:)])
     {
         [qd3dDelegate qd3dViewWillRender:self];
@@ -495,24 +495,12 @@
 - (void) reshape
 {
 	[super reshape];
-	TQ3Area							theArea;
-	TQ3CameraObject	theCamera;
-	float	aspect;
 	
-	if ( (self.drawContext != NULL) && (self.qd3dView != NULL) )
+	if ( (self.qd3dView != NULL) && qd3dDelegate &&
+		[qd3dDelegate respondsToSelector:@selector(qd3dViewReshaped:)] )
 	{
-		Q3DrawContext_GetPane(self.drawContext, &theArea);
-		
-		aspect = (theArea.max.x - theArea.min.x) / (theArea.max.y - theArea.min.y);
-	
-		Q3View_GetCamera( self.qd3dView, &theCamera );
-	
-		Q3ViewAngleAspectCamera_SetAspectRatio( theCamera, aspect );
-	
-		Q3Object_Dispose( theCamera );
+		[qd3dDelegate qd3dViewReshaped: self];
 	}
-
-	[super reshape];
 }
 
 

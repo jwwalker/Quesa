@@ -5,7 +5,7 @@
         Header file for AppDelegate.m.
 
     COPYRIGHT:
-        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -72,12 +72,13 @@
 	BOOL				_pointLight;
 	BOOL				_ambientLight;
 	BOOL				_flatInterpolation;
-	BOOL				_cartoonStyle;
+	BOOL				_testViewport;
 	TQ3Object			mSceneBounds;
 	BOOL				mFullScreenAntialias;
 	TQ3ObjectType		mRendererType;
 	TQ3Matrix4x4		mCurrentMatrix;
-	TQ3Matrix4x4		mRotationFactor;
+	TQ3Matrix4x4		_currentRotation;
+	TQ3Point3D			_centerOfRotation;
 	TQ3ShaderObject		mIlluminationShader;
 	TQ3StyleObject		_backfacingStyleObject;
 	TQ3StyleObject		_fillStyleObject;
@@ -91,6 +92,7 @@
 	TQ3BackfacingStyle	_backfacingStyle;
 	TQ3FillStyle		_fillStyle;
 	int					_fogStyleTag;
+	int					_cameraType;
 }
 
 @property (assign) BOOL		drawsShadows;
@@ -101,7 +103,7 @@
 @property (assign) BOOL		pointLight;
 @property (assign) BOOL		ambientLight;
 @property (assign) BOOL		flatInterpolation;
-@property (assign) BOOL		cartoonStyle;
+@property (assign) BOOL		testViewport;
 
 @property (assign) TQ3ObjectType	rendererType;
 
@@ -113,6 +115,7 @@
 @property (assign) TQ3BackfacingStyle	backfacingStyle;
 @property (assign) TQ3FillStyle			fillStyle;
 @property (assign) int		fogStyleTag;
+@property (assign)	int		cameraType;
 
 - (IBAction)setGeometryFromTag:(id)sender;
 
@@ -121,4 +124,7 @@
 - (IBAction)loadObject:(id)sender;
 
 - (IBAction)saveObject:(id)sender;
+
+- (IBAction)refreshImage:(id)sender;
+
 @end

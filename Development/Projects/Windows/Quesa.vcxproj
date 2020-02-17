@@ -329,6 +329,7 @@
     <ClCompile Include="..\..\Source\Renderers\Generic\GNRegister.cpp" />
     <ClCompile Include="..\..\Source\Renderers\Generic\GNRenderer.cpp" />
     <ClCompile Include="..\..\Source\Renderers\MakeStrip\StripMaker_FreeFaceSet.cpp" />
+    <ClCompile Include="..\..\Source\Renderers\OpenGL\QOGLSLShaders.cpp" />
     <ClCompile Include="..\..\Source\Renderers\OpenGL\QOShaderProgramCache.cpp" />
     <ClCompile Include="..\..\Source\Renderers\OpenGL\QOShadowMarker.cpp" />
     <ClCompile Include="..\..\Source\Core\System\E3Math_Intersect.cpp" />
@@ -361,6 +362,7 @@
     <ClInclude Include="..\..\Source\Core\Support\E3Version.h" />
     <ClInclude Include="..\..\Source\Renderers\Common\GLImmediateVBO.h" />
     <ClInclude Include="..\..\Source\Renderers\Common\GLShadowVolumeManager.h" />
+    <ClInclude Include="..\..\Source\Renderers\OpenGL\QOGLSLShaders.h" />
     <ClInclude Include="..\..\Source\Renderers\OpenGL\QOShaderProgramCache.h" />
     <ClInclude Include="..\..\Source\Renderers\OpenGL\QOShadowMarker.h" />
     <ClInclude Include="..\..\Source\Core\System\E3Math_Intersect.h" />

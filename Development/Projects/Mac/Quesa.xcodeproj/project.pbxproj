@@ -240,6 +240,9 @@
 		BE0D65050C0D0FFC00D3D79C /* QOCalcTriMeshEdges.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE0D64FA0C0D0FFC00D3D79C /* QOCalcTriMeshEdges.cpp */; };
 		BE0D65060C0D0FFC00D3D79C /* QOShadowMarker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE0D64FC0C0D0FFC00D3D79C /* QOShadowMarker.cpp */; };
 		BE2283EB0F166C6E00937C67 /* E3Geometry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7B85055E63B100CA83BE /* E3Geometry.cpp */; };
+		BE2BCA3123F4BE6C00AE7F4A /* QOGLSLShaders.h in Headers */ = {isa = PBXBuildFile; fileRef = BE2BCA2F23F4BE6B00AE7F4A /* QOGLSLShaders.h */; };
+		BE2BCA3223F4BE6C00AE7F4A /* QOGLSLShaders.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE2BCA3023F4BE6C00AE7F4A /* QOGLSLShaders.cpp */; };
+		BE2BCA3323F4BE6C00AE7F4A /* QOGLSLShaders.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE2BCA3023F4BE6C00AE7F4A /* QOGLSLShaders.cpp */; };
 		BE392D090B6D0CCA00A351AC /* CQ3ObjectRef_Gets.h in Headers */ = {isa = PBXBuildFile; fileRef = BE392D070B6D0CCA00A351AC /* CQ3ObjectRef_Gets.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BE513DC222BAF18400545AF8 /* E3MacLog.mm in Sources */ = {isa = PBXBuildFile; fileRef = BE513DC022BAF18400545AF8 /* E3MacLog.mm */; };
 		BE513DC322BAF18400545AF8 /* E3MacLog.mm in Sources */ = {isa = PBXBuildFile; fileRef = BE513DC022BAF18400545AF8 /* E3MacLog.mm */; };
@@ -516,6 +519,8 @@
 		BE0D64FC0C0D0FFC00D3D79C /* QOShadowMarker.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = QOShadowMarker.cpp; sourceTree = "<group>"; };
 		BE11DD721D5A9DA20013C5ED /* CQ3WeakObjectRef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CQ3WeakObjectRef.h; sourceTree = "<group>"; };
 		BE2AF1F115B78BE700400670 /* Modern.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Modern.xcconfig; sourceTree = "<group>"; };
+		BE2BCA2F23F4BE6B00AE7F4A /* QOGLSLShaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QOGLSLShaders.h; sourceTree = "<group>"; };
+		BE2BCA3023F4BE6C00AE7F4A /* QOGLSLShaders.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = QOGLSLShaders.cpp; sourceTree = "<group>"; };
 		BE392D070B6D0CCA00A351AC /* CQ3ObjectRef_Gets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CQ3ObjectRef_Gets.h; sourceTree = "<group>"; };
 		BE499C960F145E950060DF4E /* Quesa-common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Quesa-common.xcconfig"; path = "xcode-configs/Quesa-common.xcconfig"; sourceTree = SOURCE_ROOT; wrapsLines = 1; };
 		BE499C970F145E950060DF4E /* Quesa-debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = "Quesa-debug.xcconfig"; path = "xcode-configs/Quesa-debug.xcconfig"; sourceTree = SOURCE_ROOT; };
@@ -1052,6 +1057,8 @@
 				BE7F269F0B7BB92C00933ED1 /* QOGeometry.cpp */,
 				BE806FCC0BCDCCEA008CD86A /* QOGLShadingLanguage.cpp */,
 				BE806FCB0BCDCCEA008CD86A /* QOGLShadingLanguage.h */,
+				BE2BCA3023F4BE6C00AE7F4A /* QOGLSLShaders.cpp */,
+				BE2BCA2F23F4BE6B00AE7F4A /* QOGLSLShaders.h */,
 				BE7F26A00B7BB92C00933ED1 /* QOLights.cpp */,
 				BE7F26A10B7BB92C00933ED1 /* QOLights.h */,
 				BE7F26A20B7BB92C00933ED1 /* QOMatrix.cpp */,
@@ -1116,6 +1123,7 @@
 				AB83B5FD055E72B90034F56A /* QuesaPick.h in Headers */,
 				AB83B5FE055E72B90034F56A /* QuesaRenderer.h in Headers */,
 				AB83B5FF055E72B90034F56A /* QuesaSet.h in Headers */,
+				BE2BCA3123F4BE6C00AE7F4A /* QOGLSLShaders.h in Headers */,
 				AB83B600055E72B90034F56A /* QuesaShader.h in Headers */,
 				7F55E9D0239A8B6E00468537 /* QuesaController.h in Headers */,
 				AB83B601055E72B90034F56A /* QuesaStorage.h in Headers */,
@@ -1259,6 +1267,7 @@
 				AB3A7CD6055E63B200CA83BE /* QD3DGeometry.cpp in Sources */,
 				AB3A7CD7055E63B200CA83BE /* QD3DGroup.cpp in Sources */,
 				AB3A7CD8055E63B200CA83BE /* QD3DIO.cpp in Sources */,
+				BE2BCA3223F4BE6C00AE7F4A /* QOGLSLShaders.cpp in Sources */,
 				AB3A7CD9055E63B200CA83BE /* QD3DLight.cpp in Sources */,
 				AB3A7CDA055E63B200CA83BE /* QD3DMain.cpp in Sources */,
 				AB3A7CDB055E63B200CA83BE /* QD3DMath.cpp in Sources */,
@@ -1395,6 +1404,7 @@
 				B1756B5E080A73C00056134C /* QD3DGeometry.cpp in Sources */,
 				B1756B5F080A73C00056134C /* QD3DRenderer.cpp in Sources */,
 				B1756B60080A73C00056134C /* E3Tessellate.cpp in Sources */,
+				BE2BCA3323F4BE6C00AE7F4A /* QOGLSLShaders.cpp in Sources */,
 				B1756B61080A73C00056134C /* E3Storage.cpp in Sources */,
 				B1756B63080A73C00056134C /* E3GeometryPoint.cpp in Sources */,
 				B1756B65080A73C00056134C /* E3Pool.cpp in Sources */,

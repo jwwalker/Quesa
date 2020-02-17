@@ -5,7 +5,7 @@
         Shading language caching functions for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2014-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 2014-2020, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -72,7 +72,8 @@ namespace
 }
 
 QORenderer::ProgramCharacteristic::ProgramCharacteristic()
-	: mIlluminationType( kQ3IlluminationTypeNULL )
+	: mProjectionType( ECameraProjectionType::standardRectilinear )
+	, mIlluminationType( kQ3IlluminationTypeNULL )
 	, mInterpolationStyle( kQ3InterpolationStyleVertex )
 	, mFillStyle( kQ3FillStyleFilled )
 	, mIsTextured( false )
@@ -86,7 +87,8 @@ QORenderer::ProgramCharacteristic::ProgramCharacteristic()
 
 QORenderer::ProgramCharacteristic::ProgramCharacteristic(
 	const QORenderer::ProgramCharacteristic& inOther )
-	: mPattern( inOther.mPattern )
+	: mProjectionType( inOther.mProjectionType )
+	, mPattern( inOther.mPattern )
 	, mIlluminationType( inOther.mIlluminationType )
 	, mInterpolationStyle( inOther.mInterpolationStyle )
 	, mFillStyle( inOther.mFillStyle )
@@ -103,6 +105,7 @@ bool	QORenderer::ProgramCharacteristic::operator==(
 		const QORenderer::ProgramCharacteristic& inOther ) const
 {
 	return (mIsTextured == inOther.mIsTextured) &&
+			(mProjectionType == inOther.mProjectionType) &&
 			(mIlluminationType == inOther.mIlluminationType) &&
 			(mInterpolationStyle == inOther.mInterpolationStyle) &&
 			(mFillStyle == inOther.mFillStyle) &&
@@ -129,6 +132,7 @@ void	QORenderer::ProgramCharacteristic::swap(
 	std::swap( mIsUsingClippingPlane, ioOther.mIsUsingClippingPlane );
 	std::swap( mAngleAffectsAlpha, ioOther.mAngleAffectsAlpha );
 	std::swap( mDimension, ioOther.mDimension );
+	std::swap( mProjectionType, ioOther.mProjectionType );
 }
 
 QORenderer::ProgramCharacteristic&	QORenderer::ProgramCharacteristic::operator=( const QORenderer::ProgramCharacteristic& inOther )
@@ -163,14 +167,16 @@ QORenderer::ProgramCache*	QORenderer::ProgramCache::GetProgramCache(
 
 QORenderer::ProgramCache::~ProgramCache()
 {
-	if (mVertexShaderID != 0)
+	if (not mVertexShaderOfProjection.empty())
 	{
 		QORenderer::glDeleteShaderProc deleteShader;
 		GLGetProcAddress( deleteShader, "glDeleteShader", "glDeleteObjectARB" );
 	
-		deleteShader( mVertexShaderID );
-		Q3_MESSAGE_FMT("Deleted vertex shader ID %d", mVertexShaderID );
-		mVertexShaderID = 0;
+		for (auto& vertShaderPair : mVertexShaderOfProjection)
+		{
+			deleteShader( vertShaderPair.second );
+			Q3_MESSAGE_FMT("Deleted vertex shader ID %u", vertShaderPair.second );
+		}
 		
 		QORenderer::glDeleteProgramProc deleteProgram;
 		GLGetProcAddress( deleteProgram, "glDeleteProgram", "glDeleteObjectARB" );
@@ -183,13 +189,24 @@ QORenderer::ProgramCache::~ProgramCache()
 }
 
 /*!
+	@function			VertexShaderID
+	@abstract			Get the "name" (ID number) of the vertex shader
+						(which might be 0 if initialization failed.)
+*/
+GLuint	QORenderer::ProgramCache::VertexShaderID( ECameraProjectionType inProj ) const
+{
+	auto foundIt = mVertexShaderOfProjection.find( inProj );
+	return (foundIt == mVertexShaderOfProjection.end())? 0 : foundIt->second;
+}
+
+/*!
 	@function			SetVertexShaderID
 	@abstract			Supply a newly created and compiled vertex shader
 						(after VertexShaderID() has returned 0).
 */
-void	QORenderer::ProgramCache::SetVertexShaderID( GLuint inShaderID )
+void	QORenderer::ProgramCache::SetVertexShaderID( ECameraProjectionType inProj, GLuint inShaderID )
 {
-	mVertexShaderID = inShaderID;
+	mVertexShaderOfProjection[ inProj ] = inShaderID;
 }
 
 

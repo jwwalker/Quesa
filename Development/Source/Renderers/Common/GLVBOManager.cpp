@@ -656,7 +656,6 @@ void VBOCache::RenderVBO( const QORenderer::Renderer& inRenderer, const CachedVB
 			1, GL_FLOAT, GL_FALSE, 0, GLBufferObPtr( inCachedVBO->mLayerShiftBufferOffset ) );
 	}
 	
-	TQ3Uns32 i;
 	(*inRenderer.Funcs().glBindBufferProc)( GL_ELEMENT_ARRAY_BUFFER,
 		inCachedVBO->mGLBufferNames[1] );
 	CHECK_GL_ERROR;

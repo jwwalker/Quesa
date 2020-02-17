@@ -427,7 +427,8 @@ private:
 	void						InitUniformLocations( ProgramRec& ioProgram );
 	void						ChooseProgram();
 	void						GetLightTypes();
-	void						SetUniformValues( const ProgramRec& ioProgram );
+	void						SetUniformValues();
+	void						SetCameraUniforms();
 	ProgramCache*				ProgCache();
 	void						CalcMaxLights();
 	

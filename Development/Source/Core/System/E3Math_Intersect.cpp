@@ -8,7 +8,7 @@
         speed, to avoid the trip back out through the Q3foo interface.
 
     COPYRIGHT:
-        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -51,6 +51,7 @@
 #include "E3Math_Intersect.h"
 #include "E3View.h"
 #include "QuesaMathOperators.hpp"
+#include "CQ3ObjectRef_Gets.h"
 
 // Remove any macro definitions of min, max, so that the C++ library versions will work.
 #undef min
@@ -2430,6 +2431,13 @@ bool	E3BoundingBox_IntersectViewFrustum(
 	if (inLocalBox.isEmpty)
 	{
 		return false;
+	}
+	
+	// With some special kinds of camera, there may be no view frustum.
+	CQ3ObjectRef theCamera( CQ3View_GetCamera( inView ) );
+	if (Q3Camera_GetType( theCamera.get() ) == kQ3CameraTypeAllSeeing)
+	{
+		return true;
 	}
 	
 	// It is tempting to do a quick and dirty test by transforming the box
