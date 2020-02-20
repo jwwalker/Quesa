@@ -79,6 +79,52 @@ extern "C" {
 //=============================================================================
 //      Types
 //-----------------------------------------------------------------------------
+
+/*!
+	@enum		TQ3FisheyeCroppingFormat
+	@abstract	Type of cropping for a fisheye camera
+	@constant	kQ3FisheyeCroppingFormatCircular
+						The fisheye rendering fills a circular area that fits tightly
+						in the smaller view dimension and is centered in the larger
+						view dimension.
+	@constant	kQ3FisheyeCroppingFormatCroppedCircle
+						The circular area of fisheye rendering is tight against the
+						left and right edges of the view, and is cropped on the top
+						and bottom.
+	@constant	kQ3FisheyeCroppingFormatFullFrame
+						The fisheye rendering is cropped so that the view rectangle
+						is totally filled.
+*/
+typedef enum TQ3FisheyeCroppingFormat
+{
+	kQ3FisheyeCroppingFormatCircular = 0,
+	kQ3FisheyeCroppingFormatCroppedCircle,
+	kQ3FisheyeCroppingFormatFullFrame,
+	kQ3FisheyeCroppingFormatSize32 = 0x7FFFFFFF
+} TQ3FisheyeCroppingFormat;
+
+/*!
+	@enum		TQ3FisheyeMappingFunction
+	@abstract	Type of fisheye mapping function.  See
+				<a href="https://en.wikipedia.org/wiki/Fisheye_lens#Mapping_function">
+				Wikipedia on Fisheye Lenses</a>.
+	@discussion	The mapping function relates the angle of an incoming light ray to the distance r
+				from the center of the sensor to the image of the ray, taking into account the
+				focal length f.
+	@constant	kQ3FisheyeMappingFunctionOrthographic		r = f sin( angle )
+	@constant	kQ3FisheyeMappingFunctionStereographic		r = 2 * f * tan( angle/2 )
+	@constant	kQ3FisheyeMappingFunctionEquidistant		r = f * angle
+	@constant	kQ3FisheyeMappingFunctionEquisolidAngle		r = 2 * f * sin( angle/2 )
+*/
+typedef enum TQ3FisheyeMappingFunction
+{
+	kQ3FisheyeMappingFunctionOrthographic = 0,
+	kQ3FisheyeMappingFunctionStereographic,
+	kQ3FisheyeMappingFunctionEquidistant,
+	kQ3FisheyeMappingFunctionEquisolidAngle,
+	kQ3FisheyeMappingFunctionSize32 = 0x7FFFFFFF
+} TQ3FisheyeMappingFunction;
+
 /*!
  *  @struct
  *      TQ3CameraPlacement
@@ -255,6 +301,27 @@ typedef struct TQ3ViewAngleAspectCameraData {
     float                                       aspectRatioXToY;
 } TQ3ViewAngleAspectCameraData;
 
+
+
+/*!
+	@struct			TQ3FisheyeCameraData
+	@abstract		State for a fisheye camera.
+	@field			cameraData		The common state for the camera.
+	@field			sensorSize			The dimensions of the sensor or film in mm.
+									The aspect ratio should be the same as the
+									view.
+	@field			focalLength		The focal length of the lens in mm.
+	@field			mappingFunction	The mapping function.
+	@field			croppingFormat		The cropping format.
+*/
+typedef struct TQ3FisheyeCameraData
+{
+    TQ3CameraData                  cameraData;
+	TQ3Vector2D                    sensorSize;
+	float                          focalLength;
+	TQ3FisheyeMappingFunction      mappingFunction;
+	TQ3FisheyeCroppingFormat       croppingFormat;
+} TQ3FisheyeCameraData;
 
 
 
@@ -1018,6 +1085,87 @@ Q3_EXTERN_API_C ( TQ3CameraObject _Nonnull  )
 Q3AllSeeingCamera_New(
     const TQ3CameraData * _Nonnull cameraData
 );
+
+/*!
+	@functiongroup Fisheye
+*/
+
+/*!
+	@function	Q3FisheyeCamera_New
+	@abstract	Create a fisheye camera.
+	@discussion	Rendering with this camera will experience some inaccuracy, due to the fact that
+				OpenGL works by linearly interpolating across triangles, while the fisheye
+				projection is very much nonlinear.  Naturally, the greater the angular diameter of a
+				triangle as seen from the camera, the greater the inaccuracy.  Subdividing a
+				triangulation can reduce the nonlinearity artifacts.
+	@param cameraData       The data for the camera object.
+	@result		The new camera object.
+*/
+Q3_EXTERN_API_C ( TQ3CameraObject _Nonnull  )
+Q3FisheyeCamera_New(
+    const TQ3FisheyeCameraData * _Nonnull cameraData
+);
+
+
+
+/*!
+	@function	Q3FisheyeCamera_GetData
+	@abstract	Get the data for a fisheye camera.
+	@param		camera		The camera.
+	@param		data		Receives the camera data.
+	@result		Success or failure of the operation.
+*/
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3FisheyeCamera_GetData( TQ3CameraObject _Nonnull camera,
+						TQ3FisheyeCameraData* _Nonnull data );
+
+
+
+/*!
+	@function	Q3FisheyeCamera_SetData
+	@abstract	Set the data for a fisheye camera.
+	@param		camera		The camera.
+	@param		cameraData	The new data.
+	@result		Success or failure of the operation.
+*/
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3FisheyeCamera_SetData( TQ3CameraObject _Nonnull camera,
+						const TQ3FisheyeCameraData * _Nonnull cameraData );
+
+
+/*!
+	@function	Q3FisheyeCamera_CalcAngleOfView
+	@abstract	Compute the angle of view of a fisheye camera from other parameters.
+	@discussion	In the full frame cropping format, the maximum angle of view is achieved only
+				on the diagonals, whereas in the cropped circle format the maximum angle of view
+				is achieved horizontally.
+	@param			inSensorSize			The dimensions of the sensor or film in mm.
+	@param			inMappingFunc			The mapping function.
+	@param			inCropping				The cropping format.
+	@param			inFocalLength			The focal length in mm.
+	@result			The maximum angle of view in radians.
+*/
+Q3_EXTERN_API_C( float )
+Q3FisheyeCamera_CalcAngleOfView( const TQ3Vector2D* _Nonnull inSensorSize,
+								TQ3FisheyeMappingFunction inMappingFunc,
+								TQ3FisheyeCroppingFormat inCropping,
+								float inFocalLength );
+
+
+/*!
+	@function	Q3FisheyeCamera_CalcFocalLength
+	@abstract	Compute the focal length of a fisheye camera from other parameters.
+	@param			inSensorSize			The dimensions of the sensor or film in mm.
+	@param			inMappingFunc			The mapping function.
+	@param			inCropping				The cropping format.
+	@param			inAngleOfView			The maximum angle of view in radians.
+	@result			The focal length in mm.
+*/
+Q3_EXTERN_API_C( float )
+Q3FisheyeCamera_CalcFocalLength( const TQ3Vector2D* _Nonnull inSensorSize,
+								TQ3FisheyeMappingFunction inMappingFunc,
+								TQ3FisheyeCroppingFormat inCropping,
+								float inAngleOfView );
 
 
 /*!

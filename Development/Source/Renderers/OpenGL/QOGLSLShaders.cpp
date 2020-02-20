@@ -49,7 +49,6 @@ namespace QOGLSLShader
 #pragma mark kVertexShaderStart
 const char* kVertexShaderStart = R"(
 #version 150 core
-const float pi = 3.14159265358979323846264338327950288;
 // Switch for layer shifting
 uniform bool isLayerShifting;
 
@@ -82,6 +81,11 @@ struct VertexData {
 	vec4 interpolatedColor;
 };
 out VertexData vs_out;
+
+float AngleBetweenVectors( in vec3 u, in vec3 v )
+{
+	return atan( length( cross( u, v ) ), dot( u, v ) );
+}
 
 void main()
 {
@@ -117,23 +121,305 @@ const char* kVertexShaderStandardProjection = R"(
 )";
 
 
-#pragma mark kVertexShaderAllSeeingProjection
-const char* kVertexShaderAllSeeingProjection = R"(
-	float near = quesaCameraRange.x;
-	float far = quesaCameraRange.y;
-	float q = isinf( far )? 1.0 : far / (far - near);
-	float r = length(vs_out.ECPos4.xyz);
-	gl_Position.x = atan( vs_out.ECPos4.x, -vs_out.ECPos4.z ) / pi;
-	gl_Position.y = (2.0 * asin( vs_out.ECPos4.y / r )) / pi;
-	gl_Position.z = (vs_out.ECPos4.w == 0.0)? 2.0 * q - 1.0 : 2.0 * q - 1.0 - (2.0 * q * near) / r;
-	gl_Position.w = 1.0;
-)";
-
 
 #pragma mark kVertexShaderEnd
 const char* kVertexShaderEnd = "}\n";
 
 #pragma mark -
+
+#pragma mark kFisheyeGeomShader
+/*
+	Geometry shader for fisheye camera.
+	
+	The purpose of this shader is to subdivide triangles so as to reduce
+	inaccuracy caused by the nonlinearity of the projection.  We also do
+	the actual projection here rather than in the vertex shader.
+	
+	The subdivision splits each triangle into at most 16 smaller similar
+	triangles.  Using triangle strips, at most 24 vertices are emitted.
+	Hence the value max_vertices=24.
+*/
+const char* kFisheyeGeomShader = R"(
+#version 150 core
+layout (triangles) in;
+layout (triangle_strip, max_vertices=24) out;
+const float triBigSize = 0.174;
+const float w1 = 1.0/4.0;
+const float w2 = 2.0/4.0;
+const float w3 = 3.0/4.0;
+const vec3 forward = vec3( 0.0, 0.0, -1.0 );
+
+// Inputs
+struct VertexData {
+	vec3 ECNormal; // Normal vector in eye coordinates
+	vec4 ECPos4;	// Position in eye coordinates
+	vec2 texCoord;	// Transformed texture coordinate
+	vec4 interpolatedColor;	// Color
+};
+in VertexData vs_out[];
+uniform vec2 quesaCameraRange;
+uniform vec4 quesaCameraViewport;	// origin.x, origin.y, width, height
+uniform float quesaAngleOfView;
+
+// Fisheye camera info
+uniform vec2 quesaSensorSize;
+uniform float quesaFocalLength;
+uniform int quesaFisheyeMappingFunc;
+
+// Outputs
+out VertexData gs_out;
+
+float AngleBetweenVectors( in vec3 u, in vec3 v )
+{
+	return atan( length( cross( u, v ) ), dot( u, v ) );
+}
+
+vec4 FisheyeProjection( in VertexData vert )
+{
+	float near = quesaCameraRange.x;
+	float far = quesaCameraRange.y;
+	float q = isinf( far )? 1.0 : far / (far - near);
+	float r = length(vert.ECPos4.xyz);
+	vec4 projected;
+	projected.z = (vert.ECPos4.w == 0.0)? 2.0 * q - 1.0 : 2.0 * q - 1.0 - (2.0 * q * near) / r;
+	projected.w = 1.0;
+	
+	r = 0.0;
+	float theta = AngleBetweenVectors( vert.ECPos4.xyz, forward );
+	switch (quesaFisheyeMappingFunc)
+	{
+		case 0: // orthographic
+			r = quesaFocalLength * sin( theta );
+			break;
+			
+		case 1: // stereographic
+			r = 2.0 * quesaFocalLength * tan( theta/2.0 );
+			break;
+		
+		case 2: // equidistant
+			r = quesaFocalLength * theta;
+			break;
+			
+		case 3: // equisolidAngle
+			r = 2.0 * quesaFocalLength * sin( theta/2.0 );
+			break;
+	}
+	vec2 dir2d = normalize( vert.ECPos4.xy );
+	projected.xy = 2.0 * r * dir2d / quesaSensorSize;
+
+	// viewport mapping
+	projected.x = 2.0*(projected.x - quesaCameraViewport.x)/quesaCameraViewport.z - 1.0;
+	projected.y = 2.0*(projected.y - quesaCameraViewport.y)/quesaCameraViewport.w + 1.0;
+
+	return projected;
+}
+
+void EmitVert( in VertexData v )
+{
+	gs_out = v;
+	gl_Position = FisheyeProjection( v );
+	EmitVertex();
+}
+
+void EmitTriangle( in VertexData A, in VertexData B, in VertexData C )
+{
+	EmitVert( A );
+	EmitVert( B );
+	EmitVert( C );
+	EndPrimitive();
+}
+
+VertexData VertexBaryBlend( in VertexData A, in VertexData B, in VertexData C,
+					in float weightA, in float weightB, in float weightC )
+{
+	VertexData blend;
+	blend.ECNormal = normalize( weightA * A.ECNormal + weightB * B.ECNormal + weightC * C.ECNormal );
+	blend.texCoord = weightA * A.texCoord + weightB * B.texCoord + weightC * C.texCoord;
+	blend.interpolatedColor = weightA * A.interpolatedColor + weightB * B.interpolatedColor + weightC * C.interpolatedColor;
+	blend.ECPos4 = weightA * A.ECPos4 + weightB * B.ECPos4 + weightC * C.ECPos4;
+	// Up to now, either ECPos4 has 0 in the w position, or has 1 in the
+	// w position.
+	// Let's maintain that condition.
+	if ( (blend.ECPos4.w != 1.0) && (blend.ECPos4.w != 0.0) )
+	{
+		blend.ECPos4.xyz = blend.ECPos4.xyz / blend.ECPos4.w;
+		blend.ECPos4.w = 1.0;
+	}
+	return blend;
+}
+
+/*float FastAngleBetweenVectors( in vec3 u, in vec3 v )
+{
+	return acos( dot( u, v ) / sqrt( dot( u, u ) * dot( v, v ) ) );
+}*/
+
+// This is mathematically equivalent to 
+// angleAB = FastAngleBetweenVectors( A, B );
+// angleAC = FastAngleBetweenVectors( A, C );
+// angleBC = FastAngleBetweenVectors( B, C );
+// but saves some repeated computations.
+void CalcAngles( in vec3 A, in vec3 B, in vec3 C,
+				out float angleAB, out float angleAC, out float angleBC )
+{
+	float ADotA = dot( A, A );
+	float BDotB = dot( B, B );
+	float CDotC = dot( C, C );
+	angleAB = acos( dot( A, B ) / sqrt( ADotA * BDotB ) );
+	angleAC = acos( dot( A, C ) / sqrt( ADotA * CDotC ) );
+	angleBC = acos( dot( B, C ) / sqrt( BDotB * CDotC ) );
+}
+
+void Subdivide3Long( in VertexData A, in VertexData B, in VertexData C )
+{
+	VertexData A3B, A2B2, AB3, A3C, A2BC, AB2C, B3C,
+		A2C2, ABC2, B2C2, AC3, BC3;
+	A3B = VertexBaryBlend( A, B, C, w3, w1, 0.0 );
+	A2B2 = VertexBaryBlend( A, B, C, w2, w2, 0.0 );
+	AB3 = VertexBaryBlend( A, B, C, w1, w3, 0.0 );
+	A3C = VertexBaryBlend( A, B, C, w3, 0.0, w1 );
+	A2BC = VertexBaryBlend( A, B, C, w2, w1, w1 );
+	AB2C = VertexBaryBlend( A, B, C, w1, w2, w1 );
+	B3C = VertexBaryBlend( A, B, C, 0.0, w3, w1 );
+	A2C2 = VertexBaryBlend( A, B, C, w2, 0.0, w2 );
+	ABC2 = VertexBaryBlend( A, B, C, w1, w1, w2 );
+	B2C2 = VertexBaryBlend( A, B, C, 0.0, w2, w2 );
+	AC3 = VertexBaryBlend( A, B, C, w1, 0.0, w3 );
+	BC3 = VertexBaryBlend( A, B, C, 0.0, w1, w3 );
+	
+	EmitVert( A );
+	EmitVert( A3B );
+	EmitVert( A3C );
+	EmitVert( A2BC );
+	EmitVert( A2C2 );
+	EmitVert( ABC2 );
+	EmitVert( AC3 );
+	EmitVert( BC3 );
+	EmitVert( C );
+	EndPrimitive();
+
+	EmitVert( A3B );
+	EmitVert( A2B2 );
+	EmitVert( A2BC );
+	EmitVert( AB2C );
+	EmitVert( ABC2 );
+	EmitVert( B2C2 );
+	EmitVert( BC3 );
+	EndPrimitive();
+
+	EmitVert( A2B2 );
+	EmitVert( AB3 );
+	EmitVert( AB2C );
+	EmitVert( B3C );
+	EmitVert( B2C2 );
+	EndPrimitive();
+
+	EmitVert( AB3 );
+	EmitVert( B );
+	EmitVert( B3C );
+	EndPrimitive();
+}
+
+void Subdivide2Long( in VertexData A, in VertexData B, in VertexData C )
+{
+	VertexData A3B, A2B2, AB3, A3C, A2C2, AC3;
+	A3B = VertexBaryBlend( A, B, C, w3, w1, 0.0 );
+	A2B2 = VertexBaryBlend( A, B, C, w2, w2, 0.0 );
+	AB3 = VertexBaryBlend( A, B, C, w1, w3, 0.0 );
+	A3C = VertexBaryBlend( A, B, C, w3, 0.0, w1 );
+	A2C2 = VertexBaryBlend( A, B, C, w2, 0.0, w2 );
+	AC3 = VertexBaryBlend( A, B, C, w1, 0.0, w3 );
+	EmitVert( A );
+	EmitVert( A3B );
+	EmitVert( A3C );
+	EmitVert( A2B2 );
+	EmitVert( A2C2 );
+	EmitVert( AB3 );
+	EmitVert( AC3 );
+	EmitVert( B );
+	EmitVert( B );
+	EndPrimitive();
+}
+
+void Subdivide1Long( in VertexData A, in VertexData B, in VertexData C )
+{
+	VertexData B3C, B2C2, BC3;
+	B3C = VertexBaryBlend( A, B, C, 0.0, w3, w1 );
+	B2C2 = VertexBaryBlend( A, B, C, 0.0, w2, w2 );
+	BC3 = VertexBaryBlend( A, B, C, 0.0, w1, w3 );
+	EmitTriangle( A, B, B3C );
+	EmitTriangle( A, B3C, B2C2 );
+	EmitTriangle( A, B2C2, BC3 );
+	EmitTriangle( A, BC3, C );
+}
+
+// Subdivide a triangle into at most 16 smaller similar triangles.
+void Sub( in VertexData A, in VertexData B, in VertexData C )
+{
+	float angleAB, angleAC, angleBC;
+	CalcAngles( A.ECPos4.xyz, B.ECPos4.xyz, C.ECPos4.xyz, angleAB, angleAC, angleBC );
+	// Don't know why, but shadows get worse if we subdivide edges containing
+	// infinite points.
+	bool isLongAB = (angleAB > triBigSize) && (A.ECPos4.w > 0.0) && (B.ECPos4.w > 0.0);
+	bool isLongAC = (angleAC > triBigSize) && (A.ECPos4.w > 0.0) && (C.ECPos4.w > 0.0);
+	bool isLongBC = (angleBC > triBigSize) && (B.ECPos4.w > 0.0) && (C.ECPos4.w > 0.0);
+	int longCount = int(isLongAB) + int(isLongAC) + int(isLongBC);
+	VertexData T;
+	
+	if (longCount == 0)
+	{
+		EmitTriangle( A, B, C );
+	}
+	else if (longCount == 1)
+	{
+		// Permute so that BC is long
+		if (isLongAB)
+		{
+			T = A;
+			A = C;
+			C = B;
+			B = T;
+		}
+		else if (isLongAC)
+		{
+			T = A;
+			A = B;
+			B = C;
+			C = T;
+		}
+		Subdivide1Long( A, B, C );
+	}
+	else if (longCount == 2)
+	{
+		// Permute so that AB and AC are long, BC is short
+		if (! isLongAB)
+		{
+			T = A;
+			A = C;
+			C = B;
+			B = T;
+		}
+		else if (!isLongAC)
+		{
+			T = A;
+			A = B;
+			B = C;
+			C = T;
+		}
+		Subdivide2Long( A, B, C );
+	}
+	else if (longCount == 3)
+	{
+		Subdivide3Long( A, B, C );
+	}
+}
+
+void main()
+{
+	Sub( vs_out[0], vs_out[1], vs_out[2] );
+}
+
+)";
+
 
 #pragma mark kAllSeeingGeomShader
 /*
@@ -145,11 +431,9 @@ const char* kVertexShaderEnd = "}\n";
 	
 	The excision phase starts with one triangle and subdivides
 	it into at most 4 triangles.  Then the subdivision phase
-	breaks each triangle into at most 4 triangles.  Thus, at
-	most 16 triangles will be emitted.  Assuming that we simply
-	emit each triangle separately rather than using strips,
-	this means we may emit up to 16*3 = 48 vertices.  Hence the
-	value used for max_vertices.
+	breaks each triangle into at most 9 triangles, by emitting
+	at most 15 vertices in triangle strips.  Thus, at 4 * 15 = 60
+	vertices will be emitted, hence max_vertices=60 below.
 	
 	Note that since GL_MAX_GEOMETRY_TOTAL_OUTPUT_COMPONENTS has
 	a minimum value of 1024, and our VertexData structure has
@@ -160,10 +444,12 @@ const char* kVertexShaderEnd = "}\n";
 const char* kAllSeeingGeomShader = R"(
 #version 150 core
 layout (triangles) in;
-layout (triangle_strip, max_vertices=48) out;
+layout (triangle_strip, max_vertices=60) out;
 const float pi = 3.14159265358979323846264338327950288;
 const float delta = 0.00001;
 const float triBigSize = 0.174;
+const float w1 = 1.0/3.0;
+const float w2 = 2.0/3.0;
 
 // Inputs
 struct VertexData {
@@ -260,6 +546,25 @@ void VertexBlend( in float s, in VertexData A, in VertexData B, out VertexData b
 	blend.interpolatedColor = (1.0 - s) * A.interpolatedColor + s * B.interpolatedColor;
 }
 
+VertexData VertexBaryBlend( in VertexData A, in VertexData B, in VertexData C,
+					in float weightA, in float weightB, in float weightC )
+{
+	VertexData blend;
+	blend.ECNormal = normalize( weightA * A.ECNormal + weightB * B.ECNormal + weightC * C.ECNormal );
+	blend.texCoord = weightA * A.texCoord + weightB * B.texCoord + weightC * C.texCoord;
+	blend.interpolatedColor = weightA * A.interpolatedColor + weightB * B.interpolatedColor + weightC * C.interpolatedColor;
+	blend.ECPos4 = weightA * A.ECPos4 + weightB * B.ECPos4 + weightC * C.ECPos4;
+	// Up to now, either ECPos4 has 0 in the w position, or has 1 in the
+	// w position.
+	// Let's maintain that condition.
+	if ( (blend.ECPos4.w != 1.0) && (blend.ECPos4.w != 0.0) )
+	{
+		blend.ECPos4.xyz = blend.ECPos4.xyz / blend.ECPos4.w;
+		blend.ECPos4.w = 1.0;
+	}
+	return blend;
+}
+
 void EmitVert( in VertexData v )
 {
 	gs_out = v;
@@ -267,20 +572,12 @@ void EmitVert( in VertexData v )
 	EmitVertex();
 }
 
-void TintVert( in VertexData v, in vec3 color )
-{
-	gs_out = v;
-	gs_out.interpolatedColor.rgb = color;
-	gl_Position = AllSeeingProjection( v );
-	EmitVertex();
-}
-
-float Angle( in vec3 u, in vec3 v )
+float AngleBetweenVectors( in vec3 u, in vec3 v )
 {
 	return atan( length( cross( u, v ) ), dot( u, v ) );
 }
 
-void Sub0( in VertexData A, in VertexData B, in VertexData C )
+void EmitTriangle( in VertexData A, in VertexData B, in VertexData C )
 {
 	EmitVert( A );
 	EmitVert( B );
@@ -290,25 +587,46 @@ void Sub0( in VertexData A, in VertexData B, in VertexData C )
 
 void Sub1( in VertexData A, in VertexData B, in VertexData C )
 {
-	bool isLongAB = Angle( A.ECPos4.xyz, B.ECPos4.xyz ) > triBigSize;
-	bool isLongAC = Angle( A.ECPos4.xyz, C.ECPos4.xyz ) > triBigSize;
-	bool isLongBC = Angle( B.ECPos4.xyz, C.ECPos4.xyz ) > triBigSize;
+	bool isLongAB = AngleBetweenVectors( A.ECPos4.xyz, B.ECPos4.xyz ) > triBigSize;
+	bool isLongAC = AngleBetweenVectors( A.ECPos4.xyz, C.ECPos4.xyz ) > triBigSize;
+	bool isLongBC = AngleBetweenVectors( B.ECPos4.xyz, C.ECPos4.xyz ) > triBigSize;
 	int longCount = int(isLongAB) + int(isLongAC) + int(isLongBC);
 
 	if (longCount == 3)
 	{
-		VertexData AB, AC, BC;
-		VertexBlend( 0.5, A, B, AB );
-		VertexBlend( 0.5, A, C, AC );
-		VertexBlend( 0.5, B, C, BC );
-		Sub0( A, AB, AC );
-		Sub0( AB, B, BC );
-		Sub0( AC, BC, C );
-		Sub0( AB, BC, AC );
+		VertexData A2B, AB2, A2C, AC2, B2C, BC2, ABC;
+		A2B = VertexBaryBlend( A, B, C, w2, w1, 0.0 );
+		AB2 = VertexBaryBlend( A, B, C, w1, w2, 0.0 );
+		A2C = VertexBaryBlend( A, B, C, w2, 0.0, w1 );
+		AC2 = VertexBaryBlend( A, B, C, w1, 0.0, w2 );
+		B2C = VertexBaryBlend( A, B, C, 0.0, w2, w1 );
+		BC2 = VertexBaryBlend( A, B, C, 0.0, w1, w2 );
+		ABC = VertexBaryBlend( A, B, C, w1, w1, w1 );
+		
+		EmitVert( A );
+		EmitVert( A2B );
+		EmitVert( A2C );
+		EmitVert( ABC );
+		EmitVert( AC2 );
+		EmitVert( BC2 );
+		EmitVert( C );
+		EndPrimitive();
+		
+		EmitVert( A2B );
+		EmitVert( AB2 );
+		EmitVert( ABC );
+		EmitVert( B2C );
+		EmitVert( BC2 );
+		EndPrimitive();
+		
+		EmitVert( AB2 );
+		EmitVert( B );
+		EmitVert( B2C );
+		EndPrimitive();
 	}
 	else if (longCount == 0)
 	{
-		Sub0( A, B, C );
+		EmitTriangle( A, B, C );
 	}
 	else if (longCount == 2)
 	{
@@ -327,12 +645,19 @@ void Sub1( in VertexData A, in VertexData B, in VertexData C )
 			B = C;
 			C = temp;
 		}
-		VertexData AB, AC;
-		VertexBlend( 0.5, A, B, AB );
-		VertexBlend( 0.5, A, C, AC );
-		Sub0( A, AB, AC );
-		Sub0( B, AC, AB );
-		Sub0( B, C, AC );
+		VertexData A2B = VertexBaryBlend( A, B, C, w2, w1, 0.0 );
+		VertexData AB2 = VertexBaryBlend( A, B, C, w1, w2, 0.0 );
+		VertexData A2C = VertexBaryBlend( A, B, C, w2, 0.0, w1 );
+		VertexData AC2 = VertexBaryBlend( A, B, C, w1, 0.0, w2 );
+		
+		EmitVert( A );
+		EmitVert( A2B );
+		EmitVert( A2C );
+		EmitVert( AB2 );
+		EmitVert( AC2 );
+		EmitVert( B );
+		EmitVert( C );
+		EndPrimitive();
 	}
 	else if (longCount == 1)
 	{
@@ -351,10 +676,12 @@ void Sub1( in VertexData A, in VertexData B, in VertexData C )
 			B = C;
 			C = temp;
 		}
-		VertexData BC;
-		VertexBlend( 0.5, B, C, BC );
-		Sub0( A, B, BC );
-		Sub0( A, BC, C );
+		VertexData B2C = VertexBaryBlend( A, B, C, 0.0, w2, w1 );
+		VertexData BC2 = VertexBaryBlend( A, B, C, 0.0, w1, w2 );
+
+		EmitTriangle( A, B, B2C );
+		EmitTriangle( A, B2C, BC2 );
+		EmitTriangle( A, BC2, C );
 	}
 }
 
@@ -452,20 +779,8 @@ void main()
 			poleP = poleParam;
 		}
 		
-		// Compute a vertex H at the pole.  This requires blending 3 points, while VertexBlend
-		// handles 2.  The idea is that you can compute a blend s*A + t*B + u*C as
-		// s*A + (1-s)(t/(1-s)*B + u/(1-s)*C) so long as s != 1.
-		VertexData H;
-		if (poleP.x == 1.0)
-		{
-			H = A;
-		}
-		else
-		{
-			VertexData temp;
-			VertexBlend( poleP.z / (1.0 - poleP.x), B, C, temp );
-			VertexBlend( 1.0 - poleP.x, A, temp, H );
-		}
+		// Compute a vertex H at the pole.
+		VertexData H = VertexBaryBlend( A, B, C, poleP.x, poleP.y, poleP.z );
 		// Compute the point G where the half-plane of discontinuity intersects
 		// the BC segment.
 		VertexData G;
@@ -811,6 +1126,9 @@ uniform float maxFogOpacity;
 uniform float HSFogRate;
 uniform vec4 HSFogPlane;
 
+// Fisheye
+uniform float quesaAngleOfView;
+
 // Samplers for texture units
 uniform sampler2D tex0;
 uniform sampler2D tex1;
@@ -819,6 +1137,11 @@ float FogSmooth( in float x )
 {
 	float y = x / maxFogOpacity;
 	return x * ( y * (1.0 - y) + 1.0 );
+}
+
+float AngleBetweenVectors( in vec3 u, in vec3 v )
+{
+	return atan( length( cross( u, v ) ), dot( u, v ) );
 }
 
 )";
@@ -1204,6 +1527,15 @@ const char* kFragmentClipping = R"(
 		discard;
 	}
 
+)";
+
+
+#pragma mark kFragmentFisheyeCropping
+const char* kFragmentFisheyeCropping = R"(
+	if (AngleBetweenVectors( geomPos, vec3( 0.0, 0.0, -1.0 ) ) >= quesaAngleOfView/2.0)
+	{
+		discard;
+	}
 )";
 
 

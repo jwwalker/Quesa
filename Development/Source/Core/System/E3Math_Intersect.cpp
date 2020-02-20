@@ -2435,7 +2435,8 @@ bool	E3BoundingBox_IntersectViewFrustum(
 	
 	// With some special kinds of camera, there may be no view frustum.
 	CQ3ObjectRef theCamera( CQ3View_GetCamera( inView ) );
-	if (Q3Camera_GetType( theCamera.get() ) == kQ3CameraTypeAllSeeing)
+	if ( Q3Object_IsType( theCamera.get(), kQ3CameraTypeAllSeeing ) ||
+		Q3Object_IsType( theCamera.get(), kQ3CameraTypeFisheye ) )
 	{
 		return true;
 	}

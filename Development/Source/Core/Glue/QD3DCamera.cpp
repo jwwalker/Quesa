@@ -6,7 +6,7 @@
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2016, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -47,7 +47,7 @@
 #include "E3Prefix.h"
 #include "E3Camera.h"
 #include "E3Math_Intersect.h"
-
+#include <cmath>
 
 
 
@@ -70,10 +70,30 @@
 
 
 //=============================================================================
-//      Internal macros
+//      Internal functions
 //-----------------------------------------------------------------------------
-// Internal macros go here
 
+static float e3fisheyeCamera_maxRadius( const TQ3Vector2D& inSensorSize,
+										TQ3FisheyeCroppingFormat inCropping )
+{
+	float radius = 0.0f;
+	switch (inCropping)
+	{
+		default:
+		case kQ3FisheyeCroppingFormatCircular:
+			radius = 0.5f * E3Num_Min( inSensorSize.x, inSensorSize.y );
+			break;
+		
+		case kQ3FisheyeCroppingFormatCroppedCircle:
+			radius = 0.5f * E3Num_Max( inSensorSize.x, inSensorSize.y );
+			break;
+		
+		case kQ3FisheyeCroppingFormatFullFrame:
+			radius = 0.5f * hypotf( inSensorSize.x, inSensorSize.y );
+			break;
+	}
+	return radius;
+}
 
 
 
@@ -1522,3 +1542,174 @@ Q3AllSeeingCamera_New( const TQ3CameraData * cameraData )
 	// Call our implementation
 	return(E3AllSeeingCamera_New(cameraData));
 }
+
+
+/*!
+	@function	Q3FisheyeCamera_New
+	@abstract	Create a fisheye camera.
+	@discussion	Rendering with this camera will experience some inaccuracy, due to the fact that
+				OpenGL works by linearly interpolating across triangles, while the fisheye
+				projection is very much nonlinear.  Naturally, the greater the angular diameter of a
+				triangle as seen from the camera, the greater the inaccuracy.  Subdividing a
+				triangulation can reduce the nonlinearity artifacts.
+	@param cameraData       The data for the camera object.
+	@result		The new camera object.
+*/
+TQ3CameraObject
+Q3FisheyeCamera_New(
+    const TQ3FisheyeCameraData * _Nonnull cameraData
+)
+{
+	static_assert( sizeof(TQ3FisheyeCroppingFormat) == 4,
+		"size of TQ3FisheyeCroppingFormat" );
+	static_assert( sizeof(TQ3FisheyeMappingFunction) == 4,
+		"size of TQ3FisheyeMappingFunction" );
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return(E3FisheyeCamera_New(cameraData));
+}
+
+/*!
+	@function	Q3FisheyeCamera_GetData
+	@abstract	Get the data for a fisheye camera.
+	@param		camera		The camera.
+	@param		data		Receives the camera data.
+	@result		Success or failure of the operation.
+*/
+TQ3Status
+Q3FisheyeCamera_GetData( TQ3CameraObject _Nonnull camera,
+						TQ3FisheyeCameraData* _Nonnull data )
+{
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(data), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT( E3FisheyeCamera::IsOfMyClass ( camera ), kQ3Failure ) ;
+
+
+	// Debug build checks
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return ( (E3FisheyeCamera*) camera )->GetData( data );
+}
+
+
+/*!
+	@function	Q3FisheyeCamera_SetData
+	@abstract	Set the data for a fisheye camera.
+	@param		camera		The camera.
+	@param		cameraData	The new data.
+	@result		Success or failure of the operation.
+*/
+TQ3Status
+Q3FisheyeCamera_SetData( TQ3CameraObject _Nonnull camera,
+						const TQ3FisheyeCameraData * _Nonnull cameraData )
+{
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT( E3FisheyeCamera::IsOfMyClass( camera ), kQ3Failure );
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(cameraData), kQ3Failure);
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return ( (E3FisheyeCamera*) camera )->SetData( cameraData );
+}
+
+
+/*!
+	@function	Q3FisheyeCamera_CalcAngleOfView
+	@abstract	Compute the angle of view of a fisheye camera from other parameters.
+	@discussion	In the full frame cropping format, the maximum angle of view is achieved only
+				on the diagonals, whereas in the cropped circle format the maximum angle of view
+				is achieved horizontally.
+	@param			inSensorSize			The dimensions of the sensor or film in mm.
+	@param			inMappingFunc			The mapping function.
+	@param			inCropping				The cropping format.
+	@param			inFocalLength			The focal length in mm.
+	@result			The maximum angle of view in radians.
+*/
+float
+Q3FisheyeCamera_CalcAngleOfView( const TQ3Vector2D* inSensorSize,
+								TQ3FisheyeMappingFunction inMappingFunc,
+								TQ3FisheyeCroppingFormat inCropping,
+								float inFocalLength )
+{
+	float rmax = e3fisheyeCamera_maxRadius( *inSensorSize, inCropping );
+	float aov;
+	switch (inMappingFunc)
+	{
+		default:
+		case kQ3FisheyeMappingFunctionOrthographic:
+			aov = 2.0f * asinf( rmax / inFocalLength );
+			break;
+		
+		case kQ3FisheyeMappingFunctionStereographic:
+			aov = 4.0f * atan2f( rmax, 2.0f * inFocalLength );
+			break;
+		
+		case kQ3FisheyeMappingFunctionEquidistant:
+			aov = 2.0 * rmax / inFocalLength;
+			break;
+		
+		case kQ3FisheyeMappingFunctionEquisolidAngle:
+			aov = 4.0f * asinf( rmax / (2.0f * inFocalLength) );
+			break;
+	}
+	return aov;
+}
+
+
+/*!
+	@function	Q3FisheyeCamera_CalcFocalLength
+	@abstract	Compute the focal length of a fisheye camera from other parameters.
+	@param			inSensorSize			The dimensions of the sensor or film in mm.
+	@param			inMappingFunc			The mapping function.
+	@param			inCropping				The cropping format.
+	@param			inAngleOfView			The maximum angle of view in radians.
+	@result			The focal length in mm.
+*/
+float
+Q3FisheyeCamera_CalcFocalLength( const TQ3Vector2D* inSensorSize,
+								TQ3FisheyeMappingFunction inMappingFunc,
+								TQ3FisheyeCroppingFormat inCropping,
+								float inAngleOfView )
+{
+	float rmax = e3fisheyeCamera_maxRadius( *inSensorSize, inCropping );
+	float f;
+	switch (inMappingFunc)
+	{
+		default:
+		case kQ3FisheyeMappingFunctionOrthographic:
+			f = rmax / sinf( inAngleOfView / 2.0f );
+			break;
+		
+		case kQ3FisheyeMappingFunctionStereographic:
+			f = rmax / (2.0f * tanf( inAngleOfView/4.0f ) );
+			break;
+			
+		case kQ3FisheyeMappingFunctionEquidistant:
+			f = 2.0f * rmax / inAngleOfView;
+			break;
+			
+		case kQ3FisheyeMappingFunctionEquisolidAngle:
+			f = rmax / (2.0f * sinf( inAngleOfView / 4.0f ) );
+			break;
+	}
+	return f;
+}
+

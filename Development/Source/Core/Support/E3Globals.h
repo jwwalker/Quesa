@@ -5,7 +5,7 @@
         Header file for E3Globals.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -95,6 +95,7 @@ extern "C" {
 #define kQ3ClassNameCameraViewAngle					"ViewAngleCamera"
 #define kQ3ClassNameCameraViewPlane					"ViewPlaneCamera"
 #define kQ3ClassNameCameraAllSeeing					"AllSeeingCamera"
+#define kQ3ClassNameCameraFisheye					"FisheyeCamera"
 #define kQ3ClassNameCustomElementName				"Apple Computer, Inc.:NameElement"
 #define kQ3ClassNameCustomElementUrl				"Apple Computer, Inc.:URLElement"
 #define kQ3ClassNameCustomElementWire				"Apple Computer, Inc.:WireElement"

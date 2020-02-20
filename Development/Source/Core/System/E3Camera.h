@@ -204,7 +204,7 @@ struct E3ViewAngleAspectCameraData
 
 
 class E3ViewAngleAspectCamera : public E3Camera
-	{
+{
 Q3_CLASS_ENUMS ( kQ3CameraTypeViewAngleAspect, E3ViewAngleAspectCamera, E3Camera )
 
 public :
@@ -220,7 +220,7 @@ public :
 	TQ3Status			GetAspectRatio ( float *AspectRatioXToY ) ;
 	
 	friend TQ3Status e3camera_viewangle_new(TQ3Object theObject, void *privateData, const void *paramData) ;
-	} ;
+} ;
 
 
 class E3AllSeeingCamera : public E3Camera
@@ -236,6 +236,31 @@ public :
 };
 
 
+struct E3FisheyeCameraData
+{
+	TQ3Vector2D                    sensorSize;
+	float                          focalLength;
+	float                          angleOfView;
+	TQ3FisheyeMappingFunction      mappingFunction;
+	TQ3FisheyeCroppingFormat       croppingFormat;
+};
+
+class E3FisheyeCamera : public E3Camera
+{
+	Q3_CLASS_ENUMS ( kQ3CameraTypeFisheye, E3FisheyeCamera, E3Camera )
+	
+public :
+	static TQ3Boolean	IsOfMyClass ( TQ3Object object );
+	E3FisheyeCameraData	instanceData;
+
+	void				GetFrustumMatrix ( TQ3Matrix4x4 *theMatrix ) ;
+	TQ3Status			SetData ( const TQ3FisheyeCameraData *CameraData ) ;
+	TQ3Status			GetData ( TQ3FisheyeCameraData *CameraData ) ;
+
+	friend TQ3Status e3camera_fisheye_new(TQ3Object theObject, void *privateData, const void *paramData) ;
+};
+
+
 
 //=============================================================================
 //      Function prototypes
@@ -245,6 +270,7 @@ TQ3CameraObject		E3OrthographicCamera_New(const TQ3OrthographicCameraData *ortho
 TQ3CameraObject		E3ViewPlaneCamera_New(const TQ3ViewPlaneCameraData *cameraData);
 TQ3CameraObject		E3ViewAngleAspectCamera_New(const TQ3ViewAngleAspectCameraData *cameraData);
 TQ3CameraObject		E3AllSeeingCamera_New(const TQ3CameraData *cameraData);
+TQ3CameraObject		E3FisheyeCamera_New(const TQ3FisheyeCameraData *cameraData);
 
 
 

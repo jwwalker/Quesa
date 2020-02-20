@@ -90,7 +90,8 @@ enum EFogModeCombined
 enum class ECameraProjectionType
 {
 	standardRectilinear = 0,
-	allSeeingEquirectangular
+	allSeeingEquirectangular,
+	fisheye
 };
 
 //=============================================================================
@@ -208,6 +209,13 @@ struct ProgramRec
 	GLint			mTexCoordAttribLoc;		// vec2 quesaTexCoord0
 	GLint			mColorAttribLoc;		// vec4 quesaColor
 	GLint			mLayerShiftAttribLoc;	// float quesaLayerShift
+	
+	// Fisheye vertex shader uniforms
+	GLint			mSensorSizeAttribLoc;			// vec2 (mm)
+	GLint			mFocalLengthAttribLoc;			// float (mm)
+	GLint			mAngleOfViewAttribLoc;			// float (radians)
+	GLint			mFisheyeMappingFuncAttribLoc;	// int (enumeration)
+	GLint			mFisheyeCroppingAttribLoc;		// int (enumeration)
 };
 
 

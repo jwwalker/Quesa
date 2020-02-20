@@ -54,11 +54,11 @@ namespace QOGLSLShader
 	// Vertex Shader
 	extern const char* kVertexShaderStart;
 	extern const char* kVertexShaderStandardProjection;
-	extern const char* kVertexShaderAllSeeingProjection;
 	extern const char* kVertexShaderEnd;
 	
 	
 	// Geometry Shaders
+	extern const char* kFisheyeGeomShader;
 	extern const char* kAllSeeingGeomShader;
 	extern const char* kFaceEdgeGeomShader;
 	extern const char* kLineGeomShader;
@@ -83,6 +83,7 @@ namespace QOGLSLShader
 	extern const char* kSpotLightWithNondirIllumFragmentShaderSource;
 	extern const char* kMainFragmentShaderStart;
 	extern const char* kFragmentClipping;
+	extern const char* kFragmentFisheyeCropping;
 	extern const char* kMainFragmentShaderStartSmooth;
 	extern const char* kMainFragmentShaderStartFlat;
 	extern const char* kColorCompForNULLIllumination;
