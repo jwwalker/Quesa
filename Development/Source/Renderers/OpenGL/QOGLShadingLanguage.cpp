@@ -1549,8 +1549,11 @@ void	QORenderer::PerPixelLighting::InitVertexShader()
 				break;
 			
 			case ECameraProjectionType::allSeeingEquirectangular:
+				shaderSource += kVertexShaderAllSeeingProjection;
+				break;
+
 			case ECameraProjectionType::fisheye:
-				// In these cases, the geometry shader handles projection
+				shaderSource += kVertexShaderFisheyeProjection;
 				break;
 		}
 		shaderSource += kVertexShaderEnd;

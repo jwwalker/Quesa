@@ -54,6 +54,8 @@ namespace QOGLSLShader
 	// Vertex Shader
 	extern const char* kVertexShaderStart;
 	extern const char* kVertexShaderStandardProjection;
+	extern const char* kVertexShaderAllSeeingProjection;
+	extern const char* kVertexShaderFisheyeProjection;
 	extern const char* kVertexShaderEnd;
 	
 	

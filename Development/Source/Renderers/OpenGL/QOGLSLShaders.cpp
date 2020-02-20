@@ -49,6 +49,9 @@ namespace QOGLSLShader
 #pragma mark kVertexShaderStart
 const char* kVertexShaderStart = R"(
 #version 150 core
+const float pi = 3.14159265358979323846264338327950288;
+const vec3 forward = vec3( 0.0, 0.0, -1.0 );
+
 // Switch for layer shifting
 uniform bool isLayerShifting;
 
@@ -57,6 +60,11 @@ uniform mat4 quesaModelViewMtx;
 uniform mat4 quesaProjectionMtx;
 uniform mat4 quesaTextureMtx;
 uniform mat3 quesaNormalMtx;
+
+// Fisheye camera info
+uniform vec2 quesaSensorSize;
+uniform float quesaFocalLength;
+uniform int quesaFisheyeMappingFunc;
 
 // Other camera info
 uniform vec2 quesaCameraRange;		// near and far
@@ -118,6 +126,67 @@ void main()
 const char* kVertexShaderStandardProjection = R"(
 	// Compute position in device coordinates.
 	gl_Position = quesaProjectionMtx * vs_out.ECPos4;
+)";
+
+#pragma mark kVertexShaderAllSeeingProjection
+/*
+	This is not needed when rendering triangles, as the geometry shader handles
+	projection, but is needed for 1 or 0 dimensional geometry.
+*/
+const char* kVertexShaderAllSeeingProjection = R"(
+	float near = quesaCameraRange.x;
+	float far = quesaCameraRange.y;
+	float q = isinf( far )? 1.0 : far / (far - near);
+	float r = length(vs_out.ECPos4.xyz);
+	gl_Position.x = atan( vs_out.ECPos4.x, -vs_out.ECPos4.z ) / pi;
+	gl_Position.y = (2.0 * asin( vs_out.ECPos4.y / r )) / pi;
+	gl_Position.z = (vs_out.ECPos4.w == 0.0)? 2.0 * q - 1.0 : 2.0 * q - 1.0 - (2.0 * q * near) / r;
+	gl_Position.w = 1.0;
+
+	// viewport mapping
+	gl_Position.x = 2.0*(gl_Position.x - quesaCameraViewport.x)/quesaCameraViewport.z - 1.0;
+	gl_Position.y = 2.0*(gl_Position.y - quesaCameraViewport.y)/quesaCameraViewport.w + 1.0;
+)";
+
+#pragma mark kVertexShaderFisheyeProjection
+/*
+	This is not needed when rendering triangles, as the geometry shader handles
+	projection, but is needed for 1 or 0 dimensional geometry.
+*/
+const char* kVertexShaderFisheyeProjection = R"(
+	float near = quesaCameraRange.x;
+	float far = quesaCameraRange.y;
+	float q = isinf( far )? 1.0 : far / (far - near);
+	float r = length(vs_out.ECPos4.xyz);
+	gl_Position.z = (vs_out.ECPos4.w == 0.0)? 2.0 * q - 1.0 : 2.0 * q - 1.0 - (2.0 * q * near) / r;
+	gl_Position.w = 1.0;
+
+	r = 0.0;
+	float theta = atan( length( cross( vs_out.ECPos4.xyz, forward ) ), dot( vs_out.ECPos4.xyz, forward ) );
+	switch (quesaFisheyeMappingFunc)
+	{
+		case 0: // orthographic
+			r = quesaFocalLength * sin( theta );
+			break;
+			
+		case 1: // stereographic
+			r = 2.0 * quesaFocalLength * tan( theta/2.0 );
+			break;
+		
+		case 2: // equidistant
+			r = quesaFocalLength * theta;
+			break;
+			
+		case 3: // equisolidAngle
+			r = 2.0 * quesaFocalLength * sin( theta/2.0 );
+			break;
+	}
+	vec2 dir2d = normalize( vs_out.ECPos4.xy );
+	gl_Position.xy = 2.0 * r * dir2d / quesaSensorSize;
+
+	// viewport mapping
+	gl_Position.x = 2.0*(gl_Position.x - quesaCameraViewport.x)/quesaCameraViewport.z - 1.0;
+	gl_Position.y = 2.0*(gl_Position.y - quesaCameraViewport.y)/quesaCameraViewport.w + 1.0;
 )";
 
 
