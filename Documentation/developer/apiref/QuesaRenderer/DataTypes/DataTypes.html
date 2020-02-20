@@ -350,7 +350,7 @@ This method is optional.
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,           TQ3XRendererStartFrameMethod</b>) (<BR>
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull          theView,<BR>
 &nbsp;&nbsp;&nbsp;&nbsp;void                    * _Nonnull rendererPrivate,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject _Nonnull   theDrawContext<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject _Nullable   theDrawContext<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Invoked by Q3View_StartRendering to start a new frame.
 <br><br>
@@ -375,8 +375,8 @@ This method is required.
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Status,           TQ3XRendererStartPassMethod</b>) (<BR>
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull      theView,<BR>
 &nbsp;&nbsp;&nbsp;&nbsp;void                * _Nonnull rendererPrivate,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nonnull    theCamera,<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject _Nonnull     theLights<BR>);</tt><br>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nullable    theCamera,<BR>
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject _Nullable     theLights<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Invoked by Q3View_StartRendering to start a new pass.
 <br><br>
@@ -719,5 +719,5 @@ This method is optional.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the callback.
  </dd></dl>
-<p><p>&#169; 1999-2019 Quesa Developers (Last Updated 10/13/2019)
+<p><p>&#169; 1999-2020 Quesa Developers (Last Updated 2/20/2020)
 </p></body></html>

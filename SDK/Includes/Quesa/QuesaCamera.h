@@ -111,7 +111,9 @@ typedef enum TQ3FisheyeCroppingFormat
 	@discussion	The mapping function relates the angle of an incoming light ray to the distance r
 				from the center of the sensor to the image of the ray, taking into account the
 				focal length f.
-	@constant	kQ3FisheyeMappingFunctionOrthographic		r = f sin( angle )
+	@constant	kQ3FisheyeMappingFunctionOrthographic		r = f sin( angle ) <br/>
+						Since this function is increasing only up to an angle of pi/2, this kind of fisheye lens
+						cannot have an angle of view greater than pi (180 degrees).
 	@constant	kQ3FisheyeMappingFunctionStereographic		r = 2 * f * tan( angle/2 )
 	@constant	kQ3FisheyeMappingFunctionEquidistant		r = f * angle
 	@constant	kQ3FisheyeMappingFunctionEquisolidAngle		r = 2 * f * sin( angle/2 )

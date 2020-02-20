@@ -116,6 +116,32 @@ horizontal strips for printing).
 <dt><tt>height</tt></dt><dd>The width of the viewport.</dd>
 </dl>
 </blockquote>
+<hr><a name="//Quesa/c/tag/TQ3FisheyeCameraData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3FisheyeCameraData">TQ3FisheyeCameraData</a></h2>
+</td></tr></table><hr>State for a fisheye camera.
+
+<blockquote><pre>
+typedef struct TQ3FisheyeCameraData {
+    TQ3CameraData                  cameraData;
+    TQ3Vector2D                    sensorSize;
+    float                          focalLength;
+    TQ3FisheyeMappingFunction      mappingFunction;
+    TQ3FisheyeCroppingFormat       croppingFormat;
+} TQ3FisheyeCameraData;
+</pre>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt>cameraData</tt></dt><dd>The common state for the camera.</dd>
+<dt><tt>sensorSize</tt></dt><dd>The dimensions of the sensor or film in mm.
+The aspect ratio should be the same as the
+view.</dd>
+<dt><tt>focalLength</tt></dt><dd>The focal length of the lens in mm.</dd>
+<dt><tt>mappingFunction</tt></dt><dd>The mapping function.</dd>
+<dt><tt>croppingFormat</tt></dt><dd>The cropping format.</dd>
+</dl>
+</blockquote>
 <hr><a name="//Quesa/c/tag/TQ3OrthographicCameraData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3OrthographicCameraData">TQ3OrthographicCameraData</a></h2>
 </td></tr></table><hr><blockquote><pre>
@@ -210,5 +236,5 @@ extends from the camera position through the four edges of this rectangle.
 <dt><tt>centerYOnViewPlane</tt></dt><dd>The y-center of the rectangle on the view plane.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2019 Quesa Developers (Last Updated 10/13/2019)
+<p><p>&#169; 1999-2020 Quesa Developers (Last Updated 2/20/2020)
 </p></body></html>

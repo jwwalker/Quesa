@@ -9,6 +9,34 @@
 Declares the Quesa camera objects.
 <br><br>
 <hr><br><h2>Functions</h2>
+<hr><a name="//Quesa/c/func/Q3AllSeeingCamera_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3AllSeeingCamera_New">Q3AllSeeingCamera_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3CameraObject _Nonnull ) Q3AllSeeingCamera_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3CameraData * _Nonnull cameraData
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new all-seeing camera object.
+<br><br>
+This kind of camera sees in all directions, using equirectangular coordinates.
+<br><br>
+Rendering with this camera will experience some inaccuracy, due to the fact that
+OpenGL works by linearly interpolating across triangles, while the equirectangular
+projection is very much nonlinear.  Naturally, the greater the angular diameter of a
+triangle as seen from the camera, the greater the inaccuracy.  Subdividing a
+triangulation can reduce the nonlinearity artifacts.
+<br><br>
+There will also be more artifacts around the "poles" of the map (much as one sees
+in cartography), which correspond to the up and down directions of the camera.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>cameraData</em></tt></dt><dd>The data for the camera object.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>The new camera object.
+ </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Camera_GetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Camera_GetData">Q3Camera_GetData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Camera_GetData (
@@ -284,6 +312,112 @@ submitting loop.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
+<hr><a name="//Quesa/c/func/Q3FisheyeCamera_CalcAngleOfView"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FisheyeCamera_CalcAngleOfView">Q3FisheyeCamera_CalcAngleOfView</a></h2>
+</td></tr></table><hr>Compute the angle of view of a fisheye camera from other parameters.
+
+<blockquote><pre><tt>( float ) Q3FisheyeCamera_CalcAngleOfView (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector2D* _Nonnull inSensorSize,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FisheyeMappingFunction inMappingFunc,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FisheyeCroppingFormat inCropping,
+&nbsp;&nbsp;&nbsp;&nbsp;float inFocalLength
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>In the full frame cropping format, the maximum angle of view is achieved only
+on the diagonals, whereas in the cropped circle format the maximum angle of view
+is achieved horizontally.
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>inSensorSize</em></tt></dt><dd>The dimensions of the sensor or film in mm.</dd>
+<dt><tt><em>inMappingFunc</em></tt></dt><dd>The mapping function.</dd>
+<dt><tt><em>inCropping</em></tt></dt><dd>The cropping format.</dd>
+<dt><tt><em>inFocalLength</em></tt></dt><dd>The focal length in mm.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>The maximum angle of view in radians.
+</dd></dl>
+<hr><a name="//Quesa/c/func/Q3FisheyeCamera_CalcFocalLength"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FisheyeCamera_CalcFocalLength">Q3FisheyeCamera_CalcFocalLength</a></h2>
+</td></tr></table><hr>Compute the focal length of a fisheye camera from other parameters.
+
+<blockquote><pre><tt>( float ) Q3FisheyeCamera_CalcFocalLength (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector2D* _Nonnull inSensorSize,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FisheyeMappingFunction inMappingFunc,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FisheyeCroppingFormat inCropping,
+&nbsp;&nbsp;&nbsp;&nbsp;float inAngleOfView
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>inSensorSize</em></tt></dt><dd>The dimensions of the sensor or film in mm.</dd>
+<dt><tt><em>inMappingFunc</em></tt></dt><dd>The mapping function.</dd>
+<dt><tt><em>inCropping</em></tt></dt><dd>The cropping format.</dd>
+<dt><tt><em>inAngleOfView</em></tt></dt><dd>The maximum angle of view in radians.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>The focal length in mm.
+</dd></dl>
+<hr><a name="//Quesa/c/func/Q3FisheyeCamera_GetData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FisheyeCamera_GetData">Q3FisheyeCamera_GetData</a></h2>
+</td></tr></table><hr>Get the data for a fisheye camera.
+
+<blockquote><pre><tt>( TQ3Status ) Q3FisheyeCamera_GetData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nonnull camera,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FisheyeCameraData* _Nonnull data
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>camera</em></tt></dt><dd>The camera.</dd>
+<dt><tt><em>data</em></tt></dt><dd>Receives the camera data.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+</dd></dl>
+<hr><a name="//Quesa/c/func/Q3FisheyeCamera_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FisheyeCamera_New">Q3FisheyeCamera_New</a></h2>
+</td></tr></table><hr>Create a fisheye camera.
+
+<blockquote><pre><tt>( TQ3CameraObject _Nonnull ) Q3FisheyeCamera_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3FisheyeCameraData * _Nonnull cameraData
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Rendering with this camera will experience some inaccuracy, due to the fact that
+OpenGL works by linearly interpolating across triangles, while the fisheye
+projection is very much nonlinear.  Naturally, the greater the angular diameter of a
+triangle as seen from the camera, the greater the inaccuracy.  Subdividing a
+triangulation can reduce the nonlinearity artifacts.
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>cameraData</em></tt></dt><dd>The data for the camera object.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>The new camera object.
+</dd></dl>
+<hr><a name="//Quesa/c/func/Q3FisheyeCamera_SetData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FisheyeCamera_SetData">Q3FisheyeCamera_SetData</a></h2>
+</td></tr></table><hr>Set the data for a fisheye camera.
+
+<blockquote><pre><tt>( TQ3Status ) Q3FisheyeCamera_SetData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nonnull camera,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3FisheyeCameraData * _Nonnull cameraData
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>camera</em></tt></dt><dd>The camera.</dd>
+<dt><tt><em>cameraData</em></tt></dt><dd>The new data.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+</dd></dl>
 <hr><a name="//Quesa/c/func/Q3OrthographicCamera_GetBottom"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3OrthographicCamera_GetBottom">Q3OrthographicCamera_GetBottom</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3OrthographicCamera_GetBottom (
@@ -1021,6 +1155,32 @@ horizontal strips for printing).
 <dt><tt>height</tt></dt><dd>The width of the viewport.</dd>
 </dl>
 </blockquote>
+<hr><a name="//Quesa/c/tag/TQ3FisheyeCameraData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3FisheyeCameraData">TQ3FisheyeCameraData</a></h2>
+</td></tr></table><hr>State for a fisheye camera.
+
+<blockquote><pre>
+typedef struct TQ3FisheyeCameraData {
+    TQ3CameraData                  cameraData;
+    TQ3Vector2D                    sensorSize;
+    float                          focalLength;
+    TQ3FisheyeMappingFunction      mappingFunction;
+    TQ3FisheyeCroppingFormat       croppingFormat;
+} TQ3FisheyeCameraData;
+</pre>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt>cameraData</tt></dt><dd>The common state for the camera.</dd>
+<dt><tt>sensorSize</tt></dt><dd>The dimensions of the sensor or film in mm.
+The aspect ratio should be the same as the
+view.</dd>
+<dt><tt>focalLength</tt></dt><dd>The focal length of the lens in mm.</dd>
+<dt><tt>mappingFunction</tt></dt><dd>The mapping function.</dd>
+<dt><tt>croppingFormat</tt></dt><dd>The cropping format.</dd>
+</dl>
+</blockquote>
 <hr><a name="//Quesa/c/tag/TQ3OrthographicCameraData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3OrthographicCameraData">TQ3OrthographicCameraData</a></h2>
 </td></tr></table><hr><blockquote><pre>
@@ -1115,5 +1275,65 @@ extends from the camera position through the four edges of this rectangle.
 <dt><tt>centerYOnViewPlane</tt></dt><dd>The y-center of the rectangle on the view plane.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2019 Quesa Developers (Last Updated 10/13/2019)
+<h2>Enumerations</h2>
+<hr><a name="//Quesa/c/tag/TQ3FisheyeCroppingFormat"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3FisheyeCroppingFormat">TQ3FisheyeCroppingFormat</a></h2>
+</td></tr></table><hr>Type of cropping for a fisheye camera
+<br>
+<blockquote><pre>
+typedef enum TQ3FisheyeCroppingFormat
+{
+  kQ3FisheyeCroppingFormatCircular = 0,
+  kQ3FisheyeCroppingFormatCroppedCircle,
+  kQ3FisheyeCroppingFormatFullFrame,
+  kQ3FisheyeCroppingFormatSize32 = 0x7FFFFFFF
+} TQ3FisheyeCroppingFormat;
+</pre>
+</blockquote>
+<h4>Constants</h4>
+<blockquote>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3FisheyeCroppingFormatCircular"><tt>kQ3FisheyeCroppingFormatCircular</tt></a></dt><dd>The fisheye rendering fills a circular area that fits tightly
+in the smaller view dimension and is centered in the larger
+view dimension.</dd>
+<dt><a name="//Quesa/c/econst/kQ3FisheyeCroppingFormatCroppedCircle"><tt>kQ3FisheyeCroppingFormatCroppedCircle</tt></a></dt><dd>The circular area of fisheye rendering is tight against the
+left and right edges of the view, and is cropped on the top
+and bottom.</dd>
+<dt><a name="//Quesa/c/econst/kQ3FisheyeCroppingFormatFullFrame"><tt>kQ3FisheyeCroppingFormatFullFrame</tt></a></dt><dd>The fisheye rendering is cropped so that the view rectangle
+is totally filled.</dd>
+</dl>
+</blockquote>
+<hr><a name="//Quesa/c/tag/TQ3FisheyeMappingFunction"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3FisheyeMappingFunction">TQ3FisheyeMappingFunction</a></h2>
+</td></tr></table><hr>Type of fisheye mapping function.  See
+<a href="https://en.wikipedia.org/wiki/Fisheye_lens#Mapping_function">
+Wikipedia on Fisheye Lenses</a>.
+<br>
+<blockquote><pre>
+typedef enum TQ3FisheyeMappingFunction
+{
+  kQ3FisheyeMappingFunctionOrthographic = 0,
+  kQ3FisheyeMappingFunctionStereographic,
+  kQ3FisheyeMappingFunctionEquidistant,
+  kQ3FisheyeMappingFunctionEquisolidAngle,
+  kQ3FisheyeMappingFunctionSize32 = 0x7FFFFFFF
+} TQ3FisheyeMappingFunction;
+</pre>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>The mapping function relates the angle of an incoming light ray to the distance r
+from the center of the sensor to the image of the ray, taking into account the
+focal length f.
+</p>
+<h4>Constants</h4>
+<blockquote>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3FisheyeMappingFunctionOrthographic"><tt>kQ3FisheyeMappingFunctionOrthographic</tt></a></dt><dd>r = f sin( angle ) <br/>
+Since this function is increasing only up to an angle of pi/2, this kind of fisheye lens
+cannot have an angle of view greater than pi (180 degrees).</dd>
+<dt><a name="//Quesa/c/econst/kQ3FisheyeMappingFunctionStereographic"><tt>kQ3FisheyeMappingFunctionStereographic</tt></a></dt><dd>r = 2 * f * tan( angle/2 )</dd>
+<dt><a name="//Quesa/c/econst/kQ3FisheyeMappingFunctionEquidistant"><tt>kQ3FisheyeMappingFunctionEquidistant</tt></a></dt><dd>r = f * angle</dd>
+<dt><a name="//Quesa/c/econst/kQ3FisheyeMappingFunctionEquisolidAngle"><tt>kQ3FisheyeMappingFunctionEquisolidAngle</tt></a></dt><dd>r = 2 * f * sin( angle/2 )</dd>
+</dl>
+</blockquote>
+<p><p>&#169; 1999-2020 Quesa Developers (Last Updated 2/20/2020)
 </p></body></html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+    "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a[name]:hover {text-decoration: inherit; font-family: inherit; font-size: inherit}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+    <title>Enumerations</title>
+	 <meta name="generator" content="HeaderDoc">
+</head><body bgcolor="#ffffff">
+<h1><font face="Geneva,Arial,Helvtica">Enumerations</font></h1><br>
+<hr><a name="//Quesa/c/tag/TQ3FisheyeCroppingFormat"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3FisheyeCroppingFormat">TQ3FisheyeCroppingFormat</a></h2>
+</td></tr></table><hr>Type of cropping for a fisheye camera
+<br>
+<blockquote><pre>
+typedef enum TQ3FisheyeCroppingFormat
+{
+  kQ3FisheyeCroppingFormatCircular = 0,
+  kQ3FisheyeCroppingFormatCroppedCircle,
+  kQ3FisheyeCroppingFormatFullFrame,
+  kQ3FisheyeCroppingFormatSize32 = 0x7FFFFFFF
+} TQ3FisheyeCroppingFormat;
+</pre>
+</blockquote>
+<h4>Constants</h4>
+<blockquote>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3FisheyeCroppingFormatCircular"><tt>kQ3FisheyeCroppingFormatCircular</tt></a></dt><dd>The fisheye rendering fills a circular area that fits tightly
+in the smaller view dimension and is centered in the larger
+view dimension.</dd>
+<dt><a name="//Quesa/c/econst/kQ3FisheyeCroppingFormatCroppedCircle"><tt>kQ3FisheyeCroppingFormatCroppedCircle</tt></a></dt><dd>The circular area of fisheye rendering is tight against the
+left and right edges of the view, and is cropped on the top
+and bottom.</dd>
+<dt><a name="//Quesa/c/econst/kQ3FisheyeCroppingFormatFullFrame"><tt>kQ3FisheyeCroppingFormatFullFrame</tt></a></dt><dd>The fisheye rendering is cropped so that the view rectangle
+is totally filled.</dd>
+</dl>
+</blockquote>
+<hr><a name="//Quesa/c/tag/TQ3FisheyeMappingFunction"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3FisheyeMappingFunction">TQ3FisheyeMappingFunction</a></h2>
+</td></tr></table><hr>Type of fisheye mapping function.  See
+<a href="https://en.wikipedia.org/wiki/Fisheye_lens#Mapping_function">
+Wikipedia on Fisheye Lenses</a>.
+<br>
+<blockquote><pre>
+typedef enum TQ3FisheyeMappingFunction
+{
+  kQ3FisheyeMappingFunctionOrthographic = 0,
+  kQ3FisheyeMappingFunctionStereographic,
+  kQ3FisheyeMappingFunctionEquidistant,
+  kQ3FisheyeMappingFunctionEquisolidAngle,
+  kQ3FisheyeMappingFunctionSize32 = 0x7FFFFFFF
+} TQ3FisheyeMappingFunction;
+</pre>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>The mapping function relates the angle of an incoming light ray to the distance r
+from the center of the sensor to the image of the ray, taking into account the
+focal length f.
+</p>
+<h4>Constants</h4>
+<blockquote>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3FisheyeMappingFunctionOrthographic"><tt>kQ3FisheyeMappingFunctionOrthographic</tt></a></dt><dd>r = f sin( angle ) <br/>
+Since this function is increasing only up to an angle of pi/2, this kind of fisheye lens
+cannot have an angle of view greater than pi (180 degrees).</dd>
+<dt><a name="//Quesa/c/econst/kQ3FisheyeMappingFunctionStereographic"><tt>kQ3FisheyeMappingFunctionStereographic</tt></a></dt><dd>r = 2 * f * tan( angle/2 )</dd>
+<dt><a name="//Quesa/c/econst/kQ3FisheyeMappingFunctionEquidistant"><tt>kQ3FisheyeMappingFunctionEquidistant</tt></a></dt><dd>r = f * angle</dd>
+<dt><a name="//Quesa/c/econst/kQ3FisheyeMappingFunctionEquisolidAngle"><tt>kQ3FisheyeMappingFunctionEquisolidAngle</tt></a></dt><dd>r = 2 * f * sin( angle/2 )</dd>
+</dl>
+</blockquote>
+<p><p>&#169; 1999-2020 Quesa Developers (Last Updated 2/20/2020)
+</p></body></html>

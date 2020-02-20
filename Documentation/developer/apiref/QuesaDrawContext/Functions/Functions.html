@@ -527,8 +527,8 @@ draw context (e.g., the bounds of the window).
 <hr><a name="//Quesa/c/func/Q3Win32DCDrawContext_GetDC"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Win32DCDrawContext_GetDC">Q3Win32DCDrawContext_GetDC</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Win32DCDrawContext_GetDC (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject drawContext,
-&nbsp;&nbsp;&nbsp;&nbsp;HDC *curHDC
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject _Nonnull drawContext,
+&nbsp;&nbsp;&nbsp;&nbsp;HDC _Nullable * _Nonnull curHDC
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the DC for a Win32 DC draw context.
@@ -545,8 +545,8 @@ draw context (e.g., the bounds of the window).
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Win32DCDrawContext_New"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Win32DCDrawContext_New">Q3Win32DCDrawContext_New</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( TQ3DrawContextObject ) Q3Win32DCDrawContext_New (
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Win32DCDrawContextData *drawContextData
+</td></tr></table><hr><blockquote><pre><tt>( TQ3DrawContextObject _Nullable ) Q3Win32DCDrawContext_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Win32DCDrawContextData * _Nonnull drawContextData
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new Win32 DC draw context object.
@@ -563,8 +563,8 @@ draw context (e.g., the bounds of the window).
 <hr><a name="//Quesa/c/func/Q3Win32DCDrawContext_SetDC"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Win32DCDrawContext_SetDC">Q3Win32DCDrawContext_SetDC</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Win32DCDrawContext_SetDC (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject drawContext,
-&nbsp;&nbsp;&nbsp;&nbsp;HDC newHDC
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject _Nonnull drawContext,
+&nbsp;&nbsp;&nbsp;&nbsp;HDC _Nonnull newHDC
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the DC for a Win32 DC draw context.
@@ -852,5 +852,5 @@ purpose of the function, and its parameters/result, have been assumed.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>The X11 visual info.
  </dd></dl>
-<p><p>&#169; 1999-2019 Quesa Developers (Last Updated 10/13/2019)
+<p><p>&#169; 1999-2020 Quesa Developers (Last Updated 2/20/2020)
 </p></body></html>
