@@ -1158,20 +1158,20 @@ createGeomQuesa(void)
 	TQ3ColorRGB				colourTorus   = { 0.19f, 0.21f, 0.60f };
 	TQ3ColorRGB				colourSphere  = { 0.66f, 0.01f, 0.01f };
 	TQ3ColorRGB				colourCone    = { 0.14f, 0.42f, 0.18f };
-	TQ3TorusData			torusData = { { 0.0f, 0.3f, 0.0f },		// Origin
+	TQ3TorusData			torusData = { { 0.0f, 0.0f, 0.0f },		// Origin
 										  { 0.0f, 0.0f, 0.3f },		// Orientation
 										  { 1.0f, 0.0f, 0.0f },		// Major radius
 										  { 0.0f, 1.0f, 0.0f },		// Minor radius
 										    1.0f,					// Ratio
 										    0.0f, 1.0f, 0.0f, 1.0f,
 										    kQ3EndCapNone, NULL, NULL };
-	TQ3EllipsoidData		sphereData = { { 0.0f, 0.3f, 0.0f },	// Origin
+	TQ3EllipsoidData		sphereData = { { 0.0f, 0.0f, 0.0f },	// Origin
 										   { 0.0f, 0.0f, 0.3f },	// Orientation
 										   { 0.3f, 0.0f, 0.0f },	// Major radius
 										   { 0.0f, 0.3f, 0.0f },	// Minor radius
 										   0.0f, 1.0f, 0.0f, 1.0f,
 										   kQ3EndCapNone, NULL, NULL };
-	TQ3ConeData				coneData   = { { 0.0f, -1.4f,  0.0f },	// Origin
+	TQ3ConeData				coneData   = { { 0.0f, -1.7f,  0.0f },	// Origin
 										   { 0.0f,  1.5f,  0.0f },	// Orientation
 										   { 0.0f,  0.0f,  0.3f },	// Major radius
 										   { 0.3f,  0.0f,  0.0f },	// Minor radius

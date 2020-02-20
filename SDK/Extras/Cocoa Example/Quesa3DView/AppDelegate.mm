@@ -371,6 +371,8 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 	TQ3Vector3D		_axis;
 }
 
+@synthesize fisheyeCamera = _fisheyeCamera;
+
 //==================================================================================
 //	init
 //==================================================================================
@@ -716,6 +718,47 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 	};
 	CQ3ObjectRef theCamera( Q3AllSeeingCamera_New( &camData ) );
 	Q3View_SetCamera( quesa3dView.qd3dView, theCamera.get() );
+}
+
+- (void) makeFisheyeCamera
+{
+	TQ3Area		theArea;
+	Q3DrawContext_GetPane( quesa3dView.drawContext, &theArea );
+	float aspect = (theArea.max.x - theArea.min.x) / (theArea.max.y - theArea.min.y);
+
+	TQ3FisheyeCameraData camData = {
+		{	// TQ3CameraData
+			{ // TQ3CameraPlacement
+				{ 0.0f, 0.0f, 5.0f },	// cameraLocation
+				{ 0.0f, 0.0f, 0.0f },	// pointOfInterest
+				{ 0.0f, 1.0f, 0.0f }	// upVector
+			},
+			{ // TQ3CameraRange
+				0.1f,					// hither
+				10.0f					// yon
+			},
+			{ // TQ3CameraViewPort
+				{
+					-1.0f, 1.0f
+				},
+				2.0f, 2.0f
+			}
+		},
+		{
+			aspect * 10.0f, 10.0f			// sensorSize
+		},
+		10.0f,						// focalLength (placeholder value)
+		kQ3FisheyeMappingFunctionEquisolidAngle,
+		kQ3FisheyeCroppingFormatCroppedCircle
+	};
+	camData.focalLength = Q3FisheyeCamera_CalcFocalLength( &camData.sensorSize,
+		camData.mappingFunction, camData.croppingFormat, kQ3Pi );
+	CQ3ObjectRef theCamera( Q3FisheyeCamera_New( &camData ) );
+	Q3View_SetCamera( quesa3dView.qd3dView, theCamera.get() );
+	
+	self.fisheyeCropFormat = kQ3FisheyeCroppingFormatCroppedCircle;
+	self.fisheyeMappingFunc = kQ3FisheyeMappingFunctionEquisolidAngle;
+	self.fisheyeAngleOfView = 180.0f;
 }
 
 #pragma mark accessors (KVC and KVO compliant)
@@ -1095,10 +1138,16 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 			case 2:
 				[self makeAllSeeingCamera];
 				break;
+			
+			case 3:
+				[self makeFisheyeCamera];
+				break;
 		}
 		_testViewport = !_testViewport;
 		self.testViewport = !_testViewport;
 		[quesa3dView setNeedsDisplay: YES];
+		
+		self.fisheyeCamera = _cameraType == 3;
 	}
 }
 
@@ -1210,6 +1259,79 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 		}
 		CQ3ObjectRef theCamera( CQ3View_GetCamera( quesa3dView.qd3dView ) );
 		Q3Camera_SetViewPort( theCamera.get(), &viewPort );
+		[quesa3dView setNeedsDisplay: YES];
+	}
+}
+
+- (int) fisheyeCropFormat
+{
+	return _fisheyeCropFormat;
+}
+
+- (void) setFisheyeCropFormat:(int)fisheyeCropFormat
+{
+	if (fisheyeCropFormat != _fisheyeCropFormat)
+	{
+		_fisheyeCropFormat = fisheyeCropFormat;
+		
+		CQ3ObjectRef theCamera( CQ3View_GetCamera( quesa3dView.qd3dView ) );
+		TQ3FisheyeCameraData fisheyeData;
+		Q3FisheyeCamera_GetData( theCamera.get(), &fisheyeData );
+		fisheyeData.croppingFormat = (TQ3FisheyeCroppingFormat) _fisheyeCropFormat;
+		// Having changed the cropping, we need to recalculate
+		// the focal length to match the angle of view.
+		fisheyeData.focalLength = Q3FisheyeCamera_CalcFocalLength(
+			&fisheyeData.sensorSize, fisheyeData.mappingFunction,
+			fisheyeData.croppingFormat, Q3Math_DegreesToRadians( self.fisheyeAngleOfView ) );
+		Q3FisheyeCamera_SetData( theCamera.get(), &fisheyeData );
+		[quesa3dView setNeedsDisplay: YES];
+	}
+}
+
+- (int) fisheyeMappingFunc
+{
+	return _fisheyeMappingFunc;
+}
+
+- (void) setFisheyeMappingFunc:(int)fisheyeMappingFunc
+{
+	if (fisheyeMappingFunc != _fisheyeMappingFunc)
+	{
+		_fisheyeMappingFunc = fisheyeMappingFunc;
+		
+		CQ3ObjectRef theCamera( CQ3View_GetCamera( quesa3dView.qd3dView ) );
+		TQ3FisheyeCameraData fisheyeData;
+		Q3FisheyeCamera_GetData( theCamera.get(), &fisheyeData );
+		fisheyeData.mappingFunction = (TQ3FisheyeMappingFunction) _fisheyeMappingFunc;
+		// Having changed the mapping, we need to recalculate
+		// the focal length to match the angle of view.
+		fisheyeData.focalLength = Q3FisheyeCamera_CalcFocalLength(
+			&fisheyeData.sensorSize, fisheyeData.mappingFunction,
+			fisheyeData.croppingFormat, Q3Math_DegreesToRadians( self.fisheyeAngleOfView ) );
+		Q3FisheyeCamera_SetData( theCamera.get(), &fisheyeData );
+		[quesa3dView setNeedsDisplay: YES];
+	}
+}
+
+- (float) fisheyeAngleOfView
+{
+	return _fisheyeAngleOfView;
+}
+
+- (void) setFisheyeAngleOfView:(float)fisheyeAngleOfView
+{
+	if (fisheyeAngleOfView != _fisheyeAngleOfView)
+	{
+		_fisheyeAngleOfView = fisheyeAngleOfView;
+
+		CQ3ObjectRef theCamera( CQ3View_GetCamera( quesa3dView.qd3dView ) );
+		TQ3FisheyeCameraData fisheyeData;
+		Q3FisheyeCamera_GetData( theCamera.get(), &fisheyeData );
+		fisheyeData.focalLength = Q3FisheyeCamera_CalcFocalLength(
+			&fisheyeData.sensorSize, fisheyeData.mappingFunction,
+			fisheyeData.croppingFormat,
+			Q3Math_DegreesToRadians( _fisheyeAngleOfView ) );
+		Q3FisheyeCamera_SetData( theCamera.get(), &fisheyeData );
 		[quesa3dView setNeedsDisplay: YES];
 	}
 }
@@ -1469,7 +1591,7 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 		kQ3SubdivisionMethodConstant,
 		30.0f,
 		30.0f
-	};	
+	};
 
 	// Submit the styles
 	Q3Object_Submit( _backfacingStyleObject, [inView qd3dView] );
@@ -1529,6 +1651,20 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 					orthoData.top = orthoData.right / aspect;
 				}
 				Q3OrthographicCamera_SetData( theCamera.get(), &orthoData );
+			}
+			break;
+		
+		case kQ3CameraTypeFisheye:
+			{
+				TQ3FisheyeCameraData fisheyeData;
+				Q3FisheyeCamera_GetData( theCamera.get(), &fisheyeData );
+				fisheyeData.sensorSize.x = aspect * fisheyeData.sensorSize.y;
+				// Having changed the sensor size, we need to recalculate
+				// the focal length to match the angle of view.
+				fisheyeData.focalLength = Q3FisheyeCamera_CalcFocalLength(
+					&fisheyeData.sensorSize, fisheyeData.mappingFunction,
+					fisheyeData.croppingFormat, Q3Math_DegreesToRadians( self.fisheyeAngleOfView ) );
+				Q3FisheyeCamera_SetData( theCamera.get(), &fisheyeData );
 			}
 			break;
 	}

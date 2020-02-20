@@ -13,20 +13,20 @@
             <windowStyleMask key="styleMask" titled="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="37" y="307" width="869" height="613"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="877"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1027"/>
             <view key="contentView" id="2">
                 <rect key="frame" x="0.0" y="0.0" width="869" height="613"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <box title="Rotation" id="141">
-                        <rect key="frame" x="612" y="198" width="246" height="158"/>
+                        <rect key="frame" x="612" y="198" width="246" height="102"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <view key="contentView" id="T3o-Ox-QeQ">
-                            <rect key="frame" x="3" y="3" width="240" height="138"/>
+                            <rect key="frame" x="3" y="3" width="240" height="84"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" preferredMaxLayoutWidth="9" id="147">
-                                    <rect key="frame" x="7" y="104" width="13" height="17"/>
+                                    <rect key="frame" x="7" y="60" width="13" height="17"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="X" id="274">
                                         <font key="font" metaFont="system"/>
@@ -35,7 +35,7 @@
                                     </textFieldCell>
                                 </textField>
                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" preferredMaxLayoutWidth="9" id="148">
-                                    <rect key="frame" x="7" y="61" width="13" height="17"/>
+                                    <rect key="frame" x="7" y="35" width="13" height="17"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Y" id="275">
                                         <font key="font" metaFont="system"/>
@@ -44,7 +44,7 @@
                                     </textFieldCell>
                                 </textField>
                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" preferredMaxLayoutWidth="9" id="149">
-                                    <rect key="frame" x="7" y="19" width="13" height="17"/>
+                                    <rect key="frame" x="7" y="11" width="13" height="17"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="Z" id="276">
                                         <font key="font" metaFont="system"/>
@@ -53,11 +53,9 @@
                                     </textFieldCell>
                                 </textField>
                                 <slider verticalHuggingPriority="750" id="150">
-                                    <rect key="frame" x="27" y="16" width="208" height="27"/>
+                                    <rect key="frame" x="29" y="9" width="204" height="18"/>
                                     <autoresizingMask key="autoresizingMask"/>
-                                    <sliderCell key="cell" continuous="YES" alignment="left" maxValue="360" tickMarkPosition="below" numberOfTickMarks="11" sliderType="linear" id="277">
-                                        <font key="font" metaFont="user"/>
-                                    </sliderCell>
+                                    <sliderCell key="cell" controlSize="small" continuous="YES" alignment="left" maxValue="360" tickMarkPosition="below" numberOfTickMarks="11" sliderType="linear" id="277"/>
                                     <connections>
                                         <binding destination="138" name="enabled" keyPath="animates" id="264">
                                             <dictionary key="options">
@@ -68,11 +66,9 @@
                                     </connections>
                                 </slider>
                                 <slider verticalHuggingPriority="750" id="151">
-                                    <rect key="frame" x="27" y="101" width="208" height="27"/>
+                                    <rect key="frame" x="29" y="58" width="204" height="18"/>
                                     <autoresizingMask key="autoresizingMask"/>
-                                    <sliderCell key="cell" continuous="YES" alignment="left" maxValue="360" tickMarkPosition="below" numberOfTickMarks="11" sliderType="linear" id="278">
-                                        <font key="font" metaFont="user"/>
-                                    </sliderCell>
+                                    <sliderCell key="cell" controlSize="small" continuous="YES" alignment="left" maxValue="360" tickMarkPosition="below" numberOfTickMarks="11" sliderType="linear" id="278"/>
                                     <connections>
                                         <binding destination="138" name="enabled" keyPath="animates" id="258">
                                             <dictionary key="options">
@@ -83,11 +79,9 @@
                                     </connections>
                                 </slider>
                                 <slider verticalHuggingPriority="750" id="152">
-                                    <rect key="frame" x="27" y="58" width="208" height="27"/>
+                                    <rect key="frame" x="29" y="33" width="204" height="18"/>
                                     <autoresizingMask key="autoresizingMask"/>
-                                    <sliderCell key="cell" continuous="YES" alignment="left" maxValue="360" tickMarkPosition="below" numberOfTickMarks="11" sliderType="linear" id="279">
-                                        <font key="font" size="12" name="Helvetica-Bold"/>
-                                    </sliderCell>
+                                    <sliderCell key="cell" controlSize="small" continuous="YES" alignment="left" maxValue="360" tickMarkPosition="below" numberOfTickMarks="11" sliderType="linear" id="279"/>
                                     <connections>
                                         <binding destination="138" name="enabled" keyPath="animates" id="261">
                                             <dictionary key="options">
@@ -99,14 +93,13 @@
                                 </slider>
                             </subviews>
                         </view>
-                        <font key="titleFont" metaFont="system"/>
                     </box>
                     <popUpButton verticalHuggingPriority="750" imageHugsTitle="YES" id="167">
                         <rect key="frame" x="694" y="579" width="169" height="25"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <popUpButtonCell key="cell" type="push" title="Box" bezelStyle="rounded" alignment="left" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" tag="1" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="165" id="280">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
+                            <font key="font" metaFont="menu"/>
                             <menu key="menu" title="OtherViews" id="166">
                                 <items>
                                     <menuItem title="Box" state="on" tag="1" id="165">
@@ -199,7 +192,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <popUpButtonCell key="cell" type="push" title="Item1" bezelStyle="rounded" alignment="left" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="189" id="282">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
+                            <font key="font" metaFont="menu"/>
                             <menu key="menu" title="OtherViews" id="193">
                                 <items>
                                     <menuItem title="Item1" state="on" id="189"/>
@@ -215,7 +208,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <popUpButtonCell key="cell" type="push" title="Phong" bezelStyle="rounded" alignment="left" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" tag="2" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="295" id="293">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
+                            <font key="font" metaFont="menu"/>
                             <menu key="menu" title="OtherViews" id="294">
                                 <items>
                                     <menuItem title="Phong" state="on" tag="2" id="295"/>
@@ -234,7 +227,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <popUpButtonCell key="cell" type="push" title="Both" bezelStyle="rounded" alignment="left" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="4N5-Iu-eEH" id="BTu-BS-4FF">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
+                            <font key="font" metaFont="menu"/>
                             <menu key="menu" title="OtherViews" id="3bu-xJ-JEq">
                                 <items>
                                     <menuItem title="Both" state="on" id="4N5-Iu-eEH"/>
@@ -253,7 +246,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <popUpButtonCell key="cell" type="push" title="Filled" bezelStyle="rounded" alignment="left" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="1d3-gZ-5hh" id="chB-LN-6x6">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
+                            <font key="font" metaFont="menu"/>
                             <menu key="menu" title="OtherViews" id="r6n-mG-Ed9">
                                 <items>
                                     <menuItem title="Filled" state="on" id="1d3-gZ-5hh"/>
@@ -406,7 +399,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <popUpButtonCell key="cell" type="push" title="None" bezelStyle="rounded" alignment="left" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="7aV-fb-bXw" id="KkW-Vp-4eX">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
+                            <font key="font" metaFont="menu"/>
                             <menu key="menu" title="OtherViews" id="e0V-TC-IVb">
                                 <items>
                                     <menuItem title="None" state="on" id="7aV-fb-bXw"/>
@@ -426,12 +419,13 @@
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <popUpButtonCell key="cell" type="push" title="View Angle Aspect" bezelStyle="rounded" alignment="left" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="Xgv-mJ-Z86" id="J03-b1-Nxt">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
+                            <font key="font" metaFont="menu"/>
                             <menu key="menu" title="OtherViews" id="BMf-7R-WL4">
                                 <items>
                                     <menuItem title="View Angle Aspect" state="on" id="Xgv-mJ-Z86"/>
                                     <menuItem title="Orthographic" tag="1" id="f9j-Qe-2cx"/>
                                     <menuItem title="All Seeing" tag="2" id="hDa-8w-XD2"/>
+                                    <menuItem title="Fisheye" tag="3" id="DF5-Y0-AvW"/>
                                 </items>
                             </menu>
                         </popUpButtonCell>
@@ -474,7 +468,7 @@
                         </textFieldCell>
                     </textField>
                     <button verticalHuggingPriority="750" id="wfW-E8-SdK">
-                        <rect key="frame" x="607" y="363" width="87" height="32"/>
+                        <rect key="frame" x="768" y="161" width="87" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Refresh" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="AxE-BG-tOJ">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -484,6 +478,104 @@
                             <action selector="refreshImage:" target="138" id="mmh-zO-jgS"/>
                         </connections>
                     </button>
+                    <box title="Fisheye Parameters" id="n8W-mf-O4d">
+                        <rect key="frame" x="612" y="310" width="251" height="91"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                        <view key="contentView" id="cY2-i9-87F">
+                            <rect key="frame" x="3" y="3" width="245" height="73"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            <subviews>
+                                <popUpButton verticalHuggingPriority="750" id="yIy-Li-Gam">
+                                    <rect key="frame" x="4" y="42" width="117" height="22"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <popUpButtonCell key="cell" type="push" title="Equisolid Angle" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" tag="3" imageScaling="proportionallyDown" inset="2" autoenablesItems="NO" altersStateOfSelectedItem="NO" selectedItem="flJ-it-aVe" id="Du6-iv-Skr">
+                                        <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                        <font key="font" metaFont="message" size="11"/>
+                                        <menu key="menu" autoenablesItems="NO" id="05x-MM-VLz">
+                                            <items>
+                                                <menuItem title="Stereographic" tag="1" id="2ky-aA-fp7">
+                                                    <modifierMask key="keyEquivalentModifierMask"/>
+                                                </menuItem>
+                                                <menuItem title="Orthographic" id="Nlh-sI-IJr">
+                                                    <modifierMask key="keyEquivalentModifierMask"/>
+                                                </menuItem>
+                                                <menuItem title="Equidistant" tag="2" id="zPk-Lw-ibm">
+                                                    <modifierMask key="keyEquivalentModifierMask"/>
+                                                </menuItem>
+                                                <menuItem title="Equisolid Angle" tag="3" id="flJ-it-aVe">
+                                                    <modifierMask key="keyEquivalentModifierMask"/>
+                                                </menuItem>
+                                            </items>
+                                        </menu>
+                                    </popUpButtonCell>
+                                    <connections>
+                                        <binding destination="138" name="selectedTag" keyPath="fisheyeMappingFunc" id="Sas-Vy-Cxb"/>
+                                    </connections>
+                                </popUpButton>
+                                <popUpButton verticalHuggingPriority="750" id="jMg-iD-Zwe">
+                                    <rect key="frame" x="123" y="42" width="117" height="22"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <popUpButtonCell key="cell" type="push" title="cropped circle" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" tag="1" imageScaling="proportionallyDown" inset="2" autoenablesItems="NO" altersStateOfSelectedItem="NO" selectedItem="6JF-DJ-RQr" id="y4D-8g-yxp">
+                                        <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                        <font key="font" metaFont="message" size="11"/>
+                                        <menu key="menu" autoenablesItems="NO" id="K3v-XE-7fI">
+                                            <items>
+                                                <menuItem title="full circle" id="BhW-2g-x93">
+                                                    <modifierMask key="keyEquivalentModifierMask"/>
+                                                </menuItem>
+                                                <menuItem title="cropped circle" tag="1" id="6JF-DJ-RQr">
+                                                    <modifierMask key="keyEquivalentModifierMask"/>
+                                                </menuItem>
+                                                <menuItem title="full frame" tag="2" id="S5w-BY-VwP">
+                                                    <modifierMask key="keyEquivalentModifierMask"/>
+                                                </menuItem>
+                                            </items>
+                                        </menu>
+                                    </popUpButtonCell>
+                                    <connections>
+                                        <binding destination="138" name="selectedTag" keyPath="fisheyeCropFormat" id="B7T-PV-cM6"/>
+                                    </connections>
+                                </popUpButton>
+                                <slider verticalHuggingPriority="750" id="btr-dc-zDZ">
+                                    <rect key="frame" x="7" y="21" width="230" height="17"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                    <sliderCell key="cell" controlSize="small" continuous="YES" state="on" alignment="left" minValue="150" maxValue="250" doubleValue="180" tickMarkPosition="below" numberOfTickMarks="11" allowsTickMarkValuesOnly="YES" sliderType="linear" id="f4E-HC-72l"/>
+                                    <connections>
+                                        <binding destination="138" name="value" keyPath="fisheyeAngleOfView" id="13V-bQ-uFq"/>
+                                    </connections>
+                                </slider>
+                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="v9E-Wn-51d">
+                                    <rect key="frame" x="7" y="4" width="84" height="14"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" title="Angle of View" id="2nL-bI-jO0">
+                                        <font key="font" metaFont="message" size="11"/>
+                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                    </textFieldCell>
+                                </textField>
+                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="5Mv-QS-Web">
+                                    <rect key="frame" x="155" y="4" width="84" height="14"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <textFieldCell key="cell" controlSize="small" lineBreakMode="clipping" alignment="right" title="180°" id="gkA-9Z-FGz">
+                                        <numberFormatter key="formatter" formatterBehavior="custom10_4" usesGroupingSeparator="NO" groupingSize="0" minimumIntegerDigits="0" maximumIntegerDigits="42" positiveSuffix="°" id="Wrd-Iy-nMk"/>
+                                        <font key="font" metaFont="message" size="11"/>
+                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                    </textFieldCell>
+                                    <connections>
+                                        <binding destination="138" name="value" keyPath="fisheyeAngleOfView" id="Ebi-GH-hec"/>
+                                    </connections>
+                                </textField>
+                            </subviews>
+                        </view>
+                        <connections>
+                            <binding destination="138" name="hidden" keyPath="fisheyeCamera" id="khO-Fo-hr9">
+                                <dictionary key="options">
+                                    <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                </dictionary>
+                            </binding>
+                        </connections>
+                    </box>
                 </subviews>
             </view>
             <point key="canvasLocation" x="182.5" y="227.5"/>
