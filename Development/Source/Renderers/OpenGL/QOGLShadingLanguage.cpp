@@ -124,6 +124,11 @@ namespace
 	const char* kNormalMtxUniformName			= "quesaNormalMtx";
 	const char* kCameraRangeUniformName			= "quesaCameraRange";	// vec2: near and far
 	const char* kCameraViewportUniformName		= "quesaCameraViewport"; // vec4: origin.x, origin.y, width, height
+	const char* kCameraSensorSizeUniformName	= "quesaSensorSize";	// vec2 (mm)
+	const char* kCameraFocalLengthUniformName	= "quesaFocalLength";	// float (mm)
+	const char* kCameraAngleOfViewUniformName	= "quesaAngleOfView";	// float (radians)
+	const char* kFisheyeMappingFuncUniformName	= "quesaFisheyeMappingFunc";	// int (enumeration)
+	const char* kFisheyeCroppingUniformName		= "quesaFisheyeCropping";	// int (enumeration)
 	
 	GLenum	sGLError = 0;
 } // end of unnamed namespace
@@ -228,6 +233,11 @@ QORenderer::ProgramRec::ProgramRec( const ProgramRec& inOther )
 	, mTexCoordAttribLoc( inOther.mTexCoordAttribLoc )
 	, mColorAttribLoc( inOther.mColorAttribLoc )
 	, mLayerShiftAttribLoc( inOther.mLayerShiftAttribLoc )
+	, mSensorSizeAttribLoc( inOther.mSensorSizeAttribLoc )
+	, mFocalLengthAttribLoc( inOther.mFocalLengthAttribLoc )
+	, mAngleOfViewAttribLoc( inOther.mAngleOfViewAttribLoc )
+	, mFisheyeMappingFuncAttribLoc( inOther.mFisheyeMappingFuncAttribLoc )
+	, mFisheyeCroppingAttribLoc( inOther.mFisheyeCroppingAttribLoc )
 {}
 
 void	QORenderer::ProgramRec::swap( ProgramRec& ioOther )
@@ -275,6 +285,11 @@ void	QORenderer::ProgramRec::swap( ProgramRec& ioOther )
 	std::swap( mTexCoordAttribLoc, ioOther.mTexCoordAttribLoc );
 	std::swap( mColorAttribLoc, ioOther.mColorAttribLoc );
 	std::swap( mLayerShiftAttribLoc, ioOther.mLayerShiftAttribLoc );
+	std::swap( mSensorSizeAttribLoc, ioOther.mSensorSizeAttribLoc );
+	std::swap( mFocalLengthAttribLoc, ioOther.mFocalLengthAttribLoc );
+	std::swap( mAngleOfViewAttribLoc, ioOther.mAngleOfViewAttribLoc );
+	std::swap( mFisheyeMappingFuncAttribLoc, ioOther.mFisheyeMappingFuncAttribLoc );
+	std::swap( mFisheyeCroppingAttribLoc, ioOther.mFisheyeCroppingAttribLoc );
 }
 
 QORenderer::ProgramRec&
@@ -674,6 +689,11 @@ static void BuildFragmentShaderSource(	const QORenderer::ProgramCharacteristic& 
 		outSource += kFragmentClipping;
 	}
 	
+	if (inProgramRec.mProjectionType == QORenderer::ECameraProjectionType::fisheye)
+	{
+		outSource += kFragmentFisheyeCropping;
+	}
+	
 	if (inProgramRec.mInterpolationStyle == kQ3InterpolationStyleNone)
 	{
 		outSource += kMainFragmentShaderStartFlat;
@@ -866,10 +886,20 @@ void	QORenderer::PerPixelLighting::StartFrame( TQ3ViewObject inView )
 	CHECK_GL_ERROR_MSG("PerPixelLighting::StartFrame 3");
 	
 	CQ3ObjectRef theCamera( CQ3View_GetCamera( inView ) );
-	mProgramCharacteristic.mProjectionType =
-		(Q3Camera_GetType( theCamera.get() ) == kQ3CameraTypeAllSeeing)?
-		ECameraProjectionType::allSeeingEquirectangular :
-		ECameraProjectionType::standardRectilinear;
+	switch (Q3Camera_GetType( theCamera.get() ))
+	{
+		case kQ3CameraTypeAllSeeing:
+			mProgramCharacteristic.mProjectionType = ECameraProjectionType::allSeeingEquirectangular;
+			break;
+		
+		case kQ3CameraTypeFisheye:
+			mProgramCharacteristic.mProjectionType = ECameraProjectionType::fisheye;
+			break;
+		
+		default:
+			mProgramCharacteristic.mProjectionType = ECameraProjectionType::standardRectilinear;
+			break;
+	}
 	
 	InitVertexShader();
 }
@@ -1363,6 +1393,17 @@ void	QORenderer::PerPixelLighting::InitUniformLocations( ProgramRec& ioProgram )
 	CHECK_GL_ERROR;
 	ioProgram.mLayerShiftAttribLoc = mFuncs.glGetAttribLocation( ioProgram.mProgram, "quesaLayerShift" );
 	CHECK_GL_ERROR;
+
+	ioProgram.mSensorSizeAttribLoc = mFuncs.glGetUniformLocation( ioProgram.mProgram, kCameraSensorSizeUniformName );
+	CHECK_GL_ERROR;
+	ioProgram.mFocalLengthAttribLoc = mFuncs.glGetUniformLocation( ioProgram.mProgram, kCameraFocalLengthUniformName );
+	CHECK_GL_ERROR;
+	ioProgram.mAngleOfViewAttribLoc = mFuncs.glGetUniformLocation( ioProgram.mProgram, kCameraAngleOfViewUniformName );
+	CHECK_GL_ERROR;
+	ioProgram.mFisheyeMappingFuncAttribLoc = mFuncs.glGetUniformLocation( ioProgram.mProgram, kFisheyeMappingFuncUniformName );
+	CHECK_GL_ERROR;
+	ioProgram.mFisheyeCroppingAttribLoc = mFuncs.glGetUniformLocation( ioProgram.mProgram, kFisheyeCroppingUniformName );
+	CHECK_GL_ERROR;
 }
 
 /*!
@@ -1510,6 +1551,10 @@ void	QORenderer::PerPixelLighting::InitVertexShader()
 			case ECameraProjectionType::allSeeingEquirectangular:
 				shaderSource += kVertexShaderAllSeeingProjection;
 				break;
+
+			case ECameraProjectionType::fisheye:
+				shaderSource += kVertexShaderFisheyeProjection;
+				break;
 		}
 		shaderSource += kVertexShaderEnd;
 		
@@ -1587,6 +1632,14 @@ void	QORenderer::PerPixelLighting::InitProgram()
 		Q3_MESSAGE_FMT("Using all-seeing geometry shader");
 		geomShaderID = CreateAndCompileShader( GL_GEOMETRY_SHADER,
 			kAllSeeingGeomShader, mFuncs );
+	}
+	else if ( (mProgramCharacteristic.mDimension == 2) &&
+		(mProgramCharacteristic.mFillStyle == kQ3FillStyleFilled) &&
+		(mProgramCharacteristic.mProjectionType == ECameraProjectionType::fisheye) )
+	{
+		Q3_MESSAGE_FMT("Using fisheye geometry shader");
+		geomShaderID = CreateAndCompileShader( GL_GEOMETRY_SHADER,
+			kFisheyeGeomShader, mFuncs );
 	}
 	else
 	{
@@ -2137,6 +2190,26 @@ void	QORenderer::PerPixelLighting::SetCameraUniforms()
 			};
 			mFuncs.glUniform4fv( mCurrentProgram->mCameraViewportUniformLoc, 1,
 				viewport );
+		}
+		
+		if (Q3Camera_GetType( theCamera.get() ) == kQ3CameraTypeFisheye)
+		{
+			TQ3FisheyeCameraData fisheyeData;
+			Q3FisheyeCamera_GetData( theCamera.get(), &fisheyeData );
+			mFuncs.glUniform2fv( mCurrentProgram->mSensorSizeAttribLoc, 1,
+				&fisheyeData.sensorSize.x );
+			CHECK_GL_ERROR;
+			mFuncs.glUniform1f( mCurrentProgram->mFocalLengthAttribLoc, fisheyeData.focalLength );
+			CHECK_GL_ERROR;
+			float angleOfView = Q3FisheyeCamera_CalcAngleOfView(
+				&fisheyeData.sensorSize, fisheyeData.mappingFunction,
+				fisheyeData.croppingFormat, fisheyeData.focalLength );
+			mFuncs.glUniform1f( mCurrentProgram->mAngleOfViewAttribLoc, angleOfView );
+			CHECK_GL_ERROR;
+			GLint func = (GLint) fisheyeData.mappingFunction;
+			mFuncs.glUniform1i( mCurrentProgram->mFisheyeMappingFuncAttribLoc, func );
+			CHECK_GL_ERROR;
+			mFuncs.glUniform1i( mCurrentProgram->mFisheyeCroppingAttribLoc, (GLint)fisheyeData.croppingFormat );
 		}
 	}
 }

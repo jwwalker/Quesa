@@ -73,11 +73,13 @@
 	BOOL				_ambientLight;
 	BOOL				_flatInterpolation;
 	BOOL				_testViewport;
+	BOOL				_fisheyeCamera;
 	TQ3Object			mSceneBounds;
 	BOOL				mFullScreenAntialias;
 	TQ3ObjectType		mRendererType;
 	TQ3Matrix4x4		mCurrentMatrix;
 	TQ3Matrix4x4		_currentRotation;
+	TQ3Matrix4x4		mRotationFactor;
 	TQ3Point3D			_centerOfRotation;
 	TQ3ShaderObject		mIlluminationShader;
 	TQ3StyleObject		_backfacingStyleObject;
@@ -93,6 +95,9 @@
 	TQ3FillStyle		_fillStyle;
 	int					_fogStyleTag;
 	int					_cameraType;
+	int					_fisheyeCropFormat;
+	int					_fisheyeMappingFunc;
+	float				_fisheyeAngleOfView;
 }
 
 @property (assign) BOOL		drawsShadows;
@@ -116,6 +121,10 @@
 @property (assign) TQ3FillStyle			fillStyle;
 @property (assign) int		fogStyleTag;
 @property (assign)	int		cameraType;
+@property (assign) BOOL fisheyeCamera;
+@property (assign) int fisheyeCropFormat;
+@property (assign) int fisheyeMappingFunc;
+@property (assign) float fisheyeAngleOfView;
 
 - (IBAction)setGeometryFromTag:(id)sender;
 

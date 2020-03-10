@@ -671,6 +671,7 @@ enum {
                 kQ3CameraTypeViewPlane          = Q3_OBJECT_TYPE('v', 'w', 'p', 'l'),
                 kQ3CameraTypeViewAngleAspect    = Q3_OBJECT_TYPE('v', 'a', 'n', 'a'),
                 kQ3CameraTypeAllSeeing          = Q3_OBJECT_TYPE('a', 'l', 's', 'e'),
+                kQ3CameraTypeFisheye            = Q3_OBJECT_TYPE('f', 'i', 's', 'h'),
             kQ3ShapeTypeStateOperator           = Q3_OBJECT_TYPE('s', 't', 'o', 'p'),
                 kQ3StateOperatorTypePush        = Q3_OBJECT_TYPE('p', 'u', 's', 'h'),
                 kQ3StateOperatorTypePop         = Q3_OBJECT_TYPE('p', 'o', 'p', ' '),

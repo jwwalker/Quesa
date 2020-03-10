@@ -13,7 +13,7 @@
         camera type.
 
     COPYRIGHT:
-        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -593,6 +593,46 @@ e3camera_viewangle_metahandler(TQ3XMethodType methodType)
 	return nullptr ;
 	}
 
+
+TQ3Status e3camera_fisheye_new(TQ3Object theObject, void *privateData, const void *paramData)
+{
+	#pragma unused(privateData)
+	const TQ3FisheyeCameraData* CameraData = (const TQ3FisheyeCameraData *) paramData;
+	// Initialise our instance data
+	( (E3Camera*) theObject )->SetData( &CameraData->cameraData );
+	( (E3FisheyeCamera*) theObject )->instanceData.sensorSize = CameraData->sensorSize;
+	( (E3FisheyeCamera*) theObject )->instanceData.focalLength = CameraData->focalLength;
+	( (E3FisheyeCamera*) theObject )->instanceData.mappingFunction = CameraData->mappingFunction;
+	( (E3FisheyeCamera*) theObject )->instanceData.croppingFormat = CameraData->croppingFormat;
+	return kQ3Success;
+}
+
+static void
+e3camera_fisheye_frustum_matrix(TQ3CameraObject theCamera, TQ3Matrix4x4 *theMatrix)
+{
+	( ( E3FisheyeCamera* ) theCamera )->GetFrustumMatrix( theMatrix );
+}
+
+
+static TQ3XFunctionPointer
+e3camera_fisheye_metahandler(TQ3XMethodType methodType)
+{
+	TQ3XFunctionPointer result = nullptr;
+	
+	switch ( methodType )
+	{
+		case kQ3XMethodTypeObjectNew:
+			result = (TQ3XFunctionPointer) e3camera_fisheye_new;
+			break;
+
+		case kQ3XMethodTypeCameraFrustumMatrix:
+			result = (TQ3XFunctionPointer) e3camera_fisheye_frustum_matrix;
+			break;
+	}
+	
+	return result;
+}
+
 TQ3Status
 e3camera_allseeing_new(TQ3Object theObject, void *privateData, const void *paramData)
 {
@@ -657,7 +697,7 @@ e3camera_allseeing_read( TQ3FileObject theFile )
 				case kQ3SharedTypeSet :
 					{
 					// Set must be at end so we know we've finished
-
+					
 					TQ3CameraObject result = Q3AllSeeingCamera_New( &cameraData );
 					result->SetSet( childObject );
 					Q3Object_Dispose( childObject );
@@ -753,11 +793,16 @@ E3Camera::RegisterClass(void)
 		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameCameraViewAngle,
 											e3camera_viewangle_metahandler,
 											E3ViewAngleAspectCamera ) ;
-
+	
 	if (qd3dStatus == kQ3Success)
 		qd3dStatus = Q3_REGISTER_CLASS_NO_DATA (	kQ3ClassNameCameraAllSeeing,
 											e3camera_allseeing_metahandler,
 											E3AllSeeingCamera ) ;
+	
+	if (qd3dStatus == kQ3Success)
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameCameraFisheye,
+											e3camera_fisheye_metahandler,
+											E3FisheyeCamera );
 
 	return(qd3dStatus);
 }
@@ -970,7 +1015,7 @@ E3Camera::GetViewPort ( TQ3CameraViewPort *viewPort )
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Camera::GetWorldToView ( TQ3Matrix4x4 *worldToView )
-	{
+{
 	// Compute the view coordinate vectors from the camera placement.
 	TQ3Vector3D backward = Q3Normalize3D(
 		cameraData.placement.cameraLocation - cameraData.placement.pointOfInterest );
@@ -1023,7 +1068,7 @@ E3Camera::GetWorldToView ( TQ3Matrix4x4 *worldToView )
 
 
 	return kQ3Success ;
-	}
+}
 
 
 
@@ -1034,9 +1079,9 @@ E3Camera::GetWorldToView ( TQ3Matrix4x4 *worldToView )
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Camera::GetWorldToFrustum ( TQ3Matrix4x4 *worldToFrustum )
-	{
+{
 	TQ3Matrix4x4		worldToView, viewToFrustum;
-	
+
 
 	// Get the two matrices we need, and multiply them together
 	GetWorldToView( &worldToView );
@@ -1045,7 +1090,7 @@ E3Camera::GetWorldToFrustum ( TQ3Matrix4x4 *worldToFrustum )
 	*worldToFrustum = worldToView * viewToFrustum;
 
 	return kQ3Success ;
-	}
+}
 
 
 
@@ -1056,7 +1101,7 @@ E3Camera::GetWorldToFrustum ( TQ3Matrix4x4 *worldToFrustum )
 //-----------------------------------------------------------------------------
 TQ3Status
 E3Camera::GetViewToFrustum ( TQ3Matrix4x4 *viewToFrustum )
-	{
+{
 	// Initialise a return value
 	Q3Matrix4x4_SetIdentity(viewToFrustum); // in case frustumMatrixMethod fails
 
@@ -1104,7 +1149,7 @@ E3Camera::GetViewToFrustum ( TQ3Matrix4x4 *viewToFrustum )
 	*viewToFrustum = *viewToFrustum * scaleMtx;
 
 	return kQ3Success ;
-	}
+}
 
 
 //=============================================================================
@@ -1927,6 +1972,119 @@ E3AllSeeingCamera::IsOfMyClass ( TQ3Object object )
 //-----------------------------------------------------------------------------
 void
 E3AllSeeingCamera::GetFrustumMatrix( TQ3Matrix4x4 *theMatrix )
+{
+	// Initialise ourselves
+	float zNear       = cameraData.range.hither;
+	float zFar        = cameraData.range.yon;
+	
+	static const float kTestFOV = 1.0f;
+	static const float kTestAspect = 1.0f;
+
+	float w = 1.0f / (float) tan ( kTestFOV * 0.5f ) ;
+	if ( kTestAspect > 1.0f )
+		w = w / kTestAspect;
+
+	float h = w * kTestAspect;
+
+
+	float q;
+	
+	if (isfinite( zFar ))
+	{
+		q = zFar / (zFar - zNear);
+	}
+	else
+	{
+		q = 1.0f;
+	}
+
+
+	// Set up the matrix
+	Q3Matrix4x4_SetIdentity(theMatrix);
+	theMatrix->value[0][0] = w;
+	theMatrix->value[1][1] = h;
+	theMatrix->value[2][2] = q;
+	theMatrix->value[2][3] = -1.0f;
+	theMatrix->value[3][2] = q * zNear;
+	theMatrix->value[3][3] = 0.0f;
+}
+
+
+#pragma mark -
+
+TQ3CameraObject		E3FisheyeCamera_New(const TQ3FisheyeCameraData *cameraData)
+{
+	TQ3CameraObject theObject = E3ClassTree::CreateInstance( kQ3CameraTypeFisheye,
+		kQ3False, cameraData );
+	return theObject;	
+}
+
+
+//=============================================================================
+//      E3FisheyeCamera::IsOfMyClass : Check if object pointer is valid and of type camera
+//-----------------------------------------------------------------------------
+//		Replaces Q3Object_IsType ( object, kQ3CameraTypeFisheye )
+//		but call is smaller and does not call E3System_Bottleneck
+//		as this is (always?) done in the calling code as well
+//-----------------------------------------------------------------------------
+TQ3Boolean
+E3FisheyeCamera::IsOfMyClass( TQ3Object object )
+{
+	if ( object == nullptr )
+		return kQ3False ;
+		
+	if ( object->IsObjectValid () )
+		return Q3_OBJECT_IS_CLASS ( object, E3FisheyeCamera ) ;
+		
+	return kQ3False ;
+}
+
+
+//=============================================================================
+//      E3FisheyeCamera::GetData : Return data of a fisheye camera.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3FisheyeCamera::GetData( TQ3FisheyeCameraData *CameraData )
+{
+	// Return the camera's data
+	E3Camera::GetData( &CameraData->cameraData );
+	CameraData->sensorSize = instanceData.sensorSize;
+	CameraData->focalLength = instanceData.focalLength;
+	CameraData->mappingFunction = instanceData.mappingFunction;
+	CameraData->croppingFormat = instanceData.croppingFormat;
+	
+	return kQ3Success;
+}
+
+
+//=============================================================================
+//      E3FisheyeCamera::SetData : Set the data for a fisheye camera.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3FisheyeCamera::SetData ( const TQ3FisheyeCameraData *CameraData )
+{
+	// Set the camera's data
+	E3Camera::SetData( &CameraData->cameraData );
+	instanceData.sensorSize = CameraData->sensorSize;
+	instanceData.focalLength = CameraData->focalLength;
+	instanceData.mappingFunction = CameraData->mappingFunction;
+	instanceData.croppingFormat = CameraData->croppingFormat;
+	
+	Q3Shared_Edited( this );
+
+	return kQ3Success ;
+}
+
+
+
+//=============================================================================
+//      E3FisheyeCamera::GetFrustumMatrix : Return the view to frustum matrix.
+//
+//	The fisheye camera does not really have a frustum, but I want to provide
+//	a matrix like a view angle camera for easier debugging.
+//-----------------------------------------------------------------------------
+void
+E3FisheyeCamera::GetFrustumMatrix( TQ3Matrix4x4 *theMatrix )
 {
 	// Initialise ourselves
 	float zNear       = cameraData.range.hither;

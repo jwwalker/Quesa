@@ -5,6 +5,34 @@
 	 <meta name="generator" content="HeaderDoc">
 </head><body bgcolor="#ffffff">
 <h1><font face="Geneva,Arial,Helvtica">Functions</font></h1><br>
+<hr><a name="//Quesa/c/func/Q3AllSeeingCamera_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3AllSeeingCamera_New">Q3AllSeeingCamera_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3CameraObject _Nonnull ) Q3AllSeeingCamera_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3CameraData * _Nonnull cameraData
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new all-seeing camera object.
+<br><br>
+This kind of camera sees in all directions, using equirectangular coordinates.
+<br><br>
+Rendering with this camera will experience some inaccuracy, due to the fact that
+OpenGL works by linearly interpolating across triangles, while the equirectangular
+projection is very much nonlinear.  Naturally, the greater the angular diameter of a
+triangle as seen from the camera, the greater the inaccuracy.  Subdividing a
+triangulation can reduce the nonlinearity artifacts.
+<br><br>
+There will also be more artifacts around the "poles" of the map (much as one sees
+in cartography), which correspond to the up and down directions of the camera.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>cameraData</em></tt></dt><dd>The data for the camera object.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>The new camera object.
+ </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Camera_GetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Camera_GetData">Q3Camera_GetData</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Camera_GetData (
@@ -280,6 +308,112 @@ submitting loop.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
+<hr><a name="//Quesa/c/func/Q3FisheyeCamera_CalcAngleOfView"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FisheyeCamera_CalcAngleOfView">Q3FisheyeCamera_CalcAngleOfView</a></h2>
+</td></tr></table><hr>Compute the angle of view of a fisheye camera from other parameters.
+
+<blockquote><pre><tt>( float ) Q3FisheyeCamera_CalcAngleOfView (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector2D* _Nonnull inSensorSize,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FisheyeMappingFunction inMappingFunc,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FisheyeCroppingFormat inCropping,
+&nbsp;&nbsp;&nbsp;&nbsp;float inFocalLength
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>In the full frame cropping format, the maximum angle of view is achieved only
+on the diagonals, whereas in the cropped circle format the maximum angle of view
+is achieved horizontally.
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>inSensorSize</em></tt></dt><dd>The dimensions of the sensor or film in mm.</dd>
+<dt><tt><em>inMappingFunc</em></tt></dt><dd>The mapping function.</dd>
+<dt><tt><em>inCropping</em></tt></dt><dd>The cropping format.</dd>
+<dt><tt><em>inFocalLength</em></tt></dt><dd>The focal length in mm.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>The maximum angle of view in radians.
+</dd></dl>
+<hr><a name="//Quesa/c/func/Q3FisheyeCamera_CalcFocalLength"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FisheyeCamera_CalcFocalLength">Q3FisheyeCamera_CalcFocalLength</a></h2>
+</td></tr></table><hr>Compute the focal length of a fisheye camera from other parameters.
+
+<blockquote><pre><tt>( float ) Q3FisheyeCamera_CalcFocalLength (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Vector2D* _Nonnull inSensorSize,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FisheyeMappingFunction inMappingFunc,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FisheyeCroppingFormat inCropping,
+&nbsp;&nbsp;&nbsp;&nbsp;float inAngleOfView
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>inSensorSize</em></tt></dt><dd>The dimensions of the sensor or film in mm.</dd>
+<dt><tt><em>inMappingFunc</em></tt></dt><dd>The mapping function.</dd>
+<dt><tt><em>inCropping</em></tt></dt><dd>The cropping format.</dd>
+<dt><tt><em>inAngleOfView</em></tt></dt><dd>The maximum angle of view in radians.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>The focal length in mm.
+</dd></dl>
+<hr><a name="//Quesa/c/func/Q3FisheyeCamera_GetData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FisheyeCamera_GetData">Q3FisheyeCamera_GetData</a></h2>
+</td></tr></table><hr>Get the data for a fisheye camera.
+
+<blockquote><pre><tt>( TQ3Status ) Q3FisheyeCamera_GetData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nonnull camera,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3FisheyeCameraData* _Nonnull data
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>camera</em></tt></dt><dd>The camera.</dd>
+<dt><tt><em>data</em></tt></dt><dd>Receives the camera data.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+</dd></dl>
+<hr><a name="//Quesa/c/func/Q3FisheyeCamera_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FisheyeCamera_New">Q3FisheyeCamera_New</a></h2>
+</td></tr></table><hr>Create a fisheye camera.
+
+<blockquote><pre><tt>( TQ3CameraObject _Nonnull ) Q3FisheyeCamera_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3FisheyeCameraData * _Nonnull cameraData
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Rendering with this camera will experience some inaccuracy, due to the fact that
+OpenGL works by linearly interpolating across triangles, while the fisheye
+projection is very much nonlinear.  Naturally, the greater the angular diameter of a
+triangle as seen from the camera, the greater the inaccuracy.  Subdividing a
+triangulation can reduce the nonlinearity artifacts.
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>cameraData</em></tt></dt><dd>The data for the camera object.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>The new camera object.
+</dd></dl>
+<hr><a name="//Quesa/c/func/Q3FisheyeCamera_SetData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FisheyeCamera_SetData">Q3FisheyeCamera_SetData</a></h2>
+</td></tr></table><hr>Set the data for a fisheye camera.
+
+<blockquote><pre><tt>( TQ3Status ) Q3FisheyeCamera_SetData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nonnull camera,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3FisheyeCameraData * _Nonnull cameraData
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>camera</em></tt></dt><dd>The camera.</dd>
+<dt><tt><em>cameraData</em></tt></dt><dd>The new data.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+</dd></dl>
 <hr><a name="//Quesa/c/func/Q3OrthographicCamera_GetBottom"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3OrthographicCamera_GetBottom">Q3OrthographicCamera_GetBottom</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3OrthographicCamera_GetBottom (
@@ -905,5 +1039,5 @@ from the camera location.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
-<p><p>&#169; 1999-2019 Quesa Developers (Last Updated 12/7/2019)
+<p><p>&#169; 1999-2020 Quesa Developers (Last Updated 3/10/2020)
 </p></body></html>

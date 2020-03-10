@@ -50,8 +50,8 @@ sub generateDocs
     else
         {
 		chop($currentDir = `pwd`);
-		$inputDir  = $currentDir . "../../../SDK/Includes";
-		$outputDir = $currentDir . "../../../Documentation/developer/apiref";
+		$inputDir  = $currentDir . "/../../../SDK/Includes";
+		$outputDir = $currentDir . "/../../../Documentation/developer/apiref";
         }
 
 
@@ -77,10 +77,10 @@ sub generateDocs
 	my @TmpArgs = @ARGV;
 
 	@ARGV = ("-o", $outputDir, $inputDir);
-	do("headerDoc2HTML.pl");
+	do("./headerDoc2HTML.pl");
 
 	@ARGV = ($outputDir);
-	do("gatherHeaderDoc.pl");
+	do("./gatherHeaderDoc.pl");
 
 	@ARGV = @TmpArgs;
 	use strict;
