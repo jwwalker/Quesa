@@ -11,7 +11,7 @@
         Header for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2020, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -107,6 +107,7 @@ typedef void (QO_PROCPTR_TYPE glAttachShaderProc )(GLuint program,
 typedef void (QO_PROCPTR_TYPE glDetachShaderProc ) (GLuint program,
 													GLuint shader);
 typedef void (QO_PROCPTR_TYPE glLinkProgramProc )(GLuint program);
+typedef void (QO_PROCPTR_TYPE glValidateProgramProc )(GLuint program);
 typedef void (QO_PROCPTR_TYPE glUseProgramProc )(GLuint program);
 typedef void (QO_PROCPTR_TYPE glDeleteProgramProc )(GLuint program);
 typedef void (QO_PROCPTR_TYPE glDeleteShaderProc )(GLuint shader);
@@ -189,6 +190,7 @@ struct GLSLFuncs
 	glAttachShaderProc			glAttachShader;
 	glDetachShaderProc			glDetachShader;
 	glLinkProgramProc			glLinkProgram;
+	glValidateProgramProc		glValidateProgram;
 	glGetProgramivProc			glGetProgramiv;
 	glUseProgramProc			glUseProgram;
 	glGetUniformLocationProc	glGetUniformLocation;

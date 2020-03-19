@@ -5,7 +5,7 @@
 		Implementation of Quesa Mesh geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -3953,7 +3953,7 @@ e3geom_mesh_cache_new_as_polys(const TE3MeshData * meshPtr)
 			{
 			numObjectsToDelete --;
 			Q3Object_Dispose(objectsToDelete[numObjectsToDelete]);
-			};
+			}
 			
 		if(polyData.contours != nullptr)
 			{
@@ -3971,7 +3971,7 @@ cleanup:
 		{
 		numObjectsToDelete --;
 		Q3Object_Dispose(objectsToDelete[numObjectsToDelete]);
-		};
+		}
 		
 	if(objectsToDelete != nullptr)	
 		Q3Memory_Free(&objectsToDelete);
@@ -4614,7 +4614,8 @@ E3Mesh_FaceDelete(
 	TE3MeshFaceData* facePtr;
 
 	// Check face; if face already deleted, return kQ3Success
-	if ((facePtr = e3meshFaceExtRef_Face(faceExtRef)) == nullptr)
+	facePtr = e3meshFaceExtRef_Face(faceExtRef);
+	if (facePtr == nullptr)
 		goto success;
 
 	// Use list of faces in mesh (*** MAY RELOCATE FACES ***)
@@ -4663,11 +4664,13 @@ E3Mesh_FaceToContour(
 	TE3MeshContourExtRef contourExtRef;
 
 	// Check container face
-	if ((containerFacePtr = e3meshFaceExtRef_Face(containerFaceExtRef)) == nullptr)
+	containerFacePtr = e3meshFaceExtRef_Face(containerFaceExtRef);
+	if (containerFacePtr == nullptr)
 		goto failure;
 
 	// Check face
-	if ((facePtr = e3meshFaceExtRef_Face(faceExtRef)) == nullptr)
+	facePtr = e3meshFaceExtRef_Face(faceExtRef);
+	if (facePtr == nullptr)
 		goto failure;
 
 	// Use list of faces in mesh (*** MAY RELOCATE FACES ***)
@@ -4867,7 +4870,8 @@ E3Mesh_VertexDelete(
 	TE3MeshFaceData* facePtr;
 
 	// Check vertex; if vertex already deleted, return kQ3Success
-	if ((vertexPtr = e3meshVertexExtRef_Vertex(vertexExtRef)) == nullptr)
+	vertexPtr = e3meshVertexExtRef_Vertex(vertexExtRef);
+	if (vertexPtr == nullptr)
 		goto success;
 
 	// Use list of vertices in mesh (*** MAY RELOCATE VERTICES ***)
@@ -5480,7 +5484,8 @@ E3Mesh_GetFaceIndex(
 	TE3MeshFaceData* facePtr;
 
 	// Check face
-	if ((facePtr = e3meshFaceExtRef_Face(faceExtRef)) == nullptr)
+	facePtr = e3meshFaceExtRef_Face(faceExtRef);
+	if (facePtr == nullptr)
 		goto failure;
 
 	// Use array of faces in mesh (*** MAY RELOCATE FACES ***)
@@ -6422,7 +6427,8 @@ E3Mesh_GetVertexIndex(
 	TE3MeshVertexData* vertexPtr;
 
 	// Check vertex
-	if ((vertexPtr = e3meshVertexExtRef_Vertex(vertexExtRef)) == nullptr)
+	vertexPtr = e3meshVertexExtRef_Vertex(vertexExtRef);
+	if (vertexPtr == nullptr)
 		goto failure;
 
 	// Use array of vertices in mesh (*** MAY RELOCATE VERTICES ***)

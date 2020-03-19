@@ -231,6 +231,8 @@ public :
 	static TQ3Boolean	IsOfMyClass ( TQ3Object object ) ;
 	
 	void				GetFrustumMatrix ( TQ3Matrix4x4 *theMatrix ) ;
+	TQ3Point3D			ViewToFrustum( const TQ3Point3D& inViewPt ) const;
+	TQ3Point3D			FrustumToView( const TQ3Point3D& inFrustumPt ) const;
 
 	friend TQ3Status e3camera_allseeing_new(TQ3Object theObject, void *privateData, const void *paramData) ;
 };
@@ -253,9 +255,11 @@ public :
 	static TQ3Boolean	IsOfMyClass ( TQ3Object object );
 	E3FisheyeCameraData	instanceData;
 
-	void				GetFrustumMatrix ( TQ3Matrix4x4 *theMatrix ) ;
-	TQ3Status			SetData ( const TQ3FisheyeCameraData *CameraData ) ;
-	TQ3Status			GetData ( TQ3FisheyeCameraData *CameraData ) ;
+	void				GetFrustumMatrix( TQ3Matrix4x4 *theMatrix );
+	TQ3Status			SetData( const TQ3FisheyeCameraData *CameraData );
+	TQ3Status			GetData( TQ3FisheyeCameraData *CameraData );
+	TQ3Point3D			ViewToFrustum( const TQ3Point3D& inViewPt ) const;
+	TQ3Point3D			FrustumToView( const TQ3Point3D& inFrustumPt ) const;
 
 	friend TQ3Status e3camera_fisheye_new(TQ3Object theObject, void *privateData, const void *paramData) ;
 };
@@ -272,6 +276,8 @@ TQ3CameraObject		E3ViewAngleAspectCamera_New(const TQ3ViewAngleAspectCameraData 
 TQ3CameraObject		E3AllSeeingCamera_New(const TQ3CameraData *cameraData);
 TQ3CameraObject		E3FisheyeCamera_New(const TQ3FisheyeCameraData *cameraData);
 
+TQ3Point3D			E3Camera_ViewToFrustum( TQ3CameraObject inCamera, const TQ3Point3D& inViewPt );
+TQ3Point3D			E3Camera_FrustumToView( TQ3CameraObject inCamera, const TQ3Point3D& inFrustumPt );
 
 
 

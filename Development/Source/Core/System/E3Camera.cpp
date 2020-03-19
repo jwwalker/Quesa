@@ -1,5 +1,5 @@
 /*  NAME:
-        E3Camera.c
+        E3Camera.cpp
 
     DESCRIPTION:
         Quesa camera object implementation.
@@ -1078,18 +1078,21 @@ E3Camera::GetWorldToView ( TQ3Matrix4x4 *worldToView )
 //      E3Camera_GetWorldToFrustum : Return a camera's world-to-frustum matrix.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Camera::GetWorldToFrustum ( TQ3Matrix4x4 *worldToFrustum )
+E3Camera::GetWorldToFrustum( TQ3Matrix4x4 *worldToFrustum )
 {
 	TQ3Matrix4x4		worldToView, viewToFrustum;
 
 
 	// Get the two matrices we need, and multiply them together
-	GetWorldToView( &worldToView );
-	GetViewToFrustum( &viewToFrustum);
+	TQ3Status status = GetViewToFrustum( &viewToFrustum );
 
-	*worldToFrustum = worldToView * viewToFrustum;
+	if (status == kQ3Success)
+	{
+		GetWorldToView( &worldToView );
+		*worldToFrustum = worldToView * viewToFrustum;
+	}
 
-	return kQ3Success ;
+	return status;
 }
 
 
@@ -1100,8 +1103,15 @@ E3Camera::GetWorldToFrustum ( TQ3Matrix4x4 *worldToFrustum )
 //      E3Camera_GetViewToFrustum : Return a camera's view-to-frustum matrix.
 //-----------------------------------------------------------------------------
 TQ3Status
-E3Camera::GetViewToFrustum ( TQ3Matrix4x4 *viewToFrustum )
+E3Camera::GetViewToFrustum( TQ3Matrix4x4 *viewToFrustum )
 {
+	if (E3FisheyeCamera::IsOfMyClass( (TQ3Object)this ) or E3AllSeeingCamera::IsOfMyClass( (TQ3Object)this ) )
+	{
+		// The transformation cannot be expressed as a matrix.
+		return kQ3Failure;
+	}
+
+
 	// Initialise a return value
 	Q3Matrix4x4_SetIdentity(viewToFrustum); // in case frustumMatrixMethod fails
 
@@ -2010,6 +2020,66 @@ E3AllSeeingCamera::GetFrustumMatrix( TQ3Matrix4x4 *theMatrix )
 }
 
 
+TQ3Point3D	E3AllSeeingCamera::ViewToFrustum( const TQ3Point3D& inViewPt ) const
+{
+	float near       = cameraData.range.hither;
+	float far        = cameraData.range.yon;
+	float q = isinf( far )? 1.0 : far / (far - near);
+	TQ3Vector3D eyeToPt = inViewPt - TQ3Point3D{ 0.0f, 0.0f, 0.0f };
+	float r = Q3Length3D( eyeToPt );
+
+	
+	// Looking at the fisheye shaders, we see how to compute z in NDC
+	// coordinates:
+	// NDC.z = 2.0 * q - 1.0 - (2.0 * q * near) / r;
+	// But the z of Quesa's frustum coordinates is related to NDC by
+	// NDC.z = -2 * frustum.z - 1 , or
+	// frustum.z = 0.5 * (-1 - NDC.z) .  This leads to:
+	
+	TQ3Point3D frustumPt = {
+		atan2f( inViewPt.x, -inViewPt.z ) / kQ3Pi,
+		2.0f * asin( inViewPt.y / r ) / kQ3Pi,
+		q * (near / r - 1.0f)
+	};
+	
+	// Viewport transformation
+	frustumPt.x = 2.0f * (frustumPt.x - cameraData.viewPort.origin.x) /
+		cameraData.viewPort.width - 1.0f;
+	frustumPt.y = 2.0f * (frustumPt.y - cameraData.viewPort.origin.y) /
+		cameraData.viewPort.height + 1.0f;
+
+	return frustumPt;
+}
+
+TQ3Point3D	E3AllSeeingCamera::FrustumToView( const TQ3Point3D& inFrustumPt ) const
+{
+	// Inverse viewport transformation
+	TQ3Point3D frustumPt = inFrustumPt;
+	frustumPt.x = cameraData.viewPort.origin.x +
+		(frustumPt.x + 1.0f) * cameraData.viewPort.width / 2.0f;
+	frustumPt.y = cameraData.viewPort.origin.y +
+		(frustumPt.y - 1.0f) * cameraData.viewPort.height / 2.0f;
+
+	float near       = cameraData.range.hither;
+	float far        = cameraData.range.yon;
+	float q = isinf( far )? 1.0 : far / (far - near);
+	
+	// With r being the distance from the camera to the target point in view
+	// space, ViewToFrustum has the relationship
+	// frustumPt.z = q * (near / r - 1.0f) .  If we solve this for r, we get
+	
+	float r = q * near / (q + frustumPt.z);
+	
+	TQ3Point3D viewPt = {
+		r * sinf( frustumPt.x * kQ3Pi ) * cosf( frustumPt.y * kQ3PiOver2 ),
+		r * sinf( frustumPt.y * kQ3PiOver2 ),
+		-r * cosf( frustumPt.x * kQ3Pi ) * cosf( frustumPt.y * kQ3PiOver2 )
+	};
+	
+	return viewPt;
+}
+
+
 #pragma mark -
 
 TQ3CameraObject		E3FisheyeCamera_New(const TQ3FisheyeCameraData *cameraData)
@@ -2121,3 +2191,162 @@ E3FisheyeCamera::GetFrustumMatrix( TQ3Matrix4x4 *theMatrix )
 	theMatrix->value[3][2] = q * zNear;
 	theMatrix->value[3][3] = 0.0f;
 }
+
+
+TQ3Point3D	E3FisheyeCamera::ViewToFrustum( const TQ3Point3D& inViewPt ) const
+{
+	TQ3Vector3D eyeToPt = inViewPt - TQ3Point3D{ 0.0f, 0.0f, 0.0f };
+	TQ3Vector3D forward = { 0.0f, 0.0f, -1.0f };
+	TQ3Point3D frustumPt;
+	float near = cameraData.range.hither;
+	float far = cameraData.range.yon;
+	float q = isinf( far )? 1.0 : far / (far - near);
+	float r = Q3Length3D( eyeToPt );
+	
+	// Looking at the fisheye shaders, we see how to compute z in NDC
+	// coordinates:
+	// NDC.z = 2.0 * q - 1.0 - (2.0 * q * near) / r;
+	// But the z of Quesa's frustum coordinates is related to NDC by
+	// NDC.z = -2 * frustum.z - 1 , or
+	// frustum.z = 0.5 * (-1 - NDC.z) .  This leads to:
+	
+	frustumPt.z = q * (near / r - 1.0f);
+	
+	float theta = atan2f( Q3Length3D( Q3Cross3D( eyeToPt, forward ) ), Q3Dot3D( eyeToPt, forward ) );
+	switch (instanceData.mappingFunction)
+	{
+		case kQ3FisheyeMappingFunctionOrthographic:
+			r = instanceData.focalLength * sinf( theta );
+			break;
+		
+		default:
+		case kQ3FisheyeMappingFunctionStereographic:
+			r = 2.0f * instanceData.focalLength * tanf( theta / 2.0f );
+			break;
+		
+		case kQ3FisheyeMappingFunctionEquidistant:
+			r = instanceData.focalLength * theta;
+			break;
+		
+		case kQ3FisheyeMappingFunctionEquisolidAngle:
+			r = 2.0f * instanceData.focalLength * sinf( theta / 2.0f );
+			break;
+	}
+	TQ3Vector2D eyeToPtXY = { eyeToPt.x, eyeToPt.y };
+	TQ3Vector2D dir2D = Q3Normalize2D( eyeToPtXY );
+	frustumPt.x = 2.0f * r * dir2D.x / instanceData.sensorSize.x;
+	frustumPt.y = 2.0f * r * dir2D.y / instanceData.sensorSize.y;
+	
+	// Viewport transformation
+	frustumPt.x = 2.0f * (frustumPt.x - cameraData.viewPort.origin.x) /
+		cameraData.viewPort.width - 1.0f;
+	frustumPt.y = 2.0f * (frustumPt.y - cameraData.viewPort.origin.y) /
+		cameraData.viewPort.height + 1.0f;
+	
+	return frustumPt;
+}
+
+TQ3Point3D	E3FisheyeCamera::FrustumToView( const TQ3Point3D& inFrustumPt ) const
+{
+	// Inverse viewport transformation
+	TQ3Point3D frustumPt = inFrustumPt;
+	frustumPt.x = cameraData.viewPort.origin.x +
+		(frustumPt.x + 1.0f) * cameraData.viewPort.width / 2.0f;
+	frustumPt.y = cameraData.viewPort.origin.y +
+		(frustumPt.y - 1.0f) * cameraData.viewPort.height / 2.0f;
+
+	float near = cameraData.range.hither;
+	float far = cameraData.range.yon;
+	float q = isinf( far )? 1.0 : far / (far - near);
+	
+	// With r being the distance from the camera to the target point in view
+	// space, ViewToFrustum has the relationship
+	// frustumPt.z = q * (near / r - 1.0f) .  If we solve this for r, we get
+	
+	float length = q * near / (q + frustumPt.z);
+	
+	TQ3Vector2D diffOnSensor = {
+		frustumPt.x * instanceData.sensorSize.x / 2.0f,
+		frustumPt.y * instanceData.sensorSize.y / 2.0f
+	};
+	float r = Q3Length2D( diffOnSensor );
+	TQ3Vector2D dir2D = Q3Normalize2D( diffOnSensor );
+	float theta;
+	switch (instanceData.mappingFunction)
+	{
+		case kQ3FisheyeMappingFunctionOrthographic:
+			theta = asinf( r / instanceData.focalLength );
+			break;
+		
+		default:
+		case kQ3FisheyeMappingFunctionStereographic:
+			theta = 2.0f * atanf( r / (2.0f * instanceData.focalLength) );
+			break;
+		
+		case kQ3FisheyeMappingFunctionEquidistant:
+			theta = r / instanceData.focalLength;
+			break;
+		
+		case kQ3FisheyeMappingFunctionEquisolidAngle:
+			theta = 2.0f * asinf( r / (2.0f * instanceData.focalLength) );
+			break;
+	}
+	// Suppose we define vectors d = { dir2D.x, dir2D.y, 0 } and
+	// forward = { 0.0, 0.0, -1.0 }.  Then the desired vector in view coordinates
+	// has the form a * d + b * forward, where a >= 0.
+	// (It is possible that b < 0, in the case where theta > pi/2.)
+	// We know that a/b = tan(theta) and a^2 + b^2 = length^2.
+	// This happens when a = sin( theta ) * length and b = cos( theta ) * length.
+	float theSin = sinf( theta );
+	float theCos = cosf( theta );
+	TQ3Point3D viewPt = {
+		theSin * length * dir2D.x,
+		theSin * length * dir2D.y,
+		- theCos * length
+	};
+	return viewPt;
+}
+
+#pragma mark -
+
+TQ3Point3D			E3Camera_ViewToFrustum( TQ3CameraObject inCamera, const TQ3Point3D& inViewPt )
+{
+	TQ3Point3D frustumPt;
+	if (E3FisheyeCamera::IsOfMyClass( inCamera ))
+	{
+		frustumPt = ((E3FisheyeCamera*) inCamera)->ViewToFrustum( inViewPt );
+	}
+	else if (E3AllSeeingCamera::IsOfMyClass( inCamera ))
+	{
+		frustumPt = ((E3AllSeeingCamera*) inCamera)->ViewToFrustum( inViewPt );
+	}
+	else
+	{
+		TQ3Matrix4x4 viewToFrustum;
+		((E3Camera*) inCamera)->GetViewToFrustum( &viewToFrustum );
+		frustumPt = inViewPt * viewToFrustum;
+	}
+	return frustumPt;
+}
+
+TQ3Point3D			E3Camera_FrustumToView( TQ3CameraObject inCamera, const TQ3Point3D& inFrustumPt )
+{
+	TQ3Point3D viewPt;
+	if (E3FisheyeCamera::IsOfMyClass( inCamera ))
+	{
+		viewPt = ((E3FisheyeCamera*) inCamera)->FrustumToView( inFrustumPt );
+	}
+	else if (E3AllSeeingCamera::IsOfMyClass( inCamera ))
+	{
+		viewPt = ((E3AllSeeingCamera*) inCamera)->FrustumToView( inFrustumPt );
+	}
+	else
+	{
+		TQ3Matrix4x4 viewToFrustum;
+		((E3Camera*) inCamera)->GetViewToFrustum( &viewToFrustum );
+		TQ3Matrix4x4 frustumToView = Q3Invert( viewToFrustum );
+		viewPt = inFrustumPt * frustumToView;
+	}
+	return viewPt;
+}
+

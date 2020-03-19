@@ -5,7 +5,7 @@
         Implementation of Quesa Triangle geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -192,9 +192,9 @@ e3geom_triangle_pick_with_ray(  TQ3ViewObject		theView,
 	// Determine if we should cull back-facing triangles or not
 	qd3dStatus   = E3View_GetBackfacingStyleState(theView, &backfacingStyle);
 	cullBackface = (TQ3Boolean)(qd3dStatus == kQ3Success && backfacingStyle == kQ3BackfacingStyleRemove);
-
-
-
+	
+	
+	
 	// Check for face tolerance
 	float faceTolerance;
 	E3Pick_GetFaceTolerance( thePick, &faceTolerance );
@@ -293,7 +293,6 @@ e3geom_triangle_pick_window_rect(TQ3ViewObject theView, TQ3PickObject thePick, T
 {	const TQ3TriangleData		*instanceData = (const TQ3TriangleData *) objectData;
 	TQ3Status					qd3dStatus = kQ3Success;
 	TQ3Point2D					windowPoints[3];
-	TQ3Point3D					windowCoordPts[3];
 	TQ3WindowRectPickData		pickData;
 	TQ3Uns32					n;
 	
@@ -304,17 +303,10 @@ e3geom_triangle_pick_window_rect(TQ3ViewObject theView, TQ3PickObject thePick, T
 
 
 
-	// Transform our points
-	TQ3Matrix4x4	frustumToWindow, localToWindow;
-	const TQ3Matrix4x4&	localToFrustum( E3View_State_GetMatrixLocalToFrustum( theView ) );
-	E3View_GetFrustumToWindowMatrixState( theView, &frustumToWindow );
-	Q3Matrix4x4_Multiply( &localToFrustum, &frustumToWindow, &localToWindow );
+	// Transform our points from local to window space
 	for (n = 0; n < 3; n++)
 	{
-		Q3Point3D_Transform( &instanceData->vertices[n].point, &localToWindow,
-			&windowCoordPts[n] );
-		windowPoints[n].x = windowCoordPts[n].x;
-		windowPoints[n].y = windowCoordPts[n].y;
+		E3View_TransformLocalToWindow( theView, &instanceData->vertices[n].point, &windowPoints[n] );
 	}
 
 

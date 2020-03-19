@@ -47,6 +47,7 @@
 //      Include files
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
+#include "E3Camera.h"
 #include "E3Math.h"
 #include "E3Math_Intersect.h"
 #include "E3View.h"
@@ -2301,6 +2302,14 @@ bool	E3Cone_IntersectViewFrustum(
 {
 	bool	didIntersect = false;
 	
+	// A nonlinear camera doesn't really have a frustum.  Err on the side
+	// of caution/laziness and say they always intersect.
+	if ( Q3Object_IsType( inCamera, kQ3CameraTypeFisheye) ||
+		Q3Object_IsType( inCamera, kQ3CameraTypeAllSeeing) )
+	{
+		return true;
+	}
+	
 	// If any of the corners of the frustum are in the cone, they intersect.
 	TQ3RationalPoint4D frustumCorners[8];
 	GetFrustumCornersInWorldSpace( inCamera, frustumCorners );
@@ -2581,6 +2590,13 @@ bool	E3BoundingBox_IntersectCameraFrustum(
 		return false;
 	}
 	
+	// With some special kinds of camera, there may be no view frustum.
+	if ( Q3Object_IsType( inCamera, kQ3CameraTypeAllSeeing ) ||
+		Q3Object_IsType( inCamera, kQ3CameraTypeFisheye ) )
+	{
+		return true;
+	}
+	
 	// It is tempting to do a quick and dirty test by transforming the box
 	// corners to frustum coordinates and then testing them against the simple
 	// frustum bounds.  However, that can give an incorrect result in some
@@ -2737,7 +2753,58 @@ void	E3Math_CalcLocalFrustumPlanes(
 	}
 }
 
+static float e3math_angleBetweenVectors( const TQ3Vector3D& A, const TQ3Vector3D& B )
+{
+	return atan2f( Q3Length3D( Q3Cross3D( A, B ) ), Q3Dot3D( A, B ) );
+}
 
+
+static float e3math_distanceFromPointToFisheyeViewVolume(
+								const TQ3Point3D& inWorldPt,
+								TQ3CameraObject inCamera )
+{
+	float distance = 0.0f;
+	
+	// Convert the point to view coordinates
+	TQ3Matrix4x4 worldToView;
+	( (E3Camera*) inCamera )->GetWorldToView( &worldToView );
+	TQ3Point3D viewPt = inWorldPt * worldToView;
+	
+	// Find the angle of view of the fisheye camera.
+	TQ3FisheyeCameraData data;
+	( (E3FisheyeCamera*) inCamera )->GetData( &data );
+	float angleOfView = Q3FisheyeCamera_CalcAngleOfView( &data.sensorSize,
+		data.mappingFunction, data.croppingFormat, data.focalLength );
+	float angleToCone = 0.5f * angleOfView;
+	
+	// Find the angle between the target point and the center of view.
+	float angleToTarget = e3math_angleBetweenVectors( Q3PointToVector3D(viewPt),
+		TQ3Vector3D{ 0.0f, 0.0f, -1.0f } );
+	
+	if (angleToTarget > angleToCone) // the target point is not viewable
+	{
+		if (fabsf( angleOfView - kQ3Pi ) < kQ3RealZero)
+		{
+			// 180 degree angle of view, so the viewable stuff is just
+			// everything with a negative z in view coordinates.
+			distance = viewPt.z;
+		}
+		else if (angleOfView < kQ3Pi)
+		{
+			// The viewable volume is a cone ahead of the camera.
+			distance = E3Math_DistanceFromPointToCone( viewPt, TQ3Point3D{ 0.0f, 0.0f, 0.0f },
+				TQ3Vector3D{ 0.0f, 0.0f, -1.0f }, angleToCone );
+		}
+		else // angleOfView > kQ3Pi
+		{
+			// The non-viewable volume is a cone behind the camera.
+			distance = E3Math_DistanceFromPointToCone( viewPt, TQ3Point3D{ 0.0f, 0.0f, 0.0f },
+				TQ3Vector3D{ 0.0f, 0.0f, 1.0f }, kQ3Pi - angleToCone );
+		}
+	}
+	
+	return distance;
+}
 
 /*!
 	@function	E3Math_DistanceFromPointToViewFrustum
@@ -2751,7 +2818,18 @@ float	E3Math_DistanceFromPointToViewFrustum(
 								const TQ3Point3D& inWorldPt,
 								TQ3CameraObject inCamera )
 {
-	float distance = 0.0;
+	float distance = 0.0f;
+	
+	if (Q3Object_IsType( inCamera, kQ3CameraTypeAllSeeing))
+	{
+		// everything is inside the view volume
+		return distance;
+	}
+	else if (Q3Object_IsType( inCamera, kQ3CameraTypeFisheye))
+	{
+		return e3math_distanceFromPointToFisheyeViewVolume( inWorldPt, inCamera );
+	}
+	
 	Frustum viewFrustum;
 	GetFrustumPlanesInWorldSpace( inCamera, viewFrustum );
 	bool inFrustum = true;
@@ -2899,6 +2977,111 @@ float	E3Math_DistanceFromPointToViewFrustum(
 	return distance;
 }
 
+static TQ3Vector3D PickVectorOrthogonalToVector( const TQ3Vector3D& inDir )
+{
+	float	mags[3] = { fabsf( inDir.x ), fabsf( inDir.y ), fabsf( inDir.z ) };
+	float*	theMin = std::min_element( &mags[0], &mags[3] );
+	long minIndex = theMin - &mags[0];
+	TQ3Vector3D result;
+	if (minIndex == 0) // x coord is least
+	{
+		result.x = 0.0f;
+		result.y = inDir.z;
+		result.z = - inDir.y;
+	}
+	else if (minIndex == 1) // y least
+	{
+		result.x = inDir.z;
+		result.z = - inDir.x;
+		result.y = 0.0f;
+	}
+	else // z least
+	{
+		result.x = inDir.y;
+		result.y = - inDir.x;
+		result.z = 0.0f;
+	}
+	return result;
+}
+
+
+/*!
+	@function	E3Math_DistanceFromPointToCone
+	@abstract	Compute the minimum distance from a point to an infinite right
+				circular cone.
+	@discussion	If P is any point on the cone, then the angle from the vector
+				P - inConeApex to the vector inConeAxis is inAngleToSurface.
+	@param		inPoint		A point.
+	@param		inConeApex	Apex of the cone.
+	@param		inConeAxis	Axis direction of the cone.  Must be a unit vector.
+	@param		inAngleToSurface	Angle from axis to the surface.
+									This should be no more than pi/2.
+	@result		The distance.
+*/
+float	E3Math_DistanceFromPointToCone(
+								const TQ3Point3D& inPoint,
+								const TQ3Point3D& inConeApex,
+								const TQ3Vector3D& inConeAxis,
+								float inAngleToSurface )
+{
+	// Find vectors that, together with inConeAxis, make a right-handed orthonormal basis.
+	TQ3Vector3D major = Q3Normalize3D( PickVectorOrthogonalToVector( inConeAxis ) );
+	TQ3Vector3D minor = Q3Normalize3D( Q3Cross3D( inConeAxis, major ) );
+	
+	// Let's consider a coordinate system in which the apex of the cone is at the origin.
+	TQ3Point3D pointInApexOriginSpace = Q3VectorToPoint3D( inPoint - inConeApex );
+	
+	// Express the point in the coordinates of this basis.
+	float p0 = Q3Dot3D( major, Q3PointToVector3D(pointInApexOriginSpace) );
+	float p1 = Q3Dot3D( minor, Q3PointToVector3D(pointInApexOriginSpace) );
+	float p2 = Q3Dot3D( inConeAxis, Q3PointToVector3D(pointInApexOriginSpace) );
+	
+	// For brevity let's use theta instead of inAngleToSurface.
+	// If s is a parameter for distance in the axis direction, and t is an angle of
+	// rotation about the axis, then we can express points on the cone by the
+	// parametric equation
+	// f( s, t ) = s inConeAxis + s tan(theta) (cos(t) major + sin(t) minor) ,
+	// which in our chosen coordinates with basis major, minor, inConeAxis is
+	// f( s, t ) = ( s tan(theta) cos(t), s tan(theta) sin(t), s ) .
+	// We want to minimize the square of the distance between our target point P and f( s, t ).
+	// This is dot( P - f( s, t ), P - f( s, t ) ) =
+	// dot(P, P) - 2 dot( P, f( s, t ) ) + dot( f( s, t ), f( s, t ) ) .
+	// We may forget the constant term dot(P, P).
+	// The last term is dot( f( s, t ), f( s, t ) ) =
+	// s^2 tan^2(theta) cos^2(t) + s^2 tan^2(theta) sin^2(t) + s^2
+	// = s^2 ( tan^2(theta) + 1 ) = s^2 sec^2(theta).  Thus we want to minimize
+	// g( s, t ) = -2 p0 s tan(theta) cos(t) - 2 p1 s tan(theta) sin(t) - 2 p2 s + s^2 sec^2(theta) .
+	
+	// The partial derivative of g with respect to t is
+	// 2 p0 s tan(theta) sin(t) - 2 p1 s tan(theta) cos(t)
+	// which we set to 0.  The 2, the s, and the tan(theta) go away, leaving
+	// p0 sin(t) - p1 cos(t) = 0, hence tan(t) = p1/p0.  Algebraically there may be
+	// 2 solutions, but looking at it geometrically I think we want t = atan2( p1, p0 ) .
+	float t = atan2f( p1, p0 );
+	
+	// Now let's take the partial derivative of g with respect to s and set it to 0.
+	// -2 p0 tan(theta) cos(t) - 2 p1 tan(theta) sin(t) - 2 p2 + 2 s sec^2(theta) = 0
+	// s sec^2(theta) = p0 tan(theta) cos(t) + p1 tan(theta) sin(t) + p2
+	// s = cos^2(theta) (p0 tan(theta) cos(t) + p1 tan(theta) sin(t) + p2)
+	// We'll have to ensure that s >= 0, and consider the apex as a possible nearest point.
+	float cosTheta = cosf( inAngleToSurface );
+	float tanTheta = tanf( inAngleToSurface );
+	float cosT = cosf( t );
+	float sinT = sinf( t );
+	float cosSq = cosTheta * cosTheta;
+	float c = cosSq * tanTheta;
+	float s = p0 * c * cosT + p1 * c * sinT + cosSq * p2;
+	if (s < 0.0f)
+	{
+		s = 0.0f;
+	}
+	
+	TQ3Point3D nearPt = inConeApex + s * inConeAxis + s * tanTheta * ( cosT * major + sinT * minor );
+	float distance = Q3Length3D( nearPt - inPoint );
+	return distance;
+}
+
+
 
 /*!
 	@function	E3BoundingSphere_DirectionalShadowIntersectsViewFrustum
@@ -3041,6 +3224,14 @@ bool	E3BoundingBox_ShadowIntersectsViewFrustum(
 									const TQ3RationalPoint4D& inWorldLightPos )
 {
 	bool couldShadowBeVisible = true;
+	
+	// With some special kinds of camera, there may be no view frustum.
+	CQ3ObjectRef theCamera( CQ3View_GetCamera( inView ) );
+	if ( Q3Object_IsType( theCamera.get(), kQ3CameraTypeAllSeeing ) ||
+		Q3Object_IsType( theCamera.get(), kQ3CameraTypeFisheye ) )
+	{
+		return true;
+	}
 
 	// Convert the light position to local coordinates.
 	const TQ3Matrix4x4& localToWorld( *E3View_State_GetMatrixLocalToWorld( inView ) );

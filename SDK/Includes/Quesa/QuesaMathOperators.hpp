@@ -369,6 +369,13 @@ inline TQ3Vector3D Q3Normalize3D( const TQ3Vector3D& inVec )
 	return result;
 }
 
+inline TQ3Vector2D Q3Normalize2D( const TQ3Vector2D& inVec )
+{
+	TQ3Vector2D result;
+	Q3FastVector2D_Normalize( &inVec, &result );
+	return result;
+}
+
 inline float Q3Length3D( const TQ3Vector3D& inVec )
 {
 	return Q3FastVector3D_Length( &inVec );
@@ -396,5 +403,14 @@ inline TQ3Matrix4x4 Q3Invert( const TQ3Matrix4x4& inMtx )
 	return result;
 }
 
+inline TQ3Point3D Q3VectorToPoint3D( const TQ3Vector3D& inVec )
+{
+	return TQ3Point3D{ inVec.x, inVec.y, inVec.z };
+}
+
+inline TQ3Vector3D Q3PointToVector3D( const TQ3Point3D& inPt )
+{
+	return TQ3Vector3D{ inPt.x, inPt.y, inPt.z };
+}
 
 #endif

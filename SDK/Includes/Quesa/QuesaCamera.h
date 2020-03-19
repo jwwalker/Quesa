@@ -210,6 +210,9 @@ typedef struct TQ3CameraViewPort {
  *      The common camera state includes its position and orientation within
  *      the world (placement), the near and far clipping planes (range), and
  *      the current viewport.
+ *      
+ *		The placement fully determines the world to view transformation, while the
+ *		range and viewport affect the view to frustum transformation.
  *
  *  @field placement        The position and orientation of the camera.
  *  @field range            The near and far clipping planes of the camera.
@@ -316,14 +319,14 @@ typedef struct TQ3ViewAngleAspectCameraData {
 	@field			mappingFunction	The mapping function.
 	@field			croppingFormat		The cropping format.
 */
-typedef struct TQ3FisheyeCameraData
+struct TQ3FisheyeCameraData
 {
     TQ3CameraData                  cameraData;
 	TQ3Vector2D                    sensorSize;
 	float                          focalLength;
 	TQ3FisheyeMappingFunction      mappingFunction;
 	TQ3FisheyeCroppingFormat       croppingFormat;
-} TQ3FisheyeCameraData;
+};
 
 
 
@@ -529,7 +532,11 @@ Q3Camera_GetWorldToView (
  *      returned by Q3Camera_GetWorldToView and Q3Camera_GetViewToFrustum.
  *		See the documentation of Q3View_GetWorldToFrustumMatrixState for more
  *		information.
- *
+  *
+ *      If the camera uses a nonlinear projection (fisheye or all-seeing cameras) then
+ *      the view to frustum transformation cannot be expressed by a matrix, and this
+ *      function returns kQ3Failure.
+*
  *  @param camera           The camera to query.
  *  @param worldToFrustum   Receives the world-to-frustum matrix of the camera.
  *  @result                 Success or failure of the operation.
@@ -552,8 +559,12 @@ Q3Camera_GetWorldToFrustum (
  *      (as returned by Q3Camera_GetWorldToView) to the viewing frustum
  *      coordinate system.
  *
- *      The frustum coordinate system ranges from 0.0 to -1.0 in z, and from
+ *      The frustum coordinate system ranges from 0.0 (near) to -1.0 (far) in z, and from
  *      -1.0 to +1.0 in both x and y.
+ *
+ *      If the camera uses a nonlinear projection (fisheye or all-seeing cameras) then
+ *      the view to frustum transformation cannot be expressed by a matrix, and this
+ *      function returns kQ3Failure.
  *
  *  @param camera           The camera to query.
  *  @param viewToFrustum    Receives the view-to-frustum matrix of the camera.
@@ -566,6 +577,34 @@ Q3Camera_GetViewToFrustum (
 );
 
 
+/*!
+	@function	Q3Camera_TransformViewToFrustum
+	@abstract	Transform a point from view coordinates to frustum coordinates.
+	@discussion	Whereas Q3Camera_GetViewToFrustum does not work for certain kinds
+				of cameras, this function should work for all cameras.
+	@param		camera		The camera.
+	@param		viewPt		A point in view coordinates.
+	@param		frustumPt	Receives a point in frustum coordinates.
+*/
+Q3_EXTERN_API_C( void )
+Q3Camera_TransformViewToFrustum( TQ3CameraObject _Nonnull camera,
+								const TQ3Point3D* _Nonnull viewPt,
+								TQ3Point3D* _Nonnull frustumPt );
+
+
+/*!
+	@function	Q3Camera_TransformFrustumToView
+	@abstract	Transform a point from frustum coordinates to view coordinates.
+	@discussion	Whereas Q3Camera_GetViewToFrustum does not work for certain kinds
+				of cameras, this function should work for all cameras.
+	@param		camera		The camera.
+	@param		frustumPt	A point in frustum coordinates.
+	@param		viewPt		Receives a point in view coordinates.
+*/
+Q3_EXTERN_API_C( void )
+Q3Camera_TransformFrustumToView( TQ3CameraObject _Nonnull camera,
+								const TQ3Point3D* _Nonnull frustumPt,
+								TQ3Point3D* _Nonnull viewPt );
 
 /*!
  *  @function

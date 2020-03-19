@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2020, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -964,6 +964,22 @@ static bool IsSimplyTransparent(
 }
 
 
+static TQ3Area ScreenAreaOfBounds( TQ3ViewObject inView, const TQ3BoundingBox& inLocalBounds )
+{
+	// Get the corners of the bounds.
+	TQ3Point3D	localCorners[8];
+	E3BoundingBox_GetCorners( &inLocalBounds, localCorners );
+	
+	// Transform corners to screen space.
+	TQ3Point2D screenCorners[8];
+	E3View_TransformArrayLocalToWindow( inView, 8, localCorners, screenCorners );
+	
+	// Get area
+	TQ3Area theArea = E3Area_SetFromPoints2D( 8, screenCorners );
+	return theArea;
+}
+
+
 /*!
 	@function	RenderSlowPathTriMesh
 	@abstract	When a TriMesh cannot be rendered on the fast path, break it up
@@ -995,16 +1011,9 @@ void	QORenderer::Renderer::RenderSlowPathTriMesh(
 			Q3_MESSAGE_FMT("Transparent geometry '%s'", theName);
 		}
 	#endif
-		TQ3Matrix4x4 localToWorld, worldToFrustum, frustumToWindow, localToWindow;
-		E3View_GetLocalToWorldMatrixState( inView, &localToWorld );
-		E3View_GetWorldToFrustumMatrixState( inView, &worldToFrustum );
-		E3View_GetFrustumToWindowMatrixState( inView, &frustumToWindow );
-		localToWindow = localToWorld * worldToFrustum * frustumToWindow;
-		TQ3BoundingBox windowBox;
-		E3BoundingBox_Transform( &inGeomData.bBox, &localToWindow, &windowBox );
-		float screenWidth = windowBox.max.x - windowBox.min.x;
-		float screenHeight = windowBox.max.y - windowBox.min.y;
-		float screenArea = screenWidth * screenHeight;
+		TQ3Area screenBounds = ScreenAreaOfBounds( inView, inGeomData.bBox );
+		TQ3Vector2D screenDimensions = screenBounds.max - screenBounds.min;
+		float screenArea = screenDimensions.x * screenDimensions.y;
 		//Q3_MESSAGE_FMT("Screen area %f (%f x %f)", screenArea, screenWidth, screenHeight );
 		if (screenArea > 10.0f)
 		{
@@ -2049,3 +2058,4 @@ void	QORenderer::Renderer::SubmitPolyLine(
 	
 	mNumPrimitivesRenderedInFrame += inGeomData->numVertices - 1;
 }
+

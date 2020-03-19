@@ -5,7 +5,7 @@
         Source code to compute edges of a TriMesh.
 
     COPYRIGHT:
-        Copyright (c) 2007-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2020, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -193,7 +193,7 @@ void QOCalcTriMeshEdges( 	const TQ3TriMeshData& inData,
 	E3FastArray<TQ3Uns32>	edgeToUniqueEdge( kNumEdgesWithCopies );
 	
 	TQ3Uns32	runStart, nextRunStart;
-	runStart = nextRunStart = 0;
+	runStart = 0;
 	
 	while (runStart < kNumEdgesWithCopies)
 	{

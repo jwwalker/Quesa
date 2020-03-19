@@ -5,7 +5,7 @@
         Header file for E3View.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2016, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -202,7 +202,12 @@ TQ3Status				E3View_AllowAllGroupCulling(TQ3ViewObject theView, TQ3Boolean allow
 TQ3Boolean				E3View_IsGroupCullingAllowed( TQ3ViewObject theView );
 TQ3Status				E3View_TransformLocalToWorld(TQ3ViewObject theView, const TQ3Point3D *localPoint, TQ3Point3D *worldPoint);
 TQ3Status				E3View_TransformLocalToWindow(TQ3ViewObject theView, const TQ3Point3D *localPoint, TQ3Point2D *windowPoint);
+TQ3Status				E3View_TransformLocalToFrustum(TQ3ViewObject theView, const TQ3Point3D *localPoint, TQ3Point3D *frustumPoint);
+TQ3Status				E3View_TransformFrustumToWorld(TQ3ViewObject theView, const TQ3Point3D *frustumPoint, TQ3Point3D *worldPoint);
+TQ3Status				E3View_TransformArrayLocalToWindow(TQ3ViewObject theView, TQ3Uns32 inCount,
+															const TQ3Point3D *localPoints, TQ3Point2D *windowPoints);
 TQ3Status				E3View_TransformWorldToWindow(TQ3ViewObject theView, const TQ3Point3D *worldPoint, TQ3Point2D *windowPoint);
+TQ3Status				E3View_TransformWindowToWorld(TQ3ViewObject theView, const TQ3Point2D *windowPoint, TQ3Point3D *worldPoint);
 TQ3Status				E3View_SetDrawContext(TQ3ViewObject theView, TQ3DrawContextObject drawContext);
 TQ3Status				E3View_GetDrawContext(TQ3ViewObject theView, TQ3DrawContextObject *drawContext);
 TQ3Status				E3View_GetLocalToWorldMatrixState(TQ3ViewObject theView, TQ3Matrix4x4 *theMatrix);

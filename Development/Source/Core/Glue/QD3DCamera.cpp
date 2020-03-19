@@ -499,6 +499,55 @@ Q3Camera_GetViewToFrustum(TQ3CameraObject camera, TQ3Matrix4x4 *viewToFrustum)
 
 
 /*!
+	@function	Q3Camera_TransformViewToFrustum
+	@abstract	Transform a point from view coordinates to frustum coordinates.
+	@discussion	Whereas Q3Camera_GetViewToFrustum does not work for certain kinds
+				of cameras, this function should work for all cameras.
+	@param		camera		The camera.
+	@param		viewPt		A point in view coordinates.
+	@param		frustumPt	Receives a point in frustum coordinates.
+*/
+void
+Q3Camera_TransformViewToFrustum( TQ3CameraObject _Nonnull camera,
+								const TQ3Point3D* _Nonnull viewPt,
+								TQ3Point3D* _Nonnull frustumPt )
+{
+	Q3_REQUIRE( E3Camera::IsOfMyClass ( camera ) );
+	Q3_REQUIRE( Q3_VALID_PTR( viewPt ) );
+	Q3_REQUIRE( Q3_VALID_PTR( frustumPt ) );
+	
+	*frustumPt = E3Camera_ViewToFrustum( camera, *viewPt );
+}
+
+
+
+
+
+/*!
+	@function	Q3Camera_TransformFrustumToView
+	@abstract	Transform a point from frustum coordinates to view coordinates.
+	@discussion	Whereas Q3Camera_GetViewToFrustum does not work for certain kinds
+				of cameras, this function should work for all cameras.
+	@param		camera		The camera.
+	@param		frustumPt	A point in frustum coordinates.
+	@param		viewPt		Receives a point in view coordinates.
+*/
+void
+Q3Camera_TransformFrustumToView( TQ3CameraObject _Nonnull camera,
+								const TQ3Point3D* _Nonnull frustumPt,
+								TQ3Point3D* _Nonnull viewPt )
+{
+	Q3_REQUIRE( E3Camera::IsOfMyClass ( camera ) );
+	Q3_REQUIRE( Q3_VALID_PTR( viewPt ) );
+	Q3_REQUIRE( Q3_VALID_PTR( frustumPt ) );
+	
+	*viewPt = E3Camera_FrustumToView( camera, *frustumPt );
+}
+
+
+
+
+/*!
  *  @function
  *      Q3Camera_IsBoundingBoxVisible
  *  @abstract

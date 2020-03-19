@@ -5,7 +5,7 @@
         Implementation of Quesa Pixmap Marker geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -44,6 +44,8 @@
 //      Include files
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
+#include "E3Camera.h"
+#include "E3FastArray.h"
 #include "E3View.h"
 #include "E3Pick.h"
 #include "E3Set.h"
@@ -118,6 +120,9 @@ public :
 
 //=============================================================================
 //      Internal functions
+//-----------------------------------------------------------------------------
+
+
 //-----------------------------------------------------------------------------
 //      e3geom_trimesh_clone : Clone a block of memory.
 //-----------------------------------------------------------------------------
@@ -1082,14 +1087,9 @@ e3geom_trimesh_pick_with_ray( TQ3ViewObject				theView,
 	
 	// If using tolerance in window space, we will need to transform from
 	// world to window space.
-	TQ3Matrix4x4 worldToWindow, worldToView;
+	TQ3Matrix4x4 worldToView;
 	if ( useTolerance && isWindowPointPick )
 	{
-		TQ3Matrix4x4 worldToFrustum, frustumToWindow;
-		E3View_GetWorldToFrustumMatrixState( theView, &worldToFrustum );
-		E3View_GetFrustumToWindowMatrixState( theView, &frustumToWindow );
-		worldToWindow = worldToFrustum * frustumToWindow;
-		
 		Q3Camera_GetWorldToView( E3View_AccessCamera(theView), &worldToView );
 	}
 
@@ -1114,9 +1114,17 @@ e3geom_trimesh_pick_with_ray( TQ3ViewObject				theView,
 			}
 			else if (viewBounds.max.z < 0.0f) // all ahead of the camera
 			{
-				TQ3Matrix4x4 localToWindow = *localToWorld * worldToWindow;
-				TQ3BoundingBox windowBounds;
-				E3BoundingBox_Transform( &geomData->bBox, &localToWindow, &windowBounds );
+				TQ3Point3D		localBoundCorners[8];
+				E3BoundingBox_GetCorners( &geomData->bBox, localBoundCorners );
+				TQ3Point2D 	windowBoundCorners[8];
+				int i;
+				for (i = 0; i < 8; ++i)
+				{
+					E3View_TransformLocalToWindow( theView, &localBoundCorners[i],
+						&windowBoundCorners[i] );
+				}
+				TQ3Area windowBounds = E3Area_SetFromPoints2D( 8, windowBoundCorners );
+
 				// Expand window bounds by tolerance in x and y directions.
 				windowBounds.min.x -= faceTolerance;
 				windowBounds.min.y -= faceTolerance;
@@ -1216,10 +1224,10 @@ e3geom_trimesh_pick_with_ray( TQ3ViewObject				theView,
 				
 				if (isWindowPointPick)
 				{
-					TQ3Point3D triNearWin = triNearPt * worldToWindow;
-					TQ3Point3D rayNearWin = rayNearPt * worldToWindow;
-					triNearWin.z = rayNearWin.z = 0.0f;
-					float winDistSq = Q3LengthSquared3D( triNearWin - rayNearWin );
+					TQ3Point2D	triNearWin, rayNearWin;
+					E3View_TransformWorldToWindow( theView, &triNearPt, &triNearWin );
+					E3View_TransformWorldToWindow( theView, &rayNearPt, &rayNearWin );
+					float winDistSq = Q3LengthSquared2D( triNearWin - rayNearWin );
 					didHit = (winDistSq < toleranceSquared)? kQ3True : kQ3False;
 				}
 				else
@@ -1279,12 +1287,12 @@ e3geom_trimesh_pick_with_ray( TQ3ViewObject				theView,
 //-----------------------------------------------------------------------------
 static TQ3Boolean
 e3geom_trimesh_find_line_point_in_area( const TQ3Area& inRect,
-										const TQ3Point3D& inPtOne,
-										const TQ3Point3D& inPtTwo,
-										TQ3Point3D& outInArea )
+										const TQ3Point2D& inPtOne,
+										const TQ3Point2D& inPtTwo,
+										TQ3Point2D& outInArea )
 {
-	TQ3Point2D	startPt = { inPtOne.x, inPtOne.y };
-	TQ3Point2D	endPt = { inPtOne.x, inPtOne.y };
+	TQ3Point2D	startPt = inPtOne;
+	TQ3Point2D	endPt = inPtTwo;
 	TQ3Point2D	clipStart = startPt;
 	TQ3Point2D	clipEnd = endPt;
 	
@@ -1312,8 +1320,7 @@ e3geom_trimesh_find_line_point_in_area( const TQ3Area& inRect,
 			t = Q3FastVector2D_Length( &endToMid ) / wholeLen;
 		}
 		
-		// Back from screen space to 3D window space.
-		Q3FastPoint3D_RRatio( &inPtOne, &inPtTwo, t, 1.0f - t, &outInArea );
+		Q3FastPoint2D_RRatio( &inPtOne, &inPtTwo, t, 1.0f - t, &outInArea );
 	}
 	
 	return doIntersect;
@@ -1330,10 +1337,10 @@ e3geom_trimesh_find_line_point_in_area( const TQ3Area& inRect,
 //-----------------------------------------------------------------------------
 static TQ3Boolean
 e3geom_trimesh_find_triangle_point_in_area( const TQ3Area& inRect,
-											const TQ3Point3D& inVert1,
-											const TQ3Point3D& inVert2,
-											const TQ3Point3D& inVert3,
-											TQ3Point3D& outInArea )
+											const TQ3Point2D& inVert1,
+											const TQ3Point2D& inVert2,
+											const TQ3Point2D& inVert3,
+											TQ3Point2D& outInArea )
 {
 	TQ3Boolean	foundPoint = kQ3False;
 
@@ -1361,27 +1368,22 @@ e3geom_trimesh_pick_with_rect(TQ3ViewObject				theView,
 								TQ3PickObject			thePick,
 								const TQ3Area			*theRect,
 								const TQ3TriMeshData	*geomData)
-{	TQ3Matrix4x4		worldToFrustum, frustumToWindow, worldToWindow, localToWindow;
+{
 	TQ3Uns32			n, numPoints, v0, v1, v2;
 	TQ3Point2D			triVertices[3];
-	TQ3Point3D			*windowPoints;
 	TQ3Status			qd3dStatus;
 
 
 
 	// Transform our points from local coordinates to window coordinates
 	numPoints    = geomData->numPoints;
-	windowPoints = (TQ3Point3D *) Q3Memory_Allocate(static_cast<TQ3Uns32>(numPoints * sizeof(TQ3Point3D)));
-	if (windowPoints == nullptr)
-		return(kQ3Failure);
+	if (numPoints == 0)
+	{
+		return kQ3Success;
+	}
+	E3FastArray<TQ3Point2D>	windowPoints( numPoints );
 
-	Q3View_GetWorldToFrustumMatrixState(theView,  &worldToFrustum);
-	Q3View_GetFrustumToWindowMatrixState(theView, &frustumToWindow);
-	Q3Matrix4x4_Multiply( &worldToFrustum, &frustumToWindow, &worldToWindow );
-	Q3Matrix4x4_Multiply(E3View_State_GetMatrixLocalToWorld(theView), &worldToWindow, &localToWindow);
-
-	Q3Point3D_To3DTransformArray(geomData->points, &localToWindow, windowPoints,
-		numPoints, sizeof(TQ3Point3D), sizeof(TQ3Point3D));
+	E3View_TransformArrayLocalToWindow( theView, numPoints, geomData->points, &windowPoints[0] );
 
 
 
@@ -1389,7 +1391,7 @@ e3geom_trimesh_pick_with_rect(TQ3ViewObject				theView,
 	qd3dStatus = kQ3Success;
 
 	for (n = 0; n < geomData->numTriangles && qd3dStatus == kQ3Success; n++)
-		{
+	{
 		// Grab the vertex indices
 		v0 = geomData->triangles[n].pointIndices[0];
 		v1 = geomData->triangles[n].pointIndices[1];
@@ -1411,28 +1413,21 @@ e3geom_trimesh_pick_with_rect(TQ3ViewObject				theView,
 
 
 		// See if this triangle falls within the pick
-		TQ3Point3D	windowHitPt;
+		TQ3Point2D	windowHitPt;
 		if (e3geom_trimesh_find_triangle_point_in_area( *theRect, windowPoints[v0],
 			windowPoints[v1], windowPoints[v2], windowHitPt ))
-			{
-			TQ3Matrix4x4	windowToWorld;
-			Q3Matrix4x4_Invert( &worldToWindow, &windowToWorld );
+		{
 			TQ3Point3D		worldHitPt;
-			Q3Point3D_Transform( &windowHitPt, &windowToWorld, &worldHitPt );
+			E3View_TransformWindowToWorld( theView, &windowHitPt, &worldHitPt );
 			qd3dStatus = E3Pick_RecordHit(thePick, theView, &worldHitPt, nullptr,
 				nullptr, nullptr, nullptr, n);
 			break;
-			}
 		}
+	}
 
-
-	// Clean up
-	Q3Memory_Free(&windowPoints);
 
 	return(qd3dStatus);			
 }
-
-
 
 
 
@@ -1444,26 +1439,16 @@ e3geom_trimesh_pick_with_rect(TQ3ViewObject				theView,
 //-----------------------------------------------------------------------------
 static void
 e3geom_trimesh_pick_screen_bounds(TQ3ViewObject theView, const TQ3TriMeshData *geomData, TQ3Area *windowBounds)
-{	TQ3Matrix4x4		theMatrix, worldToFrustum, frustumToWindow;
-	TQ3BoundingBox		windowBoundingBox;
+{
+	// Get the corners of the bounds.
+	TQ3Point3D	theCorners[8];
+	E3BoundingBox_GetCorners( &geomData->bBox, theCorners );
 
-
-	// Compute the local to window coordinate transformation matrix
-	Q3View_GetWorldToFrustumMatrixState(theView,  &worldToFrustum);
-	Q3View_GetFrustumToWindowMatrixState(theView, &frustumToWindow);
-	Q3Matrix4x4_Multiply(E3View_State_GetMatrixLocalToWorld(theView), &worldToFrustum, &theMatrix);
-	Q3Matrix4x4_Multiply(&theMatrix, &frustumToWindow, &theMatrix);
+	// Convert the corners from local to window space.
+	TQ3Point2D windowCorners[8];
+	E3View_TransformArrayLocalToWindow( theView, 8, theCorners, windowCorners );
 	
-	
-	// Compute a bounding box in window coordinates
-	E3BoundingBox_Transform(  &geomData->bBox, &theMatrix, &windowBoundingBox );
-	
-	
-	// Return the window bounds, discarding depth
-	windowBounds->min.x = windowBoundingBox.min.x;
-	windowBounds->max.x = windowBoundingBox.max.x;
-	windowBounds->min.y = windowBoundingBox.min.y;
-	windowBounds->max.y = windowBoundingBox.max.y;
+	*windowBounds = E3Area_SetFromPoints2D( 8, windowCorners );
 }
 
 

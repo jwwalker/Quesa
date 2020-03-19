@@ -12,7 +12,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -981,6 +981,10 @@ Q3View_GetLocalToWorldMatrixState (
  *		This function must be called within a submitting loop.  If you need
  *		this matrix when you are not in a submitting loop, use
  *		Q3Camera_GetWorldToFrustum instead.
+ *		
+ *		If the view's camera has a nonlinear projection (as in fisheye and all-seeing
+ *		cameras), then the world to frustum transformation cannot be expressed
+ *		as a matrix, hence this function will return kQ3Failure.
  *
  *  @param view             The view to query.
  *  @param matrix           Receives the local-to-frustum matrix.

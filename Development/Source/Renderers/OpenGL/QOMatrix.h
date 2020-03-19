@@ -11,7 +11,7 @@
         Header for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2020, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -78,7 +78,6 @@ public:
 	const TQ3Matrix4x4&		GetCameraToFrustum() const;
 	const TQ3Matrix4x4&		GetLocalToCameraInverseTranspose() const;
 	const TQ3Matrix4x4&		GetCameraToLocal() const;
-	const TQ3Matrix4x4&		GetLocalToFrustum() const;
 	
 	void					SetLocalToCamera( const TQ3Matrix4x4& inMtx );
 	void					SetCameraToFrustum( const TQ3Matrix4x4& inMtx );
@@ -88,10 +87,8 @@ private:
 	TQ3Matrix4x4			mCameraToFrustum;
 	mutable TQ3Matrix4x4	mLocalToCameraInvTr;
 	mutable TQ3Matrix4x4	mLocalToCameraInv;
-	mutable TQ3Matrix4x4	mLocalToFrustum;
 	mutable bool			mIsLocalToCameraInvTrValid;
 	mutable bool			mIsLocalToCameraInvValid;
-	mutable bool			mIsLocalToFrustumValid;
 };
 
 }

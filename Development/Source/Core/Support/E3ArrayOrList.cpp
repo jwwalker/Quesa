@@ -22,7 +22,7 @@
 		and/or list of pointers.
 
     COPYRIGHT:
-        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1776,7 +1776,8 @@ e3listSequence_Create(
 		TE3GenericItem* itemPtr;
 
 		// Push back new node (and initialize new item)
-		if ((itemPtr = e3listSequence_InsertBeforeNodeItem(kernalPtr, listInfoPtr, tailNodePtr, thoseItemsPtr)) == nullptr)
+		itemPtr = e3listSequence_InsertBeforeNodeItem(kernalPtr, listInfoPtr, tailNodePtr, thoseItemsPtr);
+		if (itemPtr == nullptr)
 			goto failure_2;
 
 		if (thoseItemsPtr != nullptr)
