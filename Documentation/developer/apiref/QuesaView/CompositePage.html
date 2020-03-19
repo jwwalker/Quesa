@@ -733,6 +733,10 @@ This function must be called within a submitting loop.  If you need
 this matrix when you are not in a submitting loop, use
 Q3Camera_GetWorldToFrustum instead.
 <br><br>
+If the view's camera has a nonlinear projection (as in fisheye and all-seeing
+cameras), then the world to frustum transformation cannot be expressed
+as a matrix, hence this function will return kQ3Failure.
+<br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
@@ -1263,5 +1267,5 @@ typedef enum TQ3ViewStatus {
 <dt><a name="//Quesa/c/econst/kQ3ViewStatusCancelled"><tt>kQ3ViewStatusCancelled</tt></a></dt><dd>Submit loop was cancelled.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2020 Quesa Developers (Last Updated 2/20/2020)
+<p><p>&#169; 1999-2020 Quesa Developers (Last Updated 3/19/2020)
 </p></body></html>
