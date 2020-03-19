@@ -1,10 +1,48 @@
-//
-//  SubdivideTriMesh.cpp
-//  Transformer2
-//
-//  Created by James Walker on 2/1/20.
-//  Copyright © 2020 Innoventive Software, LLC. All rights reserved.
-//
+/*  NAME:
+        SubdivideTriMesh.cpp
+
+    DESCRIPTION:
+        Quesa utility header.
+	
+	AUTHORSHIP:
+		Initial version written by James W. Walker.
+
+    COPYRIGHT:
+        Copyright (c) 2020, Quesa Developers. All rights reserved.
+
+        For the current release of Quesa, please see:
+
+            <https://github.com/jwwalker/Quesa>
+        
+        Redistribution and use in source and binary forms, with or without
+        modification, are permitted provided that the following conditions
+        are met:
+        
+            o Redistributions of source code must retain the above copyright
+              notice, this list of conditions and the following disclaimer.
+        
+            o Redistributions in binary form must reproduce the above
+              copyright notice, this list of conditions and the following
+              disclaimer in the documentation and/or other materials provided
+              with the distribution.
+        
+            o Neither the name of Quesa nor the names of its contributors
+              may be used to endorse or promote products derived from this
+              software without specific prior written permission.
+        
+        THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+        "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+        LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+        A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+        OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+        SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+        TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+        PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+        LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+        NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+        SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+    ___________________________________________________________________________
+*/
 
 #include "SubdivideTriMesh.h"
 
@@ -28,6 +66,7 @@
 namespace
 {
 	typedef size_t VertIndex;
+	
 	struct Vertex
 	{
 		VertIndex	x;
@@ -41,7 +80,7 @@ namespace
 		void		Swap13();
 		void		Swap23();
 		void		Standardize();
-		bool		IsInterior() const;
+		bool		IsStandard() const;
 		bool		operator<( const Vertex& B ) const;
 	};
 	
@@ -125,7 +164,7 @@ void	Vertex::Standardize()
 	}
 	// In the case of the interior of an edge, which looks like
 	// (x, y, 0, a, b, 0), ensure that x < y.
-	if ( (y < x) && (a != 0) && (b != 0) )
+	if ( (y < x) && (a != 0) && (b != 0) && (c == 0) )
 	{
 		Swap12();
 	}
@@ -139,9 +178,36 @@ void	Vertex::Standardize()
 	}
 }
 
-bool	Vertex::IsInterior() const
+bool	Vertex::IsStandard() const
 {
-	return (a > 0) && (b > 0) && (c > 0);
+	bool isGood = true;
+	
+	// Check barycentric zeros toward the right
+	if ( ((a == 0) && (b != 0)) ||
+		((a == 0) && (c != 0)) ||
+		((b == 0) && (c != 0)) )
+	{
+		isGood = false;
+	}
+	
+	// Check edge interiors have x < y
+	if ( (a != 0) && (b != 0) && (c == 0) && (x >= y) )
+	{
+		isGood = false;
+	}
+	
+	// Check that the vertex index corresponding to a zero
+	// barycentric coordinate is 0.
+	if ( (b == 0) && (y != 0) )
+	{
+		isGood = false;
+	}
+	if ( (c == 0) && (z != 0) )
+	{
+		isGood = false;
+	}
+	
+	return isGood;
 }
 
 static TQ3TriMeshTriangleData MakeFace( VertIndex x, VertIndex y, VertIndex z )
@@ -210,7 +276,7 @@ TQ3GeometryObject SubdivideTriMesh( TQ3GeometryObject inTriMesh,
 		Vertices in the interiors of original triangles can be written in
 		barycentric coordinates in the form
 		
-		a/(n+1) * points[x] + b/(n+2) * points[y] + c/(n+1) * points[z]
+		a/(n+1) * points[x] + b/(n+1) * points[y] + c/(n+1) * points[z]
 		
 		where x, y, and z are indices of original vertices and a, b, c are
 		positive integers that add up to n+1.  We can describe such a vertex
@@ -224,7 +290,7 @@ TQ3GeometryObject SubdivideTriMesh( TQ3GeometryObject inTriMesh,
 	*/
 	std::vector< Vertex > vertexOfIndex;
 	std::map< Vertex, VertIndex >	indexOfVertex;
-	vertexOfIndex.reserve( (n+2)*(n+3)/2 * oldData->numPoints );
+	vertexOfIndex.reserve( (n+2)*(n+3)/2 * oldData->numTriangles );
 	// Start with original vertices.
 	vertexOfIndex.resize( oldData->numPoints );
 	VertIndex index;
@@ -292,11 +358,11 @@ TQ3GeometryObject SubdivideTriMesh( TQ3GeometryObject inTriMesh,
 	float denom = n + 1.0f;
 	for (index = 0; index < kNewVertCount; ++index)
 	{
-		Vertex vert( vertexOfIndex[ index ] );
+		Vertex avert( vertexOfIndex[ index ] );
 		newPoints[index] =
-			(vert.a / denom) * oldData->points[ vert.x ] +
-			(vert.b / denom) * oldData->points[ vert.y ] +
-			(vert.c / denom) * oldData->points[ vert.z ];
+			(avert.a / denom) * oldData->points[ avert.x ] +
+			(avert.b / denom) * oldData->points[ avert.y ] +
+			(avert.c / denom) * oldData->points[ avert.z ];
 	}
 	
 	// Next, construct subdivided faces of each face.
@@ -357,11 +423,11 @@ TQ3GeometryObject SubdivideTriMesh( TQ3GeometryObject inTriMesh,
 		newVertNorms = &vertNorms[0];
 		for (index = 0; index < kNewVertCount; ++index)
 		{
-			Vertex vert = vertexOfIndex[ index ];
+			Vertex avert = vertexOfIndex[ index ];
 			newVertNorms[index] = Q3Normalize3D(
-				(vert.a / denom) * oldVertNorms[ vert.x ] +
-				(vert.b / denom) * oldVertNorms[ vert.y ] +
-				(vert.c / denom) * oldVertNorms[ vert.z ] );
+				(avert.a / denom) * oldVertNorms[ avert.x ] +
+				(avert.b / denom) * oldVertNorms[ avert.y ] +
+				(avert.c / denom) * oldVertNorms[ avert.z ] );
 		}
 		TQ3TriMeshAttributeData att = {
 			kQ3AttributeTypeNormal,
@@ -387,11 +453,11 @@ TQ3GeometryObject SubdivideTriMesh( TQ3GeometryObject inTriMesh,
 		newUVs = &vertUVs[0];
 		for (index = 0; index < kNewVertCount; ++index)
 		{
-			Vertex vert = vertexOfIndex[ index ];
+			Vertex avert = vertexOfIndex[ index ];
 			newUVs[index] =
-				(vert.a / denom) * oldUVs[ vert.x ] +
-				(vert.b / denom) * oldUVs[ vert.y ] +
-				(vert.c / denom) * oldUVs[ vert.z ];
+				(avert.a / denom) * oldUVs[ avert.x ] +
+				(avert.b / denom) * oldUVs[ avert.y ] +
+				(avert.c / denom) * oldUVs[ avert.z ];
 		}
 		TQ3TriMeshAttributeData att = {
 			kQ3AttributeTypeSurfaceUV,

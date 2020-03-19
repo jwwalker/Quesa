@@ -57,6 +57,7 @@
 #include <Quesa/QuesaStyle.h> 
 #include <Quesa/QuesaGroup.h> 
 #include <Quesa/QuesaGeometry.h> 
+#include <Quesa/QuesaPick.h> 
 #include <Quesa/QuesaStorage.h> 
 #include <Quesa/QuesaTransform.h> 
 #include <Quesa/QuesaRenderer.h> 
@@ -96,7 +97,8 @@ enum
 	kMenuItemGeometryShadowTest,
 	kMenuItemGeometryBoxAboutCamera,
 	kMenuItemGeometrySubdividedBoxAboutCamera,
-	kMenuItemGeometryBallAboutCamera
+	kMenuItemGeometryBallAboutCamera,
+	kMenuItemGeometryTranslucentQuesaLogo
 };
 
 enum EFogTag
@@ -372,6 +374,7 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 }
 
 @synthesize fisheyeCamera = _fisheyeCamera;
+@synthesize windowRectPickCursor = _windowRectPickCursor;
 
 //==================================================================================
 //	init
@@ -421,6 +424,10 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 			}
 		};
 		CEHalfspaceFogElement_SetData( _fogStyleObject, &halfFog );
+		
+		NSImage* pickImage = [NSImage imageNamed: @"WindowRect.png"];
+		self.windowRectPickCursor = [[[NSCursor alloc]
+			initWithImage: pickImage hotSpot: NSMakePoint( 50.0, 50.0 )] autorelease];
 	}
 	return self;
 }
@@ -432,6 +439,7 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 - (void) dealloc
 {
 	[mAnimationTimer release];
+	[_windowRectPickCursor release];
 	
 	if (mSceneBounds != NULL)
 	{
@@ -632,14 +640,13 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 	float 							yon 		= 10.0f;
 	float							rectWidth, rectHeight;
 	TQ3ViewAngleAspectCameraData	cameraData;
-	TQ3Status						qd3dStatus;
 	TQ3Area							theArea;
 
 
     if (quesa3dView.qd3dView == NULL)
       return;
 	// Get the size of the image we're rendering
-	qd3dStatus = Q3DrawContext_GetPane(quesa3dView.drawContext, &theArea);
+	Q3DrawContext_GetPane(quesa3dView.drawContext, &theArea);
 
 
 
@@ -662,7 +669,7 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 
 	// Create the camera object
 	CQ3ObjectRef theCamera( Q3ViewAngleAspectCamera_New(&cameraData) );
-    qd3dStatus = Q3View_SetCamera(quesa3dView.qd3dView, theCamera.get() );
+    Q3View_SetCamera(quesa3dView.qd3dView, theCamera.get() );
 }
 
 - (void) makeOrthographicCamera
@@ -760,6 +767,138 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 	self.fisheyeMappingFunc = kQ3FisheyeMappingFunctionEquisolidAngle;
 	self.fisheyeAngleOfView = 180.0f;
 }
+
+- (void) resetTitle
+{
+	quesa3dView.window.title = NSLocalizedString(@"TitleUsual", nil);
+}
+
+- (void) handleFlagsChanged: (NSEvent*) event
+{
+	if ((event.modifierFlags & NSEventModifierFlagOption) != 0)
+	{
+		quesa3dView.cursor = self.windowRectPickCursor;
+	}
+	else
+	{
+		quesa3dView.cursor = [NSCursor arrowCursor];
+	}
+	[quesa3dView.window invalidateCursorRectsForView: quesa3dView];
+}
+
+- (void) runPickLoop: (TQ3PickObject) inPick
+{
+	if (kQ3Success == Q3View_StartPicking( quesa3dView.qd3dView, inPick ))
+	{
+		do
+		{
+			[self qd3dViewRenderFrame: quesa3dView];
+		} while (Q3View_EndPicking( quesa3dView.qd3dView ) == kQ3ViewStatusRetraverse);
+	}
+}
+
+- (TQ3Point2D) convertViewPoint: (NSPoint) inViewLocalPt
+				toDCPane: (const TQ3Area&) inPane
+{
+	// I think we need the point in the coordinates of the draw context, not the view.
+	// In the case of a Retina monitor, the draw context may be scaled by a factor of 2.
+	// Also, Quesa "window" coordinates are top down, whereas Cocoa view coordinates are
+	// bottom up.
+	NSRect viewBounds = quesa3dView.bounds;
+	TQ3Point2D dcRelPt;
+	dcRelPt.x = inPane.min.x + (inPane.max.x - inPane.min.x) * (inViewLocalPt.x - NSMinX(viewBounds)) / NSWidth(viewBounds);
+	dcRelPt.y = inPane.max.y - (inPane.max.y - inPane.min.y) * (inViewLocalPt.y - NSMinY(viewBounds)) / NSHeight(viewBounds);
+	return dcRelPt;
+}
+
+- (void) handleClick: (NSEvent*) event
+{
+	TQ3Area pane;
+	Q3DrawContext_GetPane( quesa3dView.drawContext, &pane );
+
+	NSPoint localPlace = [quesa3dView convertPoint: event.locationInWindow fromView: nil];
+	TQ3Point2D dcRelPt = [self convertViewPoint: localPlace toDCPane: pane];
+	TQ3Vector2D paneSize = pane.max - pane.min;
+	NSLog(@"Click at (%.1f, %.1f) in %fx%f pane", dcRelPt.x, dcRelPt.y,
+		paneSize.x, paneSize.y );
+	
+	if ((event.modifierFlags & NSEventModifierFlagOption) != 0)
+	{
+		NSPoint lowerLeftPlace = NSMakePoint( localPlace.x-50.0, localPlace.y-50.0 );
+		NSPoint upperRightPlace = NSMakePoint( localPlace.x+50.0, localPlace.y+50.0 );
+		TQ3Point2D dcLowerLeft = [self convertViewPoint: lowerLeftPlace toDCPane: pane];
+		TQ3Point2D dcUpperRight = [self convertViewPoint: upperRightPlace toDCPane: pane];
+		TQ3Area pickArea;
+		pickArea.min.x = MIN(dcLowerLeft.x, dcUpperRight.x);
+		pickArea.max.x = MAX(dcLowerLeft.x, dcUpperRight.x);
+		pickArea.min.y = MIN(dcLowerLeft.y, dcUpperRight.y);
+		pickArea.max.y = MAX(dcLowerLeft.y, dcUpperRight.y);
+		TQ3WindowRectPickData rectPickData = {
+			{
+				kQ3PickSortNearToFar,
+				kQ3PickDetailNone,
+				1
+			},
+			pickArea
+		};
+		CQ3ObjectRef thePick( Q3WindowRectPick_New( &rectPickData ) );
+		[self runPickLoop: thePick.get()];
+		TQ3Uns32 hitCount = 0;
+		Q3Pick_GetNumHits( thePick.get(), &hitCount );
+		if (hitCount == 0)
+		{
+			quesa3dView.window.title = NSLocalizedString(@"TitleMiss", nil);
+		}
+		else
+		{
+			quesa3dView.window.title = NSLocalizedString(@"TitleHit", nil);
+		}
+	}
+	else // default case, window point pick
+	{
+		TQ3WindowPointPickData windowPickData =
+		{
+			{
+				kQ3PickSortNearToFar,
+				kQ3PickDetailNone,
+				1
+			},
+			dcRelPt,
+			0.0f,
+			0.0f
+		};
+		CQ3ObjectRef thePick( Q3WindowPointPick_New( &windowPickData ) );
+		[self runPickLoop: thePick.get()];
+		TQ3Uns32 hitCount = 0;
+		Q3Pick_GetNumHits( thePick.get(), &hitCount );
+		if (hitCount == 0)
+		{
+			Q3Pick_EmptyHitList( thePick.get() );
+			Q3Pick_SetFaceTolerance( thePick.get(), 20.0 );
+			Q3Pick_SetEdgeTolerance( thePick.get(), 20.0 );
+			Q3Pick_SetVertexTolerance( thePick.get(), 20.0 );
+			[self runPickLoop: thePick.get()];
+			
+			Q3Pick_GetNumHits( thePick.get(), &hitCount );
+			if (hitCount == 0)
+			{
+				quesa3dView.window.title = NSLocalizedString(@"TitleMiss", nil);
+			}
+			else
+			{
+				quesa3dView.window.title = NSLocalizedString(@"TitleAlmostHit", nil);
+			}
+		}
+		else
+		{
+			quesa3dView.window.title = NSLocalizedString(@"TitleHit", nil);
+		}
+	}
+	
+	[NSObject cancelPreviousPerformRequestsWithTarget: self];
+	[self performSelector: @selector(resetTitle) withObject: nil afterDelay: 0.5];
+}
+
 
 #pragma mark accessors (KVC and KVO compliant)
 
@@ -1534,6 +1673,10 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 		  theGeom = createBallAboutCamera();
 		  _centerOfRotation = TQ3Point3D{ 0.0f, 0.0f, 5.0f };
 		  break;
+		
+	case kMenuItemGeometryTranslucentQuesaLogo:
+		theGeom = createGeomGlassQuesa();
+		break;
 
       default:
           break;
@@ -1666,6 +1809,24 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 					fisheyeData.croppingFormat, Q3Math_DegreesToRadians( self.fisheyeAngleOfView ) );
 				Q3FisheyeCamera_SetData( theCamera.get(), &fisheyeData );
 			}
+			break;
+	}
+}
+
+-(void) qd3dView:(Quesa3DView*)inView
+		eventOccurred:(NSEvent*)inEvent
+{
+	switch (inEvent.type)
+	{
+		default:
+			break;
+	
+		case NSEventTypeLeftMouseDown:
+			[self handleClick: inEvent ];
+			break;
+		
+		case NSEventTypeFlagsChanged:
+			[self handleFlagsChanged: inEvent];
 			break;
 	}
 }

@@ -98,6 +98,7 @@
 	int					_fisheyeCropFormat;
 	int					_fisheyeMappingFunc;
 	float				_fisheyeAngleOfView;
+	NSCursor*			_windowRectPickCursor;
 }
 
 @property (assign) BOOL		drawsShadows;
@@ -125,6 +126,7 @@
 @property (assign) int fisheyeCropFormat;
 @property (assign) int fisheyeMappingFunc;
 @property (assign) float fisheyeAngleOfView;
+@property (retain) NSCursor* windowRectPickCursor;
 
 - (IBAction)setGeometryFromTag:(id)sender;
 

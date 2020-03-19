@@ -2,5 +2,5 @@
 
 CFBundleName = "QuesaCocoaTest";
 CFBundleShortVersionString = "QuesaCocoaTest version 1.0";
-CFBundleGetInfoString = "QuesaCocoaTest version 1.0, Copyright © 1999-2019, Quesa Developers.";
-NSHumanReadableCopyright = "Copyright © 1999-2019, Quesa Developers";
+CFBundleGetInfoString = "QuesaCocoaTest version 1.0, Copyright © 1999-2020, Quesa Developers.";
+NSHumanReadableCopyright = "Copyright © 1999-2020, Quesa Developers";
