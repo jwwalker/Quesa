@@ -85,6 +85,11 @@
 	#define GL_GEOMETRY_SHADER                0x8DD9
 #endif
 
+#ifndef GL_VALIDATE_STATUS
+	#define GL_VALIDATE_STATUS					0x8B83
+#endif
+
+
 static int sVertexShaderCount = 0;
 static int sProgramCount = 0;
 

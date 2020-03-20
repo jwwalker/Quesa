@@ -57,6 +57,8 @@
 
 #include <cstring>
 using namespace std;
+#undef far
+#undef near
 
 
 
