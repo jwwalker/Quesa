@@ -5,7 +5,7 @@
         Quesa 3DMF Binary Writer.
 
     COPYRIGHT:
-        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -50,6 +50,22 @@
 
 
 
+
+//=============================================================================
+//      Macros
+//-----------------------------------------------------------------------------
+#ifndef __has_cpp_attribute         // For backwards compatibility
+  #define __has_cpp_attribute(x) 0
+#endif
+
+#if __has_cpp_attribute(clang::fallthrough)
+#define FALLTHROUGH [[clang::fallthrough]]
+#else
+#define FALLTHROUGH
+#endif
+
+
+
 static TQ3Status
 e3ffw_3DMF_TraverseObject_CheckRef(TQ3ViewObject			theView,
 					TE3FFormatW3DMF_Data		*fileFormatPrivate,
@@ -91,7 +107,7 @@ e3ffw_3DMF_filter_in_toc(TE3FFormatW3DMF_Data *fileFormatPrivate,  TQ3Object the
 		case kQ3FFormatWriterType3DMFDatabaseBin:
 		case kQ3FFormatWriterType3DMFDatabaseBinSwap:
 			forceTOC = kQ3True;
-			[[clang::fallthrough]];
+			FALLTHROUGH;
 			
 		case kQ3FFormatWriterType3DMFNormalBin:
 		case kQ3FFormatWriterType3DMFNormalBinSwap:
