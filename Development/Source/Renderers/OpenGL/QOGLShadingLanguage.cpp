@@ -85,6 +85,11 @@
 	#define GL_GEOMETRY_SHADER                0x8DD9
 #endif
 
+#ifndef GL_VALIDATE_STATUS
+	#define GL_VALIDATE_STATUS					0x8B83
+#endif
+
+
 static int sVertexShaderCount = 0;
 static int sProgramCount = 0;
 
@@ -332,6 +337,7 @@ void	QORenderer::GLSLFuncs::SetNULL()
 	glAttachShader = nullptr;
 	glDetachShader = nullptr;
 	glLinkProgram = nullptr;
+	glValidateProgram = nullptr;
 	glGetProgramiv = nullptr;
 	glUseProgram = nullptr;
 	glGetUniformLocation = nullptr;
@@ -369,6 +375,7 @@ void	QORenderer::GLSLFuncs::Initialize( const TQ3GLExtensions& inExts )
 		GLGetProcAddress( glAttachShader, "glAttachShader", "glAttachObjectARB" );
 		GLGetProcAddress( glDetachShader, "glDetachShader", "glDetachObjectARB" );
 		GLGetProcAddress( glLinkProgram, "glLinkProgram", "glLinkProgramARB" );
+		GLGetProcAddress( glValidateProgram, "glValidateProgram", "glValidateProgramARB" );
 		GLGetProcAddress( glGetProgramiv, "glGetProgramiv", "glGetObjectParameterivARB" );
 		GLGetProcAddress( glUseProgram, "glUseProgram", "glUseProgramObjectARB" );
 		GLGetProcAddress( glGetUniformLocation, "glGetUniformLocation", "glGetUniformLocationARB" );
@@ -881,7 +888,7 @@ void	QORenderer::PerPixelLighting::StartFrame( TQ3ViewObject inView )
 
 	CheckIfShading();
 	CHECK_GL_ERROR_MSG("PerPixelLighting::StartFrame 2");
-
+	
 	CalcMaxLights();
 	CHECK_GL_ERROR_MSG("PerPixelLighting::StartFrame 3");
 	
@@ -1453,7 +1460,7 @@ static GLuint CreateAndCompileShader( GLenum inShaderType,
 		// Check for compile success
 		GLint	status;
 		inFuncs.glGetShaderiv( shaderID, GL_COMPILE_STATUS, &status );
-
+		
 		//Q3_MESSAGE_FMT("=== Shader of type %X ===", (int)inShaderType);
 		//E3LogMessage(inSource);
 		
@@ -1714,6 +1721,16 @@ void	QORenderer::PerPixelLighting::InitProgram()
 			mFuncs.glGetProgramiv( newProgram.mProgram, GL_LINK_STATUS, &linkStatus );
 			CHECK_GL_ERROR;
 		
+			// Maybe validate the program
+		#if Q3_DEBUG
+			if ( (linkStatus == GL_TRUE) && (mFuncs.glValidateProgram != nullptr) )
+			{
+				mFuncs.glValidateProgram( newProgram.mProgram );
+				mFuncs.glGetProgramiv( newProgram.mProgram, GL_VALIDATE_STATUS,
+					&linkStatus );
+			}
+		#endif
+			
 			// Use program
 			if (linkStatus == GL_TRUE)
 			{

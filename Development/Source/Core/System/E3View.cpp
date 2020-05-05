@@ -44,6 +44,7 @@
 //      Include files
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
+#include "E3Camera.h"
 #include "E3Geometry.h"
 #include "E3Renderer.h"
 #include "E3DrawContext.h"
@@ -56,6 +57,7 @@
 #include "E3Math.h"
 #include "QuesaMathOperators.hpp"
 
+#include "GLUtils.h"
 
 
 
@@ -130,6 +132,7 @@ typedef struct TQ3ViewStackItem {
 	TQ3Matrix4x4				matrixWorldToCamera;
 	TQ3Matrix4x4				matrixLocalToCamera;
 	TQ3Matrix4x4				matrixCameraToFrustum;
+	TQ3Boolean					hasMatrixCameraToFrustum;
 	TQ3ShaderObject				shaderIllumination;
 	TQ3ShaderObject				shaderSurface;
 	TQ3BackfacingStyle			styleBackfacing;
@@ -324,6 +327,7 @@ e3view_stack_initialise(TQ3ViewStackItem *theItem)
 	Q3Matrix4x4_SetIdentity(&theItem->matrixWorldToCamera);
 	Q3Matrix4x4_SetIdentity( &theItem->matrixLocalToCamera );
 	Q3Matrix4x4_SetIdentity(&theItem->matrixCameraToFrustum);
+	theItem->hasMatrixCameraToFrustum = kQ3True;
 
 	theItem->next					 = nullptr;
 	theItem->stackState				 = kQ3ViewStateNone;
@@ -444,7 +448,6 @@ e3view_stack_update ( E3View* view, TQ3ViewStackState stateChange )
 	TQ3Status qd3dStatus = kQ3Success ;
 
 
-
 	// Validate our parameters
 	Q3_ASSERT_VALID_PTR(view);
 
@@ -473,12 +476,11 @@ e3view_stack_update ( E3View* view, TQ3ViewStackState stateChange )
 			if ( stateChange & kQ3ViewStateMatrixWorldToCamera )   matrixState |= kQ3MatrixStateWorldToCamera ;
 			if ( stateChange & kQ3ViewStateMatrixCameraToFrustum ) matrixState |= kQ3MatrixStateCameraToFrustum ;
 
-
 			// And update them
 			qd3dStatus = E3Renderer_Method_UpdateMatrix( view, matrixState,
 														&theItem->matrixLocalToWorld,
 														&theItem->matrixWorldToCamera,
-														&theItem->matrixCameraToFrustum,
+														theItem->hasMatrixCameraToFrustum? &theItem->matrixCameraToFrustum : nullptr,
 														&theItem->matrixLocalToCamera );
 			}
 
@@ -762,13 +764,13 @@ e3view_init_matrix_state( TQ3ViewObject theView )
 		&worldToCamera );
 		
 	if ( qd3dStatus != kQ3Failure )
-		qd3dStatus = Q3Camera_GetViewToFrustum( viewOb->instanceData.theCamera,
-			&cameraToFrustum ) ;
-
-	if ( qd3dStatus != kQ3Failure )
+	{
+		TQ3Status viewToFrustumStatus = Q3Camera_GetViewToFrustum( viewOb->instanceData.theCamera,
+			&cameraToFrustum );
 		qd3dStatus = E3View_State_SetMatrix( theView,
-			(TQ3MatrixState) ( kQ3MatrixStateWorldToCamera | kQ3MatrixStateCameraToFrustum ),
-			nullptr, &worldToCamera, &cameraToFrustum );
+			kQ3MatrixStateWorldToCamera | kQ3MatrixStateCameraToFrustum, nullptr, &worldToCamera,
+			(viewToFrustumStatus == kQ3Success)? &cameraToFrustum : nullptr );
+	}
 	
 	return qd3dStatus;
 }
@@ -1543,9 +1545,8 @@ e3view_submit_end ( E3View* view, TQ3ViewStatus submitStatus )
 //-----------------------------------------------------------------------------
 static void
 e3view_pick_begin ( E3View* view, TQ3PickObject thePick )
-	{
-	TQ3Matrix4x4			worldToFrustum, frustumToWindow, worldToWindow, windowToWorld;
-	TQ3Point3D				worldPoint, windowPoint3D;
+{
+	TQ3Point3D				worldPoint;
 	TQ3CameraPlacement		thePlacement;
 	TQ3CameraRange			theRange;
 	TQ3Point2D				windowPoint;
@@ -1553,7 +1554,8 @@ e3view_pick_begin ( E3View* view, TQ3PickObject thePick )
 
 
 	// Validate our state
-	Q3_ASSERT( view->instanceData.viewMode == kQ3ViewModePicking);
+	Q3_ASSERT( view->instanceData.viewMode == kQ3ViewModePicking );
+	Q3_ASSERT( view->instanceData.viewState == kQ3ViewStateSubmitting );
 
 
 
@@ -1573,45 +1575,37 @@ e3view_pick_begin ( E3View* view, TQ3PickObject thePick )
 	// If this is a window-point pick, recalculate the pick ray
 	Q3Memory_Clear(& view->instanceData.rayThroughPick, sizeof( view->instanceData.rayThroughPick));
 	if (Q3Pick_GetType(thePick) == kQ3PickTypeWindowPoint)
-		{
+	{
 		// Get the point that was picked, in window coordinates
 		Q3WindowPointPick_GetPoint(thePick, &windowPoint);
 
-		windowPoint3D.x = windowPoint.x;
-		windowPoint3D.y = windowPoint.y;
-		windowPoint3D.z = 0.0f;
-		
-
-
 		// Transform this point from window to world coordinates
-		Q3Camera_GetWorldToFrustum( view->instanceData.theCamera, &worldToFrustum);
-		E3View_GetFrustumToWindowMatrixState ( view, &frustumToWindow ) ;
-		worldToWindow = worldToFrustum * frustumToWindow;
-		windowToWorld = Q3Invert( worldToWindow );
-		worldPoint = windowPoint3D * windowToWorld;
+		TQ3Status transStat = E3View_TransformWindowToWorld( view, &windowPoint, &worldPoint );
+		Q3_ASSERT( transStat == kQ3Success );
 
 
 
 		switch( Q3Camera_GetType( view->instanceData.theCamera )	)	
-			{
+		{
 		
+			default:
 			case kQ3CameraTypeViewPlane:
 			case kQ3CameraTypeViewAngleAspect:
 
 				// Find the camera location and range
 				Q3Camera_GetPlacement( view->instanceData.theCamera, &thePlacement);
 				Q3Camera_GetRange( view->instanceData.theCamera, &theRange );
-
+				
 				// Initialise the ray direction - from the camera to the world point
 				view->instanceData.rayThroughPick.direction = Q3Normalize3D( worldPoint - thePlacement.cameraLocation );
-
+				
 				// Although it may seem natural to set the ray origin at the camera location, that is before
 				// the near plane, so it cannot be transformed into window or frustum coordinates.  Safer to
 				// go a bit beyond the near plane.
 				view->instanceData.rayThroughPick.origin = thePlacement.cameraLocation +
 					theRange.hither * 1.0001f * view->instanceData.rayThroughPick.direction;
 				break;
-				
+			
 			case kQ3CameraTypeOrthographic:
 			
 				// Set origin of pick to the pick loc in world coordinates
@@ -1623,9 +1617,9 @@ e3view_pick_begin ( E3View* view, TQ3PickObject thePick )
 				// Initialise the ray direction to be the viewing direction
 				view->instanceData.rayThroughPick.direction = Q3Normalize3D( thePlacement.pointOfInterest - thePlacement.cameraLocation );
 				break;
-			}
 		}
 	}
+}
 
 
 
@@ -2877,7 +2871,7 @@ E3View_State_SetMatrix(TQ3ViewObject			theView,
 							const TQ3Matrix4x4	*localToWorld,
 							const TQ3Matrix4x4	*worldToCamera,
 							const TQ3Matrix4x4	*cameraToFrustum)
-	{
+{
 	// Validate our state
 	TQ3ViewData& instanceData( ( (E3View*) theView )->instanceData );
 	Q3_ASSERT ( Q3_VALID_PTR ( instanceData.viewStack ) ) ;
@@ -2909,11 +2903,14 @@ E3View_State_SetMatrix(TQ3ViewObject			theView,
 	}
 	
 	if (theState & kQ3MatrixStateCameraToFrustum)
-		{
-		Q3_ASSERT(Q3_VALID_PTR(cameraToFrustum));
+	{
 		stateChange                                    |= kQ3ViewStateMatrixCameraToFrustum;
-		instanceData.viewStack->matrixCameraToFrustum = *cameraToFrustum;
+		instanceData.viewStack->hasMatrixCameraToFrustum = (TQ3Boolean)(cameraToFrustum != nullptr);
+		if (cameraToFrustum != nullptr)
+		{
+			instanceData.viewStack->matrixCameraToFrustum = *cameraToFrustum;
 		}
+	}
 
 
 	// Invalidate caches
@@ -2924,7 +2921,7 @@ E3View_State_SetMatrix(TQ3ViewObject			theView,
 	// Update the renderer
 	Q3_ASSERT(stateChange != kQ3ViewStateNone);
 	return e3view_stack_update ( (E3View*) theView, stateChange) ;
-	}
+}
 
 
 
@@ -3908,7 +3905,7 @@ E3View_StartRendering(TQ3ViewObject theView)
 		if ( qd3dStatus != kQ3Failure )
 		{
 			qd3dStatus = E3Renderer_Method_StartFrame ( theView, ( (E3View*) theView )->instanceData.theDrawContext ) ;
-		
+			
 			if (qd3dStatus == kQ3Failure)
 			{
 				Q3_MESSAGE_FMT("E3Renderer_Method_StartFrame failed");
@@ -3946,7 +3943,7 @@ E3View_StartRendering(TQ3ViewObject theView)
 	if ( qd3dStatus != kQ3Failure )
 	{
 		qd3dStatus = e3view_submit_initial_state( (E3View*) theView ) ;
-
+		
 		if (qd3dStatus == kQ3Failure)
 		{
 			Q3_MESSAGE_FMT("e3view_submit_initial_state failed");
@@ -4612,7 +4609,7 @@ E3View_IsGroupCullingAllowed( TQ3ViewObject theView )
 //-----------------------------------------------------------------------------
 TQ3Status
 E3View_TransformLocalToWorld(TQ3ViewObject theView, const TQ3Point3D *localPoint, TQ3Point3D *worldPoint)
-	{
+{
 	// Make sure we're in the correct state
 	if ( ( (E3View*) theView )->instanceData.viewState != kQ3ViewStateSubmitting )
 		return kQ3Failure ;
@@ -4620,7 +4617,7 @@ E3View_TransformLocalToWorld(TQ3ViewObject theView, const TQ3Point3D *localPoint
 
 
 	// Get the local to world matrix
-	const TQ3Matrix4x4* localToWorld = & ( (E3View*) theView )->instanceData.viewStack->matrixLocalToWorld ;
+	const TQ3Matrix4x4* localToWorld = E3View_State_GetMatrixLocalToWorld( theView );
 	Q3_ASSERT_VALID_PTR ( localToWorld ) ;
 
 
@@ -4628,7 +4625,7 @@ E3View_TransformLocalToWorld(TQ3ViewObject theView, const TQ3Point3D *localPoint
 	// Transform the point
 	Q3Point3D_Transform ( localPoint, localToWorld, worldPoint ) ;
 	return kQ3Success ;
-	}
+}
 
 
 
@@ -4639,34 +4636,126 @@ E3View_TransformLocalToWorld(TQ3ViewObject theView, const TQ3Point3D *localPoint
 //-----------------------------------------------------------------------------
 TQ3Status
 E3View_TransformLocalToWindow(TQ3ViewObject theView, const TQ3Point3D *localPoint, TQ3Point2D *windowPoint)
-	{
-	TQ3Matrix4x4		localToWindow, worldToFrustum, frustumToWindow;
-	TQ3Point3D			thePoint;
-
-
-
+{
 	// Make sure we're in the correct state
 	if ( ( (E3View*) theView )->instanceData.viewState != kQ3ViewStateSubmitting )
 		return kQ3Failure ;
 
 
+	// Transform to world space
+	TQ3Matrix4x4 localToWorld;
+	E3View_GetLocalToWorldMatrixState( theView, &localToWorld );
+	TQ3Point3D worldPt = *localPoint * localToWorld;
+	
+	
+	return E3View_TransformWorldToWindow( theView, &worldPt, windowPoint );
+}
 
-	// Get the matrices we need
-	Q3View_GetWorldToFrustumMatrixState ( theView,  &worldToFrustum ) ;
-	Q3View_GetFrustumToWindowMatrixState ( theView, &frustumToWindow ) ;
 
-	localToWindow = (*E3View_State_GetMatrixLocalToWorld ( theView )) * worldToFrustum * frustumToWindow;
 
- 
+TQ3Status
+E3View_TransformLocalToFrustum(TQ3ViewObject theView, const TQ3Point3D *localPoint, TQ3Point3D *frustumPoint)
+{
+	// Make sure we're in the correct state
+	if ( ( (E3View*) theView )->instanceData.viewState != kQ3ViewStateSubmitting )
+		return kQ3Failure ;
+	
+	const TQ3Matrix4x4* localToWorld = E3View_State_GetMatrixLocalToWorld( theView );
+	TQ3CameraObject camera = E3View_AccessCamera( theView );
+	TQ3Matrix4x4 worldToView;
+	( (E3Camera*) camera )->GetWorldToView( &worldToView );
+	TQ3Point3D viewPt = *localPoint * (*localToWorld) * worldToView;
+	
+	*frustumPoint = E3Camera_ViewToFrustum( camera, viewPt );
+	return kQ3Success;
+}
 
-	// Transform the point
-	thePoint = (*localPoint) * localToWindow;
-	windowPoint->x = thePoint.x ;
-	windowPoint->y = thePoint.y ;
 
-	return kQ3Success ;
+
+TQ3Status
+E3View_TransformFrustumToWorld(TQ3ViewObject theView, const TQ3Point3D *frustumPoint, TQ3Point3D *worldPoint)
+{
+	// Make sure we're in the correct state
+	if ( ( (E3View*) theView )->instanceData.viewState != kQ3ViewStateSubmitting )
+		return kQ3Failure ;
+
+	TQ3CameraObject camera = E3View_AccessCamera( theView );
+
+	TQ3Point3D viewPt = E3Camera_FrustumToView( camera, *frustumPoint );
+	
+	 TQ3Matrix4x4 worldToView;
+	 ( (E3Camera*) camera )->GetWorldToView( &worldToView );
+	 TQ3Matrix4x4 viewToWorld = Q3Invert( worldToView );
+	 
+	 *worldPoint = viewPt * viewToWorld;
+	return kQ3Success;
+}
+
+
+
+TQ3Status
+E3View_TransformArrayLocalToWindow(TQ3ViewObject theView, TQ3Uns32 inCount,
+									const TQ3Point3D *localPoints, TQ3Point2D *windowPoints)
+{
+	// Make sure we're in the correct state
+	if ( ( (E3View*) theView )->instanceData.viewState != kQ3ViewStateSubmitting )
+		return kQ3Failure;
+
+	if (inCount == 0)
+	{
+		return kQ3Success;
 	}
+	
+	TQ3Uns32 i;
+	
+	// Get some matrices.
+	TQ3Matrix4x4 localToWorld, worldToView, frustumToWindow;
+	TQ3CameraObject camera = E3View_AccessCamera( theView );
+	( (E3Camera*) camera )->GetWorldToView( &worldToView );
+	E3View_GetLocalToWorldMatrixState( theView, &localToWorld );
+	TQ3Matrix4x4 localToView = localToWorld * worldToView;
+	E3View_GetFrustumToWindowMatrixState( theView, &frustumToWindow );
+	
+	E3FastArray< TQ3Point3D > windowPts3D( inCount );
 
+	// In the case of a camera with a nonlinear projection, we can't do the whole
+	// thing as a matrix computation.
+	if ( E3FisheyeCamera::IsOfMyClass( camera ) || E3AllSeeingCamera::IsOfMyClass( camera ) )
+	{
+		// Transform to view space
+		E3FastArray< TQ3Point3D > viewPts( inCount );
+		E3Point3D_To3DTransformArray( localPoints, &localToView, &viewPts[0], inCount,
+			sizeof(TQ3Point3D), sizeof(TQ3Point3D) );
+		
+		// Transform to frustum space.
+		E3FastArray< TQ3Point3D > frustumPts( inCount );
+		for (i = 0; i < inCount; ++i)
+		{
+			frustumPts[i] = E3Camera_ViewToFrustum( camera, viewPts[i] );
+		}
+		
+		// Transform to window space.
+		E3Point3D_To3DTransformArray( &frustumPts[0], &frustumToWindow, &windowPts3D[0], inCount,
+			sizeof(TQ3Point3D), sizeof(TQ3Point3D) );
+	}
+	else // usual linear camera
+	{
+		TQ3Matrix4x4 viewToFrustum;
+		( (E3Camera*) camera )->GetViewToFrustum( &viewToFrustum );
+		TQ3Matrix4x4 localToWindow = localToView * viewToFrustum * frustumToWindow;
+		E3Point3D_To3DTransformArray( localPoints, &localToWindow, &windowPts3D[0], inCount,
+			sizeof(TQ3Point3D), sizeof(TQ3Point3D) );
+	}
+	
+	// Convert window points from 3D to 2D
+	for (i = 0; i < inCount; ++i)
+	{
+		windowPoints[i].x = windowPts3D[i].x;
+		windowPoints[i].y = windowPts3D[i].y;
+	}
+	
+	return kQ3Success;
+}
 
 
 
@@ -4676,12 +4765,7 @@ E3View_TransformLocalToWindow(TQ3ViewObject theView, const TQ3Point3D *localPoin
 //-----------------------------------------------------------------------------
 TQ3Status
 E3View_TransformWorldToWindow(TQ3ViewObject theView, const TQ3Point3D *worldPoint, TQ3Point2D *windowPoint)
-	{
-	TQ3Matrix4x4		worldToWindow, worldToFrustum, frustumToWindow;
-	TQ3Point3D			thePoint;
-
-
-
+{
 	// Make sure we're in the correct state
 	if ( ( (E3View*) theView )->instanceData.viewState != kQ3ViewStateSubmitting )
 		return kQ3Failure ;
@@ -4689,19 +4773,54 @@ E3View_TransformWorldToWindow(TQ3ViewObject theView, const TQ3Point3D *worldPoin
 
 
 	// Get the matrices we need
-	E3View_GetWorldToFrustumMatrixState ( theView,  &worldToFrustum ) ;
-	E3View_GetFrustumToWindowMatrixState ( theView, &frustumToWindow ) ;
-	worldToWindow = worldToFrustum * frustumToWindow;
-
+	TQ3CameraObject camera = E3View_AccessCamera( theView );
+	TQ3Matrix4x4 frustumToWindow, worldToView;
+	E3View_GetFrustumToWindowMatrixState( theView, &frustumToWindow );
+	( (E3Camera*) camera )->GetWorldToView( &worldToView );
 
 
 	// Transform the point
-	thePoint = (*worldPoint) * worldToWindow;
-	windowPoint->x = thePoint.x ;
-	windowPoint->y = thePoint.y ;
+	TQ3Point3D viewPt = *worldPoint * worldToView;
+	TQ3Point3D frustumPt = E3Camera_ViewToFrustum( camera, viewPt );
+	TQ3Point3D windowPt3D = frustumPt * frustumToWindow;
+
+	windowPoint->x = windowPt3D.x;
+	windowPoint->y = windowPt3D.y;
 
 	return kQ3Success ;
-	}
+}
+
+
+
+//=============================================================================
+//      E3View_TransformWindowToWorld : Transform a point from window->world.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3View_TransformWindowToWorld(TQ3ViewObject theView,
+								const TQ3Point2D *windowPoint,
+								TQ3Point3D *worldPoint)
+{
+	// Make sure we're in a submitting loop
+	if ( ( (E3View*) theView )->instanceData.viewState != kQ3ViewStateSubmitting )
+		return kQ3Failure;
+
+	TQ3CameraObject camera = E3View_AccessCamera( theView );
+
+	// Get the matrices we need
+	TQ3Matrix4x4 frustumToWindow, worldToView;
+	E3View_GetFrustumToWindowMatrixState( theView, &frustumToWindow );
+	( (E3Camera*) camera )->GetWorldToView( &worldToView );
+	TQ3Matrix4x4 windowToFrustum = Q3Invert( frustumToWindow );
+	TQ3Matrix4x4 viewToWorld = Q3Invert( worldToView );
+	
+	// Transform
+	TQ3Point3D windowPt3D = { windowPoint->x, windowPoint->y, 0.0f };
+	TQ3Point3D frustumPt = windowPt3D * windowToFrustum;
+	TQ3Point3D viewPt = E3Camera_FrustumToView( camera, frustumPt );
+	*worldPoint = viewPt * viewToWorld;
+	
+	return kQ3Success;
+}
 
 
 
@@ -4789,7 +4908,7 @@ E3View_GetLocalToWorldMatrixState(TQ3ViewObject theView, TQ3Matrix4x4 *theMatrix
 //-----------------------------------------------------------------------------
 TQ3Status
 E3View_GetWorldToFrustumMatrixState(TQ3ViewObject theView, TQ3Matrix4x4 *theMatrix)
-	{
+{
 	// Make sure we're in the correct state
 	if ( ( (E3View*) theView )->instanceData.viewState != kQ3ViewStateSubmitting )
 		return kQ3Failure ;
@@ -4798,7 +4917,7 @@ E3View_GetWorldToFrustumMatrixState(TQ3ViewObject theView, TQ3Matrix4x4 *theMatr
 
 	// Get the matrix
 	return Q3Camera_GetWorldToFrustum ( ( (E3View*) theView )->instanceData.theCamera, theMatrix ) ;
-	}
+}
 
 
 

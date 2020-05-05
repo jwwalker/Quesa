@@ -5,7 +5,7 @@
         Header file for DemoGeometry.m.
 
     COPYRIGHT:
-        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -66,6 +66,7 @@ TQ3GeometryObject createGeomPolygon(void);
 TQ3GeometryObject createGeomPolyhedron(void);
 TQ3GeometryObject createGeomPolyLine(void);
 TQ3GroupObject createGeomQuesa(void);
+TQ3GroupObject createGeomGlassQuesa(void);
 TQ3GeometryObject createGeomTorus(void);
 TQ3GeometryObject createGeomTriangle(void);
 TQ3GeometryObject createGeomTriGrid(void);

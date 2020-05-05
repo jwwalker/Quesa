@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2020, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -47,7 +47,7 @@
 #include "QORenderer.h"
 #include "GLDrawContext.h"
 #include "GLCamera.h"
-
+#include "GLUtils.h"
 
 
 //=============================================================================
@@ -121,7 +121,6 @@ void	QORenderer::MatrixState::Reset()
 	Q3Matrix4x4_SetIdentity( &mCameraToFrustum );
 	mIsLocalToCameraInvTrValid = false;
 	mIsLocalToCameraInvValid = false;
-	mIsLocalToFrustumValid = false;
 }
 
 
@@ -171,16 +170,6 @@ const TQ3Matrix4x4&		QORenderer::MatrixState::GetCameraToLocal() const
 	return mLocalToCameraInv;
 }
 
-const TQ3Matrix4x4&		QORenderer::MatrixState::GetLocalToFrustum() const
-{
-	if (! mIsLocalToFrustumValid)
-	{
-		Q3Matrix4x4_Multiply( &mLocalToCamera, &mCameraToFrustum, &mLocalToFrustum );
-		mIsLocalToFrustumValid = true;
-	}
-	return mLocalToFrustum;
-}
-
 /*!
 	@function	SetLocalToCamera
 	@abstract	Change the local to camera matrix.
@@ -190,7 +179,6 @@ void	QORenderer::MatrixState::SetLocalToCamera( const TQ3Matrix4x4& inMtx )
 	mLocalToCamera = inMtx;
 	mIsLocalToCameraInvTrValid = false;
 	mIsLocalToCameraInvValid = false;
-	mIsLocalToFrustumValid = false;
 }
 
 
@@ -201,7 +189,6 @@ void	QORenderer::MatrixState::SetLocalToCamera( const TQ3Matrix4x4& inMtx )
 void	QORenderer::MatrixState::SetCameraToFrustum( const TQ3Matrix4x4& inMtx )
 {
 	mCameraToFrustum = inMtx;
-	mIsLocalToFrustumValid = false;
 }
 
 #pragma mark -

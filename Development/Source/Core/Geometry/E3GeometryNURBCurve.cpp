@@ -5,7 +5,7 @@
         Implementation of Quesa NURB Curve geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -454,7 +454,7 @@ e3geom_nurbcurve_world_subdiv( TQ3Vertex3D** theVertices, TQ3Uns32* numPoints, f
 		return ;
 	}
 	numInt = e3geom_nurbcurve_interesting_knots( geomData->knots, geomData->numPoints, geomData->order, interestingU );
-	a = b = interestingU[0] ;
+	a = interestingU[0] ;
 	last = interestingU[numInt - 1] ;
 	
 	// Allocate the memory we need for the PolyLine (zeroed since we don't
@@ -617,7 +617,7 @@ e3geom_nurbcurve_screen_subdiv( TQ3Vertex3D** theVertices, TQ3Uns32* numPoints, 
 		return ;
 	}
 	numInt = e3geom_nurbcurve_interesting_knots( geomData->knots, geomData->numPoints, geomData->order, interestingU );
-	a = b = interestingU[0] ;
+	a = interestingU[0] ;
 	last = interestingU[numInt - 1] ;
 	
 	// Allocate the memory we need for the PolyLine (zeroed since we don't

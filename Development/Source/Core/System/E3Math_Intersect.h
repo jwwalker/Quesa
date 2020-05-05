@@ -5,7 +5,7 @@
         Header file for E3Math_Intersect.cpp.
 
     COPYRIGHT:
-        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -246,6 +246,25 @@ float	E3Math_DistanceFromPointToViewFrustum(
 								const TQ3Point3D& inWorldPt,
 								TQ3CameraObject inCamera );
 
+
+/*!
+	@function	E3Math_DistanceFromPointToCone
+	@abstract	Compute the minimum distance from a point to an infinite right
+				circular cone.
+	@discussion	If P is any point on the cone, then the angle from the vector
+				P - inConeApex to the vector inConeAxis is inAngleToSurface.
+	@param		inPoint		A point.
+	@param		inConeApex	Apex of the cone.
+	@param		inConeAxis	Axis direction of the cone.  Must be a unit vector.
+	@param		inAngleToSurface	Angle from axis to the surface.
+									This should be no more than pi/2.
+	@result		The distance.
+*/
+float	E3Math_DistanceFromPointToCone(
+								const TQ3Point3D& inPoint,
+								const TQ3Point3D& inConeApex,
+								const TQ3Vector3D& inConeAxis,
+								float inAngleToSurface );
 
 /*!
 	@function	E3Cone_IntersectViewFrustum

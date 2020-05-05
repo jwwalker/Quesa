@@ -47,6 +47,7 @@
 //-----------------------------------------------------------------------------
 #include "Quesa.h"
 #include "QuesaShader.h"
+#include "GLPrefix.h"
 
 namespace QORenderer
 {
@@ -70,13 +71,11 @@ extern "C" {
 #if __has_attribute(format)
 	#define GL_FORMAT_FUNCTION( F, A )	__attribute__((format(printf, F, A)))
 #else
-    #define GL_FORMAT_FUNCTION( F, A )
+	#define GL_FORMAT_FUNCTION( F, A )
 #endif
 #endif
 
-
-
-
+struct TQ3GLExtensions;
 
 //=============================================================================
 //      Function prototypes

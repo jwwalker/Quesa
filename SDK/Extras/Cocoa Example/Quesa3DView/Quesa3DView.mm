@@ -5,7 +5,7 @@
         NSView subclass to display a quesa draw context.
 
     COPYRIGHT:
-        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -124,8 +124,22 @@
 
 	if (self.drawContext != NULL)
 		Q3Object_Dispose(self.drawContext);
+	
+	[_cursor release];
 
 	[super dealloc];
+}
+
+//==================================================================================
+//	resetCursorRects
+//==================================================================================
+- (void) resetCursorRects
+{
+	if (self.cursor == nil)
+	{
+		self.cursor = [NSCursor arrowCursor];
+	}
+	[self addCursorRect: self.bounds cursor: self.cursor];
 }
 
 //==================================================================================
@@ -279,6 +293,19 @@
 - (void)keyUp:(NSEvent *)theEvent;
 {
   [self sendEventToDelegate:theEvent];
+}
+
+//==================================================================================
+//	mouseDown:
+//==================================================================================
+- (void)mouseDown:(NSEvent *)event
+{
+	[self sendEventToDelegate: event];
+}
+
+- (void)flagsChanged:(NSEvent *)event
+{
+	[self sendEventToDelegate: event];
 }
 
 //==================================================================================
@@ -446,8 +473,9 @@
 //	createDefaultCamera
 //==================================================================================
 
-- (void)createDefaultCamera
-{	TQ3Point3D 						cameraFrom 	= { 0.0f, 0.0f, 5.0f };
+- (void) createDefaultCamera
+{
+	TQ3Point3D 						cameraFrom 	= { 0.0f, 0.0f, 5.0f };
 	TQ3Point3D 						cameraTo 	= { 0.0f, 0.0f, 0.0f };
 	TQ3Vector3D 					cameraUp 	= { 0.0f, 1.0f, 0.0f };
 	float 							fieldOfView = Q3Math_DegreesToRadians(50.0f);

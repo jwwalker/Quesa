@@ -8,9 +8,13 @@ The Quesa project was begun by Dair Grant.  At its period of maximum activity, i
 
 ## Recent Work and Future Plans
 
+### jwwalker:
 Most recently, I have added all-seeing and fisheye cameras.  See the API documentation,
 or the documentation comments in QuesaCamera.h.
 
 In the near term, I plan to contribute code to import and export 3D models in Collada (.dae) format.
 
 In more of a "hopes and dreams" category, it would be nice to support other rendering APIs such as Vulkan or Metal.
+
+### h-haris:
+The Controller and Tracker APIs to support 3D devices are reintroduced.

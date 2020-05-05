@@ -147,8 +147,12 @@ The view-to-frustum matrix transforms the camera coordinate system
 (as returned by Q3Camera_GetWorldToView) to the viewing frustum
 coordinate system.
 <br><br>
-The frustum coordinate system ranges from 0.0 to -1.0 in z, and from
+The frustum coordinate system ranges from 0.0 (near) to -1.0 (far) in z, and from
 -1.0 to +1.0 in both x and y.
+<br><br>
+If the camera uses a nonlinear projection (fisheye or all-seeing cameras) then
+the view to frustum transformation cannot be expressed by a matrix, and this
+function returns kQ3Failure.
 <br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
@@ -174,6 +178,10 @@ frustum coordinate system. It is equivalent to multiplying the matrices
 returned by Q3Camera_GetWorldToView and Q3Camera_GetViewToFrustum.
 See the documentation of Q3View_GetWorldToFrustumMatrixState for more
 information.
+<br><br>
+If the camera uses a nonlinear projection (fisheye or all-seeing cameras) then
+the view to frustum transformation cannot be expressed by a matrix, and this
+function returns kQ3Failure.
 <br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
@@ -312,6 +320,48 @@ submitting loop.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
+<hr><a name="//Quesa/c/func/Q3Camera_TransformFrustumToView"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Camera_TransformFrustumToView">Q3Camera_TransformFrustumToView</a></h2>
+</td></tr></table><hr>Transform a point from frustum coordinates to view coordinates.
+
+<blockquote><pre><tt>( void ) Q3Camera_TransformFrustumToView (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nonnull camera,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D* _Nonnull frustumPt,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point3D* _Nonnull viewPt
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Whereas Q3Camera_GetViewToFrustum does not work for certain kinds
+of cameras, this function should work for all cameras.
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>camera</em></tt></dt><dd>The camera.</dd>
+<dt><tt><em>frustumPt</em></tt></dt><dd>A point in frustum coordinates.</dd>
+<dt><tt><em>viewPt</em></tt></dt><dd>Receives a point in view coordinates.</dd>
+</dl>
+</blockquote>
+<hr><a name="//Quesa/c/func/Q3Camera_TransformViewToFrustum"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Camera_TransformViewToFrustum">Q3Camera_TransformViewToFrustum</a></h2>
+</td></tr></table><hr>Transform a point from view coordinates to frustum coordinates.
+
+<blockquote><pre><tt>( void ) Q3Camera_TransformViewToFrustum (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nonnull camera,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Point3D* _Nonnull viewPt,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Point3D* _Nonnull frustumPt
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Whereas Q3Camera_GetViewToFrustum does not work for certain kinds
+of cameras, this function should work for all cameras.
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>camera</em></tt></dt><dd>The camera.</dd>
+<dt><tt><em>viewPt</em></tt></dt><dd>A point in view coordinates.</dd>
+<dt><tt><em>frustumPt</em></tt></dt><dd>Receives a point in frustum coordinates.</dd>
+</dl>
+</blockquote>
 <hr><a name="//Quesa/c/func/Q3FisheyeCamera_CalcAngleOfView"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FisheyeCamera_CalcAngleOfView">Q3FisheyeCamera_CalcAngleOfView</a></h2>
 </td></tr></table><hr>Compute the angle of view of a fisheye camera from other parameters.
@@ -1060,6 +1110,9 @@ The common camera state includes its position and orientation within
 the world (placement), the near and far clipping planes (range), and
 the current viewport.
 <br><br>
+The placement fully determines the world to view transformation, while the
+range and viewport affect the view to frustum transformation.
+<br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
 <blockquote>
@@ -1160,13 +1213,13 @@ horizontal strips for printing).
 </td></tr></table><hr>State for a fisheye camera.
 
 <blockquote><pre>
-typedef struct TQ3FisheyeCameraData {
+struct TQ3FisheyeCameraData {
     TQ3CameraData                  cameraData;
     TQ3Vector2D                    sensorSize;
     float                          focalLength;
     TQ3FisheyeMappingFunction      mappingFunction;
     TQ3FisheyeCroppingFormat       croppingFormat;
-} TQ3FisheyeCameraData;
+} ;
 </pre>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
@@ -1335,5 +1388,5 @@ cannot have an angle of view greater than pi (180 degrees).</dd>
 <dt><a name="//Quesa/c/econst/kQ3FisheyeMappingFunctionEquisolidAngle"><tt>kQ3FisheyeMappingFunctionEquisolidAngle</tt></a></dt><dd>r = 2 * f * sin( angle/2 )</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2020 Quesa Developers (Last Updated 3/10/2020)
+<p><p>&#169; 1999-2020 Quesa Developers (Last Updated 4/5/2020)
 </p></body></html>

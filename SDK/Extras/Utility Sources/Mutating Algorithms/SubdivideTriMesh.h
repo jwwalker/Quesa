@@ -1,5 +1,5 @@
 /*  NAME:
-        TransformGeometry.h
+        SubdivideTriMesh.h
 
     DESCRIPTION:
         Quesa utility header.

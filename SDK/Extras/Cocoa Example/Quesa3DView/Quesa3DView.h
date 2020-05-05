@@ -5,7 +5,7 @@
         NSView subclass to display a quesa draw context.
 
     COPYRIGHT:
-        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -46,6 +46,8 @@
 @interface Quesa3DView : NSOpenGLView
 
 @property (assign) IBOutlet id qd3dDelegate;
+
+@property (retain) NSCursor* cursor;
 
 @property (assign, readonly) TQ3DrawContextObject	drawContext;
 @property (assign, readonly) TQ3ViewObject			qd3dView;

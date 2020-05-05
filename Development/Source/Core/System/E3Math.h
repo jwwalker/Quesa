@@ -5,7 +5,7 @@
         Header file for E3Math.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -364,7 +364,7 @@ TQ3BoundingBox *		E3BoundingBox_UnionRationalPoint4D(const TQ3BoundingBox *bBox,
 void					E3BoundingBox_GetCorners( const TQ3BoundingBox *inBox, TQ3Point3D* out8Corners );
 void					E3BoundingBox_Transform( const TQ3BoundingBox *inBox, const TQ3Matrix4x4* inMtx,
 												TQ3BoundingBox* outBox );
-
+TQ3Area					E3Area_SetFromPoints2D( TQ3Uns32 inCount, const TQ3Point2D* inPts );
 
 
 

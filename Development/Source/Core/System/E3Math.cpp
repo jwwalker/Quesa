@@ -8,7 +8,7 @@
         speed, to avoid the trip back out through the Q3foo interface.
 
     COPYRIGHT:
-        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -4659,6 +4659,47 @@ E3BoundingBox_Transform( const TQ3BoundingBox *inBox, const TQ3Matrix4x4* inMtx,
 		sizeof(TQ3Point3D), sizeof(TQ3Point3D) );
 	
 	E3BoundingBox_SetFromPoints3D( outBox, theCorners, 8, sizeof(TQ3Point3D) );
+}
+
+
+
+
+/*!
+	@function	E3Area_SetFromPoints2D
+	
+	@abstract	Find the smallest area that encloses an array of 1 or more 2D points.
+	@param		inCount		Number of points.  Must not be 0.
+	@param		inPts		Array of points.
+	@result		The enclosing area.
+*/
+TQ3Area
+E3Area_SetFromPoints2D( TQ3Uns32 inCount, const TQ3Point2D* inPts )
+{
+	Q3_ASSERT( inCount > 0 );
+	TQ3Area result;
+	result.min = result.max = inPts[0];
+	for (TQ3Uns32 i = 1; i < inCount; ++i)
+	{
+		if (inPts[i].x < result.min.x)
+		{
+			result.min.x = inPts[i].x;
+		}
+		else if (inPts[i].x > result.max.x)
+		{
+			result.max.x = inPts[i].x;
+		}
+		
+		if (inPts[i].y < result.min.y)
+		{
+			result.min.y = inPts[i].y;
+		}
+		else if (inPts[i].y > result.max.y)
+		{
+			result.max.y = inPts[i].y;
+		}
+	}
+	
+	return result;
 }
 
 

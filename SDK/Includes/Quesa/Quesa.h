@@ -164,10 +164,19 @@
 
 
     // Includes
-	#if QUESA_OS_COCOA && defined(__OBJC__)
-		#include <Cocoa/Cocoa.h>
-	#endif
+    #if QUESA_OS_COCOA && defined(__OBJC__)
+        #include <Cocoa/Cocoa.h>
+        // compile controller support in
+        #ifndef QUESA_SUPPORT_CONTROLLER
+            #define QUESA_SUPPORT_CONTROLLER            1
+        #endif
 
+        #if QUESA_SUPPORT_CONTROLLER
+            #warning QUESA_SUPPORT_CONTROLLER is set
+        #else
+            #warning QUESA_SUPPORT_CONTROLLER not set
+        #endif
+    #endif
 
     // Mac OS Classic
     #if TARGET_RT_MAC_CFM

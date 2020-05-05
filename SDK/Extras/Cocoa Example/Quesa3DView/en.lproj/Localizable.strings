@@ -1,0 +1,11 @@
+/* 
+  Localizable.strings
+  Quesa3DView
+
+  Created by James Walker on 2/21/20.
+  
+*/
+TitleUsual = "Quesa Cocoa Demo";
+TitleHit = "Hit 😀";
+TitleAlmostHit = "Near Hit 🤨";
+TitleMiss = "Miss 😡";

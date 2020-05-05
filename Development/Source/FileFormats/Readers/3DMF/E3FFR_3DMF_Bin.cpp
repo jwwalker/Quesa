@@ -5,7 +5,7 @@
         Implementation of Quesa 3DMF Binary FileFormat object.
         
     COPYRIGHT:
-        Copyright (c) 1999-2017, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -60,6 +60,16 @@
 //=============================================================================
 //      Macros
 //-----------------------------------------------------------------------------
+#ifndef __has_cpp_attribute         // For backwards compatibility
+  #define __has_cpp_attribute(x) 0
+#endif
+
+#if __has_cpp_attribute(clang::fallthrough)
+#define FALLTHROUGH [[clang::fallthrough]]
+#else
+#define FALLTHROUGH
+#endif
+
 #define E3FFormat_3DMF_Bin_Check_MoreObjects(_data)							\
 			do															\
 				{														\
@@ -791,7 +801,7 @@ e3fformat_3dmf_bin_readobject ( E3File* theFile )
 			
 			objectType = kQ3LightData ; // This is because in QuickDraw3D, Apple used the code 'lght' for both the light object and the light data sub object. 
 			// N.B. falls through to default case - no break
-			[[clang::fallthrough]];
+			FALLTHROUGH;
 			
 		default:
 			{

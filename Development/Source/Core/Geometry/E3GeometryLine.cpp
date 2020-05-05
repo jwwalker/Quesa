@@ -5,7 +5,7 @@
         Implementation of Quesa Line geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -44,13 +44,14 @@
 //      Include files
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
+#include "E3Camera.h"
 #include "E3View.h"
 #include "E3Pick.h"
 #include "E3Geometry.h"
 #include "E3GeometryLine.h"
 #include "QuesaMathOperators.hpp"
 
-
+#include <cstring>
 
 
 
@@ -324,13 +325,10 @@ e3geom_line_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3geom_line_pick_window_point(TQ3ViewObject theView, TQ3PickObject thePick, TQ3Object theObject, const void *objectData)
-{	const TQ3LineData			*instanceData = (const TQ3LineData *) objectData;
+{
+	const TQ3LineData			*instanceData = (const TQ3LineData *) objectData;
 	TQ3Vector2D					windowStartToPick, windowStartToEnd, windowHitToPick;
-	TQ3Matrix4x4				worldToFrustum, frustumToWindow, worldToWindow;
 	TQ3Point2D					hitXY,  windowPoints[2];
-	TQ3Point3D					hitXYZ, worldPoints[2];
-	float						d, divisorX, divisorY;
-	TQ3Vector3D					worldStartToEnd;
 	TQ3Status					qd3dStatus;
 	TQ3WindowPointPickData		pickData;
 
@@ -347,7 +345,7 @@ e3geom_line_pick_window_point(TQ3ViewObject theView, TQ3PickObject thePick, TQ3O
 
 
 
-	// Calculate the distance d along the line to its closest point to the pick point.
+	// Calculate the fraction lineParam along the line to its closest point to the pick point.
 	// If it's outside the range 0-1 then the closest point is before or after the
 	// bounds of the line and so we know we can't possibly have a hit.
 	windowStartToPick = pickData.point - windowPoints[0];
@@ -359,20 +357,20 @@ e3geom_line_pick_window_point(TQ3ViewObject theView, TQ3PickObject thePick, TQ3O
 		// Line is edge-on; we do not want to divide by 0, let's say there is no hit.
 		return(kQ3Success);
 	}
-	d = Q3Dot2D( windowStartToPick, windowStartToEnd ) / windowLineLenSq;
-	if (d < 0.0f || d > 1.0f)
+	float lineParam = Q3Dot2D( windowStartToPick, windowStartToEnd ) / windowLineLenSq;
+	if (lineParam < 0.0f || lineParam > 1.0f)
 		return(kQ3Success);
 
 
 
-	// Scale the line vector by d to obtain its closest point to the pick point
-	hitXY = windowPoints[0] + d * windowStartToEnd;
+	// Scale the line vector by lineParam to obtain its closest point to the pick point
+	hitXY = windowPoints[0] + lineParam * windowStartToEnd;
 
 
 
 	// Get the distance between that point and the pick point
 	windowHitToPick = pickData.point - hitXY;
-	d = Q3Length2D( windowHitToPick );
+	float d = Q3Length2D( windowHitToPick );
 
 
 
@@ -381,72 +379,24 @@ e3geom_line_pick_window_point(TQ3ViewObject theView, TQ3PickObject thePick, TQ3O
 
 	if (d <= pickData.edgeTolerance)
 	{
-		// Create a world to window matrix
-		E3View_GetWorldToFrustumMatrixState(theView,  &worldToFrustum);
-		E3View_GetFrustumToWindowMatrixState(theView, &frustumToWindow);
-		worldToWindow = worldToFrustum * frustumToWindow;
-
-
-		// Calculate the intersection point on the 3D line
-		const TQ3Matrix4x4* localToWorld = E3View_State_GetMatrixLocalToWorld(theView);
-		worldPoints[0] = instanceData->vertices[0].point * *localToWorld;
-		worldPoints[1] = instanceData->vertices[1].point * *localToWorld;
-
-		worldStartToEnd = worldPoints[1] - worldPoints[0];
+		// At this point we know that there is a hit within the edge tolerance.
+		// But locating that hit in world space is not so easy, even in the 
+		// case of a rectilear camera, due to the nonlinearity of the transformation
+		// between view and frustum space.
+		// We'll find the hit point in frustum space by linear interpolation,
+		// then transform back to world space.
+		// This will not be totally right in the case of nonlinear cameras, where
+		// the image of a line segment is not necessarily straight.
+		TQ3Point3D frustumStart, frustumEnd;
+		E3View_TransformLocalToFrustum( theView, &instanceData->vertices[0].point, &frustumStart );
+		E3View_TransformLocalToFrustum( theView, &instanceData->vertices[1].point, &frustumEnd );
+		TQ3Point3D frustumHit = frustumStart + lineParam * (frustumEnd - frustumStart);
 		
-		// We want to find a scalar t such that
-		// (worldPoints[0] + t * worldStartToEnd) * worldToWindow,
-		// when projected into 2D window space, is hitXY.  You do that
-		// projection by dividing the x coordinate by the w coordinate:
-		// hitXY.x = ((worldPoints[0] + t * worldStartToEnd) * worldToWindow).x
-		//           ----------------------------------------------------------
-		//           ((worldPoints[0] + t * worldStartToEnd) * worldToWindow).w
-		// =
-		// (worldPoints[0] * worldToWindow).x + t * (worldStartToEnd * worldToWindow).x
-		// ----------------------------------------------------------------------------
-		// (worldPoints[0] * worldToWindow).w + t * (worldStartToEnd * worldToWindow).w
-		// and there is a similar equation
-		// hitXY.y =
-		// (worldPoints[0] * worldToWindow).x + t * (worldStartToEnd * worldToWindow).y
-		// ----------------------------------------------------------------------------
-		// (worldPoints[0] * worldToWindow).w + t * (worldStartToEnd * worldToWindow).w
-		
-		// Let's do the matrix multiplications.
-		TQ3RationalPoint4D	winStart = Q3ToRational4D(worldPoints[0]) * worldToWindow;
-		TQ3RationalPoint4D winVec = Q3ToRational4D(worldStartToEnd) * worldToWindow;
-		
-		// Now our equations become
-		// hitXY.x = (winStart.x + t * winVec.x) / (winStart.w + t * winVec.w)
-		// and
-		// hitXY.y = (winStart.y + t * winVec.y) / (winStart.w + t * winVec.w) .
-		// These can be transformed into linear equations and solved for t.
-		// winStart.x + t * winVec.x = hitXY.x * (winStart.w + t * winVec.w)
-		// t * (hitXY.x * winVec.w - winVec.x) = winStart.x - hitXY.x * winStart.w
-		// t = (winStart.x - hitXY.x * winStart.w) / (hitXY.x * winVec.w - winVec.x)
-		// and similarly
-		// t = (winStart.y - hitXY.y * winStart.w) / (hitXY.y * winVec.w - winVec.y) .
-		// In general, either equation would suffice, but we do not want to divide
-		// by 0, and we expect a more accurate result if the denominator is
-		// larger in magnitude.
-		
-		divisorX = hitXY.x * winVec.w - winVec.x;
-		divisorY = hitXY.y * winVec.w - winVec.y;
-		float t;
-		
-		if (fabsf( divisorX ) >= fabsf( divisorY ))
-		{
-			t = (winStart.x - hitXY.x * winStart.w) / divisorX;
-		}
-		else
-		{
-			t = (winStart.y - hitXY.y * winStart.w) / divisorY;
-		}
-
-		hitXYZ = worldPoints[0] + t * worldStartToEnd;
-
+		TQ3Point3D worldHit;
+		E3View_TransformFrustumToWorld( theView, &frustumHit, &worldHit );
 
 		// Record the hit
-		qd3dStatus = E3Pick_RecordHit(thePick, theView, &hitXYZ, nullptr, nullptr, nullptr);
+		qd3dStatus = E3Pick_RecordHit(thePick, theView, &worldHit, nullptr, nullptr, nullptr);
 	}
 
 	return(qd3dStatus);
@@ -469,23 +419,20 @@ e3geom_line_pick_window_rect(TQ3ViewObject theView, TQ3PickObject thePick, TQ3Ob
 
 
 	// Get the pick data
-	Q3WindowRectPick_GetData(thePick, &pickData);
+	E3WindowRectPick_GetData(thePick, &pickData);
 
 
 
 	// Transform our points
-	Q3View_TransformLocalToWindow(theView, &instanceData->vertices[0].point, &windowPoints[0]);
-	Q3View_TransformLocalToWindow(theView, &instanceData->vertices[1].point, &windowPoints[1]);
+	E3View_TransformLocalToWindow(theView, &instanceData->vertices[0].point, &windowPoints[0]);
+	E3View_TransformLocalToWindow(theView, &instanceData->vertices[1].point, &windowPoints[1]);
 
 
 
 	// See if we fall within the pick
 	if (E3Rect_ContainsLine(&pickData.rect, &windowPoints[0], &windowPoints[1]))
 	{
-		TQ3Point3D	worldHit;
-		Q3Point3D_Transform( &instanceData->vertices[0].point,
-			E3View_State_GetMatrixLocalToWorld( theView ),
-			&worldHit );
+		TQ3Point3D	worldHit = instanceData->vertices[0].point * *E3View_State_GetMatrixLocalToWorld( theView );
 		qd3dStatus = E3Pick_RecordHit(thePick, theView, &worldHit, nullptr, nullptr, nullptr);
 	}
 

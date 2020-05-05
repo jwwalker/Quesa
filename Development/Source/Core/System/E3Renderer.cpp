@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -51,7 +51,8 @@
 #include "E3Main.h"
 #include "E3Geometry.h"
 #include "CQ3ObjectRef_Gets.h"
-
+#include "GLUtils.h"
+#include "QuesaMathOperators.hpp"
 
 
 
@@ -588,7 +589,7 @@ E3Renderer_Method_UpdateMatrix(TQ3ViewObject			theView,
 			E3View_AccessUpdateLocalToWorldInverseTranspose( theView );
 
 		if ((updateLocalToWorldInv != nullptr) || (updateLocalToWorldInvT != nullptr) )
-			Q3Matrix4x4_Invert(localToWorld, &worldToLocal);
+			worldToLocal = Q3Invert( *localToWorld );
 
 		if ( (qd3dStatus == kQ3Success) && (updateLocalToWorld != nullptr) )
 			qd3dStatus = updateLocalToWorld(theView, instanceData, localToWorld);
@@ -623,7 +624,7 @@ E3Renderer_Method_UpdateMatrix(TQ3ViewObject			theView,
 		TQ3XRendererUpdateMatrixMethod updateCameraToFrustum  =
 			(TQ3XRendererUpdateMatrixMethod) theClass->GetMethod( kQ3XMethodTypeRendererUpdateMatrixCameraToFrustum ) ;
 
-		if ( (qd3dStatus == kQ3Success) && (updateCameraToFrustum != nullptr) )
+		if ( (qd3dStatus == kQ3Success) && (updateCameraToFrustum != nullptr) && (cameraToFrustum != nullptr) )
 		{
 			qd3dStatus = updateCameraToFrustum( theView, instanceData, cameraToFrustum );
 		}
@@ -650,9 +651,10 @@ E3Renderer_Method_UpdateMatrix(TQ3ViewObject			theView,
 		TQ3XRendererUpdateMatrixMethod updateLocalToFrustum   =
 			E3View_AccessUpdateLocalToFrustum( theView );
 
-		if ( (qd3dStatus == kQ3Success) && (updateLocalToFrustum != nullptr) )
+		if ( (qd3dStatus == kQ3Success) && (updateLocalToFrustum != nullptr) &&
+			(cameraToFrustum != nullptr) )
 		{
-			Q3Matrix4x4_Multiply( localToCamera, cameraToFrustum, &tmpMatrix );
+			tmpMatrix = (*localToCamera) * (*cameraToFrustum);
 			qd3dStatus = updateLocalToFrustum( theView, instanceData, &tmpMatrix );
 		}
 	}
@@ -664,9 +666,10 @@ E3Renderer_Method_UpdateMatrix(TQ3ViewObject			theView,
 		TQ3XRendererUpdateMatrixMethod updateWorldToFrustum   =
 			(TQ3XRendererUpdateMatrixMethod) theClass->GetMethod( kQ3XMethodTypeRendererUpdateMatrixWorldToFrustum ) ;
 
-		if ( (qd3dStatus == kQ3Success) && (updateWorldToFrustum != nullptr) )
+		if ( (qd3dStatus == kQ3Success) && (updateWorldToFrustum != nullptr) &&
+			(cameraToFrustum != nullptr) )
 		{
-			Q3Matrix4x4_Multiply( worldToCamera, cameraToFrustum, &tmpMatrix );
+			tmpMatrix = (*worldToCamera) * (*cameraToFrustum);
 			qd3dStatus = updateWorldToFrustum( theView, instanceData, &tmpMatrix );
 		}
 	}

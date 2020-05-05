@@ -260,7 +260,7 @@ createGeomCone(void)
 //-----------------------------------------------------------------------------
 TQ3GeometryObject
 createGeomCylinder(void)
-{	TQ3ColorRGB			topColour    = { 0.0f, 0.0f, 1.0f };
+{	TQ3ColorRGB			topColour    = { 0.0f, 1.0f, 1.0f };
 	TQ3ColorRGB			bottomColour = { 0.0f, 1.0f, 0.0f };
 	TQ3ColorRGB			faceColour   = { 1.0f, 0.0f, 0.0f };
 	TQ3ColorRGB			specColour	 = { 1.0f, 1.0f, 0.5f };
@@ -1144,6 +1144,25 @@ createGeomPolyLine(void)
 
 
 
+//=============================================================================
+//      createGeomGlassQuesa : Create the Quesa logo geometry, except translucent.
+//-----------------------------------------------------------------------------
+TQ3GroupObject createGeomGlassQuesa(void)
+{
+	TQ3GroupObject theGroup = createGeomQuesa();
+	CQ3ObjectRef atts( Q3AttributeSet_New() );
+	TQ3ColorRGB trans = { 0.3f, 0.3f, 0.3f };
+	TQ3ColorRGB spec = { 1.0f, 1.0f, 0.5f };
+	float specControl = 100.0f;
+	Q3AttributeSet_Add( atts.get(), kQ3AttributeTypeTransparencyColor, &trans );
+	Q3AttributeSet_Add( atts.get(), kQ3AttributeTypeSpecularColor, &spec );
+	Q3AttributeSet_Add( atts.get(), kQ3AttributeTypeSpecularControl, &specControl );
+	Q3Group_AddObject( theGroup, atts.get() );
+	
+	return theGroup;
+}
+
+
 
 
 //=============================================================================
@@ -1672,7 +1691,7 @@ static TQ3AttributeSet MakeTextureAtts( NSString* inName )
 		TQ3ShaderObject shaderVal = theShader.get();
 		Q3AttributeSet_Add( atts, kQ3AttributeTypeSurfaceShader, &shaderVal );
 	}
-
+	
 	return atts;
 }
 

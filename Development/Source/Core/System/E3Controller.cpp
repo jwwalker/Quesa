@@ -48,8 +48,11 @@
 #include "E3Main.h"
 
 #if QUESA_SUPPORT_CONTROLLER
+#warning QUESA_SUPPORT_CONTROLLER
 #include <ControllerCoreOSX_pdo_IPC/ControllerCoreOSX.h>
 //#include <ControllerCoreOSX/ControllerCoreOSX.h>
+#else
+#warning QUESA_SUPPORT_CONTROLLER not set
 #endif 
 
 

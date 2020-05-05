@@ -10,7 +10,7 @@
     	code.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2020, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -186,7 +186,7 @@ void StripMaker::FindAdjacencies( FaceVec& ioFaces )
 	
 	const TQ3Uns32 kNumEdges = static_cast<TQ3Uns32>(theEdges.size());
 	TQ3Uns32	runStart, nextRunStart;
-	runStart = nextRunStart = 0;
+	runStart = 0;
 	
 	while (runStart < kNumEdges)
 	{
