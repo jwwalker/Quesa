@@ -5,7 +5,7 @@
         Quesa OpenGL utility functions.
 
     COPYRIGHT:
-        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -338,27 +338,6 @@ GLUtils_LoadShaderUVTransform( const TQ3Matrix3x3* qMatrix,
 			{ qMatrix->value[2][0], qMatrix->value[2][1], 0.0f, qMatrix->value[2][2] },
 		}	
 	};
-	GLfloat		glMatrix[16];
-	glMatrix[0]  = qMatrix->value[0][0];
-	glMatrix[1]  = qMatrix->value[0][1];
-	glMatrix[2]  = 0.0f;
-	glMatrix[3]  = qMatrix->value[0][2];
-
-	glMatrix[4]  = qMatrix->value[1][0];
-	glMatrix[5]  = qMatrix->value[1][1];
-	glMatrix[6]  = 0.0f;
-	glMatrix[7]  = qMatrix->value[1][2];
-
-	glMatrix[8]  = 0.0f;
-	glMatrix[9]  = 0.0f;
-	glMatrix[10] = 0.0f;
-	glMatrix[11] = 0.0f;
-
-	glMatrix[12] = qMatrix->value[2][0];
-	glMatrix[13] = qMatrix->value[2][1];
-	glMatrix[14] = 0.0f;
-	glMatrix[15] = qMatrix->value[2][2];
-
 	inPPL.SetTextureMatrix( textureMtx );
 }
 

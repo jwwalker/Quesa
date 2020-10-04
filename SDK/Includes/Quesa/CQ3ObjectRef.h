@@ -9,7 +9,7 @@
         C++ wrapper class for a Quesa shared object.
     
     COPYRIGHT:
-        Copyright (c) 2004-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 2004-2020, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -118,7 +118,7 @@ public:
 								@abstract	Move constructor.
 								@param		ioOther		Another CQ3ObjectRef.
 							*/
-							CQ3ObjectRef( CQ3ObjectRef&& ioOther );
+							CQ3ObjectRef( CQ3ObjectRef&& ioOther ) noexcept;
 #endif
 							
 							/*!
@@ -155,7 +155,7 @@ public:
 								@abstract	Move assignment operator.
 								@param		ioOther		Another CQ3ObjectRef.
 							*/
-	CQ3ObjectRef&			operator=( CQ3ObjectRef&& ioOther );
+	CQ3ObjectRef&			operator=( CQ3ObjectRef&& ioOther ) noexcept;
 #endif
 
 							/*!
@@ -204,7 +204,7 @@ inline CQ3ObjectRef::CQ3ObjectRef( const CQ3ObjectRef& inOther )
 }
 
 #if QUESA_CPP11
-inline CQ3ObjectRef::CQ3ObjectRef( CQ3ObjectRef&& ioOther )
+inline CQ3ObjectRef::CQ3ObjectRef( CQ3ObjectRef&& ioOther ) noexcept
 	: mObject( ioOther.mObject )
 {
 	ioOther.mObject = nullptr;
@@ -234,7 +234,7 @@ inline CQ3ObjectRef&	CQ3ObjectRef::operator=( const CQ3ObjectRef& inOther )
 }
 
 #if QUESA_HAS_STDMOVE
-inline CQ3ObjectRef&		CQ3ObjectRef::operator=( CQ3ObjectRef&& ioOther )
+inline CQ3ObjectRef&		CQ3ObjectRef::operator=( CQ3ObjectRef&& ioOther ) noexcept
 {
 	CQ3ObjectRef	temp( std::move( ioOther ) );
 	swap( temp );

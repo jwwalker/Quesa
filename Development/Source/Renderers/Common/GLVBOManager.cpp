@@ -1,11 +1,11 @@
 /*  NAME:
-        GLVBOManager.c
+        GLVBOManager.cpp
 
     DESCRIPTION:
         Quesa OpenGL vertex buffer object caching.
        
     COPYRIGHT:
-        Copyright (c) 2007-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2020, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -293,11 +293,10 @@ void				DumpVBOs( void )
 {
 	Q3_ASSERT_FMT( sVBORecords != nullptr, "Debug log of VBOs was not started");
 	Q3_MESSAGE_FMT("==== Dump of VBO log ====");
-	VBOMap::iterator endRecs = sVBORecords->end();
-	for (VBOMap::iterator i = sVBORecords->begin(); i != endRecs; ++i)
+	for (auto vboPair: *sVBORecords)
 	{
 		Q3_MESSAGE_FMT("ID %d, size %lu, geom %p, kind %d", (int) i->first,
-			(unsigned long) i->second.byteCount, i->second.geom, i->second.kind );
+			(unsigned long) vboPair.second.byteCount, vboPair.second.geom, vboPair.second.kind );
 	}
 	Q3_MESSAGE_FMT("==== End VBO log ====");
 }
@@ -713,32 +712,28 @@ void	VBOCache::DeleteVBO( CachedVBO* inCachedVBO, const QORenderer::GLFuncs& inF
 
 void	VBOCache::DeleteCachedVBOs( CachedVBOVec& inVBOs, const QORenderer::GLFuncs& inFuncs )
 {
-	CachedVBOVec::iterator endIt = inVBOs.end();
-	for (CachedVBOVec::iterator i = inVBOs.begin(); i != endIt; ++i)
+	for (auto& vboPtr : inVBOs)
 	{
-		DeleteVBO( *i, inFuncs );
+		DeleteVBO( vboPtr, inFuncs );
 	}
 }
 
 void	VBOCache::FlushUnreferencedInVec( CachedVBOVec& ioVBOs, const QORenderer::GLFuncs& inFuncs )
 {
 	// Move unreferenced VBOs to end of list
-	CachedVBOVec::iterator startUnused = std::stable_partition(
+	auto startUnused = std::stable_partition(
 		ioVBOs.begin(), ioVBOs.end(), IsReferenced() );
 	
 	if (startUnused != ioVBOs.end())
 	{
-		// Make a copy of the records that will go away
-		CachedVBOVec	doomedVBOs( startUnused, ioVBOs.end() );
-		
-		// Remove them from the normal array
-		ioVBOs.erase( startUnused, ioVBOs.end() );
-
 		// Delete the buffers for the VBO records that are going away
-		for (CachedVBOVec::iterator i = doomedVBOs.begin(); i != doomedVBOs.end(); ++i)
+		for (auto i = startUnused; i != ioVBOs.end(); ++i)
 		{
 			DeleteVBO( *i, inFuncs );
 		}
+		
+		// Remove them from the array
+		ioVBOs.erase( startUnused, ioVBOs.end() );
 	}
 }
 

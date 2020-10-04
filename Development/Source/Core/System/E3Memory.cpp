@@ -5,7 +5,7 @@
         Quesa memory manager.
 
     COPYRIGHT:
-        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -52,6 +52,7 @@
 #include <stdio.h>
 #include <time.h>
 #include <cstring>
+#include <atomic>
 
 #if QUESA_OS_MACINTOSH
 	#include <unistd.h>
@@ -129,10 +130,10 @@ public :
 //=============================================================================
 //      Internal static variables
 //-----------------------------------------------------------------------------
-static TQ3Int32		sActiveAllocCount = 0;
-static TQ3Int32		sMaxAllocCount    = 0;
-static TQ3Int64		sActiveAllocBytes = { 0, 0 };
-static TQ3Int64		sMaxAllocBytes	  = { 0, 0 };
+static std::atomic_int32_t		sActiveAllocCount( 0 );
+static std::atomic_int32_t		sMaxAllocCount( 0 );
+static std::atomic_int64_t		sActiveAllocBytes( 0 );
+static std::atomic_int64_t		sMaxAllocBytes( 0 );
 
 
 
@@ -393,9 +394,9 @@ E3Memory_Allocate(TQ3Uns32 theSize)
 	{
 		// Update statistics
 		sActiveAllocCount += 1;
-		sMaxAllocCount = E3Num_Max( sMaxAllocCount, sActiveAllocCount );
-		Q3Int64_Uns32_Add( sActiveAllocBytes, e3memGetSize( thePtr ), sActiveAllocBytes );
-		sMaxAllocBytes = e3Int64_Max( sMaxAllocBytes, sActiveAllocBytes );
+		sMaxAllocCount = E3Num_Max( static_cast<int32_t>(sMaxAllocCount), static_cast<int32_t>(sActiveAllocCount) );
+		sActiveAllocBytes += e3memGetSize( thePtr );
+		sMaxAllocBytes = E3Num_Max( static_cast<int64_t>(sMaxAllocBytes), static_cast<int64_t>(sActiveAllocBytes) );
 	}
 #endif
 
@@ -442,9 +443,9 @@ E3Memory_AllocateClear(TQ3Uns32 theSize)
 		{
 		// Update statistics
 		sActiveAllocCount += 1;
-		sMaxAllocCount = E3Num_Max( sMaxAllocCount, sActiveAllocCount );
-		Q3Int64_Uns32_Add( sActiveAllocBytes, e3memGetSize( thePtr ), sActiveAllocBytes );
-		sMaxAllocBytes = e3Int64_Max( sMaxAllocBytes, sActiveAllocBytes );
+		sMaxAllocCount = E3Num_Max( static_cast<int32_t>(sMaxAllocCount), static_cast<int32_t>(sActiveAllocCount) );
+		sActiveAllocBytes += e3memGetSize( thePtr );
+		sMaxAllocBytes = E3Num_Max( static_cast<int64_t>(sMaxAllocBytes), static_cast<int64_t>(sActiveAllocBytes) );
 		}
 #endif
 
@@ -491,7 +492,7 @@ E3Memory_Free(void **thePtr)
 #if Q3_MEMORY_DEBUG
 		// Update statistics
 		sActiveAllocCount -= 1;
-		Q3Int64_Uns32_Subtract( sActiveAllocBytes, e3memGetSize( realPtr ), sActiveAllocBytes );
+		sActiveAllocBytes -= e3memGetSize( realPtr );
 #endif
 
 		// Free the pointer
@@ -564,13 +565,11 @@ E3Memory_Reallocate(void **thePtr, TQ3Uns32 newSize)
 			TQ3Uns32 actualNewSize = e3memGetSize( newPtr );
 			if (actualNewSize > oldSize)
 			{
-				Q3Int64_Uns32_Add( sActiveAllocBytes, actualNewSize - oldSize,
-					sActiveAllocBytes );
+				sActiveAllocBytes += actualNewSize - oldSize;
 			}
 			else
 			{
-				Q3Int64_Uns32_Subtract( sActiveAllocBytes,
-					oldSize - actualNewSize, sActiveAllocBytes );
+				sActiveAllocBytes -= oldSize - actualNewSize;
 			}
 			if (realPtr == nullptr) // actually an allocation?
 			{
@@ -960,8 +959,12 @@ TQ3Status		E3Memory_GetStatistics( TQ3MemoryStatistics* info )
 		if (info->structureVersion == kQ3MemoryStatisticsStructureVersion)
 		{
 			info->currentAllocations = sActiveAllocCount;
-			info->currentBytes = sActiveAllocBytes;
-			info->maxBytes = sMaxAllocBytes;
+			int64_t activeAllocBytes = sActiveAllocBytes;
+			info->currentBytes.lo = activeAllocBytes & 0xFFFFFFFF;
+			info->currentBytes.hi = (activeAllocBytes >> 32);
+			int64_t maxAllocBytes = sMaxAllocBytes;
+			info->maxBytes.lo = maxAllocBytes & 0xFFFFFFFF;
+			info->maxBytes.hi = (maxAllocBytes >> 32);
 			info->maxAllocations = sMaxAllocCount;
 			
 			theResult = kQ3Success;
