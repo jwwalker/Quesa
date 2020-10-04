@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -3290,8 +3290,8 @@ E3DisplayGroup::SetAndUseBoundingBox ( const TQ3BoundingBox *pBBox )
 	{
 	// Set the field
 	displayGroupData.bBox   = *pBBox ;
-	displayGroupData.state |= kQ3DisplayGroupStateMaskHasBoundingBox |
-			kQ3DisplayGroupStateMaskUseBoundingBox;
+	displayGroupData.state |= (int)kQ3DisplayGroupStateMaskHasBoundingBox |
+			(int)kQ3DisplayGroupStateMaskUseBoundingBox;
 	
 	Q3Shared_Edited ( this ) ;
 
@@ -3325,7 +3325,7 @@ TQ3Status
 E3DisplayGroup::RemoveBoundingBox ( void )
 	{
 	// Set the field
-	displayGroupData.state &= ~(kQ3DisplayGroupStateMaskUseBoundingBox | kQ3DisplayGroupStateMaskHasBoundingBox);
+	displayGroupData.state &= ~((int)kQ3DisplayGroupStateMaskUseBoundingBox | (int)kQ3DisplayGroupStateMaskHasBoundingBox);
 	
 	Q3Shared_Edited ( this ) ;
 	
@@ -3372,8 +3372,8 @@ E3DisplayGroup::CalcAndUseBoundingBox ( TQ3ComputeBounds computeBounds, TQ3ViewO
 	if ( err == kQ3Failure )
 		return kQ3Failure ;
 	
-	displayGroupData.state |= kQ3DisplayGroupStateMaskHasBoundingBox |
-			kQ3DisplayGroupStateMaskUseBoundingBox;
+	displayGroupData.state |= (TQ3Uns32)kQ3DisplayGroupStateMaskHasBoundingBox |
+			(TQ3Uns32)kQ3DisplayGroupStateMaskUseBoundingBox;
 	displayGroupData.bBox = theBBox ;
 	Q3Shared_Edited ( this ) ;
 	
