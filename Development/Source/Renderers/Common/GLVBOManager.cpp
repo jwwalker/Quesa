@@ -392,7 +392,7 @@ static VBOCache* GetVBOCache( TQ3GLContext glContext )
 				STL overhead.
 	@param		inVBOs		A vector of CachedVBO*, sorted by geometry.
 	@param		inGeom		A geometry to look for.
-	@result		Iterator pointing to the matching record, or inVBOs.end() if
+	@result		Iterator pointing to the matching record (possibly stale), or inVBOs.end() if
 				there is no matching record.
 */
 static CachedVBOVec::iterator FindVBOByGeom( CachedVBOVec& inVBOs, TQ3GeometryObject inGeom )
@@ -421,7 +421,7 @@ static CachedVBOVec::iterator FindVBOByGeom( CachedVBOVec& inVBOs, TQ3GeometryOb
 		}
 		
 		if ( (lowIndex == highIndex) &&
-			(vboArray[ lowIndex ]->mGeomObject.get() == inGeom) )
+			(vboArray[ lowIndex ]->mSortKey == inGeom) )
 		{
 			CHECK_VBO( vboArray[ lowIndex ] );
 			foundIt = inVBOs.begin() + lowIndex;
@@ -457,7 +457,8 @@ CachedVBO::CachedVBO()
 
 bool	CachedVBO::IsStale() const
 {
-	return static_cast<E3Shared*>( mGeomObject.get() )->GetEditIndex() != mEditIndex;
+	return (mGeomObject.get() == nullptr) ||
+		(static_cast<E3Shared*>( mGeomObject.get() )->GetEditIndex() != mEditIndex);
 }
 
 #pragma mark -
@@ -550,6 +551,22 @@ CachedVBO*		VBOCache::FindVBO( TQ3GeometryObject inGeom, GLenum inMode,
 {
 	VALIDATE_COUNT( this );
 	CachedVBO*	theCachedVBO = nullptr;
+	
+	/*
+		Note: When a geometry is deleted, any associated CachedVBO becomes
+		unreferenced.  These unreferenced CachedVBO instances eventually get
+		cleaned up when FlushVBOCache is called at the end of a render pass.
+		But before that happens, another geometry may be allocated at the same
+		address, causing the creation of another CachedVBO with the same sort
+		key.  If we ever had two CachedVBO with the same sort key in a
+		CachedVBOVec in a VBOCache, it would cause bad behavior.  However,
+		that won't happen:
+		
+		AddVBOToCache is only called if RenderCachedVBO has just returned
+		false.  The attempt to render will have called this function.  It will
+		find and destroy any CachedVBO with the same sort key as the new
+		geometry, then return nullptr.
+	 */
 	
 	CachedVBOVec* whichVec = GetVBOVecForMode( inMode );
 
