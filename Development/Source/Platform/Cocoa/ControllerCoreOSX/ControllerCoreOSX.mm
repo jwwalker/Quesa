@@ -177,6 +177,7 @@ TQ3Status spawnDB(void)
 }
 #endif //#if 0 \ void test_posix_spawn(void)
 
+#if 0
 /*TODO: rework!
  - startDB might not be needed as Device Server will be instantiated by first Quesa framework user.
    This might be either a Device Driver App or a faceless / deamon Device Server App. Or the Module Test App...
@@ -204,6 +205,7 @@ static TQ3Status startDB(void)
     }
     return(status);
 }
+#endif //startDB
 
 //proxy object id of Controller DB vended by Device Server App
 static TQ3Status idOfDB(id *theID)
@@ -211,13 +213,19 @@ static TQ3Status idOfDB(id *theID)
     TQ3Status status = kQ3Failure;
     *theID = nil;
     //fetch vended database object: server name kQuesa3DeviceServer
-#if 0 //ToDo: clean up!
+#if 1 //ToDo: clean up!
     if (nil==privateProxyDB){
-        privateProxyDB = [[NSConnection
-                           rootProxyForConnectionWithRegisteredName:@kQuesa3DeviceServer
-                           host:nil] retain];
+        privateProxyDB = [NSConnection
+                          rootProxyForConnectionWithRegisteredName:@kQuesa3DeviceServer
+                          host:nil];
+#if Q3_DEBUG
+        //ToDo: More error handling might be needed in case device server instance is not found!
+        assert(nil!=privateProxyDB);
+#endif
+        [privateProxyDB retain];
         [privateProxyDB setProtocolForProxy:@protocol(Q3DODeviceDB)];
     }
+    
     *theID = privateProxyDB;
     status = kQ3Success;
 #else //TODO: rework
