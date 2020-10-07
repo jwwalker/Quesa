@@ -21,11 +21,22 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		7F00A01C251B8E2400ED9F40 /* ControllerCoreOSX.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7F00A015251B8E2400ED9F40 /* ControllerCoreOSX.mm */; };
+		7F00A01D251B8E2400ED9F40 /* ControllerCoreOSXinternals.h in Headers */ = {isa = PBXBuildFile; fileRef = 7F00A016251B8E2400ED9F40 /* ControllerCoreOSXinternals.h */; };
+		7F00A01E251B8E2400ED9F40 /* ControllerDriverCoreOSX.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7F00A017251B8E2400ED9F40 /* ControllerDriverCoreOSX.mm */; };
+		7F00A01F251B8E2400ED9F40 /* TrackerCoreOSX.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7F00A018251B8E2400ED9F40 /* TrackerCoreOSX.mm */; };
+		7F00A020251B8E2400ED9F40 /* TrackerCoreOSX.h in Headers */ = {isa = PBXBuildFile; fileRef = 7F00A019251B8E2400ED9F40 /* TrackerCoreOSX.h */; };
+		7F00A021251B8E2400ED9F40 /* ControllerCoreOSX.h in Headers */ = {isa = PBXBuildFile; fileRef = 7F00A01A251B8E2400ED9F40 /* ControllerCoreOSX.h */; };
+		7F00A022251B8E2400ED9F40 /* ControllerDriverCoreOSX.h in Headers */ = {isa = PBXBuildFile; fileRef = 7F00A01B251B8E2400ED9F40 /* ControllerDriverCoreOSX.h */; };
+		7F43581F251BAADE005E2D3C /* IPCprotocolPDO.h in Headers */ = {isa = PBXBuildFile; fileRef = 7F43581B251BAADE005E2D3C /* IPCprotocolPDO.h */; };
 		7F55E9C8239A8A8800468537 /* QD3DController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7F55E9C7239A8A8800468537 /* QD3DController.cpp */; };
 		7F55E9C9239A8A8800468537 /* QD3DController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7F55E9C7239A8A8800468537 /* QD3DController.cpp */; };
 		7F55E9CC239A8AB300468537 /* E3Controller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7F55E9CA239A8AB300468537 /* E3Controller.cpp */; };
 		7F55E9CD239A8AB300468537 /* E3Controller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7F55E9CA239A8AB300468537 /* E3Controller.cpp */; };
 		7F55E9D0239A8B6E00468537 /* QuesaController.h in Headers */ = {isa = PBXBuildFile; fileRef = 7F55E9CF239A8B6E00468537 /* QuesaController.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7FAFC28A251B98D100013244 /* TrackerCoreOSX.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7F00A018251B8E2400ED9F40 /* TrackerCoreOSX.mm */; };
+		7FAFC28E251B98D300013244 /* ControllerDriverCoreOSX.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7F00A017251B8E2400ED9F40 /* ControllerDriverCoreOSX.mm */; };
+		7FAFC292251B98D600013244 /* ControllerCoreOSX.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7F00A015251B8E2400ED9F40 /* ControllerCoreOSX.mm */; };
 		AB3A7CA6055E63B200CA83BE /* E3GeometryBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7B87055E63B100CA83BE /* E3GeometryBox.cpp */; };
 		AB3A7CA8055E63B200CA83BE /* E3GeometryCone.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7B89055E63B100CA83BE /* E3GeometryCone.cpp */; };
 		AB3A7CAA055E63B200CA83BE /* E3GeometryCylinder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7B8B055E63B100CA83BE /* E3GeometryCylinder.cpp */; };
@@ -317,6 +328,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7F00A015251B8E2400ED9F40 /* ControllerCoreOSX.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = ControllerCoreOSX.mm; path = ControllerCoreOSX/ControllerCoreOSX.mm; sourceTree = "<group>"; };
+		7F00A016251B8E2400ED9F40 /* ControllerCoreOSXinternals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ControllerCoreOSXinternals.h; path = ControllerCoreOSX/ControllerCoreOSXinternals.h; sourceTree = "<group>"; };
+		7F00A017251B8E2400ED9F40 /* ControllerDriverCoreOSX.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = ControllerDriverCoreOSX.mm; path = ControllerCoreOSX/ControllerDriverCoreOSX.mm; sourceTree = "<group>"; };
+		7F00A018251B8E2400ED9F40 /* TrackerCoreOSX.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = TrackerCoreOSX.mm; path = ControllerCoreOSX/TrackerCoreOSX.mm; sourceTree = "<group>"; };
+		7F00A019251B8E2400ED9F40 /* TrackerCoreOSX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TrackerCoreOSX.h; path = ControllerCoreOSX/TrackerCoreOSX.h; sourceTree = "<group>"; };
+		7F00A01A251B8E2400ED9F40 /* ControllerCoreOSX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ControllerCoreOSX.h; path = ControllerCoreOSX/ControllerCoreOSX.h; sourceTree = "<group>"; };
+		7F00A01B251B8E2400ED9F40 /* ControllerDriverCoreOSX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ControllerDriverCoreOSX.h; path = ControllerCoreOSX/ControllerDriverCoreOSX.h; sourceTree = "<group>"; };
+		7F43581B251BAADE005E2D3C /* IPCprotocolPDO.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPCprotocolPDO.h; sourceTree = "<group>"; };
 		7F55E9C7239A8A8800468537 /* QD3DController.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; path = QD3DController.cpp; sourceTree = "<group>"; };
 		7F55E9CA239A8AB300468537 /* E3Controller.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 4; path = E3Controller.cpp; sourceTree = "<group>"; };
 		7F55E9CB239A8AB300468537 /* E3Controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = E3Controller.h; sourceTree = "<group>"; };
@@ -430,7 +449,7 @@
 		AB3A7BF5055E63B100CA83BE /* E3Light.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; path = E3Light.cpp; sourceTree = "<group>"; };
 		AB3A7BF6055E63B100CA83BE /* E3Light.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3Light.h; sourceTree = "<group>"; };
 		AB3A7BF7055E63B100CA83BE /* E3Main.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; path = E3Main.cpp; sourceTree = "<group>"; };
-		AB3A7BF8055E63B100CA83BE /* E3Main.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3Main.h; sourceTree = "<group>"; };
+		AB3A7BF8055E63B100CA83BE /* E3Main.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 30; path = E3Main.h; sourceTree = "<group>"; };
 		AB3A7BF9055E63B100CA83BE /* E3Math.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; path = E3Math.cpp; sourceTree = "<group>"; };
 		AB3A7BFA055E63B100CA83BE /* E3Math.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3Math.h; sourceTree = "<group>"; };
 		AB3A7BFB055E63B100CA83BE /* E3Memory.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; path = E3Memory.cpp; sourceTree = "<group>"; };
@@ -659,6 +678,28 @@
 				AB83B949055E77870034F56A /* Platform */,
 			);
 			name = Source;
+			sourceTree = "<group>";
+		};
+		7F00A014251B8E0B00ED9F40 /* ControllerCore */ = {
+			isa = PBXGroup;
+			children = (
+				7F00A01A251B8E2400ED9F40 /* ControllerCoreOSX.h */,
+				7F00A015251B8E2400ED9F40 /* ControllerCoreOSX.mm */,
+				7F00A016251B8E2400ED9F40 /* ControllerCoreOSXinternals.h */,
+				7F00A01B251B8E2400ED9F40 /* ControllerDriverCoreOSX.h */,
+				7F00A017251B8E2400ED9F40 /* ControllerDriverCoreOSX.mm */,
+				7F00A019251B8E2400ED9F40 /* TrackerCoreOSX.h */,
+				7F00A018251B8E2400ED9F40 /* TrackerCoreOSX.mm */,
+			);
+			name = ControllerCore;
+			sourceTree = "<group>";
+		};
+		7F435817251BAADE005E2D3C /* IPC */ = {
+			isa = PBXGroup;
+			children = (
+				7F43581B251BAADE005E2D3C /* IPCprotocolPDO.h */,
+			);
+			path = IPC;
 			sourceTree = "<group>";
 		};
 		AB3A7B83055E63B100CA83BE /* Core */ = {
@@ -1089,6 +1130,8 @@
 		BEFFD7CE0C4C86E100202EA8 /* Cocoa */ = {
 			isa = PBXGroup;
 			children = (
+				7F435817251BAADE005E2D3C /* IPC */,
+				7F00A014251B8E0B00ED9F40 /* ControllerCore */,
 				BEFFD7CF0C4C86E100202EA8 /* E3CocoaDrawContext.mm */,
 				BEFFD7D20C4C86E100202EA8 /* E3CocoaPrefix.h */,
 				BE513DC122BAF18400545AF8 /* E3MacLog.h */,
@@ -1107,6 +1150,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AB83B5F0055E72B90034F56A /* Quesa.h in Headers */,
+				7F00A020251B8E2400ED9F40 /* TrackerCoreOSX.h in Headers */,
 				AB83B5F1055E72B90034F56A /* QuesaCamera.h in Headers */,
 				BE0A2473233BDD16003E6635 /* GLImmediateVBO.h in Headers */,
 				AB83B5F3055E72B90034F56A /* QuesaCustomElements.h in Headers */,
@@ -1114,6 +1158,7 @@
 				AB83B5F5055E72B90034F56A /* QuesaErrors.h in Headers */,
 				AB83B5F6055E72B90034F56A /* QuesaExtension.h in Headers */,
 				AB83B5F7055E72B90034F56A /* QuesaGeometry.h in Headers */,
+				7F00A022251B8E2400ED9F40 /* ControllerDriverCoreOSX.h in Headers */,
 				AB83B5F8055E72B90034F56A /* QuesaGroup.h in Headers */,
 				AB83B5F9055E72B90034F56A /* QuesaIO.h in Headers */,
 				BE513DC422BAF18400545AF8 /* E3MacLog.h in Headers */,
@@ -1121,6 +1166,7 @@
 				AB83B5FB055E72B90034F56A /* QuesaMath.h in Headers */,
 				AB83B5FC055E72B90034F56A /* QuesaMemory.h in Headers */,
 				AB83B5FD055E72B90034F56A /* QuesaPick.h in Headers */,
+				7F00A021251B8E2400ED9F40 /* ControllerCoreOSX.h in Headers */,
 				AB83B5FE055E72B90034F56A /* QuesaRenderer.h in Headers */,
 				AB83B5FF055E72B90034F56A /* QuesaSet.h in Headers */,
 				BE2BCA3123F4BE6C00AE7F4A /* QOGLSLShaders.h in Headers */,
@@ -1131,7 +1177,9 @@
 				AB83B603055E72B90034F56A /* QuesaStyle.h in Headers */,
 				AB83B604055E72B90034F56A /* QuesaTransform.h in Headers */,
 				AB83B605055E72B90034F56A /* QuesaView.h in Headers */,
+				7F00A01D251B8E2400ED9F40 /* ControllerCoreOSXinternals.h in Headers */,
 				BEDC045908A57B8100FB3A82 /* CQ3ObjectRef.h in Headers */,
+				7F43581F251BAADE005E2D3C /* IPCprotocolPDO.h in Headers */,
 				BE392D090B6D0CCA00A351AC /* CQ3ObjectRef_Gets.h in Headers */,
 				BE7F276E0B7C0D9000933ED1 /* Q3GroupIterator.h in Headers */,
 				BE097F3B156DCE85009AACEF /* QuesaMathOperators.hpp in Headers */,
@@ -1181,7 +1229,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1020;
+				LastUpgradeCheck = 1200;
 				TargetAttributes = {
 					BEB0612622A02A5D00B494D6 = {
 						CreatedOnToolsVersion = 10.2.1;
@@ -1300,6 +1348,7 @@
 				AB3A7D09055E63B200CA83BE /* E3Extension.cpp in Sources */,
 				AB3A7D0B055E63B200CA83BE /* E3Group.cpp in Sources */,
 				AB3A7D0D055E63B200CA83BE /* E3IO.cpp in Sources */,
+				7F00A01C251B8E2400ED9F40 /* ControllerCoreOSX.mm in Sources */,
 				AB3A7D0F055E63B200CA83BE /* E3IOData.cpp in Sources */,
 				AB3A7D11055E63B200CA83BE /* E3Light.cpp in Sources */,
 				AB3A7D13055E63B200CA83BE /* E3Main.cpp in Sources */,
@@ -1311,6 +1360,7 @@
 				AB3A7D1F055E63B200CA83BE /* E3Shader.cpp in Sources */,
 				AB3A7D21055E63B200CA83BE /* E3Storage.cpp in Sources */,
 				AB3A7D23055E63B200CA83BE /* E3String.cpp in Sources */,
+				7F00A01E251B8E2400ED9F40 /* ControllerDriverCoreOSX.mm in Sources */,
 				AB3A7D25055E63B200CA83BE /* E3Style.cpp in Sources */,
 				AB3A7D27055E63B200CA83BE /* E3Texture.cpp in Sources */,
 				AB3A7D29055E63B200CA83BE /* E3Transform.cpp in Sources */,
@@ -1359,6 +1409,7 @@
 				BE8D58CA0B7D3EA2007ACFE4 /* OptimizedTriMeshElement.cpp in Sources */,
 				BE806FCE0BCDCCEA008CD86A /* QOGLShadingLanguage.cpp in Sources */,
 				BE0D64FE0C0D0FFC00D3D79C /* QOCalcTriMeshEdges.cpp in Sources */,
+				7F00A01F251B8E2400ED9F40 /* TrackerCoreOSX.mm in Sources */,
 				BE0D65000C0D0FFC00D3D79C /* QOShadowMarker.cpp in Sources */,
 				BE6C6F520C134DD300FBD60D /* E3Math_Intersect.cpp in Sources */,
 				BEFFD7D50C4C86E100202EA8 /* E3CocoaDrawContext.mm in Sources */,
@@ -1438,6 +1489,7 @@
 				B1756B82080A73C00056134C /* QD3DTransform.cpp in Sources */,
 				B1756B83080A73C00056134C /* E3FFR_3DMF_Geometry.cpp in Sources */,
 				B1756B84080A73C00056134C /* E3GeometryTriangle.cpp in Sources */,
+				7FAFC292251B98D600013244 /* ControllerCoreOSX.mm in Sources */,
 				B1756B87080A73C00056134C /* QD3DErrors.cpp in Sources */,
 				B1756B88080A73C00056134C /* E3Pick.cpp in Sources */,
 				B1756B89080A73C00056134C /* QD3DGroup.cpp in Sources */,
@@ -1449,6 +1501,7 @@
 				B1756B90080A73C00056134C /* E3GeometryPixmapMarker.cpp in Sources */,
 				B1756B91080A73C00056134C /* E3FFW_3DMFBin_Geometry.cpp in Sources */,
 				B1756B92080A73C00056134C /* QD3DCustomElements.cpp in Sources */,
+				7FAFC28E251B98D300013244 /* ControllerDriverCoreOSX.mm in Sources */,
 				B1756B93080A73C00056134C /* E3String.cpp in Sources */,
 				B1756B94080A73C00056134C /* E3Shader.cpp in Sources */,
 				B1756B95080A73C00056134C /* E3Main.cpp in Sources */,
@@ -1496,6 +1549,7 @@
 				BE7F26EA0B7BB92C00933ED1 /* QOUpdate.cpp in Sources */,
 				BE8D58CE0B7D3EA2007ACFE4 /* OptimizedTriMeshElement.cpp in Sources */,
 				BE806FD10BCDCCEA008CD86A /* QOGLShadingLanguage.cpp in Sources */,
+				7FAFC28A251B98D100013244 /* TrackerCoreOSX.mm in Sources */,
 				BE0D65050C0D0FFC00D3D79C /* QOCalcTriMeshEdges.cpp in Sources */,
 				BE0D65060C0D0FFC00D3D79C /* QOShadowMarker.cpp in Sources */,
 				BE6C6F550C134DD300FBD60D /* E3Math_Intersect.cpp in Sources */,
@@ -1542,6 +1596,7 @@
 					"Q3_VALIDATE_DRAW_ELEMENTS=1",
 				);
 				GCC_WARN_PROTOTYPE_CONVERSION = YES;
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_BUNDLE_IDENTIFIER = org.Quesa.Quesa;
 				SKIP_INSTALL = NO;
@@ -1555,6 +1610,7 @@
 				CLANG_UNDEFINED_BEHAVIOR_SANITIZER_NULLABILITY = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				INSTALL_PATH = "$(USER_LIBRARY_DIR)/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				PRODUCT_BUNDLE_IDENTIFIER = org.Quesa.Quesa;
 				SKIP_INSTALL = NO;
@@ -1582,6 +1638,7 @@
 			baseConfigurationReference = BE5D0F5F15B79B3C00E3DBE4 /* Modern-Debug.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
@@ -1594,6 +1651,7 @@
 			baseConfigurationReference = BE5D0F6015B79B6500E3DBE4 /* Modern-Release.xcconfig */;
 			buildSettings = {
 				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 			};

@@ -5,7 +5,7 @@
         Cocoa specific draw context implementation.
 
     COPYRIGHT:
-        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -114,10 +114,9 @@ public :
 {
 	// Grab our bounds
 	NSRect viewBounds = _view.bounds;
-	if ( [_view isKindOfClass: [NSOpenGLView class]] && (_view.layer != nil) && (_view.layer.contentsScale != 1.0) )
+	if (@available( macOS 10.15, * ))
 	{
-		viewBounds.size.width *= _view.layer.contentsScale;
-		viewBounds.size.height *= _view.layer.contentsScale;
+		viewBounds = [_view convertRectToBacking: viewBounds];
 	}
 
 	// Reset our state, and update the size of the draw context pane    
@@ -254,10 +253,9 @@ e3drawcontext_cocoa_get_dimensions(TQ3DrawContextObject theDrawContext, TQ3Area 
 	TQ3CocoaDrawContextData& cocoaData( instanceData->data.cocoaData.theData );
 	NSView* theView = (NSView*) cocoaData.nsView;
 	NSRect	viewBounds = theView.bounds;
-	if ( [theView isKindOfClass: [NSOpenGLView class]] && (theView.layer != nil) && (theView.layer.contentsScale != 1.0) )
+	if (@available( macOS 10.15, * ))
 	{
-		viewBounds.size.width *= theView.layer.contentsScale;
-		viewBounds.size.height *= theView.layer.contentsScale;
+		viewBounds = [theView convertRectToBacking: viewBounds];
 	}
 	thePane->min.x = (float) viewBounds.origin.x;
 	thePane->min.y = (float) viewBounds.origin.y;

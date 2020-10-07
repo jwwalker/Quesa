@@ -5,7 +5,7 @@
         Windows debug implementation.
 
     COPYRIGHT:
-        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -175,7 +175,7 @@ void		E3LogMessage( const char* inMessage )
 	
 	if (sLogFile != NULL)
 	{
-		fprintf( sLogFile, inMessage );
+		fprintf( sLogFile, "%s", inMessage );
 		fflush( sLogFile );
 	}
 }

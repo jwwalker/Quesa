@@ -42,11 +42,28 @@
 */
 #ifndef E3COCOAPREFIX_HDR
 #define E3COCOAPREFIX_HDR
+
+//=============================================================================
+//      Cocoa specific defines
+//-----------------------------------------------------------------------------
+
+// compile controller support in
+#ifndef QUESA_SUPPORT_CONTROLLER
+    #define QUESA_SUPPORT_CONTROLLER            1
+#endif
+
+#if Q3_DEBUG
+    #if QUESA_SUPPORT_CONTROLLER
+        #warning QUESA_SUPPORT_CONTROLLER is set
+    #else
+        #warning QUESA_SUPPORT_CONTROLLER not set
+    #endif
+#endif
+
 //=============================================================================
 //      Include files
 //-----------------------------------------------------------------------------
 // Include files go here
-
 
 
 

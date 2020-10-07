@@ -491,9 +491,12 @@ TQ3StackCrawl
 E3StackCrawl_New()
 {
 #ifdef QUESA_NO_STACK_CRAWL
-	return nullptr;
+    return nullptr;
 #else
-	TQ3StackCrawl	theCrawl = new TQ3StackCrawlRec;
+    #if 0
+        #warning QUESA STACK_CRAWL is active
+    #endif
+    TQ3StackCrawl	theCrawl = new TQ3StackCrawlRec;
 
 	StackFrame	*frame;
 	int			index;

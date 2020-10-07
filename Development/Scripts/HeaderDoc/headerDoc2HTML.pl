@@ -670,7 +670,7 @@ print "REDO" if ($debugging);
 						$declaration =~ s/^\s+//g;				# trim leading spaces.
 						$declaration =~ s/([^;]*;).*$/$1/s;		# trim anything following the final semicolon, 
                                                                 # including comments.
-						$declaration =~ s/([^{]+){.*;$/$1;/s;   # handle inline functions [#2423551]
+						$declaration =~ s/([^{]+)\{.*;$/$1;/s;   # handle inline functions [#2423551]
                                                                 # by removing opening brace up to semicolon
 						$declaration =~ s/\s+;/;/;				# trim spaces before semicolon.
 						if ($declaration =~ /^virtual.*/) {

@@ -223,7 +223,8 @@ void E3MacMachoFrameworkTerminate()
 TQ3Status
 E3MacSystem_Initialise(void)
 {
-
+#warning start device server
+// ToDo: start the device server from inside first library instance!
 
 
 	return(kQ3Success);

@@ -49,7 +49,6 @@
 
 #include <new>
 
-
 #include "E3Memory.h"
 #include "E3HashTable.h"
 

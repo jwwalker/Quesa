@@ -165,14 +165,14 @@ Q3Controller_New(const TQ3ControllerData *controllerData)
 
 
 	// Release build checks
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(controllerData), NULL);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(controllerData), nullptr);
 
 
 
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on controllerData
-		return(NULL);
+		return(nullptr);
 #endif
 
 
@@ -1006,7 +1006,7 @@ Q3ControllerState_New(TQ3ControllerRef controllerRef)
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on controllerRef
-		return(NULL);
+		return(nullptr);
 #endif
 
 
@@ -1107,7 +1107,7 @@ Q3Tracker_New(TQ3TrackerNotifyFunc notifyFunc)
 	// Debug build checks
 #if Q3_DEBUG
 	if (0) // Further checks on notifyFunc
-		return(NULL);
+		return(nullptr);
 #endif
 
 

@@ -1,11 +1,11 @@
 /*  NAME:
-        GLVBOManager.c
+        GLVBOManager.cpp
 
     DESCRIPTION:
         Quesa OpenGL vertex buffer object caching.
        
     COPYRIGHT:
-        Copyright (c) 2007-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2020, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -293,11 +293,10 @@ void				DumpVBOs( void )
 {
 	Q3_ASSERT_FMT( sVBORecords != nullptr, "Debug log of VBOs was not started");
 	Q3_MESSAGE_FMT("==== Dump of VBO log ====");
-	VBOMap::iterator endRecs = sVBORecords->end();
-	for (VBOMap::iterator i = sVBORecords->begin(); i != endRecs; ++i)
+	for (auto vboPair: *sVBORecords)
 	{
 		Q3_MESSAGE_FMT("ID %d, size %lu, geom %p, kind %d", (int) i->first,
-			(unsigned long) i->second.byteCount, i->second.geom, i->second.kind );
+			(unsigned long) vboPair.second.byteCount, vboPair.second.geom, vboPair.second.kind );
 	}
 	Q3_MESSAGE_FMT("==== End VBO log ====");
 }
@@ -393,7 +392,7 @@ static VBOCache* GetVBOCache( TQ3GLContext glContext )
 				STL overhead.
 	@param		inVBOs		A vector of CachedVBO*, sorted by geometry.
 	@param		inGeom		A geometry to look for.
-	@result		Iterator pointing to the matching record, or inVBOs.end() if
+	@result		Iterator pointing to the matching record (possibly stale), or inVBOs.end() if
 				there is no matching record.
 */
 static CachedVBOVec::iterator FindVBOByGeom( CachedVBOVec& inVBOs, TQ3GeometryObject inGeom )
@@ -422,7 +421,7 @@ static CachedVBOVec::iterator FindVBOByGeom( CachedVBOVec& inVBOs, TQ3GeometryOb
 		}
 		
 		if ( (lowIndex == highIndex) &&
-			(vboArray[ lowIndex ]->mGeomObject.get() == inGeom) )
+			(vboArray[ lowIndex ]->mSortKey == inGeom) )
 		{
 			CHECK_VBO( vboArray[ lowIndex ] );
 			foundIt = inVBOs.begin() + lowIndex;
@@ -458,7 +457,8 @@ CachedVBO::CachedVBO()
 
 bool	CachedVBO::IsStale() const
 {
-	return static_cast<E3Shared*>( mGeomObject.get() )->GetEditIndex() != mEditIndex;
+	return (mGeomObject.get() == nullptr) ||
+		(static_cast<E3Shared*>( mGeomObject.get() )->GetEditIndex() != mEditIndex);
 }
 
 #pragma mark -
@@ -551,6 +551,22 @@ CachedVBO*		VBOCache::FindVBO( TQ3GeometryObject inGeom, GLenum inMode,
 {
 	VALIDATE_COUNT( this );
 	CachedVBO*	theCachedVBO = nullptr;
+	
+	/*
+		Note: When a geometry is deleted, any associated CachedVBO becomes
+		unreferenced.  These unreferenced CachedVBO instances eventually get
+		cleaned up when FlushVBOCache is called at the end of a render pass.
+		But before that happens, another geometry may be allocated at the same
+		address, causing the creation of another CachedVBO with the same sort
+		key.  If we ever had two CachedVBO with the same sort key in a
+		CachedVBOVec in a VBOCache, it would cause bad behavior.  However,
+		that won't happen:
+		
+		AddVBOToCache is only called if RenderCachedVBO has just returned
+		false.  The attempt to render will have called this function.  It will
+		find and destroy any CachedVBO with the same sort key as the new
+		geometry, then return nullptr.
+	 */
 	
 	CachedVBOVec* whichVec = GetVBOVecForMode( inMode );
 
@@ -713,32 +729,28 @@ void	VBOCache::DeleteVBO( CachedVBO* inCachedVBO, const QORenderer::GLFuncs& inF
 
 void	VBOCache::DeleteCachedVBOs( CachedVBOVec& inVBOs, const QORenderer::GLFuncs& inFuncs )
 {
-	CachedVBOVec::iterator endIt = inVBOs.end();
-	for (CachedVBOVec::iterator i = inVBOs.begin(); i != endIt; ++i)
+	for (auto& vboPtr : inVBOs)
 	{
-		DeleteVBO( *i, inFuncs );
+		DeleteVBO( vboPtr, inFuncs );
 	}
 }
 
 void	VBOCache::FlushUnreferencedInVec( CachedVBOVec& ioVBOs, const QORenderer::GLFuncs& inFuncs )
 {
 	// Move unreferenced VBOs to end of list
-	CachedVBOVec::iterator startUnused = std::stable_partition(
+	auto startUnused = std::stable_partition(
 		ioVBOs.begin(), ioVBOs.end(), IsReferenced() );
 	
 	if (startUnused != ioVBOs.end())
 	{
-		// Make a copy of the records that will go away
-		CachedVBOVec	doomedVBOs( startUnused, ioVBOs.end() );
-		
-		// Remove them from the normal array
-		ioVBOs.erase( startUnused, ioVBOs.end() );
-
 		// Delete the buffers for the VBO records that are going away
-		for (CachedVBOVec::iterator i = doomedVBOs.begin(); i != doomedVBOs.end(); ++i)
+		for (auto i = startUnused; i != ioVBOs.end(); ++i)
 		{
 			DeleteVBO( *i, inFuncs );
 		}
+		
+		// Remove them from the array
+		ioVBOs.erase( startUnused, ioVBOs.end() );
 	}
 }
 

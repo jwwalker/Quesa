@@ -12,7 +12,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -4306,7 +4306,7 @@ Q3Math_InvSquareRoot (
 
 #define __Q3FastVector2D_Length(_v)											\
 	(																		\
-		(float) sqrt(__Q3FastVector2D_LengthSquared(_v))					\
+		(float) sqrtf(__Q3FastVector2D_LengthSquared(_v))					\
 	)																		\
 
 #define __Q3FastVector2D_LengthSquared(_v)									\
@@ -4317,7 +4317,7 @@ Q3Math_InvSquareRoot (
 
 #define __Q3FastVector3D_Length(_v)											\
 	(																		\
-		(float) sqrt(__Q3FastVector3D_LengthSquared(_v))					\
+		(float) sqrtf(__Q3FastVector3D_LengthSquared(_v))					\
 	)																		\
 
 #define __Q3FastVector3D_LengthSquared(_v)									\
@@ -4329,7 +4329,7 @@ Q3Math_InvSquareRoot (
 
 #define __Q3FastPoint2D_Distance(_p1, _p2)									\
 	(																		\
-		(float) sqrt(__Q3FastPoint2D_DistanceSquared(_p1, _p2))				\
+		(float) sqrtf(__Q3FastPoint2D_DistanceSquared(_p1, _p2))				\
 	)																		\
 
 #define __Q3FastPoint2D_DistanceSquared(_p1, _p2)							\
@@ -4352,7 +4352,7 @@ Q3Math_InvSquareRoot (
 
 #define __Q3FastRationalPoint3D_Distance(_p1, _p2)							\
 	(																		\
-		(float) sqrt(__Q3FastRationalPoint3D_DistanceSquared(_p1, _p2))		\
+		(float) sqrtf(__Q3FastRationalPoint3D_DistanceSquared(_p1, _p2))		\
 	)																		\
 
 #define __Q3FastRationalPoint3D_DistanceSquared(_p1, _p2)					\
@@ -4363,7 +4363,7 @@ Q3Math_InvSquareRoot (
 
 #define __Q3FastPoint3D_Distance(_p1, _p2)									\
 	(																		\
-		(float) sqrt(__Q3FastPoint3D_DistanceSquared(_p1, _p2))				\
+		(float) sqrtf(__Q3FastPoint3D_DistanceSquared(_p1, _p2))				\
 	)																		\
 
 #define __Q3FastPoint3D_DistanceSquared(_p1, _p2)							\
@@ -4375,7 +4375,7 @@ Q3Math_InvSquareRoot (
 
 #define __Q3FastRationalPoint4D_Distance(_p1, _p2)							\
 	(																		\
-		(float) sqrt(__Q3FastRationalPoint4D_DistanceSquared(_p1, _p2))		\
+		(float) sqrtf(__Q3FastRationalPoint4D_DistanceSquared(_p1, _p2))		\
 	)																		\
 
 #define __Q3FastRationalPoint4D_DistanceSquared(_p1, _p2)					\

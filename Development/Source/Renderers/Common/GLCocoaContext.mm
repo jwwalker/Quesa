@@ -1,5 +1,5 @@
 /*  NAME:
-        GLCocoaContext.m
+        GLCocoaContext.mm
 
     DESCRIPTION:
         Interface to NSOpenGLContext for Cocoa support.
@@ -9,7 +9,7 @@
         access the Cocoa OpenGL API then this is handled as a special case.
 
     COPYRIGHT:
-        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -250,10 +250,9 @@ CocoaGLContext::CocoaGLContext(
 				// Get the view bounds from the NSView for the initial gl viewport
 				// and the default draw context pane if it's needed.
 				viewFrame = theView.bounds;
-				if ( [theView isKindOfClass: [NSOpenGLView class]] && (theView.layer != nil) && (theView.layer.contentsScale != 1.0) )
+				if (@available( macOS 10.15, * ))
 				{
-					viewFrame.size.width *= theView.layer.contentsScale;
-					viewFrame.size.height *= theView.layer.contentsScale;
+					viewFrame = [theView convertRectToBacking: viewFrame];
 				}
 				// Previously I was getting a cached version of the view frame because
 				// -[NSView bounds] can't be called from a thread other than the main
@@ -389,7 +388,13 @@ void	CocoaGLContext::SetCurrentBase( TQ3Boolean inForceSet )
 		{
 			//Q3_LOG_FMT("Quesa making context %p current", glContext);
 			[glContext makeCurrentContext];
-			CHECK_GL_ERROR;
+			// It's not clear what it could mean for there to be an OpenGL error
+			// right after the context has been made current...
+			GLenum err;
+			while ( (err = glGetError()) != GL_NO_ERROR )
+			{
+				Q3_MESSAGE_FMT("%s after makeCurrentContext", GLUtils_GLErrorToString(err));
+			}
 		}
 	}
 }
@@ -416,10 +421,9 @@ bool	CocoaGLContext::UpdateWindowSize()
 	
 	NSView* theView = (NSView*) nsView;
 	NSRect viewFrame = theView.bounds;
-	if ( [theView isKindOfClass: [NSOpenGLView class]] && (theView.layer != nil) && (theView.layer.contentsScale != 1.0) )
+	if (@available( macOS 10.15, * ))
 	{
-		viewFrame.size.width *= theView.layer.contentsScale;
-		viewFrame.size.height *= theView.layer.contentsScale;
+		viewFrame = [theView convertRectToBacking: viewFrame];
 	}
 	
 	TQ3DrawContextData				drawContextData;

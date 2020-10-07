@@ -6,6 +6,9 @@ LIBRARY_STYLE = DYNAMIC
 WRAPPER_EXTENSION = framework
 INSTALL_PATH = @executable_path/../Frameworks/
 SKIP_INSTALL = YES
+//INSTALL_PATH = $(USER_LIBRARY_DIR)/Frameworks
+//INSTALL_PATH = $(DSTROOT)
+//SKIP_INSTALL = NO
 
 // Info.plist.  Preprocess it so that the version placeholder is replaced with the actual version.
 INFOPLIST_FILE = ../../Source/Platform/Mac/Resources/Info.plist

@@ -48,12 +48,16 @@
 #include "E3Main.h"
 
 #if QUESA_SUPPORT_CONTROLLER
-#warning QUESA_SUPPORT_CONTROLLER
-#include <ControllerCoreOSX_pdo_IPC/ControllerCoreOSX.h>
-//#include <ControllerCoreOSX/ControllerCoreOSX.h>
-#else
-#warning QUESA_SUPPORT_CONTROLLER not set
-#endif 
+    #include "ControllerCoreOSX.h"
+#endif
+
+#if 0
+    #if QUESA_SUPPORT_CONTROLLER
+        #warning QUESA_SUPPORT_CONTROLLER set in E3Controller.cpp
+    #else
+        #warning QUESA_SUPPORT_CONTROLLER not set
+    #endif
+#endif
 
 
 //=============================================================================
@@ -119,7 +123,7 @@ e3tracker_new(TQ3Object theObject, void *privateData, const void *paramData)
 
 	// Initialise our instance data
 	*instanceData = CC3OSXTracker_New(theObject,theFunc);	
-	if (*instanceData == NULL)
+	if (*instanceData == nullptr)
 		return(kQ3Failure);
 	else
 		return(kQ3Success);
@@ -197,10 +201,7 @@ e3tracker_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3tracker_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
-
-
-
+{	TQ3XFunctionPointer		theMethod = nullptr;
 	// Return our methods
 	switch (methodType) {
 		case kQ3XMethodTypeObjectNew:
@@ -235,7 +236,7 @@ e3controllerstate_new(TQ3Object theObject, void *privateData, const void *paramD
 
 	// Initialise our instance data
 	*instanceData = CC3OSXControllerState_New(theObject,theController);	
-	if (*instanceData == NULL)
+	if (*instanceData == nullptr)
 		return(kQ3Failure);
 	else
 		return(kQ3Success);
@@ -313,11 +314,9 @@ e3controllerstate_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
 e3controllerstate_metahandler(TQ3XMethodType methodType)
-{	TQ3XFunctionPointer		theMethod = NULL;
+{	TQ3XFunctionPointer		theMethod = nullptr;
 
-
-
-	// Return our methods
+    // Return our methods
 	switch (methodType) {
 		case kQ3XMethodTypeObjectNew:
 			theMethod = (TQ3XFunctionPointer) e3controllerstate_new;
@@ -540,8 +539,8 @@ E3Controller_SetTracker(TQ3ControllerRef controllerRef, TQ3TrackerObject tracker
 {
 	TQ3Status	status = kQ3Failure;
 #if QUESA_SUPPORT_CONTROLLER
-	if (tracker==NULL)
-		status=CC3OSXController_SetTracker(controllerRef, NULL);
+    if (tracker==nullptr)
+		status=CC3OSXController_SetTracker(controllerRef, nullptr);
 	else	
 		status=CC3OSXController_SetTracker(controllerRef, ( (E3Tracker*) tracker )->instanceData);
 #endif

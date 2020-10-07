@@ -68,7 +68,9 @@
 #include "E3CustomElements.h"
 #include "E3IOFileFormat.h"
 #include "E3StackCrawl.h"
-
+#if QUESA_SUPPORT_CONTROLLER
+    #include "E3Controller.h"
+#endif
 
 #if QUESA_OS_MACINTOSH
 	#include <libkern/OSAtomic.h>

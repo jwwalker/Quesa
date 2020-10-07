@@ -142,7 +142,6 @@ sub attribute {
         }
     }
 
-    # %attlist->{$name}=$attribute;
     $attlist{$name}=$attribute;
 
     if ($long) {
@@ -173,7 +172,7 @@ sub getAttributes
         }
 
         foreach my $key (sort keys %attlist) {
-	    my $value = $attlist{$key};
+	    my $value = %attlist{$key};
 	    my $newatt = $value;
 	    if ($key eq "Superclass") {
 		my $ref = $self->make_classref($value);
@@ -191,7 +190,7 @@ sub getAttributes
         }
 
         foreach my $key (sort keys %attlist) {
-	    my $value = $attlist{$key};
+	    my $value = %attlist{$key};
 	    $retval .= "<b>$key:</b>\n\n<p>$value<p>\n";
         }
     }
@@ -233,7 +232,7 @@ sub getAttributeLists
     foreach my $key (sort keys %attlists) {
 	$retval .= "<b>$key:</b><dl>\n";
 	print "key $key\n" if ($localDebug);
-	my @list = @{$attlists{$key}};
+	my @list = @{%attlists{$key}};
 	foreach my $item (@list) {
 	    print "item: $item\n" if ($localDebug);
 	    my ($name, $disc) = &getAPINameAndDisc($item);
@@ -264,8 +263,8 @@ sub attributelist {
     }
 
     my @list = ();
-    if ($attlists{$name}) {
-	@list = @{$attlists{$name}};
+    if (%attlists{$name}) {
+	@list = @{%attlists{$name}};
     }
     push(@list, $attribute);
 
