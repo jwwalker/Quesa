@@ -231,7 +231,7 @@ E3MacSystem_Initialise(void)
 #endif
     //start the device server from inside first library instantiation!
     startDeviceDB();
-    //ToDo: more error handling needed
+    //TODO: more error handling needed
     status = kQ3Success;
 #else
     status = kQ3Success;

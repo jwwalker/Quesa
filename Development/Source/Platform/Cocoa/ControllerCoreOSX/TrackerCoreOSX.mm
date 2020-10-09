@@ -259,11 +259,13 @@ static CFComparisonResult CmpEventStamp_CF (const void *val1, const void *val2, 
 
 - (TQ3Status) buttons:(TQ3Uns32*)buttons
 {
-    *buttons = theButtons;
+    if (isActive)
+    {
+        *buttons = theButtons;
+    }
 #if 0
     NSLog(@"buttons %d\n",*buttons);
 #endif
-    theButtons = 0;//needed for logical OR, if Tracker is shared by several controllers
     return(kQ3Success);
 }
 
@@ -274,8 +276,14 @@ static CFComparisonResult CmpEventStamp_CF (const void *val1, const void *val2, 
 {
     if (aButtonMask)
     {
-        theButtons=someButtons;
-        //theSerialNum++;	//would make sense; see "activation count" inside Apple QD3D doc
+        //clear and set: needed for logical OR, as Tracker can be shared by several controllers
+        //clear
+        theButtons = theButtons & ~aButtonMask;
+        
+        //set new buttons
+        theButtons = theButtons | someButtons;
+        
+        //theSerialNum++;//would make sense; see "activation count" inside Apple QD3D doc
         
         if ((isActive==kQ3True)&&(theNotifyFunc!=NULL))
             [self callNotificationWithController:controllerRef];

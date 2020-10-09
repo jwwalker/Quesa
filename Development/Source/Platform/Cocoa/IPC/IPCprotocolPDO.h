@@ -143,7 +143,7 @@ typedef unsigned long long              TQ3ControllerRefCast;
                                Changed:(inout TQ3Boolean *) isChanged;
 - (TQ3Status) setPositionWithController:(TQ3ControllerRef /*TQ3ControllerRefCast*/) controllerRef position:(TQ3Point3D) aPosition;
 - (TQ3Status) movePositionWithController:(TQ3ControllerRef /*TQ3ControllerRefCast*/) controllerRef delta:(TQ3Vector3D) aDelta;
-- (TQ3Status) orientationWithSerialNumber:(inout TQ3Uns32*) aSerialNumber
+- (TQ3Status) orientationWithSerialNumber:(inout TQ3Uns32 *) aSerialNumber
                               Orientation:(inout TQ3Quaternion *) anOrientation
                                     Delta:(inout TQ3Quaternion *) aDelta
                                   Changed:(inout TQ3Boolean *) isChanged;

@@ -49,7 +49,8 @@
 
 // compile controller support in
 #ifndef QUESA_SUPPORT_CONTROLLER
-    #define QUESA_SUPPORT_CONTROLLER            1
+    #define QUESA_SUPPORT_CONTROLLER                1
+    #define QD3D_CONTROLLER_LEGACY_FUNCTIONALITY    1
 #endif
 
 #if Q3_DEBUG

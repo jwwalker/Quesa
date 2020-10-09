@@ -862,7 +862,7 @@ E3ControllerState_New(TQ3ControllerRef controllerRef)
 	return((TQ3ControllerStateObject)0);
 #endif
 }
-#warning Q3Object_Dispose(aTQ3ControllerStateObject) to be implemented... (locally)
+#warning TODO? Q3Object_Dispose(aTQ3ControllerStateObject) to be implemented... (locally)
 
 
 

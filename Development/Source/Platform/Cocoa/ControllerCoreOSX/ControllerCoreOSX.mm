@@ -213,13 +213,13 @@ static TQ3Status idOfDB(id *theID)
     TQ3Status status = kQ3Failure;
     *theID = nil;
     //fetch vended database object: server name kQuesa3DeviceServer
-#if 1 //ToDo: clean up!
+#if 1 //TODO: clean up!
     if (nil==privateProxyDB){
         privateProxyDB = [NSConnection
                           rootProxyForConnectionWithRegisteredName:@kQuesa3DeviceServer
                           host:nil];
 #if Q3_DEBUG
-        //ToDo: More error handling might be needed in case device server instance is not found!
+        //TODO: More error handling might be needed in case device server instance is not found!
         assert(nil!=privateProxyDB);
 #endif
         [privateProxyDB retain];
@@ -483,7 +483,7 @@ CC3OSXController_GetChannel(TQ3ControllerRef controllerRef, TQ3Uns32 channel, vo
 {
     TQ3Status status = kQ3Failure;
     
-    NSData *theData;
+    NSData *theData = NULL;
     
     //object id for key in controllerRef
     id controllerProxy = proxyOfControllerRef(controllerRef);
@@ -540,7 +540,7 @@ CC3OSXController_SetTracker(TQ3ControllerRef controllerRef, TC3TrackerInstanceDa
     }
     else
     {
-        //ToDo pass UUID from inside (TC3TrackerInstanceDataPtr) tracker
+        //TODO pass UUID from inside (TC3TrackerInstanceDataPtr) tracker
         status = [controllerProxy setTracker:[tracker->instance trackerUUID]
                            attachToSysCursor:kQ3False];
     }
@@ -799,7 +799,7 @@ CC3OSXController_GetValues(TQ3ControllerRef controllerRef, TQ3Uns32 valueCount, 
                                isActive:&active
                            SerialNumber:&tempSerNum];//DANGER valAr DANGER
     
-    if (active)
+    if (active==kQ3True)
     {
         unload=kQ3False;
         //serialNumber NULL or not
@@ -828,21 +828,27 @@ CC3OSXController_GetValues(TQ3ControllerRef controllerRef, TQ3Uns32 valueCount, 
                 maxCount=privValueCount;
             
             for (index=0; index<maxCount; index++)
-                (void)CFNumberGetValue((CFNumberRef)CFArrayGetValueAtIndex((CFArrayRef)valAr,index),
-                                       kCFNumberFloatType,
-                                       &values[index]);
+            (void)CFNumberGetValue((CFNumberRef)CFArrayGetValueAtIndex((CFArrayRef)valAr,index),
+                                   kCFNumberFloatType,
+                                   &values[index]);
             
             [valAr release]; // CFRelease(valAr);
         }
+        
+#if 1
+        if (serialNumber!=NULL)
+            if (*serialNumber!=tempSerNum)
+                *serialNumber = tempSerNum;
+#endif
     }
     
     if (changed!=NULL)
         *changed=tempChanged;
-    
+#if 0
     if (serialNumber!=NULL)
         if (*serialNumber!=tempSerNum)
             *serialNumber = tempSerNum;
-    
+#endif
     return(status);
 }//TODO: finalize CC3OSXController_GetValues: potential leak
 
@@ -1189,14 +1195,15 @@ TC3ControllerStateInstanceDataPtr
 CC3OSXControllerState_New(TQ3Object theObject, TQ3ControllerRef theController)
 {
     TC3ControllerStateInstanceDataPtr	theInstanceData = nullptr;
-    NSString    *aUUID;
+    NSString    *aUUID = NULL;
     TQ3Status   status = kQ3Failure;
     
     //object id for key in controllerRef
     id controllerProxy = proxyOfControllerRef(theController);
     
     //query UUIDString
-    status = [controllerProxy newStateWithUUID:&aUUID];//TODO: TBC - troubles with 2nd re-new?
+    //TODO: TBC - troubles with 2nd re-new?
+    status = [controllerProxy newStateWithUUID:&aUUID];//DANGER aUUID DANGER
     
     if (status!=kQ3Failure)
     {

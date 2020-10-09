@@ -33,8 +33,8 @@
 {
     if (self = [super init])
     {
-		// init my own stuff based on passed parameters
-		_publicDB = aDB;
+        // init my own stuff based on passed parameters
+        _publicDB = aDB;
         
         _UUID = aUUID;
         _theConnection = [[NSConnection new] autorelease];
@@ -44,23 +44,23 @@
         [_theConnection retain]; //vending done!
         
         _driverUUID = aDrvUUID;
-		_driverProxy = [[NSConnection rootProxyForConnectionWithRegisteredName:_driverUUID
+        _driverProxy = [[NSConnection rootProxyForConnectionWithRegisteredName:_driverUUID
                                                                           host:nil] retain];
         [_driverProxy setProtocolForProxy:@protocol(Q3DOControllerDriver)];
-
-		_controllerRef = aControllerRef;
+        
+        _controllerRef = aControllerRef;
         _valueCount = valCnt;
         if (_valueCount > Q3_CONTROLLER_MAX_VALUECOUNT)
             _valueCount = Q3_CONTROLLER_MAX_VALUECOUNT;
-		_channelCount = chanCnt;
-		_signature = sig;
+        _channelCount = chanCnt;
+        _signature = sig;
         [_signature retain];
-		_hasSetChannelMethod=hasSCMthd;
-		_hasGetChannelMethod=hasGCMthd;
-		
+        _hasSetChannelMethod=hasSCMthd;
+        _hasGetChannelMethod=hasGCMthd;
+        
         valuesRef = new float[_valueCount]();
-		_trackerUUID = NULL;
-	}
+        _trackerUUID = NULL;
+    }
     return self;
 }
 
@@ -96,9 +96,14 @@
 
 - (TQ3Status)getSignature:(inout NSString **)signature
 {
-	TQ3Status status = kQ3Success;
-	*signature = _signature;//retain? release by receiver?
-	return(status);
+    TQ3Status status = kQ3Success;
+    
+    if (isDecommissioned==kQ3True)
+        *signature = NULL;
+    else
+        *signature = _signature;//retain? release by receiver?
+    
+    return(status);
 }//done; TODO: TBC: regard isDecommissioned?
 
 
@@ -176,7 +181,7 @@
 	
 	if (isActive==kQ3True)
 	{
-		buttonMask=theButtons^buttons;
+		buttonMask = theButtons^buttons;
 		theButtons = buttons;
 		
         if (_trackerUUID!=NULL)
@@ -256,6 +261,7 @@
 		*track3DCursor=kQ3False;
 	else
 		*track3DCursor=kQ3True;
+    
 	return(status);
 }//done
 
@@ -276,7 +282,9 @@
     else
     {
         //return position of system cursor tracker - not yet implemented!
+#if 0   //deactivated controller should have no effect on returned position
         position->x=position->y=position->z=0.0;	//not the best style
+#endif
         status = kQ3Success;
     }
     
@@ -345,10 +353,11 @@
     else
     {
         //return position of system cursor tracker - not yet implemented!
+#if 0   //deactivated controller should have no effect on returned orientation
         //here: set orientation to indentity quaternion
         orientation->w=1.0;
         orientation->x=orientation->y=orientation->z=0.0;	//not the best style
-        
+#endif
         status = kQ3Success;
     }
  
@@ -439,21 +448,23 @@
 //decode passed data and store it in float value array
 - (TQ3Status) setValues:(NSArray *)values ofCount:(TQ3Uns32)valueCount
 {
-	TQ3Status status = kQ3Failure;
-	
-	TQ3Uns32	maxCount,index;
-	
-	if (_valueCount > valueCount)
-		maxCount=valueCount;
-	else
-		maxCount=_valueCount;
-	
-	for (index=0; index<maxCount;index++)
-		valuesRef[index]=[[values objectAtIndex:index] floatValue];
-	
-	serialNumber++;	//This fits better to functionality of ControllerDB_GetValues
-	status = kQ3Success;
-	return(status);
+    TQ3Status   status = kQ3Failure;
+    TQ3Uns32    maxCount,index;
+    
+    if (isActive)
+    {
+        if (_valueCount > valueCount)
+            maxCount=valueCount;
+        else
+            maxCount=_valueCount;
+        
+        for (index=0; index<maxCount;index++)
+        valuesRef[index]=[[values objectAtIndex:index] floatValue];
+        
+        serialNumber++;
+    }
+    status = kQ3Success;
+    return(status);
 };//TODO: don't decode and keep the values in foundation data object
 
 

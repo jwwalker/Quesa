@@ -136,28 +136,37 @@
                withData:(inout NSData **) theData
                  ofSize:(inout TQ3Uns32 *) dataSize
 {
-    TQ3Status			status = kQ3Failure;
-    void 				*data;
+#ifndef QD3D_CONTROLLER_LEGACY_FUNCTIONALITY
+    TQ3Status status = kQ3Failure;
+#endif
+    
+    void *data;
     
     if (_hasGetChannelMethod)
     {
+#ifndef QD3D_CONTROLLER_LEGACY_FUNCTIONALITY
         //sanitize channel
         if (channel>=_controllerData.channelCount)
             channel=_controllerData.channelCount-1;
+#endif  //QD3D legacy functionality does NOT check if the channel number is out of range of the channelcount
         
         //data
-        //to do: sanity check for dataSize
+        //TODO: sanity check for dataSize
         data = (void*)malloc(*dataSize);
         
         //call method
-        status = _controllerData.channelGetMethod((TQ3ControllerRef)_nameInDB, channel, data, dataSize);
+        TQ3Status status = _controllerData.channelGetMethod((TQ3ControllerRef)_nameInDB, channel, data, dataSize);
         
         //data
         *theData = [NSData dataWithBytes:data length:*dataSize];
         free(data);
     }
-    
+#ifndef QD3D_CONTROLLER_LEGACY_FUNCTIONALITY
     return status;
+#else
+    //legacy QD3D overides the returned status of Q3Controller_GetChannel method with kQ3Success
+    return kQ3Success;
+#endif
 }
 
 

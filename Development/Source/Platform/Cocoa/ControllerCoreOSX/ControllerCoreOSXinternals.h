@@ -28,18 +28,12 @@ typedef struct TC3TrackerInstanceData
 typedef struct TC3ControllerStateInstanceData
 {
     TQ3ControllerRef	myController;
-    //CFStringRef			ctrlStateUUIDString;
     NSString            *ctrlStateUUIDString;
 } TC3ControllerStateInstanceData;
 
 typedef struct TC3ControllerInstanceData
 {
-    //TBD NSString            *ControllerNameInDB;
-    //TBD								//reference to db object in the device server
-    //TBD								//reference to controller state object;
-    //follows IPCcontrollerDirverPDO objC protocol;
-    //device driver server name
-    TQ3ControllerData	instanceData;	//public instance data from Controller_New
+    TQ3ControllerData instanceData;//public instance data from Controller_New
 } TC3ControllerInstanceData, *TC3ControllerInstanceDataPtr;
 
 #endif

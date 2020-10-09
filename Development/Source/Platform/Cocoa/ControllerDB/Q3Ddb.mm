@@ -274,7 +274,7 @@ void startDeviceDB(void)
 }
 #endif
 
-//ToDo clean up!
+//TODO clean up!
 #if 0
 // this is a faceless background application
 // TODO: because it is NOT stateless, it shall NOT comply to automatic SIGKILL by the OS (10.6. and later)
