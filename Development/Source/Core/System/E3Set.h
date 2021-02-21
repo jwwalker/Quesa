@@ -5,7 +5,7 @@
         Header file for E3Set.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2015, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -124,6 +124,7 @@ typedef struct TQ3SetAttributes {
 	TQ3SurfaceShaderObject surfaceShader;
 	TQ3ColorRGB			transparencyColor;
 	TQ3ColorRGB			emissiveColor;
+	float				metallic;
 } TQ3SetAttributes;
 
 

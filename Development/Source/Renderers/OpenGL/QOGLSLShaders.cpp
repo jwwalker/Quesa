@@ -5,7 +5,7 @@
         Quesa OpenGL shaders.
 		    
     COPYRIGHT:
-        Copyright (c) 2020, Quesa Developers. All rights reserved.
+        Copyright (c) 2020-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1171,6 +1171,7 @@ uniform bool isUsingSpecularMap;
 // Specularity, replacing gl_FrontMaterial.specular.rgb, gl_FrontMaterial.shininess
 uniform vec3 specularColor;
 uniform float shininess;
+uniform float metallic;
 
 // Emissive color, replacing gl_FrontMaterial.emission.rgb
 uniform vec3 quesaEmissiveColor;
@@ -1682,11 +1683,11 @@ const char* kColorCompForNULLIllumination = R"(
 const char* kColorCompForLambertAndPhong = R"(
 	// Start with emissive and global ambient color.
 	// I will assume that the only ambient light is global.
-	color = ambientLight * FSIN.interpolatedColor.rgb +
+	color = ambientLight * (1.0 - metallic) * FSIN.interpolatedColor.rgb +
          quesaEmissiveColor;
 
 	// Add diffuse color.
-	color += diff * FSIN.interpolatedColor.rgb;
+	color += diff * (1.0 - metallic) * FSIN.interpolatedColor.rgb;
 
 	alpha = FSIN.interpolatedColor.a;
 
@@ -1697,7 +1698,7 @@ const char* kColorCompForLambertAndPhong = R"(
 const char* kColorCompForLambertAndPhong_Cartoonish = R"(
 	// Start with emissive and global ambient color.
 	// I will assume that the only ambient light is global.
-	color = ambientLight * FSIN.interpolatedColor.rgb +
+	color = ambientLight * (1.0 - metallic) * FSIN.interpolatedColor.rgb +
 			quesaEmissiveColor;
 
 	// Add diffuse color.
@@ -1706,11 +1707,11 @@ const char* kColorCompForLambertAndPhong_Cartoonish = R"(
 	// may darken areas nearly perpendicular to the eye.
 	if (dot( normal, geomToEyeDir ) > 0.5)
 	{
-		color += min( diff, 1.0 ) * FSIN.interpolatedColor.rgb;
+		color += min( diff, 1.0 ) * (1.0 - metallic) * FSIN.interpolatedColor.rgb;
 	}
 	else
 	{
-		color += lightNearEdge * min( diff, 1.0 ) * FSIN.interpolatedColor.rgb;
+		color += lightNearEdge * min( diff, 1.0 ) * (1.0 - metallic) * FSIN.interpolatedColor.rgb;
 	}
 
 	alpha = FSIN.interpolatedColor.a;
@@ -1741,7 +1742,7 @@ const char* kAddSpecularColor = R"(
 	vec3 specMat = isUsingSpecularMap?
 		texture( tex1, FSIN.texCoord ).rgb :
 		specularColor;
-	color += spec * specMat;
+	color += (spec + metallic * ambientLight) * specMat;
 
 )";
 

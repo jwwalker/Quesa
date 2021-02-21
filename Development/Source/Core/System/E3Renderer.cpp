@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -164,7 +164,9 @@ e3renderer_add_methods(TQ3RendererObject theRenderer)
 														kQ3AttributeTypeSurfaceTangent,
 														kQ3AttributeTypeHighlightState,
 														kQ3AttributeTypeSurfaceShader,
-														kQ3AttributeTypeEmissiveColor };
+														kQ3AttributeTypeEmissiveColor,
+														kQ3AttributeTypeMetallic
+														};
 
 	TQ3XMethodType									shaderMethods[] = {
 														kQ3ShaderTypeSurface,
@@ -561,7 +563,6 @@ E3Renderer_Method_UpdateMatrix(TQ3ViewObject			theView,
 								const TQ3Matrix4x4		*localToCamera )
 {
 	TQ3Matrix4x4		worldToLocal, tmpMatrix ;
-
 
 
 	TQ3RendererObject theRenderer = E3View_AccessRenderer ( theView ) ;

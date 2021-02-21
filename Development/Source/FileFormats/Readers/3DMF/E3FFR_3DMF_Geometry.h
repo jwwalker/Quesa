@@ -5,7 +5,7 @@
         Header file for E3FFR_3DMF_Geometry.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -76,6 +76,7 @@ TQ3Status		E3Read_3DMF_Attribute_AmbientCoefficient(TQ3Object parentObject, TQ3F
 TQ3Status		E3Read_3DMF_Attribute_DiffuseColor(TQ3Object parentObject, TQ3FileObject theFile);
 TQ3Status		E3Read_3DMF_Attribute_SpecularColor(TQ3Object parentObject, TQ3FileObject theFile);
 TQ3Status		E3Read_3DMF_Attribute_SpecularControl(TQ3Object parentObject, TQ3FileObject theFile);
+TQ3Status		E3Read_3DMF_Attribute_Metallic(TQ3Object parentObject, TQ3FileObject theFile);
 TQ3Status		E3Read_3DMF_Attribute_TransparencyColor(TQ3Object parentObject, TQ3FileObject theFile);
 TQ3Status		E3Read_3DMF_Attribute_EmissiveColor(TQ3Object parentObject, TQ3FileObject theFile);
 TQ3Status		E3Read_3DMF_Attribute_SurfaceTangent(TQ3Object parentObject, TQ3FileObject theFile);

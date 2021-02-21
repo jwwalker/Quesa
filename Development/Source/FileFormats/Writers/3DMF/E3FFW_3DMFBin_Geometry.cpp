@@ -5,7 +5,7 @@
         Quesa 3DMFBin writer geometry methods.
 
     COPYRIGHT:
-        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -501,6 +501,7 @@ e3ffw_3DMF_attributeset_traverse(TQ3Object theSet,
 					
 				case kQ3ObjectTypeAttributeAmbientCoefficient:
 				case kQ3ObjectTypeAttributeSpecularControl:
+				case kQ3ObjectTypeAttributeMetallic:
 					subObjectData = Q3Memory_Allocate(sizeof(TQ3Float32));
 					qd3dstatus = Q3Set_Get (theSet, theType, subObjectData);
 					if(qd3dstatus == kQ3Success){
@@ -679,6 +680,26 @@ e3ffw_3DMF_attribute_rgbcolor_write(const TQ3ColorRGB *object,
 
 static TQ3Status
 e3ffw_3DMF_attribute_specularcontrol_write(const TQ3Float32 *object,
+				TQ3FileObject theFile)
+{
+
+	TQ3Status writeStatus;
+	
+	writeStatus = Q3Float32_Write(*object,theFile);
+	
+	
+	return(writeStatus);
+}
+
+
+
+
+//=============================================================================
+//      e3ffw_3DMF_attribute_metallic_write : Metallic attribute write method.
+//-----------------------------------------------------------------------------
+
+static TQ3Status
+e3ffw_3DMF_attribute_metallic_write(const TQ3Float32 *object,
 				TQ3FileObject theFile)
 {
 
@@ -3599,6 +3620,7 @@ E3FFW_3DMF_RegisterGeom(void)
 	E3ClassTree::AddMethod(kQ3ObjectTypeAttributeDiffuseColor,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_attribute_rgbcolor_write);
 	E3ClassTree::AddMethod(kQ3ObjectTypeAttributeSpecularColor,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_attribute_rgbcolor_write);
 	E3ClassTree::AddMethod(kQ3ObjectTypeAttributeSpecularControl,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_attribute_specularcontrol_write);
+	E3ClassTree::AddMethod(kQ3ObjectTypeAttributeMetallic,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_attribute_metallic_write);
 	E3ClassTree::AddMethod(kQ3ObjectTypeAttributeTransparencyColor,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_attribute_rgbcolor_write);
 	E3ClassTree::AddMethod(kQ3ObjectTypeAttributeEmissiveColor,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_attribute_rgbcolor_write);
 	E3ClassTree::AddMethod(kQ3ObjectTypeAttributeSurfaceTangent,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_attribute_surfacetangent_write);

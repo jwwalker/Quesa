@@ -5,7 +5,7 @@
         Shading language functions for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2020, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -88,7 +88,6 @@
 #ifndef GL_VALIDATE_STATUS
 	#define GL_VALIDATE_STATUS					0x8B83
 #endif
-
 
 static int sVertexShaderCount = 0;
 static int sProgramCount = 0;
@@ -224,6 +223,7 @@ QORenderer::ProgramRec::ProgramRec( const ProgramRec& inOther )
 	, mNormalMtxUniformLoc( inOther.mNormalMtxUniformLoc )
 	, mSpecularColorUniformLoc( inOther.mSpecularColorUniformLoc )
 	, mShininessUniformLoc( inOther.mShininessUniformLoc )
+	, mMetallicUniformLoc( inOther.mMetallicUniformLoc )
 	, mEmissiveColorUniformLoc( inOther.mEmissiveColorUniformLoc )
 	, mAmbientLightUniformLoc( inOther.mAmbientLightUniformLoc )
 	, mAlphaThresholdUniformLoc( inOther.mAlphaThresholdUniformLoc )
@@ -276,6 +276,7 @@ void	QORenderer::ProgramRec::swap( ProgramRec& ioOther )
 	std::swap( mNormalMtxUniformLoc, ioOther.mNormalMtxUniformLoc );
 	std::swap( mSpecularColorUniformLoc, ioOther.mSpecularColorUniformLoc );
 	std::swap( mShininessUniformLoc, ioOther.mShininessUniformLoc );
+	std::swap( mMetallicUniformLoc, ioOther.mMetallicUniformLoc );
 	std::swap( mEmissiveColorUniformLoc, ioOther.mEmissiveColorUniformLoc );
 	std::swap( mAmbientLightUniformLoc, ioOther.mAmbientLightUniformLoc );
 	std::swap( mAlphaThresholdUniformLoc, ioOther.mAlphaThresholdUniformLoc );
@@ -1285,6 +1286,7 @@ void	QORenderer::PerPixelLighting::SetUniformValues()
 	mFuncs.glUniform1f( mCurrentProgram->mShininessUniformLoc, 0.0f );
 	mFuncs.glUniform3fv( mCurrentProgram->mSpecularColorUniformLoc, 1, &kZeroVec.x );
 	mFuncs.glUniform3fv( mCurrentProgram->mEmissiveColorUniformLoc, 1, &kZeroVec.x );
+	mFuncs.glUniform1f( mCurrentProgram->mMetallicUniformLoc, 0.0f );
 	
 	if ( mCurrentProgram->mViewportSizeUniformLoc != -1 )
 	{
@@ -1412,6 +1414,9 @@ void	QORenderer::PerPixelLighting::InitUniformLocations( ProgramRec& ioProgram )
 	CHECK_GL_ERROR;
 	ioProgram.mShininessUniformLoc = mFuncs.glGetUniformLocation(
 		ioProgram.mProgram, "shininess" );
+	CHECK_GL_ERROR;
+	ioProgram.mMetallicUniformLoc = mFuncs.glGetUniformLocation(
+		ioProgram.mProgram, "metallic" );
 	CHECK_GL_ERROR;
 	ioProgram.mEmissiveColorUniformLoc = mFuncs.glGetUniformLocation(
 		ioProgram.mProgram, "quesaEmissiveColor" );

@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2020, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -369,6 +369,7 @@ void		QORenderer::Renderer::StartPass(
 	mCurrentSpecularColor.r = mCurrentSpecularColor.g =
 		mCurrentSpecularColor.b = 0.0f;
 	mCurrentSpecularControl = 0.0f;
+	mCurrentMetallic = 0.0f;
 	mCurrentEmissiveColor.r = mCurrentEmissiveColor.g =
 		mCurrentEmissiveColor.b = 0.0f;
 

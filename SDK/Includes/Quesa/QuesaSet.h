@@ -12,7 +12,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -109,6 +109,11 @@ extern "C" {
  *	@constant	kQ3AttributeTypeEmissiveColor		Emissive color (<code>TQ3ColorRGB</code>)
  *													(<em>This attribute did not exist in QuickDraw
  *													3D, and may not be recognized by all renderers.</em>)
+ *	@constant	kQ3AttributeTypeMetallic			Metallic (1.0 for metal, 0.0 for nonmetal, default 0.0).  Metal treats the
+ *											diffuse color.as black, and makes ambient light interact with specular
+ *											color.
+ *											(<em>This attribute did not exist in QuickDraw
+ *													3D, and may not be recognized by all renderers.</em>)
  *	@constant	kQ3AttributeTypeNumTypes			Number of standard attribute types.
 */
 typedef enum TQ3AttributeTypes {
@@ -125,7 +130,8 @@ typedef enum TQ3AttributeTypes {
     kQ3AttributeTypeHighlightState              = 10,           // TQ3Switch
     kQ3AttributeTypeSurfaceShader               = 11,           // TQ3SurfaceShaderObject
     kQ3AttributeTypeEmissiveColor               = 12,           // TQ3ColorRGB
-    kQ3AttributeTypeNumTypes                    = 13,           // N/A
+    kQ3AttributeTypeMetallic                    = 13,           // float, usually 0.0 or 1.0
+    kQ3AttributeTypeNumTypes                    = 14,           // N/A
     kQ3AttributeTypeSize32                      = 0x7FFFFFFF
 } TQ3AttributeTypes;
 
@@ -149,6 +155,7 @@ typedef enum TQ3AttributeTypes {
  *  @constant kQ3XAttributeMaskHighlightState       Highlight state attribute mask.
  *  @constant kQ3XAttributeMaskSurfaceShader        Surface shader attribute mask.
  *	@constant kQ3XAttributeMaskEmissiveColor		Emissive color attribute mask.
+ *	@constant kQ3XAttributeMaskMetallic				Metallic attribute mask.
  *  @constant kQ3XAttributeMaskCustomAttribute      Custom attribute mask.
  *  @constant kQ3XAttributeMaskAll                  All attributes.
  *  @constant kQ3XAttributeMaskInherited            Inherited attributes mask.
@@ -168,9 +175,10 @@ enum {
     kQ3XAttributeMaskHighlightState             = (1 << (kQ3AttributeTypeHighlightState     - 1)),
     kQ3XAttributeMaskSurfaceShader              = (1 << (kQ3AttributeTypeSurfaceShader      - 1)),
     kQ3XAttributeMaskEmissiveColor              = (1 << (kQ3AttributeTypeEmissiveColor      - 1)),
+    kQ3XAttributeMaskMetallic                   = (1 << (kQ3AttributeTypeMetallic           - 1)),
     kQ3XAttributeMaskCustomAttribute            = 0x80000000,
-    kQ3XAttributeMaskAll                        = 0x80000FFF,
-    kQ3XAttributeMaskInherited                  = 0x000003FF,
+    kQ3XAttributeMaskAll                        = 0x80001FFF,
+    kQ3XAttributeMaskInherited                  = 0x00001FFF,
     kQ3XAttributeMaskInterpolated               = kQ3XAttributeMaskSurfaceUV          |
                                                   kQ3XAttributeMaskShadingUV          |
                                                   kQ3XAttributeMaskNormal             |

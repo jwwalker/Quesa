@@ -5,7 +5,7 @@
         Header file for E3View.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -165,6 +165,7 @@ void							E3View_State_SetAttributeAmbientCoefficient(TQ3ViewObject theView, co
 void							E3View_State_SetAttributeDiffuseColor(TQ3ViewObject theView, const TQ3ColorRGB *theData);
 void							E3View_State_SetAttributeSpecularColor(TQ3ViewObject theView, const TQ3ColorRGB *theData);
 void							E3View_State_SetAttributeSpecularControl(TQ3ViewObject theView, const float *theData);
+void							E3View_State_SetAttributeMetallic(TQ3ViewObject theView, const float *theData);
 void							E3View_State_SetAttributeTransparencyColor(TQ3ViewObject theView, const TQ3ColorRGB *theData);
 void							E3View_State_SetAttributeEmissiveColor(TQ3ViewObject theView, const TQ3ColorRGB *theData);
 void							E3View_State_SetAttributeSurfaceTangent(TQ3ViewObject theView, const TQ3Tangent2D *theData);

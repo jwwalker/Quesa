@@ -11,7 +11,7 @@
         Header for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -197,6 +197,11 @@ private:
 									const TQ3ColorRGB* inAttColor );
 
 	static TQ3Status		UpdateSpecularControlMethod(
+									TQ3ViewObject inView,
+									void* privateData,
+									const float* inAttValue );
+
+	static TQ3Status		UpdateMetallicMethod(
 									TQ3ViewObject inView,
 									void* privateData,
 									const float* inAttValue );

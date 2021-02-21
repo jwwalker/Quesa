@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -99,6 +99,7 @@ enum {
 	kQ3ViewStateAttributeHighlightState		= 1 << 26,		// Highlight switch attribute changed
 	kQ3ViewStateAttributeEmissiveColor		= 1 << 27,		// Emissive color attribute changed
 	kQ3ViewStateStyleLineWidth				= 1 << 28,		// Line Width style changed
+	kQ3ViewStateAttributeMetallic			= 1 << 29,		// Metallic attribute changed
 	kQ3ViewStateNone						= 0,			// Nothing changed
 	kQ3ViewStateAll							= 0xFFFFFFFF,	// Everything changed
 	kQ3ViewStateMatrixAny					= kQ3ViewStateMatrixLocalToWorld  |	// Any matrix changed
@@ -155,6 +156,7 @@ typedef struct TQ3ViewStackItem {
 	TQ3ColorRGB					attributeDiffuseColor;
 	TQ3ColorRGB					attributeSpecularColor;
 	float						attributeSpecularControl;
+	float						attributeMetallic;
 	TQ3ColorRGB					attributeTransparencyColor;
 	TQ3ColorRGB					attributeEmissiveColor;
 	TQ3Tangent2D				attributeSurfaceTangent;
@@ -360,6 +362,7 @@ e3view_stack_initialise(TQ3ViewStackItem *theItem)
 
 	theItem->attributeAmbientCoefficient = kQ3ViewDefaultAmbientCoefficient;
 	theItem->attributeSpecularControl    = kQ3ViewDefaultSpecularControl;
+	theItem->attributeMetallic		     = kQ3ViewDefaultMetallic;
 	theItem->attributeHighlightState     = kQ3ViewDefaultHighlightState;
 
 	Q3Param2D_Set(&theItem->attributeSurfaceUV, 0.0f, 0.0f);
@@ -422,6 +425,7 @@ e3view_stack_set_attributes( TQ3AttributeSet atts,
 	Q3AttributeSet_Add( atts, kQ3AttributeTypeDiffuseColor, &topItem->attributeDiffuseColor );
 	Q3AttributeSet_Add( atts, kQ3AttributeTypeSpecularColor, &topItem->attributeSpecularColor );
 	Q3AttributeSet_Add( atts, kQ3AttributeTypeSpecularControl, &topItem->attributeSpecularControl );
+	Q3AttributeSet_Add( atts, kQ3AttributeTypeMetallic, &topItem->attributeMetallic );
 	Q3AttributeSet_Add( atts, kQ3AttributeTypeTransparencyColor, &topItem->attributeTransparencyColor );
 	Q3AttributeSet_Add( atts, kQ3AttributeTypeEmissiveColor, &topItem->attributeEmissiveColor );
 	Q3AttributeSet_Add( atts, kQ3AttributeTypeSurfaceTangent, &topItem->attributeSurfaceTangent );
@@ -568,6 +572,9 @@ e3view_stack_update ( E3View* view, TQ3ViewStackState stateChange )
 
 		if ( ( stateChange & kQ3ViewStateAttributeSpecularControl ) && qd3dStatus != kQ3Failure )
 			qd3dStatus = e3view_stack_update_attribute ( view, theItem, kQ3AttributeTypeSpecularControl, &theItem->attributeSpecularControl ) ;
+
+		if ( ( stateChange & kQ3ViewStateAttributeMetallic ) && qd3dStatus != kQ3Failure )
+			qd3dStatus = e3view_stack_update_attribute ( view, theItem, kQ3AttributeTypeMetallic, &theItem->attributeMetallic ) ;
 
 		if ( ( stateChange & kQ3ViewStateAttributeTransparencyColour ) && qd3dStatus != kQ3Failure )
 			qd3dStatus = e3view_stack_update_attribute ( view, theItem, kQ3AttributeTypeTransparencyColor, &theItem->attributeTransparencyColor ) ;
@@ -1748,6 +1755,7 @@ e3view_new(TQ3Object theObject, void *privateData, const void *paramData)
 	TQ3ColorRGB			defaultDiffuseColour      = { kQ3ViewDefaultDiffuseColor  };
 	float				defaultAmbientCoefficient =   kQ3ViewDefaultAmbientCoefficient;
 	float				defaultSpecularControl    =   kQ3ViewDefaultSpecularControl;
+	float				defaultMetallic		      =   kQ3ViewDefaultMetallic;
 	TQ3Switch			defaultHighlightState     =   kQ3ViewDefaultHighlightState;
 #pragma unused(theObject)
 #pragma unused(paramData)
@@ -1774,6 +1782,10 @@ e3view_new(TQ3Object theObject, void *privateData, const void *paramData)
 		Q3AttributeSet_Add(instanceData->viewAttributes,
 							kQ3AttributeTypeSpecularControl,
 							&defaultSpecularControl);
+
+		Q3AttributeSet_Add(instanceData->viewAttributes,
+							kQ3AttributeTypeMetallic,
+							&defaultMetallic);
 
 		Q3AttributeSet_Add(instanceData->viewAttributes,
 							kQ3AttributeTypeDiffuseColor,
@@ -3515,6 +3527,30 @@ E3View_State_SetAttributeSpecularControl(TQ3ViewObject theView, const float *the
 	// Update the renderer
 	e3view_stack_update ( (E3View*) theView, kQ3ViewStateAttributeSpecularControl ) ;
 	}
+
+
+
+
+
+//=============================================================================
+//      E3View_State_SetAttributeMetallic : Set the metallic attribute.
+//-----------------------------------------------------------------------------
+void
+E3View_State_SetAttributeMetallic(TQ3ViewObject theView, const float *theData)
+{
+	// Validate our state
+	Q3_ASSERT ( Q3_VALID_PTR ( ( (E3View*) theView )->instanceData.viewStack ) ) ;
+
+
+
+	// Set the value
+	( (E3View*) theView )->instanceData.viewStack->attributeMetallic = *theData ;
+
+
+
+	// Update the renderer
+	e3view_stack_update ( (E3View*) theView, kQ3ViewStateAttributeMetallic ) ;
+}
 
 
 

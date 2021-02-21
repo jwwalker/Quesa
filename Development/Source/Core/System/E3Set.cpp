@@ -22,7 +22,7 @@
         routines on an attribute set - so this implementation would be OK.
 
     COPYRIGHT:
-        Copyright (c) 1999-2015, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -238,6 +238,21 @@ class E3SpecularControlAttribute : public E3Attribute // This is a leaf class so
 								// as nobody should be including this file
 	{
 Q3_CLASS_ENUMS ( kQ3ObjectTypeAttributeSpecularControl, E3SpecularControlAttribute, E3Attribute )
+public :
+
+	float					instanceData ;
+	// This member may never be accessed, but it needs to be here in order that
+	// E3ClassInfo::GetInstanceSize will return the size of the attribute data.
+	} ;
+	
+
+
+class E3MetallicAttribute : public E3Attribute // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+Q3_CLASS_ENUMS ( kQ3ObjectTypeAttributeMetallic, E3MetallicAttribute, E3Attribute )
 public :
 
 	float					instanceData ;
@@ -1160,6 +1175,28 @@ e3attribute_specularcontrol_submit(TQ3ViewObject theView, TQ3ObjectType objectTy
 
 
 //=============================================================================
+//      e3attribute_metallic_submit : Specular control submit method.
+//-----------------------------------------------------------------------------
+#pragma mark -
+static TQ3Status
+e3attribute_metallic_submit(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData)
+{
+#pragma unused(objectType)
+#pragma unused(theObject)
+
+
+
+	// Submit the attribute
+	E3View_State_SetAttributeMetallic(theView, (const float *) objectData);
+
+	return(kQ3Success);
+}
+
+
+
+
+
+//=============================================================================
 //      e3attribute_specularcontrol_metahandler : Specular control metahandler.
 //-----------------------------------------------------------------------------
 static TQ3XFunctionPointer
@@ -1174,6 +1211,31 @@ e3attribute_specularcontrol_metahandler(TQ3XMethodType methodType)
 		case kQ3XMethodTypeObjectSubmitPick:
 		case kQ3XMethodTypeObjectSubmitBounds:
 			theMethod = (TQ3XFunctionPointer) e3attribute_specularcontrol_submit;
+			break;
+		}
+	
+	return(theMethod);
+}
+
+
+
+
+
+//=============================================================================
+//      e3attribute_metallic_metahandler : Specular control metahandler.
+//-----------------------------------------------------------------------------
+static TQ3XFunctionPointer
+e3attribute_metallic_metahandler(TQ3XMethodType methodType)
+{	TQ3XFunctionPointer		theMethod = nullptr;
+
+
+
+	// Return our methods
+	switch (methodType) {
+		case kQ3XMethodTypeObjectSubmitRender:
+		case kQ3XMethodTypeObjectSubmitPick:
+		case kQ3XMethodTypeObjectSubmitBounds:
+			theMethod = (TQ3XFunctionPointer) e3attribute_metallic_submit;
 			break;
 		}
 	
@@ -1818,6 +1880,11 @@ E3Set_RegisterClass(void)
 											E3SpecularControlAttribute ) ;
 
 	if ( qd3dStatus != kQ3Failure )
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameAttributeMetallic,
+											e3attribute_metallic_metahandler,
+											E3MetallicAttribute ) ;
+
+	if ( qd3dStatus != kQ3Failure )
 		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameAttributeTransparencyColor,
 											e3attribute_transparencycolor_metahandler,
 											E3TransparencyColorAttribute ) ;
@@ -1864,6 +1931,7 @@ E3Set_UnregisterClass(void)
 	E3ClassTree::UnregisterClass(kQ3ObjectTypeAttributeSurfaceTangent,     kQ3True);
 	E3ClassTree::UnregisterClass(kQ3ObjectTypeAttributeTransparencyColor,  kQ3True);
 	E3ClassTree::UnregisterClass(kQ3ObjectTypeAttributeSpecularControl,    kQ3True);
+	E3ClassTree::UnregisterClass(kQ3ObjectTypeAttributeMetallic,           kQ3True);
 	E3ClassTree::UnregisterClass(kQ3ObjectTypeAttributeSpecularColor,      kQ3True);
 	E3ClassTree::UnregisterClass(kQ3ObjectTypeAttributeEmissiveColor,      kQ3True);
 	E3ClassTree::UnregisterClass(kQ3ObjectTypeAttributeDiffuseColor,       kQ3True);
@@ -1967,6 +2035,9 @@ E3Set::Add ( TQ3ElementType theType, const void *data )
 			break;
 		case kQ3AttributeTypeSpecularControl:
 			setData.attributes.specularControl = * ( (float*) data ) ;
+			break;
+		case kQ3AttributeTypeMetallic:
+			setData.attributes.metallic = * ( (float*) data ) ;
 			break;
 		case kQ3AttributeTypeTransparencyColor:
 			setData.attributes.transparencyColor = * ( (TQ3ColorRGB*) data ) ;
@@ -2074,6 +2145,9 @@ E3Set::Get ( TQ3ElementType theType, void *data )
 		case kQ3AttributeTypeSpecularControl:
 			* ( (float*) data ) = setData.attributes.specularControl ;
 			break;
+		case kQ3AttributeTypeMetallic:
+			* ( (float*) data ) = setData.attributes.metallic ;
+			break;
 		case kQ3AttributeTypeTransparencyColor:
 			* ( (TQ3ColorRGB*) data ) = setData.attributes.transparencyColor ;
 			break;
@@ -2170,6 +2244,9 @@ E3Set::CopyElement ( TQ3ElementType theType, TQ3SetObject destSet )
 			break;
 		case kQ3AttributeTypeSpecularControl:
 			dstSet->setData.attributes.specularControl = srcSet->setData.attributes.specularControl ;
+			break;
+		case kQ3AttributeTypeMetallic:
+			dstSet->setData.attributes.metallic = srcSet->setData.attributes.metallic ;
 			break;
 		case kQ3AttributeTypeTransparencyColor:
 			dstSet->setData.attributes.transparencyColor = srcSet->setData.attributes.transparencyColor ;
@@ -2377,6 +2454,10 @@ E3Set::SubmitElements ( TQ3ViewObject inView )
 		if ( ( ( mask & kQ3XAttributeMaskSpecularControl ) != 0 ) && ( qd3dStatus == kQ3Success ) )
 			qd3dStatus = E3View_SubmitImmediate ( inView, kQ3ObjectTypeAttributeSpecularControl, &setData.attributes.specularControl ) ;
 
+		if ( ( ( mask & kQ3XAttributeMaskMetallic ) != 0 ) && ( qd3dStatus == kQ3Success ) )
+			qd3dStatus = E3View_SubmitImmediate ( inView, kQ3ObjectTypeAttributeMetallic,
+				&setData.attributes.metallic ) ;
+
 		if ( ( ( mask & kQ3XAttributeMaskTransparencyColor ) != 0 ) && ( qd3dStatus == kQ3Success ) )
 			qd3dStatus = E3View_SubmitImmediate ( inView, kQ3ObjectTypeAttributeTransparencyColor, &setData.attributes.transparencyColor ) ;
 
@@ -2438,6 +2519,9 @@ E3Attribute_ClassToAttributeType(TQ3ObjectType theType)
 		case kQ3ObjectTypeAttributeSpecularControl:
 			theType = kQ3AttributeTypeSpecularControl;
 			break;
+		case kQ3ObjectTypeAttributeMetallic:
+			theType = kQ3AttributeTypeMetallic;
+			break;
 		case kQ3ObjectTypeAttributeTransparencyColor:
 			theType = kQ3AttributeTypeTransparencyColor;
 			break;
@@ -2485,7 +2569,9 @@ E3Attribute_AttributeToClassType(TQ3AttributeType theType)
 									  kQ3ObjectTypeAttributeSurfaceTangent,
 									  kQ3ObjectTypeAttributeHighlightState,
 									  kQ3ObjectTypeAttributeSurfaceShader,
-									  kQ3ObjectTypeAttributeEmissiveColor };
+									  kQ3ObjectTypeAttributeEmissiveColor,
+									  kQ3ObjectTypeAttributeMetallic
+									};
 
 
 
@@ -2561,6 +2647,9 @@ E3AttributeSet_GetNextAttributeType(TQ3AttributeSet theSet, TQ3AttributeType *th
 
 			if ( ( mask & kQ3XAttributeMaskSpecularControl ) != 0 )
 				e3set_iterator_scan_types ( & set->setData , kQ3AttributeTypeSpecularControl, nullptr, nullptr ) ;
+
+			if ( ( mask & kQ3XAttributeMaskMetallic ) != 0 )
+				e3set_iterator_scan_types ( & set->setData , kQ3AttributeTypeMetallic, nullptr, nullptr ) ;
 
 			if ( ( mask & kQ3XAttributeMaskTransparencyColor ) != 0 )
 				e3set_iterator_scan_types ( & set->setData , kQ3AttributeTypeTransparencyColor, nullptr, nullptr ) ;
@@ -2804,6 +2893,9 @@ E3AttributeSet_Inherit(TQ3AttributeSet parent, TQ3AttributeSet child, TQ3Attribu
 			if ( E3Bit_IsSet(theMask, kQ3XAttributeMaskSpecularControl) )
 				resultSet->setData.attributes.specularControl = parentSet->setData.attributes.specularControl ;
 
+			if ( E3Bit_IsSet(theMask, kQ3XAttributeMaskMetallic) )
+				resultSet->setData.attributes.metallic = parentSet->setData.attributes.metallic ;
+
 			if ( E3Bit_IsSet(theMask, kQ3XAttributeMaskTransparencyColor) )
 				resultSet->setData.attributes.transparencyColor = parentSet->setData.attributes.transparencyColor ;
 
@@ -3001,6 +3093,10 @@ E3XAttributeSet_GetPointer(TQ3AttributeSet attributeSet, TQ3AttributeType attrib
 		case kQ3AttributeTypeSpecularControl:
 			data = ( set->setData.theMask & kQ3XAttributeMaskSpecularControl ) == 0 ?
 					nullptr : &set->setData.attributes.specularControl ;
+			break;
+		case kQ3AttributeTypeMetallic:
+			data = ( set->setData.theMask & kQ3XAttributeMaskMetallic ) == 0 ?
+					nullptr : &set->setData.attributes.metallic ;
 			break;
 		case kQ3AttributeTypeTransparencyColor:
 			data = ( set->setData.theMask & kQ3XAttributeMaskTransparencyColor ) == 0 ?

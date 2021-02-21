@@ -5,7 +5,7 @@
         Reading routines for 3DMF File Format object.
         
     COPYRIGHT:
-        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -560,6 +560,22 @@ E3Read_3DMF_Attribute_SpecularControl(TQ3Object parentObject, TQ3FileObject theF
 
 	// Read the attribute
 	return(e3read_3dmf_addfloats(parentObject, kQ3AttributeTypeSpecularControl, 1, theFile));
+}
+
+
+
+
+
+//=============================================================================
+//      E3Read_3DMF_Attribute_Metallic : Metallic read method.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3Read_3DMF_Attribute_Metallic(TQ3Object parentObject, TQ3FileObject theFile)
+{
+
+
+	// Read the attribute
+	return(e3read_3dmf_addfloats(parentObject, kQ3AttributeTypeMetallic, 1, theFile));
 }
 
 
