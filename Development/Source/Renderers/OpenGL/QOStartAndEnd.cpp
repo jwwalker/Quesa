@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2020, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -425,11 +425,6 @@ void	QORenderer::Renderer::RenderTransparent( TQ3ViewObject inView )
 	
 	// Ignore any mask set for shadowing
 	glDisable( GL_STENCIL_TEST );
-	
-	// If kQ3RendererPropertyDepthAlphaThreshold has been set, let the mostly-
-	// opaque parts affect the depth buffer, so that other parts will not be
-	// drawn behind them.
-	mTransBuffer.DrawDepth( inView );
 
 	mLights.StartFrame( inView, false );
 	int passNum = 1;
@@ -450,6 +445,10 @@ void	QORenderer::Renderer::RenderTransparent( TQ3ViewObject inView )
 		++passNum;
 	} while (isMoreNeeded);
 	
+	// If kQ3RendererPropertyDepthAlphaThreshold has been set, let the mostly-
+	// opaque parts affect the depth buffer.
+	mTransBuffer.DrawDepth( inView );
+	
 	mTransBuffer.Cleanup();
 }
 
@@ -467,8 +466,6 @@ TQ3ViewStatus		QORenderer::Renderer::EndPass(
 	bool isFirstLightingPass = mLights.IsFirstPass();
 	if (isFirstLightingPass && mLights.IsLastLightingPass() && mTransBuffer.HasContent())
 	{
-		mTransBuffer.DrawDepth( inView );
-		
 		mPPLighting.EndPass();
 
 		CQ3ObjectRef	theCamera( CQ3View_GetCamera( inView ) );
@@ -488,6 +485,10 @@ TQ3ViewStatus		QORenderer::Renderer::EndPass(
 		glDepthFunc( compareFunc );
 		//Q3_MESSAGE_FMT("Transparency in one pass");
 		mTransBuffer.DrawTransparency( inView, GL_ONE, GL_ONE_MINUS_SRC_ALPHA );
+
+		glDepthFunc( GL_LESS );
+		mTransBuffer.DrawDepth( inView );
+		
 		mTransBuffer.Cleanup();
 	}
 	

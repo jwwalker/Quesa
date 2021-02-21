@@ -1097,6 +1097,29 @@ void	QORenderer::PerPixelLighting::StartPass( TQ3CameraObject inCamera )
 	}
 }
 
+static std::string DescribeProgram( const QORenderer::ProgramRec& inProgram )
+{
+	std::ostringstream desc;
+	DescribeLights( inProgram.mCharacteristic, desc );
+	desc << (inProgram.mCharacteristic.mIsTextured? "T+" : "T-");
+	switch (inProgram.mCharacteristic.mIlluminationType)
+	{
+	case kQ3IlluminationTypePhong:
+		desc << "I=P";
+		break;
+	case kQ3IlluminationTypeLambert:
+		desc << "I=L";
+		break;
+	case kQ3IlluminationTypeNULL:
+		desc << "I=0";
+		break;
+	case kQ3IlluminationTypeNondirectional:
+		desc << "I=n";
+		break;
+	}
+	return desc.str();
+}
+
 
 /*!
 	@function	ChooseProgram
@@ -1138,6 +1161,9 @@ void	QORenderer::PerPixelLighting::ChooseProgram()
 				mFuncs.glUseProgram( theProgram->mProgram );
 				CHECK_GL_ERROR_MSG("glUseProgram");
 			#if Q3_DEBUG
+				std::string desc( DescribeProgram( *theProgram ) );
+				Q3_MESSAGE_FMT("Using program ID %u, of type %s",
+					(unsigned int)theProgram->mProgram, desc.c_str() );
 				if ( (sGLError != GL_NO_ERROR) && (mFuncs.glIsProgram != nullptr) )
 				{
 					GLboolean isProgram = (*mFuncs.glIsProgram)( theProgram->mProgram );
@@ -1580,29 +1606,6 @@ void	QORenderer::PerPixelLighting::InitVertexShader()
 			ProgCache()->SetVertexShaderID( mProgramCharacteristic.mProjectionType, vertexShader );
 		}
 	}
-}
-
-static std::string DescribeProgram( const QORenderer::ProgramRec& inProgram )
-{
-	std::ostringstream desc;
-	DescribeLights( inProgram.mCharacteristic, desc );
-	desc << (inProgram.mCharacteristic.mIsTextured? "T+" : "T-");
-	switch (inProgram.mCharacteristic.mIlluminationType)
-	{
-	case kQ3IlluminationTypePhong:
-		desc << "I=P";
-		break;
-	case kQ3IlluminationTypeLambert:
-		desc << "I=L";
-		break;
-	case kQ3IlluminationTypeNULL:
-		desc << "I=0";
-		break;
-	case kQ3IlluminationTypeNondirectional:
-		desc << "I=n";
-		break;
-	}
-	return desc.str();
 }
 
 /*!

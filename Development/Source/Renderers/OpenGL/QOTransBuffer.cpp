@@ -1460,6 +1460,15 @@ void	TransBuffer::InitGLStateForDepth( TQ3ViewObject inView,
 	
 	@abstract	If a special renderer property is present, draw the geometry
 				again, affecting only the depth buffer.
+				
+	@discussion	Previously, we did this before rendering transparent stuff to the color buffer.  That
+				meant that sufficiently opaque fragments would cause deeper fragments to be
+				discarded, and we used a fairly high alpha threshold.  The drawback was that the
+				depth buffer did not show much translucent content, causing poor results for depth
+				of field post-processing.
+				
+				The new approach draws the depth after the colors, hence it has no effect on depth
+				testing, only the final depth buffer.  We then use a more moderate alpha threshold.
 */
 void	TransBuffer::DrawDepth( TQ3ViewObject inView )
 {
