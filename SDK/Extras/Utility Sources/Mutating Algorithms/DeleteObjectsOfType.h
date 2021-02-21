@@ -8,7 +8,7 @@
 		Initial version written by James W. Walker.
 
     COPYRIGHT:
-        Copyright (c) 2008, Quesa Developers. All rights reserved.
+        Copyright (c) 2008-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -46,7 +46,7 @@
 #ifndef QUESA_DELETEOBJECTSOFTYPE_HDR
 #define QUESA_DELETEOBJECTSOFTYPE_HDR
 
-#if !TARGET_RT_MAC_MACHO
+#ifndef __APPLE__
 	#include "Quesa.h"
 #else
 	#include <Quesa/Quesa.h>

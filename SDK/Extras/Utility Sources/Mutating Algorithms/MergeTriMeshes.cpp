@@ -8,7 +8,7 @@
 		Initial version written by James W. Walker.
 
     COPYRIGHT:
-        Copyright (c) 2007-2011, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -50,7 +50,7 @@
 #include "FindTriMeshVertexData.h"
 #include "MergeTriMeshList.h"
 
-#if !TARGET_RT_MAC_MACHO
+#ifndef __APPLE__
 	#include "CQ3ObjectRef.h"
 	#include "CQ3ObjectRef_Gets.h"
 	#include "QuesaCustomElements.h"

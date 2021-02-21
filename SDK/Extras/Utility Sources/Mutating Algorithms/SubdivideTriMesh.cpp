@@ -49,7 +49,7 @@
 #include "FindTriMeshFaceData.h"
 #include "FindTriMeshVertexData.h"
 
-#if !TARGET_RT_MAC_MACHO
+#ifndef __APPLE__
 	#include "QuesaGeometry.h"
 	#include "QuesaSet.h"
 	#include "QuesaMathOperators.hpp"

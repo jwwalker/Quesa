@@ -8,7 +8,7 @@
 		Initial version written by James W. Walker.
 
     COPYRIGHT:
-        Copyright (c) 2020, Quesa Developers. All rights reserved.
+        Copyright (c) 2020-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -48,7 +48,7 @@
 #define SubdivideTriMesh_hpp
 
 
-#if !TARGET_RT_MAC_MACHO
+#ifndef __APPLE__
 	#include "Quesa.h"
 #else
 	#include <Quesa/Quesa.h>
