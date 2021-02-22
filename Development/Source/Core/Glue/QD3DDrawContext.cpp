@@ -6,7 +6,7 @@
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -598,6 +598,35 @@ Q3DrawContext_GetDoubleBufferState(TQ3DrawContextObject context, TQ3Boolean *sta
 	// Call our implementation
 	return(E3DrawContext_GetDoubleBufferState(context, state));
 }
+
+
+#pragma mark -
+
+/*!
+ *  @function
+ *      Q3GenericDrawContext_New
+ *  @discussion
+ *      Create a new Generic draw context object.
+ *
+ *  @param contextPane      The pane area for the generic draw context object.
+ *  @result                 The new draw context object.
+ */
+TQ3DrawContextObject _Nonnull
+Q3GenericDrawContext_New (
+    const TQ3Area * _Nonnull contextPane )
+{
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(contextPane), nullptr);
+	
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+
+	// Call our implementation
+	return E3GenericDrawContext_New(contextPane);
+}
+
 
 
 

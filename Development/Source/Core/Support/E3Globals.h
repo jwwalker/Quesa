@@ -106,6 +106,7 @@ extern "C" {
 #define kQ3ClassNameDrawContextMac					"MacDrawContext"
 #define kQ3ClassNameDrawContextCocoa				"CocoaDrawContext"
 #define kQ3ClassNameDrawContextPixmap				"PixmapDrawContext"
+#define kQ3ClassNameDrawContextGeneric				"GenericDrawContext"
 #define kQ3ClassNameDrawContextWin32DC				"Win32DCDrawContext"
 #define kQ3ClassNameDrawContextX11					"X11DrawContext"
 #define kQ3ClassNameElement							"Element"

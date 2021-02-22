@@ -5,7 +5,7 @@
         Header file for E3DrawContext.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -222,6 +222,8 @@ TQ3Boolean				E3DrawContext_IsOfMyClass ( TQ3Object object ) ;
 TQ3DrawContextObject	E3PixmapDrawContext_New(const TQ3PixmapDrawContextData *drawContextData);
 TQ3Status				E3PixmapDrawContext_SetPixmap(TQ3DrawContextObject drawContext, const TQ3Pixmap *pixmap);
 TQ3Status				E3PixmapDrawContext_GetPixmap(TQ3DrawContextObject drawContext, TQ3Pixmap *pixmap);
+
+TQ3DrawContextObject	E3GenericDrawContext_New(const TQ3Area *drawContextData);
 
 
 // Mac specific
