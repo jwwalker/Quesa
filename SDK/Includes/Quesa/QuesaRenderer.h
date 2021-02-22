@@ -14,7 +14,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1420,16 +1420,13 @@ typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererModalConfigureMethod)
  *      The built-in renderer types include:
  *
  *		<ul>
- *			<li>kQ3RendererTypeOpenGL, new OpenGL</li>
- *			<li>kQ3RendererTypeInteractive, legacy OpenGL</li>
- *			<li>kQ3RendererTypeWireFrame, wire frame</li>
- *			<li>kQ3RendererTypeCartoon, cartoon style</li>
- *			<li>kQ3RendererTypeHiddenLine, hidden line removal, non photorealistic</li>
+ *			<li><code>kQ3RendererTypeOpenGL</code>, new OpenGL</li>
+ *			<li><code>kQ3RendererTypeGeneric</code>, generic renderer</li>
  *		</ul>
  *
  *		One can also get a complete list of installed renderer types by calling
  *		<code>Q3ObjectHierarchy_GetSubClassData</code> for the class
- *		kQ3SharedTypeRenderer, and get the human-readable names of the renderer
+ *		<code>kQ3SharedTypeRenderer</code>, and get the human-readable names of the renderer
  *		types using <code>Q3RendererClass_GetNickNameString</code>.
  *
  *  @param rendererObjectType    The class type of the renderer to create.
