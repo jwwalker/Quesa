@@ -761,7 +761,8 @@ typedef enum TQ3AttributeTypes {
     kQ3AttributeTypeHighlightState              = 10,           // TQ3Switch
     kQ3AttributeTypeSurfaceShader               = 11,           // TQ3SurfaceShaderObject
     kQ3AttributeTypeEmissiveColor               = 12,           // TQ3ColorRGB
-    kQ3AttributeTypeNumTypes                    = 13,           // N/A
+    kQ3AttributeTypeMetallic                    = 13,           // float, usually 0.0 or 1.0
+    kQ3AttributeTypeNumTypes                    = 14,           // N/A
     kQ3AttributeTypeSize32                      = 0x7FFFFFFF
 } TQ3AttributeTypes;
 </pre>
@@ -796,6 +797,11 @@ Larger values make smaller specular highlights.</dd>
 <dt><a name="//Quesa/c/econst/kQ3AttributeTypeEmissiveColor"><tt>kQ3AttributeTypeEmissiveColor</tt></a></dt><dd>Emissive color (<code>TQ3ColorRGB</code>)
 (<em>This attribute did not exist in QuickDraw
 3D, and may not be recognized by all renderers.</em>)</dd>
+<dt><a name="//Quesa/c/econst/kQ3AttributeTypeMetallic"><tt>kQ3AttributeTypeMetallic</tt></a></dt><dd>Metallic (1.0 for metal, 0.0 for nonmetal, default 0.0).  Metal treats the
+diffuse color.as black, and makes ambient light interact with specular
+color.
+(<em>This attribute did not exist in QuickDraw
+3D, and may not be recognized by all renderers.</em>)</dd>
 <dt><a name="//Quesa/c/econst/kQ3AttributeTypeNumTypes"><tt>kQ3AttributeTypeNumTypes</tt></a></dt><dd>Number of standard attribute types.</dd>
 </dl>
 </blockquote>
@@ -816,9 +822,10 @@ enum {
     kQ3XAttributeMaskHighlightState             = (1 &lt;&lt; (kQ3AttributeTypeHighlightState     - 1)),
     kQ3XAttributeMaskSurfaceShader              = (1 &lt;&lt; (kQ3AttributeTypeSurfaceShader      - 1)),
     kQ3XAttributeMaskEmissiveColor              = (1 &lt;&lt; (kQ3AttributeTypeEmissiveColor      - 1)),
+    kQ3XAttributeMaskMetallic                   = (1 &lt;&lt; (kQ3AttributeTypeMetallic           - 1)),
     kQ3XAttributeMaskCustomAttribute            = 0x80000000,
-    kQ3XAttributeMaskAll                        = 0x80000FFF,
-    kQ3XAttributeMaskInherited                  = 0x000003FF,
+    kQ3XAttributeMaskAll                        = 0x80001FFF,
+    kQ3XAttributeMaskInherited                  = 0x00001FFF,
     kQ3XAttributeMaskInterpolated               = kQ3XAttributeMaskSurfaceUV          |
                                                   kQ3XAttributeMaskShadingUV          |
                                                   kQ3XAttributeMaskNormal             |
@@ -851,11 +858,12 @@ enum {
 <dt><a name="//Quesa/c/econst/kQ3XAttributeMaskHighlightState"><tt>kQ3XAttributeMaskHighlightState</tt></a></dt><dd>Highlight state attribute mask.</dd>
 <dt><a name="//Quesa/c/econst/kQ3XAttributeMaskSurfaceShader"><tt>kQ3XAttributeMaskSurfaceShader</tt></a></dt><dd>Surface shader attribute mask.</dd>
 <dt><a name="//Quesa/c/econst/kQ3XAttributeMaskEmissiveColor"><tt>kQ3XAttributeMaskEmissiveColor</tt></a></dt><dd>Emissive color attribute mask.</dd>
+<dt><a name="//Quesa/c/econst/kQ3XAttributeMaskMetallic"><tt>kQ3XAttributeMaskMetallic</tt></a></dt><dd>Metallic attribute mask.</dd>
 <dt><a name="//Quesa/c/econst/kQ3XAttributeMaskCustomAttribute"><tt>kQ3XAttributeMaskCustomAttribute</tt></a></dt><dd>Custom attribute mask.</dd>
 <dt><a name="//Quesa/c/econst/kQ3XAttributeMaskAll"><tt>kQ3XAttributeMaskAll</tt></a></dt><dd>All attributes.</dd>
 <dt><a name="//Quesa/c/econst/kQ3XAttributeMaskInherited"><tt>kQ3XAttributeMaskInherited</tt></a></dt><dd>Inherited attributes mask.</dd>
 <dt><a name="//Quesa/c/econst/kQ3XAttributeMaskInterpolated"><tt>kQ3XAttributeMaskInterpolated</tt></a></dt><dd>Interpolated attributes mask.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2020 Quesa Developers (Last Updated 3/19/2020)
+<p><p>&#169; 1999-2021 Quesa Developers (Last Updated 2/21/2021)
 </p></body></html>

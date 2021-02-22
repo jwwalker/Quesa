@@ -430,16 +430,13 @@ the application for later recall.
 The built-in renderer types include:
 <br><br>
 <ul>
-<li>kQ3RendererTypeOpenGL, new OpenGL</li>
-<li>kQ3RendererTypeInteractive, legacy OpenGL</li>
-<li>kQ3RendererTypeWireFrame, wire frame</li>
-<li>kQ3RendererTypeCartoon, cartoon style</li>
-<li>kQ3RendererTypeHiddenLine, hidden line removal, non photorealistic</li>
+<li><code>kQ3RendererTypeOpenGL</code>, new OpenGL</li>
+<li><code>kQ3RendererTypeGeneric</code>, generic renderer</li>
 </ul>
 <br><br>
 One can also get a complete list of installed renderer types by calling
 <code>Q3ObjectHierarchy_GetSubClassData</code> for the class
-kQ3SharedTypeRenderer, and get the human-readable names of the renderer
+<code>kQ3SharedTypeRenderer</code>, and get the human-readable names of the renderer
 types using <code>Q3RendererClass_GetNickNameString</code>.
 <br><br>
 </p>
@@ -1925,5 +1922,5 @@ enum {
 <br><br>
 The data for the attribute is a single TQ3CSGObjectID.
  </p>
-<p><p>&#169; 1999-2020 Quesa Developers (Last Updated 3/19/2020)
+<p><p>&#169; 1999-2021 Quesa Developers (Last Updated 2/21/2021)
 </p></body></html>

@@ -469,6 +469,25 @@ draw context (e.g., the bounds of the window).
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
+<hr><a name="//Quesa/c/func/Q3GenericDrawContext_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3GenericDrawContext_New">Q3GenericDrawContext_New</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3DrawContextObject _Nonnull ) Q3GenericDrawContext_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Area * _Nonnull contextPane
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Create a new Generic draw context object.  A generic draw context cannot be used for rendering,
+except when using a generic renderer, but can be used for window point and window rectangle
+picking.  You can use <code>Q3DrawContext_SetPane</code> to update the pane area.
+<br><br>
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>contextPane</em></tt></dt><dd>The pane area for the generic draw context object.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>The new draw context object.
+ </dd></dl>
 <hr><a name="//Quesa/c/func/Q3PixmapDrawContext_GetPixmap"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3PixmapDrawContext_GetPixmap">Q3PixmapDrawContext_GetPixmap</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3PixmapDrawContext_GetPixmap (
@@ -852,5 +871,5 @@ purpose of the function, and its parameters/result, have been assumed.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>The X11 visual info.
  </dd></dl>
-<p><p>&#169; 1999-2020 Quesa Developers (Last Updated 3/19/2020)
+<p><p>&#169; 1999-2021 Quesa Developers (Last Updated 2/21/2021)
 </p></body></html>
