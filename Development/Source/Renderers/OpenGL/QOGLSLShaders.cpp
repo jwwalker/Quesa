@@ -105,7 +105,7 @@ void main()
 	// Transform vertex position to eye coordinates.
 	vec4 ECPosition = quesaModelViewMtx * quesaVertex;
 
-	vs_out.texCoord = (quesaTextureMtx * vec4( quesaTexCoord0, 0.0, 0.0 )).st;
+	vs_out.texCoord = (quesaTextureMtx * vec4( quesaTexCoord0, 0.0, 1.0 )).st;
 
 	vs_out.interpolatedColor = quesaColor;
 
