@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -276,7 +276,7 @@ void	Texture::SetOpenGLTexturingParameters()
 	
 	
 	// Alpha test
-	if (mState.mIsTextureAlphaTest)
+	if (mState.mIsTextureActive && mState.mIsTextureAlphaTest)
 	{
 		mRenderer.Shader().SetAlphaThreshold( mState.mAlphaTestThreshold );
 	}
@@ -292,7 +292,7 @@ void Texture::TextureState::Reset()
 	mIsTextureTransparent = false;
 	mIsTextureMipmapped = false;
 	mIsTextureAlphaTest = false;
-	mAlphaTestThreshold = 0.5f;
+	mAlphaTestThreshold = 0.0f;
 	mGLTextureObject = 0;
 }
 
@@ -405,6 +405,7 @@ void	Texture::SetCurrentTexture(
 		mState.mIsTextureActive = false;
 		mPendingTextureRemoval = true;
 		Q3Matrix3x3_SetIdentity( &mState.mUVTransform );
+		mState.mIsTextureAlphaTest = false;
 	}
 	else	// enable texturing
 	{
