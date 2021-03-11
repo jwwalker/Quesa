@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -59,6 +59,7 @@ namespace
 	const TQ3ColorRGB	kDefaultDiffuseColor = { 1.0f, 1.0f, 1.0f };
 	const TQ3ColorRGB	kDefaultSpecularColor = { 0.5f, 0.5f, 0.5f };
 	const float			kDefaultSpecularControl = 4.0f;
+	const float			kDefaultMetallic = 0.0f;
 	const float			kDefaultAlpha = 1.0f;
 	const TQ3ColorRGB	kDefaultEmissiveColor = { 0.0f, 0.0f, 0.0f };
 	
@@ -74,6 +75,7 @@ void	QORenderer::ColorState::Reset()
 	diffuseColor = &kDefaultDiffuseColor;
 	specularColor = &kDefaultSpecularColor;
 	specularControl = kDefaultSpecularControl;
+	metallic = kDefaultMetallic;
 	emissiveColor = &kDefaultEmissiveColor;
 	alpha = kDefaultAlpha;
 	highlightState = kQ3Off;

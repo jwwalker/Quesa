@@ -5,11 +5,10 @@
         Header file for E3Controller.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
 
-        For the current release of Quesa, please see:
-
-            <https://github.com/h-haris/Quesa>
+        For the current release of Quesa including 3D device suppoprt,
+        please see: <https://github.com/h-haris/Quesa>
         
         Redistribution and use in source and binary forms, with or without
         modification, are permitted provided that the following conditions
@@ -89,13 +88,13 @@ TQ3Status					E3Controller_SetTrackerOrientation(TQ3ControllerRef controllerRef,
 TQ3Status					E3Controller_MoveTrackerOrientation(TQ3ControllerRef controllerRef, const TQ3Quaternion *delta);
 TQ3Status					E3Controller_GetValues(TQ3ControllerRef controllerRef, TQ3Uns32 valueCount, float *values, TQ3Boolean *changed, TQ3Uns32 *serialNumber);
 TQ3Status					E3Controller_SetValues(TQ3ControllerRef controllerRef, const float *values, TQ3Uns32 valueCount);
-TQ3Status					E3ControllerState_RegisterClass(void);		//new; o.h.
-TQ3Status					E3ControllerState_UnregisterClass(void);	//new; o.h.
+TQ3Status					E3ControllerState_RegisterClass(void);
+TQ3Status					E3ControllerState_UnregisterClass(void);
 TQ3ControllerStateObject	E3ControllerState_New(TQ3ControllerRef controllerRef);
 TQ3Status					E3ControllerState_SaveAndReset(TQ3ControllerStateObject controllerStateObject);
 TQ3Status					E3ControllerState_Restore(TQ3ControllerStateObject controllerStateObject);
-TQ3Status					E3Tracker_RegisterClass(void);		//new; o.h.
-TQ3Status					E3Tracker_UnregisterClass(void);	//new; o.h.
+TQ3Status					E3Tracker_RegisterClass(void);
+TQ3Status					E3Tracker_UnregisterClass(void);
 TQ3TrackerObject			E3Tracker_New(TQ3TrackerNotifyFunc notifyFunc);
 TQ3Status					E3Tracker_SetNotifyThresholds(TQ3TrackerObject trackerObject, float positionThresh, float orientationThresh);
 TQ3Status					E3Tracker_GetNotifyThresholds(TQ3TrackerObject trackerObject, float *positionThresh, float *orientationThresh);

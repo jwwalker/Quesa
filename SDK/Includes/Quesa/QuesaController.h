@@ -51,7 +51,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -223,10 +223,10 @@ typedef Q3_CALLBACK_API_C(void, TQ3CursorTrackerNotifyFunc)(void);
  *
  *  @field signature        A C string which uniquely identifies the manufacturer
  *                          and model of the controller.
- *  @field valueCount       The number of values supported by the controller. 
-							An upper boundary is not specified by Apple. The 
-							ControllerCoreOSX.framework is compiled with a 
-							boundary of 256 values.
+ *  @field valueCount       The number of values supported by the controller.
+ *                          An upper boundary is not specified by Apple. The 
+ *                          ControllerCoreOSX.framework is compiled with a 
+ *                          boundary of 256 values.
  *  @field channelCount     The number of channels supported by the controller.
  *  @field channelGetMethod The channel-getting method for the controller. This
  *                          field is only valid if channelCount is non-zero, and
@@ -1230,13 +1230,13 @@ Q3Tracker_MoveOrientation (
  *      Q3Tracker_SetEventCoordinates
  *  @discussion
  *      Set the coordinates of a tracker at a specified time.
- *		Events are added to a queue with a depth of ten elements. The events are sorted by their timestamp.
- *		The oldest event will be discarded, if the queue is full at adding an event.
+ *      Events are added to a queue with a depth of ten elements. The events are sorted by their timestamp.
+ *      The oldest event will be discarded, if the queue is full at adding an event.
  *
  *      Time units are not given. Epoch (32bit time_t) or timestamps with higher resolutions might 
- *		be suitable.
+ *      be suitable.
  *
- *		<em>This function is implemented.</em>
+ *      <em>This function is implemented.</em>
  *
  *  @param trackerObject    The tracker to update.
  *  @param timeStamp        The time stamp.
@@ -1261,13 +1261,13 @@ Q3Tracker_SetEventCoordinates (
  *      Q3Tracker_GetEventCoordinates
  *  @discussion
  *      Get the coordinates of a tracker at a specified time.
- *		Coordinates closest to specified time will be returned. Events with their timestamp older then the
- *		specified time will be removed from a queue with a depth of ten elements.
+ *      Coordinates closest to specified time will be returned. Events with their timestamp older then the
+ *      specified time will be removed from a queue with a depth of ten elements.
  *
  *      Time units are not given. Epoch (32bit time_t) or timestamps with higher resolutions might 
- *		be suitable.
+ *      be suitable.
  *
- *		<em>This function is implemented.</em>
+ *      <em>This function is implemented.</em>
  *
  *  @param trackerObject    The tracker to query.
  *  @param timeStamp        The time stamp.

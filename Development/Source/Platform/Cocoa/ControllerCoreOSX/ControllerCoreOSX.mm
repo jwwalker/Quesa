@@ -8,8 +8,8 @@
  Under MacOS X the communication (IPC) between driver, device server and
  client is implemented via PDO (portable distributed objects).
  This source file defines the lower functions used by the Quesa framework to
- communicate with the device server. It packs passed data, sends it to the
- device server and unpacks received data to be returned to the caller.
+ communicate with the device server. It serialises passed data, sends it to the
+ device server and de-serialises received data to be returned to the caller.
  
  Methods are defined to support controller, tracker and controller states.
  Under MacOS X there is currently no global 3D system cursor.
@@ -17,9 +17,8 @@
  COPYRIGHT:
  Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
  
- For the current release of Quesa, please see:
- 
- <http://www.quesa.org/>
+ For the current release of Quesa including 3D device suppoprt,
+ please see: <https://github.com/h-haris/Quesa>
  
  Redistribution and use in source and binary forms, with or without
  modification, are permitted provided that the following conditions
@@ -57,7 +56,7 @@
  *
  * - Q3Controller will not be registered as an object of QD3D
  *
- * - originally Q3Controller was running out of a library inside the QD3D INIT
+ * - originally Q3Controller was running out of a library inside the classic QD3D INIT
  *
  * - Deviation against QD3D in current implementation:
  * there is NO tracker held in background for the system cursor (aka mouse pointer),
@@ -79,10 +78,6 @@
 #include "ControllerDriverCoreOSX.h"
 #include "TrackerCoreOSX.h"
 #include "ControllerCoreOSXinternals.h"
-
-#if 0
-    #include <spawn.h>
-#endif
 
 //=============================================================================
 //      Internal constants
@@ -129,91 +124,13 @@ id      privateProxyDB = /*objective C++ !? ->*/ nil;
 
 #pragma mark -
 
-#if 0
-extern char **environ;
-
-//test_posix_spawn: found here http://stackoverflow.com/questions/5883462/linux-createprocess
-void test_posix_spawn(void) {
-    pid_t pid;
-    char *argv[] = {"ls", (char *) 0};
-    int status;
-    puts("Testing posix_spawn");
-    fflush(NULL);
-    status = posix_spawn(&pid, "/bin/ls", NULL, NULL, argv, environ);
-    if (status == 0) {
-        printf("Child id: %i\n", pid);
-        fflush(NULL);
-        if (waitpid(pid, &status, 0) != -1) {
-            printf("Child exited with status %i\n", status);
-        } else {
-            perror("waitpid");
-        }
-    } else {
-        printf("posix_spawn: %s\n", strerror(status));
-    }
-}
-
-TQ3Status spawnDB(void)
-{
-    TQ3Status   status = kQ3Failure;
-    pid_t       pid;
-    char        *argv[] = {NULL};
-    int         spawnStatus;
-    
-    NSMutableString *homeDir = [NSMutableString stringWithString:NSHomeDirectory()];
-    [homeDir appendString:@"/Library/Frameworks/QuesaCocoaDeviceServer.app/Contents/MacOS/QuesaCocoaDeviceServer"];
-#if 1
-    NSLog(@"homedir: %s\n",[homeDir cStringUsingEncoding:NSASCIIStringEncoding]);
-#endif
-    spawnStatus = posix_spawn(&pid, [homeDir cStringUsingEncoding:NSASCIIStringEncoding], NULL, NULL, argv, environ);
-    if (spawnStatus == 0) {
-        NSLog(@"Child id: %i\n", pid);
-        status = kQ3Success;
-    } else {
-        NSLog(@"posix_spawn: %i %s\n", spawnStatus, strerror(spawnStatus));
-    }
-    
-    return(status);
-}
-#endif //#if 0 \ void test_posix_spawn(void)
-
-#if 0
-/*TODO: rework!
- - startDB might not be needed as Device Server will be instantiated by first Quesa framework user.
-   This might be either a Device Driver App or a faceless / deamon Device Server App. Or the Module Test App...
- */
-static TQ3Status startDB(void)
-{
-    TQ3Status   status = kQ3Failure;
-    
-    NSMutableString *dirDB = [NSMutableString stringWithString:NSHomeDirectory()];
-    [dirDB appendString:@"/Library/Frameworks/QuesaCocoaDeviceServer.app"];
-#if 0
-    NSLog(@"homedir: %s\n",[dirDB cStringUsingEncoding:NSASCIIStringEncoding]);
-#endif
-#if 0
-    NSLog(@"sizeof(TQ3ControllerRef) = %lu\n",sizeof(TQ3ControllerRef));//output: 8
-    NSLog(@"TQ3ControllerRef : %s\n", @encode(TQ3ControllerRef));
-    
-    NSLog(@"sizeof(TQ3ControllerRefCast) = %lu\n",sizeof(TQ3ControllerRefCast));//output: 8
-    NSLog(@"TQ3ControllerRefCast : %s\n", @encode(TQ3ControllerRefCast));
-#endif
-    if (YES==[[NSWorkspace sharedWorkspace] launchApplication:dirDB])
-    {
-        sleep(2);//TBC: make this more elegant: wait for notification?
-        status = kQ3Success;
-    }
-    return(status);
-}
-#endif //startDB
-
 //proxy object id of Controller DB vended by Device Server App
 static TQ3Status idOfDB(id *theID)
 {
     TQ3Status status = kQ3Failure;
     *theID = nil;
+
     //fetch vended database object: server name kQuesa3DeviceServer
-#if 1 //TODO: clean up!
     if (nil==privateProxyDB){
         privateProxyDB = [NSConnection
                           rootProxyForConnectionWithRegisteredName:@kQuesa3DeviceServer
@@ -228,31 +145,7 @@ static TQ3Status idOfDB(id *theID)
     
     *theID = privateProxyDB;
     status = kQ3Success;
-#else //TODO: rework
-    if (nil==privateProxyDB){
-        privateProxyDB = [NSConnection
-                          rootProxyForConnectionWithRegisteredName:@kQuesa3DeviceServer
-                          host:nil];
-        if (nil==privateProxyDB){
-            //connection to DB in not available so far! Spawn DB...
-            if (kQ3Failure==startDB()){
-                /* spawn went wrong*/
-                goto fail;
-            } else {
-                privateProxyDB = [NSConnection
-                                  rootProxyForConnectionWithRegisteredName:@kQuesa3DeviceServer
-                                  host:nil];
-            }
-        }
-        [privateProxyDB retain];
-        [privateProxyDB setProtocolForProxy:@protocol(Q3DODeviceDB)];
-    }
-    
-    *theID = privateProxyDB;
-    status = kQ3Success;
-    
-fail:
-#endif
+
     return(status);
 }
 
@@ -369,7 +262,7 @@ CC3OSXController_Next(TQ3ControllerRef controllerRef, TQ3ControllerRef *nextCont
 //-----------------------------------------------------------------------------
 //		Note : More detailed comments can be placed here if required.
 //
-// QD3D:notification function of associated tracker might get called!			
+// QD3D:notification function of associated tracker might get called!
 //-----------------------------------------------------------------------------
 TQ3Status
 CC3OSXController_SetActivation(TQ3ControllerRef controllerRef, TQ3Boolean active)
@@ -428,11 +321,9 @@ CC3OSXController_GetSignature(TQ3ControllerRef controllerRef, char *signature, T
         char *tmpsig = (char*)malloc(sigFullLength);
         
         BOOL flag = [aSignature getCString:tmpsig maxLength:sigFullLength encoding:NSASCIIStringEncoding];
-#if 1
+
 #pragma unused (flag)
-#else
-        NSLog(@"length %d , flag (%d)\n",sigFullLength,flag);
-#endif
+
         strncpy(signature,tmpsig,numChars-1);
         signature[numChars-1] = '\0';
         free(tmpsig);
@@ -835,20 +726,14 @@ CC3OSXController_GetValues(TQ3ControllerRef controllerRef, TQ3Uns32 valueCount, 
             [valAr release]; // CFRelease(valAr);
         }
         
-#if 1
         if (serialNumber!=NULL)
             if (*serialNumber!=tempSerNum)
                 *serialNumber = tempSerNum;
-#endif
     }
     
     if (changed!=NULL)
         *changed=tempChanged;
-#if 0
-    if (serialNumber!=NULL)
-        if (*serialNumber!=tempSerNum)
-            *serialNumber = tempSerNum;
-#endif
+
     return(status);
 }//TODO: finalize CC3OSXController_GetValues: potential leak
 

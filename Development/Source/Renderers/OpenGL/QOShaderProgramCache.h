@@ -11,7 +11,7 @@
         Header for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2014-2020, Quesa Developers. All rights reserved.
+        Copyright (c) 2014-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -193,6 +193,7 @@ struct ProgramRec
 	GLint			mNormalMtxUniformLoc;
 	GLint			mSpecularColorUniformLoc;
 	GLint			mShininessUniformLoc;
+	GLint			mMetallicUniformLoc;
 	GLint			mEmissiveColorUniformLoc;
 	GLint			mAmbientLightUniformLoc;
 	GLint			mAlphaThresholdUniformLoc;

@@ -24,7 +24,6 @@
 - (void)registerVendConnection;
 - (void)incControllerListSerialNumber;
 - (NSUInteger) dbIndexOfTrackerUUID:(NSString *) aTrackerUUID;
-- (NSUInteger) dbIndexOfUUID:(NSString *) aUUID;
 - (NSUInteger) dbIndexOfSignature:(NSString *) aDriverSignature;
 - (NSUInteger) dbIndexOfSControllerRef:(TQ3ControllerRef) aControllerRef;
 - (TQ3Boolean) isKnownSignature:(NSString *) aDriverSignature;

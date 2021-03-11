@@ -6,11 +6,10 @@
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
 
-        For the current release of Quesa, please see:
-
-            <https://github.com/h-haris/Quesa>
+        For the current release of Quesa including 3D device suppoprt,
+        please see: <https://github.com/h-haris/Quesa>
         
         Redistribution and use in source and binary forms, with or without
         modification, are permitted provided that the following conditions

@@ -14,7 +14,7 @@
 
 - (id)init {
     if (self = [super init]) {
-		//TODO: init my own stuff
+		//init my own stuff
 	}
     return self;
 }
@@ -81,7 +81,7 @@
 	isDecommissioned=kQ3True;
 
 	return(status);
-}//done
+}
 
 
 - (TQ3Status) recommissionController
@@ -89,9 +89,9 @@
     theButtons=0;
     serialNumber=1;
     isDecommissioned=kQ3False;
-	
+
 	return(kQ3Success);
-}//done
+}
 
 
 - (TQ3Status)getSignature:(inout NSString **)signature
@@ -104,7 +104,7 @@
         *signature = _signature;//retain? release by receiver?
     
     return(status);
-}//done; TODO: TBC: regard isDecommissioned?
+}
 
 
 - (NSString*) signature
@@ -144,9 +144,9 @@
     if (_trackerUUID!=NULL)
         [trackerProxy callNotificationWithController:_controllerRef];
 	status = kQ3Success;
-	
+
 	return(status);
-}//done
+}
 
 
 - (TQ3Status) getActivation:(inout TQ3Boolean *)active
@@ -154,7 +154,7 @@
 	TQ3Status status = kQ3Success;
 	*active = isActive;
 	return(status);
-}//done
+}
 
 
 - (TQ3Status)getValueCount:(inout TQ3Uns32 *)valueCount
@@ -167,7 +167,7 @@
         *valueCount=_valueCount;
     
 	return(status);
-}//done
+}
 
 
 //-----------------------------------------------------------------------------
@@ -176,29 +176,29 @@
 //-----------------------------------------------------------------------------
 - (TQ3Status) setButtons:(TQ3Uns32) buttons
 {
-	TQ3Status status = kQ3Failure;
-	TQ3Uns32 buttonMask;
-	
-	if (isActive==kQ3True)
-	{
-		buttonMask = theButtons^buttons;
-		theButtons = buttons;
-		
+    TQ3Status status = kQ3Failure;
+    TQ3Uns32 buttonMask;
+    
+    if (isActive==kQ3True)
+    {
+        buttonMask = theButtons^buttons;
+        theButtons = buttons;
+        
         if (_trackerUUID!=NULL)
             [trackerProxy changeButtonsWithController:_controllerRef
                                               buttons:buttons
                                            buttonMask:buttonMask];
-		/*
-		 else
-		 //modify System Cursor Tracker
-		 //very platform dependant! No moving/modifying of system cursor/mouse pointer planned so far!
-		 */
-	}
+        /*
+         else
+         //modify System Cursor Tracker
+         //very platform dependant! No moving/modifying of system cursor/mouse pointer planned so far!
+         */
+    }
     
-	status = kQ3Success;
-	
-	return(status);
-}//done
+    status = kQ3Success;
+    
+    return(status);
+}
 
 
 - (TQ3Status) getButtons:(inout TQ3Uns32 *)buttons
@@ -206,7 +206,7 @@
 	TQ3Status status = kQ3Success;
 	*buttons = theButtons;
 	return(status);
-}//done
+}
 
 
 - (TQ3Status) hasTracker:(inout TQ3Boolean *) hasTracker
@@ -226,12 +226,13 @@
         NSLog(@"trackerIsActive (%d), isActive (%d)\n",trackerIsActive, isActive);
 #endif
     }
-    else *hasTracker = kQ3False;
+    else
+        *hasTracker = kQ3False;
     
     status = kQ3Success;
     
 	return(status);
-}//done
+}
 
 
 //-----------------------------------------------------------------------------
@@ -247,7 +248,7 @@
 		*track2DCursor=kQ3True;
 	
 	return(status);
-}//done
+}
 
 
 //-----------------------------------------------------------------------------
@@ -263,7 +264,7 @@
 		*track3DCursor=kQ3True;
     
 	return(status);
-}//done
+}
 
 
 - (TQ3Status) getTrackerPosition:(inout TQ3Point3D *) position
@@ -289,7 +290,7 @@
     }
     
 	return(status);
-}//done
+}
 
 
 - (TQ3Status) setTrackerPosition:(TQ3Point3D) position
@@ -311,7 +312,7 @@
     status = kQ3Success;
     
 	return(status);
-}//done
+}
 
 
 //-----------------------------------------------------------------------------
@@ -333,7 +334,7 @@
     status = kQ3Success;
     
 	return(status);
-}//done
+}
 
 
 - (TQ3Status) getTrackerOrientation:(inout TQ3Quaternion *) orientation
@@ -362,7 +363,7 @@
     }
  
 	return(status);
-}//done
+}
 
 
 //-----------------------------------------------------------------------------
@@ -384,7 +385,7 @@
     status = kQ3Success;
     
 	return(status);
-}//done
+}
 
 
 //-----------------------------------------------------------------------------
@@ -406,7 +407,7 @@
     status = kQ3Success;
     
 	return(status);
-}//done
+}
 
 
 //encode array of float values and return it
@@ -502,7 +503,7 @@
     status = kQ3Success;
     
 	return(status);
-}//done
+}
 
 
 - (TQ3Status) deleteTracker

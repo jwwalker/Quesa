@@ -5,7 +5,7 @@
         Implementation of Quesa 3DMF FileFormat object.
         
     COPYRIGHT:
-        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -2012,6 +2012,7 @@ e3fformat_3dmf_attributearray_read ( E3File* theFile )
 			
 		case kQ3AttributeTypeAmbientCoefficient:// float
 		case kQ3AttributeTypeSpecularControl:
+		case kQ3AttributeTypeMetallic:
 			theAttribute->data = Q3Memory_Allocate(sizeof(float) * numElems);
 			if(theAttribute->data == nullptr)
 				return nullptr;
@@ -2783,6 +2784,7 @@ E3FFormat_3DMF_Reader_RegisterClass(void)
 	E3ClassTree::AddMethod(kQ3ObjectTypeAttributeDiffuseColor,kQ3XMethodTypeObjectReadData,(TQ3XFunctionPointer)E3Read_3DMF_Attribute_DiffuseColor);
 	E3ClassTree::AddMethod(kQ3ObjectTypeAttributeSpecularColor,kQ3XMethodTypeObjectReadData,(TQ3XFunctionPointer)E3Read_3DMF_Attribute_SpecularColor);
 	E3ClassTree::AddMethod(kQ3ObjectTypeAttributeSpecularControl,kQ3XMethodTypeObjectReadData,(TQ3XFunctionPointer)E3Read_3DMF_Attribute_SpecularControl);
+	E3ClassTree::AddMethod(kQ3ObjectTypeAttributeMetallic,kQ3XMethodTypeObjectReadData,(TQ3XFunctionPointer)E3Read_3DMF_Attribute_Metallic);
 	E3ClassTree::AddMethod(kQ3ObjectTypeAttributeTransparencyColor,kQ3XMethodTypeObjectReadData,(TQ3XFunctionPointer)E3Read_3DMF_Attribute_TransparencyColor);
 	E3ClassTree::AddMethod(kQ3ObjectTypeAttributeEmissiveColor,kQ3XMethodTypeObjectReadData,(TQ3XFunctionPointer)E3Read_3DMF_Attribute_EmissiveColor);
 	E3ClassTree::AddMethod(kQ3ObjectTypeAttributeSurfaceTangent,kQ3XMethodTypeObjectReadData,(TQ3XFunctionPointer)E3Read_3DMF_Attribute_SurfaceTangent);

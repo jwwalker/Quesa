@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -898,7 +898,7 @@ E3Initialize(void)
 			qd3dStatus = E3Tracker_RegisterClass();//new!
 			
 		if (qd3dStatus == kQ3Success)
-			qd3dStatus = E3ControllerState_RegisterClass();//new!	
+			qd3dStatus = E3ControllerState_RegisterClass();//new!
 #endif
 
 		if (qd3dStatus == kQ3Success)
@@ -990,10 +990,10 @@ E3Exit(void)
 
 		// Terminate Quesa
 		E3CustomElements_UnregisterClass();
-        #if QUESA_SUPPORT_CONTROLLER
+#if QUESA_SUPPORT_CONTROLLER
         E3Tracker_UnregisterClass();//new
         E3ControllerState_UnregisterClass();//new
-        #endif
+#endif
 		E3Pick_UnregisterClass();
 		E3File_UnregisterClass();
 		E3Storage_UnregisterClass();

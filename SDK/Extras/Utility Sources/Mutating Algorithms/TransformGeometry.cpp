@@ -8,7 +8,7 @@
 		Initial version written by James W. Walker.
 
     COPYRIGHT:
-        Copyright (c) 2008-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 2008-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -46,7 +46,7 @@
 
 #include "TransformGeometry.h"
 
-#if !TARGET_RT_MAC_MACHO
+#ifndef __APPLE__
 	#include "QuesaGeometry.h"
 	#include "QuesaMath.h"
 #else

@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2020, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -273,6 +273,13 @@ static void AdjustGeomState( TQ3AttributeSet inAttSet,
 				kQ3AttributeTypeSpecularControl );
 	}
 	
+	if ( (attMask & kQ3XAttributeMaskMetallic) != 0 )
+	{
+		ioGeomState.metallic = * (const float *)
+			Q3XAttributeSet_GetPointer( inAttSet,
+				kQ3AttributeTypeMetallic );
+	}
+	
 	if ( (attMask & kQ3XAttributeMaskHighlightState) != 0 )
 	{
 		ioGeomState.highlightState = * (TQ3Switch *)
@@ -295,6 +302,7 @@ void	QORenderer::Renderer::UpdateSpecularMaterial()
 	{
 		SetSpecularColor( *mGeomState.specularColor );
 		SetSpecularControl( mGeomState.specularControl );
+		SetMetallic( mGeomState.metallic );
 	}
 }
 
@@ -358,6 +366,20 @@ void	QORenderer::Renderer::SetSpecularControl( float inSpecControl )
 	}
 }
 
+void	QORenderer::Renderer::SetMetallic( float inMetallic )
+{
+	if (inMetallic != mCurrentMetallic)
+	{
+		mCurrentMetallic = inMetallic;
+		
+		if (Shader().CurrentProgram() != nullptr)
+		{
+			SLFuncs().glUniform1fv( Shader().CurrentProgram()->mMetallicUniformLoc, 1,
+				&mCurrentMetallic );
+		}
+	}
+}
+
 
 /*!
 	@function		RefreshMaterials
@@ -377,6 +399,10 @@ void	QORenderer::Renderer::RefreshMaterials()
 	GLfloat shininess = GLUtils_SpecularControlToGLShininess( mCurrentSpecularControl );
 	SLFuncs().glUniform1fv( Shader().CurrentProgram()->mShininessUniformLoc, 1,
 		&shininess );
+	
+	float refreshMetallic = mCurrentMetallic;
+	mCurrentMetallic = -99.0f; // so SetMetallic will see a change
+	SetMetallic( refreshMetallic );
 }
 
 /*!

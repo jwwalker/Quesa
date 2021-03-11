@@ -8,6 +8,52 @@
 <h2>Discussion</h2>
 Declares the Quesa IO objects.
 <br><br>
+Here is an example of reading objects from a file.  Depending on how the file was
+written, you might just read one group, or you might read several objects.  This
+sample ignores view hints.
+<br><br>
+<pre><code>CQ3ObjectRef result;
+bool didCreateGroup = false;
+&nbsp;
+CQ3ObjectRef theStorage( Q3PathStorage_New( inPath ) );
+if (theStorage.isvalid())
+{
+&nbsp;   CQ3ObjectRef theFile( Q3File_New() );
+&nbsp;   if (theFile.isvalid())
+&nbsp;   {
+&nbsp;       Q3File_SetStorage( theFile.get(), theStorage.get() );
+&nbsp;       if (kQ3Success == Q3File_OpenRead( theFile.get(), nullptr ))
+&nbsp;       {
+&nbsp;           while (not Q3File_IsEndOfFile( theFile.get() ))
+&nbsp;           {
+&nbsp;               CQ3ObjectRef anObject( Q3File_ReadObject( theFile.get() ) );
+&nbsp;               if ( anObject.isvalid() and Q3Object_IsDrawable( anObject.get() ) )
+&nbsp;               {
+&nbsp;                   if (result.isvalid())
+&nbsp;                   {
+&nbsp;                       if (didCreateGroup)
+&nbsp;                       {
+&nbsp;                           Q3Group_AddObject( result.get(), anObject.get() );
+&nbsp;                       }
+&nbsp;                       else // second drawable found, make a group
+&nbsp;                       {
+&nbsp;                           CQ3ObjectRef aGroup( Q3DisplayGroup_New() );
+&nbsp;                           Q3Group_AddObject( aGroup.get(), result.get() );
+&nbsp;                           Q3Group_AddObject( aGroup.get(), anObject.get() );
+&nbsp;                           result.swap( aGroup );
+&nbsp;                           didCreateGroup = true;
+&nbsp;                       }
+&nbsp;                   }
+&nbsp;                   else // this is the first drawable we found
+&nbsp;                   {
+&nbsp;                       result = anObject;
+&nbsp;                   }
+&nbsp;               }
+&nbsp;           }
+&nbsp;       }
+&nbsp;   }
+}</code></pre>
+<br><br>
 <hr><br><h2>Functions</h2>
 <hr><a name="//Quesa/c/func/Q3Comment_Write"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Comment_Write">Q3Comment_Write</a></h2>
@@ -3582,5 +3628,5 @@ typedef enum TQ3FileReadGroupStateMasks {
 <dt><a name="//Quesa/c/econst/kQ3FileCurrentlyInsideGroup"><tt>kQ3FileCurrentlyInsideGroup</tt></a></dt><dd>Currently inside a group.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2020 Quesa Developers (Last Updated 9/23/2020)
+<p><p>&#169; 1999-2021 Quesa Developers (Last Updated 3/11/2021)
 </p></body></html>

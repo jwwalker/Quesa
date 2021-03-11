@@ -18,7 +18,7 @@
 
 - (id)init {
     if (self = [super init]) {
-		// init my own stuff
+		//init my own stuff
 		controllerListSerialNumber = 0;
 	}
     return self;
@@ -67,17 +67,6 @@
                       ^ BOOL (Q3DcontrollerPDO *obj, NSUInteger idx, BOOL *stop)
                       {
                           return NSOrderedSame==[aTrackerUUID compare:[obj trackerUUID]];
-                      }];
-    return idx;
-};
-
-
-- (NSUInteger) dbIndexOfUUID:(NSString *) aUUID
-{
-    NSUInteger idx = [_controllerPDOs indexOfObjectPassingTest:
-                      ^ BOOL (Q3DcontrollerPDO *obj, NSUInteger idx, BOOL *stop)
-                      {
-                          return NSOrderedSame==[aUUID compare:[obj UUID]];
                       }];
     return idx;
 };
@@ -166,9 +155,7 @@
 
 //next Controller in db; returns string with key (controller UUID); passing NULL returns first in list; returning NULL indicates end of list
 - (out TQ3ControllerRefCast)nextCC3Controller: (in TQ3ControllerRefCast) currentControllerRef
-//- (out NSString *)nextCC3Controller: (in NSString *) currentControllerKey
 {
-#if 1
     NSUInteger idx;
     
     if ((TQ3ControllerRefCast)NULL==currentControllerRef)
@@ -186,29 +173,6 @@
     if (idx>=[_controllerPDOs count])
         return NULL;
     return (TQ3ControllerRefCast)[[_controllerPDOs objectAtIndex:idx] controllerRef];
-#else
-	TQ3Status
-	ControllerDB_Next(TQ3ControllerRef controllerRef, TQ3ControllerRef *nextControllerRef)
-	{
-		TC3ControllerPrivateDataPtr theController = (TC3ControllerPrivateDataPtr)controllerRef;
-		
-		if (theController==NULL)
-		{
-			*nextControllerRef=(TQ3ControllerRef)controllerListAnchor;
-			return(kQ3Success);
-		}
-		else
-		{
-			if (ControllerDB_refinlist(controllerRef)==kQ3True)
-			{
-				*nextControllerRef=theController->nextPrivateData;
-				return(kQ3Success);
-			}
-			else return kQ3Failure;
-		}
-	}
-	return NULL;
-#endif		
 };
 
 
@@ -251,7 +215,7 @@
 @end
 
 #pragma mark -
-#if 1
+
 Q3Ddb* Q3DDeviceDb;
 
 void startDeviceDB(void)
@@ -272,24 +236,4 @@ void startDeviceDB(void)
         [Q3DDeviceDb registerVendConnection];
     }
 }
-#endif
-
-//TODO clean up!
-#if 0
-// this is a faceless background application
-// TODO: because it is NOT stateless, it shall NOT comply to automatic SIGKILL by the OS (10.6. and later)
-int main(int argc, char * argv[]) {
-    NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
-    NSApplication * application = [NSApplication sharedApplication];
-	
-    Q3Ddb* Q3DDeviceDbDelegate = [[[Q3Ddb alloc] init] autorelease];
-	
-    [application setDelegate:Q3DDeviceDbDelegate];
-    [application run];
-	
-    [pool drain];
-	
-    return EXIT_SUCCESS;
-}
-#endif //main,
 

@@ -7,6 +7,7 @@
 //
 
 #include "E3Prefix.h"
+#include "E3Math.h"
 #import "TrackerCoreOSX.h"
 #include "ControllerCoreOSXinternals.h"
 
@@ -19,60 +20,16 @@
 // Internal functions go here
 
 //=============================================================================
-//      CC3Quaternion_GetAngle : Get the rotation angle
-//				represented by a quaternion.
+// CC3Quaternion_GetAngle : Get the rotation angle represented by a quaternion.
 //-----------------------------------------------------------------------------
-//based on E3Quaternion_GetAxisAndAngle
-static TQ3Status 
+static TQ3Status
 CC3Quaternion_GetAngle(const TQ3Quaternion *q, float *outAngle)
 {
-    float w_temp;
+    TQ3Vector3D tempAxis;
     
-    //fill w_temp;
-    w_temp=q->w/sqrt(q->w*q->w + q->x*q->x + q->y*q->y + q->z*q->z);
-    
-    if (w_temp > 1.0f - kQ3RealZero || w_temp < -1.0f + kQ3RealZero)
-    {
-        // |w| = 1 means this is a null rotation.
-        // Return 0 for the angle, and pick an arbitrary axis.
-        if (outAngle) *outAngle = 0.0f;
-    }
-    else
-    {
-        // |w| != 1, so we have a non-null rotation.
-        // w is the cosine of the half-angle.
-        if (outAngle)
-            *outAngle = 2.0f * (float) acos(w_temp);
-    }
+    E3Quaternion_GetAxisAndAngle(q, &tempAxis, outAngle);
     
     return (kQ3Success);
-}
-
-
-//=============================================================================
-//      CC3Quaternion_Multiply : Multiply 'q2' by 'q1'.
-//-----------------------------------------------------------------------------
-//		Note : 'result' may be the same as 'q1' and/or 'q2'.
-//
-// identical to E3Quaternion_Multiply
-// inserted to avoid circular linking
-static TQ3Quaternion *
-CC3Quaternion_Multiply(const TQ3Quaternion *q1, const TQ3Quaternion *q2, TQ3Quaternion *result)
-{
-    // If result is alias of input, output to temporary
-    TQ3Quaternion temp;
-    TQ3Quaternion* output = (result == q1 || result == q2 ? &temp : result);
-    
-    // Reverse multiplication (q2 * q1)
-    output->w = q1->w*q2->w - q1->x*q2->x - q1->y*q2->y - q1->z*q2->z;
-    output->x = q1->w*q2->x + q1->x*q2->w - q1->y*q2->z + q1->z*q2->y;
-    output->y = q1->w*q2->y + q1->y*q2->w - q1->z*q2->x + q1->x*q2->z;
-    output->z = q1->w*q2->z + q1->z*q2->w - q1->x*q2->y + q1->y*q2->x;
-    
-    if (output == &temp)
-        *result = temp;
-    
-    return(result);
 }
 
 
@@ -179,7 +136,6 @@ static CFComparisonResult CmpEventStamp_CF (const void *val1, const void *val2, 
     
     isActive = kQ3True; //??? unclear documentation; Tracker seems to be active after New
     
-    
     theConnection = [[NSConnection new] autorelease];
     [theConnection setRootObject:self];
     
@@ -279,7 +235,6 @@ static CFComparisonResult CmpEventStamp_CF (const void *val1, const void *val2, 
         //clear and set: needed for logical OR, as Tracker can be shared by several controllers
         //clear
         theButtons = theButtons & ~aButtonMask;
-        
         //set new buttons
         theButtons = theButtons | someButtons;
         
@@ -378,12 +333,6 @@ static CFComparisonResult CmpEventStamp_CF (const void *val1, const void *val2, 
         deltaPosition.x = aPosition.x - thePosition.x;
         deltaPosition.y = aPosition.y - thePosition.y;
         deltaPosition.z = aPosition.z - thePosition.z;
-        
-        /*
-         accuMoving.x += deltaPosition.x;
-         accuMoving.y += deltaPosition.y;
-         accuMoving.z += deltaPosition.z;
-         */
         
         accuMoving.x = .0;
         accuMoving.y = .0;
@@ -516,7 +465,7 @@ static CFComparisonResult CmpEventStamp_CF (const void *val1, const void *val2, 
         TQ3Quaternion 	temp_quat;
         float			Angle;
         
-        CC3Quaternion_Multiply(&anOrientation,&accuOrientation,&temp_quat);
+        E3Quaternion_Multiply(&anOrientation,&accuOrientation,&temp_quat);
         CC3Quaternion_GetAngle(&temp_quat,&Angle);
         
         //Set tracker orientation accumulator to new orientation
@@ -541,10 +490,10 @@ static CFComparisonResult CmpEventStamp_CF (const void *val1, const void *val2, 
     if (isActive==kQ3True)
     {
         //Quaternion accuOrientation multiplied with Quaternion delta
-        CC3Quaternion_Multiply(&aDelta,&accuOrientation,&accuOrientation);
+        E3Quaternion_Multiply(&aDelta,&accuOrientation,&accuOrientation);
         
         //Quaternion theOrientation multiplied with Quaternion delta
-        CC3Quaternion_Multiply(&aDelta,&theOrientation,&theOrientation);
+        E3Quaternion_Multiply(&aDelta,&theOrientation,&theOrientation);
         
         //theSerialNum++;
         oriSerialNum++;

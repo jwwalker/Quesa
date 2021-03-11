@@ -5,11 +5,10 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
 
-        For the current release of Quesa, please see:
-
-            <https://github.com/h-haris/Quesa>
+        For the current release of Quesa including 3D device suppoprt,
+        please see: <https://github.com/h-haris/Quesa>
         
         Redistribution and use in source and binary forms, with or without
         modification, are permitted provided that the following conditions
@@ -51,13 +50,7 @@
     #include "ControllerCoreOSX.h"
 #endif
 
-#if 0
-    #if QUESA_SUPPORT_CONTROLLER
-        #warning QUESA_SUPPORT_CONTROLLER set in E3Controller.cpp
-    #else
-        #warning QUESA_SUPPORT_CONTROLLER not set
-    #endif
-#endif
+
 
 
 //=============================================================================
@@ -122,14 +115,14 @@ e3tracker_new(TQ3Object theObject, void *privateData, const void *paramData)
 	const TQ3TrackerNotifyFunc		theFunc     = (const TQ3TrackerNotifyFunc) paramData;
 
 	// Initialise our instance data
-	*instanceData = CC3OSXTracker_New(theObject,theFunc);	
+	*instanceData = CC3OSXTracker_New(theObject,theFunc);
 	if (*instanceData == nullptr)
 		return(kQ3Failure);
 	else
 		return(kQ3Success);
-#else	
+#else
 	return(kQ3Failure);
-#endif	 
+#endif
 }
 
 
@@ -231,8 +224,8 @@ static TQ3Status
 e3controllerstate_new(TQ3Object theObject, void *privateData, const void *paramData)
 {	
 #if QUESA_SUPPORT_CONTROLLER
-	TC3ControllerStateInstanceDataPtr		*instanceData = (TC3ControllerStateInstanceDataPtr *)     privateData;
-	const TQ3ControllerRef		theController     = (const TQ3ControllerRef) paramData;
+	TC3ControllerStateInstanceDataPtr	*instanceData = (TC3ControllerStateInstanceDataPtr *) privateData;
+	const TQ3ControllerRef		        theController = (const TQ3ControllerRef) paramData;
 
 	// Initialise our instance data
 	*instanceData = CC3OSXControllerState_New(theObject,theController);	
@@ -349,9 +342,9 @@ E3Controller_GetListChanged(TQ3Boolean *listChanged, TQ3Uns32 *serialNumber)
 {
 #if QUESA_SUPPORT_CONTROLLER
 	return(CC3OSXController_GetListChanged(listChanged, serialNumber));
-#else	
+#else
 	return(kQ3Failure);
-#endif	
+#endif
 }
 
 
@@ -368,9 +361,9 @@ E3Controller_Next(TQ3ControllerRef controllerRef, TQ3ControllerRef *nextControll
 {
 #if QUESA_SUPPORT_CONTROLLER
 	return(CC3OSXController_Next(controllerRef, nextControllerRef));
-#else	
+#else
 	return(kQ3Failure);
-#endif	
+#endif
 }
 
 
@@ -387,9 +380,9 @@ E3Controller_New(const TQ3ControllerData *controllerData)
 {
 #if QUESA_SUPPORT_CONTROLLER
 	return(CC3OSXController_New(controllerData));
-#else	
+#else
 	return(NULL);
-#endif		
+#endif
 }
 
 
@@ -406,9 +399,9 @@ E3Controller_Decommission(TQ3ControllerRef controllerRef)
 {
 #if QUESA_SUPPORT_CONTROLLER
 	return(CC3OSXController_Decommission(controllerRef));
-#else	
+#else
 	return(kQ3Failure);
-#endif		
+#endif
 }
 
 
@@ -425,9 +418,9 @@ E3Controller_SetActivation(TQ3ControllerRef controllerRef, TQ3Boolean active)
 {
 #if QUESA_SUPPORT_CONTROLLER
 	return(CC3OSXController_SetActivation(controllerRef, active));
-#else	
+#else
 	return(kQ3Failure);
-#endif	
+#endif
 }
 
 
@@ -444,9 +437,9 @@ E3Controller_GetActivation(TQ3ControllerRef controllerRef, TQ3Boolean *active)
 {
 #if QUESA_SUPPORT_CONTROLLER
 	return(CC3OSXController_GetActivation(controllerRef, active));
-#else	
+#else
 	return(kQ3Failure);
-#endif	
+#endif
 }
 
 
@@ -463,9 +456,9 @@ E3Controller_GetSignature(TQ3ControllerRef controllerRef, char *signature, TQ3Un
 {
 #if QUESA_SUPPORT_CONTROLLER
 	return(CC3OSXController_GetSignature(controllerRef, signature, numChars));
-#else	
+#else
 	return(kQ3Failure);
-#endif	
+#endif
 }
 
 
@@ -482,9 +475,9 @@ E3Controller_SetChannel(TQ3ControllerRef controllerRef, TQ3Uns32 channel, const 
 {
 #if QUESA_SUPPORT_CONTROLLER
 	return(CC3OSXController_SetChannel(controllerRef, channel,  data, dataSize));
-#else	
+#else
 	return(kQ3Failure);
-#endif	
+#endif
 }
 
 
@@ -501,9 +494,9 @@ E3Controller_GetChannel(TQ3ControllerRef controllerRef, TQ3Uns32 channel, void *
 {
 #if QUESA_SUPPORT_CONTROLLER
 	return(CC3OSXController_GetChannel(controllerRef, channel, data, dataSize));
-#else	
+#else
 	return(kQ3Failure);
-#endif	
+#endif
 }
 
 
@@ -520,9 +513,9 @@ E3Controller_GetValueCount(TQ3ControllerRef controllerRef, TQ3Uns32 *valueCount)
 {
 #if QUESA_SUPPORT_CONTROLLER
 	return(CC3OSXController_GetValueCount(controllerRef, valueCount));
-#else	
+#else
 	return(kQ3Failure);
-#endif	
+#endif
 }
 
 
@@ -541,7 +534,7 @@ E3Controller_SetTracker(TQ3ControllerRef controllerRef, TQ3TrackerObject tracker
 #if QUESA_SUPPORT_CONTROLLER
     if (tracker==nullptr)
 		status=CC3OSXController_SetTracker(controllerRef, nullptr);
-	else	
+	else
 		status=CC3OSXController_SetTracker(controllerRef, ( (E3Tracker*) tracker )->instanceData);
 #endif
 	return(status);
@@ -561,9 +554,9 @@ E3Controller_HasTracker(TQ3ControllerRef controllerRef, TQ3Boolean *hasTracker)
 {
 #if QUESA_SUPPORT_CONTROLLER
 	return(CC3OSXController_HasTracker(controllerRef, hasTracker));
-#else	
+#else
 	return(kQ3Failure);
-#endif	
+#endif
 }
 
 
@@ -580,9 +573,9 @@ E3Controller_Track2DCursor(TQ3ControllerRef controllerRef, TQ3Boolean *track2DCu
 {
 #if QUESA_SUPPORT_CONTROLLER
 	return(CC3OSXController_Track2DCursor(controllerRef, track2DCursor));
-#else	
+#else
 	return(kQ3Failure);
-#endif	
+#endif
 }
 
 
@@ -599,9 +592,9 @@ E3Controller_Track3DCursor(TQ3ControllerRef controllerRef, TQ3Boolean *track3DCu
 {
 #if QUESA_SUPPORT_CONTROLLER
 	return(CC3OSXController_Track3DCursor(controllerRef, track3DCursor));
-#else	
+#else
 	return(kQ3Failure);
-#endif	
+#endif
 }
 
 
@@ -618,9 +611,9 @@ E3Controller_GetButtons(TQ3ControllerRef controllerRef, TQ3Uns32 *buttons)
 {
 #if QUESA_SUPPORT_CONTROLLER
 	return(CC3OSXController_GetButtons(controllerRef, buttons));
-#else	
+#else
 	return(kQ3Failure);
-#endif	
+#endif
 }
 
 
@@ -637,9 +630,9 @@ E3Controller_SetButtons(TQ3ControllerRef controllerRef, TQ3Uns32 buttons)
 {
 #if QUESA_SUPPORT_CONTROLLER
 	return(CC3OSXController_SetButtons(controllerRef, buttons));
-#else	
+#else
 	return(kQ3Failure);
-#endif	
+#endif
 }
 
 
@@ -656,9 +649,9 @@ E3Controller_GetTrackerPosition(TQ3ControllerRef controllerRef, TQ3Point3D *posi
 {
 #if QUESA_SUPPORT_CONTROLLER
 	return(CC3OSXController_GetTrackerPosition(controllerRef, position));
-#else	
+#else
 	return(kQ3Failure);
-#endif	
+#endif
 }
 
 
@@ -675,9 +668,9 @@ E3Controller_SetTrackerPosition(TQ3ControllerRef controllerRef, const TQ3Point3D
 {
 #if QUESA_SUPPORT_CONTROLLER
 	return(CC3OSXController_SetTrackerPosition(controllerRef, position));
-#else	
+#else
 	return(kQ3Failure);
-#endif	
+#endif
 }
 
 
@@ -694,9 +687,9 @@ E3Controller_MoveTrackerPosition(TQ3ControllerRef controllerRef, const TQ3Vector
 {
 #if QUESA_SUPPORT_CONTROLLER
 	return(CC3OSXController_MoveTrackerPosition(controllerRef, delta));
-#else	
+#else
 	return(kQ3Failure);
-#endif	
+#endif
 }
 
 
@@ -713,9 +706,9 @@ E3Controller_GetTrackerOrientation(TQ3ControllerRef controllerRef, TQ3Quaternion
 {
 #if QUESA_SUPPORT_CONTROLLER
 	return(CC3OSXController_GetTrackerOrientation(controllerRef, orientation));
-#else	
-	return(kQ3Failure);
-#endif	
+#else
+    return(kQ3Failure);
+#endif
 }
 
 
@@ -732,9 +725,9 @@ E3Controller_SetTrackerOrientation(TQ3ControllerRef controllerRef, const TQ3Quat
 {
 #if QUESA_SUPPORT_CONTROLLER
 	return(CC3OSXController_SetTrackerOrientation(controllerRef, orientation));
-#else	
-	return(kQ3Failure);
-#endif	
+#else
+    return(kQ3Failure);
+#endif
 }
 
 
@@ -751,9 +744,9 @@ E3Controller_MoveTrackerOrientation(TQ3ControllerRef controllerRef, const TQ3Qua
 {
 #if QUESA_SUPPORT_CONTROLLER
 	return(CC3OSXController_MoveTrackerOrientation(controllerRef, delta));
-#else	
-	return(kQ3Failure);
-#endif	
+#else
+    return(kQ3Failure);
+#endif
 }
 
 
@@ -770,9 +763,9 @@ E3Controller_GetValues(TQ3ControllerRef controllerRef, TQ3Uns32 valueCount, floa
 {
 #if QUESA_SUPPORT_CONTROLLER
 	return(CC3OSXController_GetValues(controllerRef, valueCount, values, changed, serialNumber));
-#else	
-	return(kQ3Failure);
-#endif	
+#else
+    return(kQ3Failure);
+#endif
 }
 
 
@@ -789,9 +782,9 @@ E3Controller_SetValues(TQ3ControllerRef controllerRef, const float *values, TQ3U
 {
 #if QUESA_SUPPORT_CONTROLLER
 	return(CC3OSXController_SetValues(controllerRef, values, valueCount));
-#else	
-	return(kQ3Failure);
-#endif	
+#else
+    return(kQ3Failure);
+#endif
 }
 
 
@@ -807,14 +800,12 @@ E3Controller_SetValues(TQ3ControllerRef controllerRef, const float *values, TQ3U
 TQ3Status
 E3ControllerState_RegisterClass(void)
 {
-	TQ3Status		qd3dStatus;
+	TQ3Status		qd3dStatus = kQ3Failure;
 #if QUESA_SUPPORT_CONTROLLER
 	// Register the class
 	qd3dStatus	= Q3_REGISTER_CLASS(kQ3ClassNameShared, e3controllerstate_metahandler, E3ControllerState );
-	return(qd3dStatus);
-#else
-	return(kQ3Failure);
 #endif
+	return(qd3dStatus);
 }
 
 
@@ -878,11 +869,10 @@ TQ3Status
 E3ControllerState_SaveAndReset(TQ3ControllerStateObject controllerStateObject)
 {
 #if QUESA_SUPPORT_CONTROLLER
-	//do call
 	return(CC3OSXControllerState_SaveAndReset( ( (E3ControllerState*) controllerStateObject )->instanceData) );
-#else	
-	return(kQ3Failure);
-#endif	
+#else
+    return(kQ3Failure);
+#endif
 }
 
 
@@ -898,11 +888,10 @@ TQ3Status
 E3ControllerState_Restore(TQ3ControllerStateObject controllerStateObject)
 {
 #if QUESA_SUPPORT_CONTROLLER
-	//do call
 	return(CC3OSXControllerState_Restore( ( (E3ControllerState*) controllerStateObject )->instanceData) );
-#else	
-	return(kQ3Failure);
-#endif	
+#else
+    return(kQ3Failure);
+#endif
 }
 
 
@@ -917,15 +906,11 @@ E3ControllerState_Restore(TQ3ControllerStateObject controllerStateObject)
 #pragma mark -
 TQ3Status
 E3Tracker_RegisterClass(void)
-{	TQ3Status		qd3dStatus;
+{	TQ3Status		qd3dStatus = kQ3Failure;
 #if QUESA_SUPPORT_CONTROLLER
-	// Register the class
-	qd3dStatus	= Q3_REGISTER_CLASS(kQ3ClassNameShared, e3tracker_metahandler, E3Tracker );
-	
-	return(qd3dStatus);
-#else
-	return(kQ3Failure);
+    qd3dStatus	= Q3_REGISTER_CLASS(kQ3ClassNameShared, e3tracker_metahandler, E3Tracker );
 #endif
+    return(qd3dStatus);
 }
 
 
@@ -978,12 +963,10 @@ TQ3Status
 E3Tracker_SetNotifyThresholds(TQ3TrackerObject trackerObject, float positionThresh, float orientationThresh)
 {
 #if QUESA_SUPPORT_CONTROLLER
-	//do call
 	return(CC3OSXTracker_SetNotifyThresholds(( (E3Tracker*) trackerObject )->instanceData, positionThresh, orientationThresh));
-	//Q3Shared_Edited(...);//???
-#else	
-	return(kQ3Failure);
-#endif			
+#else
+    return(kQ3Failure);
+#endif
 }
 
 
@@ -999,11 +982,10 @@ TQ3Status
 E3Tracker_GetNotifyThresholds(TQ3TrackerObject trackerObject, float *positionThresh, float *orientationThresh)
 {
 #if QUESA_SUPPORT_CONTROLLER
-	//do call
 	return(CC3OSXTracker_GetNotifyThresholds(( (E3Tracker*) trackerObject )->instanceData, positionThresh, orientationThresh));
-#else	
-	return(kQ3Failure);
-#endif	
+#else
+    return(kQ3Failure);
+#endif
 }
 
 
@@ -1019,11 +1001,10 @@ TQ3Status
 E3Tracker_SetActivation(TQ3TrackerObject trackerObject, TQ3Boolean active)
 {
 #if QUESA_SUPPORT_CONTROLLER
-	//do call
 	return(CC3OSXTracker_SetActivation(( (E3Tracker*) trackerObject )->instanceData, active));
-#else	
-	return(kQ3Failure);
-#endif	
+#else
+    return(kQ3Failure);
+#endif
 }
 
 
@@ -1039,11 +1020,10 @@ TQ3Status
 E3Tracker_GetActivation(TQ3TrackerObject trackerObject, TQ3Boolean *active)
 {
 #if QUESA_SUPPORT_CONTROLLER
-	//do call
 	return(CC3OSXTracker_GetActivation(( (E3Tracker*) trackerObject )->instanceData, active));
-#else	
-	return(kQ3Failure);
-#endif	
+#else
+    return(kQ3Failure);
+#endif
 }
 
 
@@ -1060,11 +1040,10 @@ TQ3Status
 E3Tracker_GetButtons(TQ3TrackerObject trackerObject, TQ3Uns32 *buttons)
 {
 #if QUESA_SUPPORT_CONTROLLER
-	//do call
 	return(CC3OSXTracker_GetButtons(( (E3Tracker*) trackerObject )->instanceData, buttons));
-#else	
-	return(kQ3Failure);
-#endif	
+#else
+    return(kQ3Failure);
+#endif
 }
 
 
@@ -1080,11 +1059,10 @@ TQ3Status
 E3Tracker_ChangeButtons(TQ3TrackerObject trackerObject, TQ3ControllerRef controllerRef, TQ3Uns32 buttons, TQ3Uns32 buttonMask)
 {
 #if QUESA_SUPPORT_CONTROLLER
-	//do call
 	return(CC3OSXTracker_ChangeButtons(( (E3Tracker*) trackerObject )->instanceData, controllerRef, buttons, buttonMask));
-#else	
-	return(kQ3Failure);
-#endif	
+#else
+    return(kQ3Failure);
+#endif
 }
 
 
@@ -1100,11 +1078,10 @@ TQ3Status
 E3Tracker_GetPosition(TQ3TrackerObject trackerObject, TQ3Point3D *position, TQ3Vector3D *delta, TQ3Boolean *changed, TQ3Uns32 *serialNumber)
 {
 #if QUESA_SUPPORT_CONTROLLER
-	//do call
 	return(CC3OSXTracker_GetPosition(( (E3Tracker*) trackerObject )->instanceData, position, delta, changed, serialNumber));
-#else	
-	return(kQ3Failure);
-#endif	
+#else
+    return(kQ3Failure);
+#endif
 }
 
 
@@ -1120,11 +1097,10 @@ TQ3Status
 E3Tracker_SetPosition(TQ3TrackerObject trackerObject, TQ3ControllerRef controllerRef, const TQ3Point3D *position)
 {
 #if QUESA_SUPPORT_CONTROLLER
-	//do call
 	return(CC3OSXTracker_SetPosition(( (E3Tracker*) trackerObject )->instanceData, controllerRef, position));
-#else	
-	return(kQ3Failure);
-#endif	
+#else
+    return(kQ3Failure);
+#endif
 }
 
 
@@ -1140,11 +1116,10 @@ TQ3Status
 E3Tracker_MovePosition(TQ3TrackerObject trackerObject, TQ3ControllerRef controllerRef, const TQ3Vector3D *delta)
 {
 #if QUESA_SUPPORT_CONTROLLER
-	//do call
 	return(CC3OSXTracker_MovePosition(( (E3Tracker*) trackerObject )->instanceData, controllerRef, delta));
-#else	
-	return(kQ3Failure);
-#endif	
+#else
+    return(kQ3Failure);
+#endif
 }
 
 
@@ -1160,11 +1135,10 @@ TQ3Status
 E3Tracker_GetOrientation(TQ3TrackerObject trackerObject, TQ3Quaternion *orientation, TQ3Quaternion *delta, TQ3Boolean *changed, TQ3Uns32 *serialNumber)
 {
 #if QUESA_SUPPORT_CONTROLLER
-	//do call
 	return(CC3OSXTracker_GetOrientation(( (E3Tracker*) trackerObject )->instanceData, orientation, delta, changed, serialNumber));
-#else	
-	return(kQ3Failure);
-#endif	
+#else
+    return(kQ3Failure);
+#endif
 }
 
 
@@ -1181,11 +1155,10 @@ TQ3Status
 E3Tracker_SetOrientation(TQ3TrackerObject trackerObject, TQ3ControllerRef controllerRef, const TQ3Quaternion *orientation)
 {
 #if QUESA_SUPPORT_CONTROLLER
-	//do call
 	return(CC3OSXTracker_SetOrientation(( (E3Tracker*) trackerObject )->instanceData, controllerRef, orientation));
-#else	
-	return(kQ3Failure);
-#endif	
+#else
+    return(kQ3Failure);
+#endif
 }
 
 
@@ -1201,11 +1174,10 @@ TQ3Status
 E3Tracker_MoveOrientation(TQ3TrackerObject trackerObject, TQ3ControllerRef controllerRef, const TQ3Quaternion *delta)
 {
 #if QUESA_SUPPORT_CONTROLLER
-	//do call
 	return(CC3OSXTracker_MoveOrientation(( (E3Tracker*) trackerObject )->instanceData, controllerRef, delta));
-#else	
-	return(kQ3Failure);
-#endif	
+#else
+    return(kQ3Failure);
+#endif
 }
 
 
@@ -1220,11 +1192,10 @@ TQ3Status
 E3Tracker_SetEventCoordinates(TQ3TrackerObject trackerObject, TQ3Uns32 timeStamp, TQ3Uns32 buttons, const TQ3Point3D *position, const TQ3Quaternion *orientation)
 {
 #if QUESA_SUPPORT_CONTROLLER
-	//do call
 	return(CC3OSXTracker_SetEventCoordinates(( (E3Tracker*) trackerObject )->instanceData, timeStamp, buttons, position, orientation));
-#else	
-	return(kQ3Failure);
-#endif	
+#else
+    return(kQ3Failure);
+#endif
 }
 
 
@@ -1240,11 +1211,10 @@ TQ3Status
 E3Tracker_GetEventCoordinates(TQ3TrackerObject trackerObject, TQ3Uns32 timeStamp, TQ3Uns32 *buttons, TQ3Point3D *position, TQ3Quaternion *orientation)
 {
 #if QUESA_SUPPORT_CONTROLLER
-	//do call
 	return(CC3OSXTracker_GetEventCoordinates(( (E3Tracker*) trackerObject )->instanceData, timeStamp, buttons, position, orientation));
-#else	
-	return(kQ3Failure);
-#endif	
+#else
+    return(kQ3Failure);
+#endif
 }
 
 

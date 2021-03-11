@@ -11,7 +11,7 @@
         Header for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -111,6 +111,7 @@ struct ColorState
 	const TQ3ColorRGB*	specularColor;
 	const TQ3ColorRGB*	emissiveColor;
 	float				specularControl;
+	float				metallic;
 	float				alpha;
 	TQ3Switch			highlightState;
 };
@@ -338,6 +339,8 @@ protected:
 									const TQ3ColorRGB* inAttColor );
 	void					UpdateSpecularControl(
 									const float* inAttValue );
+	void					UpdateMetallic(
+									const float* inAttValue );
 	void					UpdateHiliteState(
 									const TQ3Switch* inAttState );
 	void					UpdateSurfaceShader(
@@ -388,6 +391,7 @@ protected:
 	void					SetEmissiveMaterial( const TQ3ColorRGB& inColor );
 	void					SetSpecularColor( const TQ3ColorRGB& inColor );
 	void					SetSpecularControl( float inSpecControl );
+	void					SetMetallic( float inMetallic );
 	
 	SlowPathMask			FindTriMeshData(
 									const TQ3TriMeshData& inGeomData,
@@ -444,6 +448,7 @@ protected:
 	ColorState				mGeomState;
 	TQ3ColorRGB				mCurrentSpecularColor;
 	float					mCurrentSpecularControl;
+	float					mCurrentMetallic;
 	TQ3ColorRGB				mCurrentEmissiveColor;
 	float 					mLineWidth;
 	TQ3XAttributeMask		mAttributesMask;

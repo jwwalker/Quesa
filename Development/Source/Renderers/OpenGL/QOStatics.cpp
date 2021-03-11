@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -443,6 +443,17 @@ TQ3Status	QORenderer::Statics::UpdateSpecularControlMethod(
 	return kQ3Success;
 }
 
+TQ3Status	QORenderer::Statics::UpdateMetallicMethod(
+									TQ3ViewObject inView,
+									void* privateData,
+									const float* inAttValue )
+{
+#pragma unused( inView )
+	QORenderer::Renderer*	me = *(QORenderer::Renderer**)privateData;
+	me->UpdateMetallic( inAttValue );
+	return kQ3Success;
+}
+
 TQ3Status	QORenderer::Statics::UpdateTransparencyColorMethod(
 									TQ3ViewObject inView,
 									void* privateData,
@@ -539,6 +550,11 @@ TQ3XRendererUpdateAttributeMethod
 		case kQ3AttributeTypeSpecularControl:
 			theMethod = (TQ3XRendererUpdateAttributeMethod)
 				&QORenderer::Statics::UpdateSpecularControlMethod;
+			break;
+		
+		case kQ3AttributeTypeMetallic:
+			theMethod = (TQ3XRendererUpdateAttributeMethod)
+				&QORenderer::Statics::UpdateMetallicMethod;
 			break;
 		
 		case kQ3AttributeTypeTransparencyColor:

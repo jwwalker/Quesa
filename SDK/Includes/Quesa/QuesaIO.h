@@ -1,6 +1,52 @@
 /*! @header QuesaIO.h
         Declares the Quesa IO objects.
          
+	Here is an example of reading objects from a file.  Depending on how the file was
+	written, you might just read one group, or you might read several objects.  This
+	sample ignores view hints.
+	
+<pre><code>CQ3ObjectRef result;
+bool didCreateGroup = false;
+&nbsp;
+CQ3ObjectRef theStorage( Q3PathStorage_New( inPath ) );
+if (theStorage.isvalid())
+{
+&nbsp;   CQ3ObjectRef theFile( Q3File_New() );
+&nbsp;   if (theFile.isvalid())
+&nbsp;   {
+&nbsp;       Q3File_SetStorage( theFile.get(), theStorage.get() );
+&nbsp;       if (kQ3Success == Q3File_OpenRead( theFile.get(), nullptr ))
+&nbsp;       {
+&nbsp;           while (not Q3File_IsEndOfFile( theFile.get() ))
+&nbsp;           {
+&nbsp;               CQ3ObjectRef anObject( Q3File_ReadObject( theFile.get() ) );
+&nbsp;               if ( anObject.isvalid() and Q3Object_IsDrawable( anObject.get() ) )
+&nbsp;               {
+&nbsp;                   if (result.isvalid())
+&nbsp;                   {
+&nbsp;                       if (didCreateGroup)
+&nbsp;                       {
+&nbsp;                           Q3Group_AddObject( result.get(), anObject.get() );
+&nbsp;                       }
+&nbsp;                       else // second drawable found, make a group
+&nbsp;                       {
+&nbsp;                           CQ3ObjectRef aGroup( Q3DisplayGroup_New() );
+&nbsp;                           Q3Group_AddObject( aGroup.get(), result.get() );
+&nbsp;                           Q3Group_AddObject( aGroup.get(), anObject.get() );
+&nbsp;                           result.swap( aGroup );
+&nbsp;                           didCreateGroup = true;
+&nbsp;                       }
+&nbsp;                   }
+&nbsp;                   else // this is the first drawable we found
+&nbsp;                   {
+&nbsp;                       result = anObject;
+&nbsp;                   }
+&nbsp;               }
+&nbsp;           }
+&nbsp;       }
+&nbsp;   }
+}</code></pre>
+         
 	@ignore	_Nullable
 	@ignore _Nonnull
 	@ignore	_Null_unspecified
@@ -12,7 +58,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 

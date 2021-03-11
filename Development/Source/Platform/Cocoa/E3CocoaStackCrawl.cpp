@@ -5,14 +5,10 @@
         Stack crawl utilities for leak debugging.
 		
 		Contrary to the file name, this is not just for Cocoa, but for any Mac
-		code that uses the Mach-O binary format.
-	
-	ACKNOWLEDGEMENTS:
-		Thanks to Ed Wynne of Phasic Interware, Inc. for contributing code from
-		which this is derived.
+		code.
 
     COPYRIGHT:
-        Copyright (c) 1999-2013, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -55,20 +51,8 @@
 #include "E3StackCrawl.h"
 #include "QuesaMemory.h"
 
-#include <dlfcn.h>
-#include <fcntl.h>
-#include <mach-o/dyld.h>
-#include <mach-o/fat.h>
-#include <mach-o/loader.h>
-#include <mach-o/nlist.h>
-#include <mach-o/stab.h>
-#include <stdio.h>
+#include <execinfo.h>
 #include <stdlib.h>
-#include <string.h>
-#include <sys/mman.h>
-#include <sys/stat.h>
-#include <unistd.h>
-
 
 
 
@@ -76,9 +60,7 @@
 //=============================================================================
 //      Constants
 //-----------------------------------------------------------------------------
-#define MACHO_LC_UUID		0x1B			/* the uuid */
-
-#define kMaxCrawlDepth		50		// limit how far up we'll crawl...
+#define kMaxCrawlDepth		100		// limit how far up we'll crawl...
 #define	kMaxTextLength		500
 
 
@@ -88,60 +70,12 @@
 //=============================================================================
 //      Types
 //-----------------------------------------------------------------------------
-typedef struct fat_arch						MachOFatArch;
-typedef struct fat_header					MachOFatHeader;
-typedef struct load_command					MachOLoadCommand;
-typedef struct mach_header					MachOHeader32;
-typedef struct mach_header_64				MachOHeader64;
-typedef struct symtab_command				MachOSymTabCommand;
-
-#ifdef __LP64__
-	typedef struct mach_header_64				MachOHeader;
-	typedef struct nlist_64						MachONList;
-	typedef struct segment_command_64			MachOSegmentCommand;
-	#define MACHO_LC_SEGMENT					LC_SEGMENT_64
-	#define MACHO_MH_MAGIC						MH_MAGIC_64
-	#define FORMAT_UINTPTR						"%016lX"
-#else
-	typedef struct mach_header					MachOHeader;
-	typedef struct nlist						MachONList;
-	typedef struct segment_command				MachOSegmentCommand;
-	#define MACHO_LC_SEGMENT					LC_SEGMENT
-	#define MACHO_MH_MAGIC						MH_MAGIC
-	#define FORMAT_UINTPTR						"%08lX"
-#endif
-
-typedef struct {
-    uint32_t				cmd;			/* LC_UUID */
-    uint32_t				cmdsize;		/* sizeof(struct uuid_command) */
-    uint8_t					uuid[16];		/* the 128-bit uuid */
-} MachOUUIDCommand;
-
-#if defined(__ppc__) || defined(__ppc64__)
-	typedef struct StackFrame {
-		uintptr_t		savedSP;
-		uintptr_t		savedCR;
-		uintptr_t		savedLR;
-		uintptr_t		reserved[2];
-		uintptr_t		savedRTOC;
-	} StackFrame;
-#elif defined(__i386__) || defined(__x86_64__)
-	typedef struct StackFrame {
-		uintptr_t    	savedSP;
-		uintptr_t    	savedLR;
-	} StackFrame;
-#else
-	#error architecture not supported
-#endif
-
-typedef struct CrawlFrame {
-	uintptr_t		pc;
-} CrawlFrame;
 
 struct TQ3StackCrawlRec
 {
 	int			numFrames;
-	CrawlFrame	frames[ kMaxCrawlDepth ];
+	void*		frames[ kMaxCrawlDepth ];
+	char**		symbols;
 };
 
 
@@ -150,334 +84,6 @@ struct TQ3StackCrawlRec
 //=============================================================================
 //      Private functions
 //-----------------------------------------------------------------------------
-static char *MachOCopySymbol(uintptr_t pc,uintptr_t *offset);
-static char *MachOCopySymbolMapped(const MachOHeader *mh,uintptr_t pc,uintptr_t *offset);
-static const MachOLoadCommand *MachOGetLoadCommand(const MachOHeader *mh,uint32_t cmd,const MachOLoadCommand *after);
-static const MachOSegmentCommand *MachOGetSegmentCommand(const MachOHeader *mh,const char *segname);
-static const MachOHeader *MachOMapArch(const MachOHeader *mh,const char *path,size_t *size);
-static int32_t MachOReadInt32(const void *addr);
-static int32_t MachOReadSwappedInt32(const void *addr);
-
-// ---------------------------------------------------------------------------
-// MachOCopySymbol													  [static]
-// ---------------------------------------------------------------------------
-//
-char *MachOCopySymbol(uintptr_t pc,uintptr_t *offset)
-{
-	const MachOSegmentCommand	*linkedit = nullptr,*text = nullptr;
-	const MachOSymTabCommand	*symtab = nullptr;
-	const MachOHeader			*mh;
-	const MachONList			*sym,*symbase;
-	const char					*strings, *name;
-	char						*result_name;
-	uintptr_t					moffset,foffset,base;
-	uint32_t					index;
-	Dl_info						info;
-	
-	*offset = 0;
-	
-	if ((dladdr((void*)pc,&info) == 0) ||
-		((mh = (const MachOHeader*)info.dli_fbase) == nullptr) ||
-		((text = MachOGetSegmentCommand(mh,SEG_TEXT)) == nullptr) ||
-		((linkedit = MachOGetSegmentCommand(mh,SEG_LINKEDIT)) == nullptr) ||
-		((symtab = (const MachOSymTabCommand*)MachOGetLoadCommand(mh,LC_SYMTAB,nullptr)) == nullptr))
-		return nullptr;
-	
-	moffset = (uintptr_t)mh - (uintptr_t)text->vmaddr;
-	foffset = ((uintptr_t)linkedit->vmaddr - (uintptr_t)text->vmaddr) - linkedit->fileoff;
-	symbase = (const MachONList*)((uintptr_t)mh + (symtab->symoff + foffset));
-	strings = (const char*)((uintptr_t)mh + (symtab->stroff + foffset));
-	
-	// Look for a global symbol.
-	for (index = 0,sym = symbase;index < symtab->nsyms;index += 1,sym += 1)
-	{
-		if (sym->n_type != N_FUN)
-			continue;
-		
-		name = sym->n_un.n_strx ? (strings + sym->n_un.n_strx) : nullptr;
-		base = sym->n_value + moffset;
-		
-		for (index += 1,sym += 1;index < symtab->nsyms;index += 1,sym += 1)
-		{
-			if (sym->n_type == N_FUN)
-				break;
-		}
-		
-		if ((pc >= base) && (pc <= (base + sym->n_value)) && (name != nullptr) && (strlen(name) > 0))
-		{
-			*offset = pc - base;
-			return strdup(name);
-		}
-	}
-	
-	// Compensate for optimized shared region.
-	if ((mh->filetype == MH_DYLIB) && (info.dli_fname != nullptr))
-	{
-		const MachOHeader	*arch;
-		size_t				size;
-		
-		result_name = nullptr;
-		
-		if ((arch = MachOMapArch(mh,info.dli_fname,&size)) != nullptr)
-		{
-			result_name = MachOCopySymbolMapped(arch,(pc + ((uintptr_t)arch - (uintptr_t)mh)),offset);
-			munmap((void*)arch,size);
-		}
-		
-		if (result_name != nullptr)
-			return result_name;
-	}
-	
-	// Look for a reasonably close private symbol.
-	for (name = nullptr,base = ~((uintptr_t)0),index = 0,sym = symbase;index < symtab->nsyms;index += 1,sym += 1)
-	{
-		if (((sym->n_type & 0x0E) != 0x0E) ||
-			((sym->n_value + moffset) > pc) ||
-			((base != ~((uintptr_t)0)) && ((pc - (sym->n_value + moffset)) >= (pc - base))))
-			continue;
-		
-		name = sym->n_un.n_strx ? (strings + sym->n_un.n_strx) : nullptr;
-		base = sym->n_value + moffset;
-	}
-	
-	*offset = pc - base;
-	return (name != nullptr) ? strdup(name) : nullptr;
-}
-
-
-
-// ---------------------------------------------------------------------------
-// MachOCopySymbolMapped											  [static]
-// ---------------------------------------------------------------------------
-//
-char *MachOCopySymbolMapped(const MachOHeader *mh,uintptr_t pc,uintptr_t *offset)
-{
-	const MachOSegmentCommand	*text = nullptr;
-	const MachOSymTabCommand	*symtab = nullptr;
-	const MachONList			*sym,*symbase;
-	const char					*strings,*name;
-	uintptr_t					moffset,base;
-	uint32_t					index;
-	
-	*offset = 0;
-	
-	if (((text = MachOGetSegmentCommand(mh,SEG_TEXT)) == nullptr) ||
-		((symtab = (const MachOSymTabCommand*)MachOGetLoadCommand(mh,LC_SYMTAB,nullptr)) == nullptr))
-		return nullptr;
-	
-	moffset = (uintptr_t)mh - (uintptr_t)text->vmaddr;
-	symbase = (const MachONList*)((uintptr_t)mh + symtab->symoff);
-	strings = (const char*)((uintptr_t)mh + symtab->stroff);
-	
-	// Look for a global symbol.
-	for (index = 0,sym = symbase;index < symtab->nsyms;index += 1,sym += 1)
-	{
-		if (sym->n_type != N_FUN)
-			continue;
-		
-		name = sym->n_un.n_strx ? (strings + sym->n_un.n_strx) : nullptr;
-		base = sym->n_value + moffset;
-		
-		for (index += 1,sym += 1;index < symtab->nsyms;index += 1,sym += 1)
-		{
-			if (sym->n_type == N_FUN)
-				break;
-		}
-		
-		if ((pc >= base) && (pc <= (base + sym->n_value)) && (name != nullptr) && (strlen(name) > 0))
-		{
-			*offset = pc - base;
-			return strdup(name);
-		}
-	}
-	
-	// Look for a reasonably close private symbol.
-	for (name = nullptr,base = ~((uintptr_t)0),index = 0,sym = symbase;index < symtab->nsyms;index += 1,sym += 1)
-	{
-		if (((sym->n_type & 0x0E) != 0x0E) ||
-			((sym->n_value + moffset) > pc) ||
-			((base != ~((uintptr_t)0)) && ((pc - (sym->n_value + moffset)) >= (pc - base))))
-			continue;
-		
-		name = sym->n_un.n_strx ? (strings + sym->n_un.n_strx) : nullptr;
-		base = sym->n_value + moffset;
-	}
-	
-	*offset = pc - base;
-	return (name != nullptr) ? strdup(name) : nullptr;
-}
-
-
-
-// ---------------------------------------------------------------------------
-// MachOGetLoadCommand												  [static]
-// ---------------------------------------------------------------------------
-// Find and return the specified load command.
-//
-const MachOLoadCommand *MachOGetLoadCommand(const MachOHeader *mh,uint32_t cmd,const MachOLoadCommand *after)
-{
-	const MachOLoadCommand	*cur,*end;
-	
-	end = (MachOLoadCommand*)((uintptr_t)mh + sizeof(MachOHeader) + mh->sizeofcmds);
-	cur = (after != nullptr) ? (MachOLoadCommand*)((uintptr_t)after + after->cmdsize) :
-							(MachOLoadCommand*)((uintptr_t)mh + sizeof(MachOHeader));
-	
-	for (;cur < end;cur = (MachOLoadCommand*)((uintptr_t)cur + cur->cmdsize))
-	{
-		if (cur->cmd == cmd)
-			return cur;
-	}
-	
-	return nullptr;
-}
-
-
-
-// ---------------------------------------------------------------------------
-// MachOGetSegment													  [static]
-// ---------------------------------------------------------------------------
-// Find and return the specified segment command.
-//
-const MachOSegmentCommand *MachOGetSegmentCommand(const MachOHeader *mh,const char *segname)
-{
-	const MachOLoadCommand		*cmd = nullptr;
-	const MachOSegmentCommand	*seg;
-	
-	while((cmd = MachOGetLoadCommand(mh,MACHO_LC_SEGMENT,cmd)) != nullptr)
-	{
-		seg = (const MachOSegmentCommand*)(const void*)cmd;
-		if (!strncmp(segname,seg->segname,sizeof(seg->segname)))
-			return seg;
-	}
-	
-	return nullptr;
-}
-
-
-
-// ---------------------------------------------------------------------------
-// MachOMapArch														  [static]
-// ---------------------------------------------------------------------------
-//
-const MachOHeader *MachOMapArch(const MachOHeader *mh,const char *path,size_t *size)
-{
-	integer_t				(*read32)(const void*) = nullptr;
-	MachOFatArch			*farchs = nullptr;
-	const MachOHeader		*arch = nullptr;
-	int						fd = -1;
-	const MachOUUIDCommand	*mhID,*archID;
-	struct stat				finfo;
-	MachOFatHeader			fh;
-	uint32_t				index,narchs,offset = 0;
-	ssize_t					amount;
-	MachOHeader32			mh32;
-	
-	*size = 0;
-	
-	if ((mh->filetype == MH_DYLIB) &&
-		((mhID = (const MachOUUIDCommand*)MachOGetLoadCommand(mh,MACHO_LC_UUID,nullptr)) != nullptr) &&
-		((fd = open(path,O_RDONLY,0)) >= 0) &&
-		(fstat(fd,&finfo) == 0) &&
-		((finfo.st_mode & S_IFREG) != 0) &&
-		(!(finfo.st_size > 0xFFFFFFFFLL)) &&
-		(finfo.st_size >= (off_t)sizeof(MachOFatHeader)) &&
-		(pread(fd,&fh,sizeof(MachOFatHeader),0) == sizeof(MachOFatHeader)))
-	{
-		switch(fh.magic)
-		{
-			case FAT_MAGIC:
-				read32 = &MachOReadInt32;
-				break;
-			
-			case FAT_CIGAM:
-				read32 = &MachOReadSwappedInt32;
-				break;
-		}
-		
-		if (read32 != nullptr)
-		{
-			narchs = read32(&fh.nfat_arch);
-			amount = narchs * sizeof(MachOFatArch);
-			
-			if ((finfo.st_size >= ((off_t)sizeof(MachOFatHeader) + amount)) &&
-				((farchs = (MachOFatArch*)malloc(amount)) != nullptr) &&
-				(pread(fd,farchs,amount,sizeof(MachOFatHeader)) == amount))
-			{
-				for (index = 0;index < narchs;index += 1)
-				{
-					if ((mh->cputype == read32(&farchs[index].cputype)) &&
-						(mh->cpusubtype == read32(&farchs[index].cpusubtype)))
-					{
-						offset = read32(&farchs[index].offset);
-						*size = read32(&farchs[index].size);
-						break;
-					}
-				}
-			}
-		}
-		else
-		{
-			if ((finfo.st_size >= (off_t)sizeof(MachOHeader32)) &&
-				(pread(fd,&mh32,sizeof(MachOHeader32),0) == sizeof(MachOHeader32)) &&
-				(mh32.magic == MACHO_MH_MAGIC) &&
-				(mh32.cputype == mh->cputype) &&
-				(mh32.cpusubtype == mh->cpusubtype))
-			{
-				offset = 0;
-				*size = (size_t)finfo.st_size;
-			}
-		}
-		
-		if ((*size > 0) && ((off_t)(*size + offset) <= finfo.st_size))
-		{
-			arch = (const MachOHeader*)mmap(nullptr,*size,PROT_READ,(MAP_FILE | MAP_PRIVATE),fd,offset);
-			if (arch == (const MachOHeader*)-1ULL)
-				arch = nullptr;
-			
-			if (arch != nullptr)
-			{
-				if (((archID = (const MachOUUIDCommand*)MachOGetLoadCommand(arch,MACHO_LC_UUID,nullptr)) == nullptr) ||
-					bcmp(archID,mhID,sizeof(MachOUUIDCommand)))
-				{
-					munmap((void*)arch,*size);
-					arch = nullptr;
-				}
-			}
-		}
-	}
-	
-	if (farchs != nullptr)
-		free(farchs);
-	
-	if (fd >= 0)
-		close(fd);
-	
-	return arch;
-}
-
-
-
-// ---------------------------------------------------------------------------
-// MachOReadInt32													  [static]
-// ---------------------------------------------------------------------------
-//
-int32_t MachOReadInt32(const void *addr)
-{
-	return *(int32_t*)addr;
-}
-
-
-
-// ---------------------------------------------------------------------------
-// MachOReadSwappedInt32											  [static]
-// ---------------------------------------------------------------------------
-//
-int32_t MachOReadSwappedInt32(const void *addr)
-{
-	return OSSwapInt32(*(uint32_t*)addr);
-}
-
-
 
 
 
@@ -491,37 +97,19 @@ TQ3StackCrawl
 E3StackCrawl_New()
 {
 #ifdef QUESA_NO_STACK_CRAWL
-    return nullptr;
+	return nullptr;
 #else
-    #if 0
-        #warning QUESA STACK_CRAWL is active
-    #endif
-    TQ3StackCrawl	theCrawl = new TQ3StackCrawlRec;
-
-	StackFrame	*frame;
-	int			index;
+	TQ3StackCrawl	theCrawl = nullptr;
 	
-	#if defined(__ppc__) || defined(__ppc64__)
+	try
 	{
-		frame = *(StackFrame**)__builtin_frame_address(0);
+		theCrawl = new TQ3StackCrawlRec;
+		theCrawl->numFrames = backtrace( theCrawl->frames, kMaxCrawlDepth );
+		theCrawl->symbols = nullptr;
 	}
-	#elif defined(__i386__) || defined(__x86_64__)
+	catch (...)
 	{
-		frame = (StackFrame*)__builtin_frame_address(0);
 	}
-	#endif
-	
-	for (index = 0; ((index < kMaxCrawlDepth) && (frame != nullptr));
-		index += 1, frame = (StackFrame*)frame->savedSP)
-	{
-		if (((frame->savedLR & ~3) == 0) ||
-			((~(frame->savedLR) & ~3) == 0) ||
-			(frame->savedLR == 0x01000))
-			break;
-		
-		theCrawl->frames[index].pc = (uintptr_t)frame->savedLR;
-	}
-	theCrawl->numFrames = index;
 	
 	return theCrawl;
 #endif
@@ -552,7 +140,7 @@ E3StackCrawl_Count( TQ3StackCrawl inCrawl )
 
 
 //=============================================================================
-//      E3StackCrawl_Get:	Return a names in a stack crawl.
+//      E3StackCrawl_Get:	Return a name from a stack crawl.
 //							The index should be at least 0, and less than the
 //							result of E3StackCrawl_Count.
 //-----------------------------------------------------------------------------
@@ -564,36 +152,15 @@ E3StackCrawl_Get( TQ3StackCrawl inCrawl, TQ3Uns32 inIndex )
 	if ( (inCrawl != nullptr) &&
 		E3Num_SafeLess( inIndex, inCrawl->numFrames ) )
 	{
-		uintptr_t	offset;
-		char*	symname;
-		static char	textBuffer[ kMaxTextLength ];
-		
-		symname = MachOCopySymbol( inCrawl->frames[inIndex].pc, &offset );
-		
-		if (symname != nullptr)
-		{
-			// The symbol sometimes ends with something like ":f(2,8)", and we
-			// want to strip that off.  However, Objective-C names sometimes
-			// have a colon inside brackets, and we want to leave that alone.
-			char*	colonLoc = strrchr( symname, ':' );
-			if (colonLoc != nullptr)
+		// symbolicate lazily
+		if (inCrawl->symbols == nullptr)
 			{
-				char* bracketLoc = strrchr( symname, ']' );
-				if ( (bracketLoc == nullptr) || (bracketLoc < colonLoc) )
-				{
-					*colonLoc = '\0';
-				}
+			inCrawl->symbols = backtrace_symbols( inCrawl->frames, inCrawl->numFrames );
 			}
 			
-			snprintf( textBuffer, kMaxTextLength, "%s + %lX", symname, offset );
-			free( (void*) symname );
-			theName = textBuffer;
-		}
-		else if ( E3Num_SafeLess( inIndex + 1, inCrawl->numFrames ) )
+		if (inCrawl->symbols != nullptr)
 		{
-			snprintf( textBuffer, kMaxTextLength, FORMAT_UINTPTR,
-				inCrawl->frames[inIndex].pc );
-			theName = textBuffer;
+			theName = inCrawl->symbols[ inIndex ];
 		}
 	}
 	
@@ -610,7 +177,11 @@ E3StackCrawl_Get( TQ3StackCrawl inCrawl, TQ3Uns32 inIndex )
 void
 E3StackCrawl_Dispose( TQ3StackCrawl inCrawl )
 {
+	if (inCrawl != nullptr)
+	{
+		free( inCrawl->symbols );
 	delete inCrawl;
+}
 }
 
 #endif	// Q3_DEBUG

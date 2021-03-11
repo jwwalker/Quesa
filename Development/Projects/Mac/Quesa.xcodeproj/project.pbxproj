@@ -458,7 +458,7 @@
 		AB3A7BF5055E63B100CA83BE /* E3Light.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; path = E3Light.cpp; sourceTree = "<group>"; };
 		AB3A7BF6055E63B100CA83BE /* E3Light.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3Light.h; sourceTree = "<group>"; };
 		AB3A7BF7055E63B100CA83BE /* E3Main.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; path = E3Main.cpp; sourceTree = "<group>"; };
-		AB3A7BF8055E63B100CA83BE /* E3Main.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.h; fileEncoding = 30; path = E3Main.h; sourceTree = "<group>"; };
+		AB3A7BF8055E63B100CA83BE /* E3Main.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3Main.h; sourceTree = "<group>"; };
 		AB3A7BF9055E63B100CA83BE /* E3Math.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; path = E3Math.cpp; sourceTree = "<group>"; };
 		AB3A7BFA055E63B100CA83BE /* E3Math.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3Math.h; sourceTree = "<group>"; };
 		AB3A7BFB055E63B100CA83BE /* E3Memory.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; path = E3Memory.cpp; sourceTree = "<group>"; };

@@ -12,7 +12,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -858,6 +858,30 @@ Q3_EXTERN_API_C ( TQ3Status  )
 Q3DrawContext_GetDoubleBufferState (
     TQ3DrawContextObject  _Nonnull context,
     TQ3Boolean        * _Nonnull   state
+);
+
+
+
+/*!
+	@functiongroup	 Generic Draw Context
+*/
+
+
+
+/*!
+ *  @function
+ *      Q3GenericDrawContext_New
+ *  @discussion
+ *      Create a new Generic draw context object.  A generic draw context cannot be used for rendering,
+ *      except when using a generic renderer, but can be used for window point and window rectangle
+ *      picking.  You can use <code>Q3DrawContext_SetPane</code> to update the pane area.
+ *
+ *  @param contextPane      The pane area for the generic draw context object.
+ *  @result                 The new draw context object.
+ */
+Q3_EXTERN_API_C ( TQ3DrawContextObject _Nonnull  )
+Q3GenericDrawContext_New (
+    const TQ3Area * _Nonnull contextPane
 );
 
 

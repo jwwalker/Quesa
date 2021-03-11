@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -165,6 +165,12 @@ void	QORenderer::Renderer::UpdateSpecularControl(
 								const float* inAttValue )
 {
 	mViewState.specularControl = *inAttValue;
+}
+
+void	QORenderer::Renderer::UpdateMetallic(
+								const float* inAttValue )
+{
+	mViewState.metallic = *inAttValue;
 }
 
 void	QORenderer::Renderer::UpdateHiliteState(

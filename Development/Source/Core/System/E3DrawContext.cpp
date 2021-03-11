@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -69,6 +69,20 @@ public :
 	TQ3DrawContextUnionData				instanceData ;
 	} ;
 	
+
+
+class E3GenericDrawContext : public E3DrawContext  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+{
+Q3_CLASS_ENUMS ( kQ3DrawContextTypeGeneric, E3GenericDrawContext, E3DrawContext )
+
+public :
+
+	TQ3DrawContextUnionData				instanceData ;
+};
+
 
 
 
@@ -202,6 +216,54 @@ e3drawcontext_pixmap_metahandler(TQ3XMethodType methodType)
 
 
 //=============================================================================
+//      e3drawcontext_generic_get_dimensions : Generic draw context dimensions.
+//-----------------------------------------------------------------------------
+static void
+e3drawcontext_generic_get_dimensions(TQ3DrawContextObject theDrawContext, TQ3Area *thePane)
+{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) theDrawContext->FindLeafInstanceData () ;
+
+
+
+	// Return our dimensions
+	*thePane = instanceData->data.common.pane;
+}
+
+
+
+
+
+//=============================================================================
+//      e3drawcontext_generic_metahandler : Generic draw context metahandler.
+//-----------------------------------------------------------------------------
+static TQ3XFunctionPointer
+e3drawcontext_generic_metahandler(TQ3XMethodType methodType)
+{	TQ3XFunctionPointer		theMethod = nullptr;
+
+
+
+	// Return our methods
+	switch (methodType) {
+		//case kQ3XMethodTypeObjectNew:
+		//	theMethod = (TQ3XFunctionPointer) e3drawcontext_generic_new;
+		//	break;
+
+		//case kQ3XMethodTypeObjectDelete:
+		//	theMethod = (TQ3XFunctionPointer) e3drawcontext_generic_delete;
+		//	break;
+
+		case kQ3XMethodTypeDrawContextGetDimensions:
+			theMethod = (TQ3XFunctionPointer) e3drawcontext_generic_get_dimensions;
+			break;
+		}
+	
+	return(theMethod);
+}
+
+
+
+
+
+//=============================================================================
 //      e3drawcontext_update : Draw context default update method.
 //-----------------------------------------------------------------------------
 static TQ3Status
@@ -300,6 +362,11 @@ E3DrawContext_RegisterClass(void)
 											e3drawcontext_pixmap_metahandler,
 											E3PixmapDrawContext ) ;
 
+	if (qd3dStatus == kQ3Success)
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameDrawContextGeneric,
+											e3drawcontext_generic_metahandler,
+											E3GenericDrawContext ) ;
+
 #if QUESA_OS_MACINTOSH
 	#if QUESA_OS_COCOA
 		if (qd3dStatus == kQ3Success)
@@ -341,6 +408,9 @@ E3DrawContext_UnregisterClass(void)
 
 	// Unregister the draw context classes
 	success = (kQ3Success == E3ClassTree::UnregisterClass(kQ3DrawContextTypePixmap, kQ3True))
+		&& success;
+
+	success = (kQ3Success == E3ClassTree::UnregisterClass(kQ3DrawContextTypeGeneric, kQ3True))
 		&& success;
 
 #if QUESA_OS_MACINTOSH
@@ -870,6 +940,20 @@ E3DrawContext_IsOfMyClass ( TQ3Object object )
 	return kQ3False ;
 	}
 
+
+
+#pragma mark -
+//=============================================================================
+//      E3GenericDrawContext_New : Create a generic draw context.
+//-----------------------------------------------------------------------------
+TQ3DrawContextObject	E3GenericDrawContext_New(const TQ3Area *drawContextData)
+{
+	TQ3DrawContextUnionData dcData;
+	dcData.data.common.pane = *drawContextData;
+	dcData.data.common.paneState = kQ3True;
+	
+	return E3ClassTree::CreateInstance(kQ3DrawContextTypeGeneric, kQ3False, &dcData);
+}
 
 
 
