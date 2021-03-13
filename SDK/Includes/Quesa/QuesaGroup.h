@@ -12,7 +12,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -519,13 +519,14 @@ Q3Group_RemovePosition (
  *		to iterate over all members of a group.
  *
  *  @param group            Group of interest.
- *  @param position         Receives the position of the first object in <code>group</code>.
- *  @result                 Success or failure of the operation.
+ *  @param position         Receives the position of the first object in <code>group</code>, or NULL
+ *  					if the group is empty.
+ *  @result            Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3Group_GetFirstPosition (
     TQ3GroupObject _Nonnull               group,
-    TQ3GroupPosition _Nonnull             * _Nonnull position
+    TQ3GroupPosition _Nullable             * _Nonnull position
 );
 
 
@@ -540,7 +541,8 @@ Q3Group_GetFirstPosition (
  *		to iterate backwards over all members of a group.
  *
  *  @param group            Group of interest.
- *  @param position         Receives the position of the last object in <code>group</code>.
+ *  @param position         Receives the position of the last object in <code>group</code>, or NULL
+ *  					if the group is empty.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -648,7 +650,7 @@ Q3Group_EmptyObjects (
  *
  *  @param group            Group of interest.
  *  @param isType           Desired object type.
- *  @param position         Receives the position of the first object of that type.
+ *  @param position         Receives the position of the first object of that type, or  NULL if none.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -671,7 +673,7 @@ Q3Group_GetFirstPositionOfType (
  *
  *  @param group            Group of interest.
  *  @param isType           Desired object type.
- *  @param position         Receives the position of the last object of that type.
+ *  @param position         Receives the position of the last object of that type, or NULL if none.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -796,7 +798,8 @@ Q3Group_EmptyObjectsOfType (
  *
  *  @param group            Group to inspect.
  *  @param object           Desired object.
- *  @param position         Receives first position of <code>object</code> in <code>group</code>.
+ *  @param position         Receives first position of <code>object</code> in <code>group</code>,
+ *  					or NULL if none.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
@@ -825,7 +828,8 @@ Q3Group_GetFirstObjectPosition (
  *
  *  @param group            Group to inspect.
  *  @param object           Desired object.
- *  @param position         Receives last position of <code>object</code> in <code>group</code>.
+ *  @param position         Receives last position of <code>object</code> in <code>group</code>,
+ *  					or NULL if none.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
