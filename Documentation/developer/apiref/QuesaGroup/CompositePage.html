@@ -498,7 +498,8 @@ whether you found a valid object position.
 <dl>
 <dt><tt><em>group</em></tt></dt><dd>Group to inspect.</dd>
 <dt><tt><em>object</em></tt></dt><dd>Desired object.</dd>
-<dt><tt><em>position</em></tt></dt><dd>Receives first position of <code>object</code> in <code>group</code>.</dd>
+<dt><tt><em>position</em></tt></dt><dd>Receives first position of <code>object</code> in <code>group</code>,
+or NULL if none.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -507,7 +508,7 @@ whether you found a valid object position.
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Group_GetFirstPosition">Q3Group_GetFirstPosition</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3Group_GetFirstPosition (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject _Nonnull group,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupPosition _Nonnull * _Nonnull position
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupPosition _Nullable * _Nonnull position
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the first position in a group.
@@ -520,7 +521,8 @@ to iterate over all members of a group.
 <blockquote>
 <dl>
 <dt><tt><em>group</em></tt></dt><dd>Group of interest.</dd>
-<dt><tt><em>position</em></tt></dt><dd>Receives the position of the first object in <code>group</code>.</dd>
+<dt><tt><em>position</em></tt></dt><dd>Receives the position of the first object in <code>group</code>, or NULL
+if the group is empty.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -544,7 +546,7 @@ to iterate over all group members of a certain type.
 <dl>
 <dt><tt><em>group</em></tt></dt><dd>Group of interest.</dd>
 <dt><tt><em>isType</em></tt></dt><dd>Desired object type.</dd>
-<dt><tt><em>position</em></tt></dt><dd>Receives the position of the first object of that type.</dd>
+<dt><tt><em>position</em></tt></dt><dd>Receives the position of the first object of that type, or  NULL if none.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -574,7 +576,8 @@ whether you found a valid object position.
 <dl>
 <dt><tt><em>group</em></tt></dt><dd>Group to inspect.</dd>
 <dt><tt><em>object</em></tt></dt><dd>Desired object.</dd>
-<dt><tt><em>position</em></tt></dt><dd>Receives last position of <code>object</code> in <code>group</code>.</dd>
+<dt><tt><em>position</em></tt></dt><dd>Receives last position of <code>object</code> in <code>group</code>,
+or NULL if none.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -596,7 +599,8 @@ to iterate backwards over all members of a group.
 <blockquote>
 <dl>
 <dt><tt><em>group</em></tt></dt><dd>Group of interest.</dd>
-<dt><tt><em>position</em></tt></dt><dd>Receives the position of the last object in <code>group</code>.</dd>
+<dt><tt><em>position</em></tt></dt><dd>Receives the position of the last object in <code>group</code>, or NULL
+if the group is empty.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -620,7 +624,7 @@ to iterate backwards over all group members of a certain type.
 <dl>
 <dt><tt><em>group</em></tt></dt><dd>Group of interest.</dd>
 <dt><tt><em>isType</em></tt></dt><dd>Desired object type.</dd>
-<dt><tt><em>position</em></tt></dt><dd>Receives the position of the last object of that type.</dd>
+<dt><tt><em>position</em></tt></dt><dd>Receives the position of the last object of that type, or NULL if none.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -1031,5 +1035,5 @@ view state stack around the group contents.</dd>
 (Not in QD3D.)</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2021 Quesa Developers (Last Updated 3/11/2021)
+<p><p>&#169; 1999-2021 Quesa Developers (Last Updated 3/14/2021)
 </p></body></html>
