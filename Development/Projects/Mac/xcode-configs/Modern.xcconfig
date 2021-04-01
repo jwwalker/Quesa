@@ -14,7 +14,7 @@ ARCHS = x86_64
 
 // Minimum OS version supported:
 // -----------------------------
-MACOSX_DEPLOYMENT_TARGET = 10.7
+MACOSX_DEPLOYMENT_TARGET = 10.9
 
 
 // Mac OS SDK version:
