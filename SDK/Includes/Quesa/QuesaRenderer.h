@@ -1269,7 +1269,7 @@ struct TQ3RendererPassInfo
  *  @result                 Did the application handle the event.
  */
 typedef Q3_CALLBACK_API_C(TQ3Boolean,          TQ3MacOSDialogEventHandler)(
-                            const EventRecord   *theEvent);
+                            const EventRecord   * _Nonnull theEvent);
 
 
 /*!
@@ -1284,7 +1284,7 @@ typedef Q3_CALLBACK_API_C(TQ3Boolean,          TQ3MacOSDialogEventHandler)(
  *  @field clientEventHandler    The application event handler.
  */
 typedef struct TQ3DialogAnchor {
-    TQ3MacOSDialogEventHandler                  clientEventHandler;
+    TQ3MacOSDialogEventHandler _Nonnull                  clientEventHandler;
 } TQ3DialogAnchor;
 
 #endif // QUESA_OS_MACINTOSH
