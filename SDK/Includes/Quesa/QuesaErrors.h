@@ -12,7 +12,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -877,37 +877,6 @@ Q3Notice_ToString (
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
-
-
-
-
-
-//=============================================================================
-//      Mac OS function prototypes
-//-----------------------------------------------------------------------------
-#if QUESA_OS_MACINTOSH
-#include <Carbon/Carbon.h>
-/*!
- *  @function
- *      Q3MacintoshError_Get
- *  @discussion
- *      Retrieve the most recent Macintosh error code, and optionally also the oldest
- *		unreported Mac error code.  After this call, the next Quesa call that is not
- *		part of the Error Manager will clear the error codes.
- *		
- *		Q3Error_PlatformGet may be used in place of this function.
- *
- *  @param firstMacErr      Pointer to variable to receive the oldest Mac error code
- *							that has not yet been reported.  May be nullptr if you
- *							don't need that information.
- *  @result                 Most recent Mac error code.
- */
-Q3_EXTERN_API_C ( OSErr  )
-Q3MacintoshError_Get (
-    OSErr                         * _Nullable firstMacErr
-);
-
-#endif // QUESA_OS_MACINTOSH
 
 
 

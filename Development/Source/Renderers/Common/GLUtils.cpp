@@ -5,7 +5,7 @@
         Quesa OpenGL utility functions.
 
     COPYRIGHT:
-        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -58,19 +58,9 @@
 
 	#include <wingdi.h>
 
-#elif QUESA_OS_MACINTOSH
-	#if QUESA_UH_IN_FRAMEWORKS
-		#include <Carbon/Carbon.h>
-	#else
-		#include <CFString.h>
-		#include <CFBundle.h>
-		#include <Gestalt.h>
-		
-		#include "E3MacMemory.h"
-	#endif
 #endif
 
-#if QUESA_OS_COCOA || (QUESA_OS_MACINTOSH && QUESA_UH_IN_FRAMEWORKS)
+#if QUESA_OS_COCOA
 
 	#include <mach-o/dyld.h>
 	#include <cstring>
@@ -484,49 +474,7 @@ void*	GLGetProcAddress( const char* funcName )
 	return (void*)glXGetProcAddressARB( (const GLubyte*)funcName );
 }
 
-#elif QUESA_OS_MACINTOSH && !QUESA_UH_IN_FRAMEWORKS
-
-
-static CFBundleRef	GetOpenGLBundle()
-{
-	CFBundleRef	theBundle = CFBundleGetBundleWithIdentifier( CFSTR("com.apple.OpenGL") );
-	
-	if (theBundle == nullptr)
-	{
-		LoadFrameworkBundle( CFSTR("OpenGL.framework"), &theBundle );
-	}
-	
-	return theBundle;
-}
-
-// See <http://developer.apple.com/qa/qa2001/qa1188.html>
-void*	GLGetProcAddress( const char* funcName )
-{
-	void*	thePtr = nullptr;
-
-	// Currently we always return nullptr in Classic mode...
-	#if TARGET_API_MAC_CARBON
-	CFBundleRef		theBundle = GetOpenGLBundle();
-	
-	if (theBundle != nullptr)
-	{
-		CFStringRef	nameCF = CFStringCreateWithCString( nullptr, funcName,
-			kCFStringEncodingASCII );
-		if (nameCF != nullptr)
-		{
-			thePtr = CFBundleGetFunctionPointerForName( theBundle, nameCF );
-			
-			CFRelease( nameCF );
-		}
-	}
-	#endif
-	
-	return thePtr;
-}
-
-#elif QUESA_OS_COCOA || (QUESA_OS_MACINTOSH && QUESA_UH_IN_FRAMEWORKS)
-
-#if MAC_OS_X_VERSION_MIN_REQUIRED >= 1030
+#elif QUESA_OS_COCOA
 
 void*	GLGetProcAddress( const char* funcName )
 {
@@ -535,37 +483,5 @@ void*	GLGetProcAddress( const char* funcName )
 	
 	return thePtr;
 }
-
-#else
-
-// See <http://developer.apple.com/qa/qa2001/qa1188.html>
-void*	GLGetProcAddress( const char* funcName )
-{
-	void*	thePtr = nullptr;
-	int		len = strlen( funcName );
-	char	nameBuf[1024];
-	
-	if (len + 2 < sizeof(nameBuf))
-	{
-		// Prepend a '_' for the Unix C symbol mangling convention
-		strcpy( &nameBuf[1], funcName );
-		nameBuf[0] = '_';
-		NSSymbol symbol = nullptr;
-		
-		if (NSIsSymbolNameDefined( nameBuf ))
-		{
-			symbol = NSLookupAndBindSymbol( nameBuf );
-			
-			if (symbol != nullptr)
-			{
-				thePtr = NSAddressOfSymbol( symbol );
-			}
-		}
-	}
-	
-	return thePtr;
-}
-
-#endif
 
 #endif

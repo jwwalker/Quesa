@@ -1,0 +1,7 @@
+// The base path where build products will be placed during a build for a given configuration.
+CONFIGURATION_BUILD_DIR = $(PROJECT_DIR)/../../../SDK/Libraries/Mac/Static_NoOpenGL/$(CONFIGURATION)
+
+// Build as static library.
+LIBRARY_STYLE = STATIC
+
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) QUESA_BUILT_IN_OPENGL_RENDERER=0

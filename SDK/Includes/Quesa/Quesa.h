@@ -49,31 +49,38 @@
 #ifndef QUESA_HDR
 #define QUESA_HDR
 //=============================================================================
-//      Auto-discovery
+//      Platform Discovery
 //-----------------------------------------------------------------------------
-//      Note :  Since we normally use a fairly well defined set of compilers,
-//              we can attempt to determine the correct platform by magic.
+// At one time, Macintosh support was either Carbon or Cocoa.  Now, Carbon has
+// gone away, so we treat QUESA_OS_MACINTOSH and QUESA_OS_COCOA as synonyms.
+//-----------------------------------------------------------------------------
+#if QUESA_OS_COCOA && !QUESA_OS_MACINTOSH
+	#undef QUESA_OS_MACINTOSH
+	#define QUESA_OS_MACINTOSH	1
+#endif
+
+#if QUESA_OS_MACINTOSH && !QUESA_OS_COCOA
+	#undef	QUESA_OS_COCOA
+	#define	QUESA_OS_COCOA	1
+#endif
+
+//-----------------------------------------------------------------------------
+//      If the platform has not been set yet, try to guess it.
 //-----------------------------------------------------------------------------
 #if !defined(QUESA_OS_MACINTOSH) && \
 	!defined(QUESA_OS_WIN32)     && \
     !defined(QUESA_OS_UNIX)      && \
-    !defined(QUESA_OS_COCOA)
-
-	// Mac OS
-	#if ((defined(__MWERKS__) && __dest_os == __mac_os) || defined(MPW_CPLUS) || defined(MPW_C))
-	    #ifndef QUESA_OS_MACINTOSH
-	        #define QUESA_OS_MACINTOSH              		1
-	    #endif
+    !defined(QUESA_OS_GENERIC)
+    
+    #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__) || defined(__NT__)
+    	#define QUESA_OS_WIN32                  		1
+	#elif __APPLE__
+		#include <TargetConditionals.h>
+		#if TARGET_OS_MAC
+			#define		QUESA_OS_MACINTOSH		1
+			#define		QUESA_OS_COCOA			1
+		#endif
 	#endif
-
-
-	// Windows
-	#if (defined(_MSC_VER) || (defined(__MWERKS__) && __INTEL__))
-	    #ifndef QUESA_OS_WIN32
-	        #define QUESA_OS_WIN32                  		1
-	    #endif
-	#endif
-
 #endif
 
 #ifndef __has_feature
@@ -91,13 +98,12 @@
 //
 //              The other platform values are then set to 0 here.
 //
-//				QUESA_OS_COCOA is a special case, treated as a subcase of
+//				QUESA_OS_COCOA is treated as a synonym of
 //				QUESA_OS_MACINTOSH.
 //-----------------------------------------------------------------------------
 #ifdef QUESA_OS_COCOA
     #undef  QUESA_OS_COCOA
     #define QUESA_OS_COCOA                      		1
-    #define QUESA_OS_MACINTOSH                  		1
 #else
     #define QUESA_OS_COCOA                      		0
 #endif
@@ -139,6 +145,19 @@
 
 
 
+//=============================================================================
+//      OpenGL Renderer option
+//-----------------------------------------------------------------------------
+// By default we include a built-in OpenGL-based renderer.
+// But in some cases, you may not want that, and if you turn if off, you get
+// the generic renderer (which doesn't actually render anything) as the only
+// built-in renderer.
+//-----------------------------------------------------------------------------
+
+#ifndef QUESA_BUILT_IN_OPENGL_RENDERER
+	#define QUESA_BUILT_IN_OPENGL_RENDERER	1
+#endif
+
 
 //=============================================================================
 //      Platform specific pre-amble
@@ -169,18 +188,9 @@
 	#endif
 
 
-    // Mac OS Classic
-    #if TARGET_RT_MAC_CFM
-    	// Ensure compiler settings match QD3D, to be binary compatible
-	    #pragma options align=power
-	#endif
-
-
 	// Export symbols when building a shared library
     #ifdef Q3_EXPORT_SYMBOLS
-		#if __MWERKS__
-			#define Q3_EXTERN_API_C(_type)		__declspec(dllexport) _type
-		#elif __GNUC__ >= 4
+		#if __GNUC__ >= 4
 			#define	Q3_EXTERN_API_C(_type)		__attribute__((visibility("default"))) _type
 		#endif
     #endif
@@ -230,14 +240,6 @@
 // Default to not using inline APIs
 #ifndef QUESA_ALLOW_INLINE_APIS
 	#define QUESA_ALLOW_INLINE_APIS						0
-#endif
-
-
-// Sanity-check that extensions are only used for legacy targets
-#if !QUESA_ALLOW_QD3D_EXTENSIONS
-	#if !((QUESA_OS_MACINTOSH && !TARGET_API_MAC_CARBON) || QUESA_OS_WIN32)
-		#error "Extensions should only be turned off on Mac Classic or Win32 platforms"
-	#endif
 #endif
 
 

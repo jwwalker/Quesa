@@ -1,11 +1,11 @@
 /*  NAME:
-        E3System.c
+        E3System.cpp
 
     DESCRIPTION:
         Quesa platform specific routines.
 
     COPYRIGHT:
-        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -147,7 +147,9 @@ E3System_LoadPlugins(void)
 	// Register the built-in plug-ins
 #if QUESA_REGISTER_BUILTIN_PLUGINS
 	GNRenderer_Register();
+#if QUESA_BUILT_IN_OPENGL_RENDERER
 	QORenderer_Register();
+#endif
 #endif
 }
 
@@ -175,7 +177,9 @@ E3System_UnloadPlugins(void)
 	// Unregister the built-in plug-ins
 #if QUESA_REGISTER_BUILTIN_PLUGINS
 	GNRenderer_Unregister();
+#if QUESA_BUILT_IN_OPENGL_RENDERER
 	QORenderer_Unregister();
+#endif
 #endif
 
 

@@ -1250,50 +1250,6 @@ struct TQ3RendererPassInfo
 
 
 //=============================================================================
-//      Mac OS types
-//-----------------------------------------------------------------------------
-#if QUESA_OS_MACINTOSH && ! QUESA_OS_COCOA
-
-/*!
- *  @typedef
- *      TQ3MacOSDialogEventHandler
- *  @discussion
- *      Mac OS application event callback.
- *
- *      Modal renderer configure dialogs invoke this callback with events
- *      which are not handled by the dialog. If the application handles
- *      the event it should return kQ3True, or kQ3False to have the dialog
- *      pass the event to the system unhandled.
- *
- *  @param theEvent         The event to process.
- *  @result                 Did the application handle the event.
- */
-typedef Q3_CALLBACK_API_C(TQ3Boolean,          TQ3MacOSDialogEventHandler)(
-                            const EventRecord   * _Nonnull theEvent);
-
-
-/*!
- *  @struct
- *      TQ3DialogAnchor (Mac)
- *  @discussion
- *      Mac OS dialog anchor.
- *
- *      Supplied to Q3Renderer_ModalConfigure to pass platform-specific
- *      dialog state to the renderer.
- *
- *  @field clientEventHandler    The application event handler.
- */
-typedef struct TQ3DialogAnchor {
-    TQ3MacOSDialogEventHandler _Nonnull                  clientEventHandler;
-} TQ3DialogAnchor;
-
-#endif // QUESA_OS_MACINTOSH
-
-
-
-
-
-//=============================================================================
 //      Windows types
 //-----------------------------------------------------------------------------
 #if QUESA_OS_WIN32

@@ -47,6 +47,10 @@
 //-----------------------------------------------------------------------------
 #include "Qut.h"
 
+#if QUESA_OS_MACINTOSH
+#include <CoreFoundation/CoreFoundation.h>
+#include <ImageIO/ImageIO.h>
+#endif
 
 
 

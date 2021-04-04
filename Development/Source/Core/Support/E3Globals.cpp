@@ -5,7 +5,7 @@
         Quesa global state.
 
     COPYRIGHT:
-        Copyright (c) 1999-2010, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -86,15 +86,6 @@ E3Globals gE3Globals = {
 	0,						// errMgrHandlerDataWarning
 	0,						// errMgrHandlerDataNotice
 	0,						// errMgrHandlerDataPlatform
-
-#if QUESA_OS_MACINTOSH
-#if !TARGET_RT_MAC_MACHO || (MAC_OS_X_VERSION_MIN_REQUIRED < 1030)
-	0,						// dmNotifyUPP
-#endif
-#if TARGET_API_MAC_OS8
-	kQ3False,				// dmNotifiedChanges
-#endif
-#endif
 
 #if Q3_DEBUG
 	nullptr,					// listHead

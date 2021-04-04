@@ -42,10 +42,9 @@ CLANG_ENABLE_OBJC_WEAK = YES
 ALWAYS_SEARCH_USER_PATHS = NO
 
 
-// Preprocessor settings relating to legacy code:
-// ----------------------------------------------
-QUESA_PREPROCESSOR_DEFS_LEGACY = QUESA_SUPPORT_QUICKTIME=0
-
+// Preprocessor settings
+// ---------------------
+QUESA_PREPROCESSOR_DEFINITIONS_BASIC = QUESA_OS_MACINTOSH=1
 ENABLE_STRICT_OBJC_MSGSEND = YES
 
 

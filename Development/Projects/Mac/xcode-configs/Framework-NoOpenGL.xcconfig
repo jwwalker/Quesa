@@ -1,5 +1,6 @@
+
 // The base path where build products will be placed during a build for a given configuration.
-CONFIGURATION_BUILD_DIR = $(PROJECT_DIR)/../../../SDK/Libraries/Mac/Framework_$(PROJECT_NICKNAME)/$(CONFIGURATION)
+CONFIGURATION_BUILD_DIR = $(PROJECT_DIR)/../../../SDK/Libraries/Mac/Framework_NoOpenGL/$(CONFIGURATION)
 
 // Build as Framework.
 LIBRARY_STYLE = DYNAMIC
@@ -14,5 +15,4 @@ INFOPLIST_PREFIX_HEADER = ../../Source/Core/Support/E3Version.h
 
 // Functions whose declarations use the Q3_EXTERN_API_C macro will be exported
 // from the framework.
-GCC_PREPROCESSOR_DEFINITIONS = $(inherited) Q3_EXPORT_SYMBOLS=1
-
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) Q3_EXPORT_SYMBOLS=1 QUESA_BUILT_IN_OPENGL_RENDERER=0

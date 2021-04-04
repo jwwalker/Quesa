@@ -483,17 +483,6 @@ typedef struct E3Globals {
 	TQ3Uns32		 		errMgrHandlerDataPlatform;
 
 
-	// Platform specific (just Mac for now)
-#if QUESA_OS_MACINTOSH
-#if !TARGET_RT_MAC_MACHO || (MAC_OS_X_VERSION_MIN_REQUIRED < 1030)
-	DMNotificationUPP		dmNotifyUPP;
-#endif
-#if TARGET_API_MAC_OS8
-	TQ3Boolean				dmNotifiedChanges;
-#endif
-#endif
-
-
 	// Debugging
 #if Q3_DEBUG
 	TQ3Object				listHead;
