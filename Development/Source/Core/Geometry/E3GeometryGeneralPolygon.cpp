@@ -5,7 +5,7 @@
         Implementation of Quesa Pixmap Marker geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -249,29 +249,25 @@ e3geom_generalpolygon_duplicate(TQ3Object fromObject, const void *fromPrivateDat
 //-----------------------------------------------------------------------------
 static TQ3Object
 e3geom_generalpolygon_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ3GeneralPolygonData *geomData)
-{	TQ3OrientationStyle		theOrientation;
-	TQ3Contour				*theContours;
-	TQ3GeometryObject		theTriMesh;
+{
+	TQ3GeometryObject		theTriMesh = nullptr;
 #pragma unused(theGeom)
 
 
 
-	// Obtain the contour data
-	//
-	// For now we can simply cast between the two structures, since they are identical - we
-	// assert this to make sure, since TQ3Contour is internal at present and so may change.
-	Q3_REQUIRE_OR_RESULT(sizeof(TQ3Contour) == sizeof(TQ3GeneralPolygonContourData), nullptr);
-	theContours = (TQ3Contour *) geomData->contours;
-
-
-
 	// Tessellate the polygon
-	theTriMesh = E3Tessellate_Contours(geomData->numContours, theContours, geomData->generalPolygonAttributeSet);	
+	if (geomData->contours != nullptr)
+	{
+		theTriMesh = E3Tessellate_Contours( geomData->numContours,
+			(const TQ3GeneralPolygonContourData* _Nonnull) geomData->contours,
+			geomData->generalPolygonAttributeSet);	
+	}
+	
 	if (theTriMesh != nullptr)
-		{
-		theOrientation = E3View_State_GetStyleOrientation(theView);
+	{
+		TQ3OrientationStyle theOrientation = E3View_State_GetStyleOrientation(theView);
 		E3TriMesh_AddTriangleNormals(theTriMesh, theOrientation);
-		}
+	}
 
 	return(theTriMesh);
 }

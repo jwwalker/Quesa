@@ -5,7 +5,7 @@
         Quesa tessellator functions.
 
     COPYRIGHT:
-        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -878,7 +878,9 @@ e3tessellate_dispose_state(E3TessellateState *theState)
 //				determine which portion of the polygon is to be removed.
 //-----------------------------------------------------------------------------
 TQ3Object
-E3Tessellate_Contours(TQ3Uns32 numContours, const TQ3Contour *theContours, TQ3AttributeSet theAttributes)
+E3Tessellate_Contours(TQ3Uns32 numContours,
+		const TQ3GeneralPolygonContourData *theContours,
+		TQ3AttributeSet theAttributes )
 {	GLdouble				vertCoords[3];
 	TQ3Vertex3D				*theVertex;
 	TQ3GeometryObject		theTriMesh;
@@ -926,7 +928,7 @@ E3Tessellate_Contours(TQ3Uns32 numContours, const TQ3Contour *theContours, TQ3At
          gluTessBeginContour(theTess);
          for (m = 0; m < theContours[n].numVertices; m++)
          	{
-         	theVertex     = &theContours[n].theVertices[m];
+         	theVertex     = &theContours[n].vertices[m];
          	vertCoords[0] = (GLdouble) theVertex->point.x;
          	vertCoords[1] = (GLdouble) theVertex->point.y;
          	vertCoords[2] = (GLdouble) theVertex->point.z;
