@@ -1,5 +1,5 @@
 /*  NAME:
-        E3Tessellate.c
+        E3Tessellate.cpp
 
     DESCRIPTION:
         Quesa tessellator functions.
@@ -44,21 +44,26 @@
 //      Include files
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
-#include "GLPrefix.h"
 #include "E3Set.h"
 #include "E3Tessellate.h"
+#include "QuesaMathOperators.hpp"
+#include "QuesaMath.h"
+#include "E3GeometryTriMeshOptimize.h"
+#include "E3GeometryTriMesh.h"
 
-
-
+#include "glu-mesa.h"
 
 
 //=============================================================================
 //      Internal types
 //-----------------------------------------------------------------------------
+
 // GLU callback
 #ifndef CALLBACK
 	#define CALLBACK
 #endif
+
+typedef GLvoid (*GLcallback)( void );
 
 
 // Tessellator state
@@ -881,7 +886,12 @@ TQ3Object
 E3Tessellate_Contours(TQ3Uns32 numContours,
 		const TQ3GeneralPolygonContourData *theContours,
 		TQ3AttributeSet theAttributes )
-{	GLdouble				vertCoords[3];
+{
+	// Validate our parameters
+	Q3_REQUIRE_OR_RESULT(numContours >= 1,          nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theContours), nullptr);
+
+	GLdouble				vertCoords[3];
 	TQ3Vertex3D				*theVertex;
 	TQ3GeometryObject		theTriMesh;
 	GLUtriangulatorObj		*theTess;
@@ -890,9 +900,6 @@ E3Tessellate_Contours(TQ3Uns32 numContours,
 
 
 
-	// Validate our parameters
-	Q3_REQUIRE_OR_RESULT(numContours >= 1,          nullptr);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theContours), nullptr);
 
 
 

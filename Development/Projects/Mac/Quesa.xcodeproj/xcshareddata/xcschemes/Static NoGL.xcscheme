@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "BE5EE95C26195C8A0049B72A"
-               BuildableName = "libStatic NoGL.a"
+               BuildableName = "libQuesa.a"
                BlueprintName = "Static NoGL"
                ReferencedContainer = "container:Quesa.xcodeproj">
             </BuildableReference>
@@ -51,7 +51,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "BE5EE95C26195C8A0049B72A"
-            BuildableName = "libStatic NoGL.a"
+            BuildableName = "libQuesa.a"
             BlueprintName = "Static NoGL"
             ReferencedContainer = "container:Quesa.xcodeproj">
          </BuildableReference>

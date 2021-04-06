@@ -364,7 +364,6 @@
 		BE5EE93D261921980049B72A /* StripMaker_FindAdjacencies.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F266D0B7BB8AD00933ED1 /* StripMaker_FindAdjacencies.cpp */; };
 		BE5EE93E261921980049B72A /* StripMaker_InitFaces.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F266E0B7BB8AD00933ED1 /* StripMaker_InitFaces.cpp */; };
 		BE5EE93F261921980049B72A /* StripMaker_MakeSimpleStrip.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE7F26700B7BB8AD00933ED1 /* StripMaker_MakeSimpleStrip.cpp */; };
-		BE5EE945261934840049B72A /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE7033FE132D30B700C0056D /* OpenGL.framework */; };
 		BE5EE952261951DC0049B72A /* CQ3WeakObjectRef.h in Headers */ = {isa = PBXBuildFile; fileRef = BE11DD721D5A9DA20013C5ED /* CQ3WeakObjectRef.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BE5EE957261951E40049B72A /* CQ3WeakObjectRef.h in Headers */ = {isa = PBXBuildFile; fileRef = BE11DD721D5A9DA20013C5ED /* CQ3WeakObjectRef.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		BE5EE95E26195C8A0049B72A /* QD3DSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = AB3A7BC1055E63B100CA83BE /* QD3DSet.cpp */; };
@@ -468,6 +467,76 @@
 		BE5EE9DA26195C8A0049B72A /* StripMaker_FreeFaceSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEE6738111B72BFD00943219 /* StripMaker_FreeFaceSet.cpp */; };
 		BE6C6F520C134DD300FBD60D /* E3Math_Intersect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE6C6F500C134DD300FBD60D /* E3Math_Intersect.cpp */; };
 		BE6C6F550C134DD300FBD60D /* E3Math_Intersect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE6C6F500C134DD300FBD60D /* E3Math_Intersect.cpp */; };
+		BE6D5786261D188300F44B8D /* geom.h in Headers */ = {isa = PBXBuildFile; fileRef = BE6D576B261D188200F44B8D /* geom.h */; };
+		BE6D5787261D188300F44B8D /* geom.h in Headers */ = {isa = PBXBuildFile; fileRef = BE6D576B261D188200F44B8D /* geom.h */; };
+		BE6D5788261D188300F44B8D /* render.h in Headers */ = {isa = PBXBuildFile; fileRef = BE6D576C261D188300F44B8D /* render.h */; };
+		BE6D5789261D188300F44B8D /* render.h in Headers */ = {isa = PBXBuildFile; fileRef = BE6D576C261D188300F44B8D /* render.h */; };
+		BE6D578A261D188300F44B8D /* memalloc.c in Sources */ = {isa = PBXBuildFile; fileRef = BE6D576D261D188300F44B8D /* memalloc.c */; };
+		BE6D578B261D188300F44B8D /* memalloc.c in Sources */ = {isa = PBXBuildFile; fileRef = BE6D576D261D188300F44B8D /* memalloc.c */; };
+		BE6D578C261D188300F44B8D /* gluos.h in Headers */ = {isa = PBXBuildFile; fileRef = BE6D576E261D188300F44B8D /* gluos.h */; };
+		BE6D578D261D188300F44B8D /* gluos.h in Headers */ = {isa = PBXBuildFile; fileRef = BE6D576E261D188300F44B8D /* gluos.h */; };
+		BE6D578E261D188300F44B8D /* normal.h in Headers */ = {isa = PBXBuildFile; fileRef = BE6D576F261D188300F44B8D /* normal.h */; };
+		BE6D578F261D188300F44B8D /* normal.h in Headers */ = {isa = PBXBuildFile; fileRef = BE6D576F261D188300F44B8D /* normal.h */; };
+		BE6D5790261D188300F44B8D /* mesh.c in Sources */ = {isa = PBXBuildFile; fileRef = BE6D5771261D188300F44B8D /* mesh.c */; };
+		BE6D5791261D188300F44B8D /* mesh.c in Sources */ = {isa = PBXBuildFile; fileRef = BE6D5771261D188300F44B8D /* mesh.c */; };
+		BE6D5792261D188300F44B8D /* tess.h in Headers */ = {isa = PBXBuildFile; fileRef = BE6D5772261D188300F44B8D /* tess.h */; };
+		BE6D5793261D188300F44B8D /* tess.h in Headers */ = {isa = PBXBuildFile; fileRef = BE6D5772261D188300F44B8D /* tess.h */; };
+		BE6D5794261D188300F44B8D /* normal.c in Sources */ = {isa = PBXBuildFile; fileRef = BE6D5773261D188300F44B8D /* normal.c */; };
+		BE6D5795261D188300F44B8D /* normal.c in Sources */ = {isa = PBXBuildFile; fileRef = BE6D5773261D188300F44B8D /* normal.c */; };
+		BE6D5796261D188300F44B8D /* sweep.h in Headers */ = {isa = PBXBuildFile; fileRef = BE6D5774261D188300F44B8D /* sweep.h */; };
+		BE6D5797261D188300F44B8D /* sweep.h in Headers */ = {isa = PBXBuildFile; fileRef = BE6D5774261D188300F44B8D /* sweep.h */; };
+		BE6D5798261D188300F44B8D /* mesh.h in Headers */ = {isa = PBXBuildFile; fileRef = BE6D5775261D188300F44B8D /* mesh.h */; };
+		BE6D5799261D188300F44B8D /* mesh.h in Headers */ = {isa = PBXBuildFile; fileRef = BE6D5775261D188300F44B8D /* mesh.h */; };
+		BE6D579A261D188300F44B8D /* glu-mesa.h in Headers */ = {isa = PBXBuildFile; fileRef = BE6D5776261D188300F44B8D /* glu-mesa.h */; };
+		BE6D579B261D188300F44B8D /* glu-mesa.h in Headers */ = {isa = PBXBuildFile; fileRef = BE6D5776261D188300F44B8D /* glu-mesa.h */; };
+		BE6D579C261D188300F44B8D /* memalloc.h in Headers */ = {isa = PBXBuildFile; fileRef = BE6D5777261D188300F44B8D /* memalloc.h */; };
+		BE6D579D261D188300F44B8D /* memalloc.h in Headers */ = {isa = PBXBuildFile; fileRef = BE6D5777261D188300F44B8D /* memalloc.h */; };
+		BE6D579E261D188300F44B8D /* priorityq.h in Headers */ = {isa = PBXBuildFile; fileRef = BE6D5778261D188300F44B8D /* priorityq.h */; };
+		BE6D579F261D188300F44B8D /* priorityq.h in Headers */ = {isa = PBXBuildFile; fileRef = BE6D5778261D188300F44B8D /* priorityq.h */; };
+		BE6D57A0261D188300F44B8D /* dict.c in Sources */ = {isa = PBXBuildFile; fileRef = BE6D5779261D188300F44B8D /* dict.c */; };
+		BE6D57A1261D188300F44B8D /* dict.c in Sources */ = {isa = PBXBuildFile; fileRef = BE6D5779261D188300F44B8D /* dict.c */; };
+		BE6D57A2261D188300F44B8D /* geom.c in Sources */ = {isa = PBXBuildFile; fileRef = BE6D577A261D188300F44B8D /* geom.c */; };
+		BE6D57A3261D188300F44B8D /* geom.c in Sources */ = {isa = PBXBuildFile; fileRef = BE6D577A261D188300F44B8D /* geom.c */; };
+		BE6D57A4261D188300F44B8D /* dict-list.h in Headers */ = {isa = PBXBuildFile; fileRef = BE6D577B261D188300F44B8D /* dict-list.h */; };
+		BE6D57A5261D188300F44B8D /* dict-list.h in Headers */ = {isa = PBXBuildFile; fileRef = BE6D577B261D188300F44B8D /* dict-list.h */; };
+		BE6D57A6261D188300F44B8D /* tessmono.c in Sources */ = {isa = PBXBuildFile; fileRef = BE6D577C261D188300F44B8D /* tessmono.c */; };
+		BE6D57A7261D188300F44B8D /* tessmono.c in Sources */ = {isa = PBXBuildFile; fileRef = BE6D577C261D188300F44B8D /* tessmono.c */; };
+		BE6D57A8261D188300F44B8D /* priorityq.c in Sources */ = {isa = PBXBuildFile; fileRef = BE6D577D261D188300F44B8D /* priorityq.c */; };
+		BE6D57A9261D188300F44B8D /* priorityq.c in Sources */ = {isa = PBXBuildFile; fileRef = BE6D577D261D188300F44B8D /* priorityq.c */; };
+		BE6D57AA261D188300F44B8D /* dict.h in Headers */ = {isa = PBXBuildFile; fileRef = BE6D577E261D188300F44B8D /* dict.h */; };
+		BE6D57AB261D188300F44B8D /* dict.h in Headers */ = {isa = PBXBuildFile; fileRef = BE6D577E261D188300F44B8D /* dict.h */; };
+		BE6D57AC261D188300F44B8D /* priorityq-heap.h in Headers */ = {isa = PBXBuildFile; fileRef = BE6D577F261D188300F44B8D /* priorityq-heap.h */; };
+		BE6D57AD261D188300F44B8D /* priorityq-heap.h in Headers */ = {isa = PBXBuildFile; fileRef = BE6D577F261D188300F44B8D /* priorityq-heap.h */; };
+		BE6D57B0261D188300F44B8D /* sweep.c in Sources */ = {isa = PBXBuildFile; fileRef = BE6D5781261D188300F44B8D /* sweep.c */; };
+		BE6D57B1261D188300F44B8D /* sweep.c in Sources */ = {isa = PBXBuildFile; fileRef = BE6D5781261D188300F44B8D /* sweep.c */; };
+		BE6D57B2261D188300F44B8D /* tessmono.h in Headers */ = {isa = PBXBuildFile; fileRef = BE6D5782261D188300F44B8D /* tessmono.h */; };
+		BE6D57B3261D188300F44B8D /* tessmono.h in Headers */ = {isa = PBXBuildFile; fileRef = BE6D5782261D188300F44B8D /* tessmono.h */; };
+		BE6D57B4261D188300F44B8D /* priorityq-sort.h in Headers */ = {isa = PBXBuildFile; fileRef = BE6D5783261D188300F44B8D /* priorityq-sort.h */; };
+		BE6D57B5261D188300F44B8D /* priorityq-sort.h in Headers */ = {isa = PBXBuildFile; fileRef = BE6D5783261D188300F44B8D /* priorityq-sort.h */; };
+		BE6D57B6261D188300F44B8D /* tess.c in Sources */ = {isa = PBXBuildFile; fileRef = BE6D5784261D188300F44B8D /* tess.c */; };
+		BE6D57B7261D188300F44B8D /* tess.c in Sources */ = {isa = PBXBuildFile; fileRef = BE6D5784261D188300F44B8D /* tess.c */; };
+		BE6D57B8261D188300F44B8D /* render.c in Sources */ = {isa = PBXBuildFile; fileRef = BE6D5785261D188300F44B8D /* render.c */; };
+		BE6D57B9261D188300F44B8D /* render.c in Sources */ = {isa = PBXBuildFile; fileRef = BE6D5785261D188300F44B8D /* render.c */; };
+		BE6D57C9261D20BC00F44B8D /* tess.c in Sources */ = {isa = PBXBuildFile; fileRef = BE6D5784261D188300F44B8D /* tess.c */; };
+		BE6D57CA261D20BC00F44B8D /* mesh.c in Sources */ = {isa = PBXBuildFile; fileRef = BE6D5771261D188300F44B8D /* mesh.c */; };
+		BE6D57CB261D20BC00F44B8D /* dict.c in Sources */ = {isa = PBXBuildFile; fileRef = BE6D5779261D188300F44B8D /* dict.c */; };
+		BE6D57CC261D20BC00F44B8D /* memalloc.c in Sources */ = {isa = PBXBuildFile; fileRef = BE6D576D261D188300F44B8D /* memalloc.c */; };
+		BE6D57CD261D20BC00F44B8D /* priorityq.c in Sources */ = {isa = PBXBuildFile; fileRef = BE6D577D261D188300F44B8D /* priorityq.c */; };
+		BE6D57CE261D20BC00F44B8D /* sweep.c in Sources */ = {isa = PBXBuildFile; fileRef = BE6D5781261D188300F44B8D /* sweep.c */; };
+		BE6D57CF261D20BC00F44B8D /* render.c in Sources */ = {isa = PBXBuildFile; fileRef = BE6D5785261D188300F44B8D /* render.c */; };
+		BE6D57D0261D20BC00F44B8D /* geom.c in Sources */ = {isa = PBXBuildFile; fileRef = BE6D577A261D188300F44B8D /* geom.c */; };
+		BE6D57D1261D20BC00F44B8D /* normal.c in Sources */ = {isa = PBXBuildFile; fileRef = BE6D5773261D188300F44B8D /* normal.c */; };
+		BE6D57D2261D20BC00F44B8D /* tessmono.c in Sources */ = {isa = PBXBuildFile; fileRef = BE6D577C261D188300F44B8D /* tessmono.c */; };
+		BE6D57D8261D20BC00F44B8D /* tess.c in Sources */ = {isa = PBXBuildFile; fileRef = BE6D5784261D188300F44B8D /* tess.c */; };
+		BE6D57D9261D20BC00F44B8D /* mesh.c in Sources */ = {isa = PBXBuildFile; fileRef = BE6D5771261D188300F44B8D /* mesh.c */; };
+		BE6D57DA261D20BC00F44B8D /* dict.c in Sources */ = {isa = PBXBuildFile; fileRef = BE6D5779261D188300F44B8D /* dict.c */; };
+		BE6D57DB261D20BC00F44B8D /* memalloc.c in Sources */ = {isa = PBXBuildFile; fileRef = BE6D576D261D188300F44B8D /* memalloc.c */; };
+		BE6D57DC261D20BC00F44B8D /* priorityq.c in Sources */ = {isa = PBXBuildFile; fileRef = BE6D577D261D188300F44B8D /* priorityq.c */; };
+		BE6D57DD261D20BC00F44B8D /* sweep.c in Sources */ = {isa = PBXBuildFile; fileRef = BE6D5781261D188300F44B8D /* sweep.c */; };
+		BE6D57DE261D20BC00F44B8D /* render.c in Sources */ = {isa = PBXBuildFile; fileRef = BE6D5785261D188300F44B8D /* render.c */; };
+		BE6D57DF261D20BC00F44B8D /* geom.c in Sources */ = {isa = PBXBuildFile; fileRef = BE6D577A261D188300F44B8D /* geom.c */; };
+		BE6D57E0261D20BC00F44B8D /* normal.c in Sources */ = {isa = PBXBuildFile; fileRef = BE6D5773261D188300F44B8D /* normal.c */; };
+		BE6D57E1261D20BC00F44B8D /* tessmono.c in Sources */ = {isa = PBXBuildFile; fileRef = BE6D577C261D188300F44B8D /* tessmono.c */; };
 		BE6FD693076B88A800587852 /* GLTextureManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE6FD691076B88A800587852 /* GLTextureManager.cpp */; };
 		BE7033FF132D30B700C0056D /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE7033FE132D30B700C0056D /* OpenGL.framework */; };
 		BE7034ED132D32BD00C0056D /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE7034EC132D32BD00C0056D /* Cocoa.framework */; };
@@ -749,6 +818,33 @@
 		BE5EE9EC26195CF00049B72A /* Static-NoGL.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Static-NoGL.xcconfig"; sourceTree = "<group>"; };
 		BE6C6F4F0C134DD300FBD60D /* E3Math_Intersect.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = E3Math_Intersect.h; sourceTree = "<group>"; };
 		BE6C6F500C134DD300FBD60D /* E3Math_Intersect.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = E3Math_Intersect.cpp; sourceTree = "<group>"; };
+		BE6D576B261D188200F44B8D /* geom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = geom.h; path = "../../Source/Core/glu tessellation from Mesa/geom.h"; sourceTree = "<group>"; };
+		BE6D576C261D188300F44B8D /* render.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = render.h; path = "../../Source/Core/glu tessellation from Mesa/render.h"; sourceTree = "<group>"; };
+		BE6D576D261D188300F44B8D /* memalloc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = memalloc.c; path = "../../Source/Core/glu tessellation from Mesa/memalloc.c"; sourceTree = "<group>"; };
+		BE6D576E261D188300F44B8D /* gluos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = gluos.h; path = "../../Source/Core/glu tessellation from Mesa/gluos.h"; sourceTree = "<group>"; };
+		BE6D576F261D188300F44B8D /* normal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = normal.h; path = "../../Source/Core/glu tessellation from Mesa/normal.h"; sourceTree = "<group>"; };
+		BE6D5770261D188300F44B8D /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = README; path = "../../Source/Core/glu tessellation from Mesa/README"; sourceTree = "<group>"; };
+		BE6D5771261D188300F44B8D /* mesh.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = mesh.c; path = "../../Source/Core/glu tessellation from Mesa/mesh.c"; sourceTree = "<group>"; };
+		BE6D5772261D188300F44B8D /* tess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = tess.h; path = "../../Source/Core/glu tessellation from Mesa/tess.h"; sourceTree = "<group>"; };
+		BE6D5773261D188300F44B8D /* normal.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = normal.c; path = "../../Source/Core/glu tessellation from Mesa/normal.c"; sourceTree = "<group>"; };
+		BE6D5774261D188300F44B8D /* sweep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sweep.h; path = "../../Source/Core/glu tessellation from Mesa/sweep.h"; sourceTree = "<group>"; };
+		BE6D5775261D188300F44B8D /* mesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mesh.h; path = "../../Source/Core/glu tessellation from Mesa/mesh.h"; sourceTree = "<group>"; };
+		BE6D5776261D188300F44B8D /* glu-mesa.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "glu-mesa.h"; path = "../../Source/Core/glu tessellation from Mesa/glu-mesa.h"; sourceTree = "<group>"; };
+		BE6D5777261D188300F44B8D /* memalloc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = memalloc.h; path = "../../Source/Core/glu tessellation from Mesa/memalloc.h"; sourceTree = "<group>"; };
+		BE6D5778261D188300F44B8D /* priorityq.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = priorityq.h; path = "../../Source/Core/glu tessellation from Mesa/priorityq.h"; sourceTree = "<group>"; };
+		BE6D5779261D188300F44B8D /* dict.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = dict.c; path = "../../Source/Core/glu tessellation from Mesa/dict.c"; sourceTree = "<group>"; };
+		BE6D577A261D188300F44B8D /* geom.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = geom.c; path = "../../Source/Core/glu tessellation from Mesa/geom.c"; sourceTree = "<group>"; };
+		BE6D577B261D188300F44B8D /* dict-list.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "dict-list.h"; path = "../../Source/Core/glu tessellation from Mesa/dict-list.h"; sourceTree = "<group>"; };
+		BE6D577C261D188300F44B8D /* tessmono.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = tessmono.c; path = "../../Source/Core/glu tessellation from Mesa/tessmono.c"; sourceTree = "<group>"; };
+		BE6D577D261D188300F44B8D /* priorityq.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = priorityq.c; path = "../../Source/Core/glu tessellation from Mesa/priorityq.c"; sourceTree = "<group>"; };
+		BE6D577E261D188300F44B8D /* dict.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = dict.h; path = "../../Source/Core/glu tessellation from Mesa/dict.h"; sourceTree = "<group>"; };
+		BE6D577F261D188300F44B8D /* priorityq-heap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "priorityq-heap.h"; path = "../../Source/Core/glu tessellation from Mesa/priorityq-heap.h"; sourceTree = "<group>"; };
+		BE6D5780261D188300F44B8D /* priorityq-heap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "priorityq-heap.c"; path = "../../Source/Core/glu tessellation from Mesa/priorityq-heap.c"; sourceTree = "<group>"; };
+		BE6D5781261D188300F44B8D /* sweep.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sweep.c; path = "../../Source/Core/glu tessellation from Mesa/sweep.c"; sourceTree = "<group>"; };
+		BE6D5782261D188300F44B8D /* tessmono.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = tessmono.h; path = "../../Source/Core/glu tessellation from Mesa/tessmono.h"; sourceTree = "<group>"; };
+		BE6D5783261D188300F44B8D /* priorityq-sort.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "priorityq-sort.h"; path = "../../Source/Core/glu tessellation from Mesa/priorityq-sort.h"; sourceTree = "<group>"; };
+		BE6D5784261D188300F44B8D /* tess.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = tess.c; path = "../../Source/Core/glu tessellation from Mesa/tess.c"; sourceTree = "<group>"; };
+		BE6D5785261D188300F44B8D /* render.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = render.c; path = "../../Source/Core/glu tessellation from Mesa/render.c"; sourceTree = "<group>"; };
 		BE6FD690076B88A800587852 /* GLTextureManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GLTextureManager.h; sourceTree = "<group>"; };
 		BE6FD691076B88A800587852 /* GLTextureManager.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; path = GLTextureManager.cpp; sourceTree = "<group>"; };
 		BE7033FC132D30B700C0056D /* AGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AGL.framework; path = System/Library/Frameworks/AGL.framework; sourceTree = SDKROOT; };
@@ -831,7 +927,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BE5EE945261934840049B72A /* OpenGL.framework in Frameworks */,
 				BE5EE91226191CF90049B72A /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -884,6 +979,7 @@
 		08FB77ACFE841707C02AAC07 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				BE6D56FA261D041900F44B8D /* Tessellation from Mesa glu */,
 				AB3A7B83055E63B100CA83BE /* Core */,
 				AB3A7C17055E63B100CA83BE /* Renderers */,
 				AB3A7C48055E63B100CA83BE /* FileFormats */,
@@ -1267,6 +1363,40 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		BE6D56FA261D041900F44B8D /* Tessellation from Mesa glu */ = {
+			isa = PBXGroup;
+			children = (
+				BE6D577B261D188300F44B8D /* dict-list.h */,
+				BE6D5779261D188300F44B8D /* dict.c */,
+				BE6D577E261D188300F44B8D /* dict.h */,
+				BE6D577A261D188300F44B8D /* geom.c */,
+				BE6D576B261D188200F44B8D /* geom.h */,
+				BE6D5776261D188300F44B8D /* glu-mesa.h */,
+				BE6D576E261D188300F44B8D /* gluos.h */,
+				BE6D576D261D188300F44B8D /* memalloc.c */,
+				BE6D5777261D188300F44B8D /* memalloc.h */,
+				BE6D5771261D188300F44B8D /* mesh.c */,
+				BE6D5775261D188300F44B8D /* mesh.h */,
+				BE6D5773261D188300F44B8D /* normal.c */,
+				BE6D576F261D188300F44B8D /* normal.h */,
+				BE6D5780261D188300F44B8D /* priorityq-heap.c */,
+				BE6D577F261D188300F44B8D /* priorityq-heap.h */,
+				BE6D5783261D188300F44B8D /* priorityq-sort.h */,
+				BE6D577D261D188300F44B8D /* priorityq.c */,
+				BE6D5778261D188300F44B8D /* priorityq.h */,
+				BE6D5770261D188300F44B8D /* README */,
+				BE6D5785261D188300F44B8D /* render.c */,
+				BE6D576C261D188300F44B8D /* render.h */,
+				BE6D5781261D188300F44B8D /* sweep.c */,
+				BE6D5774261D188300F44B8D /* sweep.h */,
+				BE6D5784261D188300F44B8D /* tess.c */,
+				BE6D5772261D188300F44B8D /* tess.h */,
+				BE6D577C261D188300F44B8D /* tessmono.c */,
+				BE6D5782261D188300F44B8D /* tessmono.h */,
+			);
+			name = "Tessellation from Mesa glu";
+			sourceTree = "<group>";
+		};
 		BE7F26690B7BB8AD00933ED1 /* MakeStrip */ = {
 			isa = PBXGroup;
 			children = (
@@ -1342,15 +1472,23 @@
 			buildActionMask = 2147483647;
 			files = (
 				AB83B5F0055E72B90034F56A /* Quesa.h in Headers */,
+				BE6D5796261D188300F44B8D /* sweep.h in Headers */,
+				BE6D578E261D188300F44B8D /* normal.h in Headers */,
+				BE6D578C261D188300F44B8D /* gluos.h in Headers */,
 				AB83B5F1055E72B90034F56A /* QuesaCamera.h in Headers */,
 				AB83B5F3055E72B90034F56A /* QuesaCustomElements.h in Headers */,
 				AB83B5F4055E72B90034F56A /* QuesaDrawContext.h in Headers */,
 				AB83B5F5055E72B90034F56A /* QuesaErrors.h in Headers */,
+				BE6D57B2261D188300F44B8D /* tessmono.h in Headers */,
+				BE6D57B4261D188300F44B8D /* priorityq-sort.h in Headers */,
 				AB83B5F6055E72B90034F56A /* QuesaExtension.h in Headers */,
+				BE6D5786261D188300F44B8D /* geom.h in Headers */,
+				BE6D5792261D188300F44B8D /* tess.h in Headers */,
 				AB83B5F7055E72B90034F56A /* QuesaGeometry.h in Headers */,
 				AB83B5F8055E72B90034F56A /* QuesaGroup.h in Headers */,
 				AB83B5F9055E72B90034F56A /* QuesaIO.h in Headers */,
 				AB83B5FA055E72B90034F56A /* QuesaLight.h in Headers */,
+				BE6D579C261D188300F44B8D /* memalloc.h in Headers */,
 				AB83B5FB055E72B90034F56A /* QuesaMath.h in Headers */,
 				AB83B5FC055E72B90034F56A /* QuesaMemory.h in Headers */,
 				AB83B5FD055E72B90034F56A /* QuesaPick.h in Headers */,
@@ -1358,14 +1496,21 @@
 				AB83B5FF055E72B90034F56A /* QuesaSet.h in Headers */,
 				AB83B600055E72B90034F56A /* QuesaShader.h in Headers */,
 				AB83B601055E72B90034F56A /* QuesaStorage.h in Headers */,
+				BE6D5788261D188300F44B8D /* render.h in Headers */,
+				BE6D579A261D188300F44B8D /* glu-mesa.h in Headers */,
 				AB83B602055E72B90034F56A /* QuesaString.h in Headers */,
 				AB83B603055E72B90034F56A /* QuesaStyle.h in Headers */,
 				AB83B604055E72B90034F56A /* QuesaTransform.h in Headers */,
+				BE6D57AA261D188300F44B8D /* dict.h in Headers */,
+				BE6D579E261D188300F44B8D /* priorityq.h in Headers */,
+				BE6D57A4261D188300F44B8D /* dict-list.h in Headers */,
 				AB83B605055E72B90034F56A /* QuesaView.h in Headers */,
 				BEDC045908A57B8100FB3A82 /* CQ3ObjectRef.h in Headers */,
 				BE392D090B6D0CCA00A351AC /* CQ3ObjectRef_Gets.h in Headers */,
 				BE5EE952261951DC0049B72A /* CQ3WeakObjectRef.h in Headers */,
+				BE6D5798261D188300F44B8D /* mesh.h in Headers */,
 				BE7F276E0B7C0D9000933ED1 /* Q3GroupIterator.h in Headers */,
+				BE6D57AC261D188300F44B8D /* priorityq-heap.h in Headers */,
 				BE097F3B156DCE85009AACEF /* QuesaMathOperators.hpp in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1375,15 +1520,23 @@
 			buildActionMask = 2147483647;
 			files = (
 				BE5EE87426191CF90049B72A /* Quesa.h in Headers */,
+				BE6D5797261D188300F44B8D /* sweep.h in Headers */,
+				BE6D578F261D188300F44B8D /* normal.h in Headers */,
+				BE6D578D261D188300F44B8D /* gluos.h in Headers */,
 				BE5EE87526191CF90049B72A /* QuesaCamera.h in Headers */,
 				BE5EE87726191CF90049B72A /* QuesaCustomElements.h in Headers */,
 				BE5EE87826191CF90049B72A /* QuesaDrawContext.h in Headers */,
 				BE5EE87926191CF90049B72A /* QuesaErrors.h in Headers */,
+				BE6D57B3261D188300F44B8D /* tessmono.h in Headers */,
+				BE6D57B5261D188300F44B8D /* priorityq-sort.h in Headers */,
 				BE5EE87A26191CF90049B72A /* QuesaExtension.h in Headers */,
+				BE6D5787261D188300F44B8D /* geom.h in Headers */,
+				BE6D5793261D188300F44B8D /* tess.h in Headers */,
 				BE5EE87B26191CF90049B72A /* QuesaGeometry.h in Headers */,
 				BE5EE87C26191CF90049B72A /* QuesaGroup.h in Headers */,
 				BE5EE87D26191CF90049B72A /* QuesaIO.h in Headers */,
 				BE5EE87F26191CF90049B72A /* QuesaLight.h in Headers */,
+				BE6D579D261D188300F44B8D /* memalloc.h in Headers */,
 				BE5EE88026191CF90049B72A /* QuesaMath.h in Headers */,
 				BE5EE88126191CF90049B72A /* QuesaMemory.h in Headers */,
 				BE5EE88226191CF90049B72A /* QuesaPick.h in Headers */,
@@ -1391,14 +1544,21 @@
 				BE5EE88426191CF90049B72A /* QuesaSet.h in Headers */,
 				BE5EE88626191CF90049B72A /* QuesaShader.h in Headers */,
 				BE5EE88726191CF90049B72A /* QuesaStorage.h in Headers */,
+				BE6D5789261D188300F44B8D /* render.h in Headers */,
+				BE6D579B261D188300F44B8D /* glu-mesa.h in Headers */,
 				BE5EE88826191CF90049B72A /* QuesaString.h in Headers */,
 				BE5EE88926191CF90049B72A /* QuesaStyle.h in Headers */,
 				BE5EE88A26191CF90049B72A /* QuesaTransform.h in Headers */,
+				BE6D57AB261D188300F44B8D /* dict.h in Headers */,
+				BE6D579F261D188300F44B8D /* priorityq.h in Headers */,
+				BE6D57A5261D188300F44B8D /* dict-list.h in Headers */,
 				BE5EE88B26191CF90049B72A /* QuesaView.h in Headers */,
 				BE5EE88C26191CF90049B72A /* CQ3ObjectRef.h in Headers */,
 				BE5EE88D26191CF90049B72A /* CQ3ObjectRef_Gets.h in Headers */,
 				BE5EE957261951E40049B72A /* CQ3WeakObjectRef.h in Headers */,
+				BE6D5799261D188300F44B8D /* mesh.h in Headers */,
 				BE5EE88E26191CF90049B72A /* Q3GroupIterator.h in Headers */,
+				BE6D57AD261D188300F44B8D /* priorityq-heap.h in Headers */,
 				BE5EE88F26191CF90049B72A /* QuesaMathOperators.hpp in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1544,6 +1704,7 @@
 				AB3A7CAC055E63B200CA83BE /* E3GeometryDisk.cpp in Sources */,
 				AB3A7CAE055E63B200CA83BE /* E3GeometryEllipse.cpp in Sources */,
 				AB3A7CB0055E63B200CA83BE /* E3GeometryEllipsoid.cpp in Sources */,
+				BE6D5794261D188300F44B8D /* normal.c in Sources */,
 				AB3A7CB2055E63B200CA83BE /* E3GeometryGeneralPolygon.cpp in Sources */,
 				AB3A7CB4055E63B200CA83BE /* E3GeometryLine.cpp in Sources */,
 				AB3A7CB6055E63B200CA83BE /* E3GeometryMarker.cpp in Sources */,
@@ -1554,6 +1715,7 @@
 				AB3A7CBE055E63B200CA83BE /* E3GeometryPixmapMarker.cpp in Sources */,
 				AB3A7CC0055E63B200CA83BE /* E3GeometryPoint.cpp in Sources */,
 				AB3A7CC2055E63B200CA83BE /* E3GeometryPolygon.cpp in Sources */,
+				BE6D57A8261D188300F44B8D /* priorityq.c in Sources */,
 				AB3A7CC4055E63B200CA83BE /* E3GeometryPolyhedron.cpp in Sources */,
 				AB3A7CC6055E63B200CA83BE /* E3GeometryPolyLine.cpp in Sources */,
 				AB3A7CC8055E63B200CA83BE /* E3GeometryTorus.cpp in Sources */,
@@ -1567,7 +1729,9 @@
 				AB3A7CD5055E63B200CA83BE /* QD3DExtension.cpp in Sources */,
 				AB3A7CD6055E63B200CA83BE /* QD3DGeometry.cpp in Sources */,
 				AB3A7CD7055E63B200CA83BE /* QD3DGroup.cpp in Sources */,
+				BE6D57B8261D188300F44B8D /* render.c in Sources */,
 				AB3A7CD8055E63B200CA83BE /* QD3DIO.cpp in Sources */,
+				BE6D57B6261D188300F44B8D /* tess.c in Sources */,
 				BE2BCA3223F4BE6C00AE7F4A /* QOGLSLShaders.cpp in Sources */,
 				AB3A7CD9055E63B200CA83BE /* QD3DLight.cpp in Sources */,
 				AB3A7CDA055E63B200CA83BE /* QD3DMain.cpp in Sources */,
@@ -1615,6 +1779,7 @@
 				AB3A7D29055E63B200CA83BE /* E3Transform.cpp in Sources */,
 				AB3A7D2B055E63B200CA83BE /* E3View.cpp in Sources */,
 				AB3A7D32055E63B200CA83BE /* GLCamera.cpp in Sources */,
+				BE6D57A0261D188300F44B8D /* dict.c in Sources */,
 				AB3A7D36055E63B200CA83BE /* GLDrawContext.cpp in Sources */,
 				AB3A7D39055E63B200CA83BE /* GLUtils.cpp in Sources */,
 				AB3A7D3B055E63B200CA83BE /* GNGeometry.cpp in Sources */,
@@ -1639,8 +1804,11 @@
 				BE7F26560B7BB87F00933ED1 /* GLVBOManager.cpp in Sources */,
 				BE7F26710B7BB8AD00933ED1 /* MakeStrip.cpp in Sources */,
 				BE7F26740B7BB8AD00933ED1 /* StripMaker_FindAdjacencies.cpp in Sources */,
+				BE6D5790261D188300F44B8D /* mesh.c in Sources */,
+				BE6D578A261D188300F44B8D /* memalloc.c in Sources */,
 				BE7F26750B7BB8AD00933ED1 /* StripMaker_InitFaces.cpp in Sources */,
 				BE7F26760B7BB8AD00933ED1 /* StripMaker_JoinStrips.cpp in Sources */,
+				BE6D57A2261D188300F44B8D /* geom.c in Sources */,
 				BE7F26770B7BB8AD00933ED1 /* StripMaker_MakeSimpleStrip.cpp in Sources */,
 				BE7F26B30B7BB92C00933ED1 /* QOClientStates.cpp in Sources */,
 				BE7F26B50B7BB92C00933ED1 /* QOGeometry.cpp in Sources */,
@@ -1650,10 +1818,12 @@
 				BE7F26BD0B7BB92C00933ED1 /* QORegister.cpp in Sources */,
 				BE7F26BF0B7BB92C00933ED1 /* QORenderer.cpp in Sources */,
 				BE7F26C10B7BB92C00933ED1 /* QOStartAndEnd.cpp in Sources */,
+				BE6D57A6261D188300F44B8D /* tessmono.c in Sources */,
 				BE7F26C20B7BB92C00933ED1 /* QOStatics.cpp in Sources */,
 				BE7F26C40B7BB92C00933ED1 /* QOTexture.cpp in Sources */,
 				BE7F26C60B7BB92C00933ED1 /* QOTransBuffer.cpp in Sources */,
 				BE7F26C80B7BB92C00933ED1 /* QOUpdate.cpp in Sources */,
+				BE6D57B0261D188300F44B8D /* sweep.c in Sources */,
 				BE8D58CA0B7D3EA2007ACFE4 /* OptimizedTriMeshElement.cpp in Sources */,
 				BE806FCE0BCDCCEA008CD86A /* QOGLShadingLanguage.cpp in Sources */,
 				BE0D64FE0C0D0FFC00D3D79C /* QOCalcTriMeshEdges.cpp in Sources */,
@@ -1676,6 +1846,8 @@
 				B1756B3E080A73C00056134C /* E3GeometryMarker.cpp in Sources */,
 				B1756B3F080A73C00056134C /* E3Utils.cpp in Sources */,
 				B1756B40080A73C00056134C /* E3GeometryTriMesh.cpp in Sources */,
+				BE6D57CE261D20BC00F44B8D /* sweep.c in Sources */,
+				BE6D57D0261D20BC00F44B8D /* geom.c in Sources */,
 				B1756B41080A73C00056134C /* E3GeometryPolyhedron.cpp in Sources */,
 				B1756B42080A73C00056134C /* QD3DPick.cpp in Sources */,
 				B1756B46080A73C00056134C /* E3GeometryCone.cpp in Sources */,
@@ -1712,6 +1884,7 @@
 				B1756B6A080A73C00056134C /* E3FFR_3DMF.cpp in Sources */,
 				B1756B6B080A73C00056134C /* E3MacDebug.cpp in Sources */,
 				B1756B6C080A73C00056134C /* E3Compatibility.cpp in Sources */,
+				BE6D57D2261D20BC00F44B8D /* tessmono.c in Sources */,
 				B1756B6D080A73C00056134C /* GLTextureManager.cpp in Sources */,
 				B1756B6E080A73C00056134C /* E3Group.cpp in Sources */,
 				B1756B6F080A73C00056134C /* QD3DShader.cpp in Sources */,
@@ -1727,6 +1900,9 @@
 				B1756B7B080A73C00056134C /* E3GeometryDisk.cpp in Sources */,
 				B1756B7D080A73C00056134C /* E3ErrorManager.cpp in Sources */,
 				B1756B7E080A73C00056134C /* E3IOData.cpp in Sources */,
+				BE6D57CD261D20BC00F44B8D /* priorityq.c in Sources */,
+				BE6D57D1261D20BC00F44B8D /* normal.c in Sources */,
+				BE6D57CF261D20BC00F44B8D /* render.c in Sources */,
 				B1756B7F080A73C00056134C /* E3GeometryBox.cpp in Sources */,
 				B1756B80080A73C00056134C /* E3Renderer.cpp in Sources */,
 				B1756B81080A73C00056134C /* E3Math.cpp in Sources */,
@@ -1737,9 +1913,11 @@
 				B1756B88080A73C00056134C /* E3Pick.cpp in Sources */,
 				B1756B89080A73C00056134C /* QD3DGroup.cpp in Sources */,
 				B1756B8A080A73C00056134C /* QD3DExtension.cpp in Sources */,
+				BE6D57CB261D20BC00F44B8D /* dict.c in Sources */,
 				B1756B8B080A73C00056134C /* E3GeometryEllipsoid.cpp in Sources */,
 				B1756B8D080A73C00056134C /* QD3DMath.cpp in Sources */,
 				B1756B8E080A73C00056134C /* E3GeometryNURBPatch.cpp in Sources */,
+				BE6D57CC261D20BC00F44B8D /* memalloc.c in Sources */,
 				B1756B8F080A73C00056134C /* E3System.cpp in Sources */,
 				B1756B90080A73C00056134C /* E3GeometryPixmapMarker.cpp in Sources */,
 				B1756B91080A73C00056134C /* E3FFW_3DMFBin_Geometry.cpp in Sources */,
@@ -1758,6 +1936,7 @@
 				B1756BA1080A73C00056134C /* E3Errors.cpp in Sources */,
 				B1756BA3080A73C00056134C /* E3ArrayOrList.cpp in Sources */,
 				B1756BA4080A73C00056134C /* E3IOFileFormat.cpp in Sources */,
+				BE6D57C9261D20BC00F44B8D /* tess.c in Sources */,
 				B1756BA5080A73C00056134C /* QD3DMemory.cpp in Sources */,
 				B1756BA6080A73C00056134C /* E3CustomElements.cpp in Sources */,
 				B1756BA7080A73C00056134C /* E3ClassTree.cpp in Sources */,
@@ -1772,6 +1951,7 @@
 				BE7F26610B7BB87F00933ED1 /* GLGPUSharing.cpp in Sources */,
 				BE7F26620B7BB87F00933ED1 /* GLTextureLoader.cpp in Sources */,
 				BE7F26640B7BB87F00933ED1 /* GLVBOManager.cpp in Sources */,
+				BE6D57CA261D20BC00F44B8D /* mesh.c in Sources */,
 				BE7F267F0B7BB8AD00933ED1 /* MakeStrip.cpp in Sources */,
 				BE7F26800B7BB8AD00933ED1 /* StripMaker_FindAdjacencies.cpp in Sources */,
 				BE7F26810B7BB8AD00933ED1 /* StripMaker_InitFaces.cpp in Sources */,
@@ -1829,7 +2009,9 @@
 				BE5EE8A626191CF90049B72A /* E3GeometryTriMesh.cpp in Sources */,
 				BE5EE8A726191CF90049B72A /* QD3DCamera.cpp in Sources */,
 				BE5EE8A826191CF90049B72A /* QD3DCustomElements.cpp in Sources */,
+				BE6D57B1261D188300F44B8D /* sweep.c in Sources */,
 				BE5EE8A926191CF90049B72A /* QD3DDrawContext.cpp in Sources */,
+				BE6D5795261D188300F44B8D /* normal.c in Sources */,
 				BE5EE8AA26191CF90049B72A /* QD3DErrors.cpp in Sources */,
 				BE5EE8AB26191CF90049B72A /* QD3DExtension.cpp in Sources */,
 				BE5EE8AC26191CF90049B72A /* QD3DGeometry.cpp in Sources */,
@@ -1844,12 +2026,14 @@
 				BE5EE8B426191CF90049B72A /* QD3DPick.cpp in Sources */,
 				BE5EE8B526191CF90049B72A /* QD3DRenderer.cpp in Sources */,
 				BE5EE8B626191CF90049B72A /* QD3DSet.cpp in Sources */,
+				BE6D57A3261D188300F44B8D /* geom.c in Sources */,
 				BE5EE8B726191CF90049B72A /* QD3DShader.cpp in Sources */,
 				BE5EE8B826191CF90049B72A /* QD3DStorage.cpp in Sources */,
 				BE5EE8B926191CF90049B72A /* QD3DString.cpp in Sources */,
 				BE5EE8BA26191CF90049B72A /* QD3DStyle.cpp in Sources */,
 				BE5EE8BB26191CF90049B72A /* QD3DTransform.cpp in Sources */,
 				BE5EE8BC26191CF90049B72A /* QD3DView.cpp in Sources */,
+				BE6D57B7261D188300F44B8D /* tess.c in Sources */,
 				BE5EE8BD26191CF90049B72A /* E3ArrayOrList.cpp in Sources */,
 				BE5EE93F261921980049B72A /* StripMaker_MakeSimpleStrip.cpp in Sources */,
 				BE5EE8BE26191CF90049B72A /* E3ClassTree.cpp in Sources */,
@@ -1872,6 +2056,9 @@
 				BE5EE8CF26191CF90049B72A /* E3Light.cpp in Sources */,
 				BE5EE8D026191CF90049B72A /* E3Main.cpp in Sources */,
 				BE5EE8D126191CF90049B72A /* E3Math.cpp in Sources */,
+				BE6D57A7261D188300F44B8D /* tessmono.c in Sources */,
+				BE6D57A9261D188300F44B8D /* priorityq.c in Sources */,
+				BE6D57B9261D188300F44B8D /* render.c in Sources */,
 				BE5EE8D226191CF90049B72A /* E3Memory.cpp in Sources */,
 				BE5EE8D326191CF90049B72A /* E3Pick.cpp in Sources */,
 				BE5EE8D426191CF90049B72A /* E3Renderer.cpp in Sources */,
@@ -1891,6 +2078,7 @@
 				BE5EE8E426191CF90049B72A /* E3FFR_3DMF.cpp in Sources */,
 				BE5EE8E526191CF90049B72A /* E3FFR_3DMF_Bin.cpp in Sources */,
 				BE5EE8E626191CF90049B72A /* E3FFR_3DMF_Geometry.cpp in Sources */,
+				BE6D578B261D188300F44B8D /* memalloc.c in Sources */,
 				BE5EE8E726191CF90049B72A /* E3FFR_3DMF_Text.cpp in Sources */,
 				BE5EE8E826191CF90049B72A /* E3FFW_3DMFBin_Geometry.cpp in Sources */,
 				BE5EE8E926191CF90049B72A /* E3FFW_3DMFBin_Register.cpp in Sources */,
@@ -1902,6 +2090,8 @@
 				BE5EE93E261921980049B72A /* StripMaker_InitFaces.cpp in Sources */,
 				BE5EE8EF26191CF90049B72A /* E3CocoaStackCrawl.cpp in Sources */,
 				BE5EE8F126191CF90049B72A /* E3MacLog.mm in Sources */,
+				BE6D57A1261D188300F44B8D /* dict.c in Sources */,
+				BE6D5791261D188300F44B8D /* mesh.c in Sources */,
 				BE5EE90926191CF90049B72A /* E3Math_Intersect.cpp in Sources */,
 				BE5EE90A26191CF90049B72A /* E3CocoaDrawContext.mm in Sources */,
 				BE5EE90C26191CF90049B72A /* E3Geometry.cpp in Sources */,
@@ -1922,6 +2112,7 @@
 				BE5EE96526195C8A0049B72A /* E3Light.cpp in Sources */,
 				BE5EE96626195C8A0049B72A /* E3Transform.cpp in Sources */,
 				BE5EE96726195C8A0049B72A /* QD3DIO.cpp in Sources */,
+				BE6D57D8261D20BC00F44B8D /* tess.c in Sources */,
 				BE5EE96826195C8A0049B72A /* E3IO.cpp in Sources */,
 				BE5EE96926195C8A0049B72A /* E3GeometryTorus.cpp in Sources */,
 				BE5EE96B26195C8A0049B72A /* E3FFR_3DMF_Bin.cpp in Sources */,
@@ -1931,6 +2122,7 @@
 				BE5EE97026195C8A0049B72A /* GNGeometry.cpp in Sources */,
 				BE5EE97126195C8A0049B72A /* E3Memory.cpp in Sources */,
 				BE5EE97226195C8A0049B72A /* E3Extension.cpp in Sources */,
+				BE6D57DF261D20BC00F44B8D /* geom.c in Sources */,
 				BE5EE97326195C8A0049B72A /* QD3DLight.cpp in Sources */,
 				BE5EE97426195C8A0049B72A /* QD3DCamera.cpp in Sources */,
 				BE5EE97526195C8A0049B72A /* E3Geometry.cpp in Sources */,
@@ -1944,10 +2136,14 @@
 				BE5EE97E26195C8A0049B72A /* E3Pool.cpp in Sources */,
 				BE5EE97F26195C8A0049B72A /* E3FFW_3DMFBin_Register.cpp in Sources */,
 				BE5EE98026195C8A0049B72A /* E3GeometryGeneralPolygon.cpp in Sources */,
+				BE6D57DB261D20BC00F44B8D /* memalloc.c in Sources */,
+				BE6D57DA261D20BC00F44B8D /* dict.c in Sources */,
 				BE5EE98126195C8A0049B72A /* QD3DStyle.cpp in Sources */,
 				BE5EE98226195C8A0049B72A /* E3GeometryPolyLine.cpp in Sources */,
 				BE5EE98326195C8A0049B72A /* E3FFR_3DMF.cpp in Sources */,
 				BE5EE98426195C8A0049B72A /* E3MacDebug.cpp in Sources */,
+				BE6D57DD261D20BC00F44B8D /* sweep.c in Sources */,
+				BE6D57E1261D20BC00F44B8D /* tessmono.c in Sources */,
 				BE5EE98526195C8A0049B72A /* E3Compatibility.cpp in Sources */,
 				BE5EE98726195C8A0049B72A /* E3Group.cpp in Sources */,
 				BE5EE98826195C8A0049B72A /* QD3DShader.cpp in Sources */,
@@ -1955,7 +2151,9 @@
 				BE5EE98A26195C8A0049B72A /* E3View.cpp in Sources */,
 				BE5EE98B26195C8A0049B72A /* QD3DMain.cpp in Sources */,
 				BE5EE98C26195C8A0049B72A /* E3Camera.cpp in Sources */,
+				BE6D57DE261D20BC00F44B8D /* render.c in Sources */,
 				BE5EE98D26195C8A0049B72A /* GNRenderer.cpp in Sources */,
+				BE6D57DC261D20BC00F44B8D /* priorityq.c in Sources */,
 				BE5EE98E26195C8A0049B72A /* E3GeometryCylinder.cpp in Sources */,
 				BE5EE99026195C8A0049B72A /* E3GeometryMesh.cpp in Sources */,
 				BE5EE99126195C8A0049B72A /* E3Style.cpp in Sources */,
@@ -1971,6 +2169,7 @@
 				BE5EE99B26195C8A0049B72A /* QD3DErrors.cpp in Sources */,
 				BE5EE99C26195C8A0049B72A /* E3Pick.cpp in Sources */,
 				BE5EE99D26195C8A0049B72A /* QD3DGroup.cpp in Sources */,
+				BE6D57E0261D20BC00F44B8D /* normal.c in Sources */,
 				BE5EE99E26195C8A0049B72A /* QD3DExtension.cpp in Sources */,
 				BE5EE99F26195C8A0049B72A /* E3GeometryEllipsoid.cpp in Sources */,
 				BE5EE9A026195C8A0049B72A /* QD3DMath.cpp in Sources */,
@@ -2008,6 +2207,7 @@
 				BE5EE9C426195C8A0049B72A /* StripMaker_InitFaces.cpp in Sources */,
 				BE5EE9C526195C8A0049B72A /* StripMaker_JoinStrips.cpp in Sources */,
 				BE5EE9C626195C8A0049B72A /* StripMaker_MakeSimpleStrip.cpp in Sources */,
+				BE6D57D9261D20BC00F44B8D /* mesh.c in Sources */,
 				BE5EE9D726195C8A0049B72A /* E3Math_Intersect.cpp in Sources */,
 				BE5EE9D826195C8A0049B72A /* E3CocoaDrawContext.mm in Sources */,
 				BE5EE9DA26195C8A0049B72A /* StripMaker_FreeFaceSet.cpp in Sources */,
