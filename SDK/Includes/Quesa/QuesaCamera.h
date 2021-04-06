@@ -12,7 +12,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -319,14 +319,14 @@ typedef struct TQ3ViewAngleAspectCameraData {
 	@field			mappingFunction	The mapping function.
 	@field			croppingFormat		The cropping format.
 */
-struct TQ3FisheyeCameraData
+typedef struct TQ3FisheyeCameraData
 {
     TQ3CameraData                  cameraData;
 	TQ3Vector2D                    sensorSize;
 	float                          focalLength;
 	TQ3FisheyeMappingFunction      mappingFunction;
 	TQ3FisheyeCroppingFormat       croppingFormat;
-};
+} TQ3FisheyeCameraData;
 
 
 

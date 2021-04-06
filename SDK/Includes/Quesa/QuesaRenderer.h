@@ -631,7 +631,7 @@ typedef struct TQAEngine                        TQAEngine;
 typedef Q3_CALLBACK_API_C(void,                TQ3RaveDestroyCallback)(
                             TQ3RendererObject _Nonnull   theRenderer);
 
-
+#ifdef __cplusplus
 /*!
 	@typedef	TQ3CastShadowsOverrideCallback
 	@abstract	This callback, if provided, can override the decision of whether
@@ -648,6 +648,8 @@ typedef Q3_CALLBACK_API_C( bool, TQ3CastShadowsOverrideCallback )(
 							TQ3GeometryObject _Nonnull inGeometry,
 							TQ3LightObject _Nonnull inLight,
 							bool inCastShadowsStyleState );
+#endif
+
 
 /*!
  *  @typedef
