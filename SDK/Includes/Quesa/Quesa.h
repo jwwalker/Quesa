@@ -164,6 +164,9 @@
 
 
     // Includes
+	#if QUESA_OS_MACINTOSH && ! QUESA_OS_COCOA
+		#include <Carbon/Carbon.h>
+	#endif
 	#if QUESA_OS_COCOA && defined(__OBJC__)
 		#include <Cocoa/Cocoa.h>
 	#endif
