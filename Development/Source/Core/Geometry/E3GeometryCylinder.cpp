@@ -1,11 +1,11 @@
 /*  NAME:
-        E3GeometryCylinder.c
+        E3GeometryCylinder.cpp
 
     DESCRIPTION:
         Implementation of Quesa Cylinder geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -236,8 +236,11 @@ e3geom_cylinder_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 //      e3geom_cylinder_cache_new : Cylinder cache new method.
 //-----------------------------------------------------------------------------
 static TQ3Object
-e3geom_cylinder_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ3CylinderData *geomData)
-{	float						ang=0.0f, dang, cosAngle, sinAngle;
+e3geom_cylinder_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom,
+	const void *geomDataParam)
+{
+	const TQ3CylinderData* geomData = (const TQ3CylinderData*) geomDataParam;
+	float						ang=0.0f, dang, cosAngle, sinAngle;
 	float						startAngle, endAngle, angleRange;
 	TQ3Vector3D					orientCrossMaj, orientCrossMin;
 	float						uMin, uMax, vMin, vMax;
@@ -684,11 +687,11 @@ e3geom_cylinder_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, cons
 //      e3geom_cylinder_get_attribute : Cylinder get attribute set pointer.
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet *
-e3geom_cylinder_get_attribute ( E3Cylinder* cylinder )
-	{
+e3geom_cylinder_get_attribute ( TQ3GeometryObject cylinder )
+{
 	// Return the address of the geometry attribute set
-	return &cylinder->instanceData.cylinderAttributeSet ;
-	}
+	return &((E3Cylinder*)cylinder)->instanceData.cylinderAttributeSet ;
+}
 
 
 

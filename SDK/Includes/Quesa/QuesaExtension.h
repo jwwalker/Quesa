@@ -196,7 +196,7 @@ typedef Q3_CALLBACK_API_C(void,                TQ3XObjectClassUnregisterMethod)(
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XObjectNewMethod)(
                             TQ3Object _Nonnull          object,
                             void                * _Null_unspecified privateData,
-                            void                * _Null_unspecified parameters);
+                            const void          * _Null_unspecified parameters);
 
 typedef Q3_CALLBACK_API_C(void,                TQ3XObjectDeleteMethod)(
                             TQ3Object _Nonnull           object,

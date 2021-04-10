@@ -1,11 +1,11 @@
 /*  NAME:
-        E3GeometryNURBPatch.c
+        E3GeometryNURBPatch.cpp
 
     DESCRIPTION:
         Implementation of Quesa NURB Patch geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1156,8 +1156,11 @@ e3geom_nurbpatch_constant_subdiv( TQ3Point3D** thePoints, TQ3Uns32* numPoints,
 //      e3geom_nurbpatch_cache_new : NURBPatch cache new method.
 //-----------------------------------------------------------------------------
 static TQ3Object
-e3geom_nurbpatch_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ3NURBPatchData *geomData)
-{	TQ3TriMeshData			triMeshData;
+e3geom_nurbpatch_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom,
+							const void *geomDataParam)
+{
+	const TQ3NURBPatchData* geomData = (const TQ3NURBPatchData*) geomDataParam;
+	TQ3TriMeshData			triMeshData;
 	TQ3GeometryObject		theTriMesh;
 	TQ3GroupObject			theGroup;
 	TQ3Point3D 				*points;
@@ -1336,11 +1339,11 @@ e3geom_nurbpatch_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Obje
 //      e3geom_nurbpatch_get_attribute : NURBPatch get attribute set pointer.
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet *
-e3geom_nurbpatch_get_attribute ( E3NURBPatch* nurbPatch )
-	{
+e3geom_nurbpatch_get_attribute ( TQ3GeometryObject nurbPatch )
+{
 	// Return the address of the geometry attribute set
-	return & nurbPatch->instanceData.patchAttributeSet ;
-	}
+	return & ((E3NURBPatch*)nurbPatch)->instanceData.patchAttributeSet ;
+}
 
 
 

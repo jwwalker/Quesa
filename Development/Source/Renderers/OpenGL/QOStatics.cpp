@@ -98,7 +98,7 @@ QORenderer_nickname(unsigned char *dataBuffer, TQ3Uns32 bufferSize, TQ3Uns32 *ac
 TQ3Status	QORenderer::Statics::ObjectNewMethod(
 									TQ3Object theObject,
 									void *privateData,
-									void *paramData )
+									const void *paramData )
 {
 #pragma unused( paramData )
 	TQ3Status	status = kQ3Failure;
@@ -413,77 +413,77 @@ TQ3XRendererUpdateMatrixMethod
 TQ3Status	QORenderer::Statics::UpdateDiffuseColorMethod(
 									TQ3ViewObject inView,
 									void* privateData,
-									const TQ3ColorRGB* inAttColor )
+									const void* inAttColor )
 {
 #pragma unused( inView )
 	QORenderer::Renderer*	me = *(QORenderer::Renderer**)privateData;
-	me->UpdateDiffuseColor( inAttColor );
+	me->UpdateDiffuseColor( (const TQ3ColorRGB*) inAttColor );
 	return kQ3Success;
 }
 
 TQ3Status	QORenderer::Statics::UpdateSpecularColorMethod(
 									TQ3ViewObject inView,
 									void* privateData,
-									const TQ3ColorRGB* inAttColor )
+									const void* inAttColor )
 {
 #pragma unused( inView )
 	QORenderer::Renderer*	me = *(QORenderer::Renderer**)privateData;
-	me->UpdateSpecularColor( inAttColor );
+	me->UpdateSpecularColor( (const TQ3ColorRGB*) inAttColor );
 	return kQ3Success;
 }
 
 TQ3Status	QORenderer::Statics::UpdateSpecularControlMethod(
 									TQ3ViewObject inView,
 									void* privateData,
-									const float* inAttValue )
+									const void* inAttValue )
 {
 #pragma unused( inView )
 	QORenderer::Renderer*	me = *(QORenderer::Renderer**)privateData;
-	me->UpdateSpecularControl( inAttValue );
+	me->UpdateSpecularControl( (const float*) inAttValue );
 	return kQ3Success;
 }
 
 TQ3Status	QORenderer::Statics::UpdateMetallicMethod(
 									TQ3ViewObject inView,
 									void* privateData,
-									const float* inAttValue )
+									const void* inAttValue )
 {
 #pragma unused( inView )
 	QORenderer::Renderer*	me = *(QORenderer::Renderer**)privateData;
-	me->UpdateMetallic( inAttValue );
+	me->UpdateMetallic( (const float*) inAttValue );
 	return kQ3Success;
 }
 
 TQ3Status	QORenderer::Statics::UpdateTransparencyColorMethod(
 									TQ3ViewObject inView,
 									void* privateData,
-									const TQ3ColorRGB* inAttColor )
+									const void* inAttColor )
 {
 #pragma unused( inView )
 	QORenderer::Renderer*	me = *(QORenderer::Renderer**)privateData;
-	me->UpdateTransparencyColor( inAttColor );
+	me->UpdateTransparencyColor( (const TQ3ColorRGB*)inAttColor );
 	return kQ3Success;
 }
 
 TQ3Status	QORenderer::Statics::UpdateEmissiveColorMethod(
 									TQ3ViewObject inView,
 									void* privateData,
-									const TQ3ColorRGB* inAttColor )
+									const void* inAttColor )
 {
 #pragma unused( inView )
 	QORenderer::Renderer*	me = *(QORenderer::Renderer**)privateData;
-	me->UpdateEmissiveColor( inAttColor );
+	me->UpdateEmissiveColor( (const TQ3ColorRGB*) inAttColor );
 	return kQ3Success;
 }
 
 TQ3Status	QORenderer::Statics::UpdateHiliteStateMethod(
 									TQ3ViewObject inView,
 									void* privateData,
-									const TQ3Switch* inAttState )
+									const void* inAttState )
 {
 #pragma unused( inView )
 	QORenderer::Renderer*	me = *(QORenderer::Renderer**)privateData;
-	me->UpdateHiliteState( inAttState );
+	me->UpdateHiliteState( (const TQ3Switch*) inAttState );
 	return kQ3Success;
 }
 

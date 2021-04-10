@@ -1,11 +1,11 @@
 /*  NAME:
-        E3GeometryCone.c
+        E3GeometryCone.cpp
 
     DESCRIPTION:
         Implementation of Quesa Cone geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -663,9 +663,11 @@ static void e3geom_cone_create_interior( TQ3GroupObject ioGroup, const TQ3ConeDa
 //      e3geom_cone_cache_new : Cone cache new method.
 //-----------------------------------------------------------------------------
 static TQ3Object
-e3geom_cone_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ3ConeData *geomData)
+e3geom_cone_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const void *geomDataParam)
 {
 #pragma unused( theGeom )
+	const TQ3ConeData* geomData = (const TQ3ConeData*) geomDataParam;
+	
 	float						uMin, uMax, vMin, vMax;
 	TQ3SubdivisionStyleData		subdivisionData;
 	TQ3Boolean					isTipPresent;
@@ -864,11 +866,11 @@ e3geom_cone_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ
 //      e3geom_cone_get_attribute : Cone get attribute set pointer.
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet *
-e3geom_cone_get_attribute ( E3Cone* cone )
-	{
+e3geom_cone_get_attribute ( TQ3GeometryObject cone )
+{
 	// Return the address of the geometry attribute set
-	return &cone->instanceData.coneAttributeSet ;
-	}
+	return &((E3Cone*)cone)->instanceData.coneAttributeSet ;
+}
 
 
 

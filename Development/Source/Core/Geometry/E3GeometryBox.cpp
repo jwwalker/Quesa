@@ -1,11 +1,11 @@
 /*  NAME:
-        E3GeometryBox.c
+        E3GeometryBox.cpp
 
     DESCRIPTION:
         Implementation of Quesa Box geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -147,15 +147,16 @@ e3geom_box_calc_vertices(const TQ3BoxData *boxData, TQ3Point3D *thePoints)
 //      e3geom_box_new : Box new method.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3geom_box_new ( E3Box* theObject, void *privateData, const void *paramData )
-	{
+e3geom_box_new ( TQ3Object obParam, void *privateData, const void *paramData )
+{
 #pragma unused(privateData)
+	E3Box* theObject = (E3Box*) obParam;
 
 	// Initialise our instance data
 	Q3Memory_Clear ( & theObject->instanceData, sizeof ( TQ3BoxData ) ) ; // Why?
 	
 	return Q3Box_SetData ( theObject, (const TQ3BoxData*) paramData ) ;
-	}
+}
 
 
 
@@ -165,13 +166,14 @@ e3geom_box_new ( E3Box* theObject, void *privateData, const void *paramData )
 //      e3geom_box_delete : Box delete method.
 //-----------------------------------------------------------------------------
 static void
-e3geom_box_delete ( E3Box* theObject, void *privateData )
-	{
+e3geom_box_delete ( TQ3Object objectParam, void *privateData )
+{
 #pragma unused(privateData)
+	E3Box* theObject = (E3Box*) objectParam;
 
 	// Dispose of our instance data
 	Q3Box_EmptyData ( & theObject->instanceData ) ;
-	}
+}
 
 
 
@@ -474,8 +476,10 @@ e3geom_box_merge_faces( TQ3GroupObject ioGroup )
 //-----------------------------------------------------------------------------
 static TQ3Object
 e3geom_box_cache_new( TQ3ViewObject theView, TQ3GeometryObject theGeom,
-					const TQ3BoxData *inBoxData )
-{	TQ3Vector3D			antiMajor, antiMinor, antiOrientation;
+					const void *inBoxDataParam )
+{
+	const TQ3BoxData* inBoxData = (const TQ3BoxData*) inBoxDataParam;
+	TQ3Vector3D			antiMajor, antiMinor, antiOrientation;
 	TQ3StyleObject		theStyle;
 	TQ3Object			theGroup;
 	TQ3Point3D			workPt;
@@ -631,11 +635,11 @@ e3geom_box_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object the
 //      e3geom_box_get_attribute : Box get attribute set pointer.
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet *
-e3geom_box_get_attribute ( E3Box* theObject )
-	{
+e3geom_box_get_attribute ( TQ3Object theObject )
+{
 	// Return the address of the geometry attribute set
-	return &theObject->instanceData.boxAttributeSet ;
-	}
+	return &((E3Box*)theObject)->instanceData.boxAttributeSet ;
+}
 
 
 

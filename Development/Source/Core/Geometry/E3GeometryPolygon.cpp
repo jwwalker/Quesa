@@ -1,11 +1,11 @@
 /*  NAME:
-        E3GeometryPolygon.c
+        E3GeometryPolygon.cpp
 
     DESCRIPTION:
-        Implementation of Quesa Pixmap Marker geometry class.
+        Implementation of Quesa Polygon geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -181,8 +181,10 @@ e3geom_polygon_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 //      e3geom_polygon_cache_new : Polygon cache new method.
 //-----------------------------------------------------------------------------
 static TQ3Object
-e3geom_polygon_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ3PolygonData *geomData)
-{	TQ3TriMeshAttributeData		vertexAttributes[kQ3AttributeTypeNumTypes];
+e3geom_polygon_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const void *geomDataParam)
+{
+	const TQ3PolygonData* geomData = (const TQ3PolygonData*) geomDataParam;
+	TQ3TriMeshAttributeData		vertexAttributes[kQ3AttributeTypeNumTypes];
 	TQ3Uns32					n, numEdges, numTriangles;
 	TQ3TriMeshAttributeData		edgeAttributes[1];
 	TQ3OrientationStyle			theOrientation;
@@ -378,10 +380,10 @@ e3geom_polygon_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet *
 e3geom_polygon_get_attribute(TQ3GeometryObject theObject)
-	{
+{
 	// Return the address of the geometry attribute set
 	return & ( (E3Polygon*) theObject )->instanceData.polygonAttributeSet ;
-	}
+}
 
 
 

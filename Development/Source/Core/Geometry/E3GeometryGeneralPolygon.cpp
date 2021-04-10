@@ -1,8 +1,8 @@
 /*  NAME:
-        E3GeometryGeneralPolygon.c
+        E3GeometryGeneralPolygon.cpp
 
     DESCRIPTION:
-        Implementation of Quesa Pixmap Marker geometry class.
+        Implementation of Quesa General Polygon geometry class.
 
     COPYRIGHT:
         Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
@@ -248,8 +248,9 @@ e3geom_generalpolygon_duplicate(TQ3Object fromObject, const void *fromPrivateDat
 //      e3geom_generalpolygon_cache_new : GeneralPolygon cache new method.
 //-----------------------------------------------------------------------------
 static TQ3Object
-e3geom_generalpolygon_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ3GeneralPolygonData *geomData)
+e3geom_generalpolygon_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const void *geomDataParam)
 {
+	const TQ3GeneralPolygonData* geomData = (const TQ3GeneralPolygonData*) geomDataParam;
 	TQ3GeometryObject		theTriMesh = nullptr;
 #pragma unused(theGeom)
 
@@ -308,11 +309,11 @@ e3geom_generalpolygon_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ
 //      e3geom_generalpolygon_get_attribute : GeneralPolygon get attribute set pointer.
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet *
-e3geom_generalpolygon_get_attribute ( E3GeneralPolygon* generalPolygon )
-	{
+e3geom_generalpolygon_get_attribute ( TQ3GeometryObject generalPolygon )
+{
 	// Return the address of the geometry attribute set
-	return & generalPolygon->instanceData.generalPolygonAttributeSet ;
-	}
+	return & ((E3GeneralPolygon*)generalPolygon)->instanceData.generalPolygonAttributeSet ;
+}
 
 
 

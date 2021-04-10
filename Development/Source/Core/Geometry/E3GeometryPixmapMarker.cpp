@@ -1,11 +1,11 @@
 /*  NAME:
-        E3GeometryPixmapMarker.c
+        E3GeometryPixmapMarker.cpp
 
     DESCRIPTION:
         Implementation of Quesa Pixmap Marker geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -477,8 +477,11 @@ e3geom_pixmapmarker_pick_window_rect(TQ3ViewObject theView, TQ3PickObject thePic
 //      e3geom_pixmapmarker_cache_new : Pixmap marker cache new method.
 //-----------------------------------------------------------------------------
 static TQ3Object
-e3geom_pixmapmarker_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ3PixmapMarkerData *geomData)
-{	const TQ3Vector3D			theOrigin = { 0.0f, 0.0f, 0.0f };
+e3geom_pixmapmarker_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom,
+								const void *geomDataParam)
+{
+	const TQ3PixmapMarkerData* geomData = (const TQ3PixmapMarkerData*) geomDataParam;
+	const TQ3Vector3D			theOrigin = { 0.0f, 0.0f, 0.0f };
 	TQ3TransformObject			transformRasterise, transformTranslate;
 	TQ3StyleObject				styleFill, styleOrientation;
 	TQ3TriMeshAttributeData		vertexAttributes[2];
@@ -623,7 +626,7 @@ e3geom_pixmapmarker_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, 
 static TQ3Boolean
 e3geom_pixmapmarker_cache_isvalid(TQ3ViewObject		theView,
 									TQ3ObjectType	objectType, TQ3GeometryObject theGeom,
-									const void		*geomData,  TQ3Object         *cachedGeom)
+									const void		*geomData,  TQ3Object        cachedGeom)
 {
 #pragma unused(theView)
 #pragma unused(objectType)
@@ -738,11 +741,11 @@ e3geom_pixmapmarker_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3O
 //      e3geom_pixmapmarker_get_attribute : Pixmap marker attribute pointer.
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet *
-e3geom_pixmapmarker_get_attribute ( E3PixmapMarker* pixmapMarker )
-	{
+e3geom_pixmapmarker_get_attribute ( TQ3GeometryObject pixmapMarker )
+{
 	// Return the address of the geometry attribute set
-	return & pixmapMarker->instanceData.pixmapMarkerAttributeSet ;
-	}
+	return & ((E3PixmapMarker*)pixmapMarker)->instanceData.pixmapMarkerAttributeSet ;
+}
 
 
 

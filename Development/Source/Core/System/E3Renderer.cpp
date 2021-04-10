@@ -214,7 +214,7 @@ e3renderer_add_methods(TQ3RendererObject theRenderer)
 		numMethods = sizeof ( matrixMethods ) / sizeof ( TQ3ObjectType ) ;
 		for ( n = 0 ; n < numMethods ; ++n )
 			{
-			theMethod = matrixMeta ( matrixMethods [ n ] ) ;
+			theMethod = (TQ3XFunctionPointer) matrixMeta ( matrixMethods [ n ] ) ;
 			theClass->AddMethod ( matrixMethods [ n ], theMethod ) ;
 			}
 		}
@@ -229,7 +229,7 @@ e3renderer_add_methods(TQ3RendererObject theRenderer)
 		numMethods = sizeof ( geomMethods ) / sizeof ( TQ3ObjectType ) ;
 		for ( n = 0 ; n < numMethods ; ++n )
 			{
-			theMethod = geomMeta ( geomMethods [ n ] );
+			theMethod = (TQ3XFunctionPointer) geomMeta ( geomMethods [ n ] );
 			theClass->AddMethod ( geomMethods [ n ], theMethod ) ;
 			}
 		}
@@ -244,7 +244,7 @@ e3renderer_add_methods(TQ3RendererObject theRenderer)
 		numMethods = sizeof ( attributeMethods ) / sizeof ( TQ3ObjectType ) ;
 		for ( n = 0 ; n < numMethods ; ++n )
 			{
-			theMethod = attributeMeta ( attributeMethods [ n ] ) ;
+			theMethod = (TQ3XFunctionPointer) attributeMeta ( attributeMethods [ n ] ) ;
 			theClass->AddMethod ( attributeMethods [ n ], theMethod ) ;
 			}
 		}
@@ -259,7 +259,7 @@ e3renderer_add_methods(TQ3RendererObject theRenderer)
 		numMethods = sizeof ( shaderMethods ) / sizeof ( TQ3ObjectType ) ;
 		for ( n = 0 ; n < numMethods ; ++n )
 			{
-			theMethod = shaderMeta ( shaderMethods [ n ] ) ;
+			theMethod = (TQ3XFunctionPointer) shaderMeta ( shaderMethods [ n ] ) ;
 			theClass->AddMethod ( shaderMethods [ n ], theMethod ) ;
 			}
 		}
@@ -274,7 +274,7 @@ e3renderer_add_methods(TQ3RendererObject theRenderer)
 		numMethods = sizeof ( styleMethods ) / sizeof ( TQ3ObjectType ) ;
 		for ( n = 0 ; n < numMethods ; ++n )
 			{
-			theMethod = styleMeta ( styleMethods [ n ] ) ;
+			theMethod = (TQ3XFunctionPointer) styleMeta ( styleMethods [ n ] ) ;
 			theClass->AddMethod ( styleMethods [ n ], theMethod ) ;
 			}
 		}

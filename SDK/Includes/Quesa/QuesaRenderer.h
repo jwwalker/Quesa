@@ -935,35 +935,6 @@ typedef Q3_CALLBACK_API_C(TQ3Boolean,          TQ3XRendererIsBoundingBoxVisibleM
 
 /*!
  *  @typedef
- *      TQ3XRendererSubmitGeometryMetaHandlerMethod
- *  @discussion
- *      Return the submit method for a geometry type.
- *
- *      Renderers should return a TQ3XRendererSubmitGeometryMetaHandlerMethod to
- *      be invoked when a geometry of the supplied type is submitted for rendering.
- *      If a particular geometry type is not supported, return nullptr.
- *
- *      Geometries which do not have their own submit method will be decomposed to
- *      more primitive geometry types, which will then be submitted as one of the
- *      following types (which all renderers must support):
- *
- *          kQ3GeometryTypeTriangle
- *          kQ3GeometryTypeLine
- *          kQ3GeometryTypePoint
- *          kQ3GeometryTypeMarker
- *          kQ3GeometryTypePixmapMarker
- *
- *      This method is required.
- *
- *  @param geometryType     The geometry type whose submit method is requested.
- *  @result                 The submit method for geometries of type geometryType.
- */
-typedef Q3_CALLBACK_API_C(TQ3XFunctionPointer _Nullable, TQ3XRendererSubmitGeometryMetaHandlerMethod)(
-                            TQ3ObjectType       geometryType);
-
-
-/*!
- *  @typedef
  *      TQ3XRendererSubmitGeometryMethod
  *  @discussion
  *      Submits a geometry object for rendering.
@@ -993,6 +964,35 @@ typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererSubmitGeometryMethod)
                             void                * _Nonnull rendererPrivate,
                             TQ3GeometryObject _Nullable  theGeometry,
                             const void          * _Nonnull publicData);
+
+
+/*!
+ *  @typedef
+ *      TQ3XRendererSubmitGeometryMetaHandlerMethod
+ *  @discussion
+ *      Return the submit method for a geometry type.
+ *
+ *      Renderers should return a TQ3XRendererSubmitGeometryMetaHandlerMethod to
+ *      be invoked when a geometry of the supplied type is submitted for rendering.
+ *      If a particular geometry type is not supported, return nullptr.
+ *
+ *      Geometries which do not have their own submit method will be decomposed to
+ *      more primitive geometry types, which will then be submitted as one of the
+ *      following types (which all renderers must support):
+ *
+ *          kQ3GeometryTypeTriangle
+ *          kQ3GeometryTypeLine
+ *          kQ3GeometryTypePoint
+ *          kQ3GeometryTypeMarker
+ *          kQ3GeometryTypePixmapMarker
+ *
+ *      This method is required.
+ *
+ *  @param geometryType     The geometry type whose submit method is requested.
+ *  @result                 The submit method for geometries of type geometryType.
+ */
+typedef Q3_CALLBACK_API_C(TQ3XRendererSubmitGeometryMethod _Nullable, TQ3XRendererSubmitGeometryMetaHandlerMethod)(
+                            TQ3ObjectType       geometryType);
 
 
 /*!
@@ -1081,24 +1081,6 @@ typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererSubmitLightMethod)(
 
 /*!
  *  @typedef
- *      TQ3XRendererUpdateStyleMetaHandlerMethod
- *  @discussion
- *      Return the update method for a style type.
- *
- *      Renderers should return a TQ3XRendererUpdateStyleMethod to be invoked when
- *      the state of the supplied style type is changed while rendering.
- *
- *      This method is optional.
- *
- *  @param styleType        The style type whose update method is requested.
- *  @result                 The update method for styles of type styleType.
- */
-typedef Q3_CALLBACK_API_C(TQ3XFunctionPointer _Nullable, TQ3XRendererUpdateStyleMetaHandlerMethod)(
-                            TQ3ObjectType       styleType);
-
-
-/*!
- *  @typedef
  *      TQ3XRendererUpdateStyleMethod
  *  @discussion
  *      Update the the state of a style while rendering.
@@ -1118,20 +1100,20 @@ typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererUpdateStyleMethod)(
 
 /*!
  *  @typedef
- *      TQ3XRendererUpdateAttributeMetaHandlerMethod
+ *      TQ3XRendererUpdateStyleMetaHandlerMethod
  *  @discussion
- *      Return the update method for an attribute type.
+ *      Return the update method for a style type.
  *
- *      Renderers should return a TQ3XRendererUpdateAttributeMethod to be invoked when
- *      the state of the supplied attribute type is changed while rendering.
+ *      Renderers should return a TQ3XRendererUpdateStyleMethod to be invoked when
+ *      the state of the supplied style type is changed while rendering.
  *
  *      This method is optional.
  *
- *  @param attributeType    The attribute type whose update method is requested.
- *  @result                 The update method for attributes of type attributeType.
+ *  @param styleType        The style type whose update method is requested.
+ *  @result                 The update method for styles of type styleType.
  */
-typedef Q3_CALLBACK_API_C(TQ3XFunctionPointer _Nullable, TQ3XRendererUpdateAttributeMetaHandlerMethod)(
-                            TQ3AttributeType    attributeType);
+typedef Q3_CALLBACK_API_C(TQ3XRendererUpdateStyleMethod _Nullable, TQ3XRendererUpdateStyleMetaHandlerMethod)(
+                            TQ3ObjectType       styleType);
 
 
 /*!
@@ -1155,20 +1137,20 @@ typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererUpdateAttributeMethod
 
 /*!
  *  @typedef
- *      TQ3XRendererUpdateShaderMetaHandlerMethod
+ *      TQ3XRendererUpdateAttributeMetaHandlerMethod
  *  @discussion
- *      Return the update method for a shader type.
+ *      Return the update method for an attribute type.
  *
- *      Renderers should return a TQ3XRendererUpdateShaderMethod to be invoked when
- *      the state of the supplied shader type is changed while rendering.
+ *      Renderers should return a TQ3XRendererUpdateAttributeMethod to be invoked when
+ *      the state of the supplied attribute type is changed while rendering.
  *
  *      This method is optional.
  *
- *  @param shaderType       The shader type whose update method is requested.
- *  @result                 The update method for shaders of type shaderType.
+ *  @param attributeType    The attribute type whose update method is requested.
+ *  @result                 The update method for attributes of type attributeType.
  */
-typedef Q3_CALLBACK_API_C(TQ3XFunctionPointer _Nullable, TQ3XRendererUpdateShaderMetaHandlerMethod)(
-                            TQ3ObjectType       shaderType);
+typedef Q3_CALLBACK_API_C(TQ3XRendererUpdateAttributeMethod _Nullable, TQ3XRendererUpdateAttributeMetaHandlerMethod)(
+                            TQ3AttributeType    attributeType);
 
 
 /*!
@@ -1192,20 +1174,20 @@ typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererUpdateShaderMethod)(
 
 /*!
  *  @typedef
- *      TQ3XRendererUpdateMatrixMetaHandlerMethod
+ *      TQ3XRendererUpdateShaderMetaHandlerMethod
  *  @discussion
- *      Return the update method for a matrix type.
+ *      Return the update method for a shader type.
  *
- *      Renderers should return a TQ3XRendererUpdateMatrixMethod to be invoked when
- *      the state of the supplied matrix type is changed while rendering.
+ *      Renderers should return a TQ3XRendererUpdateShaderMethod to be invoked when
+ *      the state of the supplied shader type is changed while rendering.
  *
  *      This method is optional.
  *
- *  @param matrixType       The matrix type whose update method is requested.
- *  @result                 The update method for matrices of type matrixType.
+ *  @param shaderType       The shader type whose update method is requested.
+ *  @result                 The update method for shaders of type shaderType.
  */
-typedef Q3_CALLBACK_API_C(TQ3XFunctionPointer _Nullable, TQ3XRendererUpdateMatrixMetaHandlerMethod)(
-                            TQ3ObjectType       matrixType);
+typedef Q3_CALLBACK_API_C(TQ3XRendererUpdateShaderMethod _Nullable, TQ3XRendererUpdateShaderMetaHandlerMethod)(
+                            TQ3ObjectType       shaderType);
 
 
 /*!
@@ -1225,6 +1207,24 @@ typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XRendererUpdateMatrixMethod)(
                             TQ3ViewObject _Nonnull      theView,
                             void                * _Nonnull rendererPrivate,
                             const TQ3Matrix4x4  * _Nonnull theMatrix);
+
+
+/*!
+ *  @typedef
+ *      TQ3XRendererUpdateMatrixMetaHandlerMethod
+ *  @discussion
+ *      Return the update method for a matrix type.
+ *
+ *      Renderers should return a TQ3XRendererUpdateMatrixMethod to be invoked when
+ *      the state of the supplied matrix type is changed while rendering.
+ *
+ *      This method is optional.
+ *
+ *  @param matrixType       The matrix type whose update method is requested.
+ *  @result                 The update method for matrices of type matrixType.
+ */
+typedef Q3_CALLBACK_API_C(TQ3XRendererUpdateMatrixMethod _Nullable, TQ3XRendererUpdateMatrixMetaHandlerMethod)(
+                            TQ3ObjectType       matrixType);
 
 
 

@@ -1,5 +1,5 @@
 /*  NAME:
-		E3GeometryMesh.c
+		E3GeometryMesh.cpp
 
 	DESCRIPTION:
 		Implementation of Quesa Mesh geometry class.
@@ -3676,8 +3676,9 @@ cleanup:
 //      e3geom_mesh_cache_new : Mesh cache new method.
 //-----------------------------------------------------------------------------
 static TQ3Object
-e3geom_mesh_cache_new(TQ3ViewObject view, TQ3GeometryObject meshObject,const TE3MeshData *meshPtr)
+e3geom_mesh_cache_new(TQ3ViewObject view, TQ3GeometryObject meshObject, const void *geomData)
 {
+	const TE3MeshData* meshPtr = (const TE3MeshData*) geomData;
 #pragma unused(meshObject)
 #pragma unused(view)
 
@@ -3757,11 +3758,11 @@ failure:
 static
 TQ3AttributeSet* 
 e3geom_mesh_get_attribute(
-	E3Mesh* mesh )
-	{
+	TQ3GeometryObject mesh )
+{
 	// Return the address of the geometry attribute set
-	return & mesh->instanceData.attributeSet ;
-	}
+	return & ((E3Mesh*)mesh)->instanceData.attributeSet ;
+}
 
 
 

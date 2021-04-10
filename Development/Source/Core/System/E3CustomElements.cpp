@@ -559,9 +559,12 @@ e3urlelement_metahandler(TQ3XMethodType methodType)
 //      strip_element_copyadd : Copy add/duplicate method.
 //-----------------------------------------------------------------------------
 static TQ3Status
-strip_element_copyadd( const TCETriangleStripPrivate* fromAPIElement,
-						TCETriangleStripPrivate* toInternalElement )
+strip_element_copyadd( const void* fromAPIElementParam,
+						void* toInternalElementParam )
 {
+	const TCETriangleStripPrivate* fromAPIElement = (const TCETriangleStripPrivate*) fromAPIElementParam;
+	TCETriangleStripPrivate* toInternalElement = (TCETriangleStripPrivate*) toInternalElementParam;
+	
 	TQ3Status	status = kQ3Failure;
 	toInternalElement->indexCount = fromAPIElement->indexCount;
 	toInternalElement->editIndex = fromAPIElement->editIndex;
@@ -594,8 +597,9 @@ strip_element_copyadd( const TCETriangleStripPrivate* fromAPIElement,
 //      strip_element_delete : Delete method.
 //-----------------------------------------------------------------------------
 static TQ3Status
-strip_element_delete( TCETriangleStripPrivate* internalElement )
+strip_element_delete( void* param )
 {
+	TCETriangleStripPrivate* internalElement = (TCETriangleStripPrivate*) param;
 	if (internalElement->indexArray != nullptr)
 	{
 		Q3Memory_Free( &internalElement->indexArray );
