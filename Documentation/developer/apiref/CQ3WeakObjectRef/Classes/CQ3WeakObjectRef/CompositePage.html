@@ -1,0 +1,114 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+    "http://www.w3.org/TR/1998/REC-html40-19980424/loose.dtd">
+<html><style type="text/css"><!--a:link {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:visited {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:active {text-decoration: none; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a:hover {text-decoration: underline; font-family: Verdana, Geneva, Helvetica, Arial, sans-serif; font-size: small}a[name]:hover {text-decoration: inherit; font-family: inherit; font-size: inherit}h4 {text-decoration: none; font-family: Verdana,Geneva,Arial,Helvetica,sans-serif; size: tiny; font-weight: bold}--></style><head>
+    <title>CQ3WeakObjectRef</title>
+	 <meta name="generator" content="HeaderDoc">
+</head><body bgcolor="#ffffff">
+<h1><font face="Geneva,Arial,Helvtica">CQ3WeakObjectRef</font></h1><br>
+<h2>Abstract</h2>
+Wrapper for a zeroing weak reference to a Quesa object, making it easier to use
+weak references correctly..
+<h2>Discussion</h2>
+When all references to a shareable (reference-counted) object sre disposed, then the
+object is deleted, and weak references are zeroed.  That means that the get() method
+returns NULL and the isvalid() method returns false.
+<hr><br><h2>Member Functions</h2>
+<hr><a name="//Quesa/cpp/instm/CQ3WeakObjectRef/Assign/TQ3Object"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Assign">Assign</a></h2>
+</td></tr></table><hr>Set the object referenced by the wrapper.
+<BR>
+<blockquote><pre><tt>public:</tt>
+<br><tt>void Assign (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object inObject
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Saying weakRef.Assign( object ) is semantically
+equivalent to weakRef = CQ3WeakObjectRef( object )
+but is more efficient.
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>inObject</em></tt></dt><dd>A reference to a Quesa object,
+or NULL.</dd>
+</dl>
+</blockquote>
+<hr><a name="//Quesa/cpp/instm/CQ3WeakObjectRef/CQ3WeakObjectRef/constCQ3WeakObjectRef&"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CQ3WeakObjectRef">CQ3WeakObjectRef</a></h2>
+</td></tr></table><hr>Copy constructor.
+<BR>
+<blockquote><pre><tt>public:</tt>
+<br><tt>CQ3WeakObjectRef (
+&nbsp;&nbsp;&nbsp;&nbsp;const CQ3WeakObjectRef& inOther
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>inOther</em></tt></dt><dd>Another CQ3WeakObjectRef.</dd>
+</dl>
+</blockquote>
+<hr><a name="//Quesa/cpp/instm/CQ3WeakObjectRef/CQ3WeakObjectRef/TQ3Object"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CQ3WeakObjectRef">CQ3WeakObjectRef</a></h2>
+</td></tr></table><hr>Constructor from a TQ3Object.
+<BR>
+<blockquote><pre><tt>public:</tt>
+<br><tt>explicit CQ3WeakObjectRef (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object inObject
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>inObject</em></tt></dt><dd>A reference to a Quesa object,
+or NULL.</dd>
+</dl>
+</blockquote>
+<hr><a name="//Quesa/cpp/instm/CQ3WeakObjectRef/get/"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="get">get</a></h2>
+</td></tr></table><hr>Get the value held by the wrapper.
+<BR>
+<blockquote><pre><tt>public:</tt>
+<br><tt>TQ3SharedObject get (void) const;</tt><br>
+</pre></blockquote>
+<dl><dt><i>function result</i></dt><dd>A TQ3Object, or NULL.
+							</dd></dl>
+<hr><a name="//Quesa/cpp/instm/CQ3WeakObjectRef/isvalid/"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="isvalid">isvalid</a></h2>
+</td></tr></table><hr>Test whether this object holds a Quesa object.
+<BR>
+<blockquote><pre><tt>public:</tt>
+<br><tt>bool isvalid (void) const;</tt><br>
+</pre></blockquote>
+<dl><dt><i>function result</i></dt><dd>True if it holds a non-NULL Quesa object.
+							</dd></dl>
+<hr><a name="//Quesa/cpp/instm/CQ3WeakObjectRef/operator=/constCQ3WeakObjectRef&"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="operator=">operator=</a></h2>
+</td></tr></table><hr>Assignment operator.
+<BR>
+<blockquote><pre><tt>public:</tt>
+<br><tt>CQ3WeakObjectRef& operator= (
+&nbsp;&nbsp;&nbsp;&nbsp;const CQ3WeakObjectRef& inOther
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>The previous reference held by this wrapper
+is released, and a new reference replaces
+it.
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>inOther</em></tt></dt><dd>Another CQ3WeakObjectRef.</dd>
+</dl>
+</blockquote>
+<hr><a name="//Quesa/cpp/instm/CQ3WeakObjectRef/~CQ3WeakObjectRef/"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="~CQ3WeakObjectRef">~CQ3WeakObjectRef</a></h2>
+</td></tr></table><hr>Destructor.
+<BR>
+<blockquote><pre><tt>public:</tt>
+<br><tt>~CQ3WeakObjectRef (void);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Releases the weak reference if it is not NULL.
+							</p>
+<p><p>&#169; 1999-2021 Quesa Developers (Last Updated 4/10/2021)
+</p></body></html>
