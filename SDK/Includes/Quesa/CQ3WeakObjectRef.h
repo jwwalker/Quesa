@@ -11,7 +11,7 @@
         C++ wrapper class for zeroing weak reference to a Quesa object.
     
     COPYRIGHT:
-        Copyright (c) 2016-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 2016-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -58,6 +58,15 @@
 //=============================================================================
 //      Class declarations
 //-----------------------------------------------------------------------------
+
+/*!
+	@class		CQ3WeakObjectRef
+	@abstract	Wrapper for a zeroing weak reference to a Quesa object, making it easier to use
+				weak references correctly..
+	@discussion	When all references to a shareable (reference-counted) object sre disposed, then the
+				object is deleted, and weak references are zeroed.  That means that the get() method
+				returns NULL and the isvalid() method returns false.
+*/
 class CQ3WeakObjectRef
 {
 public:
@@ -65,10 +74,10 @@ public:
 								@function	CQ3WeakObjectRef
 								@abstract	Default constructor.
 							*/
-							CQ3WeakObjectRef()
+							CQ3WeakObjectRef( void )
 									: mObject( nullptr ) {}
 
-							/*
+							/*!
 								@function	CQ3WeakObjectRef
 								@abstract	Copy constructor.
 								@param		inOther		Another CQ3WeakObjectRef.
@@ -117,6 +126,9 @@ public:
 							/*!
 								@function	Assign
 								@abstract	Set the object referenced by the wrapper.
+								@discussion	Saying weakRef.Assign( object ) is semantically
+											equivalent to weakRef = CQ3WeakObjectRef( object )
+											but is more efficient.
 								@param		inObject	A reference to a Quesa object,
 														or NULL.
 							*/
@@ -138,7 +150,7 @@ inline CQ3WeakObjectRef::CQ3WeakObjectRef( const CQ3WeakObjectRef& inOther )
 	}
 }
 
-/*!
+/*
 	@function	CQ3WeakObjectRef
 	@abstract	Constructor from a TQ3Object.
 	@param		inObject	A reference to a Quesa object,
@@ -153,7 +165,7 @@ inline CQ3WeakObjectRef::CQ3WeakObjectRef( TQ3Object inObject )
 	}
 }
 
-/*!
+/*
 	@function	~CQ3WeakObjectRef
 	@abstract	Destructor.
 	@discussion	Releases the weak reference if it is not NULL.
@@ -166,7 +178,7 @@ inline CQ3WeakObjectRef::~CQ3WeakObjectRef()
 	}
 }
 
-/*!
+/*
 	@function	Assign
 	@abstract	Set the object referenced by the wrapper.
 	@param		inObject	A reference to a Quesa object,
@@ -189,7 +201,7 @@ inline void	CQ3WeakObjectRef::Assign( TQ3Object inObject )
 }
 
 
-/*!
+/*
 	@function	operator=
 	@abstract	Assignment operator.
 	@discussion	The previous reference held by this wrapper
