@@ -47,6 +47,7 @@
 #include "E3System.h"
 #include "E3MacLog.h"
 
+#include "E3MacDeviceDbStart.h"
 #include <CoreFoundation/CoreFoundation.h>
 
 
@@ -216,10 +217,21 @@ void E3MacMachoFrameworkTerminate()
 TQ3Status
 E3MacSystem_Initialise(void)
 {
+    TQ3Status   status = kQ3Failure;
+    
+#if QUESA_SUPPORT_CONTROLLER
+#if Q3_DEBUG
+    #warning start device server
+#endif
+    //start the device server from inside first library instantiation!
+    startDeviceDB();
+    //TODO: more error handling needed
+    status = kQ3Success;
+#else
+    status = kQ3Success;
+#endif
 
-
-
-	return(kQ3Success);
+	return(status);
 }
 
 
