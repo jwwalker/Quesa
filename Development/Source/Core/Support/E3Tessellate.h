@@ -2,10 +2,10 @@
         E3Tessellate.h
 
     DESCRIPTION:
-        Header file for E3Tessellate.c.
+        Header file for E3Tessellate.cpp.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -54,12 +54,9 @@ extern "C" {
 
 
 //=============================================================================
-//      Types
+//      Includes
 //-----------------------------------------------------------------------------
-typedef struct TQ3Contour {
-	TQ3Uns32				numVertices;
-	TQ3Vertex3D				*theVertices;
-} TQ3Contour;
+#include "QuesaGeometry.h"
 
 
 
@@ -68,7 +65,10 @@ typedef struct TQ3Contour {
 //=============================================================================
 //      Function prototypes
 //-----------------------------------------------------------------------------
-TQ3Object	E3Tessellate_Contours(TQ3Uns32 numContours, const TQ3Contour *theContours, TQ3AttributeSet theAttributes);
+TQ3Object _Nullable	E3Tessellate_Contours(
+				TQ3Uns32 numContours,
+				const TQ3GeneralPolygonContourData * _Nonnull theContours,
+				TQ3AttributeSet _Nullable theAttributes );
 
 
 
@@ -82,4 +82,3 @@ TQ3Object	E3Tessellate_Contours(TQ3Uns32 numContours, const TQ3Contour *theConto
 #endif
 
 #endif
-

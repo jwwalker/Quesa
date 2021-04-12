@@ -5,7 +5,7 @@
         Header file for E3Extension.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -85,12 +85,6 @@ TQ3Status				E3XSharedLibrary_Unregister(TQ3Uns32 sharedLibrary);
 void					E3XError_Post(TQ3Error theError);
 void					E3XWarning_Post(TQ3Warning theWarning);
 void					E3XNotice_Post(TQ3Notice theNotice);
-
-
-// Mac specific
-#if QUESA_OS_MACINTOSH
-void					E3XMacintoshError_Post(OSErr theErr);
-#endif
 
 
 

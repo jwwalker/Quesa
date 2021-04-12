@@ -85,7 +85,7 @@ private:
 	static TQ3Status		ObjectNewMethod(
 									TQ3Object theObject,
 									void *privateData,
-									void *paramData );
+									const void *paramData );
 
 	static void				ObjectDeleteMethod(
 									TQ3Object object,
@@ -189,37 +189,37 @@ private:
 	static TQ3Status		UpdateDiffuseColorMethod(
 									TQ3ViewObject inView,
 									void* privateData,
-									const TQ3ColorRGB* inAttColor );
+									const void* inAttColor );
 
 	static TQ3Status		UpdateSpecularColorMethod(
 									TQ3ViewObject inView,
 									void* privateData,
-									const TQ3ColorRGB* inAttColor );
+									const void* inAttColor );
 
 	static TQ3Status		UpdateSpecularControlMethod(
 									TQ3ViewObject inView,
 									void* privateData,
-									const float* inAttValue );
+									const void* inAttValue );
 
 	static TQ3Status		UpdateMetallicMethod(
 									TQ3ViewObject inView,
 									void* privateData,
-									const float* inAttValue );
+									const void* inAttValue );
 
 	static TQ3Status		UpdateTransparencyColorMethod(
 									TQ3ViewObject inView,
 									void* privateData,
-									const TQ3ColorRGB* inAttColor );
+									const void* inAttColor );
 
 	static TQ3Status		UpdateEmissiveColorMethod(
 									TQ3ViewObject inView,
 									void* privateData,
-									const TQ3ColorRGB* inAttColor );
+									const void* inAttColor );
 
 	static TQ3Status		UpdateHiliteStateMethod(
 									TQ3ViewObject inView,
 									void* privateData,
-									const TQ3Switch* inAttState );
+									const void* inAttState );
 
 	//
 	// static methods returned by update-shader metahandler

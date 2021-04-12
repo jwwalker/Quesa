@@ -12,7 +12,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -62,15 +62,7 @@
 
 #define __QD3DSTORAGE__
 
-#if QUESA_OS_MACINTOSH
-    #if QUESA_UH_IN_FRAMEWORKS
-		#include <Carbon/Carbon.h>
-    #else
-        #include <MacTypes.h>
-        #include <Files.h>
-    #endif
-
-#elif QUESA_OS_WIN32
+#if QUESA_OS_WIN32
     #include <Windows.h>
 #endif
 

@@ -63,34 +63,34 @@
 
 - (NSUInteger) dbIndexOfTrackerUUID:(NSString *) aTrackerUUID
 {
-    NSUInteger idx = [_controllerPDOs indexOfObjectPassingTest:
-                      ^ BOOL (Q3DcontrollerPDO *obj, NSUInteger idx, BOOL *stop)
-                      {
-                          return NSOrderedSame==[aTrackerUUID compare:[obj trackerUUID]];
-                      }];
-    return idx;
+    NSUInteger index = [_controllerPDOs indexOfObjectPassingTest:
+                        ^ BOOL (Q3DcontrollerPDO *obj, NSUInteger idx, BOOL *stop)
+                        {
+                            return NSOrderedSame==[aTrackerUUID compare:[obj trackerUUID]];
+                        }];
+    return index;
 };
 
 
 - (NSUInteger) dbIndexOfSignature:(NSString *) aDriverSignature
 {
-    NSUInteger idx = [_controllerPDOs indexOfObjectPassingTest:
-                      ^ BOOL (Q3DcontrollerPDO *obj, NSUInteger idx, BOOL *stop)
-                      {
-                          return NSOrderedSame==[aDriverSignature compare:[obj signature]];
-                      }];
-    return idx;
+    NSUInteger index = [_controllerPDOs indexOfObjectPassingTest:
+                        ^ BOOL (Q3DcontrollerPDO *obj, NSUInteger idx, BOOL *stop)
+                        {
+                            return NSOrderedSame==[aDriverSignature compare:[obj signature]];
+                        }];
+    return index;
 };
 
 
 - (NSUInteger) dbIndexOfSControllerRef:(TQ3ControllerRef) aControllerRef
 {
-    NSUInteger idx = [_controllerPDOs indexOfObjectPassingTest:
-                      ^ BOOL (Q3DcontrollerPDO *obj, NSUInteger idx, BOOL *stop)
-                      {
-                          return (aControllerRef==[obj controllerRef]);
-                      }];
-    return idx;
+    NSUInteger index = [_controllerPDOs indexOfObjectPassingTest:
+                        ^ BOOL (Q3DcontrollerPDO *obj, NSUInteger idx, BOOL *stop)
+                        {
+                            return (aControllerRef==[obj controllerRef]);
+                        }];
+    return index;
 };
 
 

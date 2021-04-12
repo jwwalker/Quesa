@@ -1,11 +1,11 @@
 /*  NAME:
-        E3GeometryTorus.c
+        E3GeometryTorus.cpp
 
     DESCRIPTION:
         Implementation of Quesa Torus geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -526,8 +526,9 @@ e3geom_torus_create_surface( const TQ3TorusData& geomData,
 //-----------------------------------------------------------------------------
 static TQ3Object
 e3geom_torus_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom,
-						const TQ3TorusData *geomData)
+						const void *inGeomData)
 {
+	const TQ3TorusData* geomData = (const TQ3TorusData*) inGeomData;
 	float uMin, uMax, vMin, vMax;
 	TQ3Uns32 upts=16;		// how many points we have around the torus the long way
 	TQ3Uns32 vpts=8;		// how many points around one elliptical cross-section
@@ -586,11 +587,11 @@ e3geom_torus_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom,
 //      e3geom_torus_get_attribute : Torus get attribute set pointer.
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet *
-e3geom_torus_get_attribute ( E3Torus* torus )
-	{
+e3geom_torus_get_attribute ( TQ3GeometryObject torus )
+{
 	// Return the address of the geometry attribute set
-	return & torus->instanceData.torusAttributeSet ;
-	}
+	return & ((E3Torus*)torus)->instanceData.torusAttributeSet ;
+}
 
 
 

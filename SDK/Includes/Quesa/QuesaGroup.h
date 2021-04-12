@@ -235,7 +235,7 @@ typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XGroupGetPrevObjectPositionMet
 typedef TQ3Uns32                            TQ3XMethodTypeGroupPositionSize;
 
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XGroupPositionNewMethod)(
-                            void                * _Nonnull thePosition,
+                            TQ3GroupPosition _Nullable * _Nonnull outPosition,
                             TQ3Object _Nonnull          theObject,
                             const void          * _Nonnull initData);
 

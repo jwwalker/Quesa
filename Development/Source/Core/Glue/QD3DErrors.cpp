@@ -6,7 +6,7 @@
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -444,41 +444,6 @@ Q3Notice_ToString(TQ3Language theLanguage, TQ3Notice theNotice)
 	return(E3Notice_ToString(theLanguage, theNotice));
 }
 #endif
-
-
-
-
-
-//=============================================================================
-//      Q3MacintoshError_Get : Quesa API entry point.
-//-----------------------------------------------------------------------------
-#pragma mark -
-#if QUESA_OS_MACINTOSH
-OSErr
-Q3MacintoshError_Get(OSErr *firstMacErr)
-{
-
-
-	// Release build checks
-	if (firstMacErr != nullptr)
-		Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(firstMacErr), noErr);
-
-
-
-	// Debug build checks
-
-
-
-	// Call the bottleneck
-	E3System_Bottleneck();
-
-
-
-	// Call our implementation
-	return(E3MacintoshError_Get(firstMacErr));
-}
-#endif
-
 
 
 

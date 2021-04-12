@@ -118,6 +118,7 @@ extern "C" {
 //=============================================================================
 //      Constants
 //-----------------------------------------------------------------------------
+#ifdef __cplusplus
 /*!
  *	@constant
  *      kQ3ControllerSetChannelMaxDataSize
@@ -126,10 +127,12 @@ extern "C" {
 */
 // Max channel size
 const int kQ3ControllerSetChannelMaxDataSize = 256;
-
-
-
-
+#else
+enum
+{
+    kQ3ControllerSetChannelMaxDataSize = 256
+};
+#endif
 
 //=============================================================================
 //      Types

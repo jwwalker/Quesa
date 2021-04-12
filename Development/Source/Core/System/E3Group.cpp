@@ -1,11 +1,11 @@
 /*  NAME:
-        E3Group.c
+        E3Group.cpp
 
     DESCRIPTION:
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -252,7 +252,8 @@ E3Group::createPosition ( TQ3Object object )
 	if ( GetClass ()->acceptObjectMethod ( (TQ3GroupObject) this, object ) != kQ3False )
 		{		
 		TQ3XGroupPosition* newGroupPosition ;
-		if ( TQ3Status newResult = GetClass ()->positionNewMethod ( &newGroupPosition, object, this ) )
+		if ( TQ3Status newResult = GetClass ()->positionNewMethod (
+			(TQ3GroupPosition*) &newGroupPosition, object, this ) )
 			return newGroupPosition ;
 		}
 	else
@@ -911,11 +912,11 @@ E3Group::getprevobjectposition ( TQ3Object object, TQ3GroupPosition *position )
 //      e3group_positionnew : Group position new method.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3group_positionnew(TQ3XGroupPosition** position, TQ3Object object, const void *initData)
+e3group_positionnew(TQ3GroupPosition* outPosition, TQ3Object object, const void *initData)
 {
 #pragma unused (initData)
-	if (position)
-		{
+	if (outPosition)
+	{
 		TQ3XGroupPosition* newGroupPosition = (TQ3XGroupPosition*) Q3Memory_Allocate(sizeof(TQ3XGroupPosition));
 
 		if (newGroupPosition)
@@ -923,11 +924,11 @@ e3group_positionnew(TQ3XGroupPosition** position, TQ3Object object, const void *
 			newGroupPosition->next        = nullptr;
 			newGroupPosition->prev        = nullptr;
 			newGroupPosition->object      = Q3Shared_GetReference (object);
-			*position = newGroupPosition ;
+			*outPosition = (TQ3GroupPosition) newGroupPosition ;
 			return kQ3Success ;
 			}
-		*position = nullptr;
-		}
+		*outPosition = nullptr;
+	}
 	return kQ3Failure ;
 }
 
@@ -2165,8 +2166,9 @@ e3group_display_ordered_countobjectsoftype(TQ3GroupObject group, TQ3ObjectType i
 //			Ordered Display empty objects of type method.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3group_display_ordered_emptyobjectsoftype ( E3Group* group, TQ3ObjectType isType )
-	{
+e3group_display_ordered_emptyobjectsoftype ( TQ3GroupObject groupParam, TQ3ObjectType isType )
+{
+	E3Group* group = (E3Group*) groupParam;
 	TQ3GroupPosition	pos ;
 	
 	while ( ( kQ3Success == e3group_display_ordered_getfirstpositionoftype ( group, isType, &pos ) )
@@ -2181,7 +2183,7 @@ e3group_display_ordered_emptyobjectsoftype ( E3Group* group, TQ3ObjectType isTyp
 		}
 		
 	return kQ3Success ;
-	}
+}
 
 
 

@@ -1,11 +1,11 @@
 /*  NAME:
-        E3GeometryPolyLine.c
+        E3GeometryPolyLine.cpp
 
     DESCRIPTION:
         Implementation of Quesa PolyLine geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -270,8 +270,10 @@ e3geom_polyline_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 //      e3geom_polyline_cache_new : PolyLine cache new method.
 //-----------------------------------------------------------------------------
 static TQ3Object
-e3geom_polyline_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ3PolyLineData *geomData)
-{	TQ3GroupObject		theGroup;
+e3geom_polyline_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const void *geomDataParam)
+{
+	const TQ3PolyLineData* geomData = (const TQ3PolyLineData*) geomDataParam;
+	TQ3GroupObject		theGroup;
 	TQ3LineData			lineData;
 	TQ3GeometryObject	theLine;
 	TQ3Uns32			n;
@@ -349,11 +351,11 @@ e3geom_polyline_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Objec
 //      e3geom_polyline_get_attribute : Polyline get attribute set pointer.
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet *
-e3geom_polyline_get_attribute ( E3PolyLine* polyLine )
-	{
+e3geom_polyline_get_attribute ( TQ3GeometryObject polyLine )
+{
 	// Return the address of the geometry attribute set
-	return & polyLine->instanceData.polyLineAttributeSet ;
-	}
+	return & ((E3PolyLine*)polyLine)->instanceData.polyLineAttributeSet ;
+}
 
 
 

@@ -1,5 +1,5 @@
 /*  NAME:
-        E3View.c
+        E3View.cpp
 
     DESCRIPTION:
         Implementation of Quesa API calls.
@@ -1139,7 +1139,7 @@ e3view_submit_retained_bad_mode ( E3View* theView, TQ3Object theObject )
 //      e3view_submit_retained_render : viewMode == kQ3ViewModeDrawing.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3view_submit_retained_render ( E3View* theView, TQ3Object theObject)
+e3view_submit_retained_render ( TQ3Object theView, TQ3Object theObject)
 	{
 	TQ3Status qd3dStatus = kQ3Success ;
 	E3Root* theClass = (E3Root*) theObject->GetClass () ;
@@ -1203,7 +1203,7 @@ e3view_submit_immediate_error ( E3View* view , TQ3ObjectType objectType , const 
 //      e3view_submit_immediate_render : viewMode == kQ3ViewModeDrawing.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3view_submit_immediate_render ( E3View* theView , TQ3ObjectType objectType , const void* objectData )
+e3view_submit_immediate_render ( TQ3ViewObject theView , TQ3ObjectType objectType , const void* objectData )
 	{
 	// Find the object class
 	E3Root* theClass = (E3Root*) E3ClassTree::GetClass ( objectType ) ;
@@ -1811,7 +1811,7 @@ e3view_new(TQ3Object theObject, void *privateData, const void *paramData)
 //      e3view_delete : View class delete method.
 //-----------------------------------------------------------------------------
 static void
-e3view_delete ( E3View* view, void *privateData )
+e3view_delete ( TQ3ViewObject view, void *privateData )
 {
 	TQ3ViewData		*instanceData = (TQ3ViewData *) privateData ;
 
@@ -1827,7 +1827,7 @@ e3view_delete ( E3View* view, void *privateData )
 	Q3Object_CleanDispose(&instanceData->boundingPointsSlab);
 	delete instanceData->boundingPointsArray;
 
-	e3view_stack_pop_clean ( view ) ;
+	e3view_stack_pop_clean ( (E3View*) view ) ;
 	
 	// Clear the free list
 	while (instanceData->viewStackFreeList != nullptr)
@@ -1906,7 +1906,7 @@ e3view_metahandler(TQ3XMethodType methodType)
 //      e3push_submit : Push submit method.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3push_submit ( E3View* view, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData )
+e3push_submit ( TQ3ViewObject view, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData )
 	{
 #pragma unused(objectType)
 #pragma unused(theObject)
@@ -1915,7 +1915,7 @@ e3push_submit ( E3View* view, TQ3ObjectType objectType, TQ3Object theObject, con
 
 
 	// Push the view state
-	return e3view_stack_push ( view ) ;
+	return e3view_stack_push ( (E3View*) view ) ;
 	}
 
 
@@ -1951,7 +1951,7 @@ e3push_metahandler(TQ3XMethodType methodType)
 //      e3pop_submit : Pop submit method.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3pop_submit ( E3View* view, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData )
+e3pop_submit ( TQ3ViewObject view, TQ3ObjectType objectType, TQ3Object theObject, const void *objectData )
 	{
 #pragma unused(objectType)
 #pragma unused(theObject)
@@ -1960,13 +1960,13 @@ e3pop_submit ( E3View* view, TQ3ObjectType objectType, TQ3Object theObject, cons
 
 
 	// If the stack is empty, we can't pop
-	if ( view->instanceData.viewStack == nullptr )
+	if ( ((E3View*)view)->instanceData.viewStack == nullptr )
 		return kQ3Failure ;
 
 
 
 	// Pop the stack
-	e3view_stack_pop ( view ) ;
+	e3view_stack_pop ( (E3View*) view ) ;
 
 	return kQ3Success ;
 	}
@@ -2065,9 +2065,9 @@ E3View_UnregisterClass(void)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3View_SubmitRetained ( TQ3ViewObject theView , TQ3Object theObject )
-	{
-	return ( (E3View*) theView )->instanceData.submitRetainedMethod ( (E3View*) theView , theObject ) ;
-	}
+{
+	return ( (E3View*) theView )->instanceData.submitRetainedMethod ( theView , theObject ) ;
+}
 
 
 
@@ -2079,7 +2079,7 @@ E3View_SubmitRetained ( TQ3ViewObject theView , TQ3Object theObject )
 TQ3Status
 E3View_SubmitImmediate ( TQ3ViewObject theView , TQ3ObjectType objectType , const void* objectData ) 
 	{
-	return ( (E3View*) theView )->instanceData.submitImmediateMethod ( (E3View*) theView , objectType , objectData ) ;
+	return ( (E3View*) theView )->instanceData.submitImmediateMethod ( theView , objectType , objectData ) ;
 	}
 
 

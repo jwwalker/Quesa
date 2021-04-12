@@ -92,9 +92,6 @@ e3ffw_3DMF_storage_write(TQ3StorageObject theStorage,TQ3Uns32 expectedSize,TQ3Fi
 	TQ3Boolean			wasCopied = kQ3False;
 	TQ3Uns32			validSize = 0, bufferSize;
 	TQ3ObjectType		theType;
-#if QUESA_OS_MACINTOSH
-	Handle				theHnd = nullptr;
-#endif			
 
 	// Get a pointer to the data for the image, ideally without copying
 
@@ -151,13 +148,6 @@ e3ffw_3DMF_storage_write(TQ3StorageObject theStorage,TQ3Uns32 expectedSize,TQ3Fi
 	
 
 	qd3dStatus = Q3RawData_Write ((unsigned char*)basePtr, expectedSize, theFile);
-	
-#if QUESA_OS_MACINTOSH
-	// If this is a Mac handle object, unlock the handle
-	if(theHnd != nullptr)
-		HUnlock(theHnd);
-
-#endif
 
 	// If the data was copied, dispose of it
 	if (wasCopied)

@@ -1,11 +1,11 @@
 /*  NAME:
-        E3MacSystem.c
+        E3MacSystem.cpp
 
     DESCRIPTION:
         Mac specific routines.
 
     COPYRIGHT:
-        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -47,7 +47,8 @@
 #include "E3System.h"
 #include "E3MacLog.h"
 
-#include "E3MacDeviceDbStart.h"
+#include <CoreFoundation/CoreFoundation.h>
+
 
 //=============================================================================
 //      Constants
@@ -136,13 +137,8 @@ static void e3macho_load_plugin( CFBundleRef theBundle )
 //      e3mac_load_plugins : Scan a directory for plug-ins and load them.
 //-----------------------------------------------------------------------------
 static void
-e3mac_load_plugins(const FSRef& dirToScan )
+e3mac_load_plugins( CFURLRef dirURL )
 {
-	OSErr			theErr;
-
-	// Convert FSRef to a URL.
-	CFURLRef dirURL = CFURLCreateFromFSRef( nullptr, &dirToScan );
-	
 	// Look for plugins in the directory.
 	if (dirURL != nullptr)
 	{
@@ -162,10 +158,7 @@ e3mac_load_plugins(const FSRef& dirToScan )
 			
 			CFRelease( pluginsArray );
 		}
-		
-		CFRelease( dirURL );
 	}
-	
 }
 
 
@@ -223,21 +216,10 @@ void E3MacMachoFrameworkTerminate()
 TQ3Status
 E3MacSystem_Initialise(void)
 {
-    TQ3Status   status = kQ3Failure;
-    
-#if QUESA_SUPPORT_CONTROLLER
-#if Q3_DEBUG
-    #warning start device server
-#endif
-    //start the device server from inside first library instantiation!
-    startDeviceDB();
-    //TODO: more error handling needed
-    status = kQ3Success;
-#else
-    status = kQ3Success;
-#endif
 
-	return(status);
+
+
+	return(kQ3Success);
 }
 
 
@@ -269,74 +251,27 @@ E3MacSystem_Terminate(void)
 void
 E3MacSystem_LoadPlugins(void)
 {
-	FSRef					dirRef[ kMaxPluginLocations ];
-	bool					isUnique[ kMaxPluginLocations ];
-	FSRef					fileRef;
-	int						dirCount = 0;
-	Boolean					wasChanged;
-	OSStatus				theErr = noErr;
-	SInt32					sysVersion;
-	int						i, j;
-
-
-
-	// Find the application file
-	ProcessSerialNumber		thePSN = { kNoProcess, kCurrentProcess };
-	theErr = GetProcessBundleLocation( &thePSN, &fileRef );
-	
-	if (theErr == noErr)
-	{
-		// Get the parent directory of the application
-		theErr = FSGetCatalogInfo( &fileRef, 0, nullptr, nullptr, nullptr, &dirRef[ dirCount ] );
-	}
-	if (theErr == noErr)
-		++dirCount;
-
-
-
-	// Plugins folder of bundle
 	CFBundleRef myBundle = CFBundleGetMainBundle();
 	if (myBundle != nullptr)
 	{
+		// Find the application file, and then its parent directory
+		CFURLRef bundleURL = CFBundleCopyBundleURL( myBundle );
+		CFURLRef parentDirURL = CFURLCreateCopyDeletingLastPathComponent( nullptr, bundleURL );
+		CFRelease( bundleURL );
+		
+		e3mac_load_plugins( parentDirURL );
+		
+		CFRelease( parentDirURL );
+		
+		// Plugins folder of bundle
 		CFURLRef	pluginsURL = CFBundleCopyBuiltInPlugInsURL( myBundle );
 		if (pluginsURL != nullptr)
 		{
-			if (CFURLGetFSRef( pluginsURL, &dirRef[ dirCount ] ))
-			{
-				++dirCount;
-			}
+			e3mac_load_plugins( pluginsURL );
+			
 			CFRelease( pluginsURL );
 		}
 	}
-
-
-
-	// Look for duplicates among the directory references.
-	for (i = 0; i < dirCount; ++i)
-	{
-		isUnique[i] = true;
-	}
-	for (i = 0; i < dirCount; ++i)
-	{
-		for (j = i + 1; j < dirCount; ++j)
-		{
-			if (noErr == FSCompareFSRefs( &dirRef[i], &dirRef[j] ))
-			{
-				isUnique[j] = false;
-			}
-		}
-	}
-
-
-
-	// Scan for and load our plug-ins
-	for (i = 0; i < dirCount; ++i)
-		{
-		if (isUnique[i])
-			{
-			e3mac_load_plugins( dirRef[i] );
-			}
-		}
 }
 
 
@@ -349,23 +284,23 @@ E3MacSystem_LoadPlugins(void)
 void
 E3MacSystem_UnloadPlugins(void)
 {
-		E3MacSystem_PluginSlotPtr nextSlot;
-		E3MacSystem_PluginSlotPtr currentSlot;
-		E3LogToConsole("E3MacSystem_UnloadPlugins 1");
+	E3MacSystem_PluginSlotPtr nextSlot;
+	E3MacSystem_PluginSlotPtr currentSlot;
+	//E3LogToConsole("E3MacSystem_UnloadPlugins 1");
 
-		nextSlot = e3macsystem_pluginSlotHead;
+	nextSlot = e3macsystem_pluginSlotHead;
 
-		while( nextSlot != nullptr){
-			currentSlot = nextSlot;
-			nextSlot = currentSlot->nextSlot;
-			E3LogToConsole("E3MacSystem_UnloadPlugins 2");
-			CFBundleUnloadExecutable( currentSlot->pluginBundle );
-			E3LogToConsole("E3MacSystem_UnloadPlugins 3");
-			CFRelease( currentSlot->pluginBundle );
-			E3LogToConsole("E3MacSystem_UnloadPlugins 4");
-			Q3Memory_Free(&currentSlot);
-			E3LogToConsole("E3MacSystem_UnloadPlugins 5");
-		}
+	while( nextSlot != nullptr){
+		currentSlot = nextSlot;
+		nextSlot = currentSlot->nextSlot;
+		//E3LogToConsole("E3MacSystem_UnloadPlugins 2");
+		CFBundleUnloadExecutable( currentSlot->pluginBundle );
+		//E3LogToConsole("E3MacSystem_UnloadPlugins 3");
+		CFRelease( currentSlot->pluginBundle );
+		//E3LogToConsole("E3MacSystem_UnloadPlugins 4");
+		Q3Memory_Free(&currentSlot);
+		//E3LogToConsole("E3MacSystem_UnloadPlugins 5");
+	}
 		
 	e3macsystem_pluginSlotHead = nullptr;
 }

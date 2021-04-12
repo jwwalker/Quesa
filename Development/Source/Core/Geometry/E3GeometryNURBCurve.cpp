@@ -1,11 +1,11 @@
 /*  NAME:
-        E3GeometryNURBCurve.c
+        E3GeometryNURBCurve.cpp
 
     DESCRIPTION:
         Implementation of Quesa NURB Curve geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -742,8 +742,11 @@ e3geom_nurbcurve_screen_subdiv( TQ3Vertex3D** theVertices, TQ3Uns32* numPoints, 
 //      e3geom_nurbcurve_cache_new : NURBCurve cache new method.
 //-----------------------------------------------------------------------------
 static TQ3Object
-e3geom_nurbcurve_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ3NURBCurveData *geomData)
-{	TQ3SubdivisionStyleData			subdivisionData;
+e3geom_nurbcurve_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom,
+							const void *geomDataParam)
+{
+	const TQ3NURBCurveData* geomData = (const TQ3NURBCurveData*) geomDataParam;
+	TQ3SubdivisionStyleData			subdivisionData;
 	float							subdivU = 10.0f;
 	TQ3Vertex3D						*theVertices = nullptr;
 	TQ3PolyLineData					polyLineData;
@@ -835,11 +838,11 @@ e3geom_nurbcurve_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Obje
 //      e3geom_nurbcurve_get_attribute : gets the NURBCurve attribute set.
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet *
-e3geom_nurbcurve_get_attribute ( E3NURBCurve* nurbCurve )
-	{
+e3geom_nurbcurve_get_attribute ( TQ3GeometryObject nurbCurve )
+{
 	// Return the address of the geometry attribute set
-	return & nurbCurve->instanceData.curveAttributeSet ;
-	}
+	return & ((E3NURBCurve*)nurbCurve)->instanceData.curveAttributeSet ;
+}
 
 
 

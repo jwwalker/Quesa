@@ -1,11 +1,11 @@
 /*  NAME:
-        E3GeometryPoint.c
+        E3GeometryPoint.cpp
 
     DESCRIPTION:
         Implementation of Quesa Point geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -333,11 +333,11 @@ e3geom_point_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object t
 //      e3geom_point_get_attribute : Point get attribute set pointer.
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet *
-e3geom_point_get_attribute ( E3Point* point )
-	{
+e3geom_point_get_attribute ( TQ3GeometryObject point )
+{
 	// Return the address of the geometry attribute set
-	return & point->instanceData.pointAttributeSet ;
-	}
+	return & ((E3Point*)point)->instanceData.pointAttributeSet ;
+}
 
 
 

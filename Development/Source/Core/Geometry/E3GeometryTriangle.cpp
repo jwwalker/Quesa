@@ -1,11 +1,11 @@
 /*  NAME:
-        E3GeometryTriangle.c
+        E3GeometryTriangle.cpp
 
     DESCRIPTION:
         Implementation of Quesa Triangle geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -423,11 +423,11 @@ e3geom_triangle_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Objec
 //      e3geom_triangle_get_attribute : Triangle get attribute set pointer.
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet *
-e3geom_triangle_get_attribute ( E3Triangle* triangle )
-	{
+e3geom_triangle_get_attribute ( TQ3GeometryObject triangle )
+{
 	// Return the address of the geometry attribute set
-	return & triangle->instanceData.triangleAttributeSet ;
-	}
+	return & ((E3Triangle*)triangle)->instanceData.triangleAttributeSet ;
+}
 
 
 

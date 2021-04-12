@@ -5,7 +5,7 @@
         Header file for E3Errors.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2004, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -78,12 +78,6 @@ void				E3Error_PlatformPost(TQ3Uns32 theErr);
 const char			*E3Error_ToString(TQ3Language theLanguage,   TQ3Error theError);
 const char			*E3Warning_ToString(TQ3Language theLanguage, TQ3Warning theWarning);
 const char			*E3Notice_ToString(TQ3Language theLanguage,  TQ3Notice theNotice);
-
-
-// Platform specific
-#if QUESA_OS_MACINTOSH
-OSErr				E3MacintoshError_Get(OSErr *firstErr);
-#endif
 
 
 

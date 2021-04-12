@@ -5,7 +5,7 @@
         Header file for E3Controller.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa including 3D device suppoprt,
         please see: <https://github.com/h-haris/Quesa>

@@ -1,11 +1,11 @@
 /*  NAME:
-        E3GeometryEllipsoid.c
+        E3GeometryEllipsoid.cpp
 
     DESCRIPTION:
         Implementation of Quesa Ellipsoid geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -861,8 +861,10 @@ e3geom_ellipsoid_create_face( const TQ3EllipsoidData& geomData,
 //-----------------------------------------------------------------------------
 static TQ3Object
 e3geom_ellipsoid_cache_new( TQ3ViewObject theView, TQ3GeometryObject theGeom,
-							const TQ3EllipsoidData *geomData )
+							const void * geomDataParam )
 {
+	const TQ3EllipsoidData* geomData = (const TQ3EllipsoidData*) geomDataParam;
+
 	// Check for coplanar axes.
 	if (E3Geometry_IsDegenerateTriple( &geomData->orientation, &geomData->majorRadius,
 		&geomData->minorRadius ))
@@ -1022,11 +1024,11 @@ e3geom_ellipsoid_cache_new( TQ3ViewObject theView, TQ3GeometryObject theGeom,
 //      e3geom_ellipsoid_get_attribute : Ellipsoid get attribute set pointer.
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet *
-e3geom_ellipsoid_get_attribute ( E3Ellipsoid* ellipsoid )
-	{
+e3geom_ellipsoid_get_attribute ( TQ3GeometryObject ellipsoid )
+{
 	// Return the address of the geometry attribute set
-	return & ellipsoid->instanceData.ellipsoidAttributeSet ;
-	}
+	return & ((E3Ellipsoid*)ellipsoid)->instanceData.ellipsoidAttributeSet ;
+}
 
 
 

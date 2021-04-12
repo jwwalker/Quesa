@@ -12,7 +12,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -302,7 +302,7 @@ typedef struct TQ3WorldRayPickData {
 typedef struct TQ3HitPath {
     TQ3GroupObject _Nullable                             rootGroup;
     TQ3Uns32                                   			 depth;
-    TQ3GroupPosition _Nonnull                           * _Nullable positions;
+    TQ3GroupPosition _Nullable                           * _Nullable positions;
 } TQ3HitPath;
 
 

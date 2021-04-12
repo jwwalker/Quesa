@@ -127,12 +127,14 @@
 
 
 // Quesa (private, platform independent)
+#ifdef __cplusplus
 #include "E3Debug.h"
 #include "E3Globals.h"
 #include "E3Main.h"
 #include "E3Utils.h"
 #include "E3System.h"
 #include "E3ErrorManager.h"
+#endif
 
 
 // ANSI

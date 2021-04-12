@@ -20,7 +20,7 @@
         to record their relationship to the rest of the tree.
 
     COPYRIGHT:
-        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -758,7 +758,7 @@ OpaqueTQ3Object::InitialiseInstanceData (	E3ClassInfoPtr	inClass,
 		if ( ( (E3Root*) inClass )->newMethod != nullptr )
 			return ( (E3Root*) inClass )->newMethod (	(TQ3Object) this,
 														leafInstanceData,
-														(void *) paramData ) ;
+														(const void *) paramData ) ;
 			
 		// If the object is an element, it might have a copy add method
 		// which we call to initialise the object.

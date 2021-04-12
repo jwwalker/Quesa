@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -70,6 +70,8 @@
 #include "E3StackCrawl.h"
 #if QUESA_SUPPORT_CONTROLLER
     #include "E3Controller.h"
+#else
+    #warning QUESA_SUPPORT_CONTROLLER not set
 #endif
 
 #if QUESA_OS_MACINTOSH
@@ -229,11 +231,11 @@ e3shared_new_class_info (
 //      e3shared_new : Shared new method.
 //-----------------------------------------------------------------------------
 TQ3Status
-e3shared_new ( E3Shared* theObject, void *privateData, void *paramData )
-	{
+e3shared_new ( TQ3Object inObject, void *privateData, const void *paramData )
+{
 #pragma unused(privateData)
 #pragma unused(paramData)
-
+	E3Shared* theObject = (E3Shared*) inObject;
 
 
 	// Initialise our instance data
@@ -245,7 +247,7 @@ e3shared_new ( E3Shared* theObject, void *privateData, void *paramData )
 #endif
 	
 	return kQ3Success ;
-	}
+}
 
 
 
@@ -255,15 +257,16 @@ e3shared_new ( E3Shared* theObject, void *privateData, void *paramData )
 //      E3Shared_Dispose : Shared dispose method.
 //-----------------------------------------------------------------------------
 void
-E3Shared_Dispose ( E3Shared* theObject )
+E3Shared_Dispose ( TQ3Object inObject )
 	{
 	// Find the instance data
-	if ( theObject == nullptr )
+	if ( inObject == nullptr )
 		return ;
 
 
 
 	// Decrement the reference count
+	E3Shared* theObject = (E3Shared*) inObject;
 	Q3_ASSERT(theObject->sharedData.refCount >= 1);
 	theObject->sharedData.refCount--;
 
@@ -549,7 +552,7 @@ propertyIterateFunc( E3HashTablePtr theTable,
 //      e3root_new : Root object new method.
 //-----------------------------------------------------------------------------
 TQ3Status
-e3root_new( TQ3Object theObject, void *privateData, void *paramData )
+e3root_new( TQ3Object theObject, void *privateData, const void *paramData )
 {
 #pragma unused( paramData )
 #pragma unused( privateData )

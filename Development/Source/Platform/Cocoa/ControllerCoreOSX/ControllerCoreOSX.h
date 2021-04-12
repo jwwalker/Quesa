@@ -66,8 +66,10 @@ extern "C" {
 #define kQ3MaxControllerValues 		256
 #define kQ3MaxControllerChannels 	32
 
+#if 0
 #ifndef kQ3ControllerSetChannelMaxDataSize
 #define kQ3ControllerSetChannelMaxDataSize      256
+#endif
 #endif
 
 typedef struct TC3TrackerInstanceData *TC3TrackerInstanceDataPtr;

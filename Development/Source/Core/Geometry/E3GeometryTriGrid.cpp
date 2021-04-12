@@ -1,11 +1,11 @@
 /*  NAME:
-        E3GeometryTriGrid.c
+        E3GeometryTriGrid.cpp
 
     DESCRIPTION:
         Implementation of Quesa TriGrid geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -393,8 +393,9 @@ e3geom_trigrid_addtriangle(TQ3GroupObject			group,
 // http://developer.apple.com/techpubs/quicktime/qtdevdocs/QD3D/qd3dgeometry.29.htm
 //-----------------------------------------------------------------------------
 static TQ3Object
-e3geom_trigrid_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ3TriGridData *geomData)
+e3geom_trigrid_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const void *geomDataParam)
 {
+	const TQ3TriGridData* geomData = (const TQ3TriGridData*) geomDataParam;
 	TQ3GroupObject				theGroup;
 	TQ3OrientationStyle			theOrientation;
 	TQ3TriMeshData		triMeshData;
@@ -559,11 +560,11 @@ e3geom_trigrid_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object
 //      e3geom_trigrid_get_attribute : TriGrid get attribute set pointer.
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet *
-e3geom_trigrid_get_attribute ( E3TriGrid* triGrid )
-	{
+e3geom_trigrid_get_attribute ( TQ3GeometryObject triGrid )
+{
 	// Return the address of the geometry attribute set
-	return & triGrid->instanceData.triGridAttributeSet ;
-	}
+	return & ((E3TriGrid*)triGrid)->instanceData.triGridAttributeSet ;
+}
 
 
 

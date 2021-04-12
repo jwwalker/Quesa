@@ -107,7 +107,7 @@ typedef enum TQ3ViewStatus {
 #define kQ3ViewDefaultDiffuseColor              1.0f, 1.0f, 1.0f
 #define kQ3ViewDefaultSpecularColor             0.5f, 0.5f, 0.5f
 #define kQ3ViewDefaultSpecularControl           4.0f
-#define kQ3ViewDefaultMetallic                  0.0f
+#define kQ3ViewDefaultMetallic					0.0f
 #define kQ3ViewDefaultTransparency              1.0f, 1.0f, 1.0f
 #define kQ3ViewDefaultHighlightState            kQ3Off
 #define kQ3ViewDefaultHighlightColor            1.0f, 0.0f, 0.0f

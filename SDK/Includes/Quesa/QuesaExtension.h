@@ -12,7 +12,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -196,7 +196,7 @@ typedef Q3_CALLBACK_API_C(void,                TQ3XObjectClassUnregisterMethod)(
 typedef Q3_CALLBACK_API_C(TQ3Status,           TQ3XObjectNewMethod)(
                             TQ3Object _Nonnull          object,
                             void                * _Null_unspecified privateData,
-                            void                * _Null_unspecified parameters);
+                            const void          * _Null_unspecified parameters);
 
 typedef Q3_CALLBACK_API_C(void,                TQ3XObjectDeleteMethod)(
                             TQ3Object _Nonnull           object,
@@ -584,37 +584,6 @@ Q3_EXTERN_API_C ( void  )
 Q3XNotice_Post (
     TQ3Notice                     notice
 );
-
-
-
-
-
-//=============================================================================
-//      Mac OS function prototypes
-//-----------------------------------------------------------------------------
-#if QUESA_OS_MACINTOSH
-#include <Carbon/Carbon.h>
-
-/*!
- *  @function
- *      Q3XMacintoshError_Post
- *  @discussion
- *      Post a Mac OS-specific error to the error manager.
- *
- *      Although intended only for use by extensions in QD3D, this call
- *      is also available to general application clients in Quesa.
- *
- *      Note that this call is equivalent to a call to Q3Error_PlatformPost,
- *      which is the preferred method for posting platform-specific errors.
- *
- *  @param macOSErr         The Mac OS error to post.
- */
-Q3_EXTERN_API_C ( void  )
-Q3XMacintoshError_Post (
-    OSErr                         macOSErr
-);
-
-#endif // QUESA_OS_MACINTOSH
 
 
 

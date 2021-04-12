@@ -124,13 +124,13 @@ horizontal strips for printing).
 </td></tr></table><hr>State for a fisheye camera.
 
 <blockquote><pre>
-struct TQ3FisheyeCameraData {
+typedef struct TQ3FisheyeCameraData {
     TQ3CameraData                  cameraData;
     TQ3Vector2D                    sensorSize;
     float                          focalLength;
     TQ3FisheyeMappingFunction      mappingFunction;
     TQ3FisheyeCroppingFormat       croppingFormat;
-} ;
+} TQ3FisheyeCameraData;
 </pre>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
@@ -239,5 +239,5 @@ extends from the camera position through the four edges of this rectangle.
 <dt><tt>centerYOnViewPlane</tt></dt><dd>The y-center of the rectangle on the view plane.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2021 Quesa Developers (Last Updated 3/14/2021)
+<p><p>&#169; 1999-2021 Quesa Developers (Last Updated 4/12/2021)
 </p></body></html>

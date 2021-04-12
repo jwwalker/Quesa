@@ -1,11 +1,11 @@
 /*  NAME:
-        E3GeometryTriMesh.c
+        E3GeometryTriMesh.cpp
 
     DESCRIPTION:
-        Implementation of Quesa Pixmap Marker geometry class.
+        Implementation of Quesa TriMesh geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1002,8 +1002,10 @@ e3geom_trimesh_triangle_delete(TQ3TriangleData *theTriangle)
 //-----------------------------------------------------------------------------
 static TQ3Object
 e3geom_trimesh_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom,
-						const TQ3TriMeshOuterData *instanceData)
-{	TQ3TriangleData			triangleData;
+						const void *dataParam)
+{
+	const TQ3TriMeshOuterData* instanceData = (const TQ3TriMeshOuterData*) dataParam;
+	TQ3TriangleData			triangleData;
 	TQ3GeometryObject		theTriangle;
 	TQ3GroupObject			theGroup;
 	TQ3Uns32				n;
@@ -1657,10 +1659,10 @@ e3geom_trimesh_bounds(TQ3ViewObject theView, TQ3ObjectType objectType,
 //      e3geom_trimesh_get_attribute : TriMesh get attribute set pointer.
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet *
-e3geom_trimesh_get_attribute ( E3TriMesh* triMesh )
+e3geom_trimesh_get_attribute ( TQ3Object triMesh )
 {
 	// Return the address of the geometry attribute set
-	return & triMesh->instanceData.geomAttributeSet ;
+	return & ((E3TriMesh*)triMesh)->instanceData.geomAttributeSet ;
 }
 
 
@@ -1671,8 +1673,9 @@ e3geom_trimesh_get_attribute ( E3TriMesh* triMesh )
 //      e3geom_trimesh_get_public_data : TriMesh get public data pointer.
 //-----------------------------------------------------------------------------
 static const void *
-e3geom_trimesh_get_public_data ( E3TriMesh* triMesh )
+e3geom_trimesh_get_public_data ( TQ3Object inTriMesh )
 {
+	E3TriMesh* triMesh = (E3TriMesh*) inTriMesh;
 	E3NakedTriMesh* nakedTriMesh = triMesh->instanceData.nakedTriMesh;
 	
 	// For compatibility with code that does not know about the outer/naked

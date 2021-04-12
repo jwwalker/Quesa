@@ -2,10 +2,10 @@
         E3GeometryPolyhedron.cpp
 
     DESCRIPTION:
-        Implementation of Quesa Pixmap Marker geometry class.
+        Implementation of Quesa Polyhedron geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -416,8 +416,11 @@ e3geom_polyhedron_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 //      e3geom_polyhedron_cache_new : Polyhedron cache new method.
 //-----------------------------------------------------------------------------
 static TQ3Object
-e3geom_polyhedron_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ3PolyhedronData *geomData)
-{	TQ3TriMeshAttributeData		triangleAttributes[kQ3AttributeTypeNumTypes];
+e3geom_polyhedron_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom,
+							const void *geomDataParam)
+{
+	const TQ3PolyhedronData* geomData = (const TQ3PolyhedronData*) geomDataParam;
+	TQ3TriMeshAttributeData		triangleAttributes[kQ3AttributeTypeNumTypes];
 	TQ3TriMeshAttributeData		vertexAttributes[kQ3AttributeTypeNumTypes];
 	TQ3TriMeshAttributeData		edgeAttributes[kQ3AttributeTypeNumTypes];
 	TQ3OrientationStyle			theOrientation;
@@ -757,11 +760,11 @@ e3geom_polyhedron_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Obj
 //      e3geom_polyhedron_get_attribute : Polyhedron get attribute set pointer.
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet *
-e3geom_polyhedron_get_attribute ( E3Polyhedron* polyhedron )
-	{
+e3geom_polyhedron_get_attribute ( TQ3GeometryObject polyhedron )
+{
 	// Return the address of the geometry attribute set
-	return & polyhedron->instanceData.polyhedronAttributeSet ;
-	}
+	return & ((E3Polyhedron*) polyhedron)->instanceData.polyhedronAttributeSet ;
+}
 
 
 

@@ -643,8 +643,9 @@ e3set_iterator_scan_types(TQ3SetData *instanceData, TQ3ObjectType theType, TQ3El
 //      e3set_delete : Set class delete method.
 //-----------------------------------------------------------------------------
 static void
-e3set_delete ( E3Set* theObject, void *privateData )
-	{
+e3set_delete ( TQ3Object inObject, void *privateData )
+{
+	E3Set* theObject = (E3Set*) inObject;
 	TQ3SetData		*instanceData = (TQ3SetData *) privateData;
 
 
@@ -659,7 +660,7 @@ e3set_delete ( E3Set* theObject, void *privateData )
 		E3HashTable_Destroy(&instanceData->theTable);
 
 	Q3Memory_Free(&instanceData->scanResults);
-	}
+}
 
 
 

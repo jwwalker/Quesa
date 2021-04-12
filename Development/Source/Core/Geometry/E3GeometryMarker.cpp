@@ -1,11 +1,11 @@
 /*  NAME:
-        E3GeometryMarker.c
+        E3GeometryMarker.cpp
 
     DESCRIPTION:
         Implementation of Quesa Marker geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -212,8 +212,10 @@ e3geom_marker_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 //      e3geom_marker_cache_new : Marker cache new method.
 //-----------------------------------------------------------------------------
 static TQ3Object
-e3geom_marker_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ3MarkerData *geomData)
-{	TQ3Uns32					x, y,rowBytes, theSize;
+e3geom_marker_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const void *geomDataParam)
+{
+	const TQ3MarkerData* geomData = (const TQ3MarkerData*) geomDataParam;
+	TQ3Uns32					x, y,rowBytes, theSize;
 	TQ3Uns16					*pixelPtr, thePixel;
 	TQ3PixmapMarkerData			pixmapMarkerData;
 	TQ3GeometryObject			pixmapMarker;
@@ -470,11 +472,11 @@ e3geom_marker_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object 
 //      e3geom_marker_get_attribute : Marker get attribute set pointer.
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet *
-e3geom_marker_get_attribute ( E3Marker* marker )
-	{
+e3geom_marker_get_attribute ( TQ3GeometryObject marker )
+{
 	// Return the address of the geometry attribute set
-	return & marker->instanceData.markerAttributeSet ;
-	}
+	return & ((E3Marker*)marker)->instanceData.markerAttributeSet ;
+}
 
 
 

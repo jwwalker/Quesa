@@ -2,10 +2,10 @@
         E3IOData.h
 
     DESCRIPTION:
-        Header file for E3IOData.c.
+        Header file for E3IOData.cpp.
 
     COPYRIGHT:
-        Copyright (c) 1999-2009, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -127,7 +127,7 @@ public :
 	TQ3Status						GetClearImageColor ( TQ3ColorARGB* color ) ;
 
 	friend TQ3Status				e3viewhints_new ( E3ViewHints* theObject, void* privateData, const void* paramData ) ;
-	friend void						e3viewhints_delete ( E3ViewHints* theObject, void* privateData ) ;
+	friend void						e3viewhints_delete ( TQ3Object theObject, void* privateData ) ;
 	friend TQ3Status				E3ViewHints_RegisterClass ( void );
 	} ;
 	

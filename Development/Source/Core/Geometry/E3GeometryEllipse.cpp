@@ -1,11 +1,11 @@
 /*  NAME:
-        E3GeometryEllipse.c
+        E3GeometryEllipse.cpp
 
     DESCRIPTION:
-        Implementation of Quesa Pixmap Marker geometry class.
+        Implementation of Quesa Ellipse geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -160,8 +160,10 @@ e3geom_ellipse_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 //      e3geom_ellipse_cache_new : Ellipse cache new method.
 //-----------------------------------------------------------------------------
 static TQ3Object
-e3geom_ellipse_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ3EllipseData *geomData)
-{	float						theAngle, deltaAngle;
+e3geom_ellipse_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const void *geomDataParam)
+{
+	const TQ3EllipseData* geomData = (const TQ3EllipseData*) geomDataParam;
+	float						theAngle, deltaAngle;
 	TQ3SubdivisionStyleData		subdivisionData;
 	TQ3Vertex3D					*theVertices;
 	TQ3Uns32					numPoints, numSides, n;
@@ -267,11 +269,11 @@ e3geom_ellipse_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const
 //      e3geom_ellipse_get_attribute : Ellipse get attribute set pointer.
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet *
-e3geom_ellipse_get_attribute ( E3Ellipse* ellipse )
-	{	
+e3geom_ellipse_get_attribute ( TQ3GeometryObject ellipse )
+{	
 	// Return the address of the geometry attribute set
-	return & ellipse->instanceData.ellipseAttributeSet ;
-	}
+	return & ((E3Ellipse*)ellipse)->instanceData.ellipseAttributeSet ;
+}
 
 
 

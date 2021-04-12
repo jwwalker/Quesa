@@ -143,29 +143,6 @@ Currently only English is supported.</dd>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Text version of the error code, as a NUL-terminated string.
  </dd></dl>
-<hr><a name="//Quesa/c/func/Q3MacintoshError_Get"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3MacintoshError_Get">Q3MacintoshError_Get</a></h2>
-</td></tr></table><hr><blockquote><pre><tt>( OSErr ) Q3MacintoshError_Get (
-&nbsp;&nbsp;&nbsp;&nbsp;OSErr * _Nullable firstMacErr
-);</tt><br>
-</pre></blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Retrieve the most recent Macintosh error code, and optionally also the oldest
-unreported Mac error code.  After this call, the next Quesa call that is not
-part of the Error Manager will clear the error codes.
-<br><br>
-Q3Error_PlatformGet may be used in place of this function.
-<br><br>
-</p>
-<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
-<blockquote>
-<dl>
-<dt><tt><em>firstMacErr</em></tt></dt><dd>Pointer to variable to receive the oldest Mac error code
-that has not yet been reported.  May be nullptr if you
-don't need that information.</dd>
-</dl>
-</blockquote>
-<dl><dt><i>function result</i></dt><dd>Most recent Mac error code.
- </dd></dl>
 <hr><a name="//Quesa/c/func/Q3Notice_Get"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3Notice_Get">Q3Notice_Get</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Notice ) Q3Notice_Get (
@@ -303,5 +280,5 @@ Currently only English is supported.</dd>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Text version of the warning code, as a NUL-terminated string.
  </dd></dl>
-<p><p>&#169; 1999-2021 Quesa Developers (Last Updated 3/14/2021)
+<p><p>&#169; 1999-2021 Quesa Developers (Last Updated 4/12/2021)
 </p></body></html>

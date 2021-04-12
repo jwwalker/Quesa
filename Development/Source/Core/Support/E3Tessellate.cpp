@@ -1,11 +1,11 @@
 /*  NAME:
-        E3Tessellate.c
+        E3Tessellate.cpp
 
     DESCRIPTION:
         Quesa tessellator functions.
 
     COPYRIGHT:
-        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -44,21 +44,26 @@
 //      Include files
 //-----------------------------------------------------------------------------
 #include "E3Prefix.h"
-#include "GLPrefix.h"
 #include "E3Set.h"
 #include "E3Tessellate.h"
+#include "QuesaMathOperators.hpp"
+#include "QuesaMath.h"
+#include "E3GeometryTriMeshOptimize.h"
+#include "E3GeometryTriMesh.h"
 
-
-
+#include "glu-mesa.h"
 
 
 //=============================================================================
 //      Internal types
 //-----------------------------------------------------------------------------
+
 // GLU callback
 #ifndef CALLBACK
 	#define CALLBACK
 #endif
+
+typedef GLvoid (*GLcallback)( void );
 
 
 // Tessellator state
@@ -878,8 +883,15 @@ e3tessellate_dispose_state(E3TessellateState *theState)
 //				determine which portion of the polygon is to be removed.
 //-----------------------------------------------------------------------------
 TQ3Object
-E3Tessellate_Contours(TQ3Uns32 numContours, const TQ3Contour *theContours, TQ3AttributeSet theAttributes)
-{	GLdouble				vertCoords[3];
+E3Tessellate_Contours(TQ3Uns32 numContours,
+		const TQ3GeneralPolygonContourData *theContours,
+		TQ3AttributeSet theAttributes )
+{
+	// Validate our parameters
+	Q3_REQUIRE_OR_RESULT(numContours >= 1,          nullptr);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theContours), nullptr);
+
+	GLdouble				vertCoords[3];
 	TQ3Vertex3D				*theVertex;
 	TQ3GeometryObject		theTriMesh;
 	GLUtriangulatorObj		*theTess;
@@ -888,9 +900,6 @@ E3Tessellate_Contours(TQ3Uns32 numContours, const TQ3Contour *theContours, TQ3At
 
 
 
-	// Validate our parameters
-	Q3_REQUIRE_OR_RESULT(numContours >= 1,          nullptr);
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(theContours), nullptr);
 
 
 
@@ -926,7 +935,7 @@ E3Tessellate_Contours(TQ3Uns32 numContours, const TQ3Contour *theContours, TQ3At
          gluTessBeginContour(theTess);
          for (m = 0; m < theContours[n].numVertices; m++)
          	{
-         	theVertex     = &theContours[n].theVertices[m];
+         	theVertex     = &theContours[n].vertices[m];
          	vertCoords[0] = (GLdouble) theVertex->point.x;
          	vertCoords[1] = (GLdouble) theVertex->point.y;
          	vertCoords[2] = (GLdouble) theVertex->point.z;

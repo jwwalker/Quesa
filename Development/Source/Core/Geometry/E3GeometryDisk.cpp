@@ -1,11 +1,11 @@
 /*  NAME:
-        E3GeometryDisk.c
+        E3GeometryDisk.cpp
 
     DESCRIPTION:
-        Implementation of Quesa Pixmap Marker geometry class.
+        Implementation of Quesa Disk geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -181,8 +181,11 @@ e3geom_disk_calc_point( const TQ3DiskData *inGeomData, float inSine, float inCos
 //      e3geom_disk_cache_new : Disk cache new method.
 //-----------------------------------------------------------------------------
 static TQ3Object
-e3geom_disk_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ3DiskData *geomData)
-{	float						theAngle, deltaAngle, cosAngle, sinAngle;
+e3geom_disk_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const void *geomDataParam)
+{
+	const TQ3DiskData* geomData = (const TQ3DiskData*) geomDataParam;
+	
+	float						theAngle, deltaAngle, cosAngle, sinAngle;
 	TQ3Uns32					numSides, numPoints, numTriangles, n;
 	TQ3Boolean					isPartAngleRange, hasHoleInCenter;
 	float						startAngle, endAngle, angleRange;
@@ -507,11 +510,11 @@ e3geom_disk_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ
 //      e3geom_disk_get_attribute : Disk get attribute set pointer.
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet *
-e3geom_disk_get_attribute ( E3Disk* disk )
-	{
+e3geom_disk_get_attribute ( TQ3GeometryObject disk )
+{
 	// Return the address of the geometry attribute set
-	return & disk->instanceData.diskAttributeSet ;
-	}
+	return & ((E3Disk*)disk)->instanceData.diskAttributeSet ;
+}
 
 
 

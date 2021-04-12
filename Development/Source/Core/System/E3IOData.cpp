@@ -1,11 +1,11 @@
 /*  NAME:
-        E3IO.c
+        E3IO.cpp
 
     DESCRIPTION:
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -2009,8 +2009,9 @@ e3viewhints_new ( E3ViewHints* theObject, void *privateData, const void *paramDa
 //      e3viewhints_delete : View hints delete method.
 //-----------------------------------------------------------------------------
 void
-e3viewhints_delete ( E3ViewHints* theObject, void *privateData )
-	{
+e3viewhints_delete ( TQ3Object obParam, void *privateData )
+{
+	E3ViewHints* theObject = (E3ViewHints*) obParam;
 #pragma unused(privateData)
 
 	// Dispose of our instance data
@@ -2022,7 +2023,7 @@ e3viewhints_delete ( E3ViewHints* theObject, void *privateData )
 		Q3Object_Dispose ( theObject->instanceData.attributeSet ) ;
 	if ( theObject->instanceData.lightGroup )
 		Q3Object_Dispose ( theObject->instanceData.lightGroup ) ;
-	}
+}
 
 
 

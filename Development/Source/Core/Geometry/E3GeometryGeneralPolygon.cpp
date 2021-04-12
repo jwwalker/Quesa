@@ -1,11 +1,11 @@
 /*  NAME:
-        E3GeometryGeneralPolygon.c
+        E3GeometryGeneralPolygon.cpp
 
     DESCRIPTION:
-        Implementation of Quesa Pixmap Marker geometry class.
+        Implementation of Quesa General Polygon geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -248,30 +248,27 @@ e3geom_generalpolygon_duplicate(TQ3Object fromObject, const void *fromPrivateDat
 //      e3geom_generalpolygon_cache_new : GeneralPolygon cache new method.
 //-----------------------------------------------------------------------------
 static TQ3Object
-e3geom_generalpolygon_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const TQ3GeneralPolygonData *geomData)
-{	TQ3OrientationStyle		theOrientation;
-	TQ3Contour				*theContours;
-	TQ3GeometryObject		theTriMesh;
+e3geom_generalpolygon_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom, const void *geomDataParam)
+{
+	const TQ3GeneralPolygonData* geomData = (const TQ3GeneralPolygonData*) geomDataParam;
+	TQ3GeometryObject		theTriMesh = nullptr;
 #pragma unused(theGeom)
 
 
 
-	// Obtain the contour data
-	//
-	// For now we can simply cast between the two structures, since they are identical - we
-	// assert this to make sure, since TQ3Contour is internal at present and so may change.
-	Q3_REQUIRE_OR_RESULT(sizeof(TQ3Contour) == sizeof(TQ3GeneralPolygonContourData), nullptr);
-	theContours = (TQ3Contour *) geomData->contours;
-
-
-
 	// Tessellate the polygon
-	theTriMesh = E3Tessellate_Contours(geomData->numContours, theContours, geomData->generalPolygonAttributeSet);	
+	if (geomData->contours != nullptr)
+	{
+		theTriMesh = E3Tessellate_Contours( geomData->numContours,
+			(const TQ3GeneralPolygonContourData* _Nonnull) geomData->contours,
+			geomData->generalPolygonAttributeSet);	
+	}
+	
 	if (theTriMesh != nullptr)
-		{
-		theOrientation = E3View_State_GetStyleOrientation(theView);
+	{
+		TQ3OrientationStyle theOrientation = E3View_State_GetStyleOrientation(theView);
 		E3TriMesh_AddTriangleNormals(theTriMesh, theOrientation);
-		}
+	}
 
 	return(theTriMesh);
 }
@@ -312,11 +309,11 @@ e3geom_generalpolygon_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ
 //      e3geom_generalpolygon_get_attribute : GeneralPolygon get attribute set pointer.
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet *
-e3geom_generalpolygon_get_attribute ( E3GeneralPolygon* generalPolygon )
-	{
+e3geom_generalpolygon_get_attribute ( TQ3GeometryObject generalPolygon )
+{
 	// Return the address of the geometry attribute set
-	return & generalPolygon->instanceData.generalPolygonAttributeSet ;
-	}
+	return & ((E3GeneralPolygon*)generalPolygon)->instanceData.generalPolygonAttributeSet ;
+}
 
 
 

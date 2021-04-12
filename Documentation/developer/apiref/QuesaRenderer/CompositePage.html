@@ -588,26 +588,6 @@ shadows unless the cast-shadows style state says no.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>True to cast shadows.
 </dd></dl>
-<hr><a name="//Quesa/c/tdef/TQ3MacOSDialogEventHandler"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3MacOSDialogEventHandler">TQ3MacOSDialogEventHandler</a></h2>
-</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3Boolean,          TQ3MacOSDialogEventHandler</b>) (<BR>
-&nbsp;&nbsp;&nbsp;&nbsp;const EventRecord   *theEvent<BR>);</tt><br>
-</blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Mac OS application event callback.
-<br><br>
-Modal renderer configure dialogs invoke this callback with events
-which are not handled by the dialog. If the application handles
-the event it should return kQ3True, or kQ3False to have the dialog
-pass the event to the system unhandled.
-<br><br>
-</p>
-<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
-<blockquote>
-<dl><dt><tt>theEvent</tt></dt><dd>The event to process.</dd>
-</dl>
-</blockquote>
-<dl><dt><i>function result</i></dt><dd>Did the application handle the event.
- </dd></dl>
 <hr><a name="//Quesa/c/tdef/TQ3RaveDestroyCallback"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3RaveDestroyCallback">TQ3RaveDestroyCallback</a></h2>
 </td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>void,                TQ3RaveDestroyCallback</b>) (<BR>
@@ -1005,7 +985,7 @@ This method is required.
  </dd></dl>
 <hr><a name="//Quesa/c/tdef/TQ3XRendererSubmitGeometryMetaHandlerMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XRendererSubmitGeometryMetaHandlerMethod">TQ3XRendererSubmitGeometryMetaHandlerMethod</a></h2>
-</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3XFunctionPointer _Nullable, TQ3XRendererSubmitGeometryMetaHandlerMethod</b>) (<BR>
+</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3XRendererSubmitGeometryMethod _Nullable, TQ3XRendererSubmitGeometryMetaHandlerMethod</b>) (<BR>
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType       geometryType<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Return the submit method for a geometry type.
@@ -1117,7 +1097,7 @@ This method is required.
  </dd></dl>
 <hr><a name="//Quesa/c/tdef/TQ3XRendererUpdateAttributeMetaHandlerMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XRendererUpdateAttributeMetaHandlerMethod">TQ3XRendererUpdateAttributeMetaHandlerMethod</a></h2>
-</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3XFunctionPointer _Nullable, TQ3XRendererUpdateAttributeMetaHandlerMethod</b>) (<BR>
+</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3XRendererUpdateAttributeMethod _Nullable, TQ3XRendererUpdateAttributeMetaHandlerMethod</b>) (<BR>
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeType    attributeType<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Return the update method for an attribute type.
@@ -1158,7 +1138,7 @@ This method is optional.
  </dd></dl>
 <hr><a name="//Quesa/c/tdef/TQ3XRendererUpdateMatrixMetaHandlerMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XRendererUpdateMatrixMetaHandlerMethod">TQ3XRendererUpdateMatrixMetaHandlerMethod</a></h2>
-</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3XFunctionPointer _Nullable, TQ3XRendererUpdateMatrixMetaHandlerMethod</b>) (<BR>
+</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3XRendererUpdateMatrixMethod _Nullable, TQ3XRendererUpdateMatrixMetaHandlerMethod</b>) (<BR>
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType       matrixType<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Return the update method for a matrix type.
@@ -1199,7 +1179,7 @@ This method is optional.
  </dd></dl>
 <hr><a name="//Quesa/c/tdef/TQ3XRendererUpdateShaderMetaHandlerMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XRendererUpdateShaderMetaHandlerMethod">TQ3XRendererUpdateShaderMetaHandlerMethod</a></h2>
-</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3XFunctionPointer _Nullable, TQ3XRendererUpdateShaderMetaHandlerMethod</b>) (<BR>
+</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3XRendererUpdateShaderMethod _Nullable, TQ3XRendererUpdateShaderMetaHandlerMethod</b>) (<BR>
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType       shaderType<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Return the update method for a shader type.
@@ -1240,7 +1220,7 @@ This method is optional.
  </dd></dl>
 <hr><a name="//Quesa/c/tdef/TQ3XRendererUpdateStyleMetaHandlerMethod"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XRendererUpdateStyleMetaHandlerMethod">TQ3XRendererUpdateStyleMetaHandlerMethod</a></h2>
-</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3XFunctionPointer _Nullable, TQ3XRendererUpdateStyleMetaHandlerMethod</b>) (<BR>
+</td></tr></table><hr><blockquote><tt>typedef Q3_CALLBACK_API_C (<b>TQ3XRendererUpdateStyleMethod _Nullable, TQ3XRendererUpdateStyleMetaHandlerMethod</b>) (<BR>
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType       styleType<BR>);</tt><br>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Return the update method for a style type.
@@ -1298,26 +1278,6 @@ dialog state to the renderer.
 <blockquote>
 <dl>
 <dt><tt>notUsed</tt></dt><dd>Not used.</dd>
-</dl>
-</blockquote>
-<hr><a name="//Quesa/c/tag/TQ3DialogAnchor (Mac)"></a>
-<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3DialogAnchor (Mac)">TQ3DialogAnchor (Mac)</a></h2>
-</td></tr></table><hr><blockquote><pre>
-typedef struct TQ3DialogAnchor {
-    TQ3MacOSDialogEventHandler                  clientEventHandler;
-} TQ3DialogAnchor;
-</pre>
-</blockquote>
-<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Mac OS dialog anchor.
-<br><br>
-Supplied to Q3Renderer_ModalConfigure to pass platform-specific
-dialog state to the renderer.
-<br><br>
-</p>
-<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
-<blockquote>
-<dl>
-<dt><tt>clientEventHandler</tt></dt><dd>The application event handler.</dd>
 </dl>
 </blockquote>
 <hr><a name="//Quesa/c/tag/TQ3DialogAnchor (Unix)"></a>
@@ -1922,5 +1882,5 @@ enum {
 <br><br>
 The data for the attribute is a single TQ3CSGObjectID.
  </p>
-<p><p>&#169; 1999-2021 Quesa Developers (Last Updated 3/14/2021)
+<p><p>&#169; 1999-2021 Quesa Developers (Last Updated 4/12/2021)
 </p></body></html>

@@ -1213,13 +1213,13 @@ horizontal strips for printing).
 </td></tr></table><hr>State for a fisheye camera.
 
 <blockquote><pre>
-struct TQ3FisheyeCameraData {
+typedef struct TQ3FisheyeCameraData {
     TQ3CameraData                  cameraData;
     TQ3Vector2D                    sensorSize;
     float                          focalLength;
     TQ3FisheyeMappingFunction      mappingFunction;
     TQ3FisheyeCroppingFormat       croppingFormat;
-} ;
+} TQ3FisheyeCameraData;
 </pre>
 </blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
@@ -1388,5 +1388,5 @@ cannot have an angle of view greater than pi (180 degrees).</dd>
 <dt><a name="//Quesa/c/econst/kQ3FisheyeMappingFunctionEquisolidAngle"><tt>kQ3FisheyeMappingFunctionEquisolidAngle</tt></a></dt><dd>r = 2 * f * sin( angle/2 )</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2021 Quesa Developers (Last Updated 3/14/2021)
+<p><p>&#169; 1999-2021 Quesa Developers (Last Updated 4/12/2021)
 </p></body></html>

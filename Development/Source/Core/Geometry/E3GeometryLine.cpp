@@ -552,11 +552,11 @@ e3geom_line_bounds(TQ3ViewObject theView, TQ3ObjectType objectType, TQ3Object th
 //      e3geom_line_get_attribute : Line get attribute set pointer.
 //-----------------------------------------------------------------------------
 static TQ3AttributeSet *
-e3geom_line_get_attribute ( E3Line* line )
-	{
+e3geom_line_get_attribute ( TQ3GeometryObject line )
+{
 	// Return the address of the geometry attribute set
-	return & line->instanceData.lineAttributeSet ;
-	}
+	return & ((E3Line*)line)->instanceData.lineAttributeSet ;
+}
 
 
 

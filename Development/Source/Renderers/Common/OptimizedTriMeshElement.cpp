@@ -5,7 +5,7 @@
         Source for a custom element to hold an optimized version of a TriMesh.
 
     COPYRIGHT:
-        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -82,9 +82,13 @@ struct TQ3CacheOptimizedTriMeshElementData
 	@abstract	CopyAdd and CopyGet method for cache element.
 */
 static TQ3Status
-ElementCopyAdd( const TQ3CacheOptimizedTriMeshElementData* inFromAPIElement,
-						TQ3CacheOptimizedTriMeshElementData* ioToInternal )
+ElementCopyAdd( const void* fromParam, void* toParam )
 {
+	const TQ3CacheOptimizedTriMeshElementData* inFromAPIElement =
+		(const TQ3CacheOptimizedTriMeshElementData*) fromParam;
+	TQ3CacheOptimizedTriMeshElementData* ioToInternal =
+		(TQ3CacheOptimizedTriMeshElementData*) toParam;
+	
 	if (inFromAPIElement->optimizedGeom == nullptr)
 	{
 		ioToInternal->optimizedGeom = nullptr;
@@ -158,8 +162,10 @@ ElementCopyDuplicate( const TQ3CacheOptimizedTriMeshElementData* inFromInternal,
 	@abstract	Delete method for cache element.
 */
 static TQ3Status
-ElementDelete( TQ3CacheOptimizedTriMeshElementData* ioInternal )
+ElementDelete( void* param )
 {
+	TQ3CacheOptimizedTriMeshElementData* ioInternal = (TQ3CacheOptimizedTriMeshElementData*) param;
+	
 	if (ioInternal->optimizedGeom != nullptr)
 	{
 		Q3Object_Dispose( ioInternal->optimizedGeom );

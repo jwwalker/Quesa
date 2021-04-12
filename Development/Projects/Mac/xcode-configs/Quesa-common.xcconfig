@@ -1,19 +1,13 @@
-// Basic preprocessor settings, always used.
-QUESA_PREPROCESSOR_DEFINITIONS_BASIC = QUESA_OS_MACINTOSH=1
-
 // Customisable preprocesses settings, set as desired.
-// QUESA_OS_COCOA=1 must be used if you will create Cocoa draw contexts.
 // QUESA_NORMALIZE_NORMALS=1 means that vertex and face normal vectors are
 //	normalized (forced to unit length) whenever a TriMesh is created or modified.
 //	Setting QUESA_NORMALIZE_NORMALS=0 will save that CPU time, at the expense of
 //	more work on the GPU.  It is possible that some plug-in renderers may not
 //	work correctly when QUESA_NORMALIZE_NORMALS=0.
-// Also see the comments about QUESA_PREPROCESSOR_DEFS_LEGACY in Modern.xcconfig
-// or Legacy.xcconfig.
-QUESA_PREPROCESSOR_DEFINITIONS_CUSTOMISABLE = QUESA_NORMALIZE_NORMALS=0 QUESA_OS_COCOA=1 Q3_MEMORY_DEBUG=0
+QUESA_PREPROCESSOR_DEFINITIONS_CUSTOMISABLE = QUESA_NORMALIZE_NORMALS=0 Q3_MEMORY_DEBUG=0
 
 // Combine the above for the compiler's use.
-QUESA_PREPROCESSOR_DEFINITIONS_COMMON = $(QUESA_PREPROCESSOR_DEFINITIONS_BASIC) $(QUESA_PREPROCESSOR_DEFINITIONS_CUSTOMISABLE) $(QUESA_PREPROCESSOR_DEFS_LEGACY)
+QUESA_PREPROCESSOR_DEFINITIONS_COMMON = $(QUESA_PREPROCESSOR_DEFINITIONS_BASIC) $(QUESA_PREPROCESSOR_DEFINITIONS_CUSTOMISABLE)
 
 // Faster Objective-C method dispatch, requires 10.4 or later.
 GCC_FAST_OBJC_DISPATCH = YES
@@ -52,6 +46,7 @@ CLANG_WARN_INFINITE_RECURSION = YES
 CLANG_WARN_STRICT_PROTOTYPES = YES
 CLANG_WARN_COMMA = YES
 CLANG_WARN_UNREACHABLE_CODE = YES
+CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 
 // C++-only warnings.
 GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = YES
@@ -103,3 +98,4 @@ GCC_FAST_MATH = NO
 
 // Symbols hidden by default
 GCC_SYMBOLS_PRIVATE_EXTERN = YES
+GCC_INLINES_ARE_PRIVATE_EXTERN = YES

@@ -6,7 +6,7 @@
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -521,25 +521,3 @@ Q3XNotice_Post(TQ3Notice notice)
 	// Call our implementation
 	E3XNotice_Post(notice);
 }
-
-
-
-
-
-//=============================================================================
-//      Q3XMacintoshError_Post : Quesa API entry point.
-//-----------------------------------------------------------------------------
-#if QUESA_OS_MACINTOSH
-void
-Q3XMacintoshError_Post(OSErr macOSErr)
-{
-
-
-	// Call our implementation
-	E3XMacintoshError_Post(macOSErr);
-}
-#endif
-
-
-
-
