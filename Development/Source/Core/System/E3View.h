@@ -2,7 +2,7 @@
         E3View.h
 
     DESCRIPTION:
-        Header file for E3View.c.
+        Header file for E3View.cpp.
 
     COPYRIGHT:
         Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
@@ -214,6 +214,7 @@ TQ3Status				E3View_GetDrawContext(TQ3ViewObject theView, TQ3DrawContextObject *
 TQ3Status				E3View_GetLocalToWorldMatrixState(TQ3ViewObject theView, TQ3Matrix4x4 *theMatrix);
 TQ3Status				E3View_GetWorldToFrustumMatrixState(TQ3ViewObject theView, TQ3Matrix4x4 *theMatrix);
 TQ3Status				E3View_GetFrustumToWindowMatrixState(TQ3ViewObject theView, TQ3Matrix4x4 *theMatrix);
+TQ3Status				E3View_GetIlluminationShaderState( TQ3ViewObject theView, TQ3ObjectType* outType );
 TQ3Status				E3View_GetBackfacingStyleState(TQ3ViewObject theView, TQ3BackfacingStyle *backfacingStyle);
 TQ3Status				E3View_GetInterpolationStyleState(TQ3ViewObject theView, TQ3InterpolationStyle *interpolationType);
 TQ3Status				E3View_GetFillStyleState(TQ3ViewObject theView, TQ3FillStyle *fillStyle);

@@ -1024,6 +1024,23 @@ Q3View_GetFrustumToWindowMatrixState (
 
 
 /*!
+	@function
+		Q3View_GetIlluminationShaderState
+	@discussion
+		Get the current illumination shader state of a view.
+		Must be called within a submitting loop.
+	@param	theView		The view to query.
+	@param	outType		Receives the type of the current illumination shader.
+	@result             Success or failure of the operation.
+*/
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3View_GetIlluminationShaderState(
+		TQ3ViewObject _Nonnull theView,
+		TQ3ObjectType* _Nonnull outType );
+
+
+
+/*!
  *  @function
  *      Q3View_GetBackfacingStyleState
  *  @discussion

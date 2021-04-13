@@ -47,6 +47,7 @@
 #include "E3Camera.h"
 #include "E3Geometry.h"
 #include "E3Renderer.h"
+#include "E3Shader.h"
 #include "E3DrawContext.h"
 #include "E3Transform.h"
 #include "E3IOFileFormat.h"
@@ -4992,6 +4993,39 @@ E3View_GetFrustumToWindowMatrixState(TQ3ViewObject theView, TQ3Matrix4x4 *theMat
 	return kQ3Success ;
 	}
 
+
+
+
+
+//=============================================================================
+//      E3View_GetIlluminationShaderState : Get the current illumination state.
+//-----------------------------------------------------------------------------
+//		Note : Can only be called within a submitting loop.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3View_GetIlluminationShaderState( TQ3ViewObject theView, TQ3ObjectType* outType )
+{
+	// Make sure we're in the correct state
+	if ( ( (E3View*) theView )->instanceData.viewState != kQ3ViewStateSubmitting )
+		return kQ3Failure ;
+	
+	// Validate our state
+	Q3_ASSERT ( Q3_VALID_PTR ( ( (E3View*) theView )->instanceData.viewStack ) );
+	
+	
+	// Get the illumination type
+	TQ3ShaderObject theShader = ( (E3View*) theView )->instanceData.viewStack->shaderIllumination;
+	if (theShader == nullptr) // shouldn't happen
+	{
+		*outType = kQ3IlluminationTypeNULL;
+	}
+	else
+	{
+		*outType = E3IlluminationShader_GetType( theShader );
+	}
+	
+	return kQ3Success;
+}
 
 
 

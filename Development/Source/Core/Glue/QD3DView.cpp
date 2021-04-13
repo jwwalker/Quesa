@@ -1,12 +1,12 @@
 /*  NAME:
-        QD3DView.c
+        QD3DView.cpp
 
     DESCRIPTION:
         Entry point for Quesa API calls. Performs parameter checking and
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1257,6 +1257,29 @@ Q3View_GetFrustumToWindowMatrixState(TQ3ViewObject view, TQ3Matrix4x4 *matrix)
 
 	// Call our implementation
 	return(E3View_GetFrustumToWindowMatrixState(view, matrix));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3View_GetIlluminationShaderState : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3View_GetIlluminationShaderState(
+		TQ3ViewObject _Nonnull theView,
+		TQ3ObjectType* _Nonnull outType )
+{
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( theView ), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(outType), kQ3Failure);
+	
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+	// Call our implementation
+	return E3View_GetIlluminationShaderState( theView, outType );
 }
 
 
