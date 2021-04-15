@@ -524,6 +524,25 @@ Must be called within a submitting loop.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
+<hr><a name="//Quesa/c/func/Q3View_GetIlluminationShaderState"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_GetIlluminationShaderState">Q3View_GetIlluminationShaderState</a></h2>
+</td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3View_GetIlluminationShaderState (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull theView,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ObjectType* _Nonnull outType
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the current illumination shader state of a view.
+Must be called within a submitting loop.
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>theView</em></tt></dt><dd>The view to query.</dd>
+<dt><tt><em>outType</em></tt></dt><dd>Receives the type of the current illumination shader.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+</dd></dl>
 <hr><a name="//Quesa/c/func/Q3View_GetInterpolationStyleState"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_GetInterpolationStyleState">Q3View_GetInterpolationStyleState</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3View_GetInterpolationStyleState (
@@ -1267,5 +1286,5 @@ typedef enum TQ3ViewStatus {
 <dt><a name="//Quesa/c/econst/kQ3ViewStatusCancelled"><tt>kQ3ViewStatusCancelled</tt></a></dt><dd>Submit loop was cancelled.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2021 Quesa Developers (Last Updated 4/12/2021)
+<p><p>&#169; 1999-2021 Quesa Developers (Last Updated 4/15/2021)
 </p></body></html>

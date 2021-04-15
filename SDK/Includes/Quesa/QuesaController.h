@@ -51,12 +51,15 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
-            <https://github.com/h-haris/Quesa>
-        
+            <https://github.com/jwwalker/Quesa>
+
+        For the current release of Quesa including 3D device support,
+        please see: <https://github.com/h-haris/Quesa>
+
         Redistribution and use in source and binary forms, with or without
         modification, are permitted provided that the following conditions
         are met:

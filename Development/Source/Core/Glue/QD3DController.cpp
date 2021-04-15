@@ -8,7 +8,11 @@
     COPYRIGHT:
         Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
-        For the current release of Quesa including 3D device suppoprt,
+        For the current release of Quesa, please see:
+
+            <https://github.com/jwwalker/Quesa>
+
+        For the current release of Quesa including 3D device support,
         please see: <https://github.com/h-haris/Quesa>
         
         Redistribution and use in source and binary forms, with or without

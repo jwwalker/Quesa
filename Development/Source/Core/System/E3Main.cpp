@@ -10,6 +10,10 @@
         For the current release of Quesa, please see:
 
             <https://github.com/jwwalker/Quesa>
+
+        For the current release of Quesa including 3D device support,
+        please see: <https://github.com/h-haris/Quesa>
+
         
         Redistribution and use in source and binary forms, with or without
         modification, are permitted provided that the following conditions
