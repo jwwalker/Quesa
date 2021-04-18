@@ -1,5 +1,5 @@
 /*  NAME:
-        E3Set.c
+        E3Set.cpp
 
     DESCRIPTION:
         Set and attribute set implementation.
@@ -671,8 +671,10 @@ e3set_delete ( TQ3Object inObject, void *privateData )
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3set_duplicate(TQ3Object fromObject, const void *fromPrivateData,
-				 E3Set* toObject,        void *toPrivateData)
-{	const TQ3SetData	*fromInstanceData = (const TQ3SetData *) fromPrivateData;
+				 TQ3Object inDst,        void *toPrivateData)
+{
+	E3Set* toObject = (E3Set*) inDst;
+	const TQ3SetData	*fromInstanceData = (const TQ3SetData *) fromPrivateData;
 	TQ3SetData			*toInstanceData   = (TQ3SetData *)       toPrivateData;
 	TQ3Status			qd3dStatus;
 
@@ -1687,15 +1689,16 @@ e3attribute_metahandler(TQ3XMethodType methodType)
 
 
 
-
-
 #pragma mark -
 //=============================================================================
 //      e3setelement_copyadd : Copy add/get method.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3setelement_copyadd (TQ3SetObject *source, TQ3SetObject *dest)
+e3setelement_copyadd ( const void* fromParam, void* toParam )
 {
+	TQ3SetObject* source = (TQ3SetObject*) fromParam;
+	TQ3SetObject* dest = (TQ3SetObject*) toParam;
+	
 	*dest = Q3Shared_GetReference(*source);
 
 	return (*dest != nullptr) ? kQ3Success : kQ3Failure;
@@ -1709,8 +1712,11 @@ e3setelement_copyadd (TQ3SetObject *source, TQ3SetObject *dest)
 //      e3setelement_copyduplicate : Copy duplicate method.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3setelement_copyduplicate( TQ3SetObject *source, TQ3SetObject *dest)
+e3setelement_copyduplicate( const void* inSrc, void* inDst )
 {
+	TQ3SetObject* source = (TQ3SetObject*) inSrc;
+	TQ3SetObject* dest = (TQ3SetObject*) inDst;
+	
 	*dest = Q3Object_Duplicate(*source);
 
 	return (*dest != nullptr) ? kQ3Success : kQ3Failure;
@@ -1748,8 +1754,10 @@ e3setelement_copyreplace (TQ3SetObject *source, TQ3SetObject *dest)
 //      e3setelement_delete : Delete method.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3setelement_delete (TQ3SetObject *set)
+e3setelement_delete (void *inSet)
 {
+	TQ3SetObject* set = (TQ3SetObject*) inSet;
+	
 	return Q3Object_CleanDispose( set );
 }
 

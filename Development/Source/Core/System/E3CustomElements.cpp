@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -217,8 +217,11 @@ e3nameelement_readdata (TQ3Object object, TQ3FileObject file)
 //      e3nameelement_copyadd : Copy add/get method.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3nameelement_copyadd (TQ3StringObject *source, TQ3StringObject *dest)
+e3nameelement_copyadd ( const void* fromParam, void* toParam )
 {
+	TQ3StringObject* source = (TQ3StringObject*) fromParam;
+	TQ3StringObject* dest = (TQ3StringObject*) toParam;
+	
 	*dest = Q3Shared_GetReference(*source);
 
 	return (*dest != nullptr) ? kQ3Success : kQ3Failure;
@@ -232,8 +235,10 @@ e3nameelement_copyadd (TQ3StringObject *source, TQ3StringObject *dest)
 //      e3nameelement_copyduplicate : Copy duplicate method.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3nameelement_copyduplicate( TQ3StringObject *source, TQ3StringObject *dest)
+e3nameelement_copyduplicate( const void* inSrc, void* inDst )
 {
+	TQ3StringObject* source = (TQ3StringObject*) inSrc;
+	TQ3StringObject* dest = (TQ3StringObject*) inDst;
 	*dest = Q3Object_Duplicate(*source);
 
 	return (*dest != nullptr) ? kQ3Success : kQ3Failure;
@@ -271,8 +276,9 @@ e3nameelement_copyreplace (TQ3StringObject *source, TQ3StringObject *dest)
 //      e3nameelement_delete : Delete method.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3nameelement_delete (TQ3StringObject *string)
+e3nameelement_delete ( void * inStr )
 {
+	TQ3StringObject* string = (TQ3StringObject*) inStr;
 	if (*string != nullptr) {
 		Q3Object_Dispose(*string);
 		*string = nullptr;
@@ -411,8 +417,11 @@ e3urlelement_readdata (TQ3Object object, TQ3FileObject file)
 //      e3urlelement_copyadd : Copy add/get/duplicate method.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3urlelement_copyadd (TCEUrlDataPrivate *source, TCEUrlDataPrivate *dest)
+e3urlelement_copyadd ( const void* fromParam, void* toParam )
 {
+	TCEUrlDataPrivate* source = (TCEUrlDataPrivate*) fromParam;
+	TCEUrlDataPrivate* dest = (TCEUrlDataPrivate*) toParam;
+
 	dest->url = (char*)Q3Memory_Allocate(static_cast<TQ3Uns32>(strlen(source->url) + 1));
 	if (dest->url == nullptr)
 		return kQ3Failure;
@@ -488,8 +497,9 @@ e3urlelement_copyreplace (TCEUrlDataPrivate *source, TCEUrlDataPrivate *dest)
 //      e3urlelement_delete : Delete method.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3urlelement_delete (TCEUrlDataPrivate *urlData)
+e3urlelement_delete (void *inData)
 {
+	TCEUrlDataPrivate* urlData = (TCEUrlDataPrivate*) inData;
 	if (urlData->url != nullptr) {
 	
 		Q3Memory_Free (&urlData->url);
@@ -851,8 +861,10 @@ e3texture_flipped_rows_element_metahandler(TQ3XMethodType methodType)
 #pragma mark -
 
 static TQ3Status
-SpecularElement_delete( TQ3TextureObject *textureOb )
+SpecularElement_delete( void *inParam )
 {
+	TQ3TextureObject* textureOb = (TQ3TextureObject*) inParam;
+	
 	if (*textureOb != nullptr)
 	{
 		Q3_ASSERT( (*textureOb != nullptr) && (*textureOb)->IsObjectValid() );
@@ -864,9 +876,11 @@ SpecularElement_delete( TQ3TextureObject *textureOb )
 }
 
 static TQ3Status
-SpecularElement_CopyAdd( const TQ3TextureObject* inFromAPIElement,
-						TQ3TextureObject* ioToInternal )
+SpecularElement_CopyAdd( const void* fromParam, void* toParam )
 {
+	const TQ3TextureObject* inFromAPIElement = (const TQ3TextureObject*) fromParam;
+	TQ3TextureObject* ioToInternal = (TQ3TextureObject*) toParam;
+	
 	*ioToInternal = Q3Shared_GetReference( *inFromAPIElement );
 	
 	return (*ioToInternal != nullptr) ? kQ3Success : kQ3Failure;
@@ -887,9 +901,12 @@ SpecularElement_CopyReplace( const TQ3TextureObject* inFromAPIElement,
 }
 
 static TQ3Status
-SpecularElement_CopyGet( const TQ3TextureObject* inFromInternal,
-	TQ3TextureObject* ioToExternal )
+SpecularElement_CopyGet( const void* src,
+	void* dst )
 {
+	const TQ3TextureObject* inFromInternal = (const TQ3TextureObject*) src;
+	TQ3TextureObject* ioToExternal = (TQ3TextureObject*) dst;
+	
 	*ioToExternal = Q3Shared_GetReference( *inFromInternal );
 	return kQ3Success;
 }

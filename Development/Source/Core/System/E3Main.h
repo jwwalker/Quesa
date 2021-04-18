@@ -2,7 +2,7 @@
         E3Main.h
 
     DESCRIPTION:
-        Header file for E3Main.c.
+        Header file for E3Main.cpp.
 
     COPYRIGHT:
         Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
@@ -298,7 +298,7 @@ public :
 	friend class E3ClassTree ;
 	friend class E3ClassInfo ;
 	friend TQ3Status			e3root_new ( TQ3Object theObject, void *privateData, const void *paramData ) ;
-	friend TQ3Status			e3root_duplicate ( TQ3Object fromObject, const void *fromPrivateData, TQ3Object toObject, void *toPrivateData) ;
+	friend TQ3Status			e3root_duplicate ( TQ3Object fromObject, const void *fromPrivateData, TQ3Object toObject, const void *toPrivateData) ;
 	friend void					e3root_delete ( TQ3Object theObject, void *privateData ) ;
 };
 
@@ -327,7 +327,7 @@ Q3_CLASS_ENUMS ( kQ3ObjectTypeShared, E3Shared, OpaqueTQ3Object )
 	friend TQ3Status	e3shared_duplicate (	TQ3Object fromObject,
 												const void *fromPrivateData,
 						 						TQ3Object toObject,
-						 						void *toPrivateData ) ;
+						 						const void *toPrivateData ) ;
 	
 public :
 	E3SharedData		sharedData;

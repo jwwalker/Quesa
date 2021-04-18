@@ -1,11 +1,11 @@
 /*  NAME:
-        E3FFR_3DMF_TEXT.c
+        E3FFR_3DMF_TEXT.cpp
 
     DESCRIPTION:
         Implementation of Quesa 3DMF FileFormat object.
         
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -317,8 +317,11 @@ e3fformat_3dmf_text_readitem ( E3Text3DMFReader* format, char* theItem, TQ3Uns32
 //				ahead and restoring the file position if we read too far.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3read_3dmf_text_readflag(TQ3Uns32* flag, E3File* theFile, TQ3ObjectType hint)
-{	typedef struct dictEntry {
+e3read_3dmf_text_readflag(TQ3Uns32* flag, TQ3FileObject inFile, TQ3ObjectType hint)
+{
+	E3File* theFile = (E3File*) inFile;
+	
+	typedef struct dictEntry {
 		TQ3ObjectType hint;
 		char name[32];
 		TQ3Int32 value;
@@ -524,8 +527,10 @@ e3fformat_3dmf_textreader_duplicate(TQ3Object fromObject, const void *fromPrivat
 //      e3fformat_3dmf_text_read_int8 : Reads a number from stream.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3fformat_3dmf_text_read_int8( E3Text3DMFReader*format, TQ3Int8* data)
+e3fformat_3dmf_text_read_int8( TQ3FileFormatObject inFormat, TQ3Int8* data)
 {
+	E3Text3DMFReader* format = (E3Text3DMFReader*) inFormat;
+	
 	char buffer[256];
 	TQ3Status result;
 	TQ3Uns32 charsRead;
@@ -546,8 +551,9 @@ e3fformat_3dmf_text_read_int8( E3Text3DMFReader*format, TQ3Int8* data)
 //      e3fformat_3dmf_text_read_int16 : Reads a number from stream.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3fformat_3dmf_text_read_int16 ( E3Text3DMFReader* format, TQ3Int16* data )
+e3fformat_3dmf_text_read_int16 ( TQ3FileFormatObject inFormat, TQ3Int16* data )
 {
+	E3Text3DMFReader* format = (E3Text3DMFReader*) inFormat;
 	char buffer[256];
 	TQ3Status result;
 	TQ3Uns32 charsRead;
@@ -568,8 +574,9 @@ e3fformat_3dmf_text_read_int16 ( E3Text3DMFReader* format, TQ3Int16* data )
 //      e3fformat_3dmf_text_read_int32 : Reads a number from stream.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3fformat_3dmf_text_read_int32 ( E3Text3DMFReader* format, TQ3Int32* data )
+e3fformat_3dmf_text_read_int32 ( TQ3FileFormatObject inFormat, TQ3Int32* data )
 {
+	E3Text3DMFReader* format = (E3Text3DMFReader*) inFormat;
 	char buffer[256];
 	TQ3Status result;
 	TQ3Uns32 charsRead;
@@ -590,8 +597,9 @@ e3fformat_3dmf_text_read_int32 ( E3Text3DMFReader* format, TQ3Int32* data )
 //      e3fformat_3dmf_text_read_int64 : Reads a number from stream.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3fformat_3dmf_text_read_int64 ( E3Text3DMFReader* format, TQ3Int64* data )
+e3fformat_3dmf_text_read_int64 ( TQ3FileFormatObject inFormat, TQ3Int64* data )
 {
+	E3Text3DMFReader* format = (E3Text3DMFReader*) inFormat;
 	char buffer[256];
 	TQ3Status result;
 	TQ3Uns32 charsRead;
@@ -614,8 +622,9 @@ e3fformat_3dmf_text_read_int64 ( E3Text3DMFReader* format, TQ3Int64* data )
 //      e3fformat_3dmf_text_read_float32 : Reads a number from stream.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3fformat_3dmf_text_read_float32 ( E3Text3DMFReader* format, TQ3Float32* data )
+e3fformat_3dmf_text_read_float32 ( TQ3FileFormatObject inFormat, TQ3Float32* data )
 {
+	E3Text3DMFReader* format = (E3Text3DMFReader*) inFormat;
 	char buffer[256];
 	TQ3Status result;
 	TQ3Uns32 charsRead;
@@ -637,8 +646,9 @@ e3fformat_3dmf_text_read_float32 ( E3Text3DMFReader* format, TQ3Float32* data )
 //      e3fformat_3dmf_text_read_float64 : Reads a number from stream.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3fformat_3dmf_text_read_float64 ( E3Text3DMFReader* format, TQ3Float64* data )
+e3fformat_3dmf_text_read_float64 ( TQ3FileFormatObject inFormat, TQ3Float64* data )
 {
+	E3Text3DMFReader* format = (E3Text3DMFReader*) inFormat;
 	char buffer[256];
 	TQ3Status result;
 	TQ3Uns32 charsRead;
@@ -770,8 +780,9 @@ e3fformat_3dmf_hexraw_to_raw(char* hexBuffer, TQ3Uns32 hexBufferLength,
 //      e3fformat_3dmf_text_read_raw : Reads Binary data from stream.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3fformat_3dmf_text_read_raw ( E3Text3DMFReader* format, unsigned char* data, TQ3Uns32 length )
+e3fformat_3dmf_text_read_raw ( TQ3FileFormatObject inFormat, unsigned char* data, TQ3Uns32 length )
 {
+	E3Text3DMFReader* format = (E3Text3DMFReader*) inFormat;
 	char buffer[256];
 	TQ3Status result = kQ3Success;
 	TQ3Uns32 bytesRead = 0;
@@ -1014,9 +1025,10 @@ e3fformat_3dmf_text_read_toc ( E3Text3DMFReader* format, TE3FFormat3DMF_Text_Dat
 //=============================================================================
 //      e3fformat_3dmf_text_read_header : Initialize the reader.
 //-----------------------------------------------------------------------------
-static TQ3Boolean
-e3fformat_3dmf_text_read_header ( E3File* theFile )
+static TQ3Status
+e3fformat_3dmf_text_read_header ( TQ3FileObject inFile )
 {
+	E3File* theFile = (E3File*) inFile;
 	E3Text3DMFReader* format = (E3Text3DMFReader*) theFile->GetFileFormat () ;
 	bool						result;
 	TQ3Uns32 						oldPosition;
@@ -1035,7 +1047,7 @@ e3fformat_3dmf_text_read_header ( E3File* theFile )
 
 
 	if(format->instanceData.MFData.baseData.logicalEOF <= 24)
-		return kQ3False;
+		return kQ3Failure;
 	
 	format->instanceData.MFData.baseData.currentStoragePosition = 0;
 	
@@ -1077,7 +1089,7 @@ e3fformat_3dmf_text_read_header ( E3File* theFile )
 		}
 	E3FFormat_3DMF_Text_Check_MoreObjects( & format->instanceData );
 	
-	return result ? kQ3True : kQ3False;
+	return result ? kQ3Success : kQ3Failure;
 }
 
 
@@ -1088,11 +1100,12 @@ e3fformat_3dmf_text_read_header ( E3File* theFile )
 //      e3fformat_3dmf_text_get_formattype : returns the file format.
 //-----------------------------------------------------------------------------
 static TQ3FileMode
-e3fformat_3dmf_text_get_formattype ( E3File* theFile )
-	{
+e3fformat_3dmf_text_get_formattype ( TQ3FileObject inFile )
+{
+	E3File* theFile = (E3File*) inFile;
 	E3Text3DMFReader* format = (E3Text3DMFReader*) theFile->GetFileFormat () ;
 	return ( format->instanceData.MFData.fileMode ) ;
-	}
+}
 
 
 
@@ -1181,8 +1194,9 @@ e3fformat_3dmf_textreader_resolve_reference( TE3FFormat3DMF_Text_Data* instanceD
 //      e3fformat_3dmf_text_readobject : Reads the next object from storage.
 //-----------------------------------------------------------------------------
 static TQ3Object
-e3fformat_3dmf_text_readobject ( E3File* theFile )
+e3fformat_3dmf_text_readobject ( TQ3FileObject inFile )
 {
+	E3File* theFile = (E3File*) inFile;
 	TQ3Status 				status;
 	TQ3Object 				result = nullptr;
 	TQ3Object 				childObject = nullptr;
@@ -1341,8 +1355,9 @@ e3fformat_3dmf_text_readobject ( E3File* theFile )
 //      e3read_3dmf_text_readnextelement : Manages the reading of the next Element from a 3DMF.
 //-----------------------------------------------------------------------------
 static void
-e3read_3dmf_text_readnextelement ( TQ3AttributeSet parent, E3File* theFile )
+e3read_3dmf_text_readnextelement ( TQ3AttributeSet parent, TQ3FileObject inFile )
 {
+	E3File* theFile = (E3File*) inFile;
 	TQ3ObjectType 				elemType;
 	TQ3Status 					status;
 	TQ3Uns32 					elemLocation;
@@ -1458,8 +1473,9 @@ e3read_3dmf_text_readnextelement ( TQ3AttributeSet parent, E3File* theFile )
 // 		Note : Doesn't move the storage position.
 //-----------------------------------------------------------------------------
 static TQ3ObjectType
-e3fformat_3dmf_text_get_nexttype ( E3File* theFile )
+e3fformat_3dmf_text_get_nexttype ( TQ3FileObject inFile )
 {
+	E3File* theFile = (E3File*) inFile;
 	TQ3ObjectType 				result = kQ3ObjectTypeInvalid;
 	char 						objectType[64];
 	TQ3Uns32 					oldPosition;

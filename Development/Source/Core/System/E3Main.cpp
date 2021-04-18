@@ -1,5 +1,5 @@
 /*  NAME:
-        E3Main.c
+        E3Main.cpp
 
     DESCRIPTION:
         Implementation of Quesa API calls.
@@ -321,7 +321,7 @@ void E3Shared_AddReference( E3Shared* theObject )
 //-----------------------------------------------------------------------------
 TQ3Status
 e3shared_duplicate(TQ3Object fromObject,     const void *fromPrivateData,
-						 TQ3Object toObject, void *toPrivateData)
+						 TQ3Object toObject, const void *toPrivateData)
 {
 	E3Shared		*instanceData = (E3Shared *) toObject ;
 	E3Shared		*fromInstanceData = (E3Shared *) fromObject ;
@@ -620,10 +620,11 @@ e3root_new( TQ3Object theObject, void *privateData, const void *paramData )
 //-----------------------------------------------------------------------------
 TQ3Status
 e3root_duplicate(TQ3Object fromObject,     const void *fromPrivateData,
-						 TQ3Object toObject, void *toPrivateData)
+						 TQ3Object toObject, const void* inDstData)
 {
 #pragma unused( fromObject )
 	TQ3Status	q3status;
+	void *toPrivateData = (void*) inDstData;
 	
 	q3status = e3root_new( toObject, toPrivateData, nullptr );
 	

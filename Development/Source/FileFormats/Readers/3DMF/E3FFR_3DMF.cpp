@@ -471,8 +471,10 @@ e3fformat_3dmf_is_next_element( TQ3FileObject theFile )
 //      e3fformat_3dmf_attribute_set_read : Creates and read an attribute set from a 3DMF.
 //-----------------------------------------------------------------------------
 static TQ3Object
-e3fformat_3dmf_attribute_set_read ( E3File* theFile )
-	{
+e3fformat_3dmf_attribute_set_read ( TQ3FileObject inFile )
+{
+	E3File* theFile = (E3File*) inFile;
+
 	// Create the attribute set
 	TQ3AttributeSet theSet = E3ClassTree::CreateInstance ( kQ3SetTypeAttribute, kQ3False, nullptr);
 	if (theSet == nullptr)
@@ -1910,8 +1912,9 @@ e3fformat_3dmf_normalarray_validate( TQ3Uns32 numVectors, TQ3Vector3D* normals )
 //		trimesh object itself is beyond me
 //-----------------------------------------------------------------------------
 static TQ3Object
-e3fformat_3dmf_attributearray_read ( E3File* theFile )
+e3fformat_3dmf_attributearray_read ( TQ3FileObject inFile )
 {
+	E3File* theFile = (E3File*) inFile;
 	TQ3Int32 				attributeType;
 
 	TQ3Uns32				positionOfArray;//	0 ==triangleAttributeTypes

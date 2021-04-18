@@ -1,11 +1,11 @@
 /*  NAME:
-        E3Storage.c
+        E3Storage.cpp
 
     DESCRIPTION:
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -110,8 +110,9 @@ e3storage_new_class_info (
 //      e3storage_memory_read : Read data from the storage object.
 //-----------------------------------------------------------------------------
 TQ3Status
-e3storage_memory_read ( E3MemoryStorage* storage, TQ3Uns32 offset, TQ3Uns32 dataSize, unsigned char *data, TQ3Uns32 *sizeRead )
-	{	
+e3storage_memory_read ( TQ3StorageObject inStorage, TQ3Uns32 offset, TQ3Uns32 dataSize, unsigned char *data, TQ3Uns32 *sizeRead )
+{
+	E3MemoryStorage* storage = (E3MemoryStorage*) inStorage;
 	*sizeRead = 0 ;
 	
 	if ( offset >= storage->memoryDetails.validSize )
@@ -127,7 +128,7 @@ e3storage_memory_read ( E3MemoryStorage* storage, TQ3Uns32 offset, TQ3Uns32 data
 	*sizeRead = bytesToRead ;
 	
 	return kQ3Success ;
-	}
+}
 
 
 
@@ -214,12 +215,13 @@ e3storage_memory_write ( E3MemoryStorage* storage, TQ3Uns32 offset, TQ3Uns32 dat
 //      e3storage_memory_getsize : Get the size of the storage object.
 //-----------------------------------------------------------------------------
 TQ3Status
-e3storage_memory_getsize ( E3MemoryStorage* storage, TQ3Uns32 *size )
-	{
+e3storage_memory_getsize ( TQ3StorageObject inStorage, TQ3Uns32 *size )
+{
+	E3MemoryStorage* storage = (E3MemoryStorage*) inStorage;
 	*size = storage->memoryDetails.validSize ;
 	
 	return kQ3Success ;
-	}
+}
 
 
 
@@ -497,8 +499,9 @@ e3storage_path_delete(TQ3Object storage, void *privateData)
 //      e3storage_path_open : Open the storage object.
 //-----------------------------------------------------------------------------
 TQ3Status
-e3storage_path_open ( E3PathStorage* storage, TQ3Boolean forWriting )
-	{
+e3storage_path_open ( TQ3StorageObject inStorage, TQ3Boolean forWriting )
+{
+	E3PathStorage* storage = (E3PathStorage*) inStorage;
 	// Make sure the file isn't already open
 	if ( storage->pathDetails.theFile != nullptr )
 		{
@@ -514,7 +517,7 @@ e3storage_path_open ( E3PathStorage* storage, TQ3Boolean forWriting )
 		return kQ3Failure ;
 	
 	return kQ3Success ;
-	}
+}
 
 
 
@@ -568,8 +571,10 @@ e3storage_path_duplicate(	TQ3Object fromObject, const void *fromPrivateData,
 //      e3storage_path_close : Close the storage object.
 //-----------------------------------------------------------------------------
 TQ3Status
-e3storage_path_close ( E3PathStorage* storage )
-	{
+e3storage_path_close ( TQ3StorageObject inStorage )
+{
+	E3PathStorage* storage = (E3PathStorage*) inStorage;
+	
 	// Make sure the file is open
 	if ( storage->pathDetails.theFile == nullptr )
 		{
@@ -584,7 +589,7 @@ e3storage_path_close ( E3PathStorage* storage )
 	storage->pathDetails.theFile = nullptr ;
 
 	return kQ3Success ;
-	}
+}
 
 
 
@@ -613,8 +618,9 @@ e3storage_path_getopenness( E3PathStorage* storage, TQ3StorageOpenness* outOpenn
 //      e3storage_path_getsize : Get the size of the storage object.
 //-----------------------------------------------------------------------------
 TQ3Status
-e3storage_path_getsize ( E3PathStorage* storage, TQ3Uns32 *size )
-	{
+e3storage_path_getsize ( TQ3StorageObject inStorage, TQ3Uns32 *size )
+{
+	E3PathStorage* storage = (E3PathStorage*) inStorage;
 	fpos_t					oldPos;
 
 
@@ -652,7 +658,7 @@ e3storage_path_getsize ( E3PathStorage* storage, TQ3Uns32 *size )
 		return kQ3Failure ;
 
 	return kQ3Success ;
-	}
+}
 
 
 
@@ -664,8 +670,9 @@ e3storage_path_getsize ( E3PathStorage* storage, TQ3Uns32 *size )
 //		Note : Currently unbuffered - may cause performance problems.
 //-----------------------------------------------------------------------------
 TQ3Status
-e3storage_path_read ( E3PathStorage* storage, TQ3Uns32 offset, TQ3Uns32 dataSize, unsigned char *data, TQ3Uns32 *sizeRead )
-	{
+e3storage_path_read ( TQ3StorageObject inStorage, TQ3Uns32 offset, TQ3Uns32 dataSize, unsigned char *data, TQ3Uns32 *sizeRead )
+{
+	E3PathStorage* storage = (E3PathStorage*) inStorage;
 	// Make sure the file is open
 	if ( storage->pathDetails.theFile == nullptr )
 		{
@@ -687,7 +694,7 @@ e3storage_path_read ( E3PathStorage* storage, TQ3Uns32 offset, TQ3Uns32 dataSize
 	*sizeRead = static_cast<TQ3Uns32>(fread ( data, 1, dataSize, storage->pathDetails.theFile ));
 
 	return kQ3Success ;
-	}
+}
 
 
 
@@ -801,8 +808,9 @@ e3storage_stream_new(TQ3Object theObject, void *privateData, const void *paramDa
 //      e3storage_stream_getsize : Get the size of the storage object.
 //-----------------------------------------------------------------------------
 TQ3Status
-e3storage_stream_getsize ( E3FileStreamStorage* storage, TQ3Uns32 *size )
+e3storage_stream_getsize ( TQ3StorageObject inStorage, TQ3Uns32 *size )
 {
+	E3FileStreamStorage* storage = (E3FileStreamStorage*) inStorage;
 	fpos_t					oldPos;
 
 
@@ -852,9 +860,10 @@ e3storage_stream_getsize ( E3FileStreamStorage* storage, TQ3Uns32 *size )
 //		Note : Currently unbuffered - may cause performance problems.
 //-----------------------------------------------------------------------------
 TQ3Status
-e3storage_stream_read( E3FileStreamStorage* storage, TQ3Uns32 offset,
+e3storage_stream_read( TQ3StorageObject inStorage, TQ3Uns32 offset,
 						TQ3Uns32 dataSize, unsigned char *data, TQ3Uns32 *sizeRead )
 {
+	E3FileStreamStorage* storage = (E3FileStreamStorage*) inStorage;
 	// Make sure the file is open
 	if ( storage->mStream == nullptr )
 	{

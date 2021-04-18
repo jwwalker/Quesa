@@ -1,11 +1,11 @@
 /*  NAME:
-        E3FFR_3DMF_Bin.c
+        E3FFR_3DMF_Bin.cpp
 
     DESCRIPTION:
         Implementation of Quesa 3DMF Binary FileFormat object.
         
     COPYRIGHT:
-        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -175,8 +175,9 @@ static void e3read_3dmf_bin_copy_all_elements( TQ3SetObject inSource, TQ3SetObje
 //      e3read_3dmf_bin_readnextelement : Manages the reading of the next Element from a 3DMF.
 //-----------------------------------------------------------------------------
 static void
-e3read_3dmf_bin_readnextelement(TQ3AttributeSet parent, E3File* theFile )
+e3read_3dmf_bin_readnextelement(TQ3AttributeSet parent, TQ3FileObject inFile )
 {
+	E3File* theFile = (E3File*) inFile;
 	TQ3ObjectType 				elemType;
 	TQ3Uns32 					i;
 	TQ3Uns32 					elemSize;
@@ -474,13 +475,14 @@ e3fformat_3dmf_bin_read_toc(TQ3FileFormatObject format)
 //=============================================================================
 //      e3fformat_3dmf_bin_read_header : Initialize the reader.
 //-----------------------------------------------------------------------------
-static TQ3Boolean
-e3fformat_3dmf_bin_read_header ( E3File* theFile )
+static TQ3Status
+e3fformat_3dmf_bin_read_header ( TQ3FileObject inFile )
 {
+	E3File* theFile = (E3File*) inFile;
 	TQ3FileFormatObject format = theFile->GetFileFormat () ;
 	TE3FFormat3DMF_Bin_Data			*instanceData = e3read_3dmf_bin_getinstancedata(format);
 
-	TQ3Boolean						result;
+	TQ3Status						result;
 	TQ3Uns32 						head;
 	TQ3Uns64 						tocPosition;
 
@@ -498,7 +500,7 @@ e3fformat_3dmf_bin_read_header ( E3File* theFile )
 
 
 	if(instanceData->MFData.baseData.logicalEOF <= 24)
-		return kQ3False;
+		return kQ3Failure;
 	
 	instanceData->MFData.baseData.currentStoragePosition = 0;
 	Q3Int32_Read((TQ3Int32*)&head, theFile);
@@ -515,22 +517,24 @@ e3fformat_3dmf_bin_read_header ( E3File* theFile )
 #endif
 	
 	instanceData->MFData.baseData.currentStoragePosition = 8;
-	result = (TQ3Boolean)(Q3Int32_Read((TQ3Int32*)&instanceData->MFData.baseData.fileVersion, theFile) != kQ3Failure);
+	result = (TQ3Status)(Q3Int32_Read((TQ3Int32*)&instanceData->MFData.baseData.fileVersion, theFile) != kQ3Failure);
 	
-	if(result == kQ3True)
-		result = (TQ3Boolean)(Q3Int32_Read((TQ3Int32*)&instanceData->MFData.fileMode, theFile) != kQ3Failure);
+	if (result == kQ3Success)
+		result = (TQ3Status)(Q3Int32_Read((TQ3Int32*)&instanceData->MFData.fileMode, theFile) != kQ3Failure);
 	
-	if(result == kQ3True){
-		result = (TQ3Boolean)(Q3Int64_Read((TQ3Int64*)&tocPosition, theFile) != kQ3Failure);
-		if((result == kQ3True) && (tocPosition.lo != 0UL)){
+	if (result == kQ3Success)
+	{
+		result = (TQ3Status)(Q3Int64_Read((TQ3Int64*)&tocPosition, theFile) != kQ3Failure);
+		if((result == kQ3Success) && (tocPosition.lo != 0UL))
+		{
 			instanceData->MFData.baseData.currentStoragePosition = tocPosition.lo;
-			result = (TQ3Boolean)(e3fformat_3dmf_bin_read_toc(format) != kQ3Failure);
-			}
+			result = (TQ3Status)(e3fformat_3dmf_bin_read_toc(format) != kQ3Failure);
+		}
 		
 		instanceData->MFData.baseData.currentStoragePosition = 24;// reset the file mark
 	
 		E3FFormat_3DMF_Bin_Check_MoreObjects(instanceData);
-		}
+	}
 	
 	return result;
 }
@@ -543,8 +547,9 @@ e3fformat_3dmf_bin_read_header ( E3File* theFile )
 //      e3fformat_3dmf_bin_get_formattype : returns the file format.
 //-----------------------------------------------------------------------------
 static TQ3FileMode
-e3fformat_3dmf_bin_get_formattype ( E3File* theFile )
+e3fformat_3dmf_bin_get_formattype ( TQ3FileObject inFile )
 {
+	E3File* theFile = (E3File*) inFile;
 	TQ3FileFormatObject format = theFile->GetFileFormat () ;
 	TE3FFormat3DMF_Bin_Data		*instanceData = e3read_3dmf_bin_getinstancedata(format);
 	return (instanceData->MFData.fileMode);
@@ -661,8 +666,9 @@ static void CopyElementsToShape( TQ3SetObject inSet, TQ3ShapeObject ioShape )
 //      e3fformat_3dmf_bin_readobject : Reads the next object from storage.
 //-----------------------------------------------------------------------------
 static TQ3Object
-e3fformat_3dmf_bin_readobject ( E3File* theFile )
+e3fformat_3dmf_bin_readobject ( TQ3FileObject inFile )
 {
+	E3File* theFile = (E3File*) inFile;
 	TQ3Object 				result = nullptr;
 	TQ3Object 				childObject = nullptr;
 	TQ3Uns32 				previousContainer;
@@ -928,9 +934,9 @@ e3fformat_3dmf_bin_readobject ( E3File* theFile )
 // 		Note : Doesn't move the storage position.
 //-----------------------------------------------------------------------------
 static TQ3ObjectType
-e3fformat_3dmf_bin_get_nexttype ( E3File* theFile )
+e3fformat_3dmf_bin_get_nexttype ( TQ3FileObject inFile )
 {
-	
+	E3File* theFile = (E3File*) inFile;
 	TQ3Uns32				i;
 	TQ3FileFormatObject format = theFile->GetFileFormat () ;
 	TE3FFormat3DMF_Bin_Data* instanceData = e3read_3dmf_bin_getinstancedata ( format ) ;
@@ -995,8 +1001,9 @@ e3fformat_3dmf_bin_get_nexttype ( E3File* theFile )
 //      e3fformat_3dmf_bin_is_end_of_container : Test for end of container.
 //-----------------------------------------------------------------------------
 static TQ3Boolean
-e3fformat_3dmf_bin_is_end_of_container( E3File* theFile )
+e3fformat_3dmf_bin_is_end_of_container( TQ3FileObject inFile )
 {
+	E3File* theFile = (E3File*) inFile;
 	TQ3FileFormatObject format = theFile->GetFileFormat();
 	TE3FFormat3DMF_Bin_Data* instanceData = e3read_3dmf_bin_getinstancedata( format );
 	TQ3Boolean isEnd = (instanceData->MFData.baseData.currentStoragePosition + 8 >
@@ -1046,7 +1053,29 @@ e3fformat_3dmf_bin_read_string(TQ3FileFormatObject format, char* data,
 	return E3FileFormat_GenericReadBinary_StringPadded(format, data, ioLength, kQ3True);
 }
 
+static TQ3Status
+e3fformat_3dmf_bin_read_array_float32(TQ3FileFormatObject format, TQ3Uns32 numNums, TQ3Float32* data)
+{
+	return E3FileFormat_GenericReadBinaryArray_32( format, numNums, reinterpret_cast<TQ3Int32*>( data ));
+}
 
+static TQ3Status
+e3fformat_3dmf_bin_read_swap_array_float32(TQ3FileFormatObject format, TQ3Uns32 numNums, TQ3Float32* data)
+{
+	return E3FileFormat_GenericReadBinSwapArray_32( format, numNums, reinterpret_cast<TQ3Int32*>( data ));
+}
+
+static TQ3Status
+e3fformat_3dmf_bin_read_float32(TQ3FileFormatObject format, TQ3Float32* data)
+{
+	return E3FileFormat_GenericReadBinary_32( format, reinterpret_cast<TQ3Int32*>( data ) );
+}
+
+static TQ3Status
+e3fformat_3dmf_bin_read_swap_float32(TQ3FileFormatObject format, TQ3Float32* data)
+{
+	return E3FileFormat_GenericReadBinSwap_32( format, reinterpret_cast<TQ3Int32*>( data ) );
+}
 
 //=============================================================================
 //      e3fformat_3dmf_bin_metahandler : Metahandler for 3DMF Bin.
@@ -1090,11 +1119,11 @@ e3fformat_3dmf_bin_metahandler(TQ3XMethodType methodType)
 			break;
 
 		case kQ3XMethodTypeFFormatFloat32Read:
-			theMethod = (TQ3XFunctionPointer) E3FileFormat_GenericReadBinary_32;
+			theMethod = (TQ3XFunctionPointer) e3fformat_3dmf_bin_read_float32;
 			break;
 			
 		case kQ3XMethodTypeFFormatFloat32ReadArray:
-			theMethod = (TQ3XFunctionPointer) E3FileFormat_GenericReadBinaryArray_32;
+			theMethod = (TQ3XFunctionPointer) e3fformat_3dmf_bin_read_array_float32;
 			break;
 
 		case kQ3XMethodTypeFFormatFloat64Read:
@@ -1197,11 +1226,11 @@ e3fformat_3dmf_binswap_metahandler(TQ3XMethodType methodType)
 			break;
 
 		case kQ3XMethodTypeFFormatFloat32Read:
-			theMethod = (TQ3XFunctionPointer) E3FileFormat_GenericReadBinSwap_32;
+			theMethod = (TQ3XFunctionPointer) e3fformat_3dmf_bin_read_swap_float32;
 			break;
 		
 		case kQ3XMethodTypeFFormatFloat32ReadArray:
-			theMethod = (TQ3XFunctionPointer) E3FileFormat_GenericReadBinSwapArray_32;
+			theMethod = (TQ3XFunctionPointer) e3fformat_3dmf_bin_read_swap_array_float32;
 			break;
 
 		case kQ3XMethodTypeFFormatFloat64Read:

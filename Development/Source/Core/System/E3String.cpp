@@ -135,7 +135,7 @@ e3string_c_delete(TQ3Object theObject, void *privateData)
 //-----------------------------------------------------------------------------
 static TQ3Status
 e3string_c_duplicate(TQ3Object fromObject, const void *fromPrivateData,
-					 TQ3Object toObject,   void       *toPrivateData)
+					 TQ3Object toObject,   const void *toPrivateData)
 {	const TQ3StringPtr		*fromInstanceData = (const TQ3StringPtr *) fromPrivateData;
 	TQ3StringPtr			*toInstanceData   = (TQ3StringPtr *)       toPrivateData;
 

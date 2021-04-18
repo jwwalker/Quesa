@@ -2,10 +2,10 @@
         E3Storage.h
 
     DESCRIPTION:
-        Header file for E3Storage.c.
+        Header file for E3Storage.cpp.
 
     COPYRIGHT:
-        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -140,10 +140,10 @@ public :
 	TQ3Status					GetBuffer ( unsigned char **buffer, TQ3Uns32 *validSize, TQ3Uns32 *bufferSize ) ;
 	
 
-	friend TQ3Status			e3storage_memory_read ( E3MemoryStorage* storage, TQ3Uns32 offset, TQ3Uns32 dataSize, unsigned char *data, TQ3Uns32 *sizeRead ) ;
+	friend TQ3Status			e3storage_memory_read ( TQ3StorageObject inStorage, TQ3Uns32 offset, TQ3Uns32 dataSize, unsigned char *data, TQ3Uns32 *sizeRead ) ;
 	friend TQ3Status			e3storage_memory_grow ( E3MemoryStorage* storage, TQ3Uns32 requestedSize ) ;
 	friend TQ3Status			e3storage_memory_write ( E3MemoryStorage* storage, TQ3Uns32 offset, TQ3Uns32 dataSize, const unsigned char *data, TQ3Uns32 *sizeWritten ) ;
-	friend TQ3Status			e3storage_memory_getsize ( E3MemoryStorage* storage, TQ3Uns32 *size ) ;
+	friend TQ3Status			e3storage_memory_getsize ( TQ3StorageObject inStorage, TQ3Uns32 *size ) ;
 	} ;
 
 
@@ -159,10 +159,10 @@ public :
 	TQ3Status					Get ( char* pathName)  ;
 
 
-	friend TQ3Status			e3storage_path_open ( E3PathStorage* storage, TQ3Boolean forWriting ) ;
-	friend TQ3Status			e3storage_path_close ( E3PathStorage* storage ) ;
-	friend TQ3Status			e3storage_path_getsize ( E3PathStorage* storage, TQ3Uns32 *size ) ;
-	friend TQ3Status			e3storage_path_read ( E3PathStorage* storage, TQ3Uns32 offset, TQ3Uns32 dataSize, unsigned char *data, TQ3Uns32 *sizeRead ) ;
+	friend TQ3Status			e3storage_path_open ( TQ3StorageObject inStorage, TQ3Boolean forWriting ) ;
+	friend TQ3Status			e3storage_path_close ( TQ3StorageObject inStorage ) ;
+	friend TQ3Status			e3storage_path_getsize ( TQ3StorageObject inStorage, TQ3Uns32 *size ) ;
+	friend TQ3Status			e3storage_path_read ( TQ3StorageObject inStorage, TQ3Uns32 offset, TQ3Uns32 dataSize, unsigned char *data, TQ3Uns32 *sizeRead ) ;
 	friend TQ3Status			e3storage_path_write ( E3PathStorage* storage, TQ3Uns32 offset, TQ3Uns32 dataSize, const unsigned char *data, TQ3Uns32 *sizeWritten ) ;
 	friend TQ3Status			e3storage_path_getopenness( E3PathStorage* storage,
 									TQ3StorageOpenness* outOpenness );
@@ -180,8 +180,8 @@ public:
 	void						Set( FILE* stream );
 	FILE*						Get();
 
-	friend TQ3Status			e3storage_stream_getsize ( E3FileStreamStorage* storage, TQ3Uns32 *size ) ;
-	friend TQ3Status			e3storage_stream_read ( E3FileStreamStorage* storage, TQ3Uns32 offset, TQ3Uns32 dataSize, unsigned char *data, TQ3Uns32 *sizeRead ) ;
+	friend TQ3Status			e3storage_stream_getsize ( TQ3StorageObject inStorage, TQ3Uns32 *size ) ;
+	friend TQ3Status			e3storage_stream_read ( TQ3StorageObject inStorage, TQ3Uns32 offset, TQ3Uns32 dataSize, unsigned char *data, TQ3Uns32 *sizeRead ) ;
 	friend TQ3Status			e3storage_stream_write ( E3FileStreamStorage* storage, TQ3Uns32 offset, TQ3Uns32 dataSize, const unsigned char *data, TQ3Uns32 *sizeWritten ) ;
 };
 

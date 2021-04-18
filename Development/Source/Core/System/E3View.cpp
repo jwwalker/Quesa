@@ -1004,8 +1004,9 @@ e3view_bounds_sphere_approx ( E3View* view, TQ3Uns32 numPoints, TQ3Uns32 pointSt
 //      e3view_submit_retained_error : viewState != kQ3ViewStateSubmitting.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3view_submit_retained_error ( E3View* view, TQ3Object theObject )
-	{
+e3view_submit_retained_error ( TQ3ViewObject inView, TQ3Object theObject )
+{
+	E3View* view = (E3View*) inView;
 	#pragma unused( theObject )
 	TQ3Error theError ;
 	
@@ -1034,7 +1035,7 @@ e3view_submit_retained_error ( E3View* view, TQ3Object theObject )
 
 	E3ErrorManager_PostError ( theError, kQ3False ) ;
 	return kQ3Failure ;
-	}
+}
 
 
 
@@ -1044,8 +1045,9 @@ e3view_submit_retained_error ( E3View* view, TQ3Object theObject )
 //      e3view_submit_retained_pick : viewMode == kQ3ViewModePicking.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3view_submit_retained_pick ( E3View* view, TQ3Object theObject )
-	{
+e3view_submit_retained_pick ( TQ3ViewObject inView, TQ3Object theObject )
+{
+	E3View* view = (E3View*) inView;
 	E3Root* theClass = (E3Root*) theObject->GetClass () ;
 
 	// Update the current hit target. We only do this if we are not
@@ -1072,7 +1074,7 @@ e3view_submit_retained_pick ( E3View* view, TQ3Object theObject )
 
 	
 	return qd3dStatus ;
-	}
+}
 
 
 
@@ -1082,8 +1084,9 @@ e3view_submit_retained_pick ( E3View* view, TQ3Object theObject )
 //      e3view_submit_retained_write : viewMode == kQ3ViewModeWriting.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3view_submit_retained_write ( E3View* theView, TQ3Object theObject)
-	{
+e3view_submit_retained_write ( TQ3ViewObject inView, TQ3Object theObject)
+{
+	E3View* theView = (E3View*) inView;
 	E3Root* theClass = (E3Root*) theObject->GetClass () ;
 
 
@@ -1093,7 +1096,7 @@ e3view_submit_retained_write ( E3View* theView, TQ3Object theObject)
 		return kQ3Success ;
 		
 	return theClass->submitWriteMethod ( theView, theClass->GetType (), theObject, theObject->FindLeafInstanceData () ) ;
-	}
+}
 
 
 
@@ -1103,8 +1106,9 @@ e3view_submit_retained_write ( E3View* theView, TQ3Object theObject)
 //      e3view_submit_retained_bounds : viewMode == kQ3ViewModeCalcBounds.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3view_submit_retained_bounds ( E3View* theView, TQ3Object theObject )
-	{
+e3view_submit_retained_bounds ( TQ3ViewObject inView, TQ3Object theObject )
+{
+	E3View* theView = (E3View*) inView;
 	E3Root* theClass = (E3Root*) theObject->GetClass () ;
 
 
@@ -1114,7 +1118,7 @@ e3view_submit_retained_bounds ( E3View* theView, TQ3Object theObject )
 		return kQ3Success ;
 	
 	return theClass->submitBoundsMethod ( theView, theClass->GetType (), theObject, theObject->FindLeafInstanceData () ) ;
-	}
+}
 
 
 
@@ -1124,7 +1128,7 @@ e3view_submit_retained_bounds ( E3View* theView, TQ3Object theObject )
 //      e3view_submit_retained_bad_mode : viewMode is none of the above.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3view_submit_retained_bad_mode ( E3View* theView, TQ3Object theObject )
+e3view_submit_retained_bad_mode ( TQ3ViewObject theView, TQ3Object theObject )
 {
 #pragma unused( theView, theObject )
 	Q3_ASSERT(!"Unrecognised view mode");
@@ -1166,9 +1170,10 @@ e3view_submit_retained_render ( TQ3Object theView, TQ3Object theObject)
 //      e3view_submit_immediate_error : viewState != kQ3ViewStateSubmitting.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3view_submit_immediate_error ( E3View* view , TQ3ObjectType objectType , const void* objectData )
-	{
+e3view_submit_immediate_error ( TQ3ViewObject inView , TQ3ObjectType objectType , const void* objectData )
+{
 	#pragma unused( objectType, objectData )
+	E3View* view = (E3View*) inView;
 	TQ3Error theError ;
 	
  	// We get called is app writer tries to submit when viewState != kQ3ViewStateSubmitting
@@ -1194,7 +1199,7 @@ e3view_submit_immediate_error ( E3View* view , TQ3ObjectType objectType , const 
 
 	E3ErrorManager_PostError ( theError, kQ3False ) ;
 	return kQ3Failure ;
-	}
+}
 
 
 
@@ -1230,8 +1235,10 @@ e3view_submit_immediate_render ( TQ3ViewObject theView , TQ3ObjectType objectTyp
 //      e3view_submit_immediate_pick : viewMode == kQ3ViewModePicking.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3view_submit_immediate_pick ( E3View* view , TQ3ObjectType objectType , const void* objectData )
-	{
+e3view_submit_immediate_pick ( TQ3ViewObject inView , TQ3ObjectType objectType , const void* objectData )
+{
+	E3View* view = (E3View*) inView;
+	
 	// Find the object class
 	E3Root* theClass = (E3Root*) E3ClassTree::GetClass ( objectType ) ;
 	if ( theClass == nullptr )
@@ -1264,7 +1271,7 @@ e3view_submit_immediate_pick ( E3View* view , TQ3ObjectType objectType , const v
 		E3View_PickStack_SaveObject ( view, nullptr ) ;
 
 	return qd3dStatus ;
-	}
+}
 
 
 
@@ -1274,8 +1281,10 @@ e3view_submit_immediate_pick ( E3View* view , TQ3ObjectType objectType , const v
 //      e3view_submit_immediate_write : viewMode == kQ3ViewModeWriting.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3view_submit_immediate_write ( E3View* theView , TQ3ObjectType objectType , const void* objectData )
-	{
+e3view_submit_immediate_write ( TQ3ViewObject inView , TQ3ObjectType objectType , const void* objectData )
+{
+	E3View* theView = (E3View*) inView;
+	
 	// Find the object class
 	E3Root* theClass = (E3Root*) E3ClassTree::GetClass ( objectType ) ;
 	if ( theClass == nullptr )
@@ -1290,7 +1299,7 @@ e3view_submit_immediate_write ( E3View* theView , TQ3ObjectType objectType , con
 		return kQ3Success ;
 	
 	return theClass->submitWriteMethod ( theView, objectType, nullptr, objectData ) ;
-	}
+}
 
 
 
@@ -1300,8 +1309,10 @@ e3view_submit_immediate_write ( E3View* theView , TQ3ObjectType objectType , con
 //      e3view_submit_immediate_bounds : viewMode == kQ3ViewModeCalcBounds.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3view_submit_immediate_bounds ( E3View* theView , TQ3ObjectType objectType , const void* objectData )
-	{
+e3view_submit_immediate_bounds ( TQ3ViewObject inView, TQ3ObjectType objectType , const void* objectData )
+{
+	E3View* theView = (E3View*) inView;
+	
 	// Find the object class
 	E3Root* theClass = (E3Root*) E3ClassTree::GetClass ( objectType ) ;
 	if ( theClass == nullptr )
@@ -1317,7 +1328,7 @@ e3view_submit_immediate_bounds ( E3View* theView , TQ3ObjectType objectType , co
 		return kQ3Success ;
 	
 	return theClass->submitBoundsMethod ( theView, objectType, nullptr, objectData ) ;
-	}
+}
 
 
 
@@ -1327,7 +1338,7 @@ e3view_submit_immediate_bounds ( E3View* theView , TQ3ObjectType objectType , co
 //      e3view_submit_immediate_bad_mode : viewMode is none of the above.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3view_submit_immediate_bad_mode ( E3View* theView , TQ3ObjectType objectType , const void* objectData )
+e3view_submit_immediate_bad_mode ( TQ3ViewObject theView , TQ3ObjectType objectType , const void* objectData )
 {
 #pragma unused( theView, objectType, objectData )
 	Q3_ASSERT(!"Unrecognised view mode");

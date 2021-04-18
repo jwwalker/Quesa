@@ -183,11 +183,13 @@ e3geom_box_delete ( TQ3Object objectParam, void *privateData )
 //      e3geom_box_duplicate : Box duplicate method.
 //-----------------------------------------------------------------------------
 static TQ3Status
-e3geom_box_duplicate (	E3Box* fromBox, const void *fromPrivateData,
-						E3Box* toBox,   void       *toPrivateData )
-	{
+e3geom_box_duplicate (	TQ3Object inSrcBox, const void *fromPrivateData,
+						TQ3Object inDstBox,   void       *toPrivateData )
+{
 #pragma unused(fromPrivateData)
 #pragma unused(toPrivateData)
+	E3Box* fromBox = (E3Box*) inSrcBox;
+	E3Box* toBox = (E3Box*) inDstBox;
 	TQ3AttributeSet atts;
 
 
