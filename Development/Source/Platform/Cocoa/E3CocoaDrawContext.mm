@@ -114,7 +114,7 @@ public :
 {
 	// Grab our bounds
 	NSRect viewBounds = _view.bounds;
-	if (@available( macOS 10.15, * ))
+	if (floor( NSAppKitVersionNumber ) >= 1894.0 /*NSAppKitVersionNumber10_15*/)
 	{
 		viewBounds = [_view convertRectToBacking: viewBounds];
 	}
@@ -253,7 +253,7 @@ e3drawcontext_cocoa_get_dimensions(TQ3DrawContextObject theDrawContext, TQ3Area 
 	TQ3CocoaDrawContextData& cocoaData( instanceData->data.cocoaData.theData );
 	NSView* theView = (NSView*) cocoaData.nsView;
 	NSRect	viewBounds = theView.bounds;
-	if (@available( macOS 10.15, * ))
+	if (floor( NSAppKitVersionNumber ) >= 1894.0 /*NSAppKitVersionNumber10_15*/)
 	{
 		viewBounds = [theView convertRectToBacking: viewBounds];
 	}

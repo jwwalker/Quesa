@@ -250,7 +250,7 @@ CocoaGLContext::CocoaGLContext(
 				// Get the view bounds from the NSView for the initial gl viewport
 				// and the default draw context pane if it's needed.
 				viewFrame = theView.bounds;
-				if (@available( macOS 10.15, * ))
+				if (floor( NSAppKitVersionNumber ) >= 1894.0 /*NSAppKitVersionNumber10_15*/)
 				{
 					viewFrame = [theView convertRectToBacking: viewFrame];
 				}
@@ -421,7 +421,7 @@ bool	CocoaGLContext::UpdateWindowSize()
 	
 	NSView* theView = (NSView*) nsView;
 	NSRect viewFrame = theView.bounds;
-	if (@available( macOS 10.15, * ))
+	if (floor( NSAppKitVersionNumber ) >= 1894.0 /*NSAppKitVersionNumber10_15*/)
 	{
 		viewFrame = [theView convertRectToBacking: viewFrame];
 	}
