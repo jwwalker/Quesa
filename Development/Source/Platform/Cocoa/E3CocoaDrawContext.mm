@@ -1,11 +1,11 @@
 /*  NAME:
-        E3CocoaDrawContext.m
+        E3CocoaDrawContext.mm
 
     DESCRIPTION:
         Cocoa specific draw context implementation.
 
     COPYRIGHT:
-        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -114,7 +114,7 @@ public :
 {
 	// Grab our bounds
 	NSRect viewBounds = _view.bounds;
-	if (@available( macOS 10.15, * ))
+	if (E3CocoaDrawContext_IsConvertToBackingNeeded())
 	{
 		viewBounds = [_view convertRectToBacking: viewBounds];
 	}
@@ -253,7 +253,7 @@ e3drawcontext_cocoa_get_dimensions(TQ3DrawContextObject theDrawContext, TQ3Area 
 	TQ3CocoaDrawContextData& cocoaData( instanceData->data.cocoaData.theData );
 	NSView* theView = (NSView*) cocoaData.nsView;
 	NSRect	viewBounds = theView.bounds;
-	if (@available( macOS 10.15, * ))
+	if (E3CocoaDrawContext_IsConvertToBackingNeeded())
 	{
 		viewBounds = [theView convertRectToBacking: viewBounds];
 	}
@@ -465,6 +465,23 @@ E3CocoaDrawContext_GetNSView(TQ3DrawContextObject drawContext, void **nsView)
 	*nsView = instanceData->data.cocoaData.theData.nsView;
 
 	return(kQ3Success);
+}
+
+
+/*!
+	@function	E3CocoaDrawContext_IsConvertToBackingNeeded
+	@abstract	Test whether we need to use convertRectToBacking: when getting the bounds of
+				the Cocoa view.
+	@discussion	In macOS 10.15 (Catalina), Apple made a change in the way that NSOpenGLView
+				behaves on a Retina display that made this step necessary.
+				
+				The reason for not using @available( macOS 10.15, * ) is that it apparently creates
+				a compatibility problem when using a library built with a newer Xcode within an older
+				version of Xcode.  <https://developer.apple.com/forums/thread/123003>
+*/
+bool	E3CocoaDrawContext_IsConvertToBackingNeeded( void )
+{
+	return NSAppKitVersionNumber >= 1894.0; // NSAppKitVersionNumber10_15 = 1894
 }
 
 #endif // QUESA_OS_COCOA

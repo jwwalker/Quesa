@@ -9,7 +9,7 @@
         access the Cocoa OpenGL API then this is handled as a special case.
 
     COPYRIGHT:
-        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -60,7 +60,7 @@
 #import "GLUtils.h"
 #import "GLGPUSharing.h"
 #import "GLDrawContext.h"
-#import "E3CocoaPrefix.h"
+#import "E3DrawContext.h"
 
 
 #ifndef GL_FRAMEBUFFER
@@ -250,7 +250,7 @@ CocoaGLContext::CocoaGLContext(
 				// Get the view bounds from the NSView for the initial gl viewport
 				// and the default draw context pane if it's needed.
 				viewFrame = theView.bounds;
-				if (@available( macOS 10.15, * ))
+				if (E3CocoaDrawContext_IsConvertToBackingNeeded())
 				{
 					viewFrame = [theView convertRectToBacking: viewFrame];
 				}
@@ -421,7 +421,7 @@ bool	CocoaGLContext::UpdateWindowSize()
 	
 	NSView* theView = (NSView*) nsView;
 	NSRect viewFrame = theView.bounds;
-	if (@available( macOS 10.15, * ))
+	if (E3CocoaDrawContext_IsConvertToBackingNeeded())
 	{
 		viewFrame = [theView convertRectToBacking: viewFrame];
 	}
