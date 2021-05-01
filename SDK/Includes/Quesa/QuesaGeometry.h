@@ -12,7 +12,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1614,7 +1614,7 @@ Q3Geometry_GetDecomposed (
  */
 Q3_EXTERN_API_C ( TQ3GeometryObject _Nullable  )
 Q3Box_New (
-    const TQ3BoxData              * _Nonnull boxData
+    const TQ3BoxData              * _Nullable boxData
 );
 
 
@@ -2317,7 +2317,7 @@ Q3Cone_EmptyData (
  */
 Q3_EXTERN_API_C ( TQ3GeometryObject _Nullable  )
 Q3Cylinder_New (
-    const TQ3CylinderData         * _Nonnull cylinderData
+    const TQ3CylinderData         * _Nullable cylinderData
 );
 
 
