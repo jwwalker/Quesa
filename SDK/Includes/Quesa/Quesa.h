@@ -167,10 +167,15 @@
 	#include <AvailabilityMacros.h>
 
     // Build constants
-    #ifdef __LITTLE_ENDIAN__
-    	#define		QUESA_HOST_IS_BIG_ENDIAN			0
-    #else
-    	#define		QUESA_HOST_IS_BIG_ENDIAN			1
+    
+    // There have not been any big-endian Macs for a long time, so default to
+    // little-endian.
+    #ifndef QUESA_HOST_IS_BIG_ENDIAN
+		#ifdef __BIG_ENDIAN__
+			#define		QUESA_HOST_IS_BIG_ENDIAN			1
+		#else
+			#define		QUESA_HOST_IS_BIG_ENDIAN			0
+		#endif
     #endif
     
     #if defined(__GNUC__) && (defined(__APPLE_CPP__) || defined(__APPLE_CC__) || defined(__NEXT_CPP__))
@@ -225,9 +230,25 @@
 //=============================================================================
 //      Platform independent pre-amble
 //-----------------------------------------------------------------------------
-// Default to big endian
+// Try to guess endianness
 #ifndef QUESA_HOST_IS_BIG_ENDIAN
-	#define QUESA_HOST_IS_BIG_ENDIAN					1
+
+	#if defined(__LITTLE_ENDIAN__) || \
+        (defined(__BYTE_ORDER__) && (__BYTE_ORDER__ == __ORDER_LITTLE_ENDIAN__))
+
+		#define QUESA_HOST_IS_BIG_ENDIAN					0
+
+	#elif defined(__BIG_ENDIAN__) || \
+		(defined(__BYTE_ORDER__) && (__BYTE_ORDER__ == __ORDER_BIG_ENDIAN__))
+
+		#define QUESA_HOST_IS_BIG_ENDIAN					1
+
+	#else
+
+		#error "Could not detect endianness. Please set QUESA_HOST_IS_BIG_ENDIAN."
+
+	#endif
+
 #endif
 
 
