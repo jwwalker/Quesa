@@ -760,8 +760,7 @@ QORenderer::SlowPathMask	QORenderer::Renderer::FindTriMeshData(
 		slowMask |= kSlowPathMask_FaceColors;
 	}
 	
-	if ( (mGeomState.alpha < mAlphaThreshold) &&
-		(outArrays.vertColor == nullptr) )
+	if ( mGeomState.alpha < mAlphaThreshold )
 	{
 		slowMask |= kSlowPathMask_Transparency;
 	}
