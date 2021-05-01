@@ -275,6 +275,9 @@ public:
 	float					LineWidth() const { return mLineWidth; }
 	
 	void					RefreshMaterials();
+	
+	// Use this to avoid sending normals to a shader that doesn't need them.
+	bool					CurrentShaderHasNormalAttrib() const { return Shader().CurrentProgram()->mNormalAttribLoc != -1; }
 
 protected:
 							Renderer( TQ3RendererObject inRenderer );

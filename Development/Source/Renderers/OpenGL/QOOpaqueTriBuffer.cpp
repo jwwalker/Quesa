@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -109,9 +109,13 @@ void	QORenderer::OpaqueTriBuffer::Flush()
 
 		const int kNumVertices = static_cast<int>(mTriBuffer.size());
 		
-		mRenderer.mGLClientStates.EnableNormalArray( (mTriBufferFlags & kVertexHaveNormal) != 0 );
-		mRenderer.mGLClientStates.EnableTextureArray( (mTriBufferFlags & kVertexHaveUV) != 0 );
-		mRenderer.mGLClientStates.EnableColorArray( (mTriBufferFlags & kVertexHaveDiffuse) != 0 );
+		const bool haveNormal = (mTriBufferFlags & kVertexHaveNormal) != 0 && mRenderer.CurrentShaderHasNormalAttrib();
+		const bool haveUV = (mTriBufferFlags & kVertexHaveUV) != 0;
+		const bool haveDiffuse = (mTriBufferFlags & kVertexHaveDiffuse) != 0;
+		
+		mRenderer.mGLClientStates.EnableNormalArray( haveNormal );
+		mRenderer.mGLClientStates.EnableTextureArray( haveUV );
+		mRenderer.mGLClientStates.EnableColorArray( haveDiffuse );
 		
 		if (SetUpImmediateVBO( mRenderer,
 			mTriBuffer.size() * sizeof(QORenderer::Vertex), 0 ))
@@ -126,21 +130,21 @@ void	QORenderer::OpaqueTriBuffer::Flush()
 				3, GL_FLOAT, GL_FALSE, sizeof(QORenderer::Vertex),
 				GLBufferObPtr( (GLuint)offsetof( QORenderer::Vertex, point ) ) );
 			
-			if ( (mTriBufferFlags & kVertexHaveNormal) != 0 )
+			if ( haveNormal )
 			{
 				mRenderer.mSLFuncs.glVertexAttribPointer( mRenderer.mPPLighting.CurrentProgram()->mNormalAttribLoc,
 					3, GL_FLOAT, GL_FALSE, sizeof(QORenderer::Vertex),
 					GLBufferObPtr( (GLuint)offsetof( QORenderer::Vertex, normal ) ) );
 			}
 			
-			if ( (mTriBufferFlags & kVertexHaveUV) != 0 )
+			if ( haveUV )
 			{
 				mRenderer.mSLFuncs.glVertexAttribPointer( mRenderer.mPPLighting.CurrentProgram()->mTexCoordAttribLoc,
 					2, GL_FLOAT, GL_FALSE, sizeof(QORenderer::Vertex),
 					GLBufferObPtr( (GLuint)offsetof( QORenderer::Vertex, uv ) ) );
 			}
 			
-			if ( (mTriBufferFlags & kVertexHaveDiffuse) != 0 )
+			if ( haveDiffuse )
 			{
 				mRenderer.mSLFuncs.glVertexAttribPointer( mRenderer.mPPLighting.CurrentProgram()->mColorAttribLoc,
 					3, GL_FLOAT, GL_FALSE, sizeof(QORenderer::Vertex),

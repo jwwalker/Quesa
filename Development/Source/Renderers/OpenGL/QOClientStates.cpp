@@ -5,7 +5,7 @@
         Header for Quesa OpenGL renderer.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -57,10 +57,26 @@
 void QORenderer::ClientStates::StartProgram()
 {
 	mFuncs.glEnableVertexAttribArray( mShader.CurrentProgram()->mVertexAttribLoc );
-	mFuncs.glDisableVertexAttribArray( mShader.CurrentProgram()->mNormalAttribLoc );
-	mFuncs.glDisableVertexAttribArray( mShader.CurrentProgram()->mTexCoordAttribLoc );
-	mFuncs.glDisableVertexAttribArray( mShader.CurrentProgram()->mColorAttribLoc );
-	mFuncs.glDisableVertexAttribArray( mShader.CurrentProgram()->mLayerShiftAttribLoc );
+
+	if (mShader.CurrentProgram()->mNormalAttribLoc != -1)
+	{
+		mFuncs.glDisableVertexAttribArray(mShader.CurrentProgram()->mNormalAttribLoc);
+	}
+	
+	if (mShader.CurrentProgram()->mTexCoordAttribLoc != -1)
+	{
+		mFuncs.glDisableVertexAttribArray(mShader.CurrentProgram()->mTexCoordAttribLoc);
+	}
+	
+	if (mShader.CurrentProgram()->mColorAttribLoc != -1)
+	{
+		mFuncs.glDisableVertexAttribArray(mShader.CurrentProgram()->mColorAttribLoc);
+	}
+	
+	if (mShader.CurrentProgram()->mLayerShiftAttribLoc != -1)
+	{
+		mFuncs.glDisableVertexAttribArray(mShader.CurrentProgram()->mLayerShiftAttribLoc);
+	}
 	
 	mGLClientStateNormal = false;
 	mGLClientStateUV = false;
@@ -70,6 +86,13 @@ void QORenderer::ClientStates::StartProgram()
 
 void	QORenderer::ClientStates::EnableNormalArray( bool inEnable )
 {
+	// If we're trying to disable the normals, this is a no-op if the shader doesn't use normals.
+	if (mShader.CurrentProgram()->mNormalAttribLoc == -1)
+	{
+		Q3_ASSERT(!inEnable);
+		return;
+	}
+
 	if (inEnable != mGLClientStateNormal)
 	{
 		mGLClientStateNormal = inEnable;
@@ -86,6 +109,12 @@ void	QORenderer::ClientStates::EnableNormalArray( bool inEnable )
 
 void	QORenderer::ClientStates::DisableNormalArray()
 {
+	// This is a no-op if the shader doesn't use normals.
+	if (mShader.CurrentProgram()->mNormalAttribLoc == -1)
+	{
+		return;
+	}
+
 	if (mGLClientStateNormal)
 	{
 		mGLClientStateNormal = false;
