@@ -201,5 +201,24 @@ than the specified size in world-space.</dd>
 than the specified size in pixels.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2021 Quesa Developers (Last Updated 4/10/2021)
+<hr><a name="//Quesa/c/tag/TQ3WriteSwitchMasks"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3WriteSwitchMasks">TQ3WriteSwitchMasks</a></h2>
+</td></tr></table><hr>Write switch style masks.
+<br>
+<blockquote><pre>
+typedef enum TQ3WriteSwitchMasks {
+  kQ3WriteSwitchMaskDepth                     = (1 &lt;&lt; 0),
+  kQ3WriteSwitchMaskColor                     = (1 &lt;&lt; 1),
+  kQ3WriteSwitchSize32                        = 0x7FFFFFFF
+} TQ3WriteSwitchMasks;
+</pre>
+</blockquote>
+<h4>Constants</h4>
+<blockquote>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3WriteSwitchMaskDepth"><tt>kQ3WriteSwitchMaskDepth</tt></a></dt><dd>Write to the depth buffer.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WriteSwitchMaskColor"><tt>kQ3WriteSwitchMaskColor</tt></a></dt><dd>Write to the color buffer.</dd>
+</dl>
+</blockquote>
+<p><p>&#169; 1999-2021 Quesa Developers (Last Updated 5/21/2021)
 </p></body></html>

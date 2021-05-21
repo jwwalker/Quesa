@@ -36,6 +36,30 @@ outside this range are undefined.
 <dt><tt>quality</tt></dt><dd>The anti-aliasing quality.</dd>
 </dl>
 </blockquote>
+<hr><a name="//Quesa/c/tag/TQ3DepthRangeStyleData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3DepthRangeStyleData">TQ3DepthRangeStyleData</a></h2>
+</td></tr></table><hr>Depth range style data.
+
+<blockquote><pre>
+typedef struct TQ3DepthRangeStyleData {
+    float  near;
+    float  far;
+} TQ3DepthRangeStyleData;
+</pre>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Renderers like OpenGL often use a depth buffer with values ranging from 0,
+corresponding to the near plane, to 1, corresponding to the far plane.  Using a depth
+range style, you can map the depths to a subinterval.  This can be used for special
+effects such as forcing an object to render in front of other objects in spite of being
+farther away in camera space.
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt>near</tt></dt><dd>The depth value to which the near plane should map.  Should be in [0, 1].</dd>
+<dt><tt>far</tt></dt><dd>The depth value to which the far plane should map.  Should be in [0, 1].</dd>
+</dl>
+</blockquote>
 <hr><a name="//Quesa/c/tag/TQ3FogStyleData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3FogStyleData">TQ3FogStyleData</a></h2>
 </td></tr></table><hr><blockquote><pre>
@@ -141,5 +165,5 @@ in both horizontal and vertical dimensions.
 <dt><tt>c2</tt></dt><dd>The second parameter for the subdivision method.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2021 Quesa Developers (Last Updated 4/10/2021)
+<p><p>&#169; 1999-2021 Quesa Developers (Last Updated 5/21/2021)
 </p></body></html>

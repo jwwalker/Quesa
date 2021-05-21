@@ -239,6 +239,66 @@ Declares the Quesa style objects.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
+<hr><a name="//Quesa/c/func/Q3DepthRangeStyle_GetData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DepthRangeStyle_GetData">Q3DepthRangeStyle_GetData</a></h2>
+</td></tr></table><hr>Get the parameters of a depth range style.
+
+<blockquote><pre><tt>( TQ3Status ) Q3DepthRangeStyle_GetData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject _Nonnull inStyle,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DepthRangeStyleData* _Nonnull outData
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>inStyle</em></tt></dt><dd>A depth range style.</dd>
+<dt><tt><em>outData</em></tt></dt><dd>Receives the data.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+</dd></dl>
+<hr><a name="//Quesa/c/func/Q3DepthRangeStyle_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DepthRangeStyle_New">Q3DepthRangeStyle_New</a></h2>
+</td></tr></table><hr>Create a new depth range style object.
+
+<blockquote><pre><tt>( TQ3StyleObject _Nonnull ) Q3DepthRangeStyle_New (
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3DepthRangeStyleData* _Nonnull inData
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Renderers like OpenGL often use a depth buffer with values ranging from 0,
+corresponding to the near plane, to 1, corresponding to the far plane.  Using a depth
+range style, you can map the depths to a subinterval.  This can be used for special
+effects such as forcing an object to render in front of other objects in spite of being
+farther away in camera space.
+<br><br>
+Some renderers may not support this operation.
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>inData</em></tt></dt><dd>The depth range data.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>The new depth range style.
+</dd></dl>
+<hr><a name="//Quesa/c/func/Q3DepthRangeStyle_SetData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DepthRangeStyle_SetData">Q3DepthRangeStyle_SetData</a></h2>
+</td></tr></table><hr>Set the parameters of a depth range style.
+
+<blockquote><pre><tt>( TQ3Status ) Q3DepthRangeStyle_SetData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject _Nonnull inStyle,
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3DepthRangeStyleData* _Nonnull inData
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>inStyle</em></tt></dt><dd>A depth range style.</dd>
+<dt><tt><em>inData</em></tt></dt><dd>New data.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+</dd></dl>
 <hr><a name="//Quesa/c/func/Q3FillStyle_Get"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3FillStyle_Get">Q3FillStyle_Get</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3FillStyle_Get (
@@ -573,7 +633,7 @@ Declares the Quesa style objects.
 <dt><tt><em>inWidth</em></tt></dt><dd>New line width in pixels.</dd>
 </dl>
 </blockquote>
-<dl><dt><i>function result</i></dt><dd>The new fog style.
+<dl><dt><i>function result</i></dt><dd>The new line width style.
  </dd></dl>
 <hr><a name="//Quesa/c/func/Q3LineWidthStyle_SetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3LineWidthStyle_SetData">Q3LineWidthStyle_SetData</a></h2>
@@ -1023,6 +1083,66 @@ Declares the Quesa style objects.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
+<hr><a name="//Quesa/c/func/Q3WriteSwitchStyle_GetData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3WriteSwitchStyle_GetData">Q3WriteSwitchStyle_GetData</a></h2>
+</td></tr></table><hr>Get the data from a write switch style.
+
+<blockquote><pre><tt>( TQ3Status ) Q3WriteSwitchStyle_GetData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject _Nonnull inStyle,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32* _Nonnull outData
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>inStyle</em></tt></dt><dd>A depth range style.</dd>
+<dt><tt><em>outData</em></tt></dt><dd>Receives the data.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+</dd></dl>
+<hr><a name="//Quesa/c/func/Q3WriteSwitchStyle_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3WriteSwitchStyle_New">Q3WriteSwitchStyle_New</a></h2>
+</td></tr></table><hr>Create a new write switch style object.
+
+<blockquote><pre><tt>( TQ3StyleObject _Nonnull ) Q3WriteSwitchStyle_New (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 inMask
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Renderers often have a concept of writing images to a color buffer and a depth
+buffer.  If the renderer supports it, this style may allow turning off writing to the color
+buffer or the depth buffer.
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>inMask</em></tt></dt><dd>A mask made up of bits from TQ3WriteSwitchMasks.  The default
+behavior is produced by
+<code>kQ3WriteSwitchMaskDepth | kQ3WriteSwitchMaskColor</code>.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>The new style object.
+</dd></dl>
+<hr><a name="//Quesa/c/func/Q3WriteSwitchStyle_SetData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3WriteSwitchStyle_SetData">Q3WriteSwitchStyle_SetData</a></h2>
+</td></tr></table><hr>Change the data of a write switch style.
+
+<blockquote><pre><tt>( TQ3Status ) Q3WriteSwitchStyle_SetData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject _Nonnull inStyle,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 inMask
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>inStyle</em></tt></dt><dd>A depth range style.</dd>
+<dt><tt><em>inMask</em></tt></dt><dd>A mask made up of bits from TQ3WriteSwitchMasks.  The default
+behavior is produced by
+<code>kQ3WriteSwitchMaskDepth | kQ3WriteSwitchMaskColor</code>.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+</dd></dl>
 <h2>Constants</h2>
 <hr><a name="//Quesa/c/data/kQ3FogStyleExtendedVersion"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="kQ3FogStyleExtendedVersion">kQ3FogStyleExtendedVersion</a></h2>
@@ -1076,6 +1196,30 @@ outside this range are undefined.
 <dt><tt>state</tt></dt><dd>Is anti-aliasing active?</dd>
 <dt><tt>mode</tt></dt><dd>The anti-aliasing mode.</dd>
 <dt><tt>quality</tt></dt><dd>The anti-aliasing quality.</dd>
+</dl>
+</blockquote>
+<hr><a name="//Quesa/c/tag/TQ3DepthRangeStyleData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3DepthRangeStyleData">TQ3DepthRangeStyleData</a></h2>
+</td></tr></table><hr>Depth range style data.
+
+<blockquote><pre>
+typedef struct TQ3DepthRangeStyleData {
+    float  near;
+    float  far;
+} TQ3DepthRangeStyleData;
+</pre>
+</blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Renderers like OpenGL often use a depth buffer with values ranging from 0,
+corresponding to the near plane, to 1, corresponding to the far plane.  Using a depth
+range style, you can map the depths to a subinterval.  This can be used for special
+effects such as forcing an object to render in front of other objects in spite of being
+farther away in camera space.
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Field Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt>near</tt></dt><dd>The depth value to which the near plane should map.  Should be in [0, 1].</dd>
+<dt><tt>far</tt></dt><dd>The depth value to which the far plane should map.  Should be in [0, 1].</dd>
 </dl>
 </blockquote>
 <hr><a name="//Quesa/c/tag/TQ3FogStyleData"></a>
@@ -1380,5 +1524,24 @@ than the specified size in world-space.</dd>
 than the specified size in pixels.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2021 Quesa Developers (Last Updated 4/10/2021)
+<hr><a name="//Quesa/c/tag/TQ3WriteSwitchMasks"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3WriteSwitchMasks">TQ3WriteSwitchMasks</a></h2>
+</td></tr></table><hr>Write switch style masks.
+<br>
+<blockquote><pre>
+typedef enum TQ3WriteSwitchMasks {
+  kQ3WriteSwitchMaskDepth                     = (1 &lt;&lt; 0),
+  kQ3WriteSwitchMaskColor                     = (1 &lt;&lt; 1),
+  kQ3WriteSwitchSize32                        = 0x7FFFFFFF
+} TQ3WriteSwitchMasks;
+</pre>
+</blockquote>
+<h4>Constants</h4>
+<blockquote>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3WriteSwitchMaskDepth"><tt>kQ3WriteSwitchMaskDepth</tt></a></dt><dd>Write to the depth buffer.</dd>
+<dt><a name="//Quesa/c/econst/kQ3WriteSwitchMaskColor"><tt>kQ3WriteSwitchMaskColor</tt></a></dt><dd>Write to the color buffer.</dd>
+</dl>
+</blockquote>
+<p><p>&#169; 1999-2021 Quesa Developers (Last Updated 5/21/2021)
 </p></body></html>
