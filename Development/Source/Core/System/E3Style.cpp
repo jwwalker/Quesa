@@ -1,11 +1,11 @@
 /*  NAME:
-        E3Style.c
+        E3Style.cpp
 
     DESCRIPTION:
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2016, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -122,6 +122,24 @@ public :
 	float					instanceData ;
 	} ;
 	
+
+
+class E3DepthRangeStyle : public E3Style
+{
+Q3_CLASS_ENUMS ( kQ3StyleTypeDepthRange, E3DepthRangeStyle, E3Style )
+public:
+	TQ3DepthRangeStyleData	instanceData;
+};
+
+
+
+class E3WriteSwitchStyle : public E3Style
+{
+Q3_CLASS_ENUMS ( kQ3StyleTypeWriteSwitch, E3WriteSwitchStyle, E3Style )
+public:
+	TQ3Uns32	instanceData;
+};
+
 
 
 class E3CastShadowsStyle : public E3Style  // This is a leaf class so no other classes use this,
@@ -942,6 +960,100 @@ e3style_linewidth_metahandler(TQ3XMethodType methodType)
 
 
 //=============================================================================
+//      e3style_depthrange_submit : Depth range submit method.
+//-----------------------------------------------------------------------------
+#pragma mark -
+static TQ3Status
+e3style_depthrange_submit(TQ3ViewObject theView, TQ3ObjectType objectType,
+						TQ3Object theObject, const void *objectData)
+{
+#pragma unused(objectType)
+#pragma unused(theObject)
+	const TQ3DepthRangeStyleData* instanceData = (const TQ3DepthRangeStyleData *) objectData;
+
+	// Submit the style
+	E3View_State_SetStyleDepthRange(theView, instanceData);
+
+	return(kQ3Success);
+}
+
+
+
+
+
+//=============================================================================
+//      e3style_depthrange_metahandler : Depth range metahandler.
+//-----------------------------------------------------------------------------
+static TQ3XFunctionPointer
+e3style_depthrange_metahandler(TQ3XMethodType methodType)
+{	TQ3XFunctionPointer		theMethod = nullptr;
+
+
+
+	// Return our methods
+	switch (methodType) {
+		case kQ3XMethodTypeObjectSubmitRender:
+		case kQ3XMethodTypeObjectSubmitPick:
+		case kQ3XMethodTypeObjectSubmitBounds:
+			theMethod = (TQ3XFunctionPointer) e3style_depthrange_submit;
+			break;
+		}
+	
+	return(theMethod);
+}
+
+
+
+
+
+//=============================================================================
+//      e3style_writeswitch_submit : Write switch submit method.
+//-----------------------------------------------------------------------------
+#pragma mark -
+static TQ3Status
+e3style_writeswitch_submit(TQ3ViewObject theView, TQ3ObjectType objectType,
+						TQ3Object theObject, const void *objectData)
+{
+#pragma unused(objectType)
+#pragma unused(theObject)
+	const TQ3Uns32* instanceData = (const TQ3Uns32 *) objectData;
+
+	// Submit the style
+	E3View_State_SetStyleWriteSwitch(theView, *instanceData);
+
+	return(kQ3Success);
+}
+
+
+
+
+
+//=============================================================================
+//      e3style_writeswitch_metahandler : Write Switch metahandler.
+//-----------------------------------------------------------------------------
+static TQ3XFunctionPointer
+e3style_writeswitch_metahandler(TQ3XMethodType methodType)
+{	TQ3XFunctionPointer		theMethod = nullptr;
+
+
+
+	// Return our methods
+	switch (methodType) {
+		case kQ3XMethodTypeObjectSubmitRender:
+		case kQ3XMethodTypeObjectSubmitPick:
+		case kQ3XMethodTypeObjectSubmitBounds:
+			theMethod = (TQ3XFunctionPointer) e3style_writeswitch_submit;
+			break;
+		}
+	
+	return(theMethod);
+}
+
+
+
+
+
+//=============================================================================
 //      Public functions
 //-----------------------------------------------------------------------------
 //      E3Style_RegisterClass : Register the class.
@@ -1023,6 +1135,16 @@ E3Style_RegisterClass(void)
 											e3style_linewidth_metahandler,
 											E3LineWidthStyle ) ;
 
+	if (qd3dStatus == kQ3Success)
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameStyleDepthRange,
+											e3style_depthrange_metahandler,
+											E3DepthRangeStyle ) ;
+
+	if (qd3dStatus == kQ3Success)
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameStyleWriteSwitch,
+											e3style_writeswitch_metahandler,
+											E3WriteSwitchStyle ) ;
+
 	return(qd3dStatus);
 }
 
@@ -1054,6 +1176,8 @@ E3Style_UnregisterClass(void)
 	E3ClassTree::UnregisterClass(kQ3StyleTypeSubdivision,			 kQ3True);
 	E3ClassTree::UnregisterClass(kQ3StyleTypeLineWidth,     		 kQ3True);
 	E3ClassTree::UnregisterClass(kQ3ShapeTypeStyle,     			 kQ3True);
+	E3ClassTree::UnregisterClass(kQ3StyleTypeDepthRange,   		 	 kQ3True);
+	E3ClassTree::UnregisterClass(kQ3StyleTypeWriteSwitch,  			 kQ3True);
 
 	return(kQ3Success);
 }
@@ -2069,3 +2193,88 @@ TQ3Status			E3LineWidthStyle_Set(TQ3StyleObject styleObject, float inWidth)
 	return kQ3Success ;
 }
 
+
+
+
+
+//=============================================================================
+//      E3DepthRangeStyle_New : Create a new depth range style.
+//-----------------------------------------------------------------------------
+TQ3StyleObject		E3DepthRangeStyle_New( const TQ3DepthRangeStyleData* inData )
+{
+	TQ3StyleObject theObject = E3ClassTree::CreateInstance( kQ3StyleTypeDepthRange, kQ3False, inData );
+
+	return theObject;
+}
+
+
+
+
+
+//=============================================================================
+//      E3DepthRangeStyle_Set : Set the data for the style.
+//-----------------------------------------------------------------------------
+TQ3Status			E3DepthRangeStyle_Set( TQ3StyleObject styleObject, const TQ3DepthRangeStyleData* inData )
+{
+	( (E3DepthRangeStyle*) styleObject )->instanceData = *inData ;
+	Q3Shared_Edited ( styleObject ) ;
+
+	return kQ3Success ;
+}
+
+
+
+
+
+//=============================================================================
+//      E3DepthRangeStyle_Get : Get the data for the style.
+//-----------------------------------------------------------------------------
+TQ3Status			E3DepthRangeStyle_Get(TQ3StyleObject styleObject, TQ3DepthRangeStyleData *outData)
+{
+	*outData = ( (E3DepthRangeStyle*) styleObject )->instanceData ;
+
+	return kQ3Success ;
+}
+
+
+
+
+
+//=============================================================================
+//      E3WriteSwitchStyle_New : Create a new write switch style.
+//-----------------------------------------------------------------------------
+TQ3StyleObject		E3WriteSwitchStyle_New( TQ3Uns32 inMask )
+{
+	TQ3StyleObject theObject = E3ClassTree::CreateInstance( kQ3StyleTypeWriteSwitch, kQ3False, &inMask );
+
+	return theObject;
+}
+
+
+
+
+
+//=============================================================================
+//      E3WriteSwitchStyle_Set : Set the data for the style.
+//-----------------------------------------------------------------------------
+TQ3Status			E3WriteSwitchStyle_Set( TQ3StyleObject styleObject, TQ3Uns32 inMask )
+{
+	( (E3WriteSwitchStyle*) styleObject )->instanceData = inMask;
+	Q3Shared_Edited ( styleObject ) ;
+
+	return kQ3Success ;
+}
+
+
+
+
+
+//=============================================================================
+//      E3WriteSwitchStyle_Get : Get the data for the style.
+//-----------------------------------------------------------------------------
+TQ3Status			E3WriteSwitchStyle_Get(TQ3StyleObject styleObject, TQ3Uns32 *outMask)
+{
+	*outMask = ( (E3WriteSwitchStyle*) styleObject )->instanceData ;
+
+	return kQ3Success ;
+}

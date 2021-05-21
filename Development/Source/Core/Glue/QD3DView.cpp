@@ -1628,6 +1628,59 @@ Q3View_GetAntiAliasStyleState(TQ3ViewObject view, TQ3AntiAliasStyleData *antiAli
 
 
 //=============================================================================
+//      Q3View_GetDepthRangeStyleState : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3View_GetDepthRangeStyleState (
+    TQ3ViewObject _Nonnull    view,
+    TQ3DepthRangeStyleData* _Nonnull outData
+)
+{
+
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(outData), kQ3Failure);
+	
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return (E3View_GetDepthRangeStyleState( view, outData ));
+}
+
+
+
+
+
+//=============================================================================
+//      Q3View_GetWriteSwitchStyleState : Quesa API entry point.
+//-----------------------------------------------------------------------------
+TQ3Status
+Q3View_GetWriteSwitchStyleState (
+    TQ3ViewObject _Nonnull    view,
+    TQ3Uns32* _Nonnull outMask
+)
+{
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(outMask), kQ3Failure);
+	
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return (E3View_State_GetStyleWriteSwitch( view, outMask ));
+}
+
+
+
+
+
+//=============================================================================
 //      Q3View_GetFogStyleState : Quesa API entry point.
 //-----------------------------------------------------------------------------
 TQ3Status

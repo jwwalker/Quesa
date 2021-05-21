@@ -2,10 +2,10 @@
         E3Style.h
 
     DESCRIPTION:
-        Header file for E3Style.c.
+        Header file for E3Style.cpp.
 
     COPYRIGHT:
-        Copyright (c) 1999-2008, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -137,7 +137,13 @@ TQ3Status			E3LineWidthStyle_Submit(float inWidth, TQ3ViewObject theView);
 TQ3Status			E3LineWidthStyle_Get(TQ3StyleObject styleObject, float *outWidth);
 TQ3Status			E3LineWidthStyle_Set(TQ3StyleObject styleObject, float inWidth);
 
+TQ3StyleObject		E3DepthRangeStyle_New( const TQ3DepthRangeStyleData* inData );
+TQ3Status			E3DepthRangeStyle_Set( TQ3StyleObject styleObject, const TQ3DepthRangeStyleData* inData );
+TQ3Status			E3DepthRangeStyle_Get( TQ3StyleObject styleObject, TQ3DepthRangeStyleData *outData );
 
+TQ3StyleObject		E3WriteSwitchStyle_New( TQ3Uns32 inMask );
+TQ3Status			E3WriteSwitchStyle_Set( TQ3StyleObject styleObject, TQ3Uns32 inMask );
+TQ3Status			E3WriteSwitchStyle_Get( TQ3StyleObject styleObject, TQ3Uns32 *outMask );
 
 
 

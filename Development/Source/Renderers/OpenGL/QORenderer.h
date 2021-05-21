@@ -296,6 +296,7 @@ protected:
 	TQ3Status				EndFrame(
 									TQ3ViewObject inView );
 	void					StartPass(
+									TQ3ViewObject inView,
     								TQ3CameraObject inCamera,
     								TQ3GroupObject inLights );
     TQ3ViewStatus			EndPass(
@@ -372,6 +373,10 @@ protected:
 									TQ3Boolean inStyleData );
 	void					UpdateLineWidthStyle(
 									float inStyleData );
+	void					UpdateDepthRangeStyle(
+									const TQ3DepthRangeStyleData& inStyleData );
+	void					UpdateWriteSwitchStyle(
+									TQ3Uns32 inStyleData );
 	
 
 	//

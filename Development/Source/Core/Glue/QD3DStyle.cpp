@@ -1,12 +1,12 @@
 /*  NAME:
-        QD3DStyle.c
+        QD3DStyle.cpp
 
     DESCRIPTION:
         Entry point for Quesa API calls. Performs parameter checking and
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1704,3 +1704,202 @@ Q3LineWidthStyle_SetData (
 	return E3LineWidthStyle_Set( styleObject, inWidth );
 }
 
+
+
+
+
+/*!
+	@function	Q3DepthRangeStyle_New
+	@abstract	Create a new depth range style object.
+	@discussion	Renderers like OpenGL often use a depth buffer with values ranging from 0,
+				corresponding to the near plane, to 1, corresponding to the far plane.  Using a depth
+				range style, you can map the depths to a subinterval.  This can be used for special
+				effects such as forcing an object to render in front of other objects in spite of being
+				farther away in camera space.
+				
+				Some renderers may not support this operation.
+	@param		inData		The depth range data.
+	@result		The new depth range style.
+*/
+TQ3StyleObject _Nonnull
+Q3DepthRangeStyle_New (
+    const TQ3DepthRangeStyleData* _Nonnull  inData
+)
+{
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return E3DepthRangeStyle_New( inData );
+}
+
+
+
+
+
+/*!
+	@function	Q3DepthRangeStyle_GetData
+	@abstract	Get the parameters of a depth range style.
+	@param		inStyle		A depth range style.
+	@param		outData		Receives the data.
+	@result		Success or failure of the operation.
+*/
+TQ3Status
+Q3DepthRangeStyle_GetData(
+	TQ3StyleObject _Nonnull inStyle,
+	TQ3DepthRangeStyleData* _Nonnull outData )
+{
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT( E3Style_IsOfMyClass ( inStyle ), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(outData), kQ3Failure);
+
+
+
+	// Debug build checks
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return E3DepthRangeStyle_Get( inStyle, outData );
+}
+
+
+
+
+
+/*!
+	@function	Q3DepthRangeStyle_SetData
+	@abstract	Set the parameters of a depth range style.
+	@param		inStyle		A depth range style.
+	@param		inData		New data.
+	@result		Success or failure of the operation.
+*/
+TQ3Status
+Q3DepthRangeStyle_SetData(
+	TQ3StyleObject _Nonnull inStyle,
+	const TQ3DepthRangeStyleData* _Nonnull inData )
+{
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT( E3Style_IsOfMyClass ( inStyle ), kQ3Failure);
+
+
+
+	// Debug build checks
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return E3DepthRangeStyle_Set( inStyle, inData );
+}
+
+
+
+
+
+/*!
+	@function	Q3WriteSwitchStyle_New
+	@abstract	Create a new write switch style object.
+	@discussion	Renderers often have a concept of writing images to a color buffer and a depth
+				buffer.  If the renderer supports it, this style may allow turning off writing to the color
+				buffer or the depth buffer.
+	@param		inMask		A mask made up of bits from TQ3WriteSwitchMasks.  The default
+							behavior is produced by
+							<code>kQ3WriteSwitchMaskDepth | kQ3WriteSwitchMaskColor</code>.
+	@result		The new style object.
+*/
+TQ3StyleObject
+Q3WriteSwitchStyle_New (
+    TQ3Uns32  inMask
+)
+{
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return E3WriteSwitchStyle_New( inMask );
+}
+
+
+
+
+
+/*!
+	@function	Q3WriteSwitchStyle_GetData
+	@abstract	Get the data from a write switch style.
+	@param		inStyle		A depth range style.
+	@param		outData		Receives the data.
+	@result		Success or failure of the operation.
+*/
+TQ3Status
+Q3WriteSwitchStyle_GetData(
+	TQ3StyleObject _Nonnull inStyle,
+	TQ3Uns32* _Nonnull outData )
+{
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT( E3Style_IsOfMyClass ( inStyle ), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(outData), kQ3Failure);
+
+
+
+	// Debug build checks
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return E3WriteSwitchStyle_Get( inStyle, outData );
+}
+
+
+
+
+
+/*!
+	@function	Q3WriteSwitchStyle_SetData
+	@abstract	Change the data of a write switch style.
+	@param		inStyle		A depth range style.
+	@param		inMask		A mask made up of bits from TQ3WriteSwitchMasks.  The default
+							behavior is produced by
+							<code>kQ3WriteSwitchMaskDepth | kQ3WriteSwitchMaskColor</code>.
+	@result		Success or failure of the operation.
+*/
+TQ3Status
+Q3WriteSwitchStyle_SetData(
+	TQ3StyleObject _Nonnull inStyle,
+	TQ3Uns32 inMask )
+{
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT( E3Style_IsOfMyClass ( inStyle ), kQ3Failure);
+
+
+
+	// Debug build checks
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return E3WriteSwitchStyle_Set( inStyle, inMask );
+}

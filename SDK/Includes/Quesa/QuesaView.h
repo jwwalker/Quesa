@@ -1279,6 +1279,44 @@ Q3View_GetFogStyleState (
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+/*!
+	@function	Q3View_GetDepthRangeStyleState
+	@abstract	Get the current depth range state.
+	@discussion	Must be called within a submitting loop.
+	@param		view		The view to query.
+	@param		outData		Receives the depth range data.
+	@result     Success or failure of the operation.
+*/
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3View_GetDepthRangeStyleState (
+    TQ3ViewObject _Nonnull    view,
+    TQ3DepthRangeStyleData* _Nonnull outData
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+/*!
+	@function	Q3View_GetWriteSwitchStyleState
+	@abstract	Get the current write switch state.
+	@discussion	Must be called within a submitting loop.
+	@param		view		The view to query.
+	@param		outMask		Receives the write switch mask.  See TQ3WriteSwitchMasks.
+	@result     Success or failure of the operation.
+*/
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3View_GetWriteSwitchStyleState (
+    TQ3ViewObject _Nonnull    view,
+    TQ3Uns32* _Nonnull outMask
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
+
+
 
 /*!
  *  @function

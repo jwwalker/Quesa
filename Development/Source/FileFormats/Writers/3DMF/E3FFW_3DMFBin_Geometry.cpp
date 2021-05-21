@@ -1135,6 +1135,81 @@ e3ffw_3DMF_subdivision_write(const TQ3SubdivisionStyleData *objectData,
 
 
 
+//-----------------------------------------------------------------------------
+//      e3ffw_3DMF_depthrange_traverse : Depth range style traverse method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_depthrange_traverse( TQ3Object object,
+					 void *data,
+					 TQ3ViewObject view)
+{
+#pragma unused( object )
+	TQ3Status	status;
+
+	status = Q3XView_SubmitWriteData( view, 2*sizeof(float), data, nullptr );
+	
+	return status;
+}
+
+
+
+
+
+//=============================================================================
+//      e3ffw_3DMF_depthrange_write : Depth range style write method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_depthrange_write(const TQ3DepthRangeStyleData *objectData,
+				TQ3FileObject theFile)
+{
+	TQ3Status	status = Q3Float32_Write( objectData->near, theFile );
+	
+	if (status == kQ3Success)
+	{
+		status = Q3Float32_Write( objectData->far, theFile );
+	}
+	
+	return status;
+}
+
+
+
+
+//-----------------------------------------------------------------------------
+//      e3ffw_3DMF_writeswitch_traverse : Write switch style traverse method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_writeswitch_traverse( TQ3Object object,
+					 void *data,
+					 TQ3ViewObject view)
+{
+#pragma unused( object )
+	TQ3Status	status;
+
+	status = Q3XView_SubmitWriteData( view, sizeof(TQ3Uns32), data, nullptr );
+	
+	return status;
+}
+
+
+
+
+
+//=============================================================================
+//      e3ffw_3DMF_writeswitch_write : Write switch style write method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3ffw_3DMF_writeswitch_write(TQ3Uns32 *objectData,
+				TQ3FileObject theFile)
+{
+	TQ3Status	status = Q3Uns32_Write( *objectData, theFile );
+	
+	return status;
+}
+
+
+
+
 
 //-----------------------------------------------------------------------------
 //      e3ffw_3DMF_antialias_traverse : Antialias style traverse method.
@@ -3658,7 +3733,10 @@ E3FFW_3DMF_RegisterGeom(void)
 	E3ClassTree::AddMethod(kQ3StyleTypeFog,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_fog_write);
 	E3ClassTree::AddMethod(kQ3StyleTypeLineWidth,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_simplestyle_traverse);
 	E3ClassTree::AddMethod(kQ3StyleTypeLineWidth,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_simplestyle_write);
-
+	E3ClassTree::AddMethod(kQ3StyleTypeDepthRange,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_depthrange_traverse);
+	E3ClassTree::AddMethod(kQ3StyleTypeDepthRange,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_depthrange_write);
+	E3ClassTree::AddMethod(kQ3StyleTypeWriteSwitch,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_writeswitch_traverse);
+	E3ClassTree::AddMethod(kQ3StyleTypeWriteSwitch,kQ3XMethodTypeObjectWrite,(TQ3XFunctionPointer)e3ffw_3DMF_writeswitch_write);
 
 	// Geometries
 	E3ClassTree::AddMethod(kQ3GeometryTypeTriangle,kQ3XMethodTypeObjectTraverse,(TQ3XFunctionPointer)e3ffw_3DMF_triangle_traverse);

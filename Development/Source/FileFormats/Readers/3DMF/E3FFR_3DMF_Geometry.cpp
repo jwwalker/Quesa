@@ -1606,6 +1606,57 @@ E3Read_3DMF_Style_Fog(TQ3FileObject theFile)
 
 
 //=============================================================================
+//      E3Read_3DMF_Style_DepthRange : Depth Range Style read method for 3DMF.
+//-----------------------------------------------------------------------------
+TQ3Object		E3Read_3DMF_Style_DepthRange(TQ3FileObject theFile)
+{
+	TQ3StyleObject theStyle = nullptr;
+	TQ3DepthRangeStyleData styleData;
+	
+	// Initialise the style data
+	styleData.near = 0.0f;
+	styleData.far = 1.0f;
+
+	// Read the data
+	if ( Q3Float32_Read( &styleData.near, theFile ) != kQ3Success )
+		return (nullptr);
+
+	if ( Q3Float32_Read( &styleData.far, theFile ) != kQ3Success )
+		return (nullptr);
+	
+	// Create the style
+	theStyle = Q3DepthRangeStyle_New( &styleData );
+	
+	return theStyle;
+}
+
+
+
+
+
+//=============================================================================
+//      E3Read_3DMF_Style_WriteSwitch : Write Switch Style read method for 3DMF.
+//-----------------------------------------------------------------------------
+TQ3Object		E3Read_3DMF_Style_WriteSwitch(TQ3FileObject theFile)
+{
+	TQ3StyleObject theStyle = nullptr;
+	TQ3Uns32 styleData = kQ3WriteSwitchMaskDepth | kQ3WriteSwitchMaskColor;
+	
+	// Read the data
+	if ( Q3Uns32_Read( &styleData, theFile ) != kQ3Success )
+		return (nullptr);
+	
+	// Create the style
+	theStyle = Q3WriteSwitchStyle_New( styleData );
+	
+	return theStyle;
+}
+
+
+
+
+
+//=============================================================================
 //      E3Read_3DMF_Transform_Matrix : Matrix Transform read method for 3DMF.
 //-----------------------------------------------------------------------------
 TQ3Object

@@ -2828,6 +2828,8 @@ E3FFormat_3DMF_Reader_RegisterClass(void)
 	E3ClassTree::AddMethod(kQ3StyleTypeAntiAlias,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Style_AntiAlias);
 	E3ClassTree::AddMethod(kQ3StyleTypeFog,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Style_Fog);
 	E3ClassTree::AddMethod(kQ3StyleTypeLineWidth,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Style_LineWidth);
+	E3ClassTree::AddMethod(kQ3StyleTypeDepthRange,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Style_DepthRange);
+	E3ClassTree::AddMethod(kQ3StyleTypeWriteSwitch,kQ3XMethodTypeObjectRead,(TQ3XFunctionPointer)E3Read_3DMF_Style_WriteSwitch);
 
 
 	// the Transform read Methods

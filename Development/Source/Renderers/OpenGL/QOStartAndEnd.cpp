@@ -349,6 +349,7 @@ TQ3Status	QORenderer::Renderer::EndFrame(
 }
 
 void		QORenderer::Renderer::StartPass(
+								TQ3ViewObject inView,
 								TQ3CameraObject inCamera,
 								TQ3GroupObject inLights )
 {
@@ -399,7 +400,7 @@ void		QORenderer::Renderer::StartPass(
 	GLDrawContext_SetDepthState( mDrawContextObject );
 	
 	mPPLighting.StartPass( inCamera );
-	mLights.StartPass( inCamera, mRendererObject );
+	mLights.StartPass( inView, inCamera, mRendererObject );
 	mTextures.StartPass();
 }
 
@@ -434,7 +435,7 @@ void	QORenderer::Renderer::RenderTransparent( TQ3ViewObject inView )
 	{
 		//Q3_MESSAGE_FMT("Transparent mini-pass %d", passNum );
 		mPPLighting.StartPass( theCamera.get() );
-		mLights.StartPass( theCamera.get(), mRendererObject );
+		mLights.StartPass( inView, theCamera.get(), mRendererObject );
 		mTextures.StartPass();
 		
 		mTransBuffer.DrawTransparency( inView, GL_ONE, dstFactor );

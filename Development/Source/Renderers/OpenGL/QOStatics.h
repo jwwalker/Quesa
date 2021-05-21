@@ -286,6 +286,16 @@ private:
 									void* privateData,
 									const void* publicData );
 
+	static TQ3Status			UpdateDepthRangeStyleMethod(
+									TQ3ViewObject inView,
+									void* privateData,
+									const void* publicData );
+
+	static TQ3Status			UpdateWriteSwitchStyleMethod(
+									TQ3ViewObject inView,
+									void* privateData,
+									const void* publicData );
+
 };
 	
 }

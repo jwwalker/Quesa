@@ -112,6 +112,8 @@ TQ3Object		E3Read_3DMF_Style_Orientation(TQ3FileObject theFile);
 TQ3Object		E3Read_3DMF_Style_AntiAlias(TQ3FileObject theFile);
 TQ3Object		E3Read_3DMF_Style_Fog(TQ3FileObject theFile);
 TQ3Object		E3Read_3DMF_Style_LineWidth(TQ3FileObject theFile);
+TQ3Object		E3Read_3DMF_Style_DepthRange(TQ3FileObject theFile);
+TQ3Object		E3Read_3DMF_Style_WriteSwitch(TQ3FileObject theFile);
 
 TQ3Object		E3Read_3DMF_Texture_Pixmap(TQ3FileObject theFile);
 TQ3Object		E3Read_3DMF_Texture_Mipmap(TQ3FileObject theFile);

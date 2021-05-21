@@ -172,7 +172,7 @@ TQ3Status	QORenderer::Statics::StartPassMethod(
 	TQ3Status	result = kQ3Success;
 	try
 	{
-		me->StartPass( inCamera, inLights );
+		me->StartPass( inView, inCamera, inLights );
 	}
 	catch (...)
 	{
@@ -700,6 +700,28 @@ TQ3Status	QORenderer::Statics::UpdateLineWidthStyleMethod(
 	return kQ3Success;
 }
 
+TQ3Status	QORenderer::Statics::UpdateDepthRangeStyleMethod(
+									TQ3ViewObject inView,
+									void* privateData,
+									const void* publicData )
+{
+#pragma unused( inView )
+	QORenderer::Renderer*	me = *(QORenderer::Renderer**)privateData;
+	me->UpdateDepthRangeStyle( * (TQ3DepthRangeStyleData*) publicData );
+	return kQ3Success;
+}
+
+TQ3Status	QORenderer::Statics::UpdateWriteSwitchStyleMethod(
+									TQ3ViewObject inView,
+									void* privateData,
+									const void* publicData )
+{
+#pragma unused( inView )
+	QORenderer::Renderer*	me = *(QORenderer::Renderer**)privateData;
+	me->UpdateWriteSwitchStyle( * (TQ3Uns32*) publicData );
+	return kQ3Success;
+}
+
 
 TQ3Status	QORenderer::Statics::UpdateFogStyleExtendedMethod(
 								TQ3ViewObject inView,
@@ -768,6 +790,16 @@ TQ3XRendererUpdateStyleMethod
 		case kQ3StyleTypeLineWidth:
 			theMethod = (TQ3XRendererUpdateStyleMethod)
 				&QORenderer::Statics::UpdateLineWidthStyleMethod;
+			break;
+
+		case kQ3StyleTypeDepthRange:
+			theMethod = (TQ3XRendererUpdateStyleMethod)
+				&QORenderer::Statics::UpdateDepthRangeStyleMethod;
+			break;
+
+		case kQ3StyleTypeWriteSwitch:
+			theMethod = (TQ3XRendererUpdateStyleMethod)
+				&QORenderer::Statics::UpdateWriteSwitchStyleMethod;
 			break;
 	}
 	

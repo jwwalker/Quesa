@@ -101,6 +101,8 @@ enum {
 	kQ3ViewStateAttributeEmissiveColor		= 1 << 27,		// Emissive color attribute changed
 	kQ3ViewStateStyleLineWidth				= 1 << 28,		// Line Width style changed
 	kQ3ViewStateAttributeMetallic			= 1 << 29,		// Metallic attribute changed
+	kQ3ViewStateStyleDepthRange				= 1 << 30,		// Depth range style changed
+	kQ3ViewStateStyleWriteSwitch 			= 1U << 31,		// Write switch style changed
 	kQ3ViewStateNone						= 0,			// Nothing changed
 	kQ3ViewStateAll							= 0xFFFFFFFF,	// Everything changed
 	kQ3ViewStateMatrixAny					= kQ3ViewStateMatrixLocalToWorld  |	// Any matrix changed
@@ -150,6 +152,8 @@ typedef struct TQ3ViewStackItem {
 	TQ3AntiAliasStyleData		styleAntiAlias;
 	TQ3FogStyleExtendedData		styleFogExtended;
 	float						styleLineWidth;
+	TQ3DepthRangeStyleData		styleDepthRange;
+	TQ3Uns32					styleWriteSwitch;
 	TQ3Param2D					attributeSurfaceUV;
 	TQ3Param2D					attributeShadingUV;
 	TQ3Vector3D					attributeNormal;
@@ -360,6 +364,9 @@ e3view_stack_initialise(TQ3ViewStackItem *theItem)
 	theItem->styleFogExtended.maxOpacity = 1.0f;
 	Q3ColorARGB_Set(&theItem->styleFogExtended.color, 1.0f, 1.0f, 1.0f, 1.0f);
 	theItem->styleLineWidth			 = 1.0f;
+	theItem->styleDepthRange.near	= 0.0f;
+	theItem->styleDepthRange.far	= 1.0f;
+	theItem->styleWriteSwitch = kQ3WriteSwitchMaskDepth | kQ3WriteSwitchMaskColor;
 
 	theItem->attributeAmbientCoefficient = kQ3ViewDefaultAmbientCoefficient;
 	theItem->attributeSpecularControl    = kQ3ViewDefaultSpecularControl;
@@ -552,6 +559,12 @@ e3view_stack_update ( E3View* view, TQ3ViewStackState stateChange )
 
 		if ( ( stateChange & kQ3ViewStateStyleLineWidth ) && qd3dStatus != kQ3Failure )
 			qd3dStatus = E3Renderer_Method_UpdateStyle ( view, kQ3StyleTypeLineWidth, &theItem->styleLineWidth ) ;
+
+		if ( ( stateChange & kQ3ViewStateStyleDepthRange ) && qd3dStatus != kQ3Failure )
+			qd3dStatus = E3Renderer_Method_UpdateStyle ( view, kQ3StyleTypeDepthRange, &theItem->styleDepthRange ) ;
+
+		if ( ( stateChange & kQ3ViewStateStyleWriteSwitch ) && qd3dStatus != kQ3Failure )
+			qd3dStatus = E3Renderer_Method_UpdateStyle ( view, kQ3StyleTypeWriteSwitch, &theItem->styleWriteSwitch ) ;
 
 		if ( ( stateChange & kQ3ViewStateAttributeSurfaceUV ) && qd3dStatus != kQ3Failure )
 			qd3dStatus = e3view_stack_update_attribute ( view, theItem, kQ3AttributeTypeSurfaceUV, &theItem->attributeSurfaceUV ) ;
@@ -3377,6 +3390,56 @@ E3View_State_SetStyleLineWidth(TQ3ViewObject theView, float inWidth)
 
 
 //=============================================================================
+//      E3View_State_SetStyleDepthRange : Set the depth range state.
+//-----------------------------------------------------------------------------
+void
+E3View_State_SetStyleDepthRange(TQ3ViewObject theView,
+							const TQ3DepthRangeStyleData* inData )
+{
+	// Validate our state
+	Q3_ASSERT ( Q3_VALID_PTR ( ( (E3View*) theView )->instanceData.viewStack ) ) ;
+
+
+
+	// Set the value
+	( (E3View*) theView )->instanceData.viewStack->styleDepthRange = *inData;
+
+
+
+	// Update the renderer
+	e3view_stack_update ( (E3View*) theView, kQ3ViewStateStyleDepthRange ) ;
+}
+
+
+
+
+
+//=============================================================================
+//      E3View_State_SetStyleWriteSwitch : Set the write switch state.
+//-----------------------------------------------------------------------------
+void
+E3View_State_SetStyleWriteSwitch(TQ3ViewObject theView,
+									TQ3Uns32 inMask )
+{
+	// Validate our state
+	Q3_ASSERT ( Q3_VALID_PTR ( ( (E3View*) theView )->instanceData.viewStack ) ) ;
+
+
+
+	// Set the value
+	( (E3View*) theView )->instanceData.viewStack->styleWriteSwitch = inMask;
+
+
+
+	// Update the renderer
+	e3view_stack_update ( (E3View*) theView, kQ3ViewStateStyleWriteSwitch ) ;
+}
+
+
+
+
+
+//=============================================================================
 //      E3View_State_SetAttributeSurfaceUV : Set the surface UV state.
 //-----------------------------------------------------------------------------
 void
@@ -5388,6 +5451,68 @@ E3View_GetFogStyleState(TQ3ViewObject theView, TQ3FogStyleData *outFogData)
 
 	return kQ3Success ;
 	}
+
+
+
+
+
+//=============================================================================
+//      E3View_GetDepthRangeStyleState : Get the current state.
+//-----------------------------------------------------------------------------
+//		Note : Can only be called within a submitting loop.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3View_GetDepthRangeStyleState(TQ3ViewObject theView, TQ3DepthRangeStyleData *outData)
+{
+	// Make sure we're in the correct state
+	if ( ( (E3View*) theView )->instanceData.viewState != kQ3ViewStateSubmitting )
+		return kQ3Failure ;
+
+
+
+	// Validate our state
+	Q3_ASSERT ( Q3_VALID_PTR ( ( (E3View*) theView )->instanceData.viewStack ) ) ;
+
+
+
+	// Get the value
+	*outData = ( (E3View*) theView )->instanceData.viewStack->styleDepthRange ;
+	
+	
+	
+	return kQ3Success ;
+}
+
+
+
+
+
+//=============================================================================
+//      E3View_State_GetStyleWriteSwitch : Get the current state.
+//-----------------------------------------------------------------------------
+//		Note : Can only be called within a submitting loop.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3View_State_GetStyleWriteSwitch(TQ3ViewObject theView, TQ3Uns32 *outMask)
+{
+	// Make sure we're in the correct state
+	if ( ( (E3View*) theView )->instanceData.viewState != kQ3ViewStateSubmitting )
+		return kQ3Failure ;
+
+
+
+	// Validate our state
+	Q3_ASSERT ( Q3_VALID_PTR ( ( (E3View*) theView )->instanceData.viewStack ) ) ;
+
+
+
+	// Get the value
+	*outMask = ( (E3View*) theView )->instanceData.viewStack->styleWriteSwitch ;
+	
+	
+	
+	return kQ3Success ;
+}
 
 
 

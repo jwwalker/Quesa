@@ -5,7 +5,7 @@
         
 
     COPYRIGHT:
-        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1501,6 +1501,7 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 					ApplyTextureToShape( txShader, mSceneGeometry );
 					
 					Q3Object_Dispose( txShader );
+					[quesa3dView setNeedsDisplay: YES];
 				}
 			}
 		}];
@@ -1530,6 +1531,7 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 						Q3Object_Dispose(mSceneGeometry);
 					}
 					mSceneGeometry = theObject;
+					[quesa3dView setNeedsDisplay: YES];
 				}
 			}
 		}];

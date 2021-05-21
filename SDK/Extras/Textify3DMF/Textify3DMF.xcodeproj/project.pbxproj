@@ -105,6 +105,8 @@
 		BE36E3F515241A4D00286B2B /* TypeHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE36E3F415241A4D00286B2B /* TypeHandler.cpp */; };
 		BE36E3FA15241C5A00286B2B /* InterpolationStyle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE36E3F915241C5A00286B2B /* InterpolationStyle.cpp */; };
 		BE36E3FD15241D5600286B2B /* RegisterHandlers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE36E3FC15241D5600286B2B /* RegisterHandlers.cpp */; };
+		BE8074E82658212E00D646C1 /* DepthRangeStyle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8074E62658212E00D646C1 /* DepthRangeStyle.cpp */; };
+		BE8074EB2658215400D646C1 /* WriteSwitchStyle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8074E92658215400D646C1 /* WriteSwitchStyle.cpp */; };
 		BED0623C156CAF380067EAD9 /* ImageClearColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BED0623B156CAF380067EAD9 /* ImageClearColor.cpp */; };
 		BED964561541365E00FCB407 /* NURBCurve.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BED964551541365E00FCB407 /* NURBCurve.cpp */; };
 		BED96513154267A700FCB407 /* NURBPatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BED96512154267A700FCB407 /* NURBPatch.cpp */; };
@@ -328,6 +330,10 @@
 		BE36E3F915241C5A00286B2B /* InterpolationStyle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = InterpolationStyle.cpp; path = Source/TypeHandlers/Styles/InterpolationStyle.cpp; sourceTree = "<group>"; };
 		BE36E3FB15241D5600286B2B /* RegisterHandlers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RegisterHandlers.h; path = Source/RegisterHandlers.h; sourceTree = "<group>"; };
 		BE36E3FC15241D5600286B2B /* RegisterHandlers.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RegisterHandlers.cpp; path = Source/RegisterHandlers.cpp; sourceTree = "<group>"; };
+		BE8074E62658212E00D646C1 /* DepthRangeStyle.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = DepthRangeStyle.cpp; path = Source/TypeHandlers/Styles/DepthRangeStyle.cpp; sourceTree = "<group>"; };
+		BE8074E72658212E00D646C1 /* DepthRangeStyle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DepthRangeStyle.h; path = Source/TypeHandlers/Styles/DepthRangeStyle.h; sourceTree = "<group>"; };
+		BE8074E92658215400D646C1 /* WriteSwitchStyle.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = WriteSwitchStyle.cpp; path = Source/TypeHandlers/Styles/WriteSwitchStyle.cpp; sourceTree = "<group>"; };
+		BE8074EA2658215400D646C1 /* WriteSwitchStyle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = WriteSwitchStyle.h; path = Source/TypeHandlers/Styles/WriteSwitchStyle.h; sourceTree = "<group>"; };
 		BED0623A156CAF380067EAD9 /* ImageClearColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImageClearColor.h; path = "Source/TypeHandlers/View Objects/ImageClearColor.h"; sourceTree = "<group>"; };
 		BED0623B156CAF380067EAD9 /* ImageClearColor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ImageClearColor.cpp; path = "Source/TypeHandlers/View Objects/ImageClearColor.cpp"; sourceTree = "<group>"; };
 		BED964541541365E00FCB407 /* NURBCurve.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NURBCurve.h; path = Source/TypeHandlers/Geometries/NURBCurve.h; sourceTree = "<group>"; };
@@ -436,6 +442,10 @@
 				BE03C59A153A31D5008EF142 /* AntialiasStyle.h */,
 				BE03C54D1539DC83008EF142 /* BackfacingStyle.cpp */,
 				BE03C54C1539DC83008EF142 /* BackfacingStyle.h */,
+				BE03C646153A4FB4008EF142 /* CastShadowsStyle.cpp */,
+				BE03C645153A4FB4008EF142 /* CastShadowsStyle.h */,
+				BE8074E62658212E00D646C1 /* DepthRangeStyle.cpp */,
+				BE8074E72658212E00D646C1 /* DepthRangeStyle.h */,
 				BE03C53C1539DB20008EF142 /* FillStyle.cpp */,
 				BE03C53B1539DB20008EF142 /* FillStyle.h */,
 				BE03C5B0153A3B28008EF142 /* FogStyle.cpp */,
@@ -444,20 +454,20 @@
 				BE03C3AE1532AB70008EF142 /* HighlightStyle.h */,
 				BE36E3F915241C5A00286B2B /* InterpolationStyle.cpp */,
 				BE36E3F815241C5A00286B2B /* InterpolationStyle.h */,
+				BE03C68E153A8ACF008EF142 /* LineWidthStyle.cpp */,
+				BE03C68D153A8ACF008EF142 /* LineWidthStyle.h */,
 				BE03C5821539E5BD008EF142 /* OrientationStyle.cpp */,
 				BE03C5811539E5BD008EF142 /* OrientationStyle.h */,
+				BE03C655153A5E94008EF142 /* PickIDStyle.cpp */,
+				BE03C654153A5E94008EF142 /* PickIDStyle.h */,
+				BE03C69B153A8BB2008EF142 /* PickPartsStyle.cpp */,
+				BE03C69A153A8BB2008EF142 /* PickPartsStyle.h */,
+				BE03C634153A4EA4008EF142 /* ReceiveShadowsStyle.cpp */,
+				BE03C633153A4EA4008EF142 /* ReceiveShadowsStyle.h */,
 				BE03BD921528B93C008EF142 /* SubdivisionStyle.cpp */,
 				BE03BD911528B93C008EF142 /* SubdivisionStyle.h */,
-				BE03C633153A4EA4008EF142 /* ReceiveShadowsStyle.h */,
-				BE03C634153A4EA4008EF142 /* ReceiveShadowsStyle.cpp */,
-				BE03C645153A4FB4008EF142 /* CastShadowsStyle.h */,
-				BE03C646153A4FB4008EF142 /* CastShadowsStyle.cpp */,
-				BE03C654153A5E94008EF142 /* PickIDStyle.h */,
-				BE03C655153A5E94008EF142 /* PickIDStyle.cpp */,
-				BE03C68D153A8ACF008EF142 /* LineWidthStyle.h */,
-				BE03C68E153A8ACF008EF142 /* LineWidthStyle.cpp */,
-				BE03C69A153A8BB2008EF142 /* PickPartsStyle.h */,
-				BE03C69B153A8BB2008EF142 /* PickPartsStyle.cpp */,
+				BE8074E92658215400D646C1 /* WriteSwitchStyle.cpp */,
+				BE8074EA2658215400D646C1 /* WriteSwitchStyle.h */,
 			);
 			name = Styles;
 			sourceTree = "<group>";
@@ -748,7 +758,7 @@
 		08FB7793FE84155DC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1100;
+				LastUpgradeCheck = 1250;
 			};
 			buildConfigurationList = 1DEB923508733DC60010E9CD /* Build configuration list for PBXProject "Textify3DMF" */;
 			compatibilityVersion = "Xcode 3.1";
@@ -798,6 +808,7 @@
 				BE03BC4615276A8F008EF142 /* Group.cpp in Sources */,
 				BE03BC4915276B00008EF142 /* DisplayGroup.cpp in Sources */,
 				BE03BC881527E3E3008EF142 /* ViewHints.cpp in Sources */,
+				BE8074E82658212E00D646C1 /* DepthRangeStyle.cpp in Sources */,
 				BE03BCB71527E48D008EF142 /* ViewAngleAspectCamera.cpp in Sources */,
 				BE03BCD3152817B9008EF142 /* CameraPlacement.cpp in Sources */,
 				BE03BCDC15281952008EF142 /* CameraRange.cpp in Sources */,
@@ -869,6 +880,7 @@
 				BE03C92F153D365F008EF142 /* InfoGroup.cpp in Sources */,
 				BE03C946153D3708008EF142 /* IOProxyDisplayGroup.cpp in Sources */,
 				BE03C961153D383F008EF142 /* AmbientCoefficient.cpp in Sources */,
+				BE8074EB2658215400D646C1 /* WriteSwitchStyle.cpp in Sources */,
 				BE03C9BB153E7D4C008EF142 /* Polyhedron.cpp in Sources */,
 				BE03CA0D153FCEF0008EF142 /* Mesh.cpp in Sources */,
 				BED964561541365E00FCB407 /* NURBCurve.cpp in Sources */,
@@ -892,6 +904,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_IDENTITY = "-";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_MODEL_TUNING = G5;
@@ -906,10 +919,10 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_IDENTITY = "-";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_MODEL_TUNING = G5;
 				INSTALL_PATH = /usr/local/bin;
-				PRODUCT_NAME = Textify3DMF;
 			};
 			name = Release;
 		};
@@ -917,6 +930,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BE36E3191520CC4100286B2B /* Textify-proj.xcconfig */;
 			buildSettings = {
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
@@ -929,6 +943,7 @@
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -950,6 +965,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BE36E3191520CC4100286B2B /* Textify-proj.xcconfig */;
 			buildSettings = {
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
@@ -962,6 +978,7 @@
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;

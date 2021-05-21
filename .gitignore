@@ -22,3 +22,6 @@ SDK/Examples/Geom Test/build
 SDK/Extras/Cocoa Example/Quesa3DView/Quesa3DView.xcodeproj/project.xcworkspace
 SDK/Extras/Cocoa Example/Quesa3DView/Quesa3DView.xcodeproj/xcshareddata
 SDK/Extras/Cocoa Example/Quesa3DView/Quesa3DView.xcodeproj/xcuserdata
+*.xcworkspacedata
+SDK/Extras/Textify3DMF/Textify3DMF.xcodeproj/project.xcworkspace
+xcschememanagement.plist

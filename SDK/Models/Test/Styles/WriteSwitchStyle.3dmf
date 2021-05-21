@@ -1,0 +1,103 @@
+3DMetafile ( 1 6 Normal tableofcontents0> )
+
+#	NAME:
+#		WriteSwitchStyle.3dmf
+#
+#	DESCRIPTION:
+#		Test model for the Write Switch Style.
+#		The Write Switch Style forces the blue ellipsoid in front of the green ellipsoid,
+#		by making the green ellipsoid not write to the depth buffer, and cuts out
+#		everything where the red ellipsoid would be, by making the red ellipsoid write to
+#		the depth buffer but not the color buffer.
+#
+#	COPYRIGHT:
+#		Quesa Copyright © 2021, Quesa Developers.
+#	
+#		For the current version of Quesa, see:
+#	
+#			<https://github.com/jwwalker/Quesa>
+BeginGroup (
+	DisplayGroup ( )
+)
+SubdivisionStyle ( Constant 30 30 )
+
+	BeginGroup (
+		DisplayGroup ( )
+	)
+	Translate ( 0.2 0 0 )
+	WriteSwitchStyle ( 1 ) # write depth, not color
+
+	Container (
+		Ellipsoid (
+			0 0.5 0 # orientation
+			0 0 0.2 # majorRadius
+			0.2 0 0 # minorRadius
+			0 0 0.5 # origin
+			0 # uMin
+			1 # uMax
+			0 # vMin
+			1 # vMax
+		)
+		Container (
+			AttributeSet ( )
+			DiffuseColor ( 0.66 0.01 0.01 )
+		)
+	)
+
+	EndGroup ( )
+
+	BeginGroup (
+		DisplayGroup ( )
+	)
+	Rotate ( Z # axis
+		2.094395 # radians
+	)
+	Translate ( 0.2 0 0 )
+	WriteSwitchStyle ( 2 ) # write color, not depth
+
+	Container (
+		Ellipsoid (
+			0 0.5 0 # orientation
+			0 0 0.2 # majorRadius
+			0.2 0 0 # minorRadius
+			0 0 0 # origin
+			0 # uMin
+			1 # uMax
+			0 # vMin
+			1 # vMax
+		)
+		Container (
+			AttributeSet ( )
+			DiffuseColor ( 0.01 0.66 0.01 )
+		)
+	)
+
+	EndGroup ( )
+
+	BeginGroup (
+		DisplayGroup ( )
+	)
+	Rotate ( Z # axis
+		-2.094395 # radians
+	)
+	Translate ( 0.2 0 0 )
+
+	Container (
+		Ellipsoid (
+			0 0.5 0 # orientation
+			0 0 0.2 # majorRadius
+			0.2 0 0 # minorRadius
+			0 0 -0.5 # origin
+			0 # uMin
+			1 # uMax
+			0 # vMin
+			1 # vMax
+		)
+		Container (
+			AttributeSet ( )
+			DiffuseColor ( 0.01 0.01 0.66 )
+		)
+	)
+
+	EndGroup ( )
+EndGroup ( )

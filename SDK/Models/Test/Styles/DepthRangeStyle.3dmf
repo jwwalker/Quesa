@@ -1,0 +1,100 @@
+3DMetafile ( 1 6 Normal tableofcontents0> )
+
+#	NAME:
+#		DepthRangeStyle.3dmf
+#
+#	DESCRIPTION:
+#		Test model for the Depth Range Style.
+#		The Depth Range Style forces the blue ellipsoid in front of the red ellipsoid,
+#		and that in front of the green ellipsoid, no matter what direction you look at
+#		them from.
+#
+#	COPYRIGHT:
+#		Quesa Copyright © 2021, Quesa Developers.
+#	
+#	
+#		For the current version of Quesa, see:
+#	
+#			<https://github.com/jwwalker/Quesa>
+BeginGroup (
+	DisplayGroup ( )
+)
+SubdivisionStyle ( Constant 30 30 )
+
+	BeginGroup (
+		DisplayGroup ( )
+	)
+
+	Container (
+		Ellipsoid (
+			0 0.5 0 # orientation
+			0 0 0.2 # majorRadius
+			0.2 0 0 # minorRadius
+			0 0 0 # origin
+			0 # uMin
+			1 # uMax
+			0 # vMin
+			1 # vMax
+		)
+		Container (
+			AttributeSet ( )
+			DiffuseColor ( 0.66 0.01 0.01 )
+		)
+	)
+
+	EndGroup ( )
+
+	BeginGroup (
+		DisplayGroup ( )
+	)
+	Rotate ( Z # axis
+		2.094395 # radians
+	)
+	DepthRangeStyle ( 0.9 1 )
+
+	Container (
+		Ellipsoid (
+			0 0.5 0 # orientation
+			0 0 0.2 # majorRadius
+			0.2 0 0 # minorRadius
+			0 0 0.5 # origin
+			0 # uMin
+			1 # uMax
+			0 # vMin
+			1 # vMax
+		)
+		Container (
+			AttributeSet ( )
+			DiffuseColor ( 0.01 0.66 0.01 )
+		)
+	)
+
+	EndGroup ( )
+
+	BeginGroup (
+		DisplayGroup ( )
+	)
+	Rotate ( Z # axis
+		-2.094395 # radians
+	)
+	DepthRangeStyle ( 0 0.1 )
+
+	Container (
+		Ellipsoid (
+			0 0.5 0 # orientation
+			0 0 0.2 # majorRadius
+			0.2 0 0 # minorRadius
+			0 0 -0.5 # origin
+			0 # uMin
+			1 # uMax
+			0 # vMin
+			1 # vMax
+		)
+		Container (
+			AttributeSet ( )
+			DiffuseColor ( 0.01 0.01 0.66 )
+		)
+	)
+
+	EndGroup ( )
+EndGroup ( )

@@ -186,7 +186,10 @@ e3renderer_add_methods(TQ3RendererObject theRenderer)
 														kQ3StyleTypeAntiAlias,
 														kQ3StyleTypeFog,
 														kQ3StyleTypeFogExtended,
-														kQ3StyleTypeLineWidth };
+														kQ3StyleTypeLineWidth,
+														kQ3StyleTypeDepthRange,
+														kQ3StyleTypeWriteSwitch
+														};
 
 
 

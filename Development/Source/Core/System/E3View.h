@@ -158,6 +158,12 @@ void							E3View_State_SetStyleFog(TQ3ViewObject theView,
 								
 void							E3View_State_SetStyleLineWidth(TQ3ViewObject theView, float inWidth);
 
+void							E3View_State_SetStyleDepthRange(TQ3ViewObject theView,
+									const TQ3DepthRangeStyleData* inData );
+void							E3View_State_SetStyleWriteSwitch(TQ3ViewObject theView,
+									TQ3Uns32 inMask );
+TQ3Status						E3View_State_GetStyleWriteSwitch(TQ3ViewObject theView, TQ3Uns32 *outMask);
+
 void							E3View_State_SetAttributeSurfaceUV(TQ3ViewObject theView, const TQ3Param2D *theData);
 void							E3View_State_SetAttributeShadingUV(TQ3ViewObject theView, const TQ3Param2D *theData);
 void							E3View_State_SetAttributeNormal(TQ3ViewObject theView, const TQ3Vector3D *theData);
@@ -227,6 +233,7 @@ TQ3Status				E3View_GetPickIDStyleState(TQ3ViewObject theView, TQ3Uns32 *pickIDS
 TQ3Status				E3View_GetPickPartsStyleState(TQ3ViewObject theView, TQ3PickParts *pickPartsStyle);
 TQ3Status				E3View_GetAntiAliasStyleState(TQ3ViewObject theView, TQ3AntiAliasStyleData *antiAliasData);
 TQ3Status				E3View_GetFogStyleState(TQ3ViewObject theView, TQ3FogStyleData *fogData);
+TQ3Status				E3View_GetDepthRangeStyleState(TQ3ViewObject theView, TQ3DepthRangeStyleData *outData);
 TQ3Status				E3View_GetDefaultAttributeSet(TQ3ViewObject theView, TQ3AttributeSet *attributeSet);
 TQ3Status				E3View_SetDefaultAttributeSet(TQ3ViewObject theView, TQ3AttributeSet attributeSet);
 TQ3Status				E3View_GetAttributeSetState(TQ3ViewObject theView, TQ3AttributeSet *attributeSet);

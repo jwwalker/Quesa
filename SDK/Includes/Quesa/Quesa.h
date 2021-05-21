@@ -671,6 +671,8 @@ enum {
                 kQ3StyleTypeAntiAlias           = Q3_OBJECT_TYPE('a', 'n', 't', 'i'),
                 kQ3StyleTypeFog                 = Q3_OBJECT_TYPE('f', 'o', 'g', 'g'),
                 kQ3StyleTypeFogExtended         = Q3_OBJECT_TYPE('f', 'o', 'g', 'x'),
+                kQ3StyleTypeDepthRange          = Q3_OBJECT_TYPE('d', 'p', 'r', 'a'),
+                kQ3StyleTypeWriteSwitch         = Q3_OBJECT_TYPE('w', 'r', 's', 'w'),
            kQ3ShapeTypeTransform                = Q3_OBJECT_TYPE('x', 'f', 'r', 'm'),
                 kQ3TransformTypeMatrix          = Q3_OBJECT_TYPE('m', 't', 'r', 'x'),
                 kQ3TransformTypeScale           = Q3_OBJECT_TYPE('s', 'c', 'a', 'l'),

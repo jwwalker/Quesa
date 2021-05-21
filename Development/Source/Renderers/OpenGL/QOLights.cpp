@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -50,6 +50,7 @@
 #include "E3ErrorManager.h"
 #include "E3Math.h"
 #include "E3Math_Intersect.h"
+#include "E3View.h"
 #include "CQ3ObjectRef_Gets.h"
 #include "GLCamera.h"
 #include "GLUtils.h"
@@ -541,7 +542,8 @@ void	QORenderer::Lights::EndFrame(
 	@function	SetUpShadowMarkingPass
 	@abstract	Perform initialization for the start of a shadow marking pass.
 */
-void	QORenderer::Lights::SetUpShadowMarkingPass( const TQ3Matrix4x4& inWorldToView )
+void	QORenderer::Lights::SetUpShadowMarkingPass( TQ3ViewObject inView,
+						const TQ3Matrix4x4& inWorldToView )
 {
 	// Although we do not use lighting until the shadow lighting pass,
 	// we do need the light position, so we may as well set up the
@@ -562,8 +564,8 @@ void	QORenderer::Lights::SetUpShadowMarkingPass( const TQ3Matrix4x4& inWorldToVi
 	glEnable( GL_POLYGON_OFFSET_FILL );
 	glPolygonOffset( 1.0f, 1.0f );
 	
-	// do not write to color buffer
-	glColorMask( GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE );
+	// do not write to color buffer or depth buffer, only stencil
+	E3View_State_SetStyleWriteSwitch( inView, 0 );
 	
 	// Do write to stencil buffer
 	glStencilMask( ~0U );
@@ -590,7 +592,6 @@ void	QORenderer::Lights::SetUpShadowMarkingPass( const TQ3Matrix4x4& inWorldToVi
 	glStencilMask( ~0U );
 	glStencilFunc( GL_ALWAYS, 0, ~0U );
 
-	glDepthMask( GL_FALSE );	// no writes to depth buffer
 	glDepthFunc( GL_LESS );
 	glDisable( GL_BLEND );
 
@@ -601,7 +602,7 @@ void	QORenderer::Lights::SetUpShadowMarkingPass( const TQ3Matrix4x4& inWorldToVi
 	@function	SetUpShadowLightingPass
 	@abstract	Perform initialization for the start of a shadow lighting pass.
 */
-void	QORenderer::Lights::SetUpShadowLightingPass()
+void	QORenderer::Lights::SetUpShadowLightingPass(TQ3ViewObject inView)
 {
 	mLightCount = 1;
 	mGlAmbientLight.r = mGlAmbientLight.g = mGlAmbientLight.b = 0.0f;
@@ -612,14 +613,13 @@ void	QORenderer::Lights::SetUpShadowLightingPass()
 		mIsAnotherPassNeeded = true;
 	}
 
-	// do write to color buffer
-	glColorMask( GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE );
+	// do write to color buffer, not to depth
+	E3View_State_SetStyleWriteSwitch( inView, kQ3WriteSwitchMaskColor );
 	
 	glStencilFunc( GL_EQUAL, 128, ~0U );
 	glStencilOp( GL_KEEP, GL_KEEP, GL_KEEP );
 	glStencilMask( 0 );
 
-	glDepthMask( GL_FALSE );	// no writes to depth buffer
 	glDepthFunc( GL_LEQUAL );	// pass depth test on equal
 	glEnable( GL_BLEND );
 	glBlendFunc( GL_ONE, GL_ONE );
@@ -742,6 +742,7 @@ void	QORenderer::Lights::StartFrame( TQ3ViewObject inView,
 	@abstract	Set up the lights for the start of a pass.
 */
 void	QORenderer::Lights::StartPass(
+								TQ3ViewObject inView,
 								TQ3CameraObject inCamera,
 								TQ3RendererObject inRenderer )
 {
@@ -782,14 +783,14 @@ void	QORenderer::Lights::StartPass(
 			passInfo.passType = kQ3RendererPassShadowMarking;
 			
 			mRenderer.Shader().ClearLights();
-			SetUpShadowMarkingPass( worldToView );
+			SetUpShadowMarkingPass( inView, worldToView );
 		}
 		else	// shadow lighting pass
 		{
 			//Q3_MESSAGE_FMT("Shadow lighting pass");
 			passInfo.passType = kQ3RendererPassShadowLighting;
 			
-			SetUpShadowLightingPass();
+			SetUpShadowLightingPass( inView );
 		}
 	}
 	else	// non-shadowing phase

@@ -107,6 +107,8 @@
 #include "PickIDStyle.h"
 #include "LineWidthStyle.h"
 #include "PickPartsStyle.h"
+#include "WriteSwitchStyle.h"
+#include "DepthRangeStyle.h"
 
 #include "Matrix.h"
 #include "Rotate.h"
@@ -171,6 +173,8 @@ void	RegisterHandlers( Controller* inController )
 	Register( PickIDStyle );
 	Register( PickPartsStyle );
 	Register( LineWidthStyle );
+	Register( DepthRangeStyle );
+	Register( WriteSwitchStyle );
 
 	// Transforms
 	Register( Matrix );

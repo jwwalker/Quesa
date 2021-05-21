@@ -559,3 +559,38 @@ void	QORenderer::Renderer::UpdateLineWidthStyle(
 	
 	mPPLighting.UpdateLineWidthStyle();
 }
+
+
+
+void	QORenderer::Renderer::UpdateDepthRangeStyle(
+								const TQ3DepthRangeStyleData& inStyleData )
+{
+	// Activate our context
+	GLDrawContext_SetCurrent( mGLContext, kQ3False );
+	
+	
+	mTriBuffer.Flush();
+
+	glDepthRange( inStyleData.near, inStyleData.far );
+}
+
+
+
+
+void	QORenderer::Renderer::UpdateWriteSwitchStyle(
+									TQ3Uns32 inStyleData )
+{
+	// Activate our context
+	GLDrawContext_SetCurrent( mGLContext, kQ3False );
+	
+	
+	mTriBuffer.Flush();
+	
+	GLboolean depthMask = ((inStyleData & kQ3WriteSwitchMaskDepth) != 0)?
+		GL_TRUE : GL_FALSE;
+	glDepthMask( depthMask );
+	
+	GLboolean colorMask = ((inStyleData & kQ3WriteSwitchMaskColor) != 0)?
+		GL_TRUE : GL_FALSE;
+	glColorMask( colorMask, colorMask, colorMask, colorMask );
+}

@@ -6,8 +6,12 @@
 //  Copyright 2012 James W. Walker. All rights reserved.
 //
 // Architectures
-ARCHS = x86_64
+ARCHS = $(ARCHS_STANDARD)
 SDKROOT = macosx
+
+
+// Deployment
+MACOSX_DEPLOYMENT_TARGET = 10.9
 
 
 // Build Locations

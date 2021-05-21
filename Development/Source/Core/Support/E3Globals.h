@@ -208,6 +208,8 @@ extern "C" {
 #define kQ3ClassNameStyleHighlight					"HighlightStyle"
 #define kQ3ClassNameStyleInterpolation				"InterpolationStyle"
 #define kQ3ClassNameStyleLineWidth					"LineWidthStyle"
+#define kQ3ClassNameStyleDepthRange					"DepthRangeStyle"
+#define kQ3ClassNameStyleWriteSwitch				"WriteSwitchStyle"
 #define kQ3ClassNameStyleOrientation				"OrientationStyle"
 #define kQ3ClassNameStylePickID						"PickIDStyle"
 #define kQ3ClassNameStylePickParts					"PickPartsStyle"
