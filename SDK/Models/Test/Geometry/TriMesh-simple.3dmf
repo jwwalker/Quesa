@@ -1,0 +1,68 @@
+3DMetafile ( 1 5 Normal tableofcontents0> ) 
+
+#   NAME:
+#      TriMesh-simple.3dmf
+#
+#   DESCRIPTION:
+#       Basic TriMesh.
+#		    
+#   COPYRIGHT:
+#       Copyright (c) 2021, Quesa Developers. All rights reserved.
+#
+#       For the current release of Quesa, please see:
+#
+#           <https://github.com/jwwalker/Quesa>
+
+Container (
+	TriMesh (
+		2 1 0 0 4 2 # numTriangles
+		# numTriangleAttributeTypes
+		# numEdges
+		# numEdgeAttributeTypes
+		# numPoints
+		# numVertexAttributeTypes
+		0 1 2 # faces
+		0 2 3
+		-0.5 -0.5 0 # points
+		0.5 -0.5 0
+		0.5 0.5 0
+		-0.5 0.5 0
+		-0.5 -0.0 0 0.5 0.5 0 False # bounding box
+	)
+	AttributeArray ( # normals for faces
+		3 # attribute type of normal
+		0 # reserved
+		0 # an attribute of faces
+		0 # first face attribute
+		0 # no use array
+		0 0 1 # normal data
+		0 0 1
+	)
+	AttributeArray ( # normals for vertices
+		3 # attribute type of normal
+		0 # reserved
+		2 # an attribute of vertices
+		0 # first vertex attribute
+		0 # no use array
+		0 0 1 # data
+		0 0 1
+		0 0 1
+		0 0 1
+	)
+	AttributeArray ( # surface UVs for vertices
+		1 # attribute type of surface UV
+		0 # reserved
+		2 # an attribute of vertices
+		1 # second vertex attribute
+		0 # no use array
+		0 0 # data
+		1 0
+		1 1
+		0 1
+	)
+	Container ( # overall attributes
+		AttributeSet ( )
+		DiffuseColor ( 0 1 0 )
+	)
+)
+
