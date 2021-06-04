@@ -93,7 +93,7 @@ extern "C" {
  *  @constant kQ3ViewStatusError                Submit loop encountered an error.
  *  @constant kQ3ViewStatusCancelled            Submit loop was cancelled.
  */
-typedef enum TQ3ViewStatus {
+typedef enum TQ3ViewStatus QUESA_ENUM_BASE(TQ3Uns32) {
     kQ3ViewStatusDone                           = 0,
     kQ3ViewStatusRetraverse                     = 1,
     kQ3ViewStatusError                          = 2,

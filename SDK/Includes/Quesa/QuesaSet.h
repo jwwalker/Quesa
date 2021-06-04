@@ -116,7 +116,7 @@ extern "C" {
  *													3D, and may not be recognized by all renderers.</em>)
  *	@constant	kQ3AttributeTypeNumTypes			Number of standard attribute types.
 */
-typedef enum TQ3AttributeTypes {
+typedef enum TQ3AttributeTypes QUESA_ENUM_BASE(TQ3Int32) {
     kQ3AttributeTypeNone                        = 0,            // N/A
     kQ3AttributeTypeSurfaceUV                   = 1,            // TQ3Param2D
     kQ3AttributeTypeShadingUV                   = 2,            // TQ3Param2D
@@ -161,7 +161,7 @@ typedef enum TQ3AttributeTypes {
  *  @constant kQ3XAttributeMaskInherited            Inherited attributes mask.
  *  @constant kQ3XAttributeMaskInterpolated         Interpolated attributes mask.
  */
-enum {
+enum QUESA_ENUM_BASE(TQ3Uns32) {
     kQ3XAttributeMaskNone                       = 0,
     kQ3XAttributeMaskSurfaceUV                  = (1 << (kQ3AttributeTypeSurfaceUV          - 1)),
     kQ3XAttributeMaskShadingUV                  = (1 << (kQ3AttributeTypeShadingUV          - 1)),
@@ -207,7 +207,7 @@ typedef TQ3Uns32	TQ3XAttributeMask;
  *	@constant	kQ3XMethodTypeElementCopyDuplicate	See <code>TQ3XElementCopyDuplicateMethod</code>.
  *	@constant	kQ3XMethodTypeElementDelete			See <code>TQ3XElementDeleteMethod</code>.
 */
-enum {
+enum QUESA_ENUM_BASE(TQ3Uns32) {
     kQ3XMethodTypeElementCopyAdd                = Q3_METHOD_TYPE('e', 'c', 'p', 'a'),
     kQ3XMethodTypeElementCopyReplace            = Q3_METHOD_TYPE('e', 'c', 'p', 'r'),
     kQ3XMethodTypeElementCopyGet                = Q3_METHOD_TYPE('e', 'c', 'p', 'g'),
@@ -229,7 +229,7 @@ enum {
  *	@constant	kQ3XMethodTypeAttributeDefault		See <code>TQ3XAttributeDefaultMethod</code>.
  *	@constant	kQ3XMethodTypeAttributeIsDefault	See <code>TQ3XAttributeIsDefaultMethod</code>.
 */
-enum {
+enum QUESA_ENUM_BASE(TQ3Uns32) {
     kQ3XMethodTypeAttributeInherit              = Q3_METHOD_TYPE('i', 'n', 'h', 't'),
     kQ3XMethodTypeAttributeCopyInherit          = Q3_METHOD_TYPE('a', 'c', 'p', 'i'),
     kQ3XMethodTypeAttributeDefault              = Q3_METHOD_TYPE('a', 's', 'd', 'f'),

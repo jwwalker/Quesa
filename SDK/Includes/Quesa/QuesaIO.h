@@ -141,7 +141,7 @@ extern "C" {
  *  @constant kQ3FileModeText        Text mode.
  *  @constant kQ3FileModeSwap        Binary mode with byte order swapped (not present in QD3D).
  */
-typedef enum TQ3FileModeMasks {
+typedef enum TQ3FileModeMasks QUESA_ENUM_BASE(TQ3Uns32) {
     kQ3FileModeNormal                           = 0,
     kQ3FileModeStream                           = (1 << 0),
     kQ3FileModeDatabase                         = (1 << 1),
@@ -163,7 +163,7 @@ typedef enum TQ3FileModeMasks {
  *  @constant kQ3FileReadObjectsInGroup      Read objects in the group.
  *  @constant kQ3FileCurrentlyInsideGroup    Currently inside a group.
  */
-typedef enum TQ3FileReadGroupStateMasks {
+typedef enum TQ3FileReadGroupStateMasks QUESA_ENUM_BASE(TQ3Uns32) {
     kQ3FileReadWholeGroup                       = 0,
     kQ3FileReadObjectsInGroup                   = (1 << 0),
     kQ3FileCurrentlyInsideGroup                 = (1 << 1),
@@ -172,7 +172,7 @@ typedef enum TQ3FileReadGroupStateMasks {
 
 
 // File format types
-enum {
+enum QUESA_ENUM_BASE(TQ3Int32) {
     kQ3ObjectTypeFileFormat                                 = Q3_OBJECT_TYPE('F', 'F', 'm', 't'),
         kQ3FileFormatTypeReader                             = Q3_OBJECT_TYPE('F', 'm', 't', 'R'),
             kQ3FFormatReaderType3DMFBin                     = Q3_OBJECT_TYPE('F', 'r', 'b', 'i'),
@@ -196,7 +196,7 @@ enum {
 
 
 // File format methods
-enum {
+enum QUESA_ENUM_BASE(TQ3Int32) {
     // Common
     kQ3XMethodTypeFFormatClose                  = Q3_METHOD_TYPE('F', 'c', 'l', 's'),
     kQ3XMethodTypeFFormatGetFormatType          = Q3_METHOD_TYPE('F', 'g', 'f', 't'),
@@ -240,7 +240,7 @@ enum {
 
 
 // Object 3DMF I/O methods
-enum {
+enum QUESA_ENUM_BASE(TQ3Int32) {
     // Version
     kQ3XMethodTypeObjectFileVersion             = Q3_METHOD_TYPE('v', 'e', 'r', 's'),
 

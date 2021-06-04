@@ -94,7 +94,7 @@ extern "C" {
  *	@constant	kQ3GeneralPolygonShapeHintConvex	There is exactly one contour, which
  *							is convex.
  */
-typedef enum TQ3GeneralPolygonShapeHint {
+typedef enum TQ3GeneralPolygonShapeHint QUESA_ENUM_BASE(TQ3Uns32) {
     kQ3GeneralPolygonShapeHintComplex           = 0,
     kQ3GeneralPolygonShapeHintConcave           = 1,
     kQ3GeneralPolygonShapeHintConvex            = 2,
@@ -112,7 +112,7 @@ typedef enum TQ3GeneralPolygonShapeHint {
  *                                      set to 11 in QD3DGeometry.h, however a Develop article
  *                                      on NURBs indicated it should be 16.
  */
-enum {
+enum QUESA_ENUM_BASE(TQ3Uns32) {
 	kQ3NURBCurveMaxOrder = 16,
 	kQ3NURBPatchMaxOrder = 16
 };
@@ -130,7 +130,7 @@ enum {
  *	@constant	kQ3PolyhedronEdge20			Render the edge between vertex 2 and vertex 0.
  *	@constant	kQ3PolyhedronEdgeAll		Render all the edges.
  */
-typedef enum TQ3PolyhedronEdgeMasks {
+typedef enum TQ3PolyhedronEdgeMasks QUESA_ENUM_BASE(TQ3Uns32) {
     kQ3PolyhedronEdgeNone                       = 0,
     kQ3PolyhedronEdge01                         = (1 << 0),
     kQ3PolyhedronEdge12                         = (1 << 1),
@@ -161,7 +161,7 @@ typedef enum TQ3PolyhedronEdgeMasks {
 						
 						Data type: TQ3LayerShifts (variable length).
 */
-enum
+enum QUESA_ENUM_BASE(TQ3Int32)
 {
 	kQ3GeometryPropertyNonCartoon                   = Q3_OBJECT_TYPE('n', 'c', 'a', 'r'),
 	kQ3GeometryPropertyLayerShifts     				= Q3_OBJECT_TYPE('l', 'y', 's', 'f')

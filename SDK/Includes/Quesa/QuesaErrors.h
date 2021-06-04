@@ -206,7 +206,7 @@ extern "C" {
  *	@constant kQ3ErrorInfiniteRationalPoint                Infinite rational point. Not available in QD3D.
  *	@constant kQ3ErrorTriMeshPointIndexOutOfRange          Bad point index in TriMesh data. Not available in QD3D.
  */
-typedef enum {
+typedef enum QUESA_ENUM_BASE(TQ3Int32) {
     kQ3ErrorNone                                = 0,
     kQ3ErrorFirst                               = -28500,
     kQ3ErrorInternalError                       = -28500,
@@ -414,7 +414,7 @@ typedef enum {
  *														   context.
  *	@constant kQ3WarningTriMeshTriangleIndexOutOfBounds    Bad triangle index in TriMesh data.
  */
-typedef enum {
+typedef enum QUESA_ENUM_BASE(TQ3Int32) {
     kQ3WarningNone                              = 0,
     kQ3WarningFirst                             = -28300,
     kQ3WarningInternalException                 = -28300,
@@ -504,7 +504,7 @@ typedef enum {
  *  @constant kQ3NoticeFileCancelled                       File cancelled.
  *  @constant kQ3NoticeBrightnessLessThanZero              Brightness less than 0.0. Not available in QD3D.
  */
-typedef enum {
+typedef enum QUESA_ENUM_BASE(TQ3Int32) {
     kQ3NoticeNone                               = 0,
     kQ3NoticeFirst                              = -28100,
     kQ3NoticeDataAlreadyEmpty                   = -28100,

@@ -95,7 +95,7 @@ extern "C" {
 						The fisheye rendering is cropped so that the view rectangle
 						is totally filled.
 */
-typedef enum TQ3FisheyeCroppingFormat
+typedef enum TQ3FisheyeCroppingFormat QUESA_ENUM_BASE(TQ3Uns32)
 {
 	kQ3FisheyeCroppingFormatCircular = 0,
 	kQ3FisheyeCroppingFormatCroppedCircle,
@@ -118,7 +118,7 @@ typedef enum TQ3FisheyeCroppingFormat
 	@constant	kQ3FisheyeMappingFunctionEquidistant		r = f * angle
 	@constant	kQ3FisheyeMappingFunctionEquisolidAngle		r = 2 * f * sin( angle/2 )
 */
-typedef enum TQ3FisheyeMappingFunction
+typedef enum TQ3FisheyeMappingFunction QUESA_ENUM_BASE(TQ3Uns32)
 {
 	kQ3FisheyeMappingFunctionOrthographic = 0,
 	kQ3FisheyeMappingFunctionStereographic,

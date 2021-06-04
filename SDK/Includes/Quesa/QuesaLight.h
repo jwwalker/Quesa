@@ -12,7 +12,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -93,7 +93,7 @@ extern "C" {
  *  @constant kQ3AttenuationTypeInverseDistance           Intensity is attenuated as 1/d.
  *  @constant kQ3AttenuationTypeInverseDistanceSquared    Intensity is attenuated as 1/(d*d).
  */
-typedef enum {
+typedef enum TQ3AttenuationType QUESA_ENUM_BASE(TQ3Uns32) {
     kQ3AttenuationTypeNone                      = 0,
     kQ3AttenuationTypeInverseDistance           = 1,
     kQ3AttenuationTypeInverseDistanceSquared    = 2,
@@ -133,7 +133,7 @@ typedef enum {
  *											f(x) = 2 * x * x * x - 3 * x * x + 1.
  *											(This fall-off type did not exist in QD3D.)
  */
-typedef enum {
+typedef enum TQ3FallOffType QUESA_ENUM_BASE(TQ3Uns32) {
     kQ3FallOffTypeNone                          = 0,
     kQ3FallOffTypeLinear                        = 1,
     kQ3FallOffTypeExponential                   = 2,

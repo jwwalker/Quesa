@@ -92,7 +92,7 @@ extern "C" {
  *  @constant kQ3SubdivisionMethodScreenSpace   Surfaces are divided into segments smaller
  *                                              than the specified size in pixels.
  */
-typedef enum TQ3SubdivisionMethod {
+typedef enum TQ3SubdivisionMethod QUESA_ENUM_BASE(TQ3Uns32) {
     kQ3SubdivisionMethodConstant                = 0,
     kQ3SubdivisionMethodWorldSpace              = 1,
     kQ3SubdivisionMethodScreenSpace             = 2,
@@ -111,7 +111,7 @@ typedef enum TQ3SubdivisionMethod {
  *  @constant kQ3PickPartsMaskEdge              The hit list contains edges.
  *  @constant kQ3PickPartsMaskVertex            The hit list contains vertices.
  */
-typedef enum TQ3PickPartsMasks {
+typedef enum TQ3PickPartsMasks QUESA_ENUM_BASE(TQ3Uns32) {
     kQ3PickPartsObject                          = 0,
     kQ3PickPartsMaskFace                        = (1 << 0),
     kQ3PickPartsMaskEdge                        = (1 << 1),
@@ -130,7 +130,7 @@ typedef enum TQ3PickPartsMasks {
  *  @constant kQ3FillStyleEdges                 Shapes are rendered as sets of lines.
  *  @constant kQ3FillStylePoints                Shapes are rendered as sets of points.
  */
-typedef enum TQ3FillStyle {
+typedef enum TQ3FillStyle QUESA_ENUM_BASE(TQ3Uns32) {
     kQ3FillStyleFilled                          = 0,
     kQ3FillStyleEdges                           = 1,
     kQ3FillStylePoints                          = 2,
@@ -156,11 +156,11 @@ typedef enum TQ3FillStyle {
  *												was not available in QD3D, and may not be
  *												understood by all renderers.)
  */
-typedef enum TQ3BackfacingStyle {
+typedef enum TQ3BackfacingStyle QUESA_ENUM_BASE(TQ3Uns32) {
     kQ3BackfacingStyleBoth                      = 0,
     kQ3BackfacingStyleRemove                    = 1,
     kQ3BackfacingStyleFlip                      = 2,
-	kQ3BackfacingStyleRemoveFront				= 3,
+    kQ3BackfacingStyleRemoveFront               = 3,
     kQ3BackfacingStyleSize32                    = 0xFFFFFFFF
 } TQ3BackfacingStyle;
 
@@ -177,7 +177,7 @@ typedef enum TQ3BackfacingStyle {
  *  @constant kQ3InterpolationStylePixel        Individual pixels are shaded. Is not typically
  *                                              supported by interactive renderers.
  */
-typedef enum TQ3InterpolationStyle {
+typedef enum TQ3InterpolationStyle QUESA_ENUM_BASE(TQ3Uns32) {
     kQ3InterpolationStyleNone                   = 0,
     kQ3InterpolationStyleVertex                 = 1,
     kQ3InterpolationStylePixel                  = 2,
@@ -194,7 +194,7 @@ typedef enum TQ3InterpolationStyle {
  *  @constant kQ3OrientationStyleCounterClockwise   The front face is defined as CCW order.
  *  @constant kQ3OrientationStyleClockwise          The front face is defined as CW order.
  */
-typedef enum TQ3OrientationStyle {
+typedef enum TQ3OrientationStyle QUESA_ENUM_BASE(TQ3Uns32) {
     kQ3OrientationStyleCounterClockwise         = 0,
     kQ3OrientationStyleClockwise                = 1,
     kQ3OrientationStyleSize32                   = 0xFFFFFFFF
@@ -212,7 +212,7 @@ typedef enum TQ3OrientationStyle {
  *  @constant kQ3AntiAliasModeMaskFullScreen    Apply global anti-aliasing (e.g., FSAA).
  *                                              <em>This feature is not available in QD3D.</em>
  */
-typedef enum TQ3AntiAliasModeMasks {
+typedef enum TQ3AntiAliasModeMasks QUESA_ENUM_BASE(TQ3Uns32) {
     kQ3AntiAliasModeMaskEdges                   = (1 << 0),
     kQ3AntiAliasModeMaskFilled                  = (1 << 1),
 #if QUESA_ALLOW_QD3D_EXTENSIONS    
@@ -228,7 +228,7 @@ typedef enum TQ3AntiAliasModeMasks {
 	@constant	kQ3WriteSwitchMaskDepth		Write to the depth buffer.
 	@constant	kQ3WriteSwitchMaskColor		Write to the color buffer.
 */
-typedef enum TQ3WriteSwitchMasks {
+typedef enum TQ3WriteSwitchMasks QUESA_ENUM_BASE(TQ3Uns32) {
 	kQ3WriteSwitchMaskDepth                     = (1 << 0),
 	kQ3WriteSwitchMaskColor                     = (1 << 1),
 	kQ3WriteSwitchSize32                        = 0x7FFFFFFF
@@ -248,7 +248,7 @@ typedef enum TQ3WriteSwitchMasks {
  *  @constant kQ3FogModeExponentialSquared      Fog == exp(-Density * z * Density * z).
  *  @constant kQ3FogModeAlpha                   Fog == Vertex Alpha
  */
-typedef enum TQ3FogMode {
+typedef enum TQ3FogMode QUESA_ENUM_BASE(TQ3Uns32) {
     kQ3FogModeLinear                            = 0,
     kQ3FogModeExponential                       = 1,
     kQ3FogModeExponentialSquared                = 2,
@@ -257,7 +257,7 @@ typedef enum TQ3FogMode {
 } TQ3FogMode;
 
 
-enum
+enum QUESA_ENUM_BASE(TQ3Uns32)
 {
 	/*!
 		@constant	kQ3FogStyleExtendedVersion

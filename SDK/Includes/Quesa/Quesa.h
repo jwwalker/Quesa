@@ -252,6 +252,22 @@
 #endif
 
 
+// Check for C++11
+#ifndef QUESA_CPP11
+	#define QUESA_CPP11		((__cplusplus >= 201103L) || (_MSVC_LANG >= 201402))
+#endif
+
+
+// Macro to go after an enum type to specify its base type
+#ifndef QUESA_ENUM_BASE
+	#ifdef QUESA_CPP11
+		#define		QUESA_ENUM_BASE( base )	: base
+	#else
+		#define		QUESA_ENUM_BASE( base )
+	#endif
+#endif
+
+
 // Default to allowing extensions to the QD3D API
 #ifndef QUESA_ALLOW_QD3D_EXTENSIONS
 	#define QUESA_ALLOW_QD3D_EXTENSIONS					1
@@ -406,7 +422,7 @@ enum
  *  @constant kQ3LanguageDefault        Default language for current OS.
  *  @constant kQ3LanguageEnglishUS      US English.
  */
-typedef enum {
+typedef enum TQ3Language QUESA_ENUM_BASE(TQ3Uns32) {
     kQ3LanguageDefault                          = 0,
     kQ3LanguageEnglishUS                        = 1,
     kQ3LanguageSize32                           = 0xFFFFFFFF
@@ -422,7 +438,7 @@ typedef enum {
  *  @constant kQ3False      False.
  *  @constant kQ3True       True.
  */
-typedef enum {
+typedef enum TQ3Boolean QUESA_ENUM_BASE(TQ3Uns32) {
     kQ3False                                    = 0,
     kQ3True                                     = 1,
     kQ3BooleanSize32                            = 0xFFFFFFFF
@@ -438,7 +454,7 @@ typedef enum {
  *  @constant kQ3Off        Off.
  *  @constant kQ3On         On.
  */
-typedef enum {
+typedef enum TQ3Switch QUESA_ENUM_BASE(TQ3Uns32) {
     kQ3Off                                      = 0,
     kQ3On                                       = 1,
     kQ3SwitchSize32                             = 0xFFFFFFFF
@@ -454,7 +470,7 @@ typedef enum {
  *  @constant kQ3Failure    Indicates failure.
  *  @constant kQ3Success    Indicates success
  */
-typedef enum {
+typedef enum TQ3Status QUESA_ENUM_BASE(TQ3Uns32) {
     kQ3Failure                                  = 0,
     kQ3Success                                  = 1,
     kQ3StatusSize32                             = 0xFFFFFFFF
@@ -471,7 +487,7 @@ typedef enum {
  *  @constant kQ3AxisY      Indicates Y axis.
  *  @constant kQ3AxisZ      Indicates Z axis.
  */
-typedef enum {
+typedef enum TQ3Axis QUESA_ENUM_BASE(TQ3Uns32) {
     kQ3AxisX                                    = 0,
     kQ3AxisY                                    = 1,
     kQ3AxisZ                                    = 2,
@@ -504,7 +520,7 @@ typedef enum {
  *  @constant kQ3PixelTypeRGB24      8 bits for red, green, and blue. No alpha byte.
  *  @constant kQ3PixelTypeUnknown    Unknown pixel type.
  */
-typedef enum {
+typedef enum TQ3PixelType QUESA_ENUM_BASE(TQ3Uns32) {
     kQ3PixelTypeRGB32                           = 0,
     kQ3PixelTypeARGB32                          = 1,
     kQ3PixelTypeRGB16                           = 2,
@@ -525,7 +541,7 @@ typedef enum {
  *  @constant kQ3EndianBig       Big endian.
  *  @constant kQ3EndianLittle    Little endian.
  */
-typedef enum {
+typedef enum TQ3Endian QUESA_ENUM_BASE(TQ3Uns32) {
     kQ3EndianBig                                = 0,
     kQ3EndianLittle                             = 1,
     kQ3EndianSize32                             = 0xFFFFFFFF
@@ -543,7 +559,7 @@ typedef enum {
  *  @constant kQ3EndCapMaskBottom     Bottom end cap.
  *  @constant kQ3EndCapMaskInterior   Interior end cap.
  */
-typedef enum {
+typedef enum TQ3EndCapMasks QUESA_ENUM_BASE(TQ3Uns32) {
     kQ3EndCapNone                               = 0,
     kQ3EndCapMaskTop                            = (1 << 0),
     kQ3EndCapMaskBottom                         = (1 << 1),
@@ -562,7 +578,7 @@ typedef enum {
  *  @constant kQ3ElementTypeUnknown  Indicates unknown element type.
  *  @constant kQ3ElementTypeSet      Indicates set element.
  */
-typedef enum {
+typedef enum TQ3ElementTypes QUESA_ENUM_BASE(TQ3Uns32) {
     kQ3ElementTypeNone                          = 0,
     kQ3ElementTypeUnknown                       = 32,
     kQ3ElementTypeSet                           = 33,
@@ -583,7 +599,7 @@ typedef enum {
  *                                           local bounding box to world coordinates.
  *                                           Faster, but less accurate.
  */
-typedef enum {
+typedef enum TQ3ComputeBounds QUESA_ENUM_BASE(TQ3Uns32) {
     kQ3ComputeBoundsExact                       = 0,
     kQ3ComputeBoundsApproximate                 = 1,
     kQ3ComputeBoundsSize32                      = 0xFFFFFFFF
@@ -591,7 +607,7 @@ typedef enum {
 
 
 // Method types
-enum {
+enum QUESA_ENUM_BASE(TQ3Uns32) {
     kQ3XMethodTypeObjectUnregister              = Q3_METHOD_TYPE('u', 'n', 'r', 'g'),
     kQ3XMethodTypeObjectIsDrawable              = Q3_METHOD_TYPE('i', 's', 'd', 'r')
 };
@@ -603,7 +619,7 @@ enum {
 	@abstract	Type codes of Quesa object classes.
 	@discussion	These values should be considered to be of type TQ3ObjectType.
 */
-enum {
+enum QUESA_ENUM_BASE(TQ3Int32) {
     kQ3ObjectTypeInvalid                        = ((TQ3ObjectType) 0),
     kQ3ObjectTypeView                           = Q3_OBJECT_TYPE('v', 'i', 'e', 'w'),
     kQ3ObjectTypeViewer                         = Q3_OBJECT_TYPE('v', 'w', 'e', 'r'),

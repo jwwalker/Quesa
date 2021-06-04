@@ -100,7 +100,7 @@ extern "C" {
  *	@constant kQ3DisplayGroupStateMaskIsNotForBounding	   The group will not be submitted during bounding.
  *														   (Not in QD3D.)
  */
-typedef enum {
+typedef enum QUESA_ENUM_BASE(TQ3Uns32) {
     kQ3DisplayGroupStateNone                    = 0,
     kQ3DisplayGroupStateMaskIsDrawn             = (1 << 0),
     kQ3DisplayGroupStateMaskIsInline            = (1 << 1),
@@ -118,7 +118,7 @@ typedef enum {
 
 
 // Group method types
-enum {
+enum QUESA_ENUM_BASE(TQ3Uns32) {
     kQ3XMethodType_GroupAcceptObject            = Q3_METHOD_TYPE('g', 'a', 'c', 'o'),
     kQ3XMethodType_GroupAddObject               = Q3_METHOD_TYPE('g', 'a', 'd', 'o'),
     kQ3XMethodType_GroupAddObjectBefore         = Q3_METHOD_TYPE('g', 'a', 'o', 'b'),

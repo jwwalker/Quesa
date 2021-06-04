@@ -189,7 +189,7 @@ extern "C" {
  *					view and still want to create the NSOpenGLContext in client code rather than letting
  *					Quesa create one, then set this property before rendering.
  */
-enum {
+enum QUESA_ENUM_BASE(TQ3Int32) {
 	kQ3DrawContextPropertyClearDepthBufferFlag      = Q3_METHOD_TYPE('c', 'l', 'd', 'b'),
 	kQ3DrawContextPropertyClearDepthBufferValue     = Q3_METHOD_TYPE('c', 'l', 'd', 'v'),
 	kQ3DrawContextPropertyWritableDepthBuffer       = Q3_METHOD_TYPE('w', 'r', 'd', 'b'),
@@ -207,7 +207,7 @@ enum {
 	kQ3DrawContextPropertyGLDestroyCallback         = Q3_OBJECT_TYPE('g', 'l', 'd', 'c'),
 	kQ3DrawContextPropertyGLFinishBeforeSwap        = Q3_OBJECT_TYPE('f', 'i', 'b', 's'),
 	kQ3DrawContextPropertyNSOpenGLContext           = Q3_OBJECT_TYPE('n', 's', 'o', 'g'),
-	kQ3DrawContextPropertyTypeSize32                = 0xFFFFFFFF
+	kQ3DrawContextPropertyTypeSize32                = 0x7FFFFFFF
 };
 
 /*!
@@ -219,7 +219,7 @@ enum {
  *  @constant kQ3ClearMethodNone        Do not clear the draw context before rendering.
  *  @constant kQ3ClearMethodWithColor   Clear the draw context to the clear colour before rendering.
  */
-typedef enum {
+typedef enum QUESA_ENUM_BASE(TQ3Uns32) {
     kQ3ClearMethodNone                          = 0,
     kQ3ClearMethodWithColor                     = 1,
     kQ3ClearMethodSize32                        = 0xFFFFFFFF
@@ -235,7 +235,7 @@ typedef enum {
  *  @constant kQ3DirectDrawObject          A DIRECTDRAW  interface has been supplied.
  *  @constant kQ3DirectDrawObject2         A DIRECTDRAW2 interface has been supplied.
  */
-typedef enum {
+typedef enum QUESA_ENUM_BASE(TQ3Uns32) {
     kQ3DirectDrawObject                         = 1,
     kQ3DirectDrawObject2                        = 2,
     kQ3DirectDrawObjectSize32                   = 0xFFFFFFFF
@@ -251,7 +251,7 @@ typedef enum {
  *  @constant kQ3DirectDrawSurface         A DIRECTDRAWSURFACE  interface has been supplied.
  *  @constant kQ3DirectDrawSurface2        A DIRECTDRAWSURFACE2 interface has been supplied.
  */
-typedef enum {
+typedef enum QUESA_ENUM_BASE(TQ3Uns32) {
     kQ3DirectDrawSurface                        = 1,
     kQ3DirectDrawSurface2                       = 2,
     kQ3DirectDrawSurfaceSize32                  = 0xFFFFFFFF

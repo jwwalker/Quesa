@@ -107,7 +107,7 @@ extern "C" {
  *		renderer of a preferred bit depth for a depth buffer.  Renderers that
  *		are not based on OpenGL will probably ignore this preference.
  */
-enum
+enum QUESA_ENUM_BASE(TQ3Int32)
 {
 	kQ3ElementTypeDepthBits					=	Q3_OBJECT_TYPE(0xF0, 'd', 'b', 'i')
 };
@@ -283,7 +283,7 @@ enum
 					
 					Data type: TQ3CastShadowsOverrideCallback.  Default: nullptr.
 */
-enum
+enum QUESA_ENUM_BASE(TQ3Int32)
 {
 	kQ3RendererPropertyAutomaticTriangleStrips      = Q3_OBJECT_TYPE('a', 't', 'r', 's'),
 	kQ3RendererPropertyPerPixelLighting             = Q3_OBJECT_TYPE('p', 'p', 'x', 'l'),
@@ -325,7 +325,7 @@ enum
 						The pass is adding the light from one shadow-casting
 						light.
 */
-typedef enum TQ3RendererPassType
+typedef enum TQ3RendererPassType QUESA_ENUM_BASE(TQ3Uns32)
 {
 	kQ3RendererPassNonShadow       = 0,
 	kQ3RendererPassShadowMarking   = 1,
@@ -344,7 +344,7 @@ typedef enum TQ3RendererPassType
  *
  *      The data for the attribute is a single TQ3CSGObjectID.
  */
-enum {
+enum QUESA_ENUM_BASE(TQ3Uns32) {
     kQ3AttributeTypeConstructiveSolidGeometryID = Q3_METHOD_TYPE('c', 's', 'g', 'i')
 };
 
@@ -362,7 +362,7 @@ enum {
  *  @constant kQ3SolidGeometryObjD       Indicates the 'D' object.
  *  @constant kQ3SolidGeometryObjE       Indicates the 'E' object.
  */
-typedef enum TQ3CSGObjectID {
+typedef enum TQ3CSGObjectID QUESA_ENUM_BASE(TQ3Int32) {
     kQ3SolidGeometryObjNone                     = -1,
     kQ3SolidGeometryObjA                        = 0,
     kQ3SolidGeometryObjB                        = 1,
@@ -385,7 +385,7 @@ typedef enum TQ3CSGObjectID {
  *  @constant kQ3CSGEquationnotAandB      Indicates not A and B.
  *  @constant kQ3CSGEquationnAaBorCanB    Indicates not A and B or C and B.
  */
-typedef enum TQ3CSGEquation {
+typedef enum TQ3CSGEquation QUESA_ENUM_BASE(TQ3Uns32) {
     kQ3CSGEquationAandB                         = 0x88888888,
     kQ3CSGEquationAandnotB                      = 0x22222222,
     kQ3CSGEquationAanBonCad                     = 0x2F222F22,
@@ -423,7 +423,7 @@ typedef enum TQ3CSGEquation {
  *	@constant kQ3XDrawContextValidationDepthState			The depth testing state (glDepthMask, glDepthFunc) is invalid.
  *  @constant kQ3XDrawContextValidationAll                  The draw context state is invalid.
  */
-typedef enum TQ3XDrawContextValidationMasks {
+typedef enum TQ3XDrawContextValidationMasks QUESA_ENUM_BASE(TQ3Uns32) {
     kQ3XDrawContextValidationClearFlags         = 0,
     kQ3XDrawContextValidationDoubleBuffer       = (1 << 0),
     kQ3XDrawContextValidationShader             = (1 << 1),
@@ -485,7 +485,7 @@ typedef enum TQ3XDrawContextValidationMasks {
  *  @constant kQ3XMethodTypeRendererUpdateMatrixCameraToFrustum                 The camera-to-frustum matrix state has changed. Not available in QD3D.
 
  */
-typedef enum TQ3XMethodTypeRenderer {
+typedef enum TQ3XMethodTypeRenderer QUESA_ENUM_BASE(TQ3Uns32) {
     kQ3XMethodTypeRendererIsInteractive                             = Q3_METHOD_TYPE('i', 's', 'i', 'n'),
     kQ3XMethodTypeRendererModalConfigure                            = Q3_METHOD_TYPE('r', 'd', 'm', 'c'),
     kQ3XMethodTypeRendererGetNickNameString                         = Q3_METHOD_TYPE('r', 'd', 'n', 's'),
@@ -533,7 +533,7 @@ typedef enum TQ3XMethodTypeRenderer {
  *  @constant kQATextureFilter_Mid     Perform basic filtering.
  *  @constant kQATextureFilter_Best    Perform high quality filtering.
  */
-typedef enum TQ3TextureFilter {
+typedef enum TQ3TextureFilter QUESA_ENUM_BASE(TQ3Uns32) {
     kQATextureFilter_Fast                       = 0,
     kQATextureFilter_Mid                        = 1,
     kQATextureFilter_Best                       = 2,
@@ -563,7 +563,7 @@ typedef enum TQ3TextureFilter {
  *  @constant kQAVendor_PurpleShark         Purple Shark D3D shim.
  *  @constant kQAVendor_VillageTronic       VillageTronic.
  */
-typedef enum TQ3RaveVendorID {
+typedef enum TQ3RaveVendorID QUESA_ENUM_BASE(TQ3Int32) {
     kQAVendor_BestChoice                        = -1,
     kQAVendor_Apple                             = 0,
     kQAVendor_ATI                               = 1,
@@ -594,7 +594,7 @@ typedef enum TQ3RaveVendorID {
  *  @constant kQAEngine_AppleHW2    Another Apple accelerator.
  *  @constant kQAEngine_AppleHW3    Yet another Apple accelerator.
  */
-typedef enum TQ3RaveEngineID {
+typedef enum TQ3RaveEngineID QUESA_ENUM_BASE(TQ3Int32) {
     kQAEngine_AppleSW                           = 0,
     kQAEngine_AppleHW                           = -1,
     kQAEngine_AppleHW2                          = 1,

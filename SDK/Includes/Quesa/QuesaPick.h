@@ -119,7 +119,7 @@ extern "C" {
  *													 Not in QuickDraw 3D.
  *													 Data type: TQ3Param3D.
  */
-typedef enum TQ3PickDetailMasks {
+typedef enum TQ3PickDetailMasks QUESA_ENUM_BASE(TQ3Uns32) {
     kQ3PickDetailNone                           = 0,
     kQ3PickDetailMaskPickID                     = (1 << 0),
     kQ3PickDetailMaskPath                       = (1 << 1),
@@ -147,7 +147,7 @@ typedef enum TQ3PickDetailMasks {
  *  @constant kQ3PickSortNearToFar      The pick hit list should be sorted from near to far.
  *  @constant kQ3PickSortFarToNear      The pick hit list should be sorted from far to near.
  */
-typedef enum TQ3PickSort {
+typedef enum TQ3PickSort QUESA_ENUM_BASE(TQ3Uns32) {
     kQ3PickSortNone                             = 0,
     kQ3PickSortNearToFar                        = 1,
     kQ3PickSortFarToNear                        = 2,

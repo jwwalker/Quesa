@@ -100,7 +100,7 @@ extern "C" {
 	@constant	kQ3StorageOpenness_Open
 				The storage is currently opened.
 */
-typedef enum TQ3StorageOpenness
+typedef enum TQ3StorageOpenness QUESA_ENUM_BASE(TQ3Uns32)
 {
 	kQ3StorageOpenness_Ignored = 0,
 	kQ3StorageOpenness_Closed,

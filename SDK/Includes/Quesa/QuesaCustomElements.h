@@ -12,7 +12,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -146,7 +146,7 @@ extern "C" {
  *  @constant kCEUrlOptionNone          No options set.
  *  @constant kCEUrlOptionUseMap        Map option set (meaning unknown).
  */
-typedef enum {
+typedef enum TCEUrlOptions QUESA_ENUM_BASE(TQ3Uns32) {
     kCEUrlOptionNone                            = 0,
     kCEUrlOptionUseMap                          = 1,
     kCEUrlOptionSize32                          = 0xFFFFFFFF

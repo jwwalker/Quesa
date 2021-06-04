@@ -81,7 +81,7 @@ extern "C" {
 //      Constants
 //-----------------------------------------------------------------------------
 // Mac file types
-enum {
+enum QUESA_ENUM_BASE(TQ3Int32) {
     kQ3XExtensionMacCreatorType                 = Q3_OBJECT_TYPE('Q', '3', 'X', 'T'),
     kQ3XExtensionMacFileType                    = Q3_OBJECT_TYPE('s', 'h', 'l', 'b')
 };
@@ -143,7 +143,7 @@ enum {
  *						View object that is called when an immediate object is
  *						submitted to the View for writing.
 */
-enum {
+enum QUESA_ENUM_BASE(TQ3Uns32) {
     kQ3XMethodTypeObjectClassVersion            = Q3_METHOD_TYPE('v', 'r', 's', 'n'),
     kQ3XMethodTypeObjectClassRegister           = Q3_METHOD_TYPE('r', 'g', 's', 't'),
     kQ3XMethodTypeObjectClassReplace            = Q3_METHOD_TYPE('r', 'g', 'r', 'p'),

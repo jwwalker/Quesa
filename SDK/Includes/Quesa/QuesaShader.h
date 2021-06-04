@@ -12,7 +12,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -87,7 +87,7 @@ extern "C" {
  *  @constant kQ3ShaderUVBoundaryWrap    Wrap UV values outside of 0..1.
  *  @constant kQ3ShaderUVBoundaryClamp   Clamp UV values to 0..1.
  */
-typedef enum TQ3ShaderUVBoundary {
+typedef enum TQ3ShaderUVBoundary QUESA_ENUM_BASE(TQ3Uns32) {
     kQ3ShaderUVBoundaryWrap                     = 0,
     kQ3ShaderUVBoundaryClamp                    = 1,
     kQ3ShaderUVBoundarySize32                   = 0xFFFFFFFF
@@ -112,7 +112,7 @@ typedef enum TQ3ShaderUVBoundary {
 					You might use this to convert the texture's memory storage
 					into a path storage to save memory.
 */
-enum
+enum QUESA_ENUM_BASE(TQ3Int32)
 {
 	kQ3TexturePropertyCallbackAfterUpload = Q3_OBJECT_TYPE('c', 'a', 't', 'u')
 };
@@ -133,7 +133,7 @@ enum
 					the threshold is considered completely transparent.
 					Data type: TQ3Float32.
 */
-enum
+enum QUESA_ENUM_BASE(TQ3Int32)
 {
 	kQ3ElementTypeTextureShaderAlphaTest	= Q3_OBJECT_TYPE(0xF0, 's', 'a', 't')
 };
