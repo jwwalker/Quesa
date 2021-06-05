@@ -1118,7 +1118,9 @@ typedef struct TQ3TriMeshTriangleData {
  *	@field		pointIndices			Array of 2 indices into the TriMesh array of points,
  *										the ends of the edge.
  *	@field		triangleIndices			Array of 2 indices into the TriMesh array of triangles,
- *										the triangles containing the edge.
+ *									the triangles containing the edge.  One index may be the
+ *									special value <code>kQ3ArrayIndexNULL</code> if the edge is only
+ *									incident to one triangle.
  */
 typedef struct TQ3TriMeshEdgeData {
     TQ3Uns32                                    pointIndices[2];
