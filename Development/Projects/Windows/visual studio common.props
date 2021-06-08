@@ -8,7 +8,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>../../Source/Core/Geometry;../../Source/Core/Glue;../../Source/Core/Support;../../Source/Core/System;../../Source/Platform/Windows;../../Source/Renderers/Common;../../Source/Renderers/Generic;../../Source/Renderers/Interactive;../../Source/Renderers/Wireframe;../../Source/Renderers/Cartoon;../../Source/Renderers/OpenGL;../../Source/Renderers/HiddenLine;../../Source/Renderers/MakeStrip;../../Source/FileFormats;../../Source/FileFormats/Readers/3dmf;../../Source/FileFormats/Writers/3dmf;../../Source/StackCrawl;../../../SDK/Includes/Quesa;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../Source/Core/Geometry;../../Source/Core/Glue;../../Source/Core/Support;../../Source/Core/glu tessellation from Mesa;../../Source/Core/System;../../Source/Platform/Windows;../../Source/Renderers/Common;../../Source/Renderers/Generic;../../Source/Renderers/Interactive;../../Source/Renderers/Wireframe;../../Source/Renderers/Cartoon;../../Source/Renderers/OpenGL;../../Source/Renderers/HiddenLine;../../Source/Renderers/MakeStrip;../../Source/FileFormats;../../Source/FileFormats/Readers/3dmf;../../Source/FileFormats/Writers/3dmf;../../Source/StackCrawl;../../../SDK/Includes/Quesa;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup>

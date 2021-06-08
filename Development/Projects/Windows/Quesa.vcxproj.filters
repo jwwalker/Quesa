@@ -56,6 +56,12 @@
     <Filter Include="Source\FileFormats\Writers\3dmf">
       <UniqueIdentifier>{cdb2e342-e594-42bd-b84f-c4f2f07ebb9f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Public Headers">
+      <UniqueIdentifier>{61a98f82-8a3f-4f7f-b088-fe86b1ff5aef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Tesselation from Mesa GLU">
+      <UniqueIdentifier>{dd31df18-3e6a-4b50-bec6-0b0161342a76}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Source\Core\Geometry\E3GeometryTriMeshOptimize.cpp">
@@ -436,6 +442,36 @@
     <ClCompile Include="..\..\Source\Renderers\OpenGL\QOGLSLShaders.cpp">
       <Filter>Source\Renderers\OpenGL</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Core\glu tessellation from Mesa\dict.c">
+      <Filter>Source\Tesselation from Mesa GLU</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\glu tessellation from Mesa\geom.c">
+      <Filter>Source\Tesselation from Mesa GLU</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\glu tessellation from Mesa\memalloc.c">
+      <Filter>Source\Tesselation from Mesa GLU</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\glu tessellation from Mesa\mesh.c">
+      <Filter>Source\Tesselation from Mesa GLU</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\glu tessellation from Mesa\normal.c">
+      <Filter>Source\Tesselation from Mesa GLU</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\glu tessellation from Mesa\priorityq.c">
+      <Filter>Source\Tesselation from Mesa GLU</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\glu tessellation from Mesa\render.c">
+      <Filter>Source\Tesselation from Mesa GLU</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\glu tessellation from Mesa\sweep.c">
+      <Filter>Source\Tesselation from Mesa GLU</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\glu tessellation from Mesa\tess.c">
+      <Filter>Source\Tesselation from Mesa GLU</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\glu tessellation from Mesa\tessmono.c">
+      <Filter>Source\Tesselation from Mesa GLU</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Core\System\E3Math_Intersect.h">
@@ -528,10 +564,138 @@
     <ClInclude Include="..\..\Source\Renderers\OpenGL\QOGLSLShaders.h">
       <Filter>Source\Renderers\OpenGL</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\CQ3ObjectRef.h">
+      <Filter>Public Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\CQ3ObjectRef_Gets.h">
+      <Filter>Public Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\CQ3WeakObjectRef.h">
+      <Filter>Public Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\Q3GroupIterator.h">
+      <Filter>Public Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\Quesa.h">
+      <Filter>Public Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaCamera.h">
+      <Filter>Public Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaCustomElements.h">
+      <Filter>Public Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaDrawContext.h">
+      <Filter>Public Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaErrors.h">
+      <Filter>Public Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaExtension.h">
+      <Filter>Public Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaGeometry.h">
+      <Filter>Public Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaGroup.h">
+      <Filter>Public Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaIO.h">
+      <Filter>Public Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaLight.h">
+      <Filter>Public Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaMath.h">
+      <Filter>Public Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaMathOperators.hpp">
+      <Filter>Public Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaMemory.h">
+      <Filter>Public Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaPick.h">
+      <Filter>Public Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaRenderer.h">
+      <Filter>Public Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaSet.h">
+      <Filter>Public Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaShader.h">
+      <Filter>Public Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaStorage.h">
+      <Filter>Public Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaString.h">
+      <Filter>Public Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaStyle.h">
+      <Filter>Public Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaTransform.h">
+      <Filter>Public Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaView.h">
+      <Filter>Public Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\dict.h">
+      <Filter>Source\Tesselation from Mesa GLU</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\dict-list.h">
+      <Filter>Source\Tesselation from Mesa GLU</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\geom.h">
+      <Filter>Source\Tesselation from Mesa GLU</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\glu-mesa.h">
+      <Filter>Source\Tesselation from Mesa GLU</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\gluos.h">
+      <Filter>Source\Tesselation from Mesa GLU</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\memalloc.h">
+      <Filter>Source\Tesselation from Mesa GLU</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\mesh.h">
+      <Filter>Source\Tesselation from Mesa GLU</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\normal.h">
+      <Filter>Source\Tesselation from Mesa GLU</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\priorityq.h">
+      <Filter>Source\Tesselation from Mesa GLU</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\priorityq-heap.h">
+      <Filter>Source\Tesselation from Mesa GLU</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\priorityq-sort.h">
+      <Filter>Source\Tesselation from Mesa GLU</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\render.h">
+      <Filter>Source\Tesselation from Mesa GLU</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\sweep.h">
+      <Filter>Source\Tesselation from Mesa GLU</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\tess.h">
+      <Filter>Source\Tesselation from Mesa GLU</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\tessmono.h">
+      <Filter>Source\Tesselation from Mesa GLU</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\..\Source\Platform\Windows\Resources\Quesa.rc">
       <Filter>Source\Platform\Windows</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Source\Core\glu tessellation from Mesa\README">
+      <Filter>Source\Tesselation from Mesa GLU</Filter>
+    </None>
   </ItemGroup>
 </Project>

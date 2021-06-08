@@ -259,6 +259,16 @@
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
+    <ClCompile Include="..\..\Source\Core\glu tessellation from Mesa\dict.c" />
+    <ClCompile Include="..\..\Source\Core\glu tessellation from Mesa\geom.c" />
+    <ClCompile Include="..\..\Source\Core\glu tessellation from Mesa\memalloc.c" />
+    <ClCompile Include="..\..\Source\Core\glu tessellation from Mesa\mesh.c" />
+    <ClCompile Include="..\..\Source\Core\glu tessellation from Mesa\normal.c" />
+    <ClCompile Include="..\..\Source\Core\glu tessellation from Mesa\priorityq.c" />
+    <ClCompile Include="..\..\Source\Core\glu tessellation from Mesa\render.c" />
+    <ClCompile Include="..\..\Source\Core\glu tessellation from Mesa\sweep.c" />
+    <ClCompile Include="..\..\Source\Core\glu tessellation from Mesa\tess.c" />
+    <ClCompile Include="..\..\Source\Core\glu tessellation from Mesa\tessmono.c" />
     <ClCompile Include="..\..\Source\Core\Glue\QD3DCamera.cpp" />
     <ClCompile Include="..\..\Source\Core\Glue\QD3DCustomElements.cpp" />
     <ClCompile Include="..\..\Source\Core\Glue\QD3DDrawContext.cpp" />
@@ -364,6 +374,47 @@
     <ClCompile Include="..\..\Source\Renderers\OpenGL\QOUpdate.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\CQ3ObjectRef.h" />
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\CQ3ObjectRef_Gets.h" />
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\CQ3WeakObjectRef.h" />
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\Q3GroupIterator.h" />
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\Quesa.h" />
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaCamera.h" />
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaCustomElements.h" />
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaDrawContext.h" />
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaErrors.h" />
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaExtension.h" />
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaGeometry.h" />
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaGroup.h" />
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaIO.h" />
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaLight.h" />
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaMath.h" />
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaMathOperators.hpp" />
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaMemory.h" />
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaPick.h" />
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaRenderer.h" />
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaSet.h" />
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaShader.h" />
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaStorage.h" />
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaString.h" />
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaStyle.h" />
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaTransform.h" />
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaView.h" />
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\dict-list.h" />
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\dict.h" />
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\geom.h" />
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\glu-mesa.h" />
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\gluos.h" />
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\memalloc.h" />
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\mesh.h" />
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\normal.h" />
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\priorityq-heap.h" />
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\priorityq-sort.h" />
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\priorityq.h" />
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\render.h" />
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\sweep.h" />
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\tess.h" />
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\tessmono.h" />
     <ClInclude Include="..\..\Source\Core\Support\E3FastArray.h" />
     <ClInclude Include="..\..\Source\Core\Support\E3Version.h" />
     <ClInclude Include="..\..\Source\Renderers\Common\GLImmediateVBO.h" />
@@ -397,6 +448,9 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\..\Source\Platform\Windows\Resources\Quesa.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Source\Core\glu tessellation from Mesa\README" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

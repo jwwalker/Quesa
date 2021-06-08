@@ -217,6 +217,15 @@
     #endif
 
 
+    // Get rid of annoying macro conflicts
+    #undef near
+    #undef far
+    #undef NEAR
+    #undef FAR
+    #define NEAR
+    #define FAR
+
+
 	// Export symbols when building a shared library
     #ifdef Q3_EXPORT_SYMBOLS
         #define Q3_EXTERN_API_C(_type)					__declspec(dllexport) _type __cdecl  

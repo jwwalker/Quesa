@@ -913,12 +913,12 @@ E3Tessellate_Contours(TQ3Uns32 numContours,
 
 	// Set it up
 	gluTessProperty(theTess, GLU_TESS_WINDING_RULE,   GLU_TESS_WINDING_ODD);
-	gluTessCallback(theTess, GLU_TESS_BEGIN_DATA,     (GLcallback) e3tessellate_callback_begin);
-	gluTessCallback(theTess, GLU_TESS_END_DATA,       (GLcallback) e3tessellate_callback_end);
-	gluTessCallback(theTess, GLU_TESS_EDGE_FLAG_DATA, (GLcallback) e3tessellate_callback_edge);
-	gluTessCallback(theTess, GLU_TESS_VERTEX_DATA,    (GLcallback) e3tessellate_callback_vertex);
-	gluTessCallback(theTess, GLU_TESS_ERROR_DATA,     (GLcallback) e3tessellate_callback_error);
-	gluTessCallback(theTess, GLU_TESS_COMBINE_DATA,   (GLcallback) e3tessellate_callback_combine);
+	gluTessCallback(theTess, GLU_TESS_BEGIN_DATA,     (_GLUfuncptr) e3tessellate_callback_begin);
+	gluTessCallback(theTess, GLU_TESS_END_DATA,       (_GLUfuncptr) e3tessellate_callback_end);
+	gluTessCallback(theTess, GLU_TESS_EDGE_FLAG_DATA, (_GLUfuncptr) e3tessellate_callback_edge);
+	gluTessCallback(theTess, GLU_TESS_VERTEX_DATA,    (_GLUfuncptr) e3tessellate_callback_vertex);
+	gluTessCallback(theTess, GLU_TESS_ERROR_DATA,     (_GLUfuncptr) e3tessellate_callback_error);
+	gluTessCallback(theTess, GLU_TESS_COMBINE_DATA,   (_GLUfuncptr) e3tessellate_callback_combine);
 
 
 
