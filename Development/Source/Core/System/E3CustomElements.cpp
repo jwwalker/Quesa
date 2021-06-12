@@ -397,7 +397,7 @@ e3urlelement_readdata (TQ3Object object, TQ3FileObject file)
 		return kQ3Failure;
 
 	urlData.url = (char*)Q3Memory_Allocate(length + 1);
-	strcpy (urlData.url, buffer);
+	SAFE_STRCPY(urlData.url, buffer, length + 1);
 	
 	if (Q3Uns32_Read ((TQ3Uns32*)&urlData.options, file) == kQ3Failure)
 		return kQ3Failure;
@@ -422,11 +422,12 @@ e3urlelement_copyadd ( const void* fromParam, void* toParam )
 	TCEUrlDataPrivate* source = (TCEUrlDataPrivate*) fromParam;
 	TCEUrlDataPrivate* dest = (TCEUrlDataPrivate*) toParam;
 
-	dest->url = (char*)Q3Memory_Allocate(static_cast<TQ3Uns32>(strlen(source->url) + 1));
+	TQ3Uns32 dstSize = static_cast<TQ3Uns32>(strlen(source->url) + 1);
+	dest->url = (char*)Q3Memory_Allocate(dstSize);
 	if (dest->url == nullptr)
 		return kQ3Failure;
 
-	strcpy (dest->url, source->url);
+	SAFE_STRCPY(dest->url, source->url, dstSize);
 
 	if (source->description) {  // optional
 		
@@ -460,11 +461,12 @@ static TQ3Status
 e3urlelement_copyreplace (TCEUrlDataPrivate *source, TCEUrlDataPrivate *dest)
 {
 	TQ3StringObject	string = nullptr;
+	TQ3Uns32 dstSize = static_cast<TQ3Uns32>(strlen(source->url) + 1);
 
-	if (Q3Memory_Reallocate(&dest->url, static_cast<TQ3Uns32>(strlen(source->url) + 1)) == kQ3Failure)
+	if (Q3Memory_Reallocate(&dest->url, dstSize) == kQ3Failure)
 		return kQ3Failure;
 		
-	strcpy (dest->url, source->url);
+	SAFE_STRCPY(dest->url, source->url, dstSize);
 
 	if (source->description) {  // optional
 
@@ -1476,9 +1478,10 @@ E3UrlElement_GetData(TQ3Object object, TCEUrlData **urlData)
 
 
 	*urlData = (TCEUrlData*)Q3Memory_Allocate(sizeof(TCEUrlData));
-	(**urlData).url = (char*)Q3Memory_Allocate(static_cast<TQ3Uns32>(strlen(urlDataPrivate.url) + 1));
+	TQ3Uns32 dstSize = static_cast<TQ3Uns32>(strlen(urlDataPrivate.url) + 1);
+	(**urlData).url = (char*)Q3Memory_Allocate(dstSize);
 		
-	strcpy ((**urlData).url, urlDataPrivate.url);
+	SAFE_STRCPY((**urlData).url, urlDataPrivate.url, dstSize);
 	
 	(**urlData).options = urlDataPrivate.options;
 	(**urlData).description = nullptr;

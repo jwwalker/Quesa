@@ -193,10 +193,11 @@ e3unknown_binary_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 	// Copy the string
 	if (fromInstanceData->typeString != nullptr)
 		{
-		toInstanceData->typeString = (char *) Q3Memory_Allocate(static_cast<TQ3Uns32>(strlen(fromInstanceData->typeString) + 1));
+		TQ3Uns32 dstSize = static_cast<TQ3Uns32>(strlen(fromInstanceData->typeString) + 1);
+		toInstanceData->typeString = (char *) Q3Memory_Allocate(dstSize);
 		if (toInstanceData->typeString == nullptr)
 			return(kQ3Failure);
-		strcpy(toInstanceData->typeString, fromInstanceData->typeString);	
+		SAFE_STRCPY(toInstanceData->typeString, fromInstanceData->typeString, dstSize);	
 		}
 	else
 		toInstanceData->typeString = nullptr;
@@ -292,20 +293,27 @@ e3unknown_text_duplicateData(const TQ3UnknownTextData *fromData, TQ3UnknownTextD
 
 	
 	// Copy the name
+	TQ3Uns32 dstSize = 0;
 	if (fromData->objectName != nullptr)
-		toData->objectName = (char *) Q3Memory_Allocate(static_cast<TQ3Uns32>(strlen(fromData->objectName) + 1));
+	{
+		dstSize = static_cast<TQ3Uns32>(strlen(fromData->objectName) + 1);
+		toData->objectName = (char *) Q3Memory_Allocate(dstSize);
+	}
 	if (toData->objectName == nullptr)
 		return(kQ3Failure);
 	if (fromData->objectName != nullptr)
-		strcpy(toData->objectName, fromData->objectName);
+		SAFE_STRCPY(toData->objectName, fromData->objectName, dstSize);
 	else
 		toData->objectName = nullptr;	// not sure if this is appropriate
 	
 	// Copy the contents
 	if (fromData->contents != nullptr)
-		toData->contents = (char *) Q3Memory_Allocate(static_cast<TQ3Uns32>(strlen(fromData->contents) + 1));
+	{
+		dstSize = static_cast<TQ3Uns32>(strlen(fromData->contents) + 1);
+		toData->contents = (char *) Q3Memory_Allocate(dstSize);
+	}
 	if ( (fromData->contents != nullptr) && (toData->contents != nullptr) )
-		strcpy(toData->contents, fromData->contents);	
+		SAFE_STRCPY(toData->contents, fromData->contents, dstSize);	
 	else
 		qd3dStatus = kQ3Failure;
 
@@ -1907,22 +1915,22 @@ E3UnknownBinary_EmptyData(TQ3UnknownBinaryData *unknownBinaryData)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3UnknownBinary_GetTypeString(TQ3UnknownObject unknownObject, char **typeString)
-	{
+{
 	E3UnknownBinary* unknownBinary = (E3UnknownBinary*) unknownObject ;
 	
 	if ( unknownBinary->instanceData.typeString != nullptr)
-		{
-		*typeString = (char *) Q3Memory_Allocate(
-			static_cast<TQ3Uns32>(strlen ( unknownBinary->instanceData.typeString ) + 1) ) ;
+	{
+		TQ3Uns32 dstSize = static_cast<TQ3Uns32>(strlen ( unknownBinary->instanceData.typeString ) + 1);
+		*typeString = (char *) Q3Memory_Allocate( dstSize ) ;
 		if ( *typeString == nullptr )
 			return kQ3Failure ;
-		strcpy ( * typeString, unknownBinary->instanceData.typeString ) ;
-		}
+		SAFE_STRCPY( * typeString, unknownBinary->instanceData.typeString, dstSize );
+	}
 	else
 		**typeString = 0 ;
 
 	return kQ3Success ;
-	}
+}
 
 
 

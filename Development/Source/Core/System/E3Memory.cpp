@@ -1,11 +1,11 @@
 /*  NAME:
-        E3Memory.c
+        E3Memory.cpp
 
     DESCRIPTION:
         Quesa memory manager.
 
     COPYRIGHT:
-        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -897,7 +897,7 @@ E3Memory_DumpRecording( const char* fileName, const char* memo )
 			theType = Q3Object_GetLeafType( anObject );
 			if (kQ3Failure == Q3ObjectHierarchy_GetStringFromType( theType, className ))
 			{
-				strcpy( className, "UNKNOWN" );
+				SAFE_STRCPY( className, "UNKNOWN", sizeof(className) );
 			}
 			fprintf( dumpFile, "%s (%p)", className, anObject );
 			

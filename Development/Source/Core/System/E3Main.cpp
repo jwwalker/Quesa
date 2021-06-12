@@ -1132,7 +1132,7 @@ TQ3Status
 E3ObjectHierarchy_GetStringFromType(TQ3ObjectType objectClassType, TQ3ObjectClassNameString objectClassString)
 	{
 	// Initialise a return value
-	strcpy ( objectClassString, "" ) ;
+	SAFE_STRCPY( objectClassString, "", sizeof(TQ3ObjectClassNameString) );
 
 
 
@@ -1144,7 +1144,7 @@ E3ObjectHierarchy_GetStringFromType(TQ3ObjectType objectClassType, TQ3ObjectClas
 
 
 	// Return the name
-	strcpy ( objectClassString, theClass->GetName () ) ;
+	SAFE_STRCPY( objectClassString, theClass->GetName (), sizeof(TQ3ObjectClassNameString) );
 	return kQ3Success ;
 	}
 

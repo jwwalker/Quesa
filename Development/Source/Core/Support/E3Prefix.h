@@ -5,7 +5,7 @@
         Global prefix file for Quesa.
 
     COPYRIGHT:
-        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -202,6 +202,12 @@
 #else
 	#define		TRY
 	#define		CATCH_ALL
+#endif
+
+#if QUESA_OS_WIN32
+	#define SAFE_STRCPY( dst, src, dstSize )	strcpy_s( dst, dstSize, src )
+#else
+	#define SAFE_STRCPY( dst, src, dstSize )	strlcpy( dst, src, dstSize )
 #endif
 
 

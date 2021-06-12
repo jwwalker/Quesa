@@ -1,11 +1,11 @@
 /*  NAME:
-        E3String.c
+        E3String.cpp
 
     DESCRIPTION:
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2014, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -100,11 +100,12 @@ e3string_c_new(TQ3Object theObject, void *privateData, const void *paramData)
 
 
 	// Initialise our instance data
-	*instanceData = (TQ3StringPtr) Q3Memory_Allocate(static_cast<TQ3Uns32>(strlen(theString) + 1));
+	TQ3Uns32 dstSize = static_cast<TQ3Uns32>(strlen(theString) + 1);
+	*instanceData = (TQ3StringPtr) Q3Memory_Allocate(dstSize);
 	if (*instanceData == nullptr)
 		return(kQ3Failure);
 	
-	strcpy(*instanceData, theString);	
+	SAFE_STRCPY(*instanceData, theString, dstSize);	
 
 	return(kQ3Success);
 }
@@ -152,13 +153,14 @@ e3string_c_duplicate(TQ3Object fromObject, const void *fromPrivateData,
 	// Initialise the instance data of the new object
 	*toInstanceData = nullptr;
 	if (*fromInstanceData != nullptr)
-		{
-		*toInstanceData = (TQ3StringPtr) Q3Memory_Allocate(static_cast<TQ3Uns32>(strlen(*fromInstanceData) + 1));
+	{
+		TQ3Uns32 dstSize = static_cast<TQ3Uns32>(strlen(*fromInstanceData) + 1);
+		*toInstanceData = (TQ3StringPtr) Q3Memory_Allocate(dstSize);
 		if (*toInstanceData == nullptr)
 			return(kQ3Failure);
 	
-		strcpy(*toInstanceData, *fromInstanceData);	
-		}
+		SAFE_STRCPY(*toInstanceData, *fromInstanceData, dstSize);	
+	}
 
 	return(kQ3Success);
 }
@@ -302,23 +304,24 @@ E3CString_GetLength(TQ3StringObject stringObj, TQ3Uns32 *length)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3CString_SetString(TQ3StringObject stringObj, const char *str)
-	{
+{
 	TQ3StringPtr* instanceData = & ( (E3CString*) stringObj )->instanceData ;
 
 	// Resize the string data
-	TQ3Status qd3dStatus = Q3Memory_Reallocate( instanceData, static_cast<TQ3Uns32>(strlen ( str ) + 1) ) ;
+	TQ3Uns32 dstSize = static_cast<TQ3Uns32>(strlen ( str ) + 1);
+	TQ3Status qd3dStatus = Q3Memory_Reallocate( instanceData, dstSize ) ;
 	if ( qd3dStatus == kQ3Failure )
 		return qd3dStatus ;
 
 
 
 	// Copy the new string data in
-	strcpy ( *instanceData, str ) ;
+	SAFE_STRCPY( *instanceData, str, dstSize );
 
 	Q3Shared_Edited ( stringObj ) ;
 
 	return kQ3Success ;
-	}
+}
 
 
 
@@ -333,7 +336,7 @@ E3CString_SetString(TQ3StringObject stringObj, const char *str)
 //-----------------------------------------------------------------------------
 TQ3Status
 E3CString_GetString(TQ3StringObject stringObj, char **str)
-	{
+{
 	TQ3StringPtr* instanceData = & ( (E3CString*) stringObj )->instanceData ;
 
 	// If the pointer isn't nullptr, warn that they might be leaking memory
@@ -343,17 +346,18 @@ E3CString_GetString(TQ3StringObject stringObj, char **str)
 
 
 	// Allocate the data for the string
-	*str = (char *) Q3Memory_Allocate( static_cast<TQ3Uns32>(strlen ( *instanceData ) + 1) ) ;
+	TQ3Uns32 dstSize = static_cast<TQ3Uns32>(strlen ( *instanceData ) + 1);
+	*str = (char *) Q3Memory_Allocate( dstSize ) ;
 	if ( *str == nullptr )
 		return kQ3Failure ;
 	
 	
 	
 	// Copy the string
-	strcpy ( *str, *instanceData ) ;	
+	SAFE_STRCPY( *str, *instanceData, dstSize );	
 
 	return kQ3Success ;
-	}
+}
 
 
 

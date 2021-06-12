@@ -442,7 +442,7 @@ e3storage_path_new(TQ3Object theObject, void *privateData, const void *paramData
 	if (instanceData->thePath == nullptr)
 		return(kQ3Failure);
 
-	strcpy(instanceData->thePath, initData->thePath);
+	SAFE_STRCPY(instanceData->thePath, initData->thePath, pathLen + 1);
 	
 	instanceData->ownerCount = initData->ownerCount;
 	
@@ -551,7 +551,7 @@ e3storage_path_duplicate(	TQ3Object fromObject, const void *fromPrivateData,
 	if (toInstanceData->thePath == nullptr)
 		return(kQ3Failure);
 
-	strcpy(toInstanceData->thePath, fromInstanceData->thePath);
+	SAFE_STRCPY(toInstanceData->thePath, fromInstanceData->thePath, pathLen + 1);
 	
 	// Handle owner count
 	if (fromInstanceData->ownerCount != nullptr)

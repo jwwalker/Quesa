@@ -544,7 +544,8 @@ E3ClassTree::RegisterClass (	TQ3ObjectType		parentClassType,
 	if ( newClass == nullptr )
 		return kQ3Failure ;
 
-	newClass->className   = (char *) Q3Memory_Allocate ( (TQ3Uns32)strlen ( className ) + 1 ) ;
+	TQ3Uns32 nameSize = (TQ3Uns32)strlen ( className ) + 1;
+	newClass->className   = (char *) Q3Memory_Allocate ( nameSize ) ;
 	newClass->methodTable = E3HashTable_Create ( kMethodHashTableSize)  ;
 
 	if ( newClass->className == nullptr || newClass->methodTable == nullptr )
@@ -568,7 +569,7 @@ E3ClassTree::RegisterClass (	TQ3ObjectType		parentClassType,
 	newClass->deltaInstanceOffset = deltaInstanceOffset;
 	
 
-	strcpy ( newClass->className, className ) ;
+	SAFE_STRCPY( newClass->className, className, nameSize );
 
 
 
