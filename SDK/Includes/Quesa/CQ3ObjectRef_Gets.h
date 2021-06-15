@@ -15,7 +15,7 @@
 		output parameter.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2020, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -725,6 +725,22 @@ inline CQ3ObjectRef CQ3View_GetAttributeSetState(
 {
 	TQ3Object	theObject = nullptr;
 	Q3View_GetAttributeSetState( view, &theObject );
+	return CQ3ObjectRef( theObject );
+}
+
+/*!
+ *  @function		CQ3View_GetHighlightStyleState
+ *  @discussion		Get the current highlight style state from a view.  Must be called from a
+ *  				submitting loop.
+ *
+ *  @param view             The view to query.
+ *  @result          The current highlight attribute state set associated with the view, or NULL.
+ */
+inline CQ3ObjectRef CQ3View_GetHighlightStyleState(
+	TQ3ViewObject view )
+{
+	TQ3AttributeSet	theObject = nullptr;
+	Q3View_GetHighlightStyleState( view, &theObject );
 	return CQ3ObjectRef( theObject );
 }
 

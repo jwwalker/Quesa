@@ -1105,7 +1105,9 @@ Q3View_GetFillStyleState (
  *		Must be called within a submitting loop.
  *
  *  @param view             The view to query.
- *  @param highlightStyle   Receives the current highlight style state.
+ *  @param highlightStyle   Receives the current highlight style state (the attribute set, not the style
+ *  						object).  If not NULL, this is a new
+ *  						reference that you are responsible for disposing of.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )
