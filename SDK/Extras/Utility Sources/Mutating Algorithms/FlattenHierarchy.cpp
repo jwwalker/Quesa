@@ -48,13 +48,19 @@
 
 #ifndef __APPLE__
 	#include "CQ3ObjectRef.h"
+	#include "CQ3ObjectRef_Gets.h"
 	#include "QuesaGroup.h"
+	#include "QuesaMathOperators.hpp"
 	#include "QuesaStyle.h"
+	#include "QuesaTransform.h"
 	#include "Q3GroupIterator.h"
 #else
+	#include <Quesa/CQ3ObjectRef_Gets.h>
 	#include <Quesa/CQ3ObjectRef.h>
 	#include <Quesa/QuesaGroup.h>
+	#include <Quesa/QuesaMathOperators.hpp>
 	#include <Quesa/QuesaStyle.h>
+	#include <Quesa/QuesaTransform.h>
 	#include <Quesa/Q3GroupIterator.h>
 #endif
 
@@ -79,6 +85,7 @@ namespace
 	private:
 		void			HandleGeometry( TQ3Object inGeom );
 		void			AddStateToOrderedGroup( TQ3Object ioGroup );
+		void			SimplifyModifiers( TQ3GroupObject ioGroup );
 		
 		TQ3Uns32		mRequiredStateMask;
 		CQ3ObjectRef	mResultGroup;
@@ -207,6 +214,69 @@ Flattener::Flattener( TQ3Uns32 inRequiredStateMask )
 	mStateStack.push_back( CQ3ObjectRef() );
 }
 
+
+/*!
+	@method		SimplifyModifiers
+	@abstract	Remove redundant styles and multiply adjacent matrix transforms.
+*/
+void	Flattener::SimplifyModifiers( TQ3GroupObject ioOrderedGroup )
+{
+	// I have to be careful about how I iterate in the outer loop, because
+	// I may delete some members as I go.
+	TQ3GroupPosition pos1 = nullptr;
+	TQ3GroupPosition nextPos = nullptr;
+	Q3Group_GetFirstPosition( ioOrderedGroup, &pos1 );
+	if (pos1 == nullptr)
+	{
+		return;
+	}
+	do {
+		nextPos = pos1;
+		Q3Group_GetNextPosition( ioOrderedGroup, &nextPos );
+		CQ3ObjectRef member( CQ3Group_GetPositionObject( ioOrderedGroup, pos1 ) );
+		
+		if (Q3Object_IsType( member.get(), kQ3ShapeTypeStyle ))
+		{
+			TQ3ObjectType styleType = Q3Style_GetType( member.get() );
+			TQ3GroupPosition pos2 = pos1;
+			Q3Group_GetNextPositionOfType( ioOrderedGroup, styleType, &pos2 );
+			if (pos2 != nullptr)
+			{
+				CQ3ObjectRef deadStyle( Q3Group_RemovePosition( ioOrderedGroup,
+					pos1 ) );
+			}
+		}
+		else if (Q3Object_IsType( member.get(), kQ3TransformTypeMatrix ))
+		{
+			TQ3GroupPosition pos2 = pos1;
+			Q3Group_GetNextPositionOfType( ioOrderedGroup,
+				kQ3TransformTypeMatrix, &pos2 );
+			if (pos2 != nullptr)
+			{
+				CQ3ObjectRef laterTransform( CQ3Group_GetPositionObject(
+					ioOrderedGroup, pos2 ) );
+				TQ3Matrix4x4 outerMtx, innerMtx, prodMtx;
+				Q3MatrixTransform_Get( member.get(), &outerMtx );
+				Q3MatrixTransform_Get( laterTransform.get(), &innerMtx );
+				prodMtx = innerMtx * outerMtx;
+				/*!
+					One might think one could use Q3MatrixTransform_Set to update the matrix
+					of laterTransform.get(), instead of replacing the transform at that position.
+					But laterTransform.get() might be referenced elsehwere in the hierarchy, so it
+					is safer to replace it.
+				*/
+				CQ3ObjectRef prodTrans( Q3MatrixTransform_New( &prodMtx ) );
+				Q3Group_SetPositionObject( ioOrderedGroup, pos2, prodTrans.get() );
+
+				CQ3ObjectRef deadMtx( Q3Group_RemovePosition( ioOrderedGroup,
+					pos1 ) );
+			}
+		}
+		
+		pos1 = nextPos;
+	} while (nextPos != nullptr);
+}
+
 void	Flattener::AddStateToOrderedGroup( TQ3Object ioGroup )
 {
 	for (ObVec::iterator i = mStateStack.begin(); i != mStateStack.end(); ++i)
@@ -224,6 +294,7 @@ void	Flattener::HandleGeometry( TQ3Object inGeom )
 	CQ3ObjectRef	orderedGp( Q3OrderedDisplayGroup_New() );
 	
 	AddStateToOrderedGroup( orderedGp.get() );
+	SimplifyModifiers( orderedGp.get() );
 	
 	Q3Group_AddObject( orderedGp.get(), inGeom );
 	
