@@ -410,7 +410,7 @@ e3read_3dmf_text_readflag(TQ3Uns32* flag, TQ3FileObject inFile, TQ3ObjectType hi
 
 	// Loop until we've read all the flags
 	do
-		{
+	{
 		// Read the buffer, and assume that's us done
 		result  = e3fformat_3dmf_text_readitem (format, buffer, 256, &charsRead);
 		areDone = kQ3True;
@@ -418,11 +418,11 @@ e3read_3dmf_text_readflag(TQ3Uns32* flag, TQ3FileObject inFile, TQ3ObjectType hi
 
 		// Convert the flag
 		for(i = 0; i < dictValues; i++)
-			{
+		{
 			if(dictionary[i].hint == hint)
-				{
+			{
 				if(E3CString_IsEqual(dictionary[i].name,buffer))
-					{
+				{
 					// We've found a match - apply the flag
 					*flag |= dictionary[i].value;
 
@@ -432,7 +432,7 @@ e3read_3dmf_text_readflag(TQ3Uns32* flag, TQ3FileObject inFile, TQ3ObjectType hi
 					// adopted to handle other non-exclusive flags if they're added.
 					if ( (hint == kQ3ObjectTypeGeometryCaps) ||
 						(hint == kQ3ObjectTypeDisplayGroupState) )
-						{
+					{
 						// Save the current storage position, and read the next token
 						saveStoragePos = formatInstanceData->currentStoragePosition;
 						result         = e3fformat_3dmf_text_readitem(format, buffer, 256, &charsRead);
@@ -441,17 +441,19 @@ e3read_3dmf_text_readflag(TQ3Uns32* flag, TQ3FileObject inFile, TQ3ObjectType hi
 						// If it's not a pipe, that was the last flag: we're done
 						areDone = (TQ3Boolean) ((result == kQ3Failure) || !E3CString_IsEqual(buffer, "|"));
 						if (areDone)
+						{
 							formatInstanceData->currentStoragePosition = saveStoragePos;
 							result = kQ3Success;
 						}
+					}
 					
 					
 					// Break from the inner for loop
 					break;
-					}
 				}
 			}
 		}
+	}
 	while (!areDone);
 	
 	return (result);

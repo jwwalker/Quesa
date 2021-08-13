@@ -1,11 +1,11 @@
 /*  NAME:
-        E3WindowsSystem.c
+        E3WindowsSystem.cpp
 
     DESCRIPTION:
         Windows specific routines.
 
     COPYRIGHT:
-        Copyright (c) 1999-2007, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -111,7 +111,7 @@ e3windowsystem_load1plugin(LPTSTR path)
 //										and loads files with extension ext.
 //-----------------------------------------------------------------------------
 static void
-e3windowsystem_loadplugins(LPTSTR dir, LPTSTR ext)
+e3windowsystem_loadplugins(LPTSTR dir, LPCTSTR ext)
 {
 
 	WIN32_FIND_DATA FindFileData; 

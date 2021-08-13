@@ -406,7 +406,12 @@ typedef struct TQ3FogStyleExtendedData
 	TQ3RationalPoint4D         halfspaceFogPlane;
 } TQ3FogStyleExtendedData;
 
-
+// Note: some Windows headers define near and far as macros, which interferes
+// with our use of near and far members in the following structure.  If you
+// need to include Windows headers, it is probably safest to include them all
+// before Quesa headers.
+#undef near
+#undef far
 /*!
 	@struct		TQ3DepthRangeStyleData
 	@abstract	Depth range style data.

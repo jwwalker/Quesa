@@ -13,7 +13,7 @@
         camera type.
 
     COPYRIGHT:
-        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -2040,7 +2040,7 @@ TQ3Point3D	E3AllSeeingCamera::ViewToFrustum( const TQ3Point3D& inViewPt ) const
 	
 	TQ3Point3D frustumPt = {
 		atan2f( inViewPt.x, -inViewPt.z ) / kQ3Pi,
-		2.0f * asin( inViewPt.y / r ) / kQ3Pi,
+		2.0f * asinf( inViewPt.y / r ) / kQ3Pi,
 		q * (near / r - 1.0f)
 	};
 	

@@ -43,6 +43,13 @@
 //=============================================================================
 //      Include files
 //-----------------------------------------------------------------------------
+
+#if QUESA_OS_WIN32
+#include <ShlObj.h>
+#include <direct.h>
+#include <malloc.h>
+#endif
+
 #include "E3Prefix.h"
 #include "E3Memory.h"
 #include "E3StackCrawl.h"
@@ -57,12 +64,6 @@
 #if QUESA_OS_MACINTOSH
 	#include <unistd.h>
 	#include <malloc/malloc.h>
-#endif
-
-#if QUESA_OS_WIN32
-	#include <ShlObj.h>
-	#include <direct.h>
-	#include <malloc.h>
 #endif
 
 

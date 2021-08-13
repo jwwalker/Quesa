@@ -1,5 +1,5 @@
 /*  NAME:
-        QD3DDrawContext.c
+        QD3DDrawContext.cpp
 
     DESCRIPTION:
         Entry point for Quesa API calls. Performs parameter checking and
@@ -615,7 +615,7 @@ TQ3DrawContextObject _Nonnull
 Q3GenericDrawContext_New (
     const TQ3Area * _Nonnull contextPane )
 {
-	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(contextPane), nullptr);
+	
 	
 	// Call the bottleneck
 	E3System_Bottleneck();

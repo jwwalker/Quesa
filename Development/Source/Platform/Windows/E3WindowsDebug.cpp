@@ -1,11 +1,11 @@
 /*  NAME:
-        E3WindowsDebug.c
+        E3WindowsDebug.cpp
 
     DESCRIPTION:
         Windows debug implementation.
 
     COPYRIGHT:
-        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -43,9 +43,9 @@
 //=============================================================================
 //      Include files
 //-----------------------------------------------------------------------------
+#include "ShlObj.h"
 #include "E3Prefix.h"
 #include "E3Debug.h"
-#include "ShlObj.h"
 
 #include <stdio.h>
 #include <string>
@@ -76,10 +76,14 @@ E3Assert(const char *srcFile, TQ3Uns32 lineNum, const char *theAssertion)
 
     // Check our parameters
     if (srcFile == NULL)
+	{
     	srcFile = "Unknown";
+	}
 
     if (theAssertion == NULL)
+	{
     	theAssertion = "Unknown";
+	}
 
 
 

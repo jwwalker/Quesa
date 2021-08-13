@@ -1,5 +1,5 @@
 /*  NAME:
-        E3Math.c
+        E3Math.cpp
 
     DESCRIPTION:
         Math routines for Quesa.
@@ -8,7 +8,7 @@
         speed, to avoid the trip back out through the Q3foo interface.
 
     COPYRIGHT:
-        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -3487,7 +3487,9 @@ TQ3Matrix4x4 *
 E3Matrix4x4_Invert(const TQ3Matrix4x4 *matrix4x4, TQ3Matrix4x4 *result)
 {
     if (result != matrix4x4)
+	{
         *result = *matrix4x4;
+	}
 	
 	// The 4x4 matrices used in 3D graphics often have a last column of
 	// (0, 0, 0, 1).  In that case, we want the inverse to have exactly the same

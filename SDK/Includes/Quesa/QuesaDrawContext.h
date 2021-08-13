@@ -69,6 +69,11 @@
 //      Platform specific includes
 //-----------------------------------------------------------------------------
 
+#ifndef QD3D_NO_DIRECTDRAW
+// Our built-in renderers currently do not support DirectDraw draw contexts
+    #define     QD3D_NO_DIRECTDRAW  1
+#endif
+
 #if QUESA_OS_WIN32
     #include <Windows.h>
     

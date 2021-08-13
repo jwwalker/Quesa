@@ -381,7 +381,7 @@ Q3_EXTERN_API_C ( TQ3Status )
 CETriangleStripElement_SetData(
 	TQ3Object _Nonnull ioObject,
 	TQ3Uns32 inNumIndices,
-	const TQ3Uns32* _Nonnull inIndices
+	const TQ3Uns32* _Nullable inIndices
 );
 
 
