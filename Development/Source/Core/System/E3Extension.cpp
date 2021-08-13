@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -46,6 +46,7 @@
 #include "E3Prefix.h"
 #include "E3Extension.h"
 
+#include <stdint.h>
 
 
 
@@ -187,7 +188,7 @@ E3XObjectHierarchy_GetClassVersion(TQ3ObjectType objectClassType, TQ3XObjectClas
 
 
 	// Get the version for the class
-	*version = (TQ3XObjectClassVersion) (long)theClass->GetMethod ( kQ3XMethodTypeObjectClassVersion );
+	*version = (TQ3XObjectClassVersion) (intptr_t) theClass->GetMethod ( kQ3XMethodTypeObjectClassVersion );
 
 	return kQ3Success ;
 	}
