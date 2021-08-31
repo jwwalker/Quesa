@@ -1,0 +1,18 @@
+// Draw the object in basic black, for use in masking.
+
+material {
+	name : silhouette,
+	shadingModel : unlit,
+	postLightingBlending : opaque,
+    doubleSided : true
+}
+
+
+fragment {
+	void material(inout MaterialInputs material)
+	{
+		prepareMaterial(material);
+		
+		material.postLightingColor.rgba = float4( 0.0, 0.0, 0.0, 1.0 );
+	}
+}

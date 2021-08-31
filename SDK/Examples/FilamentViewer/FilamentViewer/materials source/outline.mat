@@ -1,0 +1,90 @@
+// This special material is used to draw an outline around an object.
+// The silhouette depth of the object
+// should be fed in as a texture, and you should render a rectangle large
+// enough to cover the selected object, in device coordinates.
+
+// The background of the silhouette, which should be at the far distance,
+// appears to have depth 0 instead of the usual 1.  Apparently at least
+// sometimes Filament reverses z.
+
+// Warning: The use of gl_FragDepth may break in the future.  Romain Guy said:
+// "You can do anything GLSL support but we don't support writing to gl_*
+// variables. Meaning that we may break your code in the future since we make
+// no guarantees (esp as we will eventually move away from GL and focus on
+// Vulkan and Metal)."
+// <https://github.com/google/filament/discussions/3817>
+
+material
+{
+	name : outline,
+	shadingModel : unlit,
+	doubleSided : true,
+	vertexDomain : device,
+	parameters : [
+		{
+            type : sampler2d,
+            name : silhouetteDepth
+		},
+		{
+            type : float3,
+            name : outlineColor
+        },
+        {
+        	type : float,
+        	name : outlineWidth
+        }
+	]
+}
+
+fragment
+{
+	void material(inout MaterialInputs material)
+	{
+		prepareMaterial(material);
+		
+		float4 res = getResolution();
+		float2 loc = uvToRenderTargetUV( getNormalizedViewportCoord().xy );
+
+		material.baseColor.rgb = materialParams.outlineColor;
+		material.baseColor.a = 1.0;
+		
+		float theDepth = texture( materialParams_silhouetteDepth, loc ).r;
+		
+		if (theDepth > 0.0)
+		{
+			discard;
+		}
+		
+		bool isNear = false;
+		float nearDepth;
+		int radSq = int( round( sq( materialParams.outlineWidth ) ) );
+		int rad = int( ceil( materialParams.outlineWidth ) );
+		
+		for (int i = -rad; (! isNear) && (i <= rad); ++i)
+		{
+			for (int j = -rad; (! isNear) && (j <= rad); ++j)
+			{
+				int sqSum = i * i + j * j;
+				if ( (sqSum != 0) && (sqSum <= radSq) )
+				{
+					float2 testPt = loc + float2( float(i)*res.z, float(j)*res.w );
+					theDepth = texture( materialParams_silhouetteDepth, testPt ).r;
+					if (theDepth > 0.0)
+					{
+						isNear = true;
+						nearDepth = theDepth;
+					}
+				}
+			}
+		}
+		
+		if (!isNear)
+		{
+			discard;
+		}
+		else
+		{
+			gl_FragDepth = nearDepth;
+		}
+	}
+}

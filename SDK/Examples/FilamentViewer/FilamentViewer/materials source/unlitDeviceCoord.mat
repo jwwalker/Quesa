@@ -1,0 +1,28 @@
+material {
+	name : unlitDeviceCoord,
+	shadingModel : unlit,
+	vertexDomain : device,
+	blending : transparent,
+	postLightingBlending : add,
+    doubleSided : false,
+	parameters : [
+        {
+            type : float,
+            name : alpha
+        },
+		{
+            type : float3,
+            name : baseColor
+        }
+	]
+}
+
+
+fragment {
+	void material(inout MaterialInputs material) {
+		prepareMaterial(material);
+		
+		material.baseColor.rgb = materialParams.baseColor * materialParams.alpha;
+		material.baseColor.a = materialParams.alpha;
+	}
+}

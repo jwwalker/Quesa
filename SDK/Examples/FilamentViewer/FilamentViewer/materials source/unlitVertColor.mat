@@ -1,0 +1,44 @@
+material {
+	name : unlitVertColor,
+	shadingModel : unlit,
+	postLightingBlending : add,
+	blending : transparent,
+    doubleSided : false,
+    requires : [
+         color
+    ],
+    // I assume that we will only use this material if we have vertex colors
+    // and do NOT have a texture, hence there is no need for uvs, a uv
+    // transform, or texture parameters.
+	parameters : [
+		{
+			type : float2,
+			name : depthRange
+		},
+		{
+			type : float3,
+			name : emissive
+		}
+	]
+}
+
+
+vertex {
+	void materialVertex(inout MaterialVertexInputs material)
+	{
+		// glDepthRange emulation
+		material.clipSpaceTransform[3][2] = materialParams.depthRange.x +
+			materialParams.depthRange.y -1.0;
+		material.clipSpaceTransform[2][2] = materialParams.depthRange.y -
+			materialParams.depthRange.x;
+	}
+}
+
+fragment {
+	void material(inout MaterialInputs material) {
+		prepareMaterial(material);
+		material.baseColor.rgba = getColor();
+		material.postLightingColor.rgb = materialParams.emissive;
+		material.postLightingColor.a = 0.0;
+	}
+}

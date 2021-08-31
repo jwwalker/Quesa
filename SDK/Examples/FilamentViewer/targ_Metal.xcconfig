@@ -1,0 +1,15 @@
+//
+//  targ_Metal.xcconfig
+//  FilamentViewer
+//
+//  Created by James Walker on 5/4/21.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) FILAMENT_APP_USE_METAL=1 FILAMENT_BACKEND="metal"
+
+// For use in BakeMaterials script build phase
+MATERIAL_BACKEND = metal
+

@@ -1,0 +1,936 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 52;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		BE17937E26D5B5E40023CA70 /* ViewerWindowController.mm in Sources */ = {isa = PBXBuildFile; fileRef = BE17937D26D5B5E40023CA70 /* ViewerWindowController.mm */; };
+		BE17937F26D5B5E40023CA70 /* ViewerWindowController.mm in Sources */ = {isa = PBXBuildFile; fileRef = BE17937D26D5B5E40023CA70 /* ViewerWindowController.mm */; };
+		BE17939226D6BA560023CA70 /* EngineSharedPtr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE17938626D6BA560023CA70 /* EngineSharedPtr.cpp */; };
+		BE17939326D6BA560023CA70 /* EngineSharedPtr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE17938626D6BA560023CA70 /* EngineSharedPtr.cpp */; };
+		BE17939426D6BA560023CA70 /* FilaTransform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE17938726D6BA560023CA70 /* FilaTransform.cpp */; };
+		BE17939526D6BA560023CA70 /* FilaTransform.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE17938726D6BA560023CA70 /* FilaTransform.cpp */; };
+		BE17939626D6BA560023CA70 /* RenderableGeom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE17938A26D6BA560023CA70 /* RenderableGeom.cpp */; };
+		BE17939726D6BA560023CA70 /* RenderableGeom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE17938A26D6BA560023CA70 /* RenderableGeom.cpp */; };
+		BE17939826D6BA560023CA70 /* FilaEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE17938D26D6BA560023CA70 /* FilaEntity.cpp */; };
+		BE17939926D6BA560023CA70 /* FilaEntity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE17938D26D6BA560023CA70 /* FilaEntity.cpp */; };
+		BE17939A26D6BA560023CA70 /* FilaLight.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE17938F26D6BA560023CA70 /* FilaLight.cpp */; };
+		BE17939B26D6BA560023CA70 /* FilaLight.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE17938F26D6BA560023CA70 /* FilaLight.cpp */; };
+		BE17939C26D6BA560023CA70 /* FilaGeom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE17939026D6BA560023CA70 /* FilaGeom.cpp */; };
+		BE17939D26D6BA560023CA70 /* FilaGeom.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE17939026D6BA560023CA70 /* FilaGeom.cpp */; };
+		BE1793A726D6BB310023CA70 /* MakeMaterialInstance.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE17939F26D6BB310023CA70 /* MakeMaterialInstance.cpp */; };
+		BE1793A826D6BB310023CA70 /* MakeMaterialInstance.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE17939F26D6BB310023CA70 /* MakeMaterialInstance.cpp */; };
+		BE1793A926D6BB310023CA70 /* GeomToRenderable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE1793A326D6BB310023CA70 /* GeomToRenderable.cpp */; };
+		BE1793AA26D6BB310023CA70 /* GeomToRenderable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE1793A326D6BB310023CA70 /* GeomToRenderable.cpp */; };
+		BE1793AB26D6BB310023CA70 /* TextureManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE1793A426D6BB310023CA70 /* TextureManager.cpp */; };
+		BE1793AC26D6BB310023CA70 /* TextureManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE1793A426D6BB310023CA70 /* TextureManager.cpp */; };
+		BE1793AD26D6BB310023CA70 /* GeomCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE1793A526D6BB310023CA70 /* GeomCache.cpp */; };
+		BE1793AE26D6BB310023CA70 /* GeomCache.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE1793A526D6BB310023CA70 /* GeomCache.cpp */; };
+		BE1793B126D6BB700023CA70 /* BaseMaterials.mm in Sources */ = {isa = PBXBuildFile; fileRef = BE1793AF26D6BB700023CA70 /* BaseMaterials.mm */; };
+		BE1793B226D6BB700023CA70 /* BaseMaterials.mm in Sources */ = {isa = PBXBuildFile; fileRef = BE1793AF26D6BB700023CA70 /* BaseMaterials.mm */; };
+		BE1B61D22660383000960CA0 /* LogLights.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE1B61D02660383000960CA0 /* LogLights.cpp */; };
+		BE1B61D32660383000960CA0 /* LogLights.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE1B61D02660383000960CA0 /* LogLights.cpp */; };
+		BE1B61E22666A6DE00960CA0 /* NewDecomposingQuesaView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE1B61E02666A6DE00960CA0 /* NewDecomposingQuesaView.cpp */; };
+		BE1B61E32666A6DE00960CA0 /* NewDecomposingQuesaView.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE1B61E02666A6DE00960CA0 /* NewDecomposingQuesaView.cpp */; };
+		BE1B61E62666C8E100960CA0 /* DisplayRefreshNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = BE1B61E52666C8E100960CA0 /* DisplayRefreshNotifier.m */; };
+		BE1B61E72666C8E100960CA0 /* DisplayRefreshNotifier.m in Sources */ = {isa = PBXBuildFile; fileRef = BE1B61E52666C8E100960CA0 /* DisplayRefreshNotifier.m */; };
+		BE1B61FE2669728800960CA0 /* SynthesizeTriMeshUVs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE1B61FC2669728800960CA0 /* SynthesizeTriMeshUVs.cpp */; };
+		BE1B61FF2669728800960CA0 /* SynthesizeTriMeshUVs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE1B61FC2669728800960CA0 /* SynthesizeTriMeshUVs.cpp */; };
+		BE1B62052669790800960CA0 /* SynthesizeTriMeshVertexNormals.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE1B62032669790800960CA0 /* SynthesizeTriMeshVertexNormals.cpp */; };
+		BE1B62062669790800960CA0 /* SynthesizeTriMeshVertexNormals.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE1B62032669790800960CA0 /* SynthesizeTriMeshVertexNormals.cpp */; };
+		BE1B6210266AC72300960CA0 /* MustTriMeshBeDecomposed.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE1B620E266AC72300960CA0 /* MustTriMeshBeDecomposed.cpp */; };
+		BE1B6211266AC72300960CA0 /* MustTriMeshBeDecomposed.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE1B620E266AC72300960CA0 /* MustTriMeshBeDecomposed.cpp */; };
+		BE1B6218266AC8F100960CA0 /* FindTriMeshVertexData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE1B6215266AC8F100960CA0 /* FindTriMeshVertexData.cpp */; };
+		BE1B6219266AC8F100960CA0 /* FindTriMeshVertexData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE1B6215266AC8F100960CA0 /* FindTriMeshVertexData.cpp */; };
+		BE491DC5268BEA7C001AE0D4 /* NSObject+JW.m in Sources */ = {isa = PBXBuildFile; fileRef = BE491DC3268BEA7C001AE0D4 /* NSObject+JW.m */; };
+		BE491DC6268BEA7C001AE0D4 /* NSObject+JW.m in Sources */ = {isa = PBXBuildFile; fileRef = BE491DC3268BEA7C001AE0D4 /* NSObject+JW.m */; };
+		BE491DC9268CDB92001AE0D4 /* KVOObserverJW.m in Sources */ = {isa = PBXBuildFile; fileRef = BE491DC8268CDB92001AE0D4 /* KVOObserverJW.m */; };
+		BE491DCA268CDB92001AE0D4 /* KVOObserverJW.m in Sources */ = {isa = PBXBuildFile; fileRef = BE491DC8268CDB92001AE0D4 /* KVOObserverJW.m */; };
+		BE491DCC268D0F91001AE0D4 /* litAlphaTest.mat in Resources */ = {isa = PBXBuildFile; fileRef = BE491DCB268D0F90001AE0D4 /* litAlphaTest.mat */; };
+		BE491DCD268D0F91001AE0D4 /* litAlphaTest.mat in Resources */ = {isa = PBXBuildFile; fileRef = BE491DCB268D0F90001AE0D4 /* litAlphaTest.mat */; };
+		BE5A083B267BDF8C0002C0FA /* unlitDeviceCoord.mat in Resources */ = {isa = PBXBuildFile; fileRef = BE5A083A267BDF8C0002C0FA /* unlitDeviceCoord.mat */; };
+		BE5A083C267BDF8C0002C0FA /* unlitDeviceCoord.mat in Resources */ = {isa = PBXBuildFile; fileRef = BE5A083A267BDF8C0002C0FA /* unlitDeviceCoord.mat */; };
+		BE5A083E268123B20002C0FA /* unlitLowDim.mat in Resources */ = {isa = PBXBuildFile; fileRef = BE5A083D268123B20002C0FA /* unlitLowDim.mat */; };
+		BE5A083F268123B20002C0FA /* unlitLowDim.mat in Resources */ = {isa = PBXBuildFile; fileRef = BE5A083D268123B20002C0FA /* unlitLowDim.mat */; };
+		BE5A0845268127050002C0FA /* unlitTexturedDeviceCoord.mat in Resources */ = {isa = PBXBuildFile; fileRef = BE5A0844268127050002C0FA /* unlitTexturedDeviceCoord.mat */; };
+		BE5A0846268127050002C0FA /* unlitTexturedDeviceCoord.mat in Resources */ = {isa = PBXBuildFile; fileRef = BE5A0844268127050002C0FA /* unlitTexturedDeviceCoord.mat */; };
+		BE5A084926813C2A0002C0FA /* ndc-textured-background.3dmf in Resources */ = {isa = PBXBuildFile; fileRef = BE5A084726813C2A0002C0FA /* ndc-textured-background.3dmf */; };
+		BE5A084A26813C2A0002C0FA /* ndc-textured-background.3dmf in Resources */ = {isa = PBXBuildFile; fileRef = BE5A084726813C2A0002C0FA /* ndc-textured-background.3dmf */; };
+		BE5A084B26813C2A0002C0FA /* ndc-foreground.3dmf in Resources */ = {isa = PBXBuildFile; fileRef = BE5A084826813C2A0002C0FA /* ndc-foreground.3dmf */; };
+		BE5A084C26813C2A0002C0FA /* ndc-foreground.3dmf in Resources */ = {isa = PBXBuildFile; fileRef = BE5A084826813C2A0002C0FA /* ndc-foreground.3dmf */; };
+		BE5EE841260E7CD20049B72A /* BoundsToBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE5EE83F260E7CD20049B72A /* BoundsToBox.cpp */; };
+		BE5EE847260E82560049B72A /* ObjectName.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE5EE845260E82560049B72A /* ObjectName.cpp */; };
+		BE5EE85D261787A40049B72A /* Quesa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE5EE85C261787A40049B72A /* Quesa.framework */; };
+		BE5EE85E2617885B0049B72A /* Quesa.framework in Copy Private Frameworks */ = {isa = PBXBuildFile; fileRef = BE5EE85C261787A40049B72A /* Quesa.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		BE6EF4A925EABDB70011C18C /* CQ3AttributeSet_Inherit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE6EF4A725EABDB70011C18C /* CQ3AttributeSet_Inherit.cpp */; };
+		BEDC13932641B7CA000ED43F /* Document.mm in Sources */ = {isa = PBXBuildFile; fileRef = BEF3C0FC25E073C700E1CDF1 /* Document.mm */; };
+		BEDC13952641B7CA000ED43F /* CQ3AttributeSet_Inherit.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE6EF4A725EABDB70011C18C /* CQ3AttributeSet_Inherit.cpp */; };
+		BEDC139B2641B7CA000ED43F /* ObjectName.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE5EE845260E82560049B72A /* ObjectName.cpp */; };
+		BEDC13A02641B7CA000ED43F /* BoundsToBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE5EE83F260E7CD20049B72A /* BoundsToBox.cpp */; };
+		BEDC13A22641B7CA000ED43F /* LoadQuesaModelFromFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEF3C11825E07E3900E1CDF1 /* LoadQuesaModelFromFile.cpp */; };
+		BEDC13A32641B7CA000ED43F /* CalcQuesaBounds.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEF3C11925E07E3900E1CDF1 /* CalcQuesaBounds.cpp */; };
+		BEDC13A52641B7CA000ED43F /* QuesaStorageFromData.mm in Sources */ = {isa = PBXBuildFile; fileRef = BEE5503E25F82DA900373F73 /* QuesaStorageFromData.mm */; };
+		BEDC13A62641B7CA000ED43F /* LogToConsole.mm in Sources */ = {isa = PBXBuildFile; fileRef = BEF3C13725E08FB300E1CDF1 /* LogToConsole.mm */; };
+		BEDC13A82641B7CA000ED43F /* NewDecomposingRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEF3C19125E86CFC00E1CDF1 /* NewDecomposingRenderer.cpp */; };
+		BEDC13AA2641B7CA000ED43F /* FilamentView.mm in Sources */ = {isa = PBXBuildFile; fileRef = BEF3C15C25E4318E00E1CDF1 /* FilamentView.mm */; };
+		BEDC13AE2641B7CA000ED43F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BEF3C10725E073C800E1CDF1 /* main.m */; };
+		BEDC13AF2641B7CA000ED43F /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = BEF3C0F925E073C700E1CDF1 /* AppDelegate.mm */; };
+		BEDC13B32641B7CA000ED43F /* Quesa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BE5EE85C261787A40049B72A /* Quesa.framework */; };
+		BEDC13B42641B7CA000ED43F /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = BEE5503C25F827F800373F73 /* libz.tbd */; };
+		BEDC13B82641B7CA000ED43F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BEF3C10125E073C800E1CDF1 /* Assets.xcassets */; };
+		BEDC13BD2641B7CA000ED43F /* Document.xib in Resources */ = {isa = PBXBuildFile; fileRef = BEF3C0FE25E073C700E1CDF1 /* Document.xib */; };
+		BEDC13C12641B7CA000ED43F /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = BEF3C10325E073C800E1CDF1 /* MainMenu.xib */; };
+		BEDC13C52641B7CA000ED43F /* Quesa.framework in Copy Private Frameworks */ = {isa = PBXBuildFile; fileRef = BE5EE85C261787A40049B72A /* Quesa.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		BEE5503D25F827F800373F73 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = BEE5503C25F827F800373F73 /* libz.tbd */; };
+		BEE5504025F82DA900373F73 /* QuesaStorageFromData.mm in Sources */ = {isa = PBXBuildFile; fileRef = BEE5503E25F82DA900373F73 /* QuesaStorageFromData.mm */; };
+		BEF3C0FA25E073C700E1CDF1 /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = BEF3C0F925E073C700E1CDF1 /* AppDelegate.mm */; };
+		BEF3C0FD25E073C700E1CDF1 /* Document.mm in Sources */ = {isa = PBXBuildFile; fileRef = BEF3C0FC25E073C700E1CDF1 /* Document.mm */; };
+		BEF3C10025E073C700E1CDF1 /* Document.xib in Resources */ = {isa = PBXBuildFile; fileRef = BEF3C0FE25E073C700E1CDF1 /* Document.xib */; };
+		BEF3C10225E073C800E1CDF1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BEF3C10125E073C800E1CDF1 /* Assets.xcassets */; };
+		BEF3C10525E073C800E1CDF1 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = BEF3C10325E073C800E1CDF1 /* MainMenu.xib */; };
+		BEF3C10825E073C800E1CDF1 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = BEF3C10725E073C800E1CDF1 /* main.m */; };
+		BEF3C11B25E07E3900E1CDF1 /* LoadQuesaModelFromFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEF3C11825E07E3900E1CDF1 /* LoadQuesaModelFromFile.cpp */; };
+		BEF3C11C25E07E3900E1CDF1 /* CalcQuesaBounds.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEF3C11925E07E3900E1CDF1 /* CalcQuesaBounds.cpp */; };
+		BEF3C13825E08FB300E1CDF1 /* LogToConsole.mm in Sources */ = {isa = PBXBuildFile; fileRef = BEF3C13725E08FB300E1CDF1 /* LogToConsole.mm */; };
+		BEF3C15D25E4318E00E1CDF1 /* FilamentView.mm in Sources */ = {isa = PBXBuildFile; fileRef = BEF3C15C25E4318E00E1CDF1 /* FilamentView.mm */; };
+		BEF3C19325E86CFC00E1CDF1 /* NewDecomposingRenderer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEF3C19125E86CFC00E1CDF1 /* NewDecomposingRenderer.cpp */; };
+		BEF4ED022675B15300EB7602 /* litTransparentTwoSide.mat in Resources */ = {isa = PBXBuildFile; fileRef = BED4DBC426056180001A6EF1 /* litTransparentTwoSide.mat */; };
+		BEF4ED032675B15300EB7602 /* litOpaque.mat in Resources */ = {isa = PBXBuildFile; fileRef = BEF3C12F25E08B8800E1CDF1 /* litOpaque.mat */; };
+		BEF4ED042675B15300EB7602 /* unlitVertColor.mat in Resources */ = {isa = PBXBuildFile; fileRef = BE1B61EC2667F54700960CA0 /* unlitVertColor.mat */; };
+		BEF4ED052675B15300EB7602 /* litTransparent.mat in Resources */ = {isa = PBXBuildFile; fileRef = BEF3C12E25E08B8800E1CDF1 /* litTransparent.mat */; };
+		BEF4ED062675B15300EB7602 /* outline.mat in Resources */ = {isa = PBXBuildFile; fileRef = BED0F149262A44A400AE0748 /* outline.mat */; };
+		BEF4ED072675B15300EB7602 /* unlit.mat in Resources */ = {isa = PBXBuildFile; fileRef = BEF8D934262604F000B7ACE0 /* unlit.mat */; };
+		BEF4ED082675B15300EB7602 /* silhouette.mat in Resources */ = {isa = PBXBuildFile; fileRef = BED0F145262A3DF200AE0748 /* silhouette.mat */; };
+		BEF4ED092675B15300EB7602 /* litOpaqueVertColor.mat in Resources */ = {isa = PBXBuildFile; fileRef = BE1B61ED2667F7BE00960CA0 /* litOpaqueVertColor.mat */; };
+		BEF4ED0A2675B15400EB7602 /* litTransparentTwoSide.mat in Resources */ = {isa = PBXBuildFile; fileRef = BED4DBC426056180001A6EF1 /* litTransparentTwoSide.mat */; };
+		BEF4ED0B2675B15400EB7602 /* litOpaque.mat in Resources */ = {isa = PBXBuildFile; fileRef = BEF3C12F25E08B8800E1CDF1 /* litOpaque.mat */; };
+		BEF4ED0C2675B15400EB7602 /* unlitVertColor.mat in Resources */ = {isa = PBXBuildFile; fileRef = BE1B61EC2667F54700960CA0 /* unlitVertColor.mat */; };
+		BEF4ED0D2675B15400EB7602 /* litTransparent.mat in Resources */ = {isa = PBXBuildFile; fileRef = BEF3C12E25E08B8800E1CDF1 /* litTransparent.mat */; };
+		BEF4ED0E2675B15400EB7602 /* outline.mat in Resources */ = {isa = PBXBuildFile; fileRef = BED0F149262A44A400AE0748 /* outline.mat */; };
+		BEF4ED0F2675B15400EB7602 /* unlit.mat in Resources */ = {isa = PBXBuildFile; fileRef = BEF8D934262604F000B7ACE0 /* unlit.mat */; };
+		BEF4ED102675B15400EB7602 /* silhouette.mat in Resources */ = {isa = PBXBuildFile; fileRef = BED0F145262A3DF200AE0748 /* silhouette.mat */; };
+		BEF4ED112675B15400EB7602 /* litOpaqueVertColor.mat in Resources */ = {isa = PBXBuildFile; fileRef = BE1B61ED2667F7BE00960CA0 /* litOpaqueVertColor.mat */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXBuildRule section */
+		BE3CF04F2675706D00361D34 /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			filePatterns = "*.mat";
+			fileType = pattern.proxy;
+			inputFiles = (
+				"$(FilamentRelease)/bin/matc",
+			);
+			isEditable = 1;
+			name = "Bake Filament Material";
+			outputFiles = (
+				"$(BUILT_PRODUCTS_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/$(INPUT_FILE_BASE)-$(MATERIAL_BACKEND).filamat",
+			);
+			runOncePerArchitecture = 0;
+			script = "source \"${SRCROOT}/BakeMaterialRule.sh\"\n";
+		};
+		BEF4ED132675B2A800EB7602 /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			filePatterns = "*.mat";
+			fileType = pattern.proxy;
+			inputFiles = (
+				"$(FilamentRelease)/bin/matc",
+			);
+			isEditable = 1;
+			name = "Bake Filament Material";
+			outputFiles = (
+				"$(BUILT_PRODUCTS_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/$(INPUT_FILE_BASE)-$(MATERIAL_BACKEND).filamat",
+			);
+			runOncePerArchitecture = 0;
+			script = "source \"${SRCROOT}/BakeMaterialRule.sh\"\n\n";
+		};
+/* End PBXBuildRule section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		BEDC13C42641B7CA000ED43F /* Copy Private Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				BEDC13C52641B7CA000ED43F /* Quesa.framework in Copy Private Frameworks */,
+			);
+			name = "Copy Private Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BEF3C12425E0804600E1CDF1 /* Copy Private Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				BE5EE85E2617885B0049B72A /* Quesa.framework in Copy Private Frameworks */,
+			);
+			name = "Copy Private Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		BE17937C26D5B5E40023CA70 /* ViewerWindowController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewerWindowController.h; sourceTree = "<group>"; };
+		BE17937D26D5B5E40023CA70 /* ViewerWindowController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ViewerWindowController.mm; sourceTree = "<group>"; };
+		BE17938626D6BA560023CA70 /* EngineSharedPtr.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EngineSharedPtr.cpp; sourceTree = "<group>"; };
+		BE17938726D6BA560023CA70 /* FilaTransform.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FilaTransform.cpp; sourceTree = "<group>"; };
+		BE17938826D6BA560023CA70 /* FilaTransform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilaTransform.h; sourceTree = "<group>"; };
+		BE17938926D6BA560023CA70 /* FilaGeom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilaGeom.h; sourceTree = "<group>"; };
+		BE17938A26D6BA560023CA70 /* RenderableGeom.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RenderableGeom.cpp; sourceTree = "<group>"; };
+		BE17938B26D6BA560023CA70 /* FilaLight.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilaLight.h; sourceTree = "<group>"; };
+		BE17938C26D6BA560023CA70 /* FilaEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilaEntity.h; sourceTree = "<group>"; };
+		BE17938D26D6BA560023CA70 /* FilaEntity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FilaEntity.cpp; sourceTree = "<group>"; };
+		BE17938E26D6BA560023CA70 /* RenderableGeom.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RenderableGeom.h; sourceTree = "<group>"; };
+		BE17938F26D6BA560023CA70 /* FilaLight.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FilaLight.cpp; sourceTree = "<group>"; };
+		BE17939026D6BA560023CA70 /* FilaGeom.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FilaGeom.cpp; sourceTree = "<group>"; };
+		BE17939126D6BA560023CA70 /* EngineSharedPtr.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = EngineSharedPtr.hpp; sourceTree = "<group>"; };
+		BE17939F26D6BB310023CA70 /* MakeMaterialInstance.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MakeMaterialInstance.cpp; sourceTree = "<group>"; };
+		BE1793A026D6BB310023CA70 /* GeomToRenderable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeomToRenderable.h; sourceTree = "<group>"; };
+		BE1793A126D6BB310023CA70 /* GeomCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeomCache.h; sourceTree = "<group>"; };
+		BE1793A226D6BB310023CA70 /* MakeMaterialInstance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MakeMaterialInstance.h; sourceTree = "<group>"; };
+		BE1793A326D6BB310023CA70 /* GeomToRenderable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GeomToRenderable.cpp; sourceTree = "<group>"; };
+		BE1793A426D6BB310023CA70 /* TextureManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TextureManager.cpp; sourceTree = "<group>"; };
+		BE1793A526D6BB310023CA70 /* GeomCache.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GeomCache.cpp; sourceTree = "<group>"; };
+		BE1793A626D6BB310023CA70 /* TextureManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureManager.h; sourceTree = "<group>"; };
+		BE1793AF26D6BB700023CA70 /* BaseMaterials.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = BaseMaterials.mm; sourceTree = "<group>"; };
+		BE1793B026D6BB700023CA70 /* BaseMaterials.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseMaterials.h; sourceTree = "<group>"; };
+		BE1B61D02660383000960CA0 /* LogLights.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = LogLights.cpp; path = Debugging/LogLights.cpp; sourceTree = "<group>"; };
+		BE1B61D12660383000960CA0 /* LogLights.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; name = LogLights.hpp; path = Debugging/LogLights.hpp; sourceTree = "<group>"; };
+		BE1B61E02666A6DE00960CA0 /* NewDecomposingQuesaView.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NewDecomposingQuesaView.cpp; sourceTree = "<group>"; };
+		BE1B61E12666A6DE00960CA0 /* NewDecomposingQuesaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewDecomposingQuesaView.h; sourceTree = "<group>"; };
+		BE1B61E42666C8E100960CA0 /* DisplayRefreshNotifier.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DisplayRefreshNotifier.h; sourceTree = "<group>"; };
+		BE1B61E52666C8E100960CA0 /* DisplayRefreshNotifier.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DisplayRefreshNotifier.m; sourceTree = "<group>"; };
+		BE1B61EC2667F54700960CA0 /* unlitVertColor.mat */ = {isa = PBXFileReference; explicitFileType = sourcecode.glsl; path = unlitVertColor.mat; sourceTree = "<group>"; };
+		BE1B61ED2667F7BE00960CA0 /* litOpaqueVertColor.mat */ = {isa = PBXFileReference; explicitFileType = sourcecode.glsl; path = litOpaqueVertColor.mat; sourceTree = "<group>"; };
+		BE1B61FC2669728800960CA0 /* SynthesizeTriMeshUVs.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SynthesizeTriMeshUVs.cpp; sourceTree = "<group>"; };
+		BE1B61FD2669728800960CA0 /* SynthesizeTriMeshUVs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SynthesizeTriMeshUVs.h; sourceTree = "<group>"; };
+		BE1B62032669790800960CA0 /* SynthesizeTriMeshVertexNormals.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SynthesizeTriMeshVertexNormals.cpp; sourceTree = "<group>"; };
+		BE1B62042669790800960CA0 /* SynthesizeTriMeshVertexNormals.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SynthesizeTriMeshVertexNormals.h; sourceTree = "<group>"; };
+		BE1B620E266AC72300960CA0 /* MustTriMeshBeDecomposed.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MustTriMeshBeDecomposed.cpp; sourceTree = "<group>"; };
+		BE1B620F266AC72300960CA0 /* MustTriMeshBeDecomposed.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MustTriMeshBeDecomposed.h; sourceTree = "<group>"; };
+		BE1B6214266AC8F100960CA0 /* FindTriMeshVertexData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FindTriMeshVertexData.h; path = "SDK/Extras/Utility Sources/Mutating Algorithms/FindTriMeshVertexData.h"; sourceTree = Quesa; };
+		BE1B6215266AC8F100960CA0 /* FindTriMeshVertexData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FindTriMeshVertexData.cpp; path = "SDK/Extras/Utility Sources/Mutating Algorithms/FindTriMeshVertexData.cpp"; sourceTree = Quesa; };
+		BE3CF0512675A88600361D34 /* BakeMaterialRule.sh */ = {isa = PBXFileReference; lastKnownFileType = text.script.sh; path = BakeMaterialRule.sh; sourceTree = "<group>"; };
+		BE491DC3268BEA7C001AE0D4 /* NSObject+JW.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+JW.m"; sourceTree = "<group>"; };
+		BE491DC4268BEA7C001AE0D4 /* NSObject+JW.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+JW.h"; sourceTree = "<group>"; };
+		BE491DC7268CDB92001AE0D4 /* KVOObserverJW.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KVOObserverJW.h; sourceTree = "<group>"; };
+		BE491DC8268CDB92001AE0D4 /* KVOObserverJW.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KVOObserverJW.m; sourceTree = "<group>"; };
+		BE491DCB268D0F90001AE0D4 /* litAlphaTest.mat */ = {isa = PBXFileReference; explicitFileType = sourcecode.glsl; fileEncoding = 4; path = litAlphaTest.mat; sourceTree = "<group>"; };
+		BE5A083A267BDF8C0002C0FA /* unlitDeviceCoord.mat */ = {isa = PBXFileReference; explicitFileType = sourcecode.glsl; fileEncoding = 4; path = unlitDeviceCoord.mat; sourceTree = "<group>"; };
+		BE5A083D268123B20002C0FA /* unlitLowDim.mat */ = {isa = PBXFileReference; explicitFileType = sourcecode.glsl; fileEncoding = 4; path = unlitLowDim.mat; sourceTree = "<group>"; };
+		BE5A0844268127050002C0FA /* unlitTexturedDeviceCoord.mat */ = {isa = PBXFileReference; explicitFileType = sourcecode.glsl; fileEncoding = 4; path = unlitTexturedDeviceCoord.mat; sourceTree = "<group>"; };
+		BE5A084726813C2A0002C0FA /* ndc-textured-background.3dmf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ndc-textured-background.3dmf"; sourceTree = "<group>"; };
+		BE5A084826813C2A0002C0FA /* ndc-foreground.3dmf */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "ndc-foreground.3dmf"; sourceTree = "<group>"; };
+		BE5EE83F260E7CD20049B72A /* BoundsToBox.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = BoundsToBox.cpp; sourceTree = "<group>"; };
+		BE5EE840260E7CD20049B72A /* BoundsToBox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BoundsToBox.h; sourceTree = "<group>"; };
+		BE5EE845260E82560049B72A /* ObjectName.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ObjectName.cpp; sourceTree = "<group>"; };
+		BE5EE846260E82560049B72A /* ObjectName.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ObjectName.h; sourceTree = "<group>"; };
+		BE5EE85C261787A40049B72A /* Quesa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Quesa.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BE6EF4A725EABDB70011C18C /* CQ3AttributeSet_Inherit.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = CQ3AttributeSet_Inherit.cpp; sourceTree = "<group>"; };
+		BE6EF4A825EABDB70011C18C /* CQ3AttributeSet_Inherit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CQ3AttributeSet_Inherit.h; sourceTree = "<group>"; };
+		BED0F145262A3DF200AE0748 /* silhouette.mat */ = {isa = PBXFileReference; explicitFileType = sourcecode.glsl; path = silhouette.mat; sourceTree = "<group>"; };
+		BED0F149262A44A400AE0748 /* outline.mat */ = {isa = PBXFileReference; explicitFileType = sourcecode.glsl; path = outline.mat; sourceTree = "<group>"; };
+		BED4DBC426056180001A6EF1 /* litTransparentTwoSide.mat */ = {isa = PBXFileReference; explicitFileType = sourcecode.glsl; fileEncoding = 4; path = litTransparentTwoSide.mat; sourceTree = "<group>"; };
+		BEDC138E2641B796000ED43F /* targ_Metal.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = targ_Metal.xcconfig; sourceTree = "<group>"; };
+		BEDC138F2641B7A7000ED43F /* targ_OpenGL.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = targ_OpenGL.xcconfig; sourceTree = "<group>"; };
+		BEDC13C92641B7CA000ED43F /* FilamentViewer-OpenGL.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FilamentViewer-OpenGL.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BEE5503C25F827F800373F73 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		BEE5503E25F82DA900373F73 /* QuesaStorageFromData.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = QuesaStorageFromData.mm; sourceTree = "<group>"; };
+		BEE5503F25F82DA900373F73 /* QuesaStorageFromData.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = QuesaStorageFromData.h; sourceTree = "<group>"; };
+		BEF3C0F525E073C700E1CDF1 /* FilamentViewer-Metal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "FilamentViewer-Metal.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BEF3C0F825E073C700E1CDF1 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		BEF3C0F925E073C700E1CDF1 /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
+		BEF3C0FB25E073C700E1CDF1 /* Document.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Document.h; sourceTree = "<group>"; };
+		BEF3C0FC25E073C700E1CDF1 /* Document.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Document.mm; sourceTree = "<group>"; };
+		BEF3C0FF25E073C700E1CDF1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/Document.xib; sourceTree = "<group>"; };
+		BEF3C10125E073C800E1CDF1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		BEF3C10425E073C800E1CDF1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		BEF3C10625E073C800E1CDF1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BEF3C10725E073C800E1CDF1 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		BEF3C11525E07E3900E1CDF1 /* CalcQuesaBounds.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalcQuesaBounds.h; sourceTree = "<group>"; };
+		BEF3C11625E07E3900E1CDF1 /* LoadQuesaModelFromFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadQuesaModelFromFile.h; sourceTree = "<group>"; };
+		BEF3C11825E07E3900E1CDF1 /* LoadQuesaModelFromFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LoadQuesaModelFromFile.cpp; sourceTree = "<group>"; };
+		BEF3C11925E07E3900E1CDF1 /* CalcQuesaBounds.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = CalcQuesaBounds.cpp; sourceTree = "<group>"; };
+		BEF3C11F25E07FD100E1CDF1 /* proj.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = proj.xcconfig; sourceTree = "<group>"; };
+		BEF3C12E25E08B8800E1CDF1 /* litTransparent.mat */ = {isa = PBXFileReference; explicitFileType = sourcecode.glsl; fileEncoding = 4; path = litTransparent.mat; sourceTree = "<group>"; };
+		BEF3C12F25E08B8800E1CDF1 /* litOpaque.mat */ = {isa = PBXFileReference; explicitFileType = sourcecode.glsl; fileEncoding = 4; path = litOpaque.mat; sourceTree = "<group>"; };
+		BEF3C13625E08FB300E1CDF1 /* LogToConsole.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LogToConsole.h; path = Debugging/LogToConsole.h; sourceTree = "<group>"; };
+		BEF3C13725E08FB300E1CDF1 /* LogToConsole.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = LogToConsole.mm; path = Debugging/LogToConsole.mm; sourceTree = "<group>"; };
+		BEF3C15B25E4318E00E1CDF1 /* FilamentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FilamentView.h; sourceTree = "<group>"; };
+		BEF3C15C25E4318E00E1CDF1 /* FilamentView.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = FilamentView.mm; sourceTree = "<group>"; };
+		BEF3C19125E86CFC00E1CDF1 /* NewDecomposingRenderer.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = NewDecomposingRenderer.cpp; sourceTree = "<group>"; };
+		BEF3C19225E86CFC00E1CDF1 /* NewDecomposingRenderer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NewDecomposingRenderer.h; sourceTree = "<group>"; };
+		BEF8D934262604F000B7ACE0 /* unlit.mat */ = {isa = PBXFileReference; explicitFileType = sourcecode.glsl; path = unlit.mat; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		BEDC13B22641B7CA000ED43F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BEDC13B32641B7CA000ED43F /* Quesa.framework in Frameworks */,
+				BEDC13B42641B7CA000ED43F /* libz.tbd in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BEF3C0F225E073C700E1CDF1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BE5EE85D261787A40049B72A /* Quesa.framework in Frameworks */,
+				BEE5503D25F827F800373F73 /* libz.tbd in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		BE17938526D6BA560023CA70 /* Wrappers */ = {
+			isa = PBXGroup;
+			children = (
+				BE1793B026D6BB700023CA70 /* BaseMaterials.h */,
+				BE1793AF26D6BB700023CA70 /* BaseMaterials.mm */,
+				BE17938626D6BA560023CA70 /* EngineSharedPtr.cpp */,
+				BE17939126D6BA560023CA70 /* EngineSharedPtr.hpp */,
+				BE17938D26D6BA560023CA70 /* FilaEntity.cpp */,
+				BE17938C26D6BA560023CA70 /* FilaEntity.h */,
+				BE17939026D6BA560023CA70 /* FilaGeom.cpp */,
+				BE17938926D6BA560023CA70 /* FilaGeom.h */,
+				BE17938F26D6BA560023CA70 /* FilaLight.cpp */,
+				BE17938B26D6BA560023CA70 /* FilaLight.h */,
+				BE17938726D6BA560023CA70 /* FilaTransform.cpp */,
+				BE17938826D6BA560023CA70 /* FilaTransform.h */,
+				BE17938A26D6BA560023CA70 /* RenderableGeom.cpp */,
+				BE17938E26D6BA560023CA70 /* RenderableGeom.h */,
+			);
+			path = Wrappers;
+			sourceTree = "<group>";
+		};
+		BE17939E26D6BB310023CA70 /* Quesa to Filament */ = {
+			isa = PBXGroup;
+			children = (
+				BE1793A526D6BB310023CA70 /* GeomCache.cpp */,
+				BE1793A126D6BB310023CA70 /* GeomCache.h */,
+				BE1793A326D6BB310023CA70 /* GeomToRenderable.cpp */,
+				BE1793A026D6BB310023CA70 /* GeomToRenderable.h */,
+				BE17939F26D6BB310023CA70 /* MakeMaterialInstance.cpp */,
+				BE1793A226D6BB310023CA70 /* MakeMaterialInstance.h */,
+				BE1793A426D6BB310023CA70 /* TextureManager.cpp */,
+				BE1793A626D6BB310023CA70 /* TextureManager.h */,
+			);
+			path = "Quesa to Filament";
+			sourceTree = "<group>";
+		};
+		BE491DC2268BEA64001AE0D4 /* Cocoa Util */ = {
+			isa = PBXGroup;
+			children = (
+				BE491DC7268CDB92001AE0D4 /* KVOObserverJW.h */,
+				BE491DC8268CDB92001AE0D4 /* KVOObserverJW.m */,
+				BE491DC4268BEA7C001AE0D4 /* NSObject+JW.h */,
+				BE491DC3268BEA7C001AE0D4 /* NSObject+JW.m */,
+			);
+			path = "Cocoa Util";
+			sourceTree = "<group>";
+		};
+		BE5A0840268124740002C0FA /* selection glow */ = {
+			isa = PBXGroup;
+			children = (
+				BED0F149262A44A400AE0748 /* outline.mat */,
+				BED0F145262A3DF200AE0748 /* silhouette.mat */,
+			);
+			name = "selection glow";
+			sourceTree = "<group>";
+		};
+		BE5A08412681248A0002C0FA /* ordinary rendering */ = {
+			isa = PBXGroup;
+			children = (
+				BE491DCB268D0F90001AE0D4 /* litAlphaTest.mat */,
+				BEF3C12E25E08B8800E1CDF1 /* litTransparent.mat */,
+				BED4DBC426056180001A6EF1 /* litTransparentTwoSide.mat */,
+				BEF3C12F25E08B8800E1CDF1 /* litOpaque.mat */,
+				BE1B61ED2667F7BE00960CA0 /* litOpaqueVertColor.mat */,
+				BEF8D934262604F000B7ACE0 /* unlit.mat */,
+				BE5A083D268123B20002C0FA /* unlitLowDim.mat */,
+				BE1B61EC2667F54700960CA0 /* unlitVertColor.mat */,
+			);
+			name = "ordinary rendering";
+			sourceTree = "<group>";
+		};
+		BE5A0843268125630002C0FA /* background or overlay */ = {
+			isa = PBXGroup;
+			children = (
+				BE5A083A267BDF8C0002C0FA /* unlitDeviceCoord.mat */,
+				BE5A0844268127050002C0FA /* unlitTexturedDeviceCoord.mat */,
+			);
+			name = "background or overlay";
+			sourceTree = "<group>";
+		};
+		BEDC13F12641EC6E000ED43F /* Configs */ = {
+			isa = PBXGroup;
+			children = (
+				BEF3C11F25E07FD100E1CDF1 /* proj.xcconfig */,
+				BEDC138E2641B796000ED43F /* targ_Metal.xcconfig */,
+				BEDC138F2641B7A7000ED43F /* targ_OpenGL.xcconfig */,
+			);
+			name = Configs;
+			sourceTree = "<group>";
+		};
+		BEF3C0EC25E073C700E1CDF1 = {
+			isa = PBXGroup;
+			children = (
+				BE3CF0512675A88600361D34 /* BakeMaterialRule.sh */,
+				BEDC13F12641EC6E000ED43F /* Configs */,
+				BEF3C0F725E073C700E1CDF1 /* FilamentViewer */,
+				BEF3C0F625E073C700E1CDF1 /* Products */,
+				BEF3C12125E0802700E1CDF1 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		BEF3C0F625E073C700E1CDF1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				BEF3C0F525E073C700E1CDF1 /* FilamentViewer-Metal.app */,
+				BEDC13C92641B7CA000ED43F /* FilamentViewer-OpenGL.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BEF3C0F725E073C700E1CDF1 /* FilamentViewer */ = {
+			isa = PBXGroup;
+			children = (
+				BEF3C13525E08FA500E1CDF1 /* Debugging */,
+				BEF3C0F825E073C700E1CDF1 /* AppDelegate.h */,
+				BEF3C0F925E073C700E1CDF1 /* AppDelegate.mm */,
+				BE1B61E42666C8E100960CA0 /* DisplayRefreshNotifier.h */,
+				BE1B61E52666C8E100960CA0 /* DisplayRefreshNotifier.m */,
+				BE491DC2268BEA64001AE0D4 /* Cocoa Util */,
+				BEF3C0FB25E073C700E1CDF1 /* Document.h */,
+				BEF3C0FC25E073C700E1CDF1 /* Document.mm */,
+				BEF3C15B25E4318E00E1CDF1 /* FilamentView.h */,
+				BEF3C15C25E4318E00E1CDF1 /* FilamentView.mm */,
+				BE17937C26D5B5E40023CA70 /* ViewerWindowController.h */,
+				BE17937D26D5B5E40023CA70 /* ViewerWindowController.mm */,
+				BE17939E26D6BB310023CA70 /* Quesa to Filament */,
+				BE17938526D6BA560023CA70 /* Wrappers */,
+				BEF3C15A25E430DB00E1CDF1 /* Resources */,
+				BEF3C11325E07E3900E1CDF1 /* Quesa Utilities */,
+				BEF3C12D25E08B8800E1CDF1 /* materials source */,
+				BEF3C10625E073C800E1CDF1 /* Info.plist */,
+				BEF3C10725E073C800E1CDF1 /* main.m */,
+			);
+			path = FilamentViewer;
+			sourceTree = "<group>";
+		};
+		BEF3C11325E07E3900E1CDF1 /* Quesa Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				BE5EE83F260E7CD20049B72A /* BoundsToBox.cpp */,
+				BE5EE840260E7CD20049B72A /* BoundsToBox.h */,
+				BEF3C11925E07E3900E1CDF1 /* CalcQuesaBounds.cpp */,
+				BEF3C11525E07E3900E1CDF1 /* CalcQuesaBounds.h */,
+				BE6EF4A725EABDB70011C18C /* CQ3AttributeSet_Inherit.cpp */,
+				BE6EF4A825EABDB70011C18C /* CQ3AttributeSet_Inherit.h */,
+				BE1B6215266AC8F100960CA0 /* FindTriMeshVertexData.cpp */,
+				BE1B6214266AC8F100960CA0 /* FindTriMeshVertexData.h */,
+				BEF3C11825E07E3900E1CDF1 /* LoadQuesaModelFromFile.cpp */,
+				BEF3C11625E07E3900E1CDF1 /* LoadQuesaModelFromFile.h */,
+				BE1B620E266AC72300960CA0 /* MustTriMeshBeDecomposed.cpp */,
+				BE1B620F266AC72300960CA0 /* MustTriMeshBeDecomposed.h */,
+				BE1B61E02666A6DE00960CA0 /* NewDecomposingQuesaView.cpp */,
+				BE1B61E12666A6DE00960CA0 /* NewDecomposingQuesaView.h */,
+				BEF3C19125E86CFC00E1CDF1 /* NewDecomposingRenderer.cpp */,
+				BEF3C19225E86CFC00E1CDF1 /* NewDecomposingRenderer.h */,
+				BE5EE845260E82560049B72A /* ObjectName.cpp */,
+				BE5EE846260E82560049B72A /* ObjectName.h */,
+				BEE5503F25F82DA900373F73 /* QuesaStorageFromData.h */,
+				BEE5503E25F82DA900373F73 /* QuesaStorageFromData.mm */,
+				BE1B61FC2669728800960CA0 /* SynthesizeTriMeshUVs.cpp */,
+				BE1B61FD2669728800960CA0 /* SynthesizeTriMeshUVs.h */,
+				BE1B62032669790800960CA0 /* SynthesizeTriMeshVertexNormals.cpp */,
+				BE1B62042669790800960CA0 /* SynthesizeTriMeshVertexNormals.h */,
+			);
+			path = "Quesa Utilities";
+			sourceTree = "<group>";
+		};
+		BEF3C12125E0802700E1CDF1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BEE5503C25F827F800373F73 /* libz.tbd */,
+				BE5EE85C261787A40049B72A /* Quesa.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BEF3C12D25E08B8800E1CDF1 /* materials source */ = {
+			isa = PBXGroup;
+			children = (
+				BE5A08412681248A0002C0FA /* ordinary rendering */,
+				BE5A0843268125630002C0FA /* background or overlay */,
+				BE5A0840268124740002C0FA /* selection glow */,
+			);
+			name = "materials source";
+			path = "FilamentViewer/materials source";
+			sourceTree = SOURCE_ROOT;
+		};
+		BEF3C13525E08FA500E1CDF1 /* Debugging */ = {
+			isa = PBXGroup;
+			children = (
+				BE1B61D02660383000960CA0 /* LogLights.cpp */,
+				BE1B61D12660383000960CA0 /* LogLights.hpp */,
+				BEF3C13625E08FB300E1CDF1 /* LogToConsole.h */,
+				BEF3C13725E08FB300E1CDF1 /* LogToConsole.mm */,
+			);
+			name = Debugging;
+			sourceTree = "<group>";
+		};
+		BEF3C15A25E430DB00E1CDF1 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				BE5A084826813C2A0002C0FA /* ndc-foreground.3dmf */,
+				BE5A084726813C2A0002C0FA /* ndc-textured-background.3dmf */,
+				BEF3C0FE25E073C700E1CDF1 /* Document.xib */,
+				BEF3C10125E073C800E1CDF1 /* Assets.xcassets */,
+				BEF3C10325E073C800E1CDF1 /* MainMenu.xib */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		BEDC13902641B7CA000ED43F /* OpenGL */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BEDC13C62641B7CA000ED43F /* Build configuration list for PBXNativeTarget "OpenGL" */;
+			buildPhases = (
+				BEDC13912641B7CA000ED43F /* Make Symlink for Framework */,
+				BEDC13922641B7CA000ED43F /* Sources */,
+				BEDC13B22641B7CA000ED43F /* Frameworks */,
+				BEDC13B62641B7CA000ED43F /* Resources */,
+				BEDC13C42641B7CA000ED43F /* Copy Private Frameworks */,
+			);
+			buildRules = (
+				BEF4ED132675B2A800EB7602 /* PBXBuildRule */,
+			);
+			dependencies = (
+			);
+			name = OpenGL;
+			productName = GeomDoc;
+			productReference = BEDC13C92641B7CA000ED43F /* FilamentViewer-OpenGL.app */;
+			productType = "com.apple.product-type.application";
+		};
+		BEF3C0F425E073C700E1CDF1 /* Metal */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BEF3C10C25E073C800E1CDF1 /* Build configuration list for PBXNativeTarget "Metal" */;
+			buildPhases = (
+				BE5EE85B261786CA0049B72A /* Make Symlink for Framework */,
+				BEF3C0F125E073C700E1CDF1 /* Sources */,
+				BEF3C0F225E073C700E1CDF1 /* Frameworks */,
+				BEF3C0F325E073C700E1CDF1 /* Resources */,
+				BEF3C12425E0804600E1CDF1 /* Copy Private Frameworks */,
+			);
+			buildRules = (
+				BE3CF04F2675706D00361D34 /* PBXBuildRule */,
+			);
+			dependencies = (
+			);
+			name = Metal;
+			productName = GeomDoc;
+			productReference = BEF3C0F525E073C700E1CDF1 /* FilamentViewer-Metal.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		BEF3C0ED25E073C700E1CDF1 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 1300;
+				TargetAttributes = {
+					BEF3C0F425E073C700E1CDF1 = {
+						CreatedOnToolsVersion = 12.4;
+					};
+				};
+			};
+			buildConfigurationList = BEF3C0F025E073C700E1CDF1 /* Build configuration list for PBXProject "FilamentViewer" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = BEF3C0EC25E073C700E1CDF1;
+			productRefGroup = BEF3C0F625E073C700E1CDF1 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				BEF3C0F425E073C700E1CDF1 /* Metal */,
+				BEDC13902641B7CA000ED43F /* OpenGL */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		BEDC13B62641B7CA000ED43F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BE5A0846268127050002C0FA /* unlitTexturedDeviceCoord.mat in Resources */,
+				BEF4ED102675B15400EB7602 /* silhouette.mat in Resources */,
+				BEDC13B82641B7CA000ED43F /* Assets.xcassets in Resources */,
+				BE5A084A26813C2A0002C0FA /* ndc-textured-background.3dmf in Resources */,
+				BE5A083C267BDF8C0002C0FA /* unlitDeviceCoord.mat in Resources */,
+				BEDC13C12641B7CA000ED43F /* MainMenu.xib in Resources */,
+				BEF4ED0B2675B15400EB7602 /* litOpaque.mat in Resources */,
+				BEF4ED0E2675B15400EB7602 /* outline.mat in Resources */,
+				BE5A084C26813C2A0002C0FA /* ndc-foreground.3dmf in Resources */,
+				BEF4ED0D2675B15400EB7602 /* litTransparent.mat in Resources */,
+				BEF4ED112675B15400EB7602 /* litOpaqueVertColor.mat in Resources */,
+				BEDC13BD2641B7CA000ED43F /* Document.xib in Resources */,
+				BE5A083F268123B20002C0FA /* unlitLowDim.mat in Resources */,
+				BEF4ED0F2675B15400EB7602 /* unlit.mat in Resources */,
+				BEF4ED0C2675B15400EB7602 /* unlitVertColor.mat in Resources */,
+				BEF4ED0A2675B15400EB7602 /* litTransparentTwoSide.mat in Resources */,
+				BE491DCD268D0F91001AE0D4 /* litAlphaTest.mat in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BEF3C0F325E073C700E1CDF1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BE5A0845268127050002C0FA /* unlitTexturedDeviceCoord.mat in Resources */,
+				BEF4ED082675B15300EB7602 /* silhouette.mat in Resources */,
+				BEF3C10225E073C800E1CDF1 /* Assets.xcassets in Resources */,
+				BE5A084926813C2A0002C0FA /* ndc-textured-background.3dmf in Resources */,
+				BE5A083B267BDF8C0002C0FA /* unlitDeviceCoord.mat in Resources */,
+				BEF4ED072675B15300EB7602 /* unlit.mat in Resources */,
+				BEF4ED022675B15300EB7602 /* litTransparentTwoSide.mat in Resources */,
+				BEF3C10525E073C800E1CDF1 /* MainMenu.xib in Resources */,
+				BE5A084B26813C2A0002C0FA /* ndc-foreground.3dmf in Resources */,
+				BEF4ED042675B15300EB7602 /* unlitVertColor.mat in Resources */,
+				BEF4ED092675B15300EB7602 /* litOpaqueVertColor.mat in Resources */,
+				BEF4ED052675B15300EB7602 /* litTransparent.mat in Resources */,
+				BE5A083E268123B20002C0FA /* unlitLowDim.mat in Resources */,
+				BEF4ED062675B15300EB7602 /* outline.mat in Resources */,
+				BEF3C10025E073C700E1CDF1 /* Document.xib in Resources */,
+				BEF4ED032675B15300EB7602 /* litOpaque.mat in Resources */,
+				BE491DCC268D0F91001AE0D4 /* litAlphaTest.mat in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		BE5EE85B261786CA0049B72A /* Make Symlink for Framework */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Make Symlink for Framework";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd \"$CONFIGURATION_BUILD_DIR\"\n\n# Make symbolic link to appropriate build of Quesa\nln -h -f -s \"$Quesa/SDK/Libraries/Mac/Framework_NoOpenGL/$CONFIGURATION/Quesa.framework\" Quesa.framework\n";
+		};
+		BEDC13912641B7CA000ED43F /* Make Symlink for Framework */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Make Symlink for Framework";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "cd \"$CONFIGURATION_BUILD_DIR\"\n\n# Make symbolic link to appropriate build of Quesa\nln -h -f -s \"$Quesa/SDK/Libraries/Mac/Framework_NoOpenGL/$CONFIGURATION/Quesa.framework\" Quesa.framework\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		BEDC13922641B7CA000ED43F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BEDC13932641B7CA000ED43F /* Document.mm in Sources */,
+				BE1793AA26D6BB310023CA70 /* GeomToRenderable.cpp in Sources */,
+				BE17939526D6BA560023CA70 /* FilaTransform.cpp in Sources */,
+				BEDC13952641B7CA000ED43F /* CQ3AttributeSet_Inherit.cpp in Sources */,
+				BE1793AE26D6BB310023CA70 /* GeomCache.cpp in Sources */,
+				BE1B62062669790800960CA0 /* SynthesizeTriMeshVertexNormals.cpp in Sources */,
+				BE17939326D6BA560023CA70 /* EngineSharedPtr.cpp in Sources */,
+				BE491DC6268BEA7C001AE0D4 /* NSObject+JW.m in Sources */,
+				BE17939D26D6BA560023CA70 /* FilaGeom.cpp in Sources */,
+				BE17939926D6BA560023CA70 /* FilaEntity.cpp in Sources */,
+				BE1793A826D6BB310023CA70 /* MakeMaterialInstance.cpp in Sources */,
+				BEDC139B2641B7CA000ED43F /* ObjectName.cpp in Sources */,
+				BEDC13A02641B7CA000ED43F /* BoundsToBox.cpp in Sources */,
+				BE1793B226D6BB700023CA70 /* BaseMaterials.mm in Sources */,
+				BEDC13A22641B7CA000ED43F /* LoadQuesaModelFromFile.cpp in Sources */,
+				BEDC13A32641B7CA000ED43F /* CalcQuesaBounds.cpp in Sources */,
+				BE1793AC26D6BB310023CA70 /* TextureManager.cpp in Sources */,
+				BEDC13A52641B7CA000ED43F /* QuesaStorageFromData.mm in Sources */,
+				BE1B6219266AC8F100960CA0 /* FindTriMeshVertexData.cpp in Sources */,
+				BEDC13A62641B7CA000ED43F /* LogToConsole.mm in Sources */,
+				BE17939B26D6BA560023CA70 /* FilaLight.cpp in Sources */,
+				BE1B61E32666A6DE00960CA0 /* NewDecomposingQuesaView.cpp in Sources */,
+				BE1B6211266AC72300960CA0 /* MustTriMeshBeDecomposed.cpp in Sources */,
+				BE1B61E72666C8E100960CA0 /* DisplayRefreshNotifier.m in Sources */,
+				BE491DCA268CDB92001AE0D4 /* KVOObserverJW.m in Sources */,
+				BEDC13A82641B7CA000ED43F /* NewDecomposingRenderer.cpp in Sources */,
+				BE17937F26D5B5E40023CA70 /* ViewerWindowController.mm in Sources */,
+				BEDC13AA2641B7CA000ED43F /* FilamentView.mm in Sources */,
+				BEDC13AE2641B7CA000ED43F /* main.m in Sources */,
+				BE1B61D32660383000960CA0 /* LogLights.cpp in Sources */,
+				BE17939726D6BA560023CA70 /* RenderableGeom.cpp in Sources */,
+				BE1B61FF2669728800960CA0 /* SynthesizeTriMeshUVs.cpp in Sources */,
+				BEDC13AF2641B7CA000ED43F /* AppDelegate.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BEF3C0F125E073C700E1CDF1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BEF3C0FD25E073C700E1CDF1 /* Document.mm in Sources */,
+				BE1793A926D6BB310023CA70 /* GeomToRenderable.cpp in Sources */,
+				BE17939426D6BA560023CA70 /* FilaTransform.cpp in Sources */,
+				BE6EF4A925EABDB70011C18C /* CQ3AttributeSet_Inherit.cpp in Sources */,
+				BE1793AD26D6BB310023CA70 /* GeomCache.cpp in Sources */,
+				BE1B62052669790800960CA0 /* SynthesizeTriMeshVertexNormals.cpp in Sources */,
+				BE17939226D6BA560023CA70 /* EngineSharedPtr.cpp in Sources */,
+				BE491DC5268BEA7C001AE0D4 /* NSObject+JW.m in Sources */,
+				BE17939C26D6BA560023CA70 /* FilaGeom.cpp in Sources */,
+				BE17939826D6BA560023CA70 /* FilaEntity.cpp in Sources */,
+				BE1793A726D6BB310023CA70 /* MakeMaterialInstance.cpp in Sources */,
+				BE5EE847260E82560049B72A /* ObjectName.cpp in Sources */,
+				BE5EE841260E7CD20049B72A /* BoundsToBox.cpp in Sources */,
+				BE1793B126D6BB700023CA70 /* BaseMaterials.mm in Sources */,
+				BEF3C11B25E07E3900E1CDF1 /* LoadQuesaModelFromFile.cpp in Sources */,
+				BEF3C11C25E07E3900E1CDF1 /* CalcQuesaBounds.cpp in Sources */,
+				BE1793AB26D6BB310023CA70 /* TextureManager.cpp in Sources */,
+				BEE5504025F82DA900373F73 /* QuesaStorageFromData.mm in Sources */,
+				BE1B6218266AC8F100960CA0 /* FindTriMeshVertexData.cpp in Sources */,
+				BEF3C13825E08FB300E1CDF1 /* LogToConsole.mm in Sources */,
+				BE17939A26D6BA560023CA70 /* FilaLight.cpp in Sources */,
+				BE1B61E22666A6DE00960CA0 /* NewDecomposingQuesaView.cpp in Sources */,
+				BE1B6210266AC72300960CA0 /* MustTriMeshBeDecomposed.cpp in Sources */,
+				BE1B61E62666C8E100960CA0 /* DisplayRefreshNotifier.m in Sources */,
+				BE491DC9268CDB92001AE0D4 /* KVOObserverJW.m in Sources */,
+				BEF3C19325E86CFC00E1CDF1 /* NewDecomposingRenderer.cpp in Sources */,
+				BE17937E26D5B5E40023CA70 /* ViewerWindowController.mm in Sources */,
+				BEF3C15D25E4318E00E1CDF1 /* FilamentView.mm in Sources */,
+				BEF3C10825E073C800E1CDF1 /* main.m in Sources */,
+				BE1B61D22660383000960CA0 /* LogLights.cpp in Sources */,
+				BE17939626D6BA560023CA70 /* RenderableGeom.cpp in Sources */,
+				BE1B61FE2669728800960CA0 /* SynthesizeTriMeshUVs.cpp in Sources */,
+				BEF3C0FA25E073C700E1CDF1 /* AppDelegate.mm in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		BEF3C0FE25E073C700E1CDF1 /* Document.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BEF3C0FF25E073C700E1CDF1 /* Base */,
+			);
+			name = Document.xib;
+			sourceTree = "<group>";
+		};
+		BEF3C10325E073C800E1CDF1 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				BEF3C10425E073C800E1CDF1 /* Base */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		BEDC13C72641B7CA000ED43F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BEDC138F2641B7A7000ED43F /* targ_OpenGL.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				COMBINE_HIDPI_IMAGES = YES;
+			};
+			name = Debug;
+		};
+		BEDC13C82641B7CA000ED43F /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BEDC138F2641B7A7000ED43F /* targ_OpenGL.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				COMBINE_HIDPI_IMAGES = YES;
+			};
+			name = Release;
+		};
+		BEF3C10A25E073C800E1CDF1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BEF3C11F25E07FD100E1CDF1 /* proj.xcconfig */;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+			};
+			name = Debug;
+		};
+		BEF3C10B25E073C800E1CDF1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BEF3C11F25E07FD100E1CDF1 /* proj.xcconfig */;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+			};
+			name = Release;
+		};
+		BEF3C10D25E073C800E1CDF1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BEDC138E2641B796000ED43F /* targ_Metal.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				COMBINE_HIDPI_IMAGES = YES;
+			};
+			name = Debug;
+		};
+		BEF3C10E25E073C800E1CDF1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = BEDC138E2641B796000ED43F /* targ_Metal.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				COMBINE_HIDPI_IMAGES = YES;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		BEDC13C62641B7CA000ED43F /* Build configuration list for PBXNativeTarget "OpenGL" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BEDC13C72641B7CA000ED43F /* Debug */,
+				BEDC13C82641B7CA000ED43F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BEF3C0F025E073C700E1CDF1 /* Build configuration list for PBXProject "FilamentViewer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BEF3C10A25E073C800E1CDF1 /* Debug */,
+				BEF3C10B25E073C800E1CDF1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BEF3C10C25E073C800E1CDF1 /* Build configuration list for PBXNativeTarget "Metal" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BEF3C10D25E073C800E1CDF1 /* Debug */,
+				BEF3C10E25E073C800E1CDF1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = BEF3C0ED25E073C700E1CDF1 /* Project object */;
+}

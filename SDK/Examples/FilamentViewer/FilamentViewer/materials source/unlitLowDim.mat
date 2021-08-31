@@ -1,0 +1,41 @@
+material {
+	name : unlitLowDim,
+	shadingModel : unlit,
+	postLightingBlending : add,
+    doubleSided : false,
+	parameters : [
+		{
+            type : float3,
+            name : baseColor
+        },
+		{
+			type : float3,
+			name : emissive
+		},
+		{
+			type : float2,
+			name : depthRange
+		}
+	]
+}
+
+vertex {
+	void materialVertex(inout MaterialVertexInputs material)
+	{
+		// glDepthRange emulation
+		material.clipSpaceTransform[3][2] = materialParams.depthRange.x +
+			materialParams.depthRange.y -1.0;
+		material.clipSpaceTransform[2][2] = materialParams.depthRange.y -
+			materialParams.depthRange.x;
+	}
+}
+
+fragment {
+	void material(inout MaterialInputs material) {
+		prepareMaterial(material);
+		material.baseColor.rgb = materialParams.baseColor;
+		material.baseColor.a = 1.0;
+		material.postLightingColor.rgb = materialParams.emissive;
+		material.postLightingColor.a = 0.0;
+	}
+}

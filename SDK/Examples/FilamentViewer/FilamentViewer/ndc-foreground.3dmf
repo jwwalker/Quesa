@@ -1,0 +1,74 @@
+3DMetafile ( 1 6 Normal tableofcontents0> )
+
+# This TriMesh is a quad that fills the view at the near distance in normalized device
+# coordinates.
+
+	Container (
+		TriMesh (
+			8 1 0 0 8 2	# faces faceAtts edges edgeAtts pts ptAtts
+			0 1 5	# triangles
+			0 5 4
+			1 6 5
+			1 2 6
+			2 3 7
+			2 7 6
+			0 4 3
+			3 4 7
+			
+			-1 -1 -1	# points
+			1 -1 -1
+			1 1 -1
+			-1 1 -1
+			-0.6 -0.6 -1
+			0.6 -0.6 -1
+			0.6 0.6 -1
+			-0.6 0.6 -1
+			
+			-1 -1 -1 1 1 -1 False	# bounding box
+		)
+		AttributeArray(
+			3 0 0 0 0	# face normal
+			0 0 1
+			0 0 1
+			0 0 1
+			0 0 1
+			0 0 1
+			0 0 1
+			0 0 1
+			0 0 1
+		)
+		AttributeArray(
+			1 0 2 0 0	# point UV
+			0 0
+			1 0
+			1 1
+			0 1
+			0.2 0.2
+			0.8 0.2
+			0.8 0.8
+			0.2 0.8
+		)
+		AttributeArray(
+			3 0 2 1 0	# point normal
+			0 0 1
+			0 0 1
+			0 0 1
+			0 0 1
+			0 0 1
+			0 0 1
+			0 0 1
+			0 0 1
+		)
+		Container (
+			AttributeSet ( )
+			DiffuseColor ( 0 1 0 )
+			TransparencyColor ( 0.5 0.5 0.5 )
+			SpecularColor ( 0 0 0 )
+		)
+		Container (
+			Apple Computer, Inc.:NameElement ( )
+			CString (
+				"foreground"
+			)
+		)
+	)

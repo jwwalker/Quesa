@@ -1,0 +1,54 @@
+//
+//  proj.xcconfig
+//  FilamentViewer
+//
+//  Created by James Walker on 1/25/21.
+//
+
+// Configuration settings file format documentation can be found at:
+// https://help.apple.com/xcode/#/dev745c5c974
+
+// Architectures
+ARCHS = x86_64
+SDKROOT = macosx
+
+// Deployment
+MACOSX_DEPLOYMENT_TARGET = 10.15
+COPY_PHASE_STRIP = NO
+
+// Search Paths
+ALWAYS_SEARCH_USER_PATHS = NO
+HEADER_SEARCH_PATHS = "$FilamentRelease/include"
+USER_HEADER_SEARCH_PATHS = "$Quesa/Extras/Utility Sources/Mutating Algorithms"
+LIBRARY_SEARCH_PATHS = "$FilamentRelease/lib/x86_64"
+FRAMEWORK_SEARCH_PATHS = "$Quesa/SDK/Libraries/Mac/Framework_NoOpenGL/$CONFIGURATION"
+
+// Preprocessing
+GCC_PREPROCESSOR_DEFINITIONS = QUESA_OS_COCOA=1
+
+// Languages C++
+CLANG_CXX_LIBRARY = libc++
+CLANG_CXX_LANGUAGE_STANDARD = gnu++17
+
+// Languages Objective-C
+CLANG_ENABLE_OBJC_ARC = YES
+CLANG_ENABLE_OBJC_WEAK = YES
+
+// Warnings
+CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = NO
+
+// Linking
+LD_RUNPATH_SEARCH_PATHS = $(inherited) @executable_path/../Frameworks
+OTHER_LDFLAGS = -lfilament -lbackend -lfilaflat -lfilabridge -lutils -lsmol-v -lgeometry -libl -lbluegl -lbluevk -lvkshaders
+
+// Versioning
+CURRENT_PROJECT_VERSION = 1.1.1
+MARKETING_VERSION = 1.1.1
+
+// Packaging
+PRODUCT_NAME = $(PROJECT_NAME)-$(TARGET_NAME)
+INFOPLIST_FILE = $(PROJECT_NAME)/Info.plist
+PRODUCT_BUNDLE_IDENTIFIER = net.quesa.$(PROJECT_NAME)
+
+// Signing
+CODE_SIGN_IDENTITY = -

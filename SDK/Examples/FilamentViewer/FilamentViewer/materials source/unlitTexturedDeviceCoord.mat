@@ -1,0 +1,64 @@
+material {
+	name : unlitTexturedDeviceCoord,
+	shadingModel : unlit,
+	vertexDomain : device,
+	blending : transparent,
+	postLightingBlending : add,
+    doubleSided : false,
+    requires : [
+        uv0
+    ],
+	parameters : [
+        {
+            type : bool,
+            name : isTextured
+        },
+		{
+            type : sampler2d,
+            name : texture
+		},
+		{
+			type : float3x3,
+			name : uvtrans
+		},
+        {
+            type : float,
+            name : alpha
+        },
+		{
+            type : float3,
+            name : baseColor
+        }
+	]
+}
+
+
+vertex {
+	void materialVertex(inout MaterialVertexInputs material)
+	{
+		// No idea why I must do this song and dance to get UV transforms
+		// to work correctly.  It may have something to do with the V flipping
+		// that Filament normally does, but if I turn off flipUV, the results
+		// are worse.
+		material.uv0.y = 1.0 - material.uv0.y;
+		float3 uvhom = materialParams.uvtrans * float3( material.uv0, 1.0 );
+		material.uv0 = uvhom.xy;
+		material.uv0.y = 1.0 - material.uv0.y;
+	}
+}
+
+fragment {
+	void material(inout MaterialInputs material) {
+		prepareMaterial(material);
+		if (materialParams.isTextured)
+		{
+			material.baseColor.rgba = texture(materialParams_texture, getUV0()).rgba *
+				materialParams.alpha;
+		}
+		else
+		{
+			material.baseColor.rgb = materialParams.baseColor * materialParams.alpha;
+			material.baseColor.a = materialParams.alpha;
+		}
+	}
+}

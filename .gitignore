@@ -25,3 +25,6 @@ SDK/Extras/Cocoa Example/Quesa3DView/Quesa3DView.xcodeproj/xcuserdata
 *.xcworkspacedata
 SDK/Extras/Textify3DMF/Textify3DMF.xcodeproj/project.xcworkspace
 xcschememanagement.plist
+SDK/Examples/FilamentViewer/FilamentViewer.xcodeproj/project.xcworkspace/xcuserdata
+SDK/Examples/FilamentViewer/FilamentViewer.xcodeproj/xcshareddata
+SDK/Examples/FilamentViewer/FilamentViewer.xcodeproj/xcuserdata

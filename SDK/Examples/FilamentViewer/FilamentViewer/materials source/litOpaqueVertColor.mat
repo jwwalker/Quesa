@@ -1,0 +1,55 @@
+material {
+	name : litOpaqueVertColor,
+	shadingModel : lit,
+	postLightingBlending : add,
+    doubleSided : false,
+    requires : [
+        color
+    ],
+	parameters : [
+		{
+            type : float,
+            name : roughness
+        },
+        {
+            type : float,
+            name : metallic
+        },
+        {
+            type : float,
+            name : reflectance
+        },
+		{
+			type : float3,
+			name : emissive
+		},
+		{
+			type : float2,
+			name : depthRange
+		}
+	]
+}
+
+vertex {
+	void materialVertex(inout MaterialVertexInputs material)
+	{
+		// glDepthRange emulation
+		material.clipSpaceTransform[3][2] = materialParams.depthRange.x +
+			materialParams.depthRange.y - 1.0;
+		material.clipSpaceTransform[2][2] = materialParams.depthRange.y -
+			materialParams.depthRange.x;
+	}
+}
+
+fragment {
+	void material(inout MaterialInputs material) {
+		prepareMaterial(material);
+		material.baseColor.rgba = getColor();
+		material.baseColor.a = 1.0;
+		material.roughness = materialParams.roughness;
+		material.reflectance = materialParams.reflectance;
+		material.metallic = materialParams.metallic;
+		material.postLightingColor.rgb = materialParams.emissive;
+		material.postLightingColor.a = 0.0;
+	}
+}
