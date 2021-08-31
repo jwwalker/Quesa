@@ -4,7 +4,7 @@ Quesa is a 3D rendering and scene graph library for macOS and Windows, with a BS
 
 ## Authorship
 
-The Quesa project was begun by Dair Grant.  At its period of maximum activity, it was also administered by José Cruanyes, Roger Holmes, Kevin Matthews, Joe Strout, and James W. Walker, with contributions from a few others.  Now it is solely maintained by James W. Walker.
+The Quesa project was begun by Dair Grant.  At its period of maximum activity, it was also administered by Jos√© Cruanyes, Roger Holmes, Kevin Matthews, Joe Strout, and James W. Walker, with contributions from a few others.  Now it is solely maintained by James W. Walker.
 
 ## Recent Work
 
