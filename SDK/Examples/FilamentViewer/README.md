@@ -38,3 +38,51 @@ builds of the Filament libraries, and change 2 lines of the
 `ARCHS = x86_64 arm64`
 
 `LIBRARY_SEARCH_PATHS = "$FilamentRelease/lib/universal"`
+
+## Theory of Operation
+
+Associated with each Quesa view object (type `TQ3View`), there should be a draw context
+(representing the more platform-dependent aspects of the viewing destination), a camera,
+and a renderer.  When you want to render some Quesa content, you run a *renderering loop*
+that looks something like this:
+
+```c++
+if (kQ3Success == Q3View_StartRendering( viewObject ))
+{
+    do
+    {
+        Q3Object_Submit( object1, viewObject );
+        Q3Object_Submit( object2, viewObject );
+        ...
+    } while (kQ3ViewStatusRetraverse == Q3View_EndRendering( viewObject ));
+}
+```
+
+Bear in mind that submitting a group may cause a complex hierarchy of geometries,
+transforms, and style objects to be sent to the renderer.
+
+Quesa was designed with the intent that one could write plug-in renderers.  Depending on
+the platform and back-end technology you are targeting, it might also be necessary to
+write a new draw context class.  But for this sample program, we have chosen a more ad-hoc
+approach.
+
+In order to avoid any platform-specific code, we use a generic draw context (created using
+`Q3GenericDrawContext_New`).  One may be tempted to also use a generic renderer (created
+using `Q3Renderer_NewFromType( kQ3RendererTypeGeneric )`, but there's a problem:  The
+generic renderer "claims" to be able to render all kinds of geometries, including high
+level geometries such as Torus and Cone, whereas Filament only supports lower level types
+of geometry such as triangle meshes and lines.  Therefore we create a subclass of the
+generic renderer that is unable to render anything, which will cause high-level geometries
+to be decomposed into lower-level geometry during rendering.  One more trick is to
+subclass the view object so that we can intercept the submit-for-rendering method.
+
+Whenever our submit-for-rendering method sees a geometry of an appropriate type such as
+TriMesh or Line, we convert it to Filament geometry data, or look it up in a cache.  It
+is appropriate to maintain a cache, because a Quesa hierarchy might reference a geometry
+multiple times, with different positions or styles.  We then create a Filament renderable
+referencing that geometry data.  We get the current transform from the view using
+`Q3View_GetLocalToWorldMatrixState` and give the renderable the corresponding transform.
+And we set the material of the renderable using the attribute set of the Quesa geometry
+and various style states retrieved from the view.  We don't need to worry about the
+structure of whatever Quesa group hierarchy is being submitted, because Quesa keeps track
+of the current transform and styles.
