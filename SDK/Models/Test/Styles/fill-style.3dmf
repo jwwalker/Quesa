@@ -1,0 +1,123 @@
+3DMetafile ( 1 6 Normal tableofcontents0> )
+
+#	NAME:
+#		fill-style.3dmf
+#
+#	DESCRIPTION:
+#		Test model for Fill Style.
+#
+#	COPYRIGHT:
+#		Quesa Copyright © 2021, Quesa Developers.
+#	
+#	
+#		For the current version of Quesa, see:
+#	
+#			<https://github.com/jwwalker/Quesa>
+
+	displaygroup2:
+	BeginGroup (
+		DisplayGroup ( )
+		DisplayGroupState ( NoBoundingBox | NoBoundingSphere 
+		)
+	)
+	subdivisionstyle4:
+	SubdivisionStyle ( Constant 30 30 )
+	rotate5:
+	Rotate ( Z # axis
+		0.7853982 # radians
+	)
+	BeginGroup (
+		DisplayGroup ( )
+	)
+	
+	FillStyle ( Edges )
+
+	torus6:
+	Container (
+		Torus (
+			0 0 0.3 # orientation
+			1 0 0 # majorRadius
+			0 1 0 # minorRadius
+			0 0.7 0 # origin
+			1 # ratio
+			0 # uMin
+			1 # uMax
+			0 # vMin
+			1 # vMax
+		)
+		attributeset7:
+		Container (
+			AttributeSet ( )
+			DiffuseColor ( 0.19 0.21 0.6 )
+		)
+		Container (
+			Apple Computer, Inc.:NameElement ( )
+			cstring8:
+			CString ( "blue torus"
+			)
+		)
+	)
+	
+	EndGroup ( )
+
+	BeginGroup (
+		DisplayGroup ( )
+	)
+	
+	FillStyle ( Points )
+	
+	ellipsoid9:
+	Container (
+		Ellipsoid (
+			0 0 0.3 # orientation
+			0.3 0 0 # majorRadius
+			0 0.3 0 # minorRadius
+			0 0.7 0 # origin
+			0 # uMin
+			1 # uMax
+			0 # vMin
+			1 # vMax
+		)
+		attributeset10:
+		Container (
+			AttributeSet ( )
+			DiffuseColor ( 0.66 0.01 0.01 )
+		)
+		Container (
+			Apple Computer, Inc.:NameElement ( )
+			cstring11:
+			CString ( "red ball"
+			)
+		)
+	)
+
+	EndGroup ( )
+
+	cone12:
+	Container (
+		Cone (
+			0 1.5 0 # orientation
+			0 0 0.3 # majorRadius
+			0.3 0 0 # minorRadius
+			0 -1 0 # origin
+			0 # uMin
+			1 # uMax
+			0 # vMin
+			1 # vMax
+		)
+		Caps ( Bottom 
+		)
+		attributeset13:
+		Container (
+			AttributeSet ( )
+			DiffuseColor ( 0.14 0.42 0.18 )
+		)
+		Container (
+			Apple Computer, Inc.:NameElement ( )
+			cstring14:
+			CString ( "green cone"
+			)
+		)
+	)
+	EndGroup ( )
+	
