@@ -83,6 +83,13 @@ public:
 	*/
 	CQ3ObjectRef		NextObject();
 	
+	/*!
+		@function	CurrentPosition
+		@abstract	Get the position of the member most recently returned by <code>NextObject</code>.
+		@result		The current group position, or NULL if none.
+	*/
+	TQ3GroupPosition	CurrentPosition() const { return mPos; }
+	
 private:
 	TQ3GroupObject		mGroup;
 	TQ3ObjectType		mType;
