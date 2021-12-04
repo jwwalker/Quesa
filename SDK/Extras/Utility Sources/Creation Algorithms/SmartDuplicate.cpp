@@ -46,21 +46,12 @@
 
 #include "SmartDuplicate.h"
 
-#ifndef __APPLE__
-	#include "CQ3ObjectRef.h"
-	#include "CQ3ObjectRef_Gets.h"
-	#include "QuesaGeometry.h"
-	#include "QuesaGroup.h"
-	#include <QuesaShader.h>
-	#include "Q3GroupIterator.h"
-#else
-	#include <Quesa/CQ3ObjectRef.h>
-	#include <Quesa/CQ3ObjectRef_Gets.h>
-	#include <Quesa/QuesaGeometry.h>
-	#include <Quesa/QuesaGroup.h>
-	#include <Quesa/QuesaShader.h>
-	#include <Quesa/Q3GroupIterator.h>
-#endif
+#include <Quesa/CQ3ObjectRef.h>
+#include <Quesa/CQ3ObjectRef_Gets.h>
+#include <Quesa/QuesaGeometry.h>
+#include <Quesa/QuesaGroup.h>
+#include <Quesa/QuesaShader.h>
+#include <Quesa/Q3GroupIterator.h>
 
 #include <map>
 

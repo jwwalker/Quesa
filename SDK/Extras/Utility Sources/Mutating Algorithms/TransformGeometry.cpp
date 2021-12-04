@@ -46,13 +46,8 @@
 
 #include "TransformGeometry.h"
 
-#ifndef __APPLE__
-	#include "QuesaGeometry.h"
-	#include "QuesaMath.h"
-#else
-	#include <Quesa/QuesaGeometry.h>
-	#include <Quesa/QuesaMath.h>
-#endif
+#include <Quesa/QuesaGeometry.h>
+#include <Quesa/QuesaMath.h>
 
 
 static void TransformBox( const TQ3Matrix4x4* inMatrix,

@@ -49,15 +49,9 @@
 #include "FindTriMeshFaceData.h"
 #include "FindTriMeshVertexData.h"
 
-#ifndef __APPLE__
-	#include "QuesaGeometry.h"
-	#include "QuesaSet.h"
-	#include "QuesaMathOperators.hpp"
-#else
-	#include <Quesa/QuesaGeometry.h>
-	#include <Quesa/QuesaSet.h>
-	#include <Quesa/QuesaMathOperators.hpp>
-#endif
+#include <Quesa/QuesaGeometry.h>
+#include <Quesa/QuesaSet.h>
+#include <Quesa/QuesaMathOperators.hpp>
 
 #include <vector>
 #include <map>

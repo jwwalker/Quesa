@@ -46,23 +46,13 @@
 
 #include "FlattenHierarchy.h"
 
-#ifndef __APPLE__
-	#include "CQ3ObjectRef.h"
-	#include "CQ3ObjectRef_Gets.h"
-	#include "QuesaGroup.h"
-	#include "QuesaMathOperators.hpp"
-	#include "QuesaStyle.h"
-	#include "QuesaTransform.h"
-	#include "Q3GroupIterator.h"
-#else
-	#include <Quesa/CQ3ObjectRef_Gets.h>
-	#include <Quesa/CQ3ObjectRef.h>
-	#include <Quesa/QuesaGroup.h>
-	#include <Quesa/QuesaMathOperators.hpp>
-	#include <Quesa/QuesaStyle.h>
-	#include <Quesa/QuesaTransform.h>
-	#include <Quesa/Q3GroupIterator.h>
-#endif
+#include <Quesa/CQ3ObjectRef_Gets.h>
+#include <Quesa/CQ3ObjectRef.h>
+#include <Quesa/QuesaGroup.h>
+#include <Quesa/QuesaMathOperators.hpp>
+#include <Quesa/QuesaStyle.h>
+#include <Quesa/QuesaTransform.h>
+#include <Quesa/Q3GroupIterator.h>
 
 #include <vector>
 #include <list>

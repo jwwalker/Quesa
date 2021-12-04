@@ -46,11 +46,7 @@
 
 #include "DeleteObjectsOfType.h"
 
-#ifndef __APPLE__
-	#include "Q3GroupIterator.h"
-#else
-	#include <Quesa/Q3GroupIterator.h>
-#endif
+#include <Quesa/Q3GroupIterator.h>
 
 
 /*!

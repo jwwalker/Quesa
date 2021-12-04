@@ -46,11 +46,7 @@
 #ifndef QUESA_SMARTDUPLICATE_HDR
 #define QUESA_SMARTDUPLICATE_HDR
 
-#ifndef __APPLE__
-	#include "Quesa.h"
-#else
-	#include <Quesa/Quesa.h>
-#endif
+#include <Quesa/Quesa.h>
 
 
 #ifdef __cplusplus

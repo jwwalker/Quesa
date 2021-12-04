@@ -46,11 +46,7 @@
 
 #include "FindTriMeshVertexData.h"
 
-#ifndef __APPLE__
-	#include "QuesaGeometry.h"
-#else
-	#include <Quesa/QuesaGeometry.h>
-#endif
+#include <Quesa/QuesaGeometry.h>
 
 /*!
 	@function	FindTriMeshVertexData

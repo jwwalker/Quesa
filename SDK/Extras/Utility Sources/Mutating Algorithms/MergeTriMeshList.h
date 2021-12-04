@@ -46,11 +46,7 @@
 #ifndef QUESA_MERGETRIMESHLIST_HDR
 #define QUESA_MERGETRIMESHLIST_HDR
 
-#ifndef __APPLE__
-	#include "CQ3ObjectRef.h"
-#else
-	#include <Quesa/CQ3ObjectRef.h>
-#endif
+#include <Quesa/CQ3ObjectRef.h>
 
 #include <vector>
 

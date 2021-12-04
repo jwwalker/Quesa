@@ -48,21 +48,12 @@
 #include "DeleteObjectsOfType.h"
 #include "TransformGeometry.h"
 
-#ifndef __APPLE__
-	#include "CQ3ObjectRef.h"
-	#include "CQ3ObjectRef_Gets.h"
-	#include "QuesaGeometry.h"
-	#include <QuesaMath.h>
-	#include "QuesaTransform.h"
-	#include "Q3GroupIterator.h"
-#else
-	#include <Quesa/CQ3ObjectRef.h>
-	#include <Quesa/CQ3ObjectRef_Gets.h>
-	#include <Quesa/QuesaGeometry.h>
-	#include <Quesa/QuesaMath.h>
-	#include <Quesa/QuesaTransform.h>
-	#include <Quesa/Q3GroupIterator.h>
-#endif
+#include <Quesa/CQ3ObjectRef.h>
+#include <Quesa/CQ3ObjectRef_Gets.h>
+#include <Quesa/QuesaGeometry.h>
+#include <Quesa/QuesaMath.h>
+#include <Quesa/QuesaTransform.h>
+#include <Quesa/Q3GroupIterator.h>
 
 #include <vector>
 

@@ -46,11 +46,7 @@
 
 #include "DecomposeGeometries.h"
 
-#ifndef __APPLE__
-	#include "CQ3ObjectRef_Gets.h"
-#else
-	#include <Quesa/CQ3ObjectRef_Gets.h>
-#endif
+#include <Quesa/CQ3ObjectRef_Gets.h>
 
 
 

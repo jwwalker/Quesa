@@ -46,11 +46,7 @@
 #ifndef QUESA_FINDTRIMESHVERTEXDATA_HDR
 #define QUESA_FINDTRIMESHVERTEXDATA_HDR
 
-#ifndef __APPLE__
-	#include "QuesaSet.h"
-#else
-	#include <Quesa/QuesaSet.h>
-#endif
+#include <Quesa/QuesaSet.h>
 
 struct TQ3TriMeshData;
 
