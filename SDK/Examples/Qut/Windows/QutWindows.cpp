@@ -46,7 +46,7 @@
 #include "Qut.h"
 #include "QutInternal.h"
 
-#include "QuesaStorage.h"
+#include <Quesa/QuesaStorage.h>
 
 #include "resource.h"
 

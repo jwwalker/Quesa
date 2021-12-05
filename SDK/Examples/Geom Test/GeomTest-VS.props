@@ -8,7 +8,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>../Qut;../../Includes/Quesa;../../Extras/Utility Sources/Mutating Algorithms;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../Qut;../../Includes;../../Extras/Utility Sources/Mutating Algorithms;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>QUESA_OS_WIN32=1;_MBCS;WIN32;_WINDOWS;QD3D_NO_DIRECTDRAW;%(PreprocessorDefinitions)%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ObjectFileName>.\$(Platform)\$(Configuration)\Intermediate\</ObjectFileName>
     </ClCompile>
