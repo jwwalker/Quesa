@@ -47,13 +47,8 @@
 #include "GetCachedObject.h"
 #include "PolyValue.h"
 
-#if __MACH__
 	#include <Quesa/QuesaMath.h>
 	#include <Quesa/QuesaTransform.h>
-#else
-	#include <QuesaMath.h>
-	#include <QuesaTransform.h>
-#endif
 
 #include <ostream>
 

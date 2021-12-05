@@ -46,11 +46,7 @@
 #include "IsKeyPresent.h"
 #include "PolyValue.h"
 
-#if __MACH__
 	#include <Quesa/Quesa.h>
-#else
-	#include <Quesa.h>
-#endif
 
 
 namespace GetNumbersFromIterator

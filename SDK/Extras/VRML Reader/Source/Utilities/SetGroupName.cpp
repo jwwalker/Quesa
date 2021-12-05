@@ -45,15 +45,9 @@
 #include "SetGroupName.h"
 #include "VRML-reader-prefix.h"
 
-#if __MACH__
 	#include <Quesa/CQ3ObjectRef.h>
 	#include <Quesa/QuesaCustomElements.h>
 	#include <Quesa/QuesaGroup.h>
-#else
-	#include <CQ3ObjectRef.h>
-	#include <QuesaCustomElements.h>
-	#include <QuesaGroup.h>
-#endif
 
 
 /*!

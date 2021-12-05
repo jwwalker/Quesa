@@ -42,15 +42,9 @@
     ___________________________________________________________________________
 */
 
-#if __MACH__
 	#include <Quesa/Quesa.h>
 	#include <Quesa/CQ3ObjectRef.h>
 	#include <Quesa/QuesaGeometry.h>
-#else
-	#include <Quesa.h>
-	#include <CQ3ObjectRef.h>
-	#include <QuesaGeometry.h>
-#endif
 
 #include <vector>
 

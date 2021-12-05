@@ -44,17 +44,10 @@
 
 #include "CVRMLReader.h"
 
-#if __MACH__
 	#include <Quesa/QuesaIO.h>
 	#include <Quesa/QuesaExtension.h>
 	#include <Quesa/QuesaMemory.h>
 	#include <Quesa/QuesaStorage.h>
-#else
-	#include <QuesaIO.h>
-	#include <QuesaExtension.h>
-	#include <QuesaMemory.h>
-	#include <QuesaStorage.h>
-#endif
 
 #include <ostream>
 #include <string.h>

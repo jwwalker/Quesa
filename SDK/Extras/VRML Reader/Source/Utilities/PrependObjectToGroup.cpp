@@ -43,13 +43,8 @@
 #include "PrependObjectToGroup.h"
 
 
-#if __MACH__
 	#include <Quesa/CQ3ObjectRef.h>
 	#include <Quesa/QuesaGroup.h>
-#else
-	#include <CQ3ObjectRef.h>
-	#include <QuesaGroup.h>
-#endif
 
 
 /*!

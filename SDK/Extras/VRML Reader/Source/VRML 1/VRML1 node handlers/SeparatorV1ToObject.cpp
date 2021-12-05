@@ -49,13 +49,8 @@
 #include "PolyValue.h"
 #include "VRML-reader-prefix.h"
 
-#if __MACH__
 	#include <Quesa/QuesaGroup.h>
 	#include <Quesa/QuesaCustomElements.h>
-#else
-	#include <QuesaGroup.h>
-	#include <QuesaCustomElements.h>
-#endif
 
 
 /*!

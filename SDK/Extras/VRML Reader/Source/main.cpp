@@ -42,11 +42,7 @@
 */
 #include "quesa-methods.h"
 
-#if __MACH__
 	#include <Quesa/QuesaExtension.h>
-#else
-	#include <QuesaExtension.h>
-#endif
 
 #include <cstring>
 

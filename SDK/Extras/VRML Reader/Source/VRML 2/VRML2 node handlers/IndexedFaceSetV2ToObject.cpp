@@ -51,15 +51,9 @@
 
 #include <ostream>
 
-#if __MACH__
 	#include <Quesa/QuesaGroup.h>
 	#include <Quesa/QuesaStyle.h>
 	#include <Quesa/QuesaCustomElements.h>
-#else
-	#include <QuesaGroup.h>
-	#include <QuesaStyle.h>
-	#include <QuesaCustomElements.h>
-#endif
 
 namespace
 {

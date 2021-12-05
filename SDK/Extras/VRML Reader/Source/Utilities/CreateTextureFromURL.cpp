@@ -45,11 +45,7 @@
 #include "CVRMLReader.h"
 #include "VRML-reader-prefix.h"
 
-#if __MACH__
 	#include <Quesa/CQ3ObjectRef.h>
-#else
-	#include <CQ3ObjectRef.h>
-#endif
 
 /*!
 	@function		CreateTextureFromURL

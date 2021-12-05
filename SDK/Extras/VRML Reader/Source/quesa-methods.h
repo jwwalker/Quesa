@@ -41,11 +41,7 @@
         SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
     ___________________________________________________________________________
 */
-#if __MACH__
 	#include <Quesa/Quesa.h>
-#else
-	#include <Quesa.h>
-#endif
 
 /*!
 	@function	RegisterVRMLReaderClass

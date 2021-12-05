@@ -56,17 +56,10 @@
 #include "PrependObjectToGroup.h"
 #include "SphereV2ToObject.h"
 
-#if __MACH__
 	#include <Quesa/QuesaGeometry.h>
 	#include <Quesa/QuesaGroup.h>
 	#include <Quesa/QuesaSet.h>
 	#include <Quesa/QuesaCustomElements.h>
-#else
-	#include <QuesaGeometry.h>
-	#include <QuesaGroup.h>
-	#include <QuesaSet.h>
-	#include <QuesaCustomElements.h>
-#endif
 
 #include <ostream>
 

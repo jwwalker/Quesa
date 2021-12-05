@@ -42,11 +42,7 @@
     ___________________________________________________________________________
 */
 
-#if __MACH__
 	#include <Quesa/Quesa.h>
-#else
-	#include <Quesa.h>
-#endif
 #include <vector>
 
 struct SVRML1State

@@ -45,13 +45,8 @@
 #include "CVRMLReader.h"
 #include "IsKeyPresent.h"
 
-#if __MACH__
 	#include <Quesa/QuesaMath.h>
 	#include <Quesa/QuesaTransform.h>
-#else
-	#include <QuesaMath.h>
-	#include <QuesaTransform.h>
-#endif
 
 #include <ostream>
 

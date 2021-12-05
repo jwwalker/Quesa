@@ -42,11 +42,7 @@
 */
 #include "AppearanceV2ToObject.h"
 
-#if __MACH__
 	#include <Quesa/CQ3ObjectRef.h>
-#else
-	#include <CQ3ObjectRef.h>
-#endif
 #include "CreatePixelTexture.h"
 #include "CreateTextureFromURL.h"
 #include "CVRMLReader.h"
@@ -55,13 +51,8 @@
 #include "PolyValue.h"
 #include "VRML-reader-prefix.h"
 
-#if __MACH__
 	#include <Quesa/QuesaSet.h>
 	#include <Quesa/QuesaShader.h>
-#else
-	#include <QuesaSet.h>
-	#include <QuesaShader.h>
-#endif
 
 #include <ostream>
 

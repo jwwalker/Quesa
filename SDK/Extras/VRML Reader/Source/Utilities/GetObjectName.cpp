@@ -42,13 +42,8 @@
 */
 #include "GetObjectName.h"
 
-#if __MACH__
 	#include <Quesa/CQ3ObjectRef.h>
 	#include <Quesa/QuesaCustomElements.h>
-#else
-	#include <CQ3ObjectRef.h>
-	#include <QuesaCustomElements.h>
-#endif
 
 
 /*!

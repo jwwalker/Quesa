@@ -47,11 +47,7 @@
 #include "IsKeyPresent.h"
 #include "PolyValue.h"
 
-#if __MACH__
 	#include <Quesa/QuesaGeometry.h>
-#else
-	#include <QuesaGeometry.h>
-#endif
 
 
 /*!

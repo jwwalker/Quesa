@@ -47,11 +47,7 @@
 #include "PolyValue.h"
 #include "VRML-reader-prefix.h"
 
-#if __MACH__
 	#include <Quesa/QuesaGroup.h>
-#else
-	#include <QuesaGroup.h>
-#endif
 
 /*!
 	@function	ChildrenV2ToObject

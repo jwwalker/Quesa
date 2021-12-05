@@ -50,11 +50,7 @@
 #include "PolyValue.h"
 #include "SetGroupName.h"
 
-#if __MACH__
 	#include <Quesa/Q3GroupIterator.h>
-#else
-	#include <Q3GroupIterator.h>
-#endif
 
 /*!
 	@function	SwitchV2ToObject

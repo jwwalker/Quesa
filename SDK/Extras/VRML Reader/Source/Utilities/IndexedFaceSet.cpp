@@ -44,19 +44,11 @@
 
 #include "SignedAngleBetweenVectors.h"
 
-#if __MACH__
 	#include <Quesa/QuesaGroup.h>
 	#include <Quesa/QuesaMath.h>
 	#include <Quesa/QuesaMathOperators.hpp>
 	#include <Quesa/QuesaStyle.h>
 	#include <Quesa/QuesaCustomElements.h>
-#else
-	#include <QuesaGroup.h>
-	#include <QuesaMath.h>
-	#include <QuesaMathOperators.hpp>
-	#include <QuesaStyle.h>
-	#include <QuesaCustomElements.h>
-#endif
 
 #include <algorithm>
 #include <cmath>
