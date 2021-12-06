@@ -28,3 +28,8 @@ xcschememanagement.plist
 SDK/Examples/FilamentViewer/FilamentViewer.xcodeproj/project.xcworkspace/xcuserdata
 SDK/Examples/FilamentViewer/FilamentViewer.xcodeproj/xcshareddata
 SDK/Examples/FilamentViewer/FilamentViewer.xcodeproj/xcuserdata
+SDK/Extras/VRML Reader/Projects/VRML-Reader Visual Studio/.vs/
+SDK/Extras/VRML Reader/Projects/Output-VS/
+SDK/Extras/VRML Reader/Projects/VRML-Reader Visual Studio/Debug/
+SDK/Extras/VRML Reader/Projects/VRML-Reader Visual Studio/Release/
+SDK/Extras/VRML Reader/Projects/VRML-Reader Visual Studio/x64/

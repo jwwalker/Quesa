@@ -31,9 +31,6 @@
     <Filter Include="VRML 2\VRML 2 node handlers">
       <UniqueIdentifier>{3444c3f6-d758-4f54-9737-904223015e28}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Static Libraries">
-      <UniqueIdentifier>{b3cdcc49-3783-4b51-a64e-3f23dd45ca0d}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Source\Utilities\VRMLSkipParser.h">
@@ -481,11 +478,6 @@
     <ResourceCompile Include="..\..\Resources\Reader.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Library Include="..\..\..\..\Libraries\Windows\Stub\Quesa.lib">
-      <Filter>Static Libraries</Filter>
-    </Library>
   </ItemGroup>
   <ItemGroup>
     <None Include="ReadMe.txt" />

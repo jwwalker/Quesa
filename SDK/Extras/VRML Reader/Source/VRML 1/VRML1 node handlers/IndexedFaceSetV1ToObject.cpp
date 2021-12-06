@@ -196,8 +196,8 @@ void	IndexedFaceMaker::GatherFacesAndVertices()
 	CIndexedFaceSet::SFace	curFace;
 	CIndexedFaceSet::SVertex	curVertex;
 	CIndexedFaceSet::FaceIndex	curFaceIndex = 0;
-	const long int	kNumIndices = mCoordIndex.size();
-	for (long int i = 0; i < kNumIndices; ++i)
+	const size_t	kNumIndices = mCoordIndex.size();
+	for (size_t i = 0; i < kNumIndices; ++i)
 	{
 		if (mCoordIndex[i] == -1)	// end of a face
 		{
