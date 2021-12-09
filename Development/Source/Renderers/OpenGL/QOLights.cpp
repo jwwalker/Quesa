@@ -470,21 +470,21 @@ void	QORenderer::Lights::ClassifyLights( TQ3ViewObject inView )
 	while ( (theLight = iter.NextObject()).isvalid() )
 	{
 		TQ3Boolean	isOn;
-		Q3Light_GetState( theLight.get(), &isOn );
+		Q3Light_GetState( (TQ3Object _Nonnull) theLight.get(), &isOn );
 		float	brightness;
-		Q3Light_GetBrightness( theLight.get(), &brightness );
+		Q3Light_GetBrightness( (TQ3Object _Nonnull) theLight.get(), &brightness );
 		
 		if ( (isOn == kQ3True) && (brightness > kQ3RealZero) )
 		{
-			TQ3ObjectType	lightType = Q3Light_GetType( theLight.get() );
+			TQ3ObjectType	lightType = Q3Light_GetType( (TQ3Object _Nonnull) theLight.get() );
 			
 			if (lightType == kQ3LightTypeAmbient)
 			{
-				ConvertAmbientLight( theLight.get(), mGlAmbientLight );
+				ConvertAmbientLight( (TQ3Object _Nonnull) theLight.get(), mGlAmbientLight );
 			}
-			else if ( ! IsIgnorablePositionalLight( theLight.get(), lightType, inView, brightness ) )
+			else if ( ! IsIgnorablePositionalLight( (TQ3Object _Nonnull) theLight.get(), lightType, inView, brightness ) )
 			{
-				if ( IsShadowFrame() && IsShadowCaster( theLight.get(), lightType ) )
+				if ( IsShadowFrame() && IsShadowCaster( (TQ3Object _Nonnull) theLight.get(), lightType ) )
 				{
 					mShadowingLights.push_back( theLight );
 				}
@@ -505,15 +505,15 @@ void	QORenderer::Lights::ClassifyLights( TQ3ViewObject inView )
 void	QORenderer::Lights::UseInfiniteYon( TQ3ViewObject inView )
 {
 	CQ3ObjectRef	theCamera( CQ3View_GetCamera( inView ) );
-	if (Q3Camera_GetType( theCamera.get() ) == kQ3CameraTypeViewAngleAspect)
+	if (Q3Camera_GetType( (TQ3Object _Nonnull) theCamera.get() ) == kQ3CameraTypeViewAngleAspect)
 	{
 		TQ3CameraRange	theRange;
-		Q3Camera_GetRange( theCamera.get(), &theRange );
+		Q3Camera_GetRange( (TQ3Object _Nonnull) theCamera.get(), &theRange );
 		if (isfinite( theRange.yon ))
 		{
 			mSavedYon = theRange.yon;
 			theRange.yon = std::numeric_limits<float>::infinity();
-			Q3Camera_SetRange( theCamera.get(), &theRange );
+			Q3Camera_SetRange( (TQ3Object _Nonnull) theCamera.get(), &theRange );
 		}
 	}
 }
@@ -531,9 +531,9 @@ void	QORenderer::Lights::EndFrame(
 	{
 		CQ3ObjectRef	theCamera( CQ3View_GetCamera( inView ) );
 		TQ3CameraRange	theRange;
-		Q3Camera_GetRange( theCamera.get(), &theRange );
+		Q3Camera_GetRange( (TQ3Object _Nonnull) theCamera.get(), &theRange );
 		theRange.yon = mSavedYon;
-		Q3Camera_SetRange( theCamera.get(), &theRange );
+		Q3Camera_SetRange( (TQ3Object _Nonnull) theCamera.get(), &theRange );
 	}
 }
 
@@ -713,7 +713,7 @@ void	QORenderer::Lights::StartFrame( TQ3ViewObject inView,
 		
 		CQ3ObjectRef	theRenderer( CQ3View_GetRenderer( inView ) );
 		
-		if (kQ3Failure == Q3Object_GetProperty( theRenderer.get(),
+		if (kQ3Failure == Q3Object_GetProperty( (TQ3Object _Nonnull) theRenderer.get(),
 			kQ3RendererPropertyAttenuationThreshold,
 			sizeof(mAttenuatedLightThreshold), nullptr,
 			&mAttenuatedLightThreshold ))
@@ -1002,7 +1002,7 @@ TQ3RationalPoint4D	QORenderer::Lights::GetShadowingLightPosition() const
 			case kQ3LightTypeDirectional:
 				{
 					TQ3Vector3D dir;
-					Q3DirectionalLight_GetDirection( theLight.get(), &dir );
+					Q3DirectionalLight_GetDirection( (TQ3Object _Nonnull) theLight.get(), &dir );
 					resultPlace.x = dir.x;
 					resultPlace.y = dir.y;
 					resultPlace.z = dir.z;
@@ -1013,7 +1013,7 @@ TQ3RationalPoint4D	QORenderer::Lights::GetShadowingLightPosition() const
 			case kQ3LightTypeSpot:
 				{
 					TQ3Point3D spotLoc;
-					Q3SpotLight_GetLocation( theLight.get(), &spotLoc );
+					Q3SpotLight_GetLocation( (TQ3Object _Nonnull) theLight.get(), &spotLoc );
 					resultPlace.x = spotLoc.x;
 					resultPlace.y = spotLoc.y;
 					resultPlace.z = spotLoc.z;
@@ -1024,7 +1024,7 @@ TQ3RationalPoint4D	QORenderer::Lights::GetShadowingLightPosition() const
 			case kQ3LightTypePoint:
 				{
 					TQ3Point3D pointLoc;
-					Q3PointLight_GetLocation( theLight.get(), &pointLoc );
+					Q3PointLight_GetLocation( (TQ3Object _Nonnull) theLight.get(), &pointLoc );
 					resultPlace.x = pointLoc.x;
 					resultPlace.y = pointLoc.y;
 					resultPlace.z = pointLoc.z;

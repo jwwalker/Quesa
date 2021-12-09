@@ -1528,7 +1528,8 @@ E3Pick_GetPickDetailData(TQ3PickObject inPick, TQ3Uns32 index, TQ3PickDetail pic
 			qd3dStatus = e3pick_hit_duplicate_path(&theHit->pickedPath, (TQ3HitPath *) detailData);
 			break;
 		case kQ3PickDetailMaskObject:
-			*((TQ3SharedObject*)(detailData)) = Q3Shared_GetReference(theHit->pickedObject.get());
+			*((TQ3SharedObject*)(detailData)) = Q3Shared_GetReference(
+				(TQ3SharedObject _Nonnull) theHit->pickedObject.get() );
 			break;
 		case kQ3PickDetailMaskLocalToWorldMatrix:
 			*((TQ3Matrix4x4*)(detailData)) = theHit->localToWorld;
@@ -1543,7 +1544,8 @@ E3Pick_GetPickDetailData(TQ3PickObject inPick, TQ3Uns32 index, TQ3PickDetail pic
 			*((TQ3Vector3D*)(detailData)) = theHit->hitNormal;
 			break;
 		case kQ3PickDetailMaskShapePart:
-			*((TQ3ShapePartObject*)(detailData)) = Q3Shared_GetReference(theHit->pickedShape.get());
+			*((TQ3ShapePartObject*)(detailData)) = Q3Shared_GetReference(
+				(TQ3Object _Nonnull) theHit->pickedShape.get());
 			break;
 		case kQ3PickDetailMaskPickPart:
 			*((TQ3PickParts*)(detailData)) = theHit->pickedPart;

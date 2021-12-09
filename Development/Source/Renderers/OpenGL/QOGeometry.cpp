@@ -1173,7 +1173,7 @@ void	QORenderer::Renderer::RenderFastPathTriMesh(
 		CQ3ObjectRef nakedMesh( E3TriMesh_GetNakedGeometry( inTriMesh ) );
 		
 		TQ3Uns32 layerDataSize = 0;
-		TQ3Status hasLayers = Q3Object_GetProperty( nakedMesh.get(), kQ3GeometryPropertyLayerShifts,
+		TQ3Status hasLayers = Q3Object_GetProperty( (TQ3Object _Nonnull) nakedMesh.get(), kQ3GeometryPropertyLayerShifts,
 			0, &layerDataSize, nullptr );
 		mGLClientStates.EnableLayerShiftArray( hasLayers == kQ3Success );
 		
@@ -1247,8 +1247,8 @@ static void FindExplicitEdgesOfFrontFaces(
 	// Get camera placement and type
 	CQ3ObjectRef	theCamera( CQ3View_GetCamera( inView ) );
 	TQ3CameraPlacement	thePlacement;
-	Q3Camera_GetPlacement( theCamera.get(), &thePlacement );
-	bool	isOrthographic = (Q3Camera_GetType( theCamera.get() ) ==
+	Q3Camera_GetPlacement( (TQ3Object _Nonnull) theCamera.get(), &thePlacement );
+	bool	isOrthographic = (Q3Camera_GetType( (TQ3Object _Nonnull) theCamera.get() ) ==
 		kQ3CameraTypeOrthographic);
 	
 	TQ3Vector3D		viewVector, faceNormalVector;

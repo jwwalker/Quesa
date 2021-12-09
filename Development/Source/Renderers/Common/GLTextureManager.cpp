@@ -184,7 +184,7 @@ static TQ3Uns32 GetStorageEditIndex( TQ3TextureObject inTexture )
 	CQ3ObjectRef	imageStorage( GetTextureStorage( inTexture ) );
 	if (imageStorage.isvalid())
 	{
-		editIndex = Q3Shared_GetEditIndex( imageStorage.get() );
+		editIndex = Q3Shared_GetEditIndex( (TQ3Object _Nonnull) imageStorage.get() );
 	}
 	return editIndex;
 }

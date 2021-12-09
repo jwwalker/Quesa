@@ -263,7 +263,7 @@ void QOGetCachedTriMeshEdges( TQ3GeometryObject inGeom,
 {
 	bool	haveCachedData = false;
 	CQ3ObjectRef nakedGeom( Q3TriMesh_GetNakedGeometry( inGeom ) );
-	TQ3Uns32	geomEdits = Q3Shared_GetEditIndex( nakedGeom.get() );
+	TQ3Uns32	geomEdits = Q3Shared_GetEditIndex( (TQ3Object _Nonnull) nakedGeom.get() );
 	const char*	propData = reinterpret_cast<const char*>(
 		nakedGeom.get()->GetPropertyAddress( kPropertyTypeEdgeCache ) );
 	
@@ -315,7 +315,7 @@ void QOGetCachedTriMeshEdges( TQ3GeometryObject inGeom,
 			&ioScratchBuffer[0] + sizeof(EdgeCacheRec) +
 			cacheData->edgeCount * sizeof(TQ3EdgeEnds),
 			cacheData->faceCount * sizeof(TQ3TriangleEdges) );
-		Q3Object_SetProperty( nakedGeom.get(), kPropertyTypeEdgeCache, propSize, cacheData );
+		Q3Object_SetProperty( (TQ3Object _Nonnull) nakedGeom.get(), kPropertyTypeEdgeCache, propSize, cacheData );
 	}
 }
 
@@ -342,7 +342,7 @@ void QOAccessCachedTriMeshEdges( TQ3GeometryObject inGeom,
 {
 	bool	haveCachedData = false;
 	CQ3ObjectRef nakedGeom( Q3TriMesh_GetNakedGeometry( inGeom ) );
-	TQ3Uns32	geomEdits = Q3Shared_GetEditIndex( nakedGeom.get() );
+	TQ3Uns32	geomEdits = Q3Shared_GetEditIndex( (TQ3Object _Nonnull) nakedGeom.get() );
 	const char*	propData = reinterpret_cast<const char*>(
 		nakedGeom.get()->GetPropertyAddress( kPropertyTypeEdgeCache ) );
 	
@@ -401,7 +401,7 @@ void QOAccessCachedTriMeshEdges( TQ3GeometryObject inGeom,
 				cacheData->edgeCount * sizeof(TQ3EdgeEnds),
 				cacheData->faceCount * sizeof(TQ3TriangleEdges) );
 		}
-		Q3Object_SetProperty( nakedGeom.get(), kPropertyTypeEdgeCache, propSize, cacheData );
+		Q3Object_SetProperty( (TQ3Object _Nonnull) nakedGeom.get(), kPropertyTypeEdgeCache, propSize, cacheData );
 		
 		propData = reinterpret_cast<const char*>(
 			nakedGeom.get()->GetPropertyAddress( kPropertyTypeEdgeCache ) );

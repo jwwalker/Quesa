@@ -417,7 +417,7 @@ e3geom_box_merge_faces( TQ3GroupObject ioGroup )
 	while ( (theItem = iter.NextObject()).isvalid() )
 	{
 		TQ3TriMeshData*	faceTM;
-		Q3TriMesh_LockData( theItem.get(), kQ3True, &faceTM );
+		Q3TriMesh_LockData( (TQ3GeometryObject _Nonnull) theItem.get(), kQ3True, &faceTM );
 		
 		// Copy points
 		memcpy( &thePoints[faceNum*4], faceTM->points, 4 * sizeof(TQ3Point3D) );
@@ -453,7 +453,7 @@ e3geom_box_merge_faces( TQ3GroupObject ioGroup )
 			theEdges[ faceNum*4 + edgeNum ] = anEdge;
 		}
 		
-		Q3TriMesh_UnlockData( theItem.get() );
+		Q3TriMesh_UnlockData( (TQ3GeometryObject _Nonnull) theItem.get() );
 		++faceNum;
 	}
 	
@@ -525,7 +525,7 @@ e3geom_box_cache_new( TQ3ViewObject theView, TQ3GeometryObject theGeom,
 
 
 	CQ3ObjectRef backfacing( Q3BackfacingStyle_New( kQ3BackfacingStyleBoth ) );
-	Q3Group_AddObject( theGroup, backfacing.get() );
+	Q3Group_AddObject( theGroup, (TQ3Object _Nonnull) backfacing.get() );
 
 
 	// Add the box attributes

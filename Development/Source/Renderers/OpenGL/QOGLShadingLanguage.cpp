@@ -885,7 +885,7 @@ void	QORenderer::PerPixelLighting::StartFrame( TQ3ViewObject inView )
 	// Save a reference to the view, and initialize the light group edit index
 	mView.Assign( inView );
 	CQ3ObjectRef lightGroup( CQ3View_GetLightGroup( inView ) );
-	mLightGroupEditIndex = Q3Shared_GetEditIndex( lightGroup.get() );
+	mLightGroupEditIndex = Q3Shared_GetEditIndex( (TQ3Object _Nonnull) lightGroup.get() );
 
 	CheckIfShading();
 	CHECK_GL_ERROR_MSG("PerPixelLighting::StartFrame 2");
@@ -894,7 +894,7 @@ void	QORenderer::PerPixelLighting::StartFrame( TQ3ViewObject inView )
 	CHECK_GL_ERROR_MSG("PerPixelLighting::StartFrame 3");
 	
 	CQ3ObjectRef theCamera( CQ3View_GetCamera( inView ) );
-	switch (Q3Camera_GetType( theCamera.get() ))
+	switch (Q3Camera_GetType( (TQ3Object _Nonnull) theCamera.get() ))
 	{
 		case kQ3CameraTypeAllSeeing:
 			mProgramCharacteristic.mProjectionType = ECameraProjectionType::allSeeingEquirectangular;
@@ -1932,7 +1932,7 @@ ConvertPlaneWorldToEye( TQ3ViewObject inView,
 	TQ3RationalPoint4D eyePlane;
 	TQ3Matrix4x4 worldToView, viewToWorld, viewToWorldTranspose;
 	CQ3ObjectRef theCamera( CQ3View_GetCamera( inView ) );
-	Q3Camera_GetWorldToView( theCamera.get(), &worldToView );
+	Q3Camera_GetWorldToView( (TQ3Object _Nonnull) theCamera.get(), &worldToView );
 	Q3Matrix4x4_Invert( &worldToView, &viewToWorld );
 	Q3Matrix4x4_Transpose( &viewToWorld, &viewToWorldTranspose );
 	Q3RationalPoint4D_Transform( &normalizedWorldPlane, &viewToWorldTranspose,
@@ -2057,7 +2057,7 @@ void	QORenderer::PerPixelLighting::PreGeomSubmit( TQ3GeometryObject inGeom,
 													int inDimension )
 {
 	CQ3ObjectRef lightGroup( CQ3View_GetLightGroup( mView.get() ) );
-	TQ3Uns32 lightGroupEditIndex = Q3Shared_GetEditIndex( lightGroup.get() );
+	TQ3Uns32 lightGroupEditIndex = Q3Shared_GetEditIndex( (TQ3Object _Nonnull) lightGroup.get() );
 	if (lightGroupEditIndex != mLightGroupEditIndex)
 	{
 		UpdateLighting();
@@ -2196,7 +2196,7 @@ void	QORenderer::PerPixelLighting::SetCameraUniforms()
 	{
 		CQ3ObjectRef theCamera( CQ3View_GetCamera( mView.get() ) );
 		TQ3CameraData camData;
-		Q3Camera_GetData( theCamera.get(), &camData );
+		Q3Camera_GetData( (TQ3Object _Nonnull) theCamera.get(), &camData );
 		
 		if (mCurrentProgram->mCameraRangeUniformLoc >= 0)
 		{
@@ -2217,10 +2217,10 @@ void	QORenderer::PerPixelLighting::SetCameraUniforms()
 				viewport );
 		}
 		
-		if (Q3Camera_GetType( theCamera.get() ) == kQ3CameraTypeFisheye)
+		if (Q3Camera_GetType( (TQ3Object _Nonnull) theCamera.get() ) == kQ3CameraTypeFisheye)
 		{
 			TQ3FisheyeCameraData fisheyeData;
-			Q3FisheyeCamera_GetData( theCamera.get(), &fisheyeData );
+			Q3FisheyeCamera_GetData( (TQ3Object _Nonnull) theCamera.get(), &fisheyeData );
 			mFuncs.glUniform2fv( mCurrentProgram->mSensorSizeAttribLoc, 1,
 				&fisheyeData.sensorSize.x );
 			CHECK_GL_ERROR;

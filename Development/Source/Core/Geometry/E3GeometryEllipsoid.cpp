@@ -915,7 +915,8 @@ e3geom_ellipsoid_cache_new( TQ3ViewObject theView, TQ3GeometryObject theGeom,
 	CQ3ObjectRef	resultGroup( Q3DisplayGroup_New() );
 	CQ3ObjectRef	orientationStyle( Q3OrientationStyle_New(
 		kQ3OrientationStyleCounterClockwise ) );
-	Q3Group_AddObject( resultGroup.get(), orientationStyle.get() );
+	Q3Group_AddObject( (TQ3Object _Nonnull) resultGroup.get(),
+		(TQ3Object _Nonnull) orientationStyle.get() );
 	
 	
 	// If there is an ellipsoidAttributeSet, add it to the group.  It is
@@ -925,7 +926,7 @@ e3geom_ellipsoid_cache_new( TQ3ViewObject theView, TQ3GeometryObject theGeom,
 	TQ3AttributeSet atts = geomData->ellipsoidAttributeSet;
 	if (atts != nullptr)
 	{
-		Q3Group_AddObject( resultGroup.get(), atts );
+		Q3Group_AddObject( (TQ3Object _Nonnull) resultGroup.get(), atts );
 	}
 	
 	
@@ -993,7 +994,8 @@ e3geom_ellipsoid_cache_new( TQ3ViewObject theView, TQ3GeometryObject theGeom,
 	CQ3ObjectRef	theTriMesh( e3geom_ellipsoid_create_face( *geomData,
 		uMin, uMax, vMin, vMax, isNorthPolePresent, isSouthPolePresent,
 		uSegments, vSegments ) );
-	Q3Group_AddObject( resultGroup.get(), theTriMesh.get() );
+	Q3Group_AddObject( (TQ3Object _Nonnull) resultGroup.get(),
+		(TQ3Object _Nonnull) theTriMesh.get() );
 
 
 	// Do we need to add caps?
@@ -1008,12 +1010,13 @@ e3geom_ellipsoid_cache_new( TQ3ViewObject theView, TQ3GeometryObject theGeom,
 		CQ3ObjectRef	theCaps( e3geom_ellipsoid_create_caps( *geomData,
 			uMin, uMax, vMin, vMax, uSegments, vSegments,
 			isTopCapNeeded, isBottomCapNeeded, isInteriarCapNeeded ) );
-		Q3Group_AddObject( resultGroup.get(), theCaps.get() );
+		Q3Group_AddObject( (TQ3Object _Nonnull) resultGroup.get(),
+			(TQ3Object _Nonnull) theCaps.get() );
 	}
 
 
 	// Return the cached geometry
-	return Q3Shared_GetReference( resultGroup.get() );
+	return Q3Shared_GetReference( (TQ3Object _Nonnull) resultGroup.get() );
 }
 
 

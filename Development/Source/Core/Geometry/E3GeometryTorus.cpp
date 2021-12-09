@@ -551,14 +551,15 @@ e3geom_torus_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom,
 	CQ3ObjectRef	resultGroup( Q3DisplayGroup_New() );
 	CQ3ObjectRef	orientationStyle( Q3OrientationStyle_New(
 		kQ3OrientationStyleCounterClockwise ) );
-	Q3Group_AddObject( resultGroup.get(), orientationStyle.get() );
+	Q3Group_AddObject( (TQ3GroupObject _Nonnull) resultGroup.get(),
+		(TQ3Object _Nonnull) orientationStyle.get() );
 	
 	
 	// If there is an overall attribute set, add it to the group.
 	TQ3AttributeSet atts = geomData->torusAttributeSet;
 	if (atts != nullptr)
 	{
-		Q3Group_AddObject( resultGroup.get(), atts );
+		Q3Group_AddObject( (TQ3GroupObject _Nonnull) resultGroup.get(), atts );
 	}
 	
 
@@ -566,7 +567,8 @@ e3geom_torus_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom,
 		uMin, uMax, vMin, vMax, upts, vpts ) );
 	if (theTriMesh.isvalid())
 	{
-		Q3Group_AddObject( resultGroup.get(), theTriMesh.get() );
+		Q3Group_AddObject( (TQ3GroupObject _Nonnull) resultGroup.get(),
+			(TQ3Object _Nonnull) theTriMesh.get() );
 	}
 
 
@@ -576,7 +578,7 @@ e3geom_torus_cache_new(TQ3ViewObject theView, TQ3GeometryObject theGeom,
 	}
 
 
-	return Q3Shared_GetReference( resultGroup.get() );
+	return Q3Shared_GetReference( (TQ3GroupObject _Nonnull) resultGroup.get() );
 }
 
 

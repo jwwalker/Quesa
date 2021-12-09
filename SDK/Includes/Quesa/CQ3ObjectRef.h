@@ -1,6 +1,9 @@
 /*!
 	@header	CQ3ObjectRef.h
 		Wrapper class for Quesa objects.
+        
+	@ignore	_Nullable
+	@ignore _Nonnull
 */
 /*  NAME:
         CQ3ObjectRef.h
@@ -9,7 +12,7 @@
         C++ wrapper class for a Quesa shared object.
     
     COPYRIGHT:
-        Copyright (c) 2004-2020, Quesa Developers. All rights reserved.
+        Copyright (c) 2004-2021, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -50,24 +53,9 @@
 //      Include files
 //-----------------------------------------------------------------------------
 #include "Quesa.h"
-#include <utility>
 
 #ifndef QUESA_CPP11
 	#define QUESA_CPP11		((__cplusplus >= 201103L) || (_MSVC_LANG >= 201402))
-#endif
-
-// Normally, we expect that if we are using C++11, then std::move will be available.
-// But the old libstdc++ on Mac does not support it.
-#ifndef QUESA_HAS_STDMOVE
-	#if QUESA_CPP11
-		#if QUESA_OS_MACINTOSH
-			#ifdef _LIBCPP_VERSION
-				#define QUESA_HAS_STDMOVE 1
-			#endif
-		#else
-			#define QUESA_HAS_STDMOVE 1
-		#endif
-	#endif
 #endif
 
 
@@ -79,11 +67,9 @@
 	@abstract	Wrapper for Quesa objects.
 	@discussion	The main purpose for using a C++ wrapper for a Quesa object is to
 				prevent memory leaks.  The wrapper's destructor disposes the object.
-				This class is designed to be usable in STL container classes.
-				It is not like std::auto_ptr, in that the copy constructor adds a
-				reference rather than transferring ownership.  One could base such
-				a wrapper on boost::intrusive_pointer, but I chose not to require
-				Boost.
+				This class is designed to be usable in STL container classes, in a way similar
+				to std::shared_ptr.  One could base such a wrapper on boost::intrusive_pointer,
+				but I chose not to require Boost.
 				
 				Due to a HeaderDoc bug, it is not possible to automatically
 				document more than one constructor.  Besides the constructor from
@@ -91,8 +77,9 @@
 				and a copy constructor.
 				
 				This wrapper is not fully functional with objects that are not
-				reference-counted (such as views and picks) because the copy
-				constructor calls Q3Shared_GetReference.
+				reference-counted (such as Views and Picks).  Calling the copy constructor
+				or copy assignment operator on a CQ3ObjectRef holding an object of a non-shared
+				type will result in a fatal assertion failure inside Q3Shared_GetReference.
 */
 class CQ3ObjectRef
 {
@@ -129,7 +116,7 @@ public:
 								@param		inObject	A new reference to a Quesa object,
 														or nullptr.
 							*/
-	explicit				CQ3ObjectRef( TQ3SharedObject inObject )
+	explicit				CQ3ObjectRef( TQ3Object _Nullable inObject )
 									: mObject( inObject ) {}
 	
 							/*!
@@ -149,7 +136,7 @@ public:
 							*/
 	CQ3ObjectRef&			operator=( const CQ3ObjectRef& inOther );
 	
-#if QUESA_HAS_STDMOVE
+#if QUESA_CPP11
 							/*
 								@function	operator=
 								@abstract	Move assignment operator.
@@ -177,14 +164,14 @@ public:
 								@abstract	Get the value held by the wrapper.
 								@result		A TQ3Object, or nullptr.
 							*/
-	TQ3SharedObject			get() const { return mObject; }
+	TQ3Object _Nullable		get() const { return mObject; }
 	
 private:
 							/*!
 								@var		mObject
 								@abstract	The Quesa object held by the wrapper.
 							*/
-	TQ3SharedObject			mObject;
+	TQ3Object _Nullable		mObject;
 };
 
 
@@ -199,7 +186,7 @@ inline CQ3ObjectRef::CQ3ObjectRef( const CQ3ObjectRef& inOther )
 {
 	if (inOther.isvalid())
 	{
-		mObject = Q3Shared_GetReference( inOther.get() );
+		mObject = Q3Shared_GetReference( (TQ3Object _Nonnull) inOther.get() );
 	}
 }
 
@@ -233,11 +220,15 @@ inline CQ3ObjectRef&	CQ3ObjectRef::operator=( const CQ3ObjectRef& inOther )
 	return *this;
 }
 
-#if QUESA_HAS_STDMOVE
+#if QUESA_CPP11
 inline CQ3ObjectRef&		CQ3ObjectRef::operator=( CQ3ObjectRef&& ioOther ) noexcept
 {
-	CQ3ObjectRef	temp( std::move( ioOther ) );
-	swap( temp );
+	if (isvalid())
+	{
+		Q3Object_Dispose( mObject );
+	}
+	mObject = ioOther.mObject;
+	ioOther.mObject = nullptr;
 	return *this;
 }
 #endif

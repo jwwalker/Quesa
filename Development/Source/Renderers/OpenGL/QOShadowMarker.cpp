@@ -621,7 +621,7 @@ void	QORenderer::ShadowMarker::MarkShadowOfTriMesh(
 		if (theRenderer.isvalid())
 		{
 			TQ3CastShadowsOverrideCallback theCallback = nullptr;
-			Q3Object_GetProperty( theRenderer.get(), kQ3RendererPropertyCastShadowsOverride,
+			Q3Object_GetProperty( (TQ3Object _Nonnull) theRenderer.get(), kQ3RendererPropertyCastShadowsOverride,
 				sizeof(theCallback), nullptr, &theCallback );
 			if (theCallback != nullptr)
 			{

@@ -1180,7 +1180,7 @@ e3fformat_3dmf_textreader_resolve_reference( TE3FFormat3DMF_Text_Data* instanceD
 	{
 		if ( (tocIt->refID == (TQ3Uns32)refNum) && tocIt->object.isvalid() )
 		{
-			theObject = Q3Shared_GetReference( tocIt->object.get() );
+			theObject = Q3Shared_GetReference( (TQ3Object _Nonnull) tocIt->object.get() );
 			break;
 		}
 	}

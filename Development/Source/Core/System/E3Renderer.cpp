@@ -823,7 +823,7 @@ E3Renderer_Method_SubmitGeometry(TQ3ViewObject		theView,
 			CQ3ObjectRef	attSet( CQ3Geometry_GetAttributeSet( theGeom ) );
 			if (attSet.isvalid())
 			{
-				hasSurfaceShader = Q3AttributeSet_Contains( attSet.get(), kQ3AttributeTypeSurfaceShader );
+				hasSurfaceShader = Q3AttributeSet_Contains( (TQ3Object _Nonnull) attSet.get(), kQ3AttributeTypeSurfaceShader );
 			}
 		}
 		

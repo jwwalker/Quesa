@@ -918,7 +918,7 @@ static bool	LoadOpenGLWithPixmapTexture(
 	
 	if (GetPixmapTextureData( inTexture, thePixmap, storageHolder ))
 	{
-		if (kQ3Success == Q3Storage_Open( storageHolder.get(), kQ3False ))
+		if (kQ3Success == Q3Storage_Open( (TQ3Object _Nonnull) storageHolder.get(), kQ3False ))
 		{
 			TQ3Uns32	theWidth, theHeight;
 			GLint	glInternalFormat;
@@ -944,7 +944,7 @@ static bool	LoadOpenGLWithPixmapTexture(
 				didLoad = true;
 			}
 
-			Q3Storage_Close( storageHolder.get() );
+			Q3Storage_Close( (TQ3Object _Nonnull) storageHolder.get() );
 		}
 	}
 	
@@ -962,7 +962,7 @@ static bool	LoadOpenGLWithMipmapTexture(
 	
 	if (GetMipmapTextureData( inTexture, theMipmap, storageHolder ))
 	{
-		if (kQ3Success == Q3Storage_Open( storageHolder.get(), kQ3False ))
+		if (kQ3Success == Q3Storage_Open( (TQ3Object _Nonnull) storageHolder.get(), kQ3False ))
 		{
 			didLoad = true;
 			int	numImages = CountImagesInMipmap( theMipmap );
@@ -995,7 +995,7 @@ static bool	LoadOpenGLWithMipmapTexture(
 				}
 			}
 			
-			Q3Storage_Close( storageHolder.get() );
+			Q3Storage_Close( (TQ3Object _Nonnull) storageHolder.get() );
 		}
 	}
 

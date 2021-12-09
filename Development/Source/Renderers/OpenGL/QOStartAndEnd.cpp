@@ -408,7 +408,7 @@ static bool IsSwapWanted( TQ3ViewObject inView )
 {
 	CQ3ObjectRef	theDrawContext( CQ3View_GetDrawContext( inView ) );
 	TQ3Boolean		swapFlag;
-	return (kQ3Failure == Q3Object_GetProperty( theDrawContext.get(),
+	return (kQ3Failure == Q3Object_GetProperty( (TQ3Object _Nonnull) theDrawContext.get(),
 		kQ3DrawContextPropertySwapBufferInEndPass, sizeof(swapFlag), nullptr,
 		&swapFlag )) ||
 		(swapFlag == kQ3True);
