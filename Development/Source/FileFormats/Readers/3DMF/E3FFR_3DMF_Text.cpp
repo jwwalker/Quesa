@@ -343,6 +343,10 @@ e3read_3dmf_text_readflag(TQ3Uns32* flag, TQ3FileObject inFile, TQ3ObjectType hi
 										{kQ3ObjectType3DMF,"STREAM",1},
 										{kQ3ObjectType3DMF,"DATABASE",2},
 								
+										{kQ3ShapeTypeShader,"WRAP",0},
+										{kQ3ShapeTypeShader,"CLAMP",1},
+										{kQ3ShapeTypeShader,"MIRROR",2},
+								
 										{kQ3TextureTypePixmap,"RGB32",0},
 										{kQ3TextureTypePixmap,"ARGB32",1},
 										{kQ3TextureTypePixmap,"RGB16",2},

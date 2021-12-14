@@ -77,6 +77,10 @@
 	#define GL_CLAMP_TO_EDGE	0x812F
 #endif
 
+#ifndef GL_MIRRORED_REPEAT
+	#define	GL_MIRRORED_REPEAT	 0x8370
+#endif
+
 #ifndef	GL_SAMPLE_BUFFERS_ARB
 	#define	GL_SAMPLE_BUFFERS_ARB			0x80A8
 	#define	GL_MULTISAMPLE_ARB				0x809D
@@ -177,6 +181,10 @@ GLUtils_ConvertUVBoundary(TQ3ShaderUVBoundary qd3dBounds, GLint *glBounds )
 	switch (qd3dBounds) {
 		case kQ3ShaderUVBoundaryWrap:
 			*glBounds = GL_REPEAT;
+			break;
+		
+		case kQ3ShaderUVBoundaryMirrorRepeat:
+			*glBounds = GL_MIRRORED_REPEAT;
 			break;
 		
 		case kQ3ShaderUVBoundaryClamp:

@@ -116,6 +116,7 @@
 		BED965B21543D3AE00FCB407 /* SpotLight.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BED965B11543D3AE00FCB407 /* SpotLight.cpp */; };
 		BED965DE1543D8CA00FCB407 /* OrthographicCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BED965DD1543D8CA00FCB407 /* OrthographicCamera.cpp */; };
 		BED966011543DA3B00FCB407 /* ViewPlaneCamera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BED966001543DA3B00FCB407 /* ViewPlaneCamera.cpp */; };
+		BEF57A9F27693D7A00ECCF01 /* TextureShaderBoundary.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEF57A9D27693D7A00ECCF01 /* TextureShaderBoundary.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -353,6 +354,8 @@
 		BED965FF1543DA3B00FCB407 /* ViewPlaneCamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ViewPlaneCamera.h; path = Source/TypeHandlers/Cameras/ViewPlaneCamera.h; sourceTree = "<group>"; };
 		BED966001543DA3B00FCB407 /* ViewPlaneCamera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ViewPlaneCamera.cpp; path = Source/TypeHandlers/Cameras/ViewPlaneCamera.cpp; sourceTree = "<group>"; };
 		BED96638154465CB00FCB407 /* ReadMe.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ReadMe.txt; sourceTree = "<group>"; };
+		BEF57A9D27693D7A00ECCF01 /* TextureShaderBoundary.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = TextureShaderBoundary.cpp; path = Source/TypeHandlers/Shaders/TextureShaderBoundary.cpp; sourceTree = "<group>"; };
+		BEF57A9E27693D7A00ECCF01 /* TextureShaderBoundary.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = TextureShaderBoundary.h; path = Source/TypeHandlers/Shaders/TextureShaderBoundary.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -585,6 +588,8 @@
 			children = (
 				BE03BC1915276705008EF142 /* TextureShader.h */,
 				BE03BC1A15276705008EF142 /* TextureShader.cpp */,
+				BEF57A9D27693D7A00ECCF01 /* TextureShaderBoundary.cpp */,
+				BEF57A9E27693D7A00ECCF01 /* TextureShaderBoundary.h */,
 				BE03C30415328F0A008EF142 /* PixmapTexture.h */,
 				BE03C30515328F0A008EF142 /* PixmapTexture.cpp */,
 				BE03C51415392E5E008EF142 /* PhongIllumination.h */,
@@ -861,6 +866,7 @@
 				BE03C68F153A8ACF008EF142 /* LineWidthStyle.cpp in Sources */,
 				BE03C69C153A8BB2008EF142 /* PickPartsStyle.cpp in Sources */,
 				BE03C6B0153A8D50008EF142 /* Box.cpp in Sources */,
+				BEF57A9F27693D7A00ECCF01 /* TextureShaderBoundary.cpp in Sources */,
 				BE03C6E4153AA8E2008EF142 /* Marker.cpp in Sources */,
 				BE03C729153AB1C4008EF142 /* PixmapMarker.cpp in Sources */,
 				BE03C73E153B6C37008EF142 /* GeneralPolygonHint.cpp in Sources */,

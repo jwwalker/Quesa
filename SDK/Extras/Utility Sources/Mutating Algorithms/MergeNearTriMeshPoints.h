@@ -46,7 +46,7 @@
 #ifndef QUESA_MERGENEARTRIMESHPOINTS_HDR
 #define QUESA_MERGENEARTRIMESHPOINTS_HDR
 
-#include "Quesa.h"
+#include <Quesa/Quesa.h>
 
 
 #ifdef __cplusplus

@@ -1,0 +1,103 @@
+3DMetafile ( 1 6 Stream tableofcontents2> )
+
+Container (
+	TriMesh (
+		2 0 0 0 4 1 # numTriangles numTriangleAttributeTypes numEdges numEdgeAttributeTypes numPoints numVertexAttributeTypes
+		0 1 2
+		0 2 3
+		-1 -1 0
+		0 -1 0
+		0 0 0
+		-1 0 0
+		-1 -1 0 0 0 0 False
+	)
+	AttributeArray (
+		1 0 2 0 0
+		0 0
+		4 0
+		4 4
+		0 4
+	)
+	Container (
+		AttributeSet ( )
+		Container (
+			TextureShader ( )
+			Shader ( Clamp Clamp )
+			PixmapTexture (
+				4 4 16 32 RGB32 LittleEndian LittleEndian 
+				0x0000E0000000E0000000E0000000E000
+				0x00E00000E0000000E00000000000E000
+				0x00E00000E0000000E00000000000E000
+				0x00E0000000E000000000E0000000E000
+			)
+		)
+	)
+)
+
+Container (
+	TriMesh (
+		2 0 0 0 4 1 # numTriangles numTriangleAttributeTypes numEdges numEdgeAttributeTypes numPoints numVertexAttributeTypes
+		0 1 2
+		0 2 3
+		0.5 -1 0
+		1.5 -1 0
+		1.5 0 0
+		0.5 0 0
+		0.5 -1 0 1.5 0 0 False
+	)
+	AttributeArray (
+		1 0 2 0 0
+		0 0
+		4 0
+		4 4
+		0 4
+	)
+	Container (
+		AttributeSet ( )
+		Container (
+			TextureShader ( )
+			Shader ( Wrap Wrap )
+			PixmapTexture (
+				4 4 16 32 RGB32 LittleEndian LittleEndian 
+				0x0000E0000000E0000000E0000000E000
+				0x00E00000E0000000E00000000000E000
+				0x00E00000E0000000E00000000000E000
+				0x00E0000000E000000000E0000000E000
+			)
+		)
+	)
+)
+
+Container (
+	TriMesh (
+		2 0 0 0 4 1 # numTriangles numTriangleAttributeTypes numEdges numEdgeAttributeTypes numPoints numVertexAttributeTypes
+		0 1 2
+		0 2 3
+		-1 0.5 0
+		0 0.5 0
+		0 1.5 0
+		-1 1.5 0
+		-1 0.5 0 0 1.5 0 False
+	)
+	AttributeArray (
+		1 0 2 0 0
+		0 0
+		4 0
+		4 4
+		0 4
+	)
+	Container (
+		AttributeSet ( )
+		Container (
+			TextureShader ( )
+			Shader ( Mirror Mirror )
+			PixmapTexture (
+				4 4 16 32 RGB32 LittleEndian LittleEndian 
+				0x0000E0000000E0000000E0000000E000
+				0x00E00000E0000000E00000000000E000
+				0x00E00000E0000000E00000000000E000
+				0x00E0000000E000000000E0000000E000
+			)
+		)
+	)
+)

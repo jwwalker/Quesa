@@ -3,7 +3,7 @@
  *  Textify3DMF
  *
  *  Created by James Walker on 3/28/12.
- *  Copyright (c) 2012 James W. Walker.
+ *  Copyright (c) 2012-2021 James W. Walker.
  *
  *  This software is provided 'as-is', without any express or implied warranty.
  *  In no event will the authors be held liable for any damages arising from the
@@ -71,6 +71,7 @@
 #include "PhongIllumination.h"
 #include "LambertIllumination.h"
 #include "NullIllumination.h"
+#include "TextureShaderBoundary.h"
 
 #include "AttributeSet.h"
 #include "GenericRenderer.h"
@@ -220,6 +221,7 @@ void	RegisterHandlers( Controller* inController )
 	Register( PhongIllumination );
 	Register( LambertIllumination );
 	Register( NullIllumination );
+	Register( TextureShaderBoundary );
 
 	// Attribute Set Lists
 	Register( VertexAttributeSetList );

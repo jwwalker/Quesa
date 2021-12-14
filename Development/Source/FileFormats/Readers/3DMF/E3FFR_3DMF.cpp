@@ -1329,9 +1329,9 @@ e3fformat_3dmf_shader_read(TQ3FileObject theFile)
 	
 	if(theObject){
 				
-		result = Q3Uns32_Read((TQ3Uns32*)&uBoundary,theFile);
-		if(result != kQ3Success)
-			result = Q3Uns32_Read((TQ3Uns32*)&vBoundary,theFile);
+		result = E3FFormat_3DMF_ReadFlag((TQ3Uns32*)&uBoundary,theFile, kQ3ShapeTypeShader);
+		if (result == kQ3Success)
+			result = E3FFormat_3DMF_ReadFlag((TQ3Uns32*)&vBoundary,theFile, kQ3ShapeTypeShader);
 
 		if(result != kQ3Success)
 			{

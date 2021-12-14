@@ -84,12 +84,15 @@ extern "C" {
  *  @discussion
  *      Shader UV boundary behaviour.
  *
- *  @constant kQ3ShaderUVBoundaryWrap    Wrap UV values outside of 0..1.
- *  @constant kQ3ShaderUVBoundaryClamp   Clamp UV values to 0..1.
+ *  @constant kQ3ShaderUVBoundaryWrap    Wrap UV values outside of [0, 1].
+ *  @constant kQ3ShaderUVBoundaryClamp   Clamp UV values to [0, 1].
+ *  @constant kQ3ShaderUVBoundaryMirrorRepeat	Wrap values outside of [0, 1], but mirror values
+ *  										if the integer part is odd.
  */
 typedef enum TQ3ShaderUVBoundary QUESA_ENUM_BASE(TQ3Uns32) {
     kQ3ShaderUVBoundaryWrap                     = 0,
     kQ3ShaderUVBoundaryClamp                    = 1,
+    kQ3ShaderUVBoundaryMirrorRepeat             = 2,
     kQ3ShaderUVBoundarySize32                   = 0xFFFFFFFF
 } TQ3ShaderUVBoundary;
 

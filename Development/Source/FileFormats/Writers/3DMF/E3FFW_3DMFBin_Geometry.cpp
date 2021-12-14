@@ -764,23 +764,24 @@ e3ffw_3DMF_shader_traverse(TQ3Object object,
 		if(qd3dstatus != kQ3Success)
 			return qd3dstatus;
 		
-		// The code below for writing shader boundaries is incorrect, but it is
-		// not immediately clear how to fix it, and it is better to write
-		// nothing than to write the wrong thing.  The problem relates to a QD3D
-		// design stupidity:  The code 'shdr' is used both for the shader base
-		// class and for the shader boundary data object used in 3DMF.  Since
-		// Quesa can't have 2 classes of the same type, what can we do?
-		/*
+		// There is a little weirdness going on with shaders and shader boundaries.
+		// A Shader should be the base class of specific types such as texture
+		// shaders, but the Shader class is used for the boundary data of a
+		// texture shader.  And the 3DMF reference confusingly says that the
+		// ASCII label is Shader, but shows an example saying ShaderData.
+		// However, a 3DMF file should never contain an instance of the Shader
+		// base class, so maybe this isn't really a problem.
+		
 		if((uBoundary != kQ3ShaderUVBoundaryWrap) || (vBoundary != kQ3ShaderUVBoundaryWrap)){
 		
-			boundaries = (TQ3Uns32*)Q3Memory_Allocate (8);
+			TQ3Uns32* boundaries = (TQ3Uns32*)Q3Memory_Allocate (8);
 			if(boundaries == nullptr)
 				return kQ3Failure;
 				
 			boundaries[0] = (TQ3Uns32)uBoundary;
 			boundaries[1] = (TQ3Uns32)vBoundary;
 			
-			theClass = Q3XObjectHierarchy_FindClassByType (kQ3ObjectTypeDisplayGroupState);
+			theClass = Q3XObjectHierarchy_FindClassByType (kQ3ShapeTypeShader);
 	
 			qd3dstatus = Q3XView_SubmitSubObjectData (view, theClass, 8, boundaries, E3FFW_3DMF_Default_Delete);
 			if(qd3dstatus != kQ3Success){
@@ -788,7 +789,7 @@ e3ffw_3DMF_shader_traverse(TQ3Object object,
 				return qd3dstatus;
 				}
 			}
-		*/
+		
 		}
 		
 	// Write uvTransform
@@ -884,7 +885,7 @@ e3ffw_3DMF_shader_write(TQ3Uns32 *object,TQ3FileObject theFile)
 	TQ3Status						result = kQ3Success;
 
 		result = Q3Uns32_Write(object[0],theFile);
-		if(result != kQ3Success)
+		if(result == kQ3Success)
 			result = Q3Uns32_Write(object[1],theFile);
 
 	return(result);
