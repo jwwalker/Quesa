@@ -695,7 +695,7 @@ which you may need to dispose before replacing by new data.
 <hr><a name="//Quesa/c/tag/Attribute&nbsp;method&nbsp;types"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Attribute&nbsp;method&nbsp;types">Attribute&nbsp;method&nbsp;types</a></h2>
 </td></tr></table><hr><blockquote><pre>
-enum {
+enum QUESA_ENUM_BASE(TQ3Uns32) {
     kQ3XMethodTypeAttributeInherit              = Q3_METHOD_TYPE('i', 'n', 'h', 't'),
     kQ3XMethodTypeAttributeCopyInherit          = Q3_METHOD_TYPE('a', 'c', 'p', 'i'),
     kQ3XMethodTypeAttributeDefault              = Q3_METHOD_TYPE('a', 's', 'd', 'f'),
@@ -720,7 +720,7 @@ such as <code>kQ3XMethodTypeObjectTraverse</code>.
 <hr><a name="//Quesa/c/tag/Element&nbsp;method&nbsp;types"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Element&nbsp;method&nbsp;types">Element&nbsp;method&nbsp;types</a></h2>
 </td></tr></table><hr><blockquote><pre>
-enum {
+enum QUESA_ENUM_BASE(TQ3Uns32) {
     kQ3XMethodTypeElementCopyAdd                = Q3_METHOD_TYPE('e', 'c', 'p', 'a'),
     kQ3XMethodTypeElementCopyReplace            = Q3_METHOD_TYPE('e', 'c', 'p', 'r'),
     kQ3XMethodTypeElementCopyGet                = Q3_METHOD_TYPE('e', 'c', 'p', 'g'),
@@ -747,7 +747,7 @@ such as <code>kQ3XMethodTypeObjectTraverse</code>.
 <hr><a name="//Quesa/c/tag/TQ3AttributeTypes"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3AttributeTypes">TQ3AttributeTypes</a></h2>
 </td></tr></table><hr><blockquote><pre>
-typedef enum TQ3AttributeTypes {
+typedef enum TQ3AttributeTypes QUESA_ENUM_BASE(TQ3Int32) {
     kQ3AttributeTypeNone                        = 0,            // N/A
     kQ3AttributeTypeSurfaceUV                   = 1,            // TQ3Param2D
     kQ3AttributeTypeShadingUV                   = 2,            // TQ3Param2D
@@ -808,7 +808,7 @@ color.
 <hr><a name="//Quesa/c/tag/TQ3XAttributeMask"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XAttributeMask">TQ3XAttributeMask</a></h2>
 </td></tr></table><hr><blockquote><pre>
-enum {
+enum QUESA_ENUM_BASE(TQ3Uns32) {
     kQ3XAttributeMaskNone                       = 0,
     kQ3XAttributeMaskSurfaceUV                  = (1 &lt;&lt; (kQ3AttributeTypeSurfaceUV          - 1)),
     kQ3XAttributeMaskShadingUV                  = (1 &lt;&lt; (kQ3AttributeTypeShadingUV          - 1)),
@@ -865,5 +865,5 @@ enum {
 <dt><a name="//Quesa/c/econst/kQ3XAttributeMaskInterpolated"><tt>kQ3XAttributeMaskInterpolated</tt></a></dt><dd>Interpolated attributes mask.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2021 Quesa Developers (Last Updated 5/21/2021)
+<p><p>&#169; 1999-2021 Quesa Developers (Last Updated 12/14/2021)
 </p></body></html>

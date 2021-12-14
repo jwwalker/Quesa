@@ -1349,7 +1349,7 @@ of type kQ3RendererPassNonShadow.</dd>
 <hr><a name="//Quesa/c/tag/Renderer Element Types"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Renderer Element Types">Renderer Element Types</a></h2>
 </td></tr></table><hr><blockquote><pre>
-enum
+enum QUESA_ENUM_BASE(TQ3Int32)
 {
   kQ3ElementTypeDepthBits          =  Q3_OBJECT_TYPE(0xF0, 'd', 'b', 'i')
 };
@@ -1385,7 +1385,7 @@ preferences.
 <br><br>
 <br>
 <blockquote><pre>
-enum
+enum QUESA_ENUM_BASE(TQ3Int32)
 {
   kQ3RendererPropertyAutomaticTriangleStrips      = Q3_OBJECT_TYPE('a', 't', 'r', 's'),
   kQ3RendererPropertyPerPixelLighting             = Q3_OBJECT_TYPE('p', 'p', 'x', 'l'),
@@ -1564,7 +1564,7 @@ Data type: TQ3CastShadowsOverrideCallback.  Default: nullptr.</dd>
 <hr><a name="//Quesa/c/tag/TQ3CSGEquation"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3CSGEquation">TQ3CSGEquation</a></h2>
 </td></tr></table><hr><blockquote><pre>
-typedef enum TQ3CSGEquation {
+typedef enum TQ3CSGEquation QUESA_ENUM_BASE(TQ3Uns32) {
     kQ3CSGEquationAandB                         = 0x88888888,
     kQ3CSGEquationAandnotB                      = 0x22222222,
     kQ3CSGEquationAanBonCad                     = 0x2F222F22,
@@ -1590,7 +1590,7 @@ typedef enum TQ3CSGEquation {
 <hr><a name="//Quesa/c/tag/TQ3CSGObjectID"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3CSGObjectID">TQ3CSGObjectID</a></h2>
 </td></tr></table><hr><blockquote><pre>
-typedef enum TQ3CSGObjectID {
+typedef enum TQ3CSGObjectID QUESA_ENUM_BASE(TQ3Int32) {
     kQ3SolidGeometryObjNone                     = -1,
     kQ3SolidGeometryObjA                        = 0,
     kQ3SolidGeometryObjB                        = 1,
@@ -1618,7 +1618,7 @@ typedef enum TQ3CSGObjectID {
 <hr><a name="//Quesa/c/tag/TQ3RaveEngineID"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3RaveEngineID">TQ3RaveEngineID</a></h2>
 </td></tr></table><hr><blockquote><pre>
-typedef enum TQ3RaveEngineID {
+typedef enum TQ3RaveEngineID QUESA_ENUM_BASE(TQ3Int32) {
     kQAEngine_AppleSW                           = 0,
     kQAEngine_AppleHW                           = -1,
     kQAEngine_AppleHW2                          = 1,
@@ -1642,7 +1642,7 @@ typedef enum TQ3RaveEngineID {
 <hr><a name="//Quesa/c/tag/TQ3RaveVendorID"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3RaveVendorID">TQ3RaveVendorID</a></h2>
 </td></tr></table><hr><blockquote><pre>
-typedef enum TQ3RaveVendorID {
+typedef enum TQ3RaveVendorID QUESA_ENUM_BASE(TQ3Int32) {
     kQAVendor_BestChoice                        = -1,
     kQAVendor_Apple                             = 0,
     kQAVendor_ATI                               = 1,
@@ -1691,7 +1691,7 @@ typedef enum TQ3RaveVendorID {
 <br><br>
 <br>
 <blockquote><pre>
-typedef enum TQ3RendererPassType
+typedef enum TQ3RendererPassType QUESA_ENUM_BASE(TQ3Uns32)
 {
   kQ3RendererPassNonShadow       = 0,
   kQ3RendererPassShadowMarking   = 1,
@@ -1718,7 +1718,7 @@ light.</dd>
 <hr><a name="//Quesa/c/tag/TQ3TextureFilter"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3TextureFilter">TQ3TextureFilter</a></h2>
 </td></tr></table><hr><blockquote><pre>
-typedef enum TQ3TextureFilter {
+typedef enum TQ3TextureFilter QUESA_ENUM_BASE(TQ3Uns32) {
     kQATextureFilter_Fast                       = 0,
     kQATextureFilter_Mid                        = 1,
     kQATextureFilter_Best                       = 2,
@@ -1740,7 +1740,7 @@ typedef enum TQ3TextureFilter {
 <hr><a name="//Quesa/c/tag/TQ3XDrawContextValidationMasks"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XDrawContextValidationMasks">TQ3XDrawContextValidationMasks</a></h2>
 </td></tr></table><hr><blockquote><pre>
-typedef enum TQ3XDrawContextValidationMasks {
+typedef enum TQ3XDrawContextValidationMasks QUESA_ENUM_BASE(TQ3Uns32) {
     kQ3XDrawContextValidationClearFlags         = 0,
     kQ3XDrawContextValidationDoubleBuffer       = (1 &lt;&lt; 0),
     kQ3XDrawContextValidationShader             = (1 &lt;&lt; 1),
@@ -1796,7 +1796,7 @@ typedef enum TQ3XDrawContextValidationMasks {
 <hr><a name="//Quesa/c/tag/TQ3XMethodTypeRenderer"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3XMethodTypeRenderer">TQ3XMethodTypeRenderer</a></h2>
 </td></tr></table><hr><blockquote><pre>
-typedef enum TQ3XMethodTypeRenderer {
+typedef enum TQ3XMethodTypeRenderer QUESA_ENUM_BASE(TQ3Uns32) {
     kQ3XMethodTypeRendererIsInteractive                             = Q3_METHOD_TYPE('i', 's', 'i', 'n'),
     kQ3XMethodTypeRendererModalConfigure                            = Q3_METHOD_TYPE('r', 'd', 'm', 'c'),
     kQ3XMethodTypeRendererGetNickNameString                         = Q3_METHOD_TYPE('r', 'd', 'n', 's'),
@@ -1873,7 +1873,7 @@ typedef enum TQ3XMethodTypeRenderer {
 <hr><a name="//Quesa/c/tag/kQ3AttributeTypeConstructiveSolidGeometryID"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="kQ3AttributeTypeConstructiveSolidGeometryID">kQ3AttributeTypeConstructiveSolidGeometryID</a></h2>
 </td></tr></table><hr><blockquote><pre>
-enum {
+enum QUESA_ENUM_BASE(TQ3Uns32) {
     kQ3AttributeTypeConstructiveSolidGeometryID = Q3_METHOD_TYPE('c', 's', 'g', 'i')
 };
 </pre>
@@ -1882,5 +1882,5 @@ enum {
 <br><br>
 The data for the attribute is a single TQ3CSGObjectID.
  </p>
-<p><p>&#169; 1999-2021 Quesa Developers (Last Updated 5/21/2021)
+<p><p>&#169; 1999-2021 Quesa Developers (Last Updated 12/14/2021)
 </p></body></html>

@@ -1334,7 +1334,7 @@ extends from the camera position through the four edges of this rectangle.
 </td></tr></table><hr>Type of cropping for a fisheye camera
 <br>
 <blockquote><pre>
-typedef enum TQ3FisheyeCroppingFormat
+typedef enum TQ3FisheyeCroppingFormat QUESA_ENUM_BASE(TQ3Uns32)
 {
   kQ3FisheyeCroppingFormatCircular = 0,
   kQ3FisheyeCroppingFormatCroppedCircle,
@@ -1363,7 +1363,7 @@ is totally filled.</dd>
 Wikipedia on Fisheye Lenses</a>.
 <br>
 <blockquote><pre>
-typedef enum TQ3FisheyeMappingFunction
+typedef enum TQ3FisheyeMappingFunction QUESA_ENUM_BASE(TQ3Uns32)
 {
   kQ3FisheyeMappingFunctionOrthographic = 0,
   kQ3FisheyeMappingFunctionStereographic,
@@ -1388,5 +1388,5 @@ cannot have an angle of view greater than pi (180 degrees).</dd>
 <dt><a name="//Quesa/c/econst/kQ3FisheyeMappingFunctionEquisolidAngle"><tt>kQ3FisheyeMappingFunctionEquisolidAngle</tt></a></dt><dd>r = 2 * f * sin( angle/2 )</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2021 Quesa Developers (Last Updated 5/21/2021)
+<p><p>&#169; 1999-2021 Quesa Developers (Last Updated 12/14/2021)
 </p></body></html>

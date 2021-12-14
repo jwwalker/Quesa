@@ -11,7 +11,7 @@
 <br><br>
 <br>
 <blockquote><pre>
-enum
+enum QUESA_ENUM_BASE(TQ3Int32)
 {
   kQ3GeometryPropertyNonCartoon                   = Q3_OBJECT_TYPE('n', 'c', 'a', 'r'),
   kQ3GeometryPropertyLayerShifts             = Q3_OBJECT_TYPE('l', 'y', 's', 'f')
@@ -38,7 +38,7 @@ Data type: TQ3LayerShifts (variable length).</dd>
 <hr><a name="//Quesa/c/tag/Nurb Limits"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Nurb Limits">Nurb Limits</a></h2>
 </td></tr></table><hr><blockquote><pre>
-enum {
+enum QUESA_ENUM_BASE(TQ3Uns32) {
   kQ3NURBCurveMaxOrder = 16,
   kQ3NURBPatchMaxOrder = 16
 };
@@ -58,7 +58,7 @@ on NURBs indicated it should be 16.</dd>
 <hr><a name="//Quesa/c/tag/TQ3GeneralPolygonShapeHint"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3GeneralPolygonShapeHint">TQ3GeneralPolygonShapeHint</a></h2>
 </td></tr></table><hr><blockquote><pre>
-typedef enum TQ3GeneralPolygonShapeHint {
+typedef enum TQ3GeneralPolygonShapeHint QUESA_ENUM_BASE(TQ3Uns32) {
     kQ3GeneralPolygonShapeHintComplex           = 0,
     kQ3GeneralPolygonShapeHintConcave           = 1,
     kQ3GeneralPolygonShapeHintConvex            = 2,
@@ -84,7 +84,7 @@ is convex.</dd>
 <hr><a name="//Quesa/c/tag/TQ3PolyhedronEdgeMasks"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3PolyhedronEdgeMasks">TQ3PolyhedronEdgeMasks</a></h2>
 </td></tr></table><hr><blockquote><pre>
-typedef enum TQ3PolyhedronEdgeMasks {
+typedef enum TQ3PolyhedronEdgeMasks QUESA_ENUM_BASE(TQ3Uns32) {
     kQ3PolyhedronEdgeNone                       = 0,
     kQ3PolyhedronEdge01                         = (1 &lt;&lt; 0),
     kQ3PolyhedronEdge12                         = (1 &lt;&lt; 1),
@@ -107,5 +107,5 @@ rendered.
 <dt><a name="//Quesa/c/econst/kQ3PolyhedronEdgeAll"><tt>kQ3PolyhedronEdgeAll</tt></a></dt><dd>Render all the edges.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2021 Quesa Developers (Last Updated 5/21/2021)
+<p><p>&#169; 1999-2021 Quesa Developers (Last Updated 12/14/2021)
 </p></body></html>

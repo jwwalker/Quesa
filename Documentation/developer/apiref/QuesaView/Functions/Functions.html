@@ -535,7 +535,9 @@ Must be called within a submitting loop.
 <blockquote>
 <dl>
 <dt><tt><em>view</em></tt></dt><dd>The view to query.</dd>
-<dt><tt><em>highlightStyle</em></tt></dt><dd>Receives the current highlight style state.</dd>
+<dt><tt><em>highlightStyle</em></tt></dt><dd>Receives the current highlight style state (the attribute set, not the style
+object).  If not NULL, this is a new
+reference that you are responsible for disposing of.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -1243,5 +1245,5 @@ May only be called within a view submitting loop.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
-<p><p>&#169; 1999-2021 Quesa Developers (Last Updated 5/21/2021)
+<p><p>&#169; 1999-2021 Quesa Developers (Last Updated 12/14/2021)
 </p></body></html>

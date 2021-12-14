@@ -10,28 +10,27 @@ Wrapper for Quesa objects.
 <h2>Discussion</h2>
 The main purpose for using a C++ wrapper for a Quesa object is to
 prevent memory leaks.  The wrapper's destructor disposes the object.
-This class is designed to be usable in STL container classes.
-It is not like std::auto_ptr, in that the copy constructor adds a
-reference rather than transferring ownership.  One could base such
-a wrapper on boost::intrusive_pointer, but I chose not to require
-Boost.
+This class is designed to be usable in STL container classes, in a way similar
+to std::shared_ptr.  One could base such a wrapper on boost::intrusive_pointer,
+but I chose not to require Boost.
 <br><br>
 Due to a HeaderDoc bug, it is not possible to automatically
 document more than one constructor.  Besides the constructor from
 a TQ3Object, there is a default constructor (which holds nullptr)
-and a copy constructor.
+a copy constructor, and a move constructor.
 <br><br>
 This wrapper is not fully functional with objects that are not
-reference-counted (such as views and picks) because the copy
-constructor calls Q3Shared_GetReference.
+reference-counted (such as Views and Picks).  Calling the copy constructor
+or copy assignment operator on a CQ3ObjectRef holding an object of a non-shared
+type will result in a fatal assertion failure inside Q3Shared_GetReference.
 <hr><br><h2>Member Functions</h2>
-<hr><a name="//Quesa/cpp/instm/CQ3ObjectRef/CQ3ObjectRef/TQ3SharedObjectinObject:mObject(inObject"></a>
+<hr><a name="//Quesa/cpp/instm/CQ3ObjectRef/CQ3ObjectRef/TQ3Object_NullableinObject:mObject(inObject"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="CQ3ObjectRef">CQ3ObjectRef</a></h2>
 </td></tr></table><hr>Constructor from a TQ3Object.
 <BR>
 <blockquote><pre><tt>public:</tt>
 <br><tt>explicit CQ3ObjectRef (
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3SharedObject inObject
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3Object _Nullable inObject
 )&nbsp;(
 &nbsp;&nbsp;&nbsp;&nbsp;: mObject( inObject
 );
@@ -52,7 +51,7 @@ or nullptr.</dd>
 </td></tr></table><hr>Get the value held by the wrapper.
 <BR>
 <blockquote><pre><tt>public:</tt>
-<br><tt>TQ3SharedObject get (void) const;</tt><br>
+<br><tt>TQ3Object _Nullable get (void) const;</tt><br>
 </pre></blockquote>
 <dl><dt><i>function result</i></dt><dd>A TQ3Object, or nullptr.
 							</dd></dl>
@@ -105,9 +104,9 @@ it.
 </td></tr></table><hr>The Quesa object held by the wrapper.
 							<BR>
 <blockquote><tt>private:</tt> <pre>
-TQ3SharedObject   mObject;
+TQ3Object _Nullable  mObject;
 </pre>
 </blockquote>
 <hr>
-<p><p>&#169; 1999-2021 Quesa Developers (Last Updated 5/21/2021)
+<p><p>&#169; 1999-2021 Quesa Developers (Last Updated 12/14/2021)
 </p></body></html>

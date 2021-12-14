@@ -1,9 +1,6 @@
 /*!
 	@header	CQ3ObjectRef.h
 		Wrapper class for Quesa objects.
-        
-	@ignore	_Nullable
-	@ignore _Nonnull
 */
 /*  NAME:
         CQ3ObjectRef.h
@@ -74,7 +71,7 @@
 				Due to a HeaderDoc bug, it is not possible to automatically
 				document more than one constructor.  Besides the constructor from
 				a TQ3Object, there is a default constructor (which holds nullptr)
-				and a copy constructor.
+				a copy constructor, and a move constructor.
 				
 				This wrapper is not fully functional with objects that are not
 				reference-counted (such as Views and Picks).  Calling the copy constructor

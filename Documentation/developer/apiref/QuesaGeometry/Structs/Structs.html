@@ -1109,7 +1109,9 @@ typedef struct TQ3TriMeshEdgeData {
 <dt><tt>pointIndices</tt></dt><dd>Array of 2 indices into the TriMesh array of points,
 the ends of the edge.</dd>
 <dt><tt>triangleIndices</tt></dt><dd>Array of 2 indices into the TriMesh array of triangles,
-the triangles containing the edge.</dd>
+the triangles containing the edge.  One index may be the
+special value <code>kQ3ArrayIndexNULL</code> if the edge is only
+incident to one triangle.</dd>
 </dl>
 </blockquote>
 <hr><a name="//Quesa/c/tag/TQ3TriMeshTriangleData"></a>
@@ -1146,5 +1148,5 @@ typedef struct TQ3TriangleData {
 <dt><tt>triangleAttributeSet</tt></dt><dd>Set of attributes for the triangle.  May be nullptr.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2021 Quesa Developers (Last Updated 5/21/2021)
+<p><p>&#169; 1999-2021 Quesa Developers (Last Updated 12/14/2021)
 </p></body></html>

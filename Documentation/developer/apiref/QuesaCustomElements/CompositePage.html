@@ -318,7 +318,7 @@ read-only and temporary.
 <blockquote><pre><tt>( TQ3Status ) CETriangleStripElement_SetData (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Object _Nonnull ioObject,
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3Uns32 inNumIndices,
-&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Uns32* _Nonnull inIndices
+&nbsp;&nbsp;&nbsp;&nbsp;const TQ3Uns32* _Nullable inIndices
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Triangle strips are used by the OpenGL renderer as a speed
@@ -515,7 +515,7 @@ typedef struct TCEUrlData {
 <hr><a name="//Quesa/c/tag/TCEUrlOptions"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TCEUrlOptions">TCEUrlOptions</a></h2>
 </td></tr></table><hr><blockquote><pre>
-typedef enum {
+typedef enum TCEUrlOptions QUESA_ENUM_BASE(TQ3Uns32) {
     kCEUrlOptionNone                            = 0,
     kCEUrlOptionUseMap                          = 1,
     kCEUrlOptionSize32                          = 0xFFFFFFFF
@@ -532,5 +532,5 @@ typedef enum {
 <dt><a name="//Quesa/c/econst/kCEUrlOptionUseMap"><tt>kCEUrlOptionUseMap</tt></a></dt><dd>Map option set (meaning unknown).</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2021 Quesa Developers (Last Updated 5/21/2021)
+<p><p>&#169; 1999-2021 Quesa Developers (Last Updated 12/14/2021)
 </p></body></html>
