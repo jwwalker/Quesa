@@ -1,0 +1,545 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source">
+      <UniqueIdentifier>{a5c0d2ba-effe-4fde-8d99-434232157e0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Core">
+      <UniqueIdentifier>{555ed092-d626-4937-b73f-5772da40162c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Core\Geometry">
+      <UniqueIdentifier>{269c8982-6464-4acc-a8a0-8268be296098}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;rc;def;r;odl;idl;hpj;bat</Extensions>
+    </Filter>
+    <Filter Include="Source\Core\Glue">
+      <UniqueIdentifier>{8f125f7c-800a-48ef-8828-08f25faffc9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Core\Support">
+      <UniqueIdentifier>{4ed7898b-cb1e-42bf-a773-e116cd19e8be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Core\System">
+      <UniqueIdentifier>{0edfd634-610d-4cc4-a392-405aef4de491}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Platform">
+      <UniqueIdentifier>{3bab91a8-1f58-48c2-8b65-d1e612d433e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Platform\Windows">
+      <UniqueIdentifier>{0be3af54-2963-4680-9514-de20339e4111}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Renderers">
+      <UniqueIdentifier>{055d0d96-f22a-471f-8d97-d7c75b0a8f28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Renderers\Common">
+      <UniqueIdentifier>{0268d6e4-762d-47f6-b18d-e62c05582e40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Renderers\Generic">
+      <UniqueIdentifier>{162bd1e3-a848-4004-8b51-71763aaf1980}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Renderers\MakeStrip">
+      <UniqueIdentifier>{1ed0b6a5-0421-41ba-af74-e95ac81a573a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Renderers\OpenGL">
+      <UniqueIdentifier>{4dc2c19b-8f46-4c5a-9ffa-b932f2bb704b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\FileFormats">
+      <UniqueIdentifier>{0fe0ed1a-31c7-499f-9d11-985c42b8b5fc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\FileFormats\Readers">
+      <UniqueIdentifier>{28d3e243-b80d-42a3-a0b2-26b77830c6b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\FileFormats\Readers\3dmf">
+      <UniqueIdentifier>{925558d8-f08f-4c54-94ce-c79e01f59a9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\FileFormats\Writers">
+      <UniqueIdentifier>{fb27a022-ddc5-4442-82e1-2d24f1ab2d98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\FileFormats\Writers\3dmf">
+      <UniqueIdentifier>{cdb2e342-e594-42bd-b84f-c4f2f07ebb9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Public Headers">
+      <UniqueIdentifier>{61a98f82-8a3f-4f7f-b088-fe86b1ff5aef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Tesselation from Mesa GLU">
+      <UniqueIdentifier>{dd31df18-3e6a-4b50-bec6-0b0161342a76}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Source\Core\Geometry\E3GeometryTriMeshOptimize.cpp">
+      <Filter>Source\Core\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\System\E3Math_Intersect.cpp">
+      <Filter>Source\Core\System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Renderers\MakeStrip\MakeStrip.cpp">
+      <Filter>Source\Renderers\MakeStrip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Renderers\MakeStrip\StripMaker_FindAdjacencies.cpp">
+      <Filter>Source\Renderers\MakeStrip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Renderers\MakeStrip\StripMaker_InitFaces.cpp">
+      <Filter>Source\Renderers\MakeStrip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Renderers\MakeStrip\StripMaker_JoinStrips.cpp">
+      <Filter>Source\Renderers\MakeStrip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Renderers\MakeStrip\StripMaker_MakeSimpleStrip.cpp">
+      <Filter>Source\Renderers\MakeStrip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Renderers\MakeStrip\StripMaker_FreeFaceSet.cpp">
+      <Filter>Source\Renderers\MakeStrip</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Geometry\E3Geometry.cpp">
+      <Filter>Source\Core\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Geometry\E3GeometryBox.cpp">
+      <Filter>Source\Core\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Geometry\E3GeometryCone.cpp">
+      <Filter>Source\Core\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Geometry\E3GeometryCylinder.cpp">
+      <Filter>Source\Core\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Geometry\E3GeometryDisk.cpp">
+      <Filter>Source\Core\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Geometry\E3GeometryEllipse.cpp">
+      <Filter>Source\Core\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Geometry\E3GeometryEllipsoid.cpp">
+      <Filter>Source\Core\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Geometry\E3GeometryGeneralPolygon.cpp">
+      <Filter>Source\Core\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Geometry\E3GeometryLine.cpp">
+      <Filter>Source\Core\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Geometry\E3GeometryMarker.cpp">
+      <Filter>Source\Core\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Geometry\E3GeometryMesh.cpp">
+      <Filter>Source\Core\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Geometry\E3GeometryNURBCurve.cpp">
+      <Filter>Source\Core\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Geometry\E3GeometryNURBPatch.cpp">
+      <Filter>Source\Core\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Geometry\E3GeometryPixmapMarker.cpp">
+      <Filter>Source\Core\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Geometry\E3GeometryPoint.cpp">
+      <Filter>Source\Core\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Geometry\E3GeometryPolygon.cpp">
+      <Filter>Source\Core\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Geometry\E3GeometryPolyhedron.cpp">
+      <Filter>Source\Core\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Geometry\E3GeometryPolyLine.cpp">
+      <Filter>Source\Core\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Geometry\E3GeometryTorus.cpp">
+      <Filter>Source\Core\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Geometry\E3GeometryTriangle.cpp">
+      <Filter>Source\Core\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Geometry\E3GeometryTriGrid.cpp">
+      <Filter>Source\Core\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Geometry\E3GeometryTriMesh.cpp">
+      <Filter>Source\Core\Geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Glue\QD3DCamera.cpp">
+      <Filter>Source\Core\Glue</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Glue\QD3DCustomElements.cpp">
+      <Filter>Source\Core\Glue</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Glue\QD3DDrawContext.cpp">
+      <Filter>Source\Core\Glue</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Glue\QD3DErrors.cpp">
+      <Filter>Source\Core\Glue</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Glue\QD3DExtension.cpp">
+      <Filter>Source\Core\Glue</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Glue\QD3DGeometry.cpp">
+      <Filter>Source\Core\Glue</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Glue\QD3DGroup.cpp">
+      <Filter>Source\Core\Glue</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Glue\QD3DIO.cpp">
+      <Filter>Source\Core\Glue</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Glue\QD3DLight.cpp">
+      <Filter>Source\Core\Glue</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Glue\QD3DMain.cpp">
+      <Filter>Source\Core\Glue</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Glue\QD3DMath.cpp">
+      <Filter>Source\Core\Glue</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Glue\QD3DMemory.cpp">
+      <Filter>Source\Core\Glue</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Glue\QD3DPick.cpp">
+      <Filter>Source\Core\Glue</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Glue\QD3DRenderer.cpp">
+      <Filter>Source\Core\Glue</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Glue\QD3DSet.cpp">
+      <Filter>Source\Core\Glue</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Glue\QD3DShader.cpp">
+      <Filter>Source\Core\Glue</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Glue\QD3DStorage.cpp">
+      <Filter>Source\Core\Glue</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Glue\QD3DString.cpp">
+      <Filter>Source\Core\Glue</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Glue\QD3DStyle.cpp">
+      <Filter>Source\Core\Glue</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Glue\QD3DTransform.cpp">
+      <Filter>Source\Core\Glue</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Glue\QD3DView.cpp">
+      <Filter>Source\Core\Glue</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Support\E3ArrayOrList.cpp">
+      <Filter>Source\Core\Support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Support\E3ClassTree.cpp">
+      <Filter>Source\Core\Support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Support\E3Compatibility.cpp">
+      <Filter>Source\Core\Support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Support\E3ErrorManager.cpp">
+      <Filter>Source\Core\Support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Support\E3Globals.cpp">
+      <Filter>Source\Core\Support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Support\E3HashTable.cpp">
+      <Filter>Source\Core\Support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Support\E3Pool.cpp">
+      <Filter>Source\Core\Support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Support\E3System.cpp">
+      <Filter>Source\Core\Support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Support\E3Tessellate.cpp">
+      <Filter>Source\Core\Support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\Support\E3Utils.cpp">
+      <Filter>Source\Core\Support</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\System\E3Camera.cpp">
+      <Filter>Source\Core\System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\System\E3CustomElements.cpp">
+      <Filter>Source\Core\System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\System\E3DrawContext.cpp">
+      <Filter>Source\Core\System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\System\E3Errors.cpp">
+      <Filter>Source\Core\System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\System\E3Extension.cpp">
+      <Filter>Source\Core\System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\System\E3Group.cpp">
+      <Filter>Source\Core\System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\System\E3IO.cpp">
+      <Filter>Source\Core\System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\System\E3IOData.cpp">
+      <Filter>Source\Core\System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\System\E3Light.cpp">
+      <Filter>Source\Core\System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\System\E3Main.cpp">
+      <Filter>Source\Core\System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\System\E3Math.cpp">
+      <Filter>Source\Core\System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\System\E3Memory.cpp">
+      <Filter>Source\Core\System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\System\E3Pick.cpp">
+      <Filter>Source\Core\System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\System\E3Renderer.cpp">
+      <Filter>Source\Core\System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\System\E3Set.cpp">
+      <Filter>Source\Core\System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\System\E3Shader.cpp">
+      <Filter>Source\Core\System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\System\E3Storage.cpp">
+      <Filter>Source\Core\System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\System\E3String.cpp">
+      <Filter>Source\Core\System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\System\E3Style.cpp">
+      <Filter>Source\Core\System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\System\E3Texture.cpp">
+      <Filter>Source\Core\System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\System\E3Transform.cpp">
+      <Filter>Source\Core\System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\System\E3View.cpp">
+      <Filter>Source\Core\System</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FileFormats\E3IOFileFormat.cpp">
+      <Filter>Source\FileFormats</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FileFormats\Readers\3DMF\E3FFR_3DMF.cpp">
+      <Filter>Source\FileFormats\Readers\3dmf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FileFormats\Readers\3DMF\E3FFR_3DMF_Bin.cpp">
+      <Filter>Source\FileFormats\Readers\3dmf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FileFormats\Readers\3DMF\E3FFR_3DMF_Geometry.cpp">
+      <Filter>Source\FileFormats\Readers\3dmf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FileFormats\Readers\3DMF\E3FFR_3DMF_Text.cpp">
+      <Filter>Source\FileFormats\Readers\3dmf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FileFormats\Writers\3DMF\E3FFW_3DMFBin_Geometry.cpp">
+      <Filter>Source\FileFormats\Writers\3dmf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FileFormats\Writers\3DMF\E3FFW_3DMFBin_Register.cpp">
+      <Filter>Source\FileFormats\Writers\3dmf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\FileFormats\Writers\3DMF\E3FFW_3DMFBin_Writer.cpp">
+      <Filter>Source\FileFormats\Writers\3dmf</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Platform\Windows\E3WindowsDebug.cpp">
+      <Filter>Source\Platform\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Platform\Windows\E3WindowsDrawContext.cpp">
+      <Filter>Source\Platform\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Platform\Windows\E3WindowsStackCrawl.cpp">
+      <Filter>Source\Platform\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Platform\Windows\E3WindowsStorage.cpp">
+      <Filter>Source\Platform\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Platform\Windows\E3WindowsSystem.cpp">
+      <Filter>Source\Platform\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Renderers\Generic\GNGeometry.cpp">
+      <Filter>Source\Renderers\Generic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Renderers\Generic\GNRegister.cpp">
+      <Filter>Source\Renderers\Generic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Renderers\Generic\GNRenderer.cpp">
+      <Filter>Source\Renderers\Generic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\glu tessellation from Mesa\dict.c">
+      <Filter>Source\Tesselation from Mesa GLU</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\glu tessellation from Mesa\geom.c">
+      <Filter>Source\Tesselation from Mesa GLU</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\glu tessellation from Mesa\memalloc.c">
+      <Filter>Source\Tesselation from Mesa GLU</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\glu tessellation from Mesa\mesh.c">
+      <Filter>Source\Tesselation from Mesa GLU</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\glu tessellation from Mesa\normal.c">
+      <Filter>Source\Tesselation from Mesa GLU</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\glu tessellation from Mesa\priorityq.c">
+      <Filter>Source\Tesselation from Mesa GLU</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\glu tessellation from Mesa\render.c">
+      <Filter>Source\Tesselation from Mesa GLU</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\glu tessellation from Mesa\sweep.c">
+      <Filter>Source\Tesselation from Mesa GLU</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\glu tessellation from Mesa\tess.c">
+      <Filter>Source\Tesselation from Mesa GLU</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\glu tessellation from Mesa\tessmono.c">
+      <Filter>Source\Tesselation from Mesa GLU</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\Source\Core\System\E3Math_Intersect.h">
+      <Filter>Source\Core\System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Renderers\MakeStrip\MakeStrip.h">
+      <Filter>Source\Renderers\MakeStrip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Renderers\MakeStrip\StripMaker.h">
+      <Filter>Source\Renderers\MakeStrip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Support\E3FastArray.h">
+      <Filter>Source\Core\Support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Support\E3Version.h">
+      <Filter>Source\Core\Support</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\CQ3ObjectRef.h">
+      <Filter>Public Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\CQ3ObjectRef_Gets.h">
+      <Filter>Public Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\CQ3WeakObjectRef.h">
+      <Filter>Public Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\Q3GroupIterator.h">
+      <Filter>Public Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\Quesa.h">
+      <Filter>Public Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaCamera.h">
+      <Filter>Public Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaCustomElements.h">
+      <Filter>Public Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaDrawContext.h">
+      <Filter>Public Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaErrors.h">
+      <Filter>Public Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaExtension.h">
+      <Filter>Public Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaGeometry.h">
+      <Filter>Public Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaGroup.h">
+      <Filter>Public Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaIO.h">
+      <Filter>Public Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaLight.h">
+      <Filter>Public Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaMath.h">
+      <Filter>Public Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaMathOperators.hpp">
+      <Filter>Public Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaMemory.h">
+      <Filter>Public Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaPick.h">
+      <Filter>Public Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaRenderer.h">
+      <Filter>Public Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaSet.h">
+      <Filter>Public Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaShader.h">
+      <Filter>Public Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaStorage.h">
+      <Filter>Public Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaString.h">
+      <Filter>Public Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaStyle.h">
+      <Filter>Public Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaTransform.h">
+      <Filter>Public Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaView.h">
+      <Filter>Public Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\dict.h">
+      <Filter>Source\Tesselation from Mesa GLU</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\dict-list.h">
+      <Filter>Source\Tesselation from Mesa GLU</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\geom.h">
+      <Filter>Source\Tesselation from Mesa GLU</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\glu-mesa.h">
+      <Filter>Source\Tesselation from Mesa GLU</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\gluos.h">
+      <Filter>Source\Tesselation from Mesa GLU</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\memalloc.h">
+      <Filter>Source\Tesselation from Mesa GLU</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\mesh.h">
+      <Filter>Source\Tesselation from Mesa GLU</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\normal.h">
+      <Filter>Source\Tesselation from Mesa GLU</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\priorityq.h">
+      <Filter>Source\Tesselation from Mesa GLU</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\priorityq-heap.h">
+      <Filter>Source\Tesselation from Mesa GLU</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\priorityq-sort.h">
+      <Filter>Source\Tesselation from Mesa GLU</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\render.h">
+      <Filter>Source\Tesselation from Mesa GLU</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\sweep.h">
+      <Filter>Source\Tesselation from Mesa GLU</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\tess.h">
+      <Filter>Source\Tesselation from Mesa GLU</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\tessmono.h">
+      <Filter>Source\Tesselation from Mesa GLU</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\Source\Platform\Windows\Resources\Quesa.rc">
+      <Filter>Source\Platform\Windows</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Source\Core\glu tessellation from Mesa\README">
+      <Filter>Source\Tesselation from Mesa GLU</Filter>
+    </None>
+  </ItemGroup>
+</Project>

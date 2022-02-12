@@ -1,0 +1,398 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{089a9c73-70f9-4b4e-bec1-8f9a49218939}</ProjectGuid>
+    <RootNamespace>Quesa_NoOpenGL</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC60.props" />
+    <Import Project="visual studio common.props" />
+    <Import Project="NoOpenGL.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC60.props" />
+    <Import Project="visual studio common.props" />
+    <Import Project="NoOpenGL.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC60.props" />
+    <Import Project="visual studio common.props" />
+    <Import Project="NoOpenGL.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC60.props" />
+    <Import Project="visual studio common.props" />
+    <Import Project="NoOpenGL.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <TypeLibraryName>.\Release/Quesa.tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeaderOutputFile>.\Release/Quesa.pch</PrecompiledHeaderOutputFile>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>../../Source/Core/Support;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link />
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>.\Release/Quesa.bsc</OutputFile>
+    </Bscmake>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Midl>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TypeLibraryName>.\Release/Quesa.tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+    <ClCompile>
+      <Optimization>MaxSpeed</Optimization>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <PrecompiledHeaderOutputFile>.\Release/Quesa.pch</PrecompiledHeaderOutputFile>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>../../Source/Core/Support;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link />
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>.\Release/Quesa.bsc</OutputFile>
+    </Bscmake>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TargetEnvironment>Win32</TargetEnvironment>
+      <TypeLibraryName>.\Debug/Quesa.tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>Q3_DEBUG=1;_DEBUG;Q3_VALIDATE_DRAW_ELEMENTS=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PrecompiledHeaderOutputFile>.\Debug/Quesa.pch</PrecompiledHeaderOutputFile>
+      <BrowseInformation>true</BrowseInformation>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>../../Source/Core/Support;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <PreventDllBinding>
+      </PreventDllBinding>
+    </Link>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>.\Debug/Quesa.bsc</OutputFile>
+    </Bscmake>
+    <PostBuildEvent />
+    <PostBuildEvent />
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <MkTypLibCompatible>true</MkTypLibCompatible>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <TypeLibraryName>.\Debug/Quesa.tlb</TypeLibraryName>
+      <HeaderFileName>
+      </HeaderFileName>
+    </Midl>
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>Q3_DEBUG=1;_DEBUG;Q3_VALIDATE_DRAW_ELEMENTS=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeaderOutputFile>.\Debug/Quesa.pch</PrecompiledHeaderOutputFile>
+      <BrowseInformation>true</BrowseInformation>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <Culture>0x0409</Culture>
+      <AdditionalIncludeDirectories>../../Source/Core/Support;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <PreventDllBinding>
+      </PreventDllBinding>
+    </Link>
+    <Bscmake>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <OutputFile>.\Debug/Quesa.bsc</OutputFile>
+    </Bscmake>
+    <PostBuildEvent />
+    <PostBuildEvent />
+    <PostBuildEvent />
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\Source\Core\Geometry\E3Geometry.cpp" />
+    <ClCompile Include="..\..\Source\Core\Geometry\E3GeometryBox.cpp" />
+    <ClCompile Include="..\..\Source\Core\Geometry\E3GeometryCone.cpp" />
+    <ClCompile Include="..\..\Source\Core\Geometry\E3GeometryCylinder.cpp" />
+    <ClCompile Include="..\..\Source\Core\Geometry\E3GeometryDisk.cpp" />
+    <ClCompile Include="..\..\Source\Core\Geometry\E3GeometryEllipse.cpp" />
+    <ClCompile Include="..\..\Source\Core\Geometry\E3GeometryEllipsoid.cpp" />
+    <ClCompile Include="..\..\Source\Core\Geometry\E3GeometryGeneralPolygon.cpp" />
+    <ClCompile Include="..\..\Source\Core\Geometry\E3GeometryLine.cpp" />
+    <ClCompile Include="..\..\Source\Core\Geometry\E3GeometryMarker.cpp" />
+    <ClCompile Include="..\..\Source\Core\Geometry\E3GeometryMesh.cpp" />
+    <ClCompile Include="..\..\Source\Core\Geometry\E3GeometryNURBCurve.cpp" />
+    <ClCompile Include="..\..\Source\Core\Geometry\E3GeometryNURBPatch.cpp" />
+    <ClCompile Include="..\..\Source\Core\Geometry\E3GeometryPixmapMarker.cpp" />
+    <ClCompile Include="..\..\Source\Core\Geometry\E3GeometryPoint.cpp" />
+    <ClCompile Include="..\..\Source\Core\Geometry\E3GeometryPolygon.cpp" />
+    <ClCompile Include="..\..\Source\Core\Geometry\E3GeometryPolyhedron.cpp" />
+    <ClCompile Include="..\..\Source\Core\Geometry\E3GeometryPolyLine.cpp" />
+    <ClCompile Include="..\..\Source\Core\Geometry\E3GeometryTorus.cpp" />
+    <ClCompile Include="..\..\Source\Core\Geometry\E3GeometryTriangle.cpp" />
+    <ClCompile Include="..\..\Source\Core\Geometry\E3GeometryTriGrid.cpp" />
+    <ClCompile Include="..\..\Source\Core\Geometry\E3GeometryTriMesh.cpp" />
+    <ClCompile Include="..\..\Source\Core\Geometry\E3GeometryTriMeshOptimize.cpp">
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <ClCompile Include="..\..\Source\Core\glu tessellation from Mesa\dict.c" />
+    <ClCompile Include="..\..\Source\Core\glu tessellation from Mesa\geom.c" />
+    <ClCompile Include="..\..\Source\Core\glu tessellation from Mesa\memalloc.c" />
+    <ClCompile Include="..\..\Source\Core\glu tessellation from Mesa\mesh.c" />
+    <ClCompile Include="..\..\Source\Core\glu tessellation from Mesa\normal.c" />
+    <ClCompile Include="..\..\Source\Core\glu tessellation from Mesa\priorityq.c" />
+    <ClCompile Include="..\..\Source\Core\glu tessellation from Mesa\render.c" />
+    <ClCompile Include="..\..\Source\Core\glu tessellation from Mesa\sweep.c" />
+    <ClCompile Include="..\..\Source\Core\glu tessellation from Mesa\tess.c" />
+    <ClCompile Include="..\..\Source\Core\glu tessellation from Mesa\tessmono.c" />
+    <ClCompile Include="..\..\Source\Core\Glue\QD3DCamera.cpp" />
+    <ClCompile Include="..\..\Source\Core\Glue\QD3DCustomElements.cpp" />
+    <ClCompile Include="..\..\Source\Core\Glue\QD3DDrawContext.cpp" />
+    <ClCompile Include="..\..\Source\Core\Glue\QD3DErrors.cpp" />
+    <ClCompile Include="..\..\Source\Core\Glue\QD3DExtension.cpp" />
+    <ClCompile Include="..\..\Source\Core\Glue\QD3DGeometry.cpp" />
+    <ClCompile Include="..\..\Source\Core\Glue\QD3DGroup.cpp" />
+    <ClCompile Include="..\..\Source\Core\Glue\QD3DIO.cpp" />
+    <ClCompile Include="..\..\Source\Core\Glue\QD3DLight.cpp" />
+    <ClCompile Include="..\..\Source\Core\Glue\QD3DMain.cpp" />
+    <ClCompile Include="..\..\Source\Core\Glue\QD3DMath.cpp" />
+    <ClCompile Include="..\..\Source\Core\Glue\QD3DMemory.cpp" />
+    <ClCompile Include="..\..\Source\Core\Glue\QD3DPick.cpp" />
+    <ClCompile Include="..\..\Source\Core\Glue\QD3DRenderer.cpp" />
+    <ClCompile Include="..\..\Source\Core\Glue\QD3DSet.cpp" />
+    <ClCompile Include="..\..\Source\Core\Glue\QD3DShader.cpp" />
+    <ClCompile Include="..\..\Source\Core\Glue\QD3DStorage.cpp" />
+    <ClCompile Include="..\..\Source\Core\Glue\QD3DString.cpp" />
+    <ClCompile Include="..\..\Source\Core\Glue\QD3DStyle.cpp" />
+    <ClCompile Include="..\..\Source\Core\Glue\QD3DTransform.cpp" />
+    <ClCompile Include="..\..\Source\Core\Glue\QD3DView.cpp" />
+    <ClCompile Include="..\..\Source\Core\Support\E3ArrayOrList.cpp" />
+    <ClCompile Include="..\..\Source\Core\Support\E3ClassTree.cpp" />
+    <ClCompile Include="..\..\Source\Core\Support\E3Compatibility.cpp" />
+    <ClCompile Include="..\..\Source\Core\Support\E3ErrorManager.cpp" />
+    <ClCompile Include="..\..\Source\Core\Support\E3Globals.cpp" />
+    <ClCompile Include="..\..\Source\Core\Support\E3HashTable.cpp" />
+    <ClCompile Include="..\..\Source\Core\Support\E3Pool.cpp" />
+    <ClCompile Include="..\..\Source\Core\Support\E3System.cpp" />
+    <ClCompile Include="..\..\Source\Core\Support\E3Tessellate.cpp" />
+    <ClCompile Include="..\..\Source\Core\Support\E3Utils.cpp" />
+    <ClCompile Include="..\..\Source\Core\System\E3Camera.cpp" />
+    <ClCompile Include="..\..\Source\Core\System\E3CustomElements.cpp" />
+    <ClCompile Include="..\..\Source\Core\System\E3DrawContext.cpp" />
+    <ClCompile Include="..\..\Source\Core\System\E3Errors.cpp" />
+    <ClCompile Include="..\..\Source\Core\System\E3Extension.cpp" />
+    <ClCompile Include="..\..\Source\Core\System\E3Group.cpp" />
+    <ClCompile Include="..\..\Source\Core\System\E3IO.cpp" />
+    <ClCompile Include="..\..\Source\Core\System\E3IOData.cpp" />
+    <ClCompile Include="..\..\Source\Core\System\E3Light.cpp" />
+    <ClCompile Include="..\..\Source\Core\System\E3Main.cpp" />
+    <ClCompile Include="..\..\Source\Core\System\E3Math.cpp" />
+    <ClCompile Include="..\..\Source\Core\System\E3Memory.cpp" />
+    <ClCompile Include="..\..\Source\Core\System\E3Pick.cpp" />
+    <ClCompile Include="..\..\Source\Core\System\E3Renderer.cpp" />
+    <ClCompile Include="..\..\Source\Core\System\E3Set.cpp" />
+    <ClCompile Include="..\..\Source\Core\System\E3Shader.cpp" />
+    <ClCompile Include="..\..\Source\Core\System\E3Storage.cpp" />
+    <ClCompile Include="..\..\Source\Core\System\E3String.cpp" />
+    <ClCompile Include="..\..\Source\Core\System\E3Style.cpp" />
+    <ClCompile Include="..\..\Source\Core\System\E3Texture.cpp" />
+    <ClCompile Include="..\..\Source\Core\System\E3Transform.cpp" />
+    <ClCompile Include="..\..\Source\Core\System\E3View.cpp" />
+    <ClCompile Include="..\..\Source\FileFormats\E3IOFileFormat.cpp" />
+    <ClCompile Include="..\..\Source\FileFormats\Readers\3DMF\E3FFR_3DMF.cpp" />
+    <ClCompile Include="..\..\Source\FileFormats\Readers\3DMF\E3FFR_3DMF_Bin.cpp" />
+    <ClCompile Include="..\..\Source\FileFormats\Readers\3DMF\E3FFR_3DMF_Geometry.cpp" />
+    <ClCompile Include="..\..\Source\FileFormats\Readers\3DMF\E3FFR_3DMF_Text.cpp" />
+    <ClCompile Include="..\..\Source\FileFormats\Writers\3DMF\E3FFW_3DMFBin_Geometry.cpp" />
+    <ClCompile Include="..\..\Source\FileFormats\Writers\3DMF\E3FFW_3DMFBin_Register.cpp" />
+    <ClCompile Include="..\..\Source\FileFormats\Writers\3DMF\E3FFW_3DMFBin_Writer.cpp" />
+    <ClCompile Include="..\..\Source\Platform\Windows\E3WindowsDebug.cpp" />
+    <ClCompile Include="..\..\Source\Platform\Windows\E3WindowsDrawContext.cpp" />
+    <ClCompile Include="..\..\Source\Platform\Windows\E3WindowsStackCrawl.cpp" />
+    <ClCompile Include="..\..\Source\Platform\Windows\E3WindowsStorage.cpp" />
+    <ClCompile Include="..\..\Source\Platform\Windows\E3WindowsSystem.cpp" />
+    <ClCompile Include="..\..\Source\Renderers\Generic\GNGeometry.cpp" />
+    <ClCompile Include="..\..\Source\Renderers\Generic\GNRegister.cpp" />
+    <ClCompile Include="..\..\Source\Renderers\Generic\GNRenderer.cpp" />
+    <ClCompile Include="..\..\Source\Renderers\MakeStrip\StripMaker_FreeFaceSet.cpp" />
+    <ClCompile Include="..\..\Source\Core\System\E3Math_Intersect.cpp" />
+    <ClCompile Include="..\..\Source\Renderers\MakeStrip\MakeStrip.cpp" />
+    <ClCompile Include="..\..\Source\Renderers\MakeStrip\StripMaker_FindAdjacencies.cpp" />
+    <ClCompile Include="..\..\Source\Renderers\MakeStrip\StripMaker_InitFaces.cpp" />
+    <ClCompile Include="..\..\Source\Renderers\MakeStrip\StripMaker_JoinStrips.cpp" />
+    <ClCompile Include="..\..\Source\Renderers\MakeStrip\StripMaker_MakeSimpleStrip.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\CQ3ObjectRef.h" />
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\CQ3ObjectRef_Gets.h" />
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\CQ3WeakObjectRef.h" />
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\Q3GroupIterator.h" />
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\Quesa.h" />
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaCamera.h" />
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaCustomElements.h" />
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaDrawContext.h" />
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaErrors.h" />
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaExtension.h" />
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaGeometry.h" />
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaGroup.h" />
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaIO.h" />
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaLight.h" />
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaMath.h" />
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaMathOperators.hpp" />
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaMemory.h" />
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaPick.h" />
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaRenderer.h" />
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaSet.h" />
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaShader.h" />
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaStorage.h" />
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaString.h" />
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaStyle.h" />
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaTransform.h" />
+    <ClInclude Include="..\..\..\SDK\Includes\Quesa\QuesaView.h" />
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\dict-list.h" />
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\dict.h" />
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\geom.h" />
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\glu-mesa.h" />
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\gluos.h" />
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\memalloc.h" />
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\mesh.h" />
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\normal.h" />
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\priorityq-heap.h" />
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\priorityq-sort.h" />
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\priorityq.h" />
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\render.h" />
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\sweep.h" />
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\tess.h" />
+    <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\tessmono.h" />
+    <ClInclude Include="..\..\Source\Core\Support\E3FastArray.h" />
+    <ClInclude Include="..\..\Source\Core\Support\E3Version.h" />
+    <ClInclude Include="..\..\Source\Core\System\E3Math_Intersect.h" />
+    <ClInclude Include="..\..\Source\Renderers\MakeStrip\MakeStrip.h" />
+    <ClInclude Include="..\..\Source\Renderers\MakeStrip\StripMaker.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\Source\Platform\Windows\Resources\Quesa.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Source\Core\glu tessellation from Mesa\README" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

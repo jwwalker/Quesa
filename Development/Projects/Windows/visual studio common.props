@@ -14,13 +14,13 @@
   <ItemDefinitionGroup>
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>QUESA_OS_WIN32=1;WIN32;_WINDOWS;_USRDLL;Q3_EXPORT_SYMBOLS=1;QD3D_NO_DIRECTDRAW;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>QUESA_OS_WIN32=1;BUILD_GLU32=1;WIN32;_WINDOWS;_USRDLL;Q3_EXPORT_SYMBOLS=1;QD3D_NO_DIRECTDRAW;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ForcedIncludeFiles>iso646.h</ForcedIncludeFiles>
       <FloatingPointExceptions>true</FloatingPointExceptions>
       <MinimalRebuild />
     </ClCompile>
     <Link>
-      <AdditionalDependencies>opengl32.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;ucrtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>../../../SDK/Libraries/Windows/$(PlatformName)/Stub/Quesa.lib</ImportLibrary>
     </Link>
   </ItemDefinitionGroup>
