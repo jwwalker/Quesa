@@ -411,6 +411,26 @@ Dispose the reference when you are done with it.</dd>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
+<hr><a name="//Quesa/c/func/Q3View_GetDepthCompareStyleState"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_GetDepthCompareStyleState">Q3View_GetDepthCompareStyleState</a></h2>
+</td></tr></table><hr>Get the current depth compare state.
+
+<blockquote><pre><tt>( TQ3Status ) Q3View_GetDepthCompareStyleState (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DepthCompareFunc* _Nonnull outFunc
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Must be called within a submitting loop.
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>view</em></tt></dt><dd>The view to query.</dd>
+<dt><tt><em>outFunc</em></tt></dt><dd>Receives the depth compare function.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+</dd></dl>
 <hr><a name="//Quesa/c/func/Q3View_GetDepthRangeStyleState"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_GetDepthRangeStyleState">Q3View_GetDepthRangeStyleState</a></h2>
 </td></tr></table><hr>Get the current depth range state.
@@ -1245,5 +1265,5 @@ May only be called within a view submitting loop.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
-<p><p>&#169; 1999-2021 Quesa Developers (Last Updated 12/14/2021)
+<p><p>&#169; 1999-2021 Quesa Developers (Last Updated 2/20/2022)
 </p></body></html>

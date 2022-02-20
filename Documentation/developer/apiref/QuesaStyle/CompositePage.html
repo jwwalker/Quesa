@@ -239,6 +239,43 @@ Declares the Quesa style objects.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
+<hr><a name="//Quesa/c/func/Q3DepthCompareStyle_GetData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DepthCompareStyle_GetData">Q3DepthCompareStyle_GetData</a></h2>
+</td></tr></table><hr>Get the data from a depth compare style.
+
+<blockquote><pre><tt>( TQ3Status ) Q3DepthCompareStyle_GetData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject _Nonnull inStyle,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DepthCompareFunc* _Nonnull outData
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>inStyle</em></tt></dt><dd>A depth compare style.</dd>
+<dt><tt><em>outData</em></tt></dt><dd>Receives the data.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+</dd></dl>
+<hr><a name="//Quesa/c/func/Q3DepthCompareStyle_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DepthCompareStyle_New">Q3DepthCompareStyle_New</a></h2>
+</td></tr></table><hr>Create a new depth compare style object.
+
+<blockquote><pre><tt>( TQ3StyleObject _Nonnull ) Q3DepthCompareStyle_New (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DepthCompareFunc inDepthFunc
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Typical rendering uses kQ3DepthCompareFuncLess, but for special purposes you
+may need to temporarily use a different depth testing rule.
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>inDepthFunc</em></tt></dt><dd>Depth testing rule to use for the duration of the style.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>The new style object.
+</dd></dl>
 <hr><a name="//Quesa/c/func/Q3DepthRangeStyle_GetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DepthRangeStyle_GetData">Q3DepthRangeStyle_GetData</a></h2>
 </td></tr></table><hr>Get the parameters of a depth range style.
@@ -1095,7 +1132,7 @@ Some renderers may not support this operation.
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
 <dl>
-<dt><tt><em>inStyle</em></tt></dt><dd>A depth range style.</dd>
+<dt><tt><em>inStyle</em></tt></dt><dd>A write switch style.</dd>
 <dt><tt><em>outData</em></tt></dt><dd>Receives the data.</dd>
 </dl>
 </blockquote>
@@ -1135,7 +1172,7 @@ behavior is produced by
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
 <dl>
-<dt><tt><em>inStyle</em></tt></dt><dd>A depth range style.</dd>
+<dt><tt><em>inStyle</em></tt></dt><dd>A write switch style.</dd>
 <dt><tt><em>inMask</em></tt></dt><dd>A mask made up of bits from TQ3WriteSwitchMasks.  The default
 behavior is produced by
 <code>kQ3WriteSwitchMaskDepth | kQ3WriteSwitchMaskColor</code>.</dd>
@@ -1383,6 +1420,43 @@ was not available in QD3D, and may not be
 understood by all renderers.)</dd>
 </dl>
 </blockquote>
+<hr><a name="//Quesa/c/tag/TQ3DepthCompareFunc"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3DepthCompareFunc">TQ3DepthCompareFunc</a></h2>
+</td></tr></table><hr>Rules for comparing the depth of a fragment being rendered against the current
+depth buffer value.
+<br>
+<blockquote><pre>
+typedef enum TQ3DepthCompareFunc QUESA_ENUM_BASE(TQ3Uns32) {
+  kQ3DepthCompareFuncAlwaysFail,
+  kQ3DepthCompareFuncAlwaysPass,
+  kQ3DepthCompareFuncLess,
+  kQ3DepthCompareFuncLessEqual,
+  kQ3DepthCompareFuncEqual,
+  kQ3DepthCompareFuncNotEqual,
+  kQ3DepthCompareFuncGreaterEqual,
+  kQ3DepthCompareFuncGreater
+} TQ3DepthCompareFunc;
+</pre>
+</blockquote>
+<h4>Constants</h4>
+<blockquote>
+<dl>
+<dt><a name="//Quesa/c/econst/kQ3DepthCompareFuncAlwaysFail"><tt>kQ3DepthCompareFuncAlwaysFail</tt></a></dt><dd>The test always fails (so nothing is rendered).</dd>
+<dt><a name="//Quesa/c/econst/kQ3DepthCompareFuncAlwaysPass"><tt>kQ3DepthCompareFuncAlwaysPass</tt></a></dt><dd>The test always passes (equivalent to no depth test).</dd>
+<dt><a name="//Quesa/c/econst/kQ3DepthCompareFuncLess"><tt>kQ3DepthCompareFuncLess</tt></a></dt><dd>The test passes if the fragment depth is less
+than the stored value.</dd>
+<dt><a name="//Quesa/c/econst/kQ3DepthCompareFuncLessEqual"><tt>kQ3DepthCompareFuncLessEqual</tt></a></dt><dd>The test passes if the fragment depth is less
+than or equal to the stored value.</dd>
+<dt><a name="//Quesa/c/econst/kQ3DepthCompareFuncEqual"><tt>kQ3DepthCompareFuncEqual</tt></a></dt><dd>The test passes if the fragment depth is equal
+to the stored value.</dd>
+<dt><a name="//Quesa/c/econst/kQ3DepthCompareFuncNotEqual"><tt>kQ3DepthCompareFuncNotEqual</tt></a></dt><dd>The test passes if the fragment depth is not
+equal to the stored value.</dd>
+<dt><a name="//Quesa/c/econst/kQ3DepthCompareFuncGreaterEqual"><tt>kQ3DepthCompareFuncGreaterEqual</tt></a></dt><dd>The test passes if the fragment depth is greater
+than or equal to the stored value.</dd>
+<dt><a name="//Quesa/c/econst/kQ3DepthCompareFuncGreater"><tt>kQ3DepthCompareFuncGreater</tt></a></dt><dd>The test passes if the fragment depth is greater
+than the stored value.</dd>
+</dl>
+</blockquote>
 <hr><a name="//Quesa/c/tag/TQ3FillStyle"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="TQ3FillStyle">TQ3FillStyle</a></h2>
 </td></tr></table><hr><blockquote><pre>
@@ -1543,5 +1617,5 @@ typedef enum TQ3WriteSwitchMasks QUESA_ENUM_BASE(TQ3Uns32) {
 <dt><a name="//Quesa/c/econst/kQ3WriteSwitchMaskColor"><tt>kQ3WriteSwitchMaskColor</tt></a></dt><dd>Write to the color buffer.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2021 Quesa Developers (Last Updated 12/14/2021)
+<p><p>&#169; 1999-2021 Quesa Developers (Last Updated 2/20/2022)
 </p></body></html>

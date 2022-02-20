@@ -235,6 +235,43 @@
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
  </dd></dl>
+<hr><a name="//Quesa/c/func/Q3DepthCompareStyle_GetData"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DepthCompareStyle_GetData">Q3DepthCompareStyle_GetData</a></h2>
+</td></tr></table><hr>Get the data from a depth compare style.
+
+<blockquote><pre><tt>( TQ3Status ) Q3DepthCompareStyle_GetData (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3StyleObject _Nonnull inStyle,
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DepthCompareFunc* _Nonnull outData
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>inStyle</em></tt></dt><dd>A depth compare style.</dd>
+<dt><tt><em>outData</em></tt></dt><dd>Receives the data.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
+</dd></dl>
+<hr><a name="//Quesa/c/func/Q3DepthCompareStyle_New"></a>
+<table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DepthCompareStyle_New">Q3DepthCompareStyle_New</a></h2>
+</td></tr></table><hr>Create a new depth compare style object.
+
+<blockquote><pre><tt>( TQ3StyleObject _Nonnull ) Q3DepthCompareStyle_New (
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DepthCompareFunc inDepthFunc
+);</tt><br>
+</pre></blockquote>
+<h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Typical rendering uses kQ3DepthCompareFuncLess, but for special purposes you
+may need to temporarily use a different depth testing rule.
+</p>
+<h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
+<blockquote>
+<dl>
+<dt><tt><em>inDepthFunc</em></tt></dt><dd>Depth testing rule to use for the duration of the style.</dd>
+</dl>
+</blockquote>
+<dl><dt><i>function result</i></dt><dd>The new style object.
+</dd></dl>
 <hr><a name="//Quesa/c/func/Q3DepthRangeStyle_GetData"></a>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3DepthRangeStyle_GetData">Q3DepthRangeStyle_GetData</a></h2>
 </td></tr></table><hr>Get the parameters of a depth range style.
@@ -1091,7 +1128,7 @@ Some renderers may not support this operation.
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
 <dl>
-<dt><tt><em>inStyle</em></tt></dt><dd>A depth range style.</dd>
+<dt><tt><em>inStyle</em></tt></dt><dd>A write switch style.</dd>
 <dt><tt><em>outData</em></tt></dt><dd>Receives the data.</dd>
 </dl>
 </blockquote>
@@ -1131,7 +1168,7 @@ behavior is produced by
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
 <dl>
-<dt><tt><em>inStyle</em></tt></dt><dd>A depth range style.</dd>
+<dt><tt><em>inStyle</em></tt></dt><dd>A write switch style.</dd>
 <dt><tt><em>inMask</em></tt></dt><dd>A mask made up of bits from TQ3WriteSwitchMasks.  The default
 behavior is produced by
 <code>kQ3WriteSwitchMaskDepth | kQ3WriteSwitchMaskColor</code>.</dd>
@@ -1139,5 +1176,5 @@ behavior is produced by
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
 </dd></dl>
-<p><p>&#169; 1999-2021 Quesa Developers (Last Updated 12/14/2021)
+<p><p>&#169; 1999-2021 Quesa Developers (Last Updated 2/20/2022)
 </p></body></html>
