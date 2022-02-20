@@ -5,7 +5,7 @@
         Header file for E3Globals.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2022, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -209,6 +209,7 @@ extern "C" {
 #define kQ3ClassNameStyleInterpolation				"InterpolationStyle"
 #define kQ3ClassNameStyleLineWidth					"LineWidthStyle"
 #define kQ3ClassNameStyleDepthRange					"DepthRangeStyle"
+#define kQ3ClassNameStyleDepthCompare				"DepthCompareStyle"
 #define kQ3ClassNameStyleWriteSwitch				"WriteSwitchStyle"
 #define kQ3ClassNameStyleOrientation				"OrientationStyle"
 #define kQ3ClassNameStylePickID						"PickIDStyle"

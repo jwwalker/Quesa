@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2022, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -60,6 +60,8 @@
 
 #include "GLUtils.h"
 
+#include <stdint.h>
+
 
 
 //=============================================================================
@@ -70,7 +72,7 @@
 
 
 // View stack
-enum {
+enum QUESA_ENUM_BASE( uint64_t ) {
 	kQ3ViewStateMatrixLocalToWorld			= 1 <<  0,		// Local-to-world changed
 	kQ3ViewStateMatrixWorldToCamera			= 1 <<  1,		// World-to-camera changed
 	kQ3ViewStateMatrixCameraToFrustum		= 1 <<  2,		// Camera-to-frustum changed
@@ -103,14 +105,15 @@ enum {
 	kQ3ViewStateAttributeMetallic			= 1 << 29,		// Metallic attribute changed
 	kQ3ViewStateStyleDepthRange				= 1 << 30,		// Depth range style changed
 	kQ3ViewStateStyleWriteSwitch 			= 1U << 31,		// Write switch style changed
+	kQ3ViewStateStyleDepthCompare			= 1UL << 32,	// Depth compare style changed
 	kQ3ViewStateNone						= 0,			// Nothing changed
-	kQ3ViewStateAll							= 0xFFFFFFFF,	// Everything changed
+	kQ3ViewStateAll							= 0xFFFFFFFFFFUL,	// Everything changed
 	kQ3ViewStateMatrixAny					= kQ3ViewStateMatrixLocalToWorld  |	// Any matrix changed
 											  kQ3ViewStateMatrixWorldToCamera |
 											  kQ3ViewStateMatrixCameraToFrustum
 };
 
-typedef TQ3Uns32 TQ3ViewStackState;
+typedef uint64_t TQ3ViewStackState;
 
 
 
@@ -154,6 +157,7 @@ typedef struct TQ3ViewStackItem {
 	float						styleLineWidth;
 	TQ3DepthRangeStyleData		styleDepthRange;
 	TQ3Uns32					styleWriteSwitch;
+	TQ3DepthCompareFunc			styleDepthCompare;
 	TQ3Param2D					attributeSurfaceUV;
 	TQ3Param2D					attributeShadingUV;
 	TQ3Vector3D					attributeNormal;
@@ -367,6 +371,7 @@ e3view_stack_initialise(TQ3ViewStackItem *theItem)
 	theItem->styleDepthRange.near	= 0.0f;
 	theItem->styleDepthRange.far	= 1.0f;
 	theItem->styleWriteSwitch = kQ3WriteSwitchMaskDepth | kQ3WriteSwitchMaskColor;
+	theItem->styleDepthCompare = kQ3DepthCompareFuncLess;
 
 	theItem->attributeAmbientCoefficient = kQ3ViewDefaultAmbientCoefficient;
 	theItem->attributeSpecularControl    = kQ3ViewDefaultSpecularControl;
@@ -458,6 +463,7 @@ static TQ3Status
 e3view_stack_update ( E3View* view, TQ3ViewStackState stateChange )
 	{
 	TQ3Status qd3dStatus = kQ3Success ;
+
 
 
 	// Validate our parameters
@@ -562,6 +568,9 @@ e3view_stack_update ( E3View* view, TQ3ViewStackState stateChange )
 
 		if ( ( stateChange & kQ3ViewStateStyleDepthRange ) && qd3dStatus != kQ3Failure )
 			qd3dStatus = E3Renderer_Method_UpdateStyle ( view, kQ3StyleTypeDepthRange, &theItem->styleDepthRange ) ;
+
+		if ( ( stateChange & kQ3ViewStateStyleDepthCompare ) && qd3dStatus != kQ3Failure )
+			qd3dStatus = E3Renderer_Method_UpdateStyle ( view, kQ3StyleTypeDepthCompare, &theItem->styleDepthCompare ) ;
 
 		if ( ( stateChange & kQ3ViewStateStyleWriteSwitch ) && qd3dStatus != kQ3Failure )
 			qd3dStatus = E3Renderer_Method_UpdateStyle ( view, kQ3StyleTypeWriteSwitch, &theItem->styleWriteSwitch ) ;
@@ -3415,6 +3424,31 @@ E3View_State_SetStyleDepthRange(TQ3ViewObject theView,
 
 
 //=============================================================================
+//      E3View_State_SetStyleDepthCompare : Set the depth compare state.
+//-----------------------------------------------------------------------------
+void
+E3View_State_SetStyleDepthCompare( TQ3ViewObject theView,
+							TQ3DepthCompareFunc inData )
+{
+	// Validate our state
+	Q3_ASSERT ( Q3_VALID_PTR ( ( (E3View*) theView )->instanceData.viewStack ) ) ;
+
+
+
+	// Set the value
+	( (E3View*) theView )->instanceData.viewStack->styleDepthCompare = inData;
+
+
+
+	// Update the renderer
+	e3view_stack_update ( (E3View*) theView, kQ3ViewStateStyleDepthCompare ) ;
+}
+
+
+
+
+
+//=============================================================================
 //      E3View_State_SetStyleWriteSwitch : Set the write switch state.
 //-----------------------------------------------------------------------------
 void
@@ -5483,6 +5517,36 @@ E3View_GetDepthRangeStyleState(TQ3ViewObject theView, TQ3DepthRangeStyleData *ou
 	return kQ3Success ;
 }
 
+
+
+
+
+//=============================================================================
+//      E3View_State_GetStyleDepthCompare : Get the current state.
+//-----------------------------------------------------------------------------
+//		Note : Can only be called within a submitting loop.
+//-----------------------------------------------------------------------------
+TQ3Status
+E3View_State_GetStyleDepthCompare(TQ3ViewObject theView, TQ3DepthCompareFunc *outFunc)
+{
+	// Make sure we're in the correct state
+	if ( ( (E3View*) theView )->instanceData.viewState != kQ3ViewStateSubmitting )
+		return kQ3Failure ;
+
+
+
+	// Validate our state
+	Q3_ASSERT ( Q3_VALID_PTR ( ( (E3View*) theView )->instanceData.viewStack ) ) ;
+
+
+
+	// Get the value
+	*outFunc = ( (E3View*) theView )->instanceData.viewStack->styleDepthCompare;
+	
+	
+	
+	return kQ3Success ;
+}
 
 
 

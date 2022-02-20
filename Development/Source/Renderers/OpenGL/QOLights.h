@@ -11,7 +11,7 @@
         Header for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2021, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2022, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -138,7 +138,8 @@ private:
 	void					SetUpShadowMarkingPass( TQ3ViewObject inView,
 								const TQ3Matrix4x4& inWorldToView );
 	void					SetUpShadowLightingPass( TQ3ViewObject inView );
-	void					SetUpNonShadowLightingPass( const TQ3Matrix4x4& inWorldToView );
+	void					SetUpNonShadowLightingPass( TQ3ViewObject inView,
+								const TQ3Matrix4x4& inWorldToView );
 	void					UseInfiniteYon( TQ3ViewObject inView );
 	
 	void					AddLight(

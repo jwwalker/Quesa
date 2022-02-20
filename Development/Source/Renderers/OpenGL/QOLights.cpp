@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2021, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2022, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -592,7 +592,7 @@ void	QORenderer::Lights::SetUpShadowMarkingPass( TQ3ViewObject inView,
 	glStencilMask( ~0U );
 	glStencilFunc( GL_ALWAYS, 0, ~0U );
 
-	glDepthFunc( GL_LESS );
+	E3View_State_SetStyleDepthCompare( inView, kQ3DepthCompareFuncLess );
 	glDisable( GL_BLEND );
 
 	mIsAnotherPassNeeded = true;
@@ -620,7 +620,7 @@ void	QORenderer::Lights::SetUpShadowLightingPass(TQ3ViewObject inView)
 	glStencilOp( GL_KEEP, GL_KEEP, GL_KEEP );
 	glStencilMask( 0 );
 
-	glDepthFunc( GL_LEQUAL );	// pass depth test on equal
+	E3View_State_SetStyleDepthCompare( inView, kQ3DepthCompareFuncLessEqual );
 	glEnable( GL_BLEND );
 	glBlendFunc( GL_ONE, GL_ONE );
 }
@@ -630,7 +630,8 @@ void	QORenderer::Lights::SetUpShadowLightingPass(TQ3ViewObject inView)
 	@function	SetUpNonShadowLightingPass
 	@abstract	Perform initialization for the start of a non-shadow lighting pass.
 */
-void	QORenderer::Lights::SetUpNonShadowLightingPass( const TQ3Matrix4x4& inWorldToView )
+void	QORenderer::Lights::SetUpNonShadowLightingPass( TQ3ViewObject inView,
+														const TQ3Matrix4x4& inWorldToView )
 {
 	if (mIsFirstPass)
 	{
@@ -671,7 +672,7 @@ void	QORenderer::Lights::SetUpNonShadowLightingPass( const TQ3Matrix4x4& inWorld
 	if (! mIsFirstPass)
 	{
 		glDepthMask( GL_FALSE );	// no writes to depth buffer
-		glDepthFunc( GL_LEQUAL );	// pass depth test on equal
+		E3View_State_SetStyleDepthCompare( inView, kQ3DepthCompareFuncLessEqual );
 		glEnable( GL_BLEND );
 		glBlendFunc( GL_ONE, GL_ONE );
 		
@@ -800,7 +801,7 @@ void	QORenderer::Lights::StartPass(
 		passInfo.passType = kQ3RendererPassNonShadow;
 		
 		mRenderer.Shader().ClearLights();
-		SetUpNonShadowLightingPass( worldToView );
+		SetUpNonShadowLightingPass( inView, worldToView );
 	}
 	
 	GLCamera_SetModelView( &savedModelViewMatrix, mRenderer.Shader() );

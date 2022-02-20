@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2021, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2022, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -593,4 +593,67 @@ void	QORenderer::Renderer::UpdateWriteSwitchStyle(
 	GLboolean colorMask = ((inStyleData & kQ3WriteSwitchMaskColor) != 0)?
 		GL_TRUE : GL_FALSE;
 	glColorMask( colorMask, colorMask, colorMask, colorMask );
+}
+
+
+
+
+
+void	QORenderer::Renderer::UpdateDepthCompareStyle(
+								TQ3DepthCompareFunc inStyleData )
+{
+	// Activate our context
+	GLDrawContext_SetCurrent( mGLContext, kQ3False );
+	
+	
+	mTriBuffer.Flush();
+	
+	mStyleState.mDepthCompare = inStyleData;
+	
+	GLenum func = GL_LESS;
+	switch (inStyleData)
+	{
+		case kQ3DepthCompareFuncAlwaysFail:
+			func = GL_NEVER;
+			break;
+	
+		case kQ3DepthCompareFuncAlwaysPass:
+			func = GL_ALWAYS;
+			break;
+	
+		case kQ3DepthCompareFuncLess:
+			func = GL_LESS;
+			break;
+		
+		case kQ3DepthCompareFuncLessEqual:
+			func = GL_LEQUAL;
+			break;
+		
+		case kQ3DepthCompareFuncGreater:
+			func = GL_GREATER;
+			break;
+
+		case kQ3DepthCompareFuncGreaterEqual:
+			func = GL_GEQUAL;
+			break;
+		
+		case kQ3DepthCompareFuncEqual:
+			func = GL_EQUAL;
+			break;
+		
+		case kQ3DepthCompareFuncNotEqual:
+			func = GL_NOTEQUAL;
+			break;
+	}
+	
+	glDepthFunc( func );
+	
+	if (inStyleData == kQ3DepthCompareFuncAlwaysPass)
+	{
+		glDisable( GL_DEPTH_TEST );
+	}
+	else
+	{
+		glEnable( GL_DEPTH_TEST );
+	}
 }

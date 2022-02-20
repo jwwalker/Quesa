@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2021, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2022, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -723,6 +723,18 @@ TQ3Status	QORenderer::Statics::UpdateWriteSwitchStyleMethod(
 }
 
 
+TQ3Status	QORenderer::Statics::UpdateDepthCompareStyleMethod(
+									TQ3ViewObject inView,
+									void* privateData,
+									const void* publicData )
+{
+#pragma unused( inView )
+	QORenderer::Renderer*	me = *(QORenderer::Renderer**)privateData;
+	me->UpdateDepthCompareStyle( *(TQ3DepthCompareFunc*) publicData );
+	return kQ3Success;
+}
+
+
 TQ3Status	QORenderer::Statics::UpdateFogStyleExtendedMethod(
 								TQ3ViewObject inView,
 								void* privateData,
@@ -800,6 +812,11 @@ TQ3XRendererUpdateStyleMethod
 		case kQ3StyleTypeWriteSwitch:
 			theMethod = (TQ3XRendererUpdateStyleMethod)
 				&QORenderer::Statics::UpdateWriteSwitchStyleMethod;
+			break;
+		
+		case kQ3StyleTypeDepthCompare:
+			theMethod = (TQ3XRendererUpdateStyleMethod)
+				&QORenderer::Statics::UpdateDepthCompareStyleMethod;
 			break;
 	}
 	

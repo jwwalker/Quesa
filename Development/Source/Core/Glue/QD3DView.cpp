@@ -6,7 +6,7 @@
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2022, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1674,6 +1674,37 @@ Q3View_GetWriteSwitchStyleState (
 
 	// Call our implementation
 	return (E3View_State_GetStyleWriteSwitch( view, outMask ));
+}
+
+
+
+
+
+/*!
+	@function	Q3View_GetDepthCompareStyleState
+	@abstract	Get the current depth compare state.
+	@discussion	Must be called within a submitting loop.
+	@param		view		The view to query.
+	@param		outFunc		Receives the depth compare function.
+	@result     Success or failure of the operation.
+*/
+TQ3Status
+Q3View_GetDepthCompareStyleState (
+    TQ3ViewObject _Nonnull    view,
+    TQ3DepthCompareFunc* _Nonnull outFunc
+)
+{
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT( E3View_IsOfMyClass ( view ), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(outFunc), kQ3Failure);
+	
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return (E3View_State_GetStyleDepthCompare( view, outFunc ));
 }
 
 

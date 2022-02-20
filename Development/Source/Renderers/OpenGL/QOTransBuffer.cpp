@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2021, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2022, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -49,6 +49,7 @@
 #include "E3Math.h"
 #include "E3Math_Intersect.h"
 #include "GLImmediateVBO.h"
+#include "E3View.h"
 #include "QOGLShadingLanguage.h"
 #include "QuesaMathOperators.hpp"
 
@@ -215,6 +216,7 @@ static bool IsSameStyle( const PrimStyleState& inA, const PrimStyleState& inB )
 		(inA.mBackfacingStyle == inB.mBackfacingStyle) &&
 		(inA.mOrientationStyle == inB.mOrientationStyle) &&
 		(inA.mInterpolationStyle == inB.mInterpolationStyle) &&
+		(inA.mDepthCompareStyle == inB.mDepthCompareStyle) &&
 		(inA.mIlluminationType == inB.mIlluminationType) &&
 		(inA.mFogStyleIndex == inB.mFogStyleIndex) &&
 		(fabsf( inA.mLineWidthStyle - inB.mLineWidthStyle ) < kQ3RealZero);
@@ -493,6 +495,7 @@ void	TransBuffer::AddPrim(
 	style.mOrientationStyle = mRenderer.mStyleState.mOrientation;
 	style.mBackfacingStyle = mRenderer.mStyleState.mBackfacing;
 	style.mInterpolationStyle = mRenderer.mStyleState.mInterpolation;
+	style.mDepthCompareStyle = mRenderer.mStyleState.mDepthCompare;
 	style.mIlluminationType = mRenderer.mViewIllumination;
 	style.mFogStyleIndex = mRenderer.mStyleState.mCurFogStyleIndex;
 	style.mLineWidthStyle = mRenderer.mLineWidth;
@@ -774,6 +777,7 @@ void	TransBuffer::AddTriMesh(
 	style.mOrientationStyle = mRenderer.mStyleState.mOrientation;
 	style.mBackfacingStyle = mRenderer.mStyleState.mBackfacing;
 	style.mInterpolationStyle = mRenderer.mStyleState.mInterpolation;
+	style.mDepthCompareStyle = mRenderer.mStyleState.mDepthCompare;
 	style.mIlluminationType = mRenderer.mViewIllumination;
 	style.mFogStyleIndex = mRenderer.mStyleState.mCurFogStyleIndex;
 	style.mLineWidthStyle = mRenderer.mLineWidth;
@@ -1109,6 +1113,14 @@ void	TransBuffer::UpdateInterpolation( const TransparentPrim& inPrim )
 	}
 }
 
+void	TransBuffer::UpdateDepthCompare( const TransparentPrim& inPrim )
+{
+	if (mStyles[ inPrim.mStyleIndex ].mDepthCompareStyle != mRenderer.mStyleState.mDepthCompare)
+	{
+		mRenderer.UpdateDepthCompareStyle( mStyles[ inPrim.mStyleIndex ].mDepthCompareStyle );
+	}
+}
+
 void	TransBuffer::UpdateLineWidth( const TransparentPrim& inPrim )
 {
 	if (mStyles[ inPrim.mStyleIndex ].mLineWidthStyle != mRenderer.mLineWidth)
@@ -1257,6 +1269,7 @@ void	TransBuffer::RenderPrimGroup(
 	UpdateBackfacing( leader );
 	UpdateLineWidth( leader );
 	UpdateInterpolation( leader );
+	UpdateDepthCompare( leader );
 	mPerPixelLighting.UpdateIllumination( mStyles[ leader.mStyleIndex ].mIlluminationType );
 	UpdateSpecular( leader );
 	UpdateEmission( leader );
@@ -1438,7 +1451,7 @@ void	TransBuffer::InitGLStateForDepth( TQ3ViewObject inView,
 	// Turn on writing to the depth buffer
 	glDepthMask( GL_TRUE );
 	glEnable( GL_DEPTH_TEST );
-	glDepthFunc( GL_LEQUAL );
+	E3View_State_SetStyleDepthCompare( inView, kQ3DepthCompareFuncLessEqual );
 	
 	// Even though we use GL_LEQUAL, and the depths produced by the depth pass
 	// should be the same as the depths produced by the transparency pass,

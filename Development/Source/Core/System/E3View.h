@@ -5,7 +5,7 @@
         Header file for E3View.cpp.
 
     COPYRIGHT:
-        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2022, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -163,6 +163,9 @@ void							E3View_State_SetStyleDepthRange(TQ3ViewObject theView,
 void							E3View_State_SetStyleWriteSwitch(TQ3ViewObject theView,
 									TQ3Uns32 inMask );
 TQ3Status						E3View_State_GetStyleWriteSwitch(TQ3ViewObject theView, TQ3Uns32 *outMask);
+void							E3View_State_SetStyleDepthCompare(TQ3ViewObject theView,
+									TQ3DepthCompareFunc inFunc );
+TQ3Status						E3View_State_GetStyleDepthCompare(TQ3ViewObject theView, TQ3DepthCompareFunc *outFunc);
 
 void							E3View_State_SetAttributeSurfaceUV(TQ3ViewObject theView, const TQ3Param2D *theData);
 void							E3View_State_SetAttributeShadingUV(TQ3ViewObject theView, const TQ3Param2D *theData);

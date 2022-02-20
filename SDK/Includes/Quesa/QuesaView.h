@@ -12,7 +12,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2022, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1318,6 +1318,23 @@ Q3View_GetWriteSwitchStyleState (
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
+#if QUESA_ALLOW_QD3D_EXTENSIONS
+
+/*!
+	@function	Q3View_GetDepthCompareStyleState
+	@abstract	Get the current depth compare state.
+	@discussion	Must be called within a submitting loop.
+	@param		view		The view to query.
+	@param		outFunc		Receives the depth compare function.
+	@result     Success or failure of the operation.
+*/
+Q3_EXTERN_API_C ( TQ3Status  )
+Q3View_GetDepthCompareStyleState (
+    TQ3ViewObject _Nonnull    view,
+    TQ3DepthCompareFunc* _Nonnull outFunc
+);
+
+#endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
 /*!

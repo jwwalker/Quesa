@@ -6,7 +6,7 @@
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2022, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1802,6 +1802,67 @@ Q3DepthRangeStyle_SetData(
 
 	// Call our implementation
 	return E3DepthRangeStyle_Set( inStyle, inData );
+}
+
+
+
+
+
+/*!
+	@function	Q3DepthCompareStyle_New
+	@abstract	Create a new depth compare style object.
+	@discussion	Typical rendering uses kQ3DepthCompareFuncLess, but for special purposes you
+				may need to temporarily use a different depth testing rule.
+	@param		inDepthFunc		Depth testing rule to use for the duration of the style.
+	@result		The new style object.
+*/
+TQ3StyleObject _Nonnull
+Q3DepthCompareStyle_New (
+    TQ3DepthCompareFunc  inDepthFunc
+)
+{
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return E3DepthCompareStyle_New( inDepthFunc );
+}
+
+
+
+
+
+/*!
+	@function	Q3DepthCompareStyle_GetData
+	@abstract	Get the data from a depth compare style.
+	@param		inStyle		A depth compare style.
+	@param		outData		Receives the data.
+	@result		Success or failure of the operation.
+*/
+TQ3Status
+Q3DepthCompareStyle_GetData(
+	TQ3StyleObject _Nonnull inStyle,
+	TQ3DepthCompareFunc* _Nonnull outData )
+{
+	// Release build checks
+	Q3_REQUIRE_OR_RESULT( E3Style_IsOfMyClass ( inStyle ), kQ3Failure);
+	Q3_REQUIRE_OR_RESULT(Q3_VALID_PTR(outData), kQ3Failure);
+
+
+
+	// Debug build checks
+
+
+
+	// Call the bottleneck
+	E3System_Bottleneck();
+
+
+
+	// Call our implementation
+	return E3DepthCompareStyle_Get( inStyle, outData );
 }
 
 

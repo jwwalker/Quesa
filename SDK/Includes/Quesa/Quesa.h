@@ -12,7 +12,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2022, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -698,6 +698,7 @@ enum QUESA_ENUM_BASE(TQ3Int32) {
                 kQ3StyleTypeFogExtended         = Q3_OBJECT_TYPE('f', 'o', 'g', 'x'),
                 kQ3StyleTypeDepthRange          = Q3_OBJECT_TYPE('d', 'p', 'r', 'a'),
                 kQ3StyleTypeWriteSwitch         = Q3_OBJECT_TYPE('w', 'r', 's', 'w'),
+                kQ3StyleTypeDepthCompare        = Q3_OBJECT_TYPE('d', 'p', 'c', 'f'),
            kQ3ShapeTypeTransform                = Q3_OBJECT_TYPE('x', 'f', 'r', 'm'),
                 kQ3TransformTypeMatrix          = Q3_OBJECT_TYPE('m', 't', 'r', 'x'),
                 kQ3TransformTypeScale           = Q3_OBJECT_TYPE('s', 'c', 'a', 'l'),

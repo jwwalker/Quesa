@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2022, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -129,6 +129,15 @@ class E3DepthRangeStyle : public E3Style
 Q3_CLASS_ENUMS ( kQ3StyleTypeDepthRange, E3DepthRangeStyle, E3Style )
 public:
 	TQ3DepthRangeStyleData	instanceData;
+};
+
+
+
+class E3DepthCompareStyle : public E3Style
+{
+Q3_CLASS_ENUMS ( kQ3StyleTypeDepthCompare, E3DepthCompareStyle, E3Style )
+public:
+	TQ3DepthCompareFunc	instanceData;
 };
 
 
@@ -1004,6 +1013,51 @@ e3style_depthrange_metahandler(TQ3XMethodType methodType)
 
 
 
+#pragma mark -
+//=============================================================================
+//      e3style_depthcompare_submit : Depth compare submit method.
+//-----------------------------------------------------------------------------
+static TQ3Status
+e3style_depthcompare_submit(TQ3ViewObject theView, TQ3ObjectType objectType,
+						TQ3Object theObject, const void *objectData)
+{
+#pragma unused(objectType)
+#pragma unused(theObject)
+	TQ3DepthCompareFunc instanceData = *(const TQ3DepthCompareFunc *) objectData;
+
+	// Submit the style
+	E3View_State_SetStyleDepthCompare(theView, instanceData);
+
+	return(kQ3Success);
+}
+
+
+
+
+
+//=============================================================================
+//      e3style_depthcompare_metahandler : Depth Compare metahandler.
+//-----------------------------------------------------------------------------
+static TQ3XFunctionPointer
+e3style_depthcompare_metahandler(TQ3XMethodType methodType)
+{	TQ3XFunctionPointer		theMethod = nullptr;
+
+
+
+	// Return our methods
+	switch (methodType) {
+		case kQ3XMethodTypeObjectSubmitRender:
+		case kQ3XMethodTypeObjectSubmitPick:
+		case kQ3XMethodTypeObjectSubmitBounds:
+			theMethod = (TQ3XFunctionPointer) e3style_depthcompare_submit;
+			break;
+		}
+	
+	return(theMethod);
+}
+
+
+
 
 
 //=============================================================================
@@ -1145,6 +1199,11 @@ E3Style_RegisterClass(void)
 											e3style_writeswitch_metahandler,
 											E3WriteSwitchStyle ) ;
 
+	if (qd3dStatus == kQ3Success)
+		qd3dStatus = Q3_REGISTER_CLASS (	kQ3ClassNameStyleDepthCompare,
+											e3style_depthcompare_metahandler,
+											E3DepthCompareStyle ) ;
+
 	return(qd3dStatus);
 }
 
@@ -1165,8 +1224,8 @@ E3Style_UnregisterClass(void)
 	E3ClassTree::UnregisterClass(kQ3StyleTypeFog,         			 kQ3True);
 	E3ClassTree::UnregisterClass(kQ3StyleTypeAntiAlias,         	 kQ3True);
 	E3ClassTree::UnregisterClass(kQ3StyleTypeOrientation,         	 kQ3True);
-	E3ClassTree::UnregisterClass(kQ3StyleTypeHighlight,             kQ3True);
-	E3ClassTree::UnregisterClass(kQ3StyleTypeInterpolation,		 kQ3True);
+	E3ClassTree::UnregisterClass(kQ3StyleTypeHighlight,              kQ3True);
+	E3ClassTree::UnregisterClass(kQ3StyleTypeInterpolation,			 kQ3True);
 	E3ClassTree::UnregisterClass(kQ3StyleTypeBackfacing,      		 kQ3True);
 	E3ClassTree::UnregisterClass(kQ3StyleTypeFill,    				 kQ3True);
 	E3ClassTree::UnregisterClass(kQ3StyleTypeCastShadows,	  		 kQ3True);
@@ -1178,6 +1237,7 @@ E3Style_UnregisterClass(void)
 	E3ClassTree::UnregisterClass(kQ3ShapeTypeStyle,     			 kQ3True);
 	E3ClassTree::UnregisterClass(kQ3StyleTypeDepthRange,   		 	 kQ3True);
 	E3ClassTree::UnregisterClass(kQ3StyleTypeWriteSwitch,  			 kQ3True);
+	E3ClassTree::UnregisterClass(kQ3StyleTypeDepthCompare,  		 kQ3True);
 
 	return(kQ3Success);
 }
@@ -2275,6 +2335,36 @@ TQ3Status			E3WriteSwitchStyle_Set( TQ3StyleObject styleObject, TQ3Uns32 inMask 
 TQ3Status			E3WriteSwitchStyle_Get(TQ3StyleObject styleObject, TQ3Uns32 *outMask)
 {
 	*outMask = ( (E3WriteSwitchStyle*) styleObject )->instanceData ;
+
+	return kQ3Success ;
+}
+
+
+
+
+
+//=============================================================================
+//      E3DepthCompareStyle_New : Create a new depth compare style.
+//-----------------------------------------------------------------------------
+TQ3StyleObject		E3DepthCompareStyle_New( TQ3DepthCompareFunc inData )
+{
+	TQ3StyleObject theObject = E3ClassTree::CreateInstance( kQ3StyleTypeDepthCompare, kQ3False, &inData );
+
+	return theObject;
+	
+}
+
+
+
+
+
+//=============================================================================
+//      E3DepthCompareStyle_Get : Get the data for the style.
+//-----------------------------------------------------------------------------
+TQ3Status			E3DepthCompareStyle_Get( TQ3StyleObject styleObject, TQ3DepthCompareFunc *outFunc )
+{
+	// Get the data
+	*outFunc = ( (E3DepthCompareStyle*) styleObject )->instanceData ;
 
 	return kQ3Success ;
 }

@@ -12,7 +12,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2022, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -233,6 +233,37 @@ typedef enum TQ3WriteSwitchMasks QUESA_ENUM_BASE(TQ3Uns32) {
 	kQ3WriteSwitchMaskColor                     = (1 << 1),
 	kQ3WriteSwitchSize32                        = 0x7FFFFFFF
 } TQ3WriteSwitchMasks;
+
+
+/*!
+	@enum		TQ3DepthCompareFunc
+	@abstract	Rules for comparing the depth of a fragment being rendered against the current
+				depth buffer value.
+	@constant	kQ3DepthCompareFuncAlwaysFail	The test always fails (so nothing is rendered).
+	@constant	kQ3DepthCompareFuncAlwaysPass	The test always passes (equivalent to no depth test).
+	@constant	kQ3DepthCompareFuncLess		The test passes if the fragment depth is less
+											than the stored value.
+	@constant	kQ3DepthCompareFuncLessEqual	The test passes if the fragment depth is less
+											than or equal to the stored value.
+	@constant	kQ3DepthCompareFuncEqual		The test passes if the fragment depth is equal
+											to the stored value.
+	@constant	kQ3DepthCompareFuncNotEqual	The test passes if the fragment depth is not
+											equal to the stored value.
+	@constant	kQ3DepthCompareFuncGreaterEqual	The test passes if the fragment depth is greater
+											than or equal to the stored value.
+	@constant	kQ3DepthCompareFuncGreater		The test passes if the fragment depth is greater
+											than the stored value.
+*/
+typedef enum TQ3DepthCompareFunc QUESA_ENUM_BASE(TQ3Uns32) {
+	kQ3DepthCompareFuncAlwaysFail,
+	kQ3DepthCompareFuncAlwaysPass,
+	kQ3DepthCompareFuncLess,
+	kQ3DepthCompareFuncLessEqual,
+	kQ3DepthCompareFuncEqual,
+	kQ3DepthCompareFuncNotEqual,
+	kQ3DepthCompareFuncGreaterEqual,
+	kQ3DepthCompareFuncGreater
+} TQ3DepthCompareFunc;
 
 
 /*!
@@ -1527,7 +1558,39 @@ Q3DepthRangeStyle_SetData(
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
 
 
+/*!
+	@functiongroup Depth Compare
+*/
+#if QUESA_ALLOW_QD3D_EXTENSIONS
 
+/*!
+	@function	Q3DepthCompareStyle_New
+	@abstract	Create a new depth compare style object.
+	@discussion	Typical rendering uses kQ3DepthCompareFuncLess, but for special purposes you
+				may need to temporarily use a different depth testing rule.
+	@param		inDepthFunc		Depth testing rule to use for the duration of the style.
+	@result		The new style object.
+*/
+Q3_EXTERN_API_C ( TQ3StyleObject _Nonnull )
+Q3DepthCompareStyle_New (
+    TQ3DepthCompareFunc  inDepthFunc
+);
+
+
+/*!
+	@function	Q3DepthCompareStyle_GetData
+	@abstract	Get the data from a depth compare style.
+	@param		inStyle		A depth compare style.
+	@param		outData		Receives the data.
+	@result		Success or failure of the operation.
+*/
+Q3_EXTERN_API_C( TQ3Status )
+Q3DepthCompareStyle_GetData(
+	TQ3StyleObject _Nonnull inStyle,
+	TQ3DepthCompareFunc* _Nonnull outData );
+
+
+#endif
 
 /*!
 	@functiongroup Write Switch
@@ -1554,7 +1617,7 @@ Q3WriteSwitchStyle_New (
 /*!
 	@function	Q3WriteSwitchStyle_GetData
 	@abstract	Get the data from a write switch style.
-	@param		inStyle		A depth range style.
+	@param		inStyle		A write switch style.
 	@param		outData		Receives the data.
 	@result		Success or failure of the operation.
 */
@@ -1567,7 +1630,7 @@ Q3WriteSwitchStyle_GetData(
 /*!
 	@function	Q3WriteSwitchStyle_SetData
 	@abstract	Change the data of a write switch style.
-	@param		inStyle		A depth range style.
+	@param		inStyle		A write switch style.
 	@param		inMask		A mask made up of bits from TQ3WriteSwitchMasks.  The default
 							behavior is produced by
 							<code>kQ3WriteSwitchMaskDepth | kQ3WriteSwitchMaskColor</code>.

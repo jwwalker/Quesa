@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2021, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2022, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -50,6 +50,7 @@
 #include "GLVBOManager.h"
 #include "CQ3ObjectRef_Gets.h"
 #include "GLShadowVolumeManager.h"
+#include "E3View.h"
 
 #ifndef STENCIL_TEST_TWO_SIDE_EXT
 	#define	STENCIL_TEST_TWO_SIDE_EXT	0x8910
@@ -379,6 +380,7 @@ void		QORenderer::Renderer::StartPass(
 	mStyleState.mBackfacing = kQ3BackfacingStyleBoth;
 	mStyleState.mFill = kQ3FillStyleFilled;
 	mStyleState.mOrientation = kQ3OrientationStyleCounterClockwise;
+	mStyleState.mDepthCompare = kQ3DepthCompareFuncLess;
 	mStyleState.mHilite = CQ3ObjectRef();	// i.e., nullptr
 	mStyleState.mIsCastingShadows = true;
 	mStyleState.mExplicitEdges = false;
@@ -475,20 +477,18 @@ TQ3ViewStatus		QORenderer::Renderer::EndPass(
 		
 		// When drawing the depth first, normally we want to use GL_LEQUAL, but
 		// for special purposes the client might reverse it.
-		TQ3Uns32 compareFunc = GL_LEQUAL;
-		if ( (kQ3Success == Q3Object_GetProperty( mDrawContextObject,
-			kQ3DrawContextPropertyGLDepthFunc,
-			sizeof(compareFunc), nullptr, &compareFunc )) &&
-			(compareFunc == GL_GREATER) )
+		TQ3DepthCompareFunc compareRule = kQ3DepthCompareFuncLessEqual;
+		E3View_State_GetStyleDepthCompare( inView, &compareRule );
+		if (compareRule == kQ3DepthCompareFuncGreater)
 		{
-			compareFunc = GL_GEQUAL;
+			compareRule = kQ3DepthCompareFuncGreaterEqual;
+			E3View_State_SetStyleDepthCompare( inView, kQ3DepthCompareFuncGreaterEqual );
 		}
 		
-		glDepthFunc( compareFunc );
 		//Q3_MESSAGE_FMT("Transparency in one pass");
 		mTransBuffer.DrawTransparency( inView, GL_ONE, GL_ONE_MINUS_SRC_ALPHA );
 
-		glDepthFunc( GL_LESS );
+		E3View_State_SetStyleDepthCompare( inView, kQ3DepthCompareFuncLess );
 		mTransBuffer.DrawDepth( inView );
 		
 		mTransBuffer.Cleanup();

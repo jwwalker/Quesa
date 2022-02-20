@@ -11,7 +11,7 @@
         Header for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2021, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2022, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -126,6 +126,7 @@ struct StyleState
 	TQ3BackfacingStyle		mBackfacing;
 	TQ3FillStyle			mFill;
 	TQ3OrientationStyle		mOrientation;
+	TQ3DepthCompareFunc		mDepthCompare;
 	CQ3ObjectRef			mHilite;	
 	std::vector<TQ3FogStyleExtendedData>	mFogStyles;
 	TQ3Uns32				mCurFogStyleIndex;
@@ -377,6 +378,8 @@ protected:
 									const TQ3DepthRangeStyleData& inStyleData );
 	void					UpdateWriteSwitchStyle(
 									TQ3Uns32 inStyleData );
+	void					UpdateDepthCompareStyle(
+									TQ3DepthCompareFunc inStyleData );
 	
 
 	//
