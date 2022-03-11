@@ -105,9 +105,9 @@ enum QUESA_ENUM_BASE( uint64_t ) {
 	kQ3ViewStateAttributeMetallic			= 1 << 29,		// Metallic attribute changed
 	kQ3ViewStateStyleDepthRange				= 1 << 30,		// Depth range style changed
 	kQ3ViewStateStyleWriteSwitch 			= 1U << 31,		// Write switch style changed
-	kQ3ViewStateStyleDepthCompare			= 1UL << 32,	// Depth compare style changed
+	kQ3ViewStateStyleDepthCompare			= 1ULL << 32,	// Depth compare style changed
 	kQ3ViewStateNone						= 0,			// Nothing changed
-	kQ3ViewStateAll							= 0xFFFFFFFFFFUL,	// Everything changed
+	kQ3ViewStateAll							= 0xFFFFFFFFFFULL,	// Everything changed
 	kQ3ViewStateMatrixAny					= kQ3ViewStateMatrixLocalToWorld  |	// Any matrix changed
 											  kQ3ViewStateMatrixWorldToCamera |
 											  kQ3ViewStateMatrixCameraToFrustum
