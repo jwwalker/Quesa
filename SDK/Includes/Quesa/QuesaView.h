@@ -988,7 +988,7 @@ Q3View_GetLocalToWorldMatrixState (
  *		as a matrix, hence this function will return kQ3Failure.
  *
  *  @param view             The view to query.
- *  @param matrix           Receives the local-to-frustum matrix.
+ *  @param matrix           Receives the world-to-frustum matrix.
  *  @result                 Success or failure of the operation.
  */
 Q3_EXTERN_API_C ( TQ3Status  )

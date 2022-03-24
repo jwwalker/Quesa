@@ -9,7 +9,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2022, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -327,6 +327,35 @@ inline TQ3Vector3D& operator*=( TQ3Vector3D& ioVec, const TQ3Matrix4x4& inMat )
 {
 	Q3Vector3D_Transform( &ioVec, &inMat, &ioVec );
 	return ioVec;
+}
+
+// Exact equality (is this what you really want?) of 4x4 matrices
+inline bool operator==( const TQ3Matrix4x4& one, const TQ3Matrix4x4 two )
+{
+	return
+		(one.value[0][0] == two.value[0][0]) &&
+		(one.value[0][1] == two.value[0][1]) &&
+		(one.value[0][2] == two.value[0][2]) &&
+		(one.value[0][3] == two.value[0][3]) &&
+		(one.value[1][0] == two.value[1][0]) &&
+		(one.value[1][1] == two.value[1][1]) &&
+		(one.value[1][2] == two.value[1][2]) &&
+		(one.value[1][3] == two.value[1][3]) &&
+		(one.value[2][0] == two.value[2][0]) &&
+		(one.value[2][1] == two.value[2][1]) &&
+		(one.value[2][2] == two.value[2][2]) &&
+		(one.value[2][3] == two.value[2][3]) &&
+		(one.value[3][0] == two.value[3][0]) &&
+		(one.value[3][1] == two.value[3][1]) &&
+		(one.value[3][2] == two.value[3][2]) &&
+		(one.value[3][3] == two.value[3][3]);
+	;
+}
+
+// Exact inequality (is this what you really want?) of 4x4 matrices
+inline bool operator!=( const TQ3Matrix4x4& one, const TQ3Matrix4x4 two )
+{
+	return !(one == two);
 }
 
 //=============================================================================
