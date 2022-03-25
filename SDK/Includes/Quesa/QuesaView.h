@@ -967,7 +967,7 @@ Q3View_GetLocalToWorldMatrixState (
  *  @discussion
  *      Get the world-to-frustum matrix state from a view.
  *
- *		This matrix can be used (via Q3Point3D_Transform) to transform points
+ *		This matrix can be used (via <code>Q3Point3D_Transform</code>) to transform points
  *		from world coordinates to frustum coordinates.  Frustum coordinates
  *		specify where a point falls within the viewing frustum.  In frustum
  *		space, the viewable area ranges in X from -1 (left) to 1 (right); in
@@ -981,11 +981,14 @@ Q3View_GetLocalToWorldMatrixState (
  *
  *		This function must be called within a submitting loop.  If you need
  *		this matrix when you are not in a submitting loop, use
- *		Q3Camera_GetWorldToFrustum instead.
+ *		<code>Q3Camera_GetWorldToFrustum</code> instead.  However, this function may not return
+ *		the same result as <code>Q3Camera_GetWorldToFrustum</code>, because
+ *		<code>Q3Camera_GetWorldToFrustum</code> does not respect the action of a camera
+ *		transform or a rasterize transform.
  *		
  *		If the view's camera has a nonlinear projection (as in fisheye and all-seeing
  *		cameras), then the world to frustum transformation cannot be expressed
- *		as a matrix, hence this function will return kQ3Failure.
+ *		as a matrix, hence this function will return <code>kQ3Failure</code>.
  *
  *  @param view             The view to query.
  *  @param matrix           Receives the world-to-frustum matrix.

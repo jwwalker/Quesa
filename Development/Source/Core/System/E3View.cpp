@@ -5054,14 +5054,27 @@ E3View_GetLocalToWorldMatrixState(TQ3ViewObject theView, TQ3Matrix4x4 *theMatrix
 TQ3Status
 E3View_GetWorldToFrustumMatrixState(TQ3ViewObject theView, TQ3Matrix4x4 *theMatrix)
 {
+	TQ3ViewData& viewData( ( (E3View*) theView )->instanceData );
+	
 	// Make sure we're in the correct state
-	if ( ( (E3View*) theView )->instanceData.viewState != kQ3ViewStateSubmitting )
+	if ( viewData.viewState != kQ3ViewStateSubmitting )
 		return kQ3Failure ;
 
 
+	// Make sure there is a well defined camera to frustum matrix
+	if ( ! viewData.viewStack->hasMatrixCameraToFrustum )
+	{
+		return kQ3Failure;
+	}
+
 
 	// Get the matrix
-	return Q3Camera_GetWorldToFrustum ( ( (E3View*) theView )->instanceData.theCamera, theMatrix ) ;
+	// (At one point, we were using Q3Camera_GetWorldToFrustum here.  But that
+	// does not respect the action of a camera transform.)
+	*theMatrix = viewData.viewStack->matrixWorldToCamera * viewData.viewStack->matrixCameraToFrustum;
+	
+	
+	return kQ3Success;
 }
 
 
