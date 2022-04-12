@@ -269,7 +269,7 @@
 
 // Macro to go after an enum type to specify its base type
 #ifndef QUESA_ENUM_BASE
-	#ifdef QUESA_CPP11
+	#if QUESA_CPP11 || __has_feature(objc_fixed_enum)
 		#define		QUESA_ENUM_BASE( base )	: base
 	#else
 		#define		QUESA_ENUM_BASE( base )
@@ -324,17 +324,16 @@
 
 #include <stdio.h>
 
-#if (defined(_MSC_VER) && _MSC_VER)
-typedef unsigned __int8 uint8_t;
-typedef unsigned __int16 uint16_t;
-typedef unsigned __int32 uint32_t;
-
-typedef signed __int8 int8_t;
-typedef signed __int16 int16_t;
-typedef signed __int32 int32_t;
-
-#elif defined(__BORLANDC__)
+#if QUESA_CPP11 || (__STDC_VERSION__ >= 199901L) || defined(__BORLANDC__)
 	#include <stdint.h>
+#elif (defined(_MSC_VER) && _MSC_VER)
+	typedef unsigned __int8 uint8_t;
+	typedef unsigned __int16 uint16_t;
+	typedef unsigned __int32 uint32_t;
+
+	typedef signed __int8 int8_t;
+	typedef signed __int16 int16_t;
+	typedef signed __int32 int32_t;
 #else
 	#include <inttypes.h>
 #endif
