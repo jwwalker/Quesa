@@ -304,7 +304,7 @@ Q3View_SetRenderer (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetRenderer (
     TQ3ViewObject _Nonnull                view,
-    TQ3RendererObject _Nonnull            * _Nonnull renderer
+    TQ3RendererObject _Nullable           * _Nonnull renderer
 );
 
 
@@ -513,7 +513,7 @@ Q3View_EndPicking (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetCamera (
     TQ3ViewObject _Nonnull                view,
-    TQ3CameraObject _Nonnull              * _Nonnull camera
+    TQ3CameraObject _Nullable             * _Nonnull camera
 );
 
 
@@ -574,7 +574,7 @@ Q3View_SetLightGroup (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetLightGroup (
     TQ3ViewObject _Nonnull                view,
-    TQ3GroupObject _Nonnull               * _Nonnull lightGroup
+    TQ3GroupObject _Nullable              * _Nonnull lightGroup
 );
 
 
@@ -937,7 +937,7 @@ Q3View_SetDrawContext (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetDrawContext (
     TQ3ViewObject _Nonnull                view,
-    TQ3DrawContextObject _Nonnull         * _Nonnull drawContext
+    TQ3DrawContextObject _Nullable        * _Nonnull drawContext
 );
 
 
@@ -1356,7 +1356,7 @@ Q3View_GetDepthCompareStyleState (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetDefaultAttributeSet (
     TQ3ViewObject _Nonnull                view,
-    TQ3AttributeSet _Nonnull              * _Nonnull attributeSet
+    TQ3AttributeSet _Nullable             * _Nonnull attributeSet
 );
 
 
@@ -1395,7 +1395,7 @@ Q3View_SetDefaultAttributeSet (
 Q3_EXTERN_API_C ( TQ3Status  )
 Q3View_GetAttributeSetState (
     TQ3ViewObject _Nonnull                view,
-    TQ3AttributeSet  _Nonnull             * _Nonnull attributeSet
+    TQ3AttributeSet  _Nullable            * _Nonnull attributeSet
 );
 
 
