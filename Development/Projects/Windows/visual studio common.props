@@ -18,6 +18,7 @@
       <ForcedIncludeFiles>iso646.h</ForcedIncludeFiles>
       <FloatingPointExceptions>true</FloatingPointExceptions>
       <MinimalRebuild />
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <AdditionalDependencies>opengl32.lib;glu32.lib;ucrtd.lib;%(AdditionalDependencies)</AdditionalDependencies>

@@ -416,6 +416,7 @@
     <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\tess.h" />
     <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\tessmono.h" />
     <ClInclude Include="..\..\Source\Core\Support\E3FastArray.h" />
+    <ClInclude Include="..\..\Source\Core\Support\E3SafeCompare.hpp" />
     <ClInclude Include="..\..\Source\Core\Support\E3Version.h" />
     <ClInclude Include="..\..\Source\Renderers\Common\GLImmediateVBO.h" />
     <ClInclude Include="..\..\Source\Renderers\Common\GLShadowVolumeManager.h" />

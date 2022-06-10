@@ -531,6 +531,9 @@
     <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\tessmono.h">
       <Filter>Source\Tesselation from Mesa GLU</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Source\Core\Support\E3SafeCompare.hpp">
+      <Filter>Source\Core\Support</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\..\Source\Platform\Windows\Resources\Quesa.rc">

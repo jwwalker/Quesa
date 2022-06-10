@@ -5,7 +5,7 @@
     <BoostDir>C:\Code\boost_1_77_0</BoostDir>
   </PropertyGroup>
   <PropertyGroup>
-    <OutDir>$(SolutionDir)..\Output-VS\$(PlatformName)\$(Configuration)</OutDir>
+    <OutDir>$(SolutionDir)..\Output-VS\$(PlatformName)\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup>
     <TargetExt>.xq3</TargetExt>
@@ -16,6 +16,7 @@
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>QUESA_OS_WIN32;BOOST_SPIRIT_USE_OLD_NAMESPACE;WIN32;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ForcedIncludeFiles>VRML-reader-prefix.h;%(ForcedIncludeFiles)</ForcedIncludeFiles>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

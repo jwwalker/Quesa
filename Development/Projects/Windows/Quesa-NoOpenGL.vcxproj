@@ -381,6 +381,7 @@
     <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\tess.h" />
     <ClInclude Include="..\..\Source\Core\glu tessellation from Mesa\tessmono.h" />
     <ClInclude Include="..\..\Source\Core\Support\E3FastArray.h" />
+    <ClInclude Include="..\..\Source\Core\Support\E3SafeCompare.hpp" />
     <ClInclude Include="..\..\Source\Core\Support\E3Version.h" />
     <ClInclude Include="..\..\Source\Core\System\E3Math_Intersect.h" />
     <ClInclude Include="..\..\Source\Renderers\MakeStrip\MakeStrip.h" />
