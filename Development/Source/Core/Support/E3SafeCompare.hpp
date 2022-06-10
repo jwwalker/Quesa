@@ -62,6 +62,69 @@
 	that should be safe.
 	----------------------------------------------------------------------------
 */
+
+#ifdef __cpp_concepts
+
+#include <concepts>
+#include <type_traits>
+
+// ----------------------------------------------------------------------------
+// SafeLess : Public template for safe < comparison, generic case
+// ----------------------------------------------------------------------------
+template <typename I, typename J>
+inline bool E3Num_SafeLess( I x, J y )
+{
+	return x < y;
+}
+
+// ----------------------------------------------------------------------------
+// SafeLess : Public template for safe < comparison, signed vs unsigned
+// ----------------------------------------------------------------------------
+template < std::signed_integral I, std::unsigned_integral J >
+inline bool E3Num_SafeLess( I x, J y )
+{
+	return (x < 0) || (static_cast<typename std::make_unsigned<I>::type>(x) < y);
+}
+
+// ----------------------------------------------------------------------------
+// SafeLess : Public template for safe < comparison, unsigned vs signed
+// ----------------------------------------------------------------------------
+template < std::unsigned_integral I, std::signed_integral J >
+inline bool E3Num_SafeLess( I x, J y )
+{
+	return (y >= 0) && (x < static_cast<typename std::make_unsigned<J>::type>(y));
+}
+
+// ----------------------------------------------------------------------------
+// SafeLessEq : Public template for safe <= comparison, generic case
+// ----------------------------------------------------------------------------
+template <typename I, typename J>
+inline bool E3Num_SafeLessEq( I x, J y )
+{
+	return x <= y;
+}
+
+// ----------------------------------------------------------------------------
+// SafeLessEq : Public template for safe <= comparison, signed vs unsigned
+// ----------------------------------------------------------------------------
+template < std::signed_integral I, std::unsigned_integral J >
+inline bool E3Num_SafeLessEq( I x, J y )
+{
+	(x < 0) || (static_cast<typename std::make_unsigned<I>::type>(x) <= y);
+}
+
+// ----------------------------------------------------------------------------
+// SafeLessEq : Public template for safe <= comparison, unsigned vs signed
+// ----------------------------------------------------------------------------
+template < std::unsigned_integral I, std::signed_integral J >
+inline bool E3Num_SafeLessEq( I x, J y )
+{
+	return (y >= 0) && (x <= static_cast<typename std::make_unsigned<J>::type>(y));
+}
+
+
+#else // __cpp_concepts
+
 #include <limits>
 
 // ----------------------------------------------------------------------------
@@ -172,15 +235,6 @@ inline bool E3Num_SafeLess( I x, J y )
 	return SafeCompImp<I, J, NumType<I>::Code, NumType<J>::Code>::IsLess( x, y );
 }
 
-// ----------------------------------------------------------------------------
-// E3Num_SafeGreater : Public template for safe > comparison
-// ----------------------------------------------------------------------------
-template <typename I, typename J>
-inline bool E3Num_SafeGreater( I x, J y )
-{
-	return SafeCompImp<J, I, NumType<J>::Code, NumType<I>::Code>::IsLess( y, x );
-}
-
 
 // ----------------------------------------------------------------------------
 // E3Num_SafeLessEq : Public template for safe <= comparison
@@ -191,13 +245,24 @@ inline bool E3Num_SafeLessEq( I x, J y )
 	return SafeCompImp<I, J, NumType<I>::Code, NumType<J>::Code>::IsLessEq( x, y );
 }
 
+#endif // __cpp_concepts
+
+// ----------------------------------------------------------------------------
+// E3Num_SafeGreater : Public template for safe > comparison
+// ----------------------------------------------------------------------------
+template <typename I, typename J>
+inline bool E3Num_SafeGreater( I x, J y )
+{
+	return E3Num_SafeLess( y, x );
+}
+
 // ----------------------------------------------------------------------------
 // E3Num_SafeGreaterEq : Public template for safe <= comparison
 // ----------------------------------------------------------------------------
 template <typename I, typename J>
 inline bool E3Num_SafeGreaterEq( I x, J y )
 {
-	return SafeCompImp<J, I, NumType<J>::Code, NumType<I>::Code>::IsLessEq( y, x );
+	return E3Num_SafeLessEq( y, x );
 }
 
 

@@ -821,6 +821,7 @@
 		BE7033FE132D30B700C0056D /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		BE703428132D326300C0056D /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
 		BE7034EC132D32BD00C0056D /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		BE7442062853A71D007941C5 /* E3SafeCompare.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = E3SafeCompare.hpp; sourceTree = "<group>"; };
 		BE7F26490B7BB87F00933ED1 /* GLGPUSharing.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = GLGPUSharing.cpp; sourceTree = "<group>"; };
 		BE7F264B0B7BB87F00933ED1 /* GLTextureLoader.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GLTextureLoader.h; sourceTree = "<group>"; };
 		BE7F264C0B7BB87F00933ED1 /* GLTextureLoader.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; path = GLTextureLoader.cpp; sourceTree = "<group>"; };
@@ -1071,6 +1072,7 @@
 				AB3A7BD7055E63B100CA83BE /* E3Pool.cpp */,
 				AB3A7BD8055E63B100CA83BE /* E3Pool.h */,
 				AB3A7BD9055E63B100CA83BE /* E3Prefix.h */,
+				BE7442062853A71D007941C5 /* E3SafeCompare.hpp */,
 				AB3A7BDA055E63B100CA83BE /* E3StackCrawl.h */,
 				AB3A7BDB055E63B100CA83BE /* E3System.cpp */,
 				AB3A7BDC055E63B100CA83BE /* E3System.h */,
@@ -2272,7 +2274,6 @@
 				ENABLE_TESTABILITY = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
-				ONLY_ACTIVE_ARCH = YES;
 			};
 			name = Debug;
 		};
