@@ -21,6 +21,8 @@ BeginGroup (
 )
 SubdivisionStyle ( Constant 30 30 )
 
+	# Red ellipsoid, writing depth but not color, leaving a "hole" if it happens to be
+	# in front of the other ones.
 	BeginGroup (
 		DisplayGroup ( )
 	)
@@ -42,10 +44,18 @@ SubdivisionStyle ( Constant 30 30 )
 			AttributeSet ( )
 			DiffuseColor ( 0.66 0.01 0.01 )
 		)
+		Container (
+			Apple Computer, Inc.:NameElement ( )
+			cstring11:
+			CString ( "red" )
+		)
 	)
 
 	EndGroup ( )
 
+	# Green ellipsoid, writing color but not depth, making it behave as if it's always
+	# behind the blue one.  This behavior also depends on the green ellipsoid being
+	# rendered before the blue one.
 	BeginGroup (
 		DisplayGroup ( )
 	)
@@ -70,10 +80,16 @@ SubdivisionStyle ( Constant 30 30 )
 			AttributeSet ( )
 			DiffuseColor ( 0.01 0.66 0.01 )
 		)
+		Container (
+			Apple Computer, Inc.:NameElement ( )
+			cstring11:
+			CString ( "green" )
+		)
 	)
 
 	EndGroup ( )
 
+	# Blue ellipsoid, with normal writing of both depth and color.
 	BeginGroup (
 		DisplayGroup ( )
 	)
@@ -97,7 +113,11 @@ SubdivisionStyle ( Constant 30 30 )
 			AttributeSet ( )
 			DiffuseColor ( 0.01 0.01 0.66 )
 		)
-	)
+		Container (
+			Apple Computer, Inc.:NameElement ( )
+			cstring11:
+			CString ( "blue" )
+		)
 
 	EndGroup ( )
 EndGroup ( )

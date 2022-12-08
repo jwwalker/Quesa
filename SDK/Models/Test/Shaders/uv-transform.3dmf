@@ -17,6 +17,8 @@ BeginGroup (
 	DisplayGroup ( )
 )
 
+	LambertIllumination ( )
+
 	Container (
 		TriMesh (
 			3 0 0 0 5 1 # numTriangles numTriangleAttributeTypes numEdges numEdgeAttributeTypes numPoints numVertexAttributeTypes
@@ -82,8 +84,8 @@ BeginGroup (
 				)
 				PixmapTexture (
 					4 4 8 16 RGB16 BigEndian BigEndian 
-					0x70007000700070000380001C001C7000
-					0x0380001C001C70000380038070007000
+					0x7000700070007000FFFF001C001C7000
+					0xFFFF001C001C7000FFFFFFFF70007000
 				)
 			)
 		)
