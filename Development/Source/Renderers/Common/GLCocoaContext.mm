@@ -9,7 +9,7 @@
         access the Cocoa OpenGL API then this is handled as a special case.
 
     COPYRIGHT:
-        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2022, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -199,6 +199,10 @@ CocoaGLContext::CocoaGLContext(
 				} // end of case that the client did not provide an NSOpenGLContext
 				else // the client did provide an NSOpenGLContext
 				{
+					// Retain the context, so that whether or not we created it,
+					// we will have a reference to it.
+					[glContext retain];
+				
 					sharingContext = nullptr;
 					
 					NSArray<NSOpenGLContext*>* sharingPartners = nil;
@@ -355,12 +359,10 @@ CocoaGLContext::~CocoaGLContext()
 		[NSOpenGLContext clearCurrentContext];
 
 
-		// Release the context
-		if (createdContext)
-		{
-			Q3_LOG_FMT("NSOpenGLContext release %p", glContext);
-			[glContext release];
-		}
+		// Release the context.  We have a reference to it, whether or not
+		// we created it.
+		Q3_LOG_FMT("NSOpenGLContext release %p by ~CocoaGLContext", glContext);
+		[glContext release];
 	}
 }
 	
