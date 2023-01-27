@@ -5,7 +5,7 @@
         Cocoa specific draw context implementation.
 
     COPYRIGHT:
-        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2023, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -165,9 +165,12 @@ e3drawcontext_cocoa_new(TQ3Object theObject, void *privateData, const void *para
 	E3DrawContext_InitialiseData(&instanceData->data.cocoaData.theData.drawContextData);
 
 
+	// Retain a reference to the NSView*
+	NSView* viewToWatch = (NSView*)cocoaData->nsView;
+	[viewToWatch retain];
+	
 
 	// Register our notification callback
-	NSView* viewToWatch = (NSView*)cocoaData->nsView;
 	QuesaViewWatcher* watcher = [[QuesaViewWatcher alloc]
 		initWithDrawContext: theObject
 		view: viewToWatch];
@@ -212,6 +215,9 @@ e3drawcontext_cocoa_delete(TQ3Object theObject, void *privateData)
 					object: (NSView*) instanceData->data.cocoaData.theData.nsView];
 	}
 
+
+	// Release our reference to the NSView*
+	[(NSView*) instanceData->data.cocoaData.theData.nsView release];
 
 
 	// Dispose of the common instance data
@@ -433,13 +439,20 @@ E3CocoaDrawContext_NewWithWindow(TQ3ObjectType drawContextType, void *drawContex
 //-----------------------------------------------------------------------------
 TQ3Status
 E3CocoaDrawContext_SetNSView(TQ3DrawContextObject drawContext, void *nsView)
-{	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) drawContext->FindLeafInstanceData () ;
+{
+	TQ3DrawContextUnionData		*instanceData = (TQ3DrawContextUnionData *) drawContext->FindLeafInstanceData () ;
 
 
 
 	// Set the field and reset our flag
 	if (instanceData->data.cocoaData.theData.nsView != nsView)
 	{
+		// Retain the new NSView* and release the old one.
+		// We know they are not identical, so the order of the retain and
+		// release does not matter.  Nor is it a problem if one is nil.
+		[(NSView*) nsView retain];
+		[(NSView*) instanceData->data.cocoaData.theData.nsView release];
+		
 		instanceData->data.cocoaData.theData.nsView = nsView;
 		instanceData->theState                     |= kQ3XDrawContextValidationAll;
 		Q3Shared_Edited(drawContext);

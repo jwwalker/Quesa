@@ -12,7 +12,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2023, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1363,6 +1363,11 @@ Q3DDSurfaceDrawContext_GetDirectDrawSurface (
  *		It is now preferred that the Cocoa view be an instance of a subclass of
  *		NSOpenGLView.  In that case, the view owns an NSOpenGLContext and an
  *		NSOpenGLPixelFormat, so that Quesa does not need to create them.
+ *		
+ *		The Quesa draw context object will retain a strong reference to the NSView pointer
+ *		provided in the TQ3CocoaDrawContextData structure.  That reference will be retained
+ *		until the draw context is destroyed, or until the NSView pointer is changed using
+ *		Q3CocoaDrawContext_SetNSView.
  *
  *  @param drawContextData  The data for the Cocoa draw context object.
  *  @result                 The new draw context object.
@@ -1381,6 +1386,10 @@ Q3CocoaDrawContext_New (
  *      Set the NSView for a Cocoa draw context.
  *
  *      <em>This function is not available in QD3D.</em>
+ *      
+ *  	The new NSView pointer provided by this function will be retained
+ *  	by the draw context, and the old NSView pointer previously held by
+ *  	the draw context will be released.
  *
  *  @param drawContext      The draw context to update.
  *  @param nsView           The new NSView for the draw context.
