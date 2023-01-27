@@ -286,7 +286,7 @@ Must be called within a submitting loop.
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_GetAttributeSetState">Q3View_GetAttributeSetState</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3View_GetAttributeSetState (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet _Nonnull * _Nonnull attributeSet
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet _Nullable * _Nonnull attributeSet
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the current attribute state set from a view.
@@ -353,7 +353,7 @@ Must be called within a submitting loop.
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_GetCamera">Q3View_GetCamera</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3View_GetCamera (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nonnull * _Nonnull camera
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3CameraObject _Nullable * _Nonnull camera
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the camera from a view.
@@ -397,7 +397,7 @@ Must be called within a submitting loop.
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_GetDefaultAttributeSet">Q3View_GetDefaultAttributeSet</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3View_GetDefaultAttributeSet (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet _Nonnull * _Nonnull attributeSet
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3AttributeSet _Nullable * _Nonnull attributeSet
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the default attribute set from a view.
@@ -459,7 +459,7 @@ Dispose the reference when you are done with it.</dd>
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_GetDrawContext">Q3View_GetDrawContext</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3View_GetDrawContext (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject _Nonnull * _Nonnull drawContext
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3DrawContextObject _Nullable * _Nonnull drawContext
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the draw context from a view.
@@ -609,7 +609,7 @@ Must be called within a submitting loop.
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_GetLightGroup">Q3View_GetLightGroup</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3View_GetLightGroup (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject _Nonnull * _Nonnull lightGroup
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3GroupObject _Nullable * _Nonnull lightGroup
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the light group from a view.
@@ -731,7 +731,7 @@ Must be called within a submitting loop.
 <table border="0"  cellpadding="2" cellspacing="2" width="300"><tr><td valign="top" height="12" colspan="5"><h2><a name="Q3View_GetRenderer">Q3View_GetRenderer</a></h2>
 </td></tr></table><hr><blockquote><pre><tt>( TQ3Status ) Q3View_GetRenderer (
 &nbsp;&nbsp;&nbsp;&nbsp;TQ3ViewObject _Nonnull view,
-&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject _Nonnull * _Nonnull renderer
+&nbsp;&nbsp;&nbsp;&nbsp;TQ3RendererObject _Nullable * _Nonnull renderer
 );</tt><br>
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the renderer from a view.
@@ -778,7 +778,7 @@ Must be called within a submitting loop.
 </pre></blockquote>
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Get the world-to-frustum matrix state from a view.
 <br><br>
-This matrix can be used (via Q3Point3D_Transform) to transform points
+This matrix can be used (via <code>Q3Point3D_Transform</code>) to transform points
 from world coordinates to frustum coordinates.  Frustum coordinates
 specify where a point falls within the viewing frustum.  In frustum
 space, the viewable area ranges in X from -1 (left) to 1 (right); in
@@ -792,18 +792,21 @@ This matrix may be inverted for frustum-to-world transformations.
 <br><br>
 This function must be called within a submitting loop.  If you need
 this matrix when you are not in a submitting loop, use
-Q3Camera_GetWorldToFrustum instead.
+<code>Q3Camera_GetWorldToFrustum</code> instead.  However, this function may not return
+the same result as <code>Q3Camera_GetWorldToFrustum</code>, because
+<code>Q3Camera_GetWorldToFrustum</code> does not respect the action of a camera
+transform or a rasterize transform.
 <br><br>
 If the view's camera has a nonlinear projection (as in fisheye and all-seeing
 cameras), then the world to frustum transformation cannot be expressed
-as a matrix, hence this function will return kQ3Failure.
+as a matrix, hence this function will return <code>kQ3Failure</code>.
 <br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
 <dl>
 <dt><tt><em>view</em></tt></dt><dd>The view to query.</dd>
-<dt><tt><em>matrix</em></tt></dt><dd>Receives the local-to-frustum matrix.</dd>
+<dt><tt><em>matrix</em></tt></dt><dd>Receives the world-to-frustum matrix.</dd>
 </dl>
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>Success or failure of the operation.
@@ -1348,5 +1351,5 @@ typedef enum TQ3ViewStatus QUESA_ENUM_BASE(TQ3Uns32) {
 <dt><a name="//Quesa/c/econst/kQ3ViewStatusCancelled"><tt>kQ3ViewStatusCancelled</tt></a></dt><dd>Submit loop was cancelled.</dd>
 </dl>
 </blockquote>
-<p><p>&#169; 1999-2021 Quesa Developers (Last Updated 2/20/2022)
+<p><p>&#169; 1999-2023 Quesa Developers (Last Updated 1/27/2023)
 </p></body></html>

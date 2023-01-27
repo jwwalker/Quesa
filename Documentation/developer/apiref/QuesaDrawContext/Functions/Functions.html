@@ -40,6 +40,11 @@ It is now preferred that the Cocoa view be an instance of a subclass of
 NSOpenGLView.  In that case, the view owns an NSOpenGLContext and an
 NSOpenGLPixelFormat, so that Quesa does not need to create them.
 <br><br>
+The Quesa draw context object will retain a strong reference to the NSView pointer
+provided in the TQ3CocoaDrawContextData structure.  That reference will be retained
+until the draw context is destroyed, or until the NSView pointer is changed using
+Q3CocoaDrawContext_SetNSView.
+<br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
 <blockquote>
@@ -59,6 +64,10 @@ NSOpenGLPixelFormat, so that Quesa does not need to create them.
 <h5><font face="Lucida Grande,Helvetica,Arial">Discussion</font></h5><p>Set the NSView for a Cocoa draw context.
 <br><br>
 <em>This function is not available in QD3D.</em>
+<br><br>
+The new NSView pointer provided by this function will be retained
+by the draw context, and the old NSView pointer previously held by
+the draw context will be released.
 <br><br>
 </p>
 <h5><font face="Lucida Grande,Helvetica,Arial">Parameter Descriptions</font></h5>
@@ -871,5 +880,5 @@ purpose of the function, and its parameters/result, have been assumed.
 </blockquote>
 <dl><dt><i>function result</i></dt><dd>The X11 visual info.
  </dd></dl>
-<p><p>&#169; 1999-2021 Quesa Developers (Last Updated 2/20/2022)
+<p><p>&#169; 1999-2023 Quesa Developers (Last Updated 1/27/2023)
 </p></body></html>
