@@ -15,7 +15,7 @@
 		output parameter.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2021, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2023, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -250,6 +250,7 @@ inline CQ3ObjectRef CQ3Cylinder_GetFaceAttributeSet(
 	return CQ3ObjectRef( atts );
 }
 
+
 /*!
  *  @function		CQ3Cylinder_GetInteriorAttributeSet
  *  @discussion		Get the attribute set for the interior of a cylinder object.
@@ -263,6 +264,59 @@ inline CQ3ObjectRef CQ3Cylinder_GetInteriorAttributeSet(
 	Q3Cylinder_GetInteriorAttributeSet( cylinder, &atts );
 	return CQ3ObjectRef( atts );
 }
+
+
+/*!
+ *  @function		CQ3Ellipsoid_GetInteriorAttributeSet
+ *  @discussion
+ *      Get the attribute set for the interior of an ellipsoid object.
+ *
+ *  @param ellipsoid             An ellipsoid object.
+ *  @result                 The attribute set for the interior, or nullptr.
+ */
+inline CQ3ObjectRef CQ3Ellipsoid_GetInteriorAttributeSet(
+	TQ3GeometryObject             ellipsoid )
+{
+	CQ3ObjectRef result;
+	TQ3EllipsoidData data;
+	if (kQ3Success == Q3Ellipsoid_GetData( ellipsoid, &data ))
+	{
+		if (data.interiorAttributeSet != nullptr)
+		{
+			TQ3AttributeSet newRef = Q3Shared_GetReference( (TQ3Object _Nonnull) data.interiorAttributeSet );
+			result = CQ3ObjectRef( newRef );
+		}
+		Q3Ellipsoid_EmptyData( &data );
+	}
+	return result;
+}
+
+
+/*!
+ *  @function		CQ3Torus_GetInteriorAttributeSet
+ *  @discussion
+ *      Get the attribute set for the interior of a torus object.
+ *
+ *  @param torus             A torus object.
+ *  @result                 The attribute set for the interior, or nullptr.
+ */
+inline CQ3ObjectRef CQ3Torus_GetInteriorAttributeSet(
+	TQ3GeometryObject             torus )
+{
+	CQ3ObjectRef result;
+	TQ3TorusData data;
+	if (kQ3Success == Q3Torus_GetData( torus, &data ))
+	{
+		if (data.interiorAttributeSet != nullptr)
+		{
+			TQ3AttributeSet newRef = Q3Shared_GetReference( (TQ3Object _Nonnull) data.interiorAttributeSet );
+			result = CQ3ObjectRef( newRef );
+		}
+		Q3Torus_EmptyData( &data );
+	}
+	return result;
+}
+
 
 /*!
  *  @function		CQ3GeneralPolygon_GetVertexAttributeSet
