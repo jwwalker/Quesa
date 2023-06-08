@@ -12,7 +12,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2023, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -147,7 +147,7 @@ extern "C" {
  *
  *      Available in inline form as Q3FastVector2D_Set.
  *
- *  @param vector2D         Address of vector to set (may be nullptr).
+ *  @param vector2D         Address of vector to set.
  *  @param x                X coordinate to set into vector2D.
  *  @param y                Y coordinate to set into vector2D.
  *  @result                 Convenience copy of vector2D parameter.
@@ -169,7 +169,7 @@ Q3Vector2D_Set (
  *
  *      Available in inline form as Q3FastVector3D_Set.
  *
- *  @param vector3D         Address of vector to set (may be nullptr).
+ *  @param vector3D         Address of vector to set.
  *  @param x                X coordinate to set into vector3D.
  *  @param y                Y coordinate to set into vector3D.
  *  @param z                Z coordinate to set into vector3D.
@@ -193,7 +193,7 @@ Q3Vector3D_Set (
  *
  *      Available in inline form as Q3FastPoint2D_Set.
  *
- *  @param point2D          Address of point to set (may be nullptr).
+ *  @param point2D          Address of point to set.
  *  @param x                X coordinate to set into vector2D.
  *  @param y                Y coordinate to set into vector2D.
  *  @result                 Convenience copy of point2D parameter.
@@ -215,7 +215,7 @@ Q3Point2D_Set (
  *
  *      Available in inline form as Q3FastParam2D_Set.
  *
- *  @param param2D          Address of param2D to set (may be nullptr).
+ *  @param param2D          Address of param2D to set.
  *  @param u                U coordinate to set into param2D.
  *  @param v                V coordinate to set into param2D.
  *  @result                 Convenience copy of param2D parameter.
@@ -237,7 +237,7 @@ Q3Param2D_Set (
  *
  *      Available in inline form as Q3FastRationalPoint3D_Set.
  *
- *  @param rationalPoint3D  Address of rational point to set (may be nullptr).
+ *  @param rationalPoint3D  Address of rational point to set.
  *  @param x                X coordinate to set into rationalPoint3D.
  *  @param y                Y coordinate to set into rationalPoint3D.
  *  @param w                W coordinate to set into rationalPoint3D.
@@ -261,7 +261,7 @@ Q3RationalPoint3D_Set (
  *
  *      Available in inline form as Q3FastPoint3D_Set.
  *
- *  @param point3D          Address of point to set (may be nullptr).
+ *  @param point3D          Address of point to set.
  *  @param x                X coordinate to set into point3D.
  *  @param y                Y coordinate to set into point3D.
  *  @param z                Z coordinate to set into point3D.
@@ -310,7 +310,7 @@ Q3RationalPoint4D_Set (
  *
  *      Available in inline form as Q3FastPolarPoint_Set.
  *
- *  @param polarPoint       Address of point to set (may be nullptr).
+ *  @param polarPoint       Address of point to set.
  *  @param r                Radius coordinate to set into polarPoint.
  *  @param theta            Angle coordinate (in radians) to set into polarPoint.
  *  @result                 Convenience copy of polarPoint parameter.
@@ -332,7 +332,7 @@ Q3PolarPoint_Set (
  *
  *      Available in inline form as Q3FastSphericalPoint_Set.
  *
- *  @param sphericalPoint   Address of point to set (may be nullptr).
+ *  @param sphericalPoint   Address of point to set.
  *  @param rho              Rho coordinate to set into sphericalPoint.
  *  @param theta            Theta coordinate to set into sphericalPoint.
  *  @param phi              Phi coordinate to set into sphericalPoint.
@@ -3197,6 +3197,9 @@ Q3Quaternion_SetRotateVectorToVector (
  *
  *		QD3D's result is something ridiculous; in Quesa, this function
  *		returns the original quaternion (or something equivalent).
+ *		
+ *		This function only looks at the upper left 3x3 part of the matrix.
+ *		Any translation part is ignored.
  *
  *  @param quaternion       Address of a quaternion to set.
  *  @param matrix4x4        Address of a rotation matrix to imitate.
@@ -3449,11 +3452,11 @@ Q3Quaternion_InterpolateLinear (
  */
 #if QUESA_ALLOW_QD3D_EXTENSIONS
 
-Q3_EXTERN_API_C ( TQ3Vector3D * _Nonnull )
+Q3_EXTERN_API_C ( TQ3Vector3D * _Nullable )
 Q3Quaternion_GetAxisAndAngle (
 	const TQ3Quaternion           * _Nonnull quaternion,
-	TQ3Vector3D                   * _Nonnull outAxis,
-	float                         * _Nonnull outAngle
+	TQ3Vector3D                   * _Nullable outAxis,
+	float                         * _Nullable outAngle
 );
 
 #endif // QUESA_ALLOW_QD3D_EXTENSIONS
