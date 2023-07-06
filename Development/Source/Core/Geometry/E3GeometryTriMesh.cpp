@@ -5,7 +5,7 @@
         Implementation of Quesa TriMesh geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2023, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -57,6 +57,7 @@
 #include "QuesaMathOperators.hpp"
 
 #include <cstring>
+#include <utility>
 
 
 
@@ -1198,15 +1199,23 @@ e3geom_trimesh_pick_with_ray( TQ3ViewObject				theView,
 	//
 	// Note we do not use any vertex/edge tolerances supplied for the pick, since
 	// QD3D's blue book appears to suggest neither are used for triangles.
+	bool isOrientationReversing = E3Matrix4x4_Determinant( localToWorld ) < 0.0f;
 	for (n = 0; n < geomData->numTriangles && qd3dStatus == kQ3Success; ++n)
 	{
-		// Grab the vertex indicies
+		// Grab the vertex indices
 		v0 = geomData->triangles[n].pointIndices[0];
 		v1 = geomData->triangles[n].pointIndices[1];
 		v2 = geomData->triangles[n].pointIndices[2];
 		Q3_ASSERT(v0 >= 0 && v0 < geomData->numPoints);
 		Q3_ASSERT(v1 >= 0 && v1 < geomData->numPoints);
 		Q3_ASSERT(v2 >= 0 && v2 < geomData->numPoints);
+		
+		// An oriention-reversing transformation can interfere with backface
+		// culling, so maybe flip the triangle winding to compensate.
+		if (cullBackface && isOrientationReversing)
+		{
+			std::swap( v1, v2 );
+		}
 
 		// For convenience, name the 3 world-space corners of the triangle
 		const TQ3Point3D& p0( worldPoints[v0] );
