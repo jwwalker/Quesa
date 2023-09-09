@@ -45,12 +45,12 @@
 #define FALSE 0
 #endif
 
-static GLUvertex *allocVertex()
+static GLUvertex *allocVertex(void)
 {
    return (GLUvertex *)memAlloc( sizeof( GLUvertex ));
 }
 
-static GLUface *allocFace()
+static GLUface *allocFace(void)
 {
    return (GLUface *)memAlloc( sizeof( GLUface ));
 }
@@ -748,7 +748,6 @@ void __gl_meshCheckMesh( GLUmesh *mesh )
   GLUvertex *v, *vPrev;
   GLUhalfEdge *e, *ePrev;
 
-  fPrev = fHead;
   for( fPrev = fHead ; (f = fPrev->next) != fHead; fPrev = f) {
     assert( f->prev == fPrev );
     e = f->anEdge;
@@ -763,7 +762,6 @@ void __gl_meshCheckMesh( GLUmesh *mesh )
   }
   assert( f->prev == fPrev && f->anEdge == NULL && f->data == NULL );
 
-  vPrev = vHead;
   for( vPrev = vHead ; (v = vPrev->next) != vHead; vPrev = v) {
     assert( v->prev == vPrev );
     e = v->anEdge;
@@ -778,7 +776,6 @@ void __gl_meshCheckMesh( GLUmesh *mesh )
   }
   assert( v->prev == vPrev && v->anEdge == NULL && v->data == NULL );
 
-  ePrev = eHead;
   for( ePrev = eHead ; (e = ePrev->next) != eHead; ePrev = e) {
     assert( e->Sym->next == ePrev->Sym );
     assert( e->Sym != e );
