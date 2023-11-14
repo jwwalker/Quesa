@@ -5,7 +5,7 @@
         Mac specific routines.
 
     COPYRIGHT:
-        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2023, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -51,17 +51,6 @@
 
 
 //=============================================================================
-//      Constants
-//-----------------------------------------------------------------------------
-
-const int kMaxPluginLocations = 6;
-
-const ItemCount	kPluginSearchBatchSize	= 10;
-
-
-
-
-//=============================================================================
 //      Function prototyes
 //-----------------------------------------------------------------------------
 #ifdef __cplusplus
@@ -93,9 +82,6 @@ typedef struct E3MacSystem_PluginSlot {
 //=============================================================================
 //      Internal globals
 //-----------------------------------------------------------------------------
-
-extern short gShlbResFile;
-short gShlbResFile = 0;
 
 static E3MacSystem_PluginSlotPtr e3macsystem_pluginSlotHead = nullptr;
 
