@@ -102,3 +102,32 @@ void	E3LogToConsole( const char* inMsg )
 		NSLog( @"%@", [NSString stringWithUTF8String: inMsg] );
 	}
 }
+
+
+/*!
+	@function	E3MacFullPathToLogsFolder
+	
+	@abstract	Get the full path to the user's logs folder, ~/Library/Logs.
+	
+	@result		The path.
+*/
+std::string		E3MacFullPathToLogsFolder( void )
+{
+	std::string	result;
+	
+	@autoreleasepool
+	{
+		NSURL* libURL = [NSFileManager.defaultManager
+				URLForDirectory: NSLibraryDirectory
+				inDomain: NSUserDomainMask
+				appropriateForURL: nil
+				create: YES
+				error: nil];
+		NSURL* logsURL = [libURL URLByAppendingPathComponent: @"Logs"
+				isDirectory: YES];
+		NSString* logsPath = logsURL.filePathURL.absoluteURL.path;
+		result.assign( logsPath.UTF8String );
+	}
+	
+	return result;
+}

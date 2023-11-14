@@ -5,7 +5,7 @@
         Quesa memory manager.
 
     COPYRIGHT:
-        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2023, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -62,6 +62,8 @@
 #include <atomic>
 
 #if QUESA_OS_MACINTOSH
+	#include "E3MacLog.h"
+	
 	#include <unistd.h>
 	#include <malloc/malloc.h>
 #endif
@@ -272,34 +274,11 @@ static TQ3Uns32 e3memGetSize( const void* inMemBlock )
 //-----------------------------------------------------------------------------
 static void SetDirectoryForDump( const char* inFileName )
 {
-#if QUESA_OS_MACINTOSH && TARGET_RT_MAC_MACHO
+#if QUESA_OS_MACINTOSH
 	if (inFileName[0] != '/')
 	{
-		FSRef	dirRef;
-		OSStatus	err = FSFindFolder( kUserDomain, kDocumentsFolderType,
-			kCreateFolder, &dirRef );
-		if (err == noErr)
-		{
-			CFURLRef	dirURL = CFURLCreateFromFSRef( nullptr, &dirRef );
-			if (dirURL != nullptr)
-			{
-				CFStringRef	pathCF = CFURLCopyFileSystemPath( dirURL,
-					kCFURLPOSIXPathStyle );
-				if (pathCF != nullptr)
-				{
-					char	thePath[ PATH_MAX ];
-					if (CFStringGetCString( pathCF, thePath, PATH_MAX,
-						kCFStringEncodingUTF8 ))
-					{
-						chdir( thePath );
-					}
-					
-					CFRelease( pathCF );
-				}
-				
-				CFRelease( dirURL );
-			}
-		}
+		std::string logsDirPath( E3MacFullPathToLogsFolder() );
+		chdir( logsDirPath.c_str() );
 	}
 #endif
 #if QUESA_OS_WIN32

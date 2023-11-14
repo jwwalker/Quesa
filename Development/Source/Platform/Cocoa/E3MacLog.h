@@ -9,6 +9,20 @@
 #include <stdio.h>
 
 #ifdef __cplusplus
+
+#include <string>
+
+
+/*!
+	@function	E3MacFullPathToLogsFolder
+	
+	@abstract	Get the full path to the user's logs folder, ~/Library/Logs.
+	
+	@result		The path.
+*/
+std::string		E3MacFullPathToLogsFolder( void );
+
+
 extern "C" {
 #endif
 
