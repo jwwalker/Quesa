@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2024, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -63,6 +63,7 @@
 #include "GLShadowVolumeManager.h"
 #include "GLUtils.h"
 #include "CQ3ObjectRef_Gets.h"
+#include "E3Math.h"
 
 #include <cmath>
 
@@ -131,6 +132,7 @@ static void ComputeFaceNormals( const TQ3TriMeshData& inTMData,
 static void FindLitFaces( const TQ3RationalPoint4D& inLightPos,
 						const TQ3TriMeshData& inTMData,
 						const TQ3Vector3D* inFaceNormals,
+						const TQ3Matrix4x4& inLocalToCamera,
 						TQ3Uns8* outFlags )
 {
 	const TQ3Uns32 kNumFaces = inTMData.numTriangles;
@@ -143,6 +145,8 @@ static void FindLitFaces( const TQ3RationalPoint4D& inLightPos,
 		inFaceNormals = &faceNormals[0];
 	}
 	
+	TQ3Uns8 matrixFlip = E3Matrix4x4_Determinant( &inLocalToCamera ) < 0.0f;
+	
 	TQ3Vector3D	toLight;
 	TQ3Uns32	faceNum;
 	
@@ -154,8 +158,8 @@ static void FindLitFaces( const TQ3RationalPoint4D& inLightPos,
 		
 		for (faceNum = 0; faceNum < kNumFaces; ++faceNum)
 		{
-			outFlags[ faceNum ] = Q3FastVector3D_Dot( &toLight,
-				&inFaceNormals[ faceNum ] ) > 0.0f;
+			outFlags[ faceNum ] = matrixFlip ^ (Q3FastVector3D_Dot( &toLight,
+				&inFaceNormals[ faceNum ] ) > 0.0f);
 		}
 	}
 	else // point or spot
@@ -168,8 +172,8 @@ static void FindLitFaces( const TQ3RationalPoint4D& inLightPos,
 				&inTMData.points[ inTMData.triangles[faceNum].pointIndices[0] ],
 				&toLight  );
 			
-			outFlags[ faceNum ] = Q3FastVector3D_Dot( &toLight,
-				&inFaceNormals[ faceNum ] ) > 0.0f;
+			outFlags[ faceNum ] = matrixFlip ^ (Q3FastVector3D_Dot( &toLight,
+				&inFaceNormals[ faceNum ] ) > 0.0f);
 		}
 	}
 }
@@ -581,7 +585,8 @@ void	QORenderer::ShadowMarker::CalcFacesAndEdgesForShadows(
 	
 	const TQ3Uns32	kNumFaces = inTMData.numTriangles;
 	mLitFaceFlags.resizeNotPreserving( kNumFaces );
-	FindLitFaces( inLocalLightPos, inTMData, inFaceNormals, &mLitFaceFlags[0] );
+	FindLitFaces( inLocalLightPos, inTMData, inFaceNormals,
+		mMatrixState.GetLocalToCamera(), &mLitFaceFlags[0] );
 	
 	outFaces = inTMData.triangles;
 	outFacesToEdges = mShadowFacesToEdges.data();

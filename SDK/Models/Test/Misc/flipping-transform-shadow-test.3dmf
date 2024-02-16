@@ -1,0 +1,189 @@
+3DMetafile ( 1 6 Normal tableofcontents0> )
+
+# This model is a test for a shadow rendering subtlety in which
+# a geometry subject to an orientation-reversing transform
+# caused an incorrect shadow.
+
+	BeginGroup (
+		DisplayGroup ( )
+		DisplayGroupState (
+			NoBoundingBox | NoBoundingSphere
+		 )
+	)
+	BackfacingStyle ( Both )
+	BeginGroup (
+		DisplayGroup ( )
+		DisplayGroupState (
+			NoBoundingBox | NoBoundingSphere
+		 )
+		Container (
+			Apple Computer, Inc.:NameElement ( )
+			CString ( "shadow receiving box" )
+		)
+	)
+	CastShadowsStyle ( False )
+	Translate ( -0.75 0 0 )
+	Scale ( 0.2325128 3.588016 3.588016 )
+	trimesh1:
+	Container (
+		TriMesh (
+			12 1 0 0 24 2	# faces faceAtts edges edgeAtts pts ptAtts
+			0 1 2	# triangles
+			0 2 3
+			4 5 6
+			4 6 7
+			8 9 10
+			8 10 11
+			12 13 14
+			12 14 15
+			16 17 18
+			16 18 19
+			20 21 22
+			20 22 23
+			-0.1524 0 0.1524	# points
+			0.1524 0 0.1524
+			0.1524 0.3048 0.1524
+			-0.1524 0.3048 0.1524
+			0.1524 0 -0.1524
+			-0.1524 0 -0.1524
+			-0.1524 0.3048 -0.1524
+			0.1524 0.3048 -0.1524
+			-0.1524 0 -0.1524
+			-0.1524 0 0.1524
+			-0.1524 0.3048 0.1524
+			-0.1524 0.3048 -0.1524
+			0.1524 0 0.1524
+			0.1524 0 -0.1524
+			0.1524 0.3048 -0.1524
+			0.1524 0.3048 0.1524
+			-0.1524 0.3048 0.1524
+			0.1524 0.3048 0.1524
+			0.1524 0.3048 -0.1524
+			-0.1524 0.3048 -0.1524
+			0.1524 0 0.1524
+			-0.1524 0 0.1524
+			-0.1524 0 -0.1524
+			0.1524 0 -0.1524
+			-0.1524 0 -0.1524 0.1524 0.3048 0.1524 False	# bounding box
+		)
+		AttributeArray(
+			3 0 0 0 0	# face normal
+			0 0 1
+			0 -0 1
+			0 0 -1
+			0 0 -1
+			-1 0 0
+			-1 0 0
+			1 -0 0
+			1 -0 0
+			-0 1 0
+			0 1 0
+			-0 -1 -0
+			0 -1 -0
+		)
+		AttributeArray(
+			3 0 2 0 0	# point normal
+			0 0 1
+			0 0 1
+			0 0 1
+			0 0 1
+			-0 -0 -1
+			-0 -0 -1
+			-0 -0 -1
+			-0 -0 -1
+			-1 -0 -0
+			-1 -0 -0
+			-1 -0 -0
+			-1 -0 -0
+			1 0 0
+			1 0 0
+			1 0 0
+			1 0 0
+			0 1 0
+			0 1 0
+			0 1 0
+			0 1 0
+			-0 -1 -0
+			-0 -1 -0
+			-0 -1 -0
+			-0 -1 -0
+		)
+		AttributeArray(
+			1 0 2 1 0	# point UV
+			0 0
+			1 0
+			1 1
+			0 1
+			0 0
+			1 0
+			1 1
+			0 1
+			0 0
+			1 0
+			1 1
+			0 1
+			0 0
+			1 0
+			1 1
+			0 1
+			0 0
+			1 0
+			1 1
+			0 1
+			0 0
+			1 0
+			1 1
+			0 1
+		)
+		Container (
+			AttributeSet ( )
+			DiffuseColor ( 0.6666667 0.6666667 0.6666667 )
+		)
+		Container (
+			Apple Computer, Inc.:NameElement ( )
+			CString ( "box" )
+		)
+	)
+	EndGroup ( )
+	BeginGroup (
+		DisplayGroup ( )
+		DisplayGroupState (
+			NoBoundingBox | NoBoundingSphere
+		 )
+		Container (
+			Apple Computer, Inc.:NameElement ( )
+			CString ( "middle box" )
+		)
+	)
+	Translate( -0.1 0 0 )
+	Scale( 0.2325128 3.588016 3.588016 )
+	Reference ( 1 )
+	EndGroup ( )
+	BeginGroup (
+		DisplayGroup ( )
+		DisplayGroupState (
+			NoBoundingBox | NoBoundingSphere
+		 )
+		Container (
+			Apple Computer, Inc.:NameElement ( )
+			CString ( "small box" )
+		)
+	)
+	OrientationStyle ( Clockwise )
+	Translate ( 0.75 0.5132374 0 )
+	Scale ( 1 1 -1 )
+	Reference ( 1 )
+	EndGroup ( )
+	EndGroup ( )
+	
+	tableofcontents0:
+	TableOfContents (
+		tableofcontents1>	# next TOC
+		2	# reference seed
+		-1	# type seed
+		1	# tocEntryType
+		16	# tocEntrySize
+		1	# nEntries
+		1 trimesh1>
+		TriMesh
+	)
