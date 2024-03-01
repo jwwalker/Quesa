@@ -52,8 +52,19 @@ FILE*	E3GetLogStream( bool inCreate )
 										error: nullptr];
 			if (libURL != nil)
 			{
-				fullPathToDocsFolder = [libURL URLByAppendingPathComponent: @"Logs"]
-					.absoluteURL.path;
+				NSURL* logsURL = [libURL URLByAppendingPathComponent: @"Logs"
+											isDirectory: YES];
+				NSString* appID = NSBundle.mainBundle.bundleIdentifier;
+				if (appID != nil)
+				{
+					logsURL = [logsURL URLByAppendingPathComponent: appID
+										isDirectory: YES];
+					[fileMgr createDirectoryAtURL: logsURL
+							withIntermediateDirectories: YES
+							attributes: nil
+							error: nil];
+				}
+				fullPathToDocsFolder = logsURL.filePathURL.absoluteURL.path;
 			}
 			
 			if (fullPathToDocsFolder != nil)
