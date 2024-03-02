@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2022, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2024, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -870,16 +870,13 @@ void	QORenderer::Lights::SetLowDimensionalMode( bool inLowD, TQ3ObjectType inIll
 	{
 		mIsLowDMode = inLowD;
 		
-		if (inLowD)
+		if ( inLowD && (inIlluminationType != kQ3IlluminationTypeNULL) )
 		{
-			if (inIlluminationType != kQ3IlluminationTypeNULL)
-			{
-				mRenderer.Shader().UpdateIllumination( kQ3IlluminationTypeNondirectional );
-			}
-			else
-			{
-				mRenderer.Shader().UpdateIllumination( inIlluminationType );
-			}
+			mRenderer.Shader().UpdateIllumination( kQ3IlluminationTypeNondirectional );
+		}
+		else
+		{
+			mRenderer.Shader().UpdateIllumination( inIlluminationType );
 		}
 	}
 }
