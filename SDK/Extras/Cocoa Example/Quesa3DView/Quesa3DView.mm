@@ -422,7 +422,7 @@
 
 - (void)createDefaultLights
 {	
-    TQ3Vector3D					sunDirection = {-1.0f, 0.0f, -1.0f};
+    TQ3Vector3D					sunDirection = {-1.0f, 0.0f, 0.0f};
 	TQ3Vector3D					eyeDirection = { 0.0f, 0.0f, -1.0f};
 	TQ3Point3D					pointLocation = { -10.0f, 0.0f,  10.0f};
 	TQ3ColorRGB					colourWhite  = { 1.0f, 1.0f,  1.0f};

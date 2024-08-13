@@ -12,7 +12,7 @@ GCC_VERSION =
 // Search Paths
 FSP_QUESA = "$(SRCROOT)/../../../Libraries/Mac/Framework_Modern/Debug"
 FRAMEWORK_SEARCH_PATHS = $(FSP_QUESA)
-HEADER_SEARCH_PATHS = ../Includes
+HEADER_SEARCH_PATHS = ../../../Includes
 ALWAYS_SEARCH_USER_PATHS = NO
 
 // Build Options

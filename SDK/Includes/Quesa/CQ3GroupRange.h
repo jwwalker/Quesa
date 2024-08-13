@@ -49,6 +49,8 @@
 #ifndef CQ3GroupRange_h
 #define CQ3GroupRange_h
 
+#include "CQ3ObjectRef_Gets.h"
+
 
 /*!
 	@class		QuesaGroupIterator

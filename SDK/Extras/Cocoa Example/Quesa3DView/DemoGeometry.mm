@@ -5,7 +5,7 @@
         Geometry creation methods.
 
     COPYRIGHT:
-        Copyright (c) 1999-2020, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2024, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -57,7 +57,7 @@
 #include <Quesa/QuesaTransform.h> 
 #include <Quesa/QuesaStorage.h> 
 #include <Quesa/CQ3ObjectRef.h>
-#include <Quesa/Q3GroupIterator.h>
+#include <Quesa/CQ3GroupRange.h>
 
 #import "QuesaCocoaUtil.h"
 #import "QutTexture.h"
@@ -1762,9 +1762,7 @@ TQ3GroupObject createSubdividedBoxAboutCamera(TQ3ViewObject inView)
 	
 	if (decomp != nullptr)
 	{
-		Q3GroupIterator	iter( decomp, kQ3GeometryTypeTriMesh );
-		CQ3ObjectRef	theItem;
-		while ( (theItem = iter.NextObject()).isvalid() )
+		for (const CQ3ObjectRef& theItem : CQ3GroupRange<kQ3GeometryTypeTriMesh>( decomp ))
 		{
 			CQ3ObjectRef subItem( SubdivideTriMesh( theItem.get(), 4 ) );
 			CQ3ObjectRef subNaked( Q3TriMesh_GetNakedGeometry( subItem.get() ) );

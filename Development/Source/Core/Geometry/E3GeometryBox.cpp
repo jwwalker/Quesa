@@ -5,7 +5,7 @@
         Implementation of Quesa Box geometry class.
 
     COPYRIGHT:
-        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2024, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -49,7 +49,7 @@
 #include "E3Geometry.h"
 #include "E3GeometryTriMesh.h"
 #include "E3GeometryBox.h"
-#include "Q3GroupIterator.h"
+#include "CQ3GroupRange.h"
 
 #include <cstring>
 using namespace std;
@@ -412,9 +412,7 @@ e3geom_box_merge_faces( TQ3GroupObject ioGroup )
 	};
 	
 	int	faceNum = 0;
-	Q3GroupIterator		iter( ioGroup, kQ3GeometryTypeTriMesh );
-	CQ3ObjectRef	theItem;
-	while ( (theItem = iter.NextObject()).isvalid() )
+	for (const CQ3ObjectRef& theItem : CQ3GroupRange<kQ3GeometryTypeTriMesh>( ioGroup ))
 	{
 		TQ3TriMeshData*	faceTM;
 		Q3TriMesh_LockData( (TQ3GeometryObject _Nonnull) theItem.get(), kQ3True, &faceTM );

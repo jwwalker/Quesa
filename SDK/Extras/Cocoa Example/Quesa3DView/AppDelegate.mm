@@ -5,7 +5,7 @@
         
 
     COPYRIGHT:
-        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2024, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -62,7 +62,7 @@
 #include <Quesa/QuesaTransform.h> 
 #include <Quesa/QuesaRenderer.h> 
 #include <Quesa/CQ3ObjectRef_Gets.h>
-#include <Quesa/Q3GroupIterator.h>
+#include <Quesa/CQ3GroupRange.h>
 #include <Quesa/CQ3ObjectRef.h>
 #include <Quesa/CQ3ObjectRef_Gets.h>
 #include <Quesa/QuesaMathOperators.hpp>
@@ -980,9 +980,7 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 		_directionalLight = dirLight;
 		
 		CQ3ObjectRef lightGroup( CQ3View_GetLightGroup( quesa3dView.qd3dView ) );
-		Q3GroupIterator iter( lightGroup.get(), kQ3LightTypeDirectional );
-		CQ3ObjectRef	theItem;
-		while ( (theItem = iter.NextObject()).isvalid() )
+		for (const CQ3ObjectRef& theItem : CQ3GroupRange<kQ3LightTypeDirectional>( lightGroup.get() ))
 		{
 			Q3Light_SetState( theItem.get(), dirLight? kQ3True : kQ3False );
 		}
@@ -1009,9 +1007,7 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 		_pointLight = dirLight;
 		
 		CQ3ObjectRef lightGroup( CQ3View_GetLightGroup( quesa3dView.qd3dView ) );
-		Q3GroupIterator iter( lightGroup.get(), kQ3LightTypePoint );
-		CQ3ObjectRef	theItem;
-		while ( (theItem = iter.NextObject()).isvalid() )
+		for (const CQ3ObjectRef& theItem : CQ3GroupRange<kQ3LightTypePoint>( lightGroup.get() ))
 		{
 			Q3Light_SetState( theItem.get(), dirLight? kQ3True : kQ3False );
 		}
@@ -1037,9 +1033,7 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 		_ambientLight = ambientLight;
 		
 		CQ3ObjectRef lightGroup( CQ3View_GetLightGroup( quesa3dView.qd3dView ) );
-		Q3GroupIterator iter( lightGroup.get(), kQ3LightTypeAmbient );
-		CQ3ObjectRef	theItem;
-		while ( (theItem = iter.NextObject()).isvalid() )
+		for (const CQ3ObjectRef& theItem : CQ3GroupRange<kQ3LightTypeAmbient>( lightGroup.get() ))
 		{
 			Q3Light_SetState( theItem.get(), ambientLight? kQ3True : kQ3False );
 		}

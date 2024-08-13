@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 44;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -43,6 +43,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		BE0633652C6C0E1B007AFA21 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BEFFD85D0C4C8C9000202EA8 /* Quesa.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BE5EE91626191CF90049B72A;
+			remoteInfo = FrameworkNoGL;
+		};
+		BE0633672C6C0E1B007AFA21 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BEFFD85D0C4C8C9000202EA8 /* Quesa.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BE5EE9E126195C8A0049B72A;
+			remoteInfo = "Static NoGL";
+		};
 		BEFFD8640C4C8C9000202EA8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = BEFFD85D0C4C8C9000202EA8 /* Quesa.xcodeproj */;
@@ -259,7 +273,9 @@
 			isa = PBXGroup;
 			children = (
 				BEFFD8650C4C8C9000202EA8 /* Quesa.framework */,
+				BE0633662C6C0E1B007AFA21 /* Quesa.framework */,
 				BEFFD8690C4C8C9000202EA8 /* libQuesa.a */,
+				BE0633682C6C0E1B007AFA21 /* libQuesa.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -343,6 +359,20 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		BE0633662C6C0E1B007AFA21 /* Quesa.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Quesa.framework;
+			remoteRef = BE0633652C6C0E1B007AFA21 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		BE0633682C6C0E1B007AFA21 /* libQuesa.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libQuesa.a;
+			remoteRef = BE0633672C6C0E1B007AFA21 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		BEFFD8650C4C8C9000202EA8 /* Quesa.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -383,6 +413,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		BE1353900C3C39E400B20B60 /* Make Symbolic Links */ = {
 			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
 			files = (
 			);

@@ -46,7 +46,7 @@
 //-----------------------------------------------------------------------------
 #include "QOLights.h"
 #include "QORenderer.h"
-#include "Q3GroupIterator.h"
+#include "CQ3GroupRange.h"
 #include "E3ErrorManager.h"
 #include "E3Math.h"
 #include "E3Math_Intersect.h"
@@ -464,10 +464,8 @@ void	QORenderer::Lights::ClassifyLights( TQ3ViewObject inView )
 	mShadowingLights.clear();
 
 	CQ3ObjectRef	theLightGroup( CQ3View_GetLightGroup( inView ) );
-	Q3GroupIterator		iter( theLightGroup.get(), kQ3ShapeTypeLight );
-	CQ3ObjectRef	theLight;
-	
-	while ( (theLight = iter.NextObject()).isvalid() )
+
+	for (const CQ3ObjectRef& theLight : CQ3GroupRange<kQ3ShapeTypeLight>( theLightGroup.get() ))
 	{
 		TQ3Boolean	isOn;
 		Q3Light_GetState( (TQ3Object _Nonnull) theLight.get(), &isOn );
