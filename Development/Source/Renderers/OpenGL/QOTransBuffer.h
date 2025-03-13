@@ -5,7 +5,7 @@
         Header for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2022, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2025, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -175,6 +175,7 @@ private:
 	void							TransformPointsToCameraSpace(
 											const TQ3TriMeshData& inGeomData );
 	bool							FindPointsInFrontOfCamera();
+	void							RemoveBadFrustumPoints();
 
 	void							SortPrimPtrsInEachBlock();
 	void							SortBlocks();
@@ -231,6 +232,7 @@ private:
 	std::vector<TQ3Matrix3x3>		mUVTransforms;
 	E3FastArray<TQ3Point3D>			mWorkCameraPts;
 	E3FastArray<TQ3Point3D>			mWorkFrustumPts;
+	E3FastArray<TQ3Point3D>			mWorkFrustumPts2;
 	E3FastArray<TQ3Vector3D>		mWorkCameraNormals;
 	E3FastArray<bool>				mWorkIsInFrontOfCamera;
 	E3FastArray<TransparentBlock*>	mBlocks;

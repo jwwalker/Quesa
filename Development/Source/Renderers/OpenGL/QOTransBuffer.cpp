@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2022, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2025, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -406,6 +406,35 @@ TransBuffer::TransBuffer( Renderer& inRenderer,
 {
 }
 
+/*!
+	@function	RemoveBadFrustumPoints
+	
+	@abstract	Remove points with z values outside the usual range of 0 (near) to -1 (far).
+	
+	@discussion	If a point is behind the camera, the camera to frustum transform will produce a
+				frustum z value less than -1.  If a point is ahead of the camera but behind the near
+				plane, we will get a frustum z value greater than 0.  Either way, we are not getting
+				a legitimate point in frustum space.
+				
+				Ideally, we would replace triangles that cross the near plane with triangles that are
+				fully on the visible side, but that seems like too much work for minimal benefit.
+*/
+void	TransBuffer::RemoveBadFrustumPoints()
+{
+	const TQ3Uns32 kPointCount = mWorkFrustumPts.size();
+	mWorkFrustumPts2.reserve( kPointCount );
+	mWorkFrustumPts2.clear();
+	for (const TQ3Point3D& frustPt : mWorkFrustumPts)
+	{
+		float z = frustPt.z;
+		if ( (z >= -1.0f) && (z <= 0.0f) )
+		{
+			mWorkFrustumPts2.push_back( frustPt );
+		}
+	}
+	mWorkFrustumPts.swap( mWorkFrustumPts2 );
+}
+
 void	TransBuffer::AddPrim(
 										int inNumVerts,
 										const Vertex* inVertices )
@@ -439,12 +468,25 @@ void	TransBuffer::AddPrim(
 		return;
 	}
 	
+	// Compute points in frustum space, so we can get frustum bounds.
+	mWorkFrustumPts.resizeNotPreserving( inNumVerts );
+	const TQ3Matrix4x4&	cameraToFrustum(
+		mRenderer.mMatrixState.GetCameraToFrustum() );
+	for (i = 0; i < inNumVerts; ++i)
+	{
+		E3Point3D_Transform( &thePrim.mVerts[i].point, &cameraToFrustum,
+			&mWorkFrustumPts[i] );
+	}
+	RemoveBadFrustumPoints();
+	if (mWorkFrustumPts.empty()) // maybe all behind the near plane
+	{
+		return;
+	}
+
 	// Transform vertex normals to camera coordinates, and also compute
 	// average z coordinate for depth sorting.
 	const TQ3Matrix4x4&	localToCameraInverseTranspose(
 		mRenderer.mMatrixState.GetLocalToCameraInverseTranspose() );
-	const TQ3Matrix4x4&	cameraToFrustum(
-		mRenderer.mMatrixState.GetCameraToFrustum() );
 	for (i = 0; i < inNumVerts; ++i)
 	{
 		if ( (thePrim.mVerts[i].flags & kVertexHaveNormal) != 0 )
@@ -512,14 +554,8 @@ void	TransBuffer::AddPrim(
 	// Make a new block.
 	TransparentBlock* theBlock = new TransparentBlock;
 	
-	// Compute points in frustum space, so we can get frustum bounds.
-	TQ3Point3D frustumPts[3];
-	for (i = 0; i < inNumVerts; ++i)
-	{
-		E3Point3D_Transform( &thePrim.mVerts[i].point, &cameraToFrustum,
-			&frustumPts[i] );
-	}
-	E3BoundingBox_SetFromPoints3D( &theBlock->mFrustumBounds, frustumPts,
+	// Compute bounds in frustum space
+	E3BoundingBox_SetFromPoints3D( &theBlock->mFrustumBounds, &mWorkFrustumPts[0],
 		inNumVerts, sizeof(TQ3Point3D) );
 	
 	// Record the primitive.
@@ -719,8 +755,22 @@ void	TransBuffer::AddTriMesh(
 		return;
 	}
 
-	TransformPointsToCameraSpace( inGeomData );
+	TransformPointsToCameraSpace( inGeomData ); // result in mWorkCameraPts
 
+	// Transform the points to frustum space.
+	mWorkFrustumPts.resizeNotPreserving( inGeomData.numPoints );
+	const TQ3Matrix4x4&	cameraToFrustum(
+		mRenderer.mMatrixState.GetCameraToFrustum() );
+	E3Point3D_To3DTransformArray( &mWorkCameraPts[0], &cameraToFrustum,
+		&mWorkFrustumPts[0], inGeomData.numPoints,
+		sizeof(TQ3Point3D), sizeof(TQ3Point3D) );
+	RemoveBadFrustumPoints();
+	
+	if (mWorkFrustumPts.empty())
+	{
+		return;
+	}
+	
 	bool isSomethingInFrontOfCamera = FindPointsInFrontOfCamera();
 	if ( ! isSomethingInFrontOfCamera )
 	{
@@ -736,15 +786,12 @@ void	TransBuffer::AddTriMesh(
 		inGeomData.numPoints, sizeof(TQ3Vector3D), sizeof(TQ3Vector3D) );
 	
 	// Normalize the normals.
-	TQ3Uns32 i;
-	for (i = 0; i < inGeomData.numPoints; ++i)
+	for (TQ3Vector3D& camNormal : mWorkCameraNormals)
 	{
-		Q3FastVector3D_Normalize( &mWorkCameraNormals[i], &mWorkCameraNormals[i] );
+		Q3FastVector3D_Normalize( &camNormal, &camNormal );
 	}
 	
 	// Record camera to frustum matrix
-	const TQ3Matrix4x4&	cameraToFrustum(
-		mRenderer.mMatrixState.GetCameraToFrustum() );
 	if ( mCameraToFrustumMatrices.empty() ||
 		(! IsSame4x4( mCameraToFrustumMatrices.back(), cameraToFrustum )) )
 	{
@@ -760,12 +807,6 @@ void	TransBuffer::AddTriMesh(
 	{
 		theBlock->mHasUniformVertexFlags = true;
 	}
-	
-	// Transform the points to frustum space.
-	mWorkFrustumPts.resizeNotPreserving( inGeomData.numPoints );
-	E3Point3D_To3DTransformArray( &mWorkCameraPts[0], &cameraToFrustum,
-		&mWorkFrustumPts[0], inGeomData.numPoints,
-		sizeof(TQ3Point3D), sizeof(TQ3Point3D) );
 	
 	// Find the bounds in frustum space.
 	E3BoundingBox_SetFromPoints3D( &theBlock->mFrustumBounds,
@@ -823,7 +864,7 @@ void	TransBuffer::AddTriMesh(
 	}
 	
 	// Add the primitives, filling in the varying fields mVerts, mSortingDepth.
-	for (i = 0; i < inGeomData.numTriangles; ++i)
+	for (TQ3Uns32 i = 0; i < inGeomData.numTriangles; ++i)
 	{
 		const TQ3Uns32* vertIndices = inGeomData.triangles[ i ].pointIndices;
 		thePrim.mVerts[0].point = mWorkCameraPts[ vertIndices[0] ];
@@ -886,9 +927,9 @@ void	TransBuffer::SortIndices()
 
 void	TransBuffer::SortPrimPtrsInEachBlock()
 {
-	for (TQ3Uns32 i = 0; i < mBlocks.size(); ++i)
+	for (TransparentBlock* aBlock : mBlocks)
 	{
-		mBlocks[i]->SortPrimPtrs();
+		aBlock->SortPrimPtrs();
 	}
 }
 
@@ -957,9 +998,9 @@ void	TransBuffer::Cleanup()
 	mRenderGroup.clear();
 	mStyles.clear();
 	
-	for (TQ3Uns32 i = 0; i < mBlocks.size(); ++i)
+	for (TransparentBlock* aBlock :  mBlocks)
 	{
-		delete mBlocks[i];
+		delete aBlock;
 	}
 	mBlocks.clear();
 }
@@ -1188,14 +1229,12 @@ void	TransBuffer::RenderPrimGroupForDepth(
 		mRenderer.mGLClientStates.EnableColorArray( haveColor );
 
 		// Gather data from primitives into arrays.
-		TQ3Uns32 i, j;
-		for (i = 0; i < mRenderGroup.size(); ++i)
+		TQ3Uns32 j;
+		for (const TransparentPrim* aPrim : mRenderGroup)
 		{
-			const TransparentPrim& aPrim( *mRenderGroup[i] );
-			
 			for (j = 0; j < vertsPerPrim; ++j)
 			{
-				const Vertex& aVertex( aPrim.mVerts[j] );
+				const Vertex& aVertex( aPrim->mVerts[j] );
 				mGroupPts.push_back( aVertex.point );
 				if ( haveUV )
 				{
@@ -1313,14 +1352,12 @@ void	TransBuffer::RenderPrimGroup(
 		mRenderer.mGLClientStates.EnableColorArray( haveColor );
 		
 		// Gather data from primitives into arrays.
-		TQ3Uns32 i, j;
-		for (i = 0; i < mRenderGroup.size(); ++i)
+		TQ3Uns32 j;
+		for (const TransparentPrim* aPrim : mRenderGroup)
 		{
-			const TransparentPrim& aPrim( *mRenderGroup[i] );
-			
 			for (j = 0; j < vertsPerPrim; ++j)
 			{
-				const Vertex& aVertex( aPrim.mVerts[j] );
+				const Vertex& aVertex( aPrim->mVerts[j] );
 				mGroupPts.push_back( aVertex.point );
 				if (haveNormal)
 				{
@@ -1381,18 +1418,17 @@ void	TransBuffer::DrawTransparency( TQ3ViewObject inView,
 		mRenderGroup.reserve( kRenderGroupReserve );
 		const TransparentPrim* gpLeader = nullptr;
 
-		for (TQ3Uns32 blockNum = 0; blockNum < mBlocks.size(); ++blockNum)
+		for (TransparentBlock* block : mBlocks)
 		{
-			TransparentBlock& block( *mBlocks[blockNum] );
-			for (TQ3Uns32 primNum = 0; primNum < block.mPrims.size(); ++primNum)
+			for (TQ3Uns32 primNum = 0; primNum < block->mPrims.size(); ++primNum)
 			{
-				const TransparentPrim& thePrim( *block.mPrimPtrs[primNum] );
+				const TransparentPrim& thePrim( *block->mPrimPtrs[primNum] );
 				if (gpLeader == nullptr)
 				{
 					gpLeader = &thePrim;
 					mRenderGroup.push_back( gpLeader );
 				}
-				else if ( ((primNum > 0) && block.mHasUniformVertexFlags) ||
+				else if ( ((primNum > 0) && block->mHasUniformVertexFlags) ||
 					IsSameState( thePrim, *gpLeader ) )
 				{
 					mRenderGroup.push_back( &thePrim );
@@ -1500,18 +1536,17 @@ void	TransBuffer::DrawDepth( TQ3ViewObject inView )
 		mRenderGroup.reserve( kRenderGroupReserve );
 		const TransparentPrim* gpLeader = nullptr;
 
-		for (TQ3Uns32 blockNum = 0; blockNum < mBlocks.size(); ++blockNum)
+		for (TransparentBlock* block : mBlocks)
 		{
-			TransparentBlock& block( *mBlocks[blockNum] );
-			for (TQ3Uns32 primNum = 0; primNum < block.mPrims.size(); ++primNum)
+			for (TQ3Uns32 primNum = 0; primNum < block->mPrims.size(); ++primNum)
 			{
-				const TransparentPrim& thePrim( *block.mPrimPtrs[primNum] );
+				const TransparentPrim& thePrim( *block->mPrimPtrs[primNum] );
 				if (gpLeader == nullptr)
 				{
 					gpLeader = &thePrim;
 					mRenderGroup.push_back( gpLeader );
 				}
-				else if ( ((primNum > 0) && block.mHasUniformVertexFlags) ||
+				else if ( ((primNum > 0) && block->mHasUniformVertexFlags) ||
 					IsSameStateForDepth( thePrim, *gpLeader ) )
 				{
 					mRenderGroup.push_back( &thePrim );

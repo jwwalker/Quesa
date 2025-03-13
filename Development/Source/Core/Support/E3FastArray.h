@@ -5,7 +5,7 @@
         Template class to replace std::vector in some cases.
 
     COPYRIGHT:
-        Copyright (c) 2010-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 2010-2025, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -93,6 +93,12 @@ public:
 	
 	void			push_back( const T& value );
 
+	// These methods are needed to support range-based for iteration
+	T*				begin() { return mArray; }
+	const T*		begin() const { return mArray; }
+	T*				end() { return mArray + mSize; }
+	const T*		end() const { return mArray + mSize; }
+
 private:
 	T*			mArray;
 	TQ3Uns32	mSize;
@@ -119,7 +125,8 @@ E3FastArray<T>::E3FastArray( TQ3Uns32 initialSize )
 {
 	if (initialSize > 0)
 	{
-		mArray = new T[ initialSize ];
+		mArray = new T[ initialSize+1 ];
+		// +1 so that end() will not point to memory we don't own
 	}
 }
 
@@ -133,7 +140,7 @@ E3FastArray<T>::E3FastArray( const E3FastArray& inOther )
 {
 	if (mCapacity > 0)
 	{
-		mArray = new T[ mCapacity ];
+		mArray = new T[ mCapacity+1 ];
 	}
 	if (mSize > 0)
 	{
@@ -196,7 +203,7 @@ void	E3FastArray<T>::resizeNotPreserving( TQ3Uns32 newSize )
 	{
 		mCapacity = newSize * 2;
 		delete [] mArray;
-		mArray = new T[ mCapacity ];
+		mArray = new T[ mCapacity+1 ];
 		mSize = newSize;
 	}
 }
@@ -218,11 +225,11 @@ void	E3FastArray<T>::reserve( TQ3Uns32 newCapacity )
 		if (mSize == 0)
 		{
 			delete [] mArray;
-			mArray = new T[ mCapacity ];
+			mArray = new T[ mCapacity+1 ];
 		}
 		else
 		{
-			T* biggerArray = new T[ mCapacity ];
+			T* biggerArray = new T[ mCapacity+1 ];
 			E3Memory_Copy( mArray, biggerArray, static_cast<TQ3Uns32>(mSize * sizeof(T)) );
 			delete [] mArray;
 			mArray = biggerArray;
