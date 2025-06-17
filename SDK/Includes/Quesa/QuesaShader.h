@@ -132,7 +132,7 @@ enum QUESA_ENUM_BASE(TQ3Int32)
 					and rendered back to front.  With this element, you can
 					instead treat each texel as either completely opaque or
 					completely transparent, avoiding depth sorting.  The
-					element value is a depth threshold, i.e., alpha less than
+					element value is an alpha threshold, i.e., alpha less than
 					the threshold is considered completely transparent.
 					Data type: TQ3Float32.
 */

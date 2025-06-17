@@ -1724,11 +1724,19 @@ const char* kTexturedColorComp = R"(
 	// Texturing, GL_MODULATE mode
 	{
 		vec4 texColor = texture( tex0, FSIN.texCoord );
-		color *= texColor.rgb;
-		alpha *= texColor.a;
 		if (texColor.a < alphaThreshold)
 		{
 			discard;
+		}
+		else if (alphaThreshold > 0.0)
+		{
+			color = texColor.rgb;
+			alpha = 1.0;
+		}
+		else
+		{
+			color *= texColor.rgb;
+			alpha *= texColor.a;
 		}
 	}
 
