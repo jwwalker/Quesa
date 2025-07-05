@@ -6,7 +6,7 @@
         then forwards each API call to the equivalent E3xxxxx routine.
 
     COPYRIGHT:
-        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2025, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -470,6 +470,49 @@ CESpecularMapElement_Set( TQ3ShaderObject ioShader, TQ3TextureObject inTexture )
 	E3System_Bottleneck();
 	
 	E3SpecularMapElement_Set( ioShader, inTexture );
+}
+
+#pragma mark -
+
+/*!
+	@function	CENormalMapElement_Copy
+	@abstract		Retrieve a normal map texture from an object.
+	@param		inShader	A surface shader.
+	@result		A new reference to a texture, or NULL.
+*/
+TQ3TextureObject
+CENormalMapElement_Copy( TQ3ShaderObject _Nonnull inShader )
+{
+	Q3_REQUIRE_OR_RESULT( Q3_VALID_PTR(inShader), nullptr );
+	Q3_REQUIRE_OR_RESULT( inShader->IsObjectValid(), nullptr );
+	
+	// Call the bottleneck
+	E3System_Bottleneck();
+	
+	TQ3TextureObject theTexture = E3NormalMapElement_Copy( inShader );
+	return theTexture;
+}
+
+/*!
+	@function	CENormalMapElement_Set
+	@abstract		Set or remove a normal map.
+	@discussion	A normal map is not used by Quesa's OpenGL
+				renderer, but this may be useful when using Quesa as a scene graph
+				for another rendering engine.
+	@param		ioShader	A surface shader.
+	@param		inTexture	A texture object, or nullptr to remove.
+*/
+void
+CENormalMapElement_Set( TQ3ShaderObject _Nonnull ioShader, TQ3TextureObject _Nullable inTexture )
+{
+	Q3_REQUIRE(Q3_VALID_PTR(ioShader));
+	Q3_REQUIRE( ioShader->IsObjectValid () );
+	Q3_REQUIRE( (inTexture == nullptr) || inTexture->IsObjectValid () );
+	
+	// Call the bottleneck
+	E3System_Bottleneck();
+	
+	E3NormalMapElement_Set( ioShader, inTexture );
 }
 
 #pragma mark -

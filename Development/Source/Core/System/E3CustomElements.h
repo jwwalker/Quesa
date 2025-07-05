@@ -5,7 +5,7 @@
         Header file for E3CustomElements.c.
 
     COPYRIGHT:
-        Copyright (c) 1999-2019, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2025, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -116,6 +116,23 @@ TQ3TextureObject	E3SpecularMapElement_Copy( TQ3ShaderObject shader );
 	@param		texture		A texture object, or nullptr to remove.
 */
 void				E3SpecularMapElement_Set( TQ3ShaderObject shader, TQ3TextureObject texture );
+
+/*!
+	@function	E3NormalMapElement_Copy
+	@abstract		Retrieve a normal map texture from an object.
+	@param		inShader	A surface shader.
+	@result		A new reference to a texture, or NULL.
+*/
+TQ3TextureObject E3NormalMapElement_Copy( TQ3ShaderObject inShader );
+
+/*!
+	@function	E3NormalMapElement_Set
+	@abstract		Set or remove a normal map.
+	@param		ioShader	A surface shader.
+	@param		inTexture	A texture object, or nullptr to remove.
+*/
+void E3NormalMapElement_Set( TQ3ShaderObject ioShader,
+	TQ3TextureObject inTexture );
 
 
 const void*	E3Object_GetPropertyAddress( TQ3Object object,

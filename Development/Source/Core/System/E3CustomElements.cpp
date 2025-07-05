@@ -5,7 +5,7 @@
         Implementation of Quesa API calls.
 
     COPYRIGHT:
-        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2025, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -137,6 +137,16 @@ public :
 	TQ3TextureObject							instanceData ;
 	} ;
 
+class E3NormalElement : public E3Element  // This is a leaf class so no other classes use this,
+								// so it can be here in the .c file rather than in
+								// the .h file, hence all the fields can be public
+								// as nobody should be including this file
+	{
+Q3_CLASS_ENUMS ( kQ3ObjectTypeCustomElementNormalMap, E3NormalElement, E3Element )
+public :
+
+	TQ3TextureObject							instanceData ;
+	} ;
 
 
 
@@ -998,6 +1008,67 @@ static TQ3XFunctionPointer SpecularMetaHandler( TQ3XMethodType methodType )
 #pragma mark -
 
 static TQ3Status
+NormalElement_readdata( TQ3Object parentObject, TQ3FileObject file )
+{
+	TQ3TextureObject	texture;
+
+	texture = Q3File_ReadObject(file);
+	if (texture == nullptr) 
+		return kQ3Failure;
+
+	E3NormalMapElement_Set( parentObject, texture );
+	Q3Object_Dispose(texture);
+	
+	return kQ3Success;
+}
+
+
+static TQ3XFunctionPointer NormalMetaHandler( TQ3XMethodType methodType )
+{
+	TQ3XFunctionPointer		theMethod = nullptr;
+	
+	switch (methodType)
+	{
+		case kQ3XMethodTypeElementCopyAdd:
+			theMethod = (TQ3XFunctionPointer) SpecularElement_CopyAdd;
+			break;
+
+		case kQ3XMethodTypeElementCopyReplace:
+			theMethod = (TQ3XFunctionPointer) SpecularElement_CopyReplace;
+			break;
+
+		case kQ3XMethodTypeElementCopyGet:
+			theMethod = (TQ3XFunctionPointer) SpecularElement_CopyGet;
+			break;
+
+		case kQ3XMethodTypeElementCopyDuplicate:
+			theMethod = (TQ3XFunctionPointer) SpecularElement_CopyDuplicate;
+			break;
+
+		case kQ3XMethodTypeElementDelete:
+			theMethod = (TQ3XFunctionPointer) SpecularElement_delete;
+			break;
+
+		case kQ3XMethodTypeObjectClassVersion:
+			theMethod = (TQ3XFunctionPointer)0x01008000;
+			break;
+
+		case kQ3XMethodTypeObjectTraverse:
+			theMethod = (TQ3XFunctionPointer) SpecularElement_traverse;
+			break;
+
+		case kQ3XMethodTypeObjectReadData:
+			theMethod = (TQ3XFunctionPointer) NormalElement_readdata;
+			break;
+	}
+	
+	return theMethod;
+}
+
+
+#pragma mark -
+
+static TQ3Status
 FogMax_traverse( TQ3Object object, void *inData, TQ3ViewObject view )
 {
 #pragma unused(object)
@@ -1235,6 +1306,14 @@ E3CustomElements_RegisterClass(void)
 					kQ3ClassNameCustomElementSpecularMap,
 					SpecularMetaHandler,
 					E3SpecularElement );
+	}
+
+	if (qd3dStatus == kQ3Success)
+	{
+		qd3dStatus = Q3_REGISTER_CLASS(
+					kQ3ClassNameCustomElementNormalMap,
+					NormalMetaHandler,
+					E3NormalElement );
 	}
 
 	if (qd3dStatus == kQ3Success)
@@ -1747,3 +1826,38 @@ void	E3SpecularMapElement_Set( TQ3ShaderObject shader, TQ3TextureObject texture 
 	}
 }
 
+/*!
+	@function	E3NormalMapElement_Copy
+	@abstract		Retrieve a normal map texture from an object.
+	@param		inShader	A surface shader.
+	@result		A new reference to a texture, or NULL.
+*/
+TQ3TextureObject E3NormalMapElement_Copy( TQ3ShaderObject inShader )
+{
+	TQ3TextureObject theTexture;
+	TQ3Status status = Q3Object_GetElement( inShader, kQ3ObjectTypeCustomElementNormalMap, &theTexture );
+	if (status == kQ3Failure)
+	{
+		theTexture = nullptr;
+	}
+	return theTexture;
+}
+
+/*!
+	@function	E3NormalMapElement_Set
+	@abstract		Set or remove a normal map.
+	@param		ioShader	A surface shader.
+	@param		inTexture	A texture object, or nullptr to remove.
+*/
+void E3NormalMapElement_Set( TQ3ShaderObject ioShader,
+	TQ3TextureObject inTexture )
+{
+	if (inTexture == nullptr)
+	{
+		Q3Object_ClearElement( ioShader, kQ3ObjectTypeCustomElementNormalMap );
+	}
+	else
+	{
+		Q3Object_AddElement( ioShader, kQ3ObjectTypeCustomElementNormalMap, &inTexture );
+	}
+}

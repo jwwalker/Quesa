@@ -12,7 +12,7 @@
         Quesa public header.
 
     COPYRIGHT:
-        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2025, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -117,6 +117,15 @@ extern "C" {
 				CESpecularMapElement_CopyData, CESpecularMapElement_SetData.
 */
 #define	kQ3ClassNameCustomElementSpecularMap	"Quesa:ShininessElement"
+
+/*!
+	@constant	kQ3ClassNameCustomElementNormalMap
+	@abstract	Class name of the normal map custom element.
+	@discussion	Ordinarily you will not need to use the class name, because you
+				can get, set, and clear specular maps using the functions
+				CENormalMapElement_CopyData, CENormalMapElement_SetData.
+*/
+#define	kQ3ClassNameCustomElementNormalMap	"Quesa:NormalMapElement"
 
 /*!
 	@constant	kQ3ClassNameCustomElementFogMaxOpacity
@@ -424,6 +433,33 @@ Q3_EXTERN_API_C (void)
 CETriangleStripElement_Remove(
 	TQ3Object _Nonnull ioObject
 );
+
+
+/*!
+	@functiongroup	Normal Map element
+*/
+
+/*!
+	@function	CENormalMapElement_Copy
+	@abstract		Retrieve a normal map texture from an object.
+	@param		inShader	A surface shader.
+	@result		A new reference to a texture, or NULL.
+*/
+Q3_EXTERN_API_C( TQ3TextureObject _Nullable )
+CENormalMapElement_Copy( TQ3ShaderObject _Nonnull inShader );
+
+/*!
+	@function	CENormalMapElement_Set
+	@abstract		Set or remove a normal map.
+	@discussion	A normal map is not used by Quesa's OpenGL
+				renderer, but this may be useful when using Quesa as a scene graph
+				for another rendering engine.
+	@param		ioShader	A surface shader.
+	@param		inTexture	A texture object, or nullptr to remove.
+*/
+Q3_EXTERN_API_C( void )
+CENormalMapElement_Set( TQ3ShaderObject _Nonnull ioShader, TQ3TextureObject _Nullable inTexture );
+
 
 /*!
 	@functiongroup	Specular Map element
