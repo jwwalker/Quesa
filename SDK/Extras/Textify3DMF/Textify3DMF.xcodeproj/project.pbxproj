@@ -107,6 +107,7 @@
 		BE36E3FD15241D5600286B2B /* RegisterHandlers.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE36E3FC15241D5600286B2B /* RegisterHandlers.cpp */; };
 		BE8074E82658212E00D646C1 /* DepthRangeStyle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8074E62658212E00D646C1 /* DepthRangeStyle.cpp */; };
 		BE8074EB2658215400D646C1 /* WriteSwitchStyle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE8074E92658215400D646C1 /* WriteSwitchStyle.cpp */; };
+		BEA0F7F72E1727EE000EAC70 /* NormalMapElement.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BEA0F7F52E1727EE000EAC70 /* NormalMapElement.cpp */; };
 		BED0623C156CAF380067EAD9 /* ImageClearColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BED0623B156CAF380067EAD9 /* ImageClearColor.cpp */; };
 		BED964561541365E00FCB407 /* NURBCurve.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BED964551541365E00FCB407 /* NURBCurve.cpp */; };
 		BED96513154267A700FCB407 /* NURBPatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BED96512154267A700FCB407 /* NURBPatch.cpp */; };
@@ -335,6 +336,8 @@
 		BE8074E72658212E00D646C1 /* DepthRangeStyle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = DepthRangeStyle.h; path = Source/TypeHandlers/Styles/DepthRangeStyle.h; sourceTree = "<group>"; };
 		BE8074E92658215400D646C1 /* WriteSwitchStyle.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = WriteSwitchStyle.cpp; path = Source/TypeHandlers/Styles/WriteSwitchStyle.cpp; sourceTree = "<group>"; };
 		BE8074EA2658215400D646C1 /* WriteSwitchStyle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = WriteSwitchStyle.h; path = Source/TypeHandlers/Styles/WriteSwitchStyle.h; sourceTree = "<group>"; };
+		BEA0F7F52E1727EE000EAC70 /* NormalMapElement.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = NormalMapElement.cpp; path = Source/TypeHandlers/Miscellaneous/NormalMapElement.cpp; sourceTree = "<group>"; };
+		BEA0F7F62E1727EE000EAC70 /* NormalMapElement.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = NormalMapElement.h; path = Source/TypeHandlers/Miscellaneous/NormalMapElement.h; sourceTree = "<group>"; };
 		BED0623A156CAF380067EAD9 /* ImageClearColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ImageClearColor.h; path = "Source/TypeHandlers/View Objects/ImageClearColor.h"; sourceTree = "<group>"; };
 		BED0623B156CAF380067EAD9 /* ImageClearColor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ImageClearColor.cpp; path = "Source/TypeHandlers/View Objects/ImageClearColor.cpp"; sourceTree = "<group>"; };
 		BED964541541365E00FCB407 /* NURBCurve.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NURBCurve.h; path = Source/TypeHandlers/Geometries/NURBCurve.h; sourceTree = "<group>"; };
@@ -688,18 +691,20 @@
 		BE03BFAD152ACDD1008EF142 /* Miscellaneous */ = {
 			isa = PBXGroup;
 			children = (
-				BE03BFAE152ACE01008EF142 /* CString.h */,
 				BE03BFAF152ACE01008EF142 /* CString.cpp */,
-				BE03BFE2152AD295008EF142 /* NameElement.h */,
+				BE03BFAE152ACE01008EF142 /* CString.h */,
 				BE03BFE3152AD295008EF142 /* NameElement.cpp */,
-				BE03C0E015301196008EF142 /* ProcessUnknownType.h */,
+				BE03BFE2152AD295008EF142 /* NameElement.h */,
+				BEA0F7F52E1727EE000EAC70 /* NormalMapElement.cpp */,
+				BEA0F7F62E1727EE000EAC70 /* NormalMapElement.h */,
 				BE03C0E115301196008EF142 /* ProcessUnknownType.cpp */,
-				BE03C1A915310C54008EF142 /* TableOfContents.h */,
-				BE03C1AA15310C54008EF142 /* TableOfContents.cpp */,
-				BE03C25D15323F15008EF142 /* Reference.h */,
+				BE03C0E015301196008EF142 /* ProcessUnknownType.h */,
 				BE03C25E15323F15008EF142 /* Reference.cpp */,
-				BE1122B21702634F009B685B /* SpecularMapElement.h */,
+				BE03C25D15323F15008EF142 /* Reference.h */,
 				BE1122B31702634F009B685B /* SpecularMapElement.cpp */,
+				BE1122B21702634F009B685B /* SpecularMapElement.h */,
+				BE03C1AA15310C54008EF142 /* TableOfContents.cpp */,
+				BE03C1A915310C54008EF142 /* TableOfContents.h */,
 			);
 			name = Miscellaneous;
 			sourceTree = "<group>";
@@ -878,6 +883,7 @@
 				BE03C816153BE57C008EF142 /* Scale.cpp in Sources */,
 				BE03C83C153BE645008EF142 /* RotateAboutPoint.cpp in Sources */,
 				BE03C85B153BE78E008EF142 /* RotateAboutAxis.cpp in Sources */,
+				BEA0F7F72E1727EE000EAC70 /* NormalMapElement.cpp in Sources */,
 				BE03C87C153BE92A008EF142 /* Quaternion.cpp in Sources */,
 				BE03C8AC153BEB1E008EF142 /* Reset.cpp in Sources */,
 				BE03C8D4153BEC52008EF142 /* Rasterize.cpp in Sources */,

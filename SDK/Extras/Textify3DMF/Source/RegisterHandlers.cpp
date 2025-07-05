@@ -135,6 +135,7 @@
 
 #include "CString.h"
 #include "NameElement.h"
+#include "NormalMapElement.h"
 #include "SpecularMapElement.h"
 #include "TableOfContents.h"
 #include "Reference.h"
@@ -267,6 +268,7 @@ void	RegisterHandlers( Controller* inController )
 	Register( CString );
 	Register( NameElement );
 	Register( SpecularMapElement );
+	Register( NormalMapElement );
 	Register( TableOfContents );
 	Register( Reference );
 }
