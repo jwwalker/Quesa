@@ -5,7 +5,7 @@
         Reading routines for 3DMF File Format object.
         
     COPYRIGHT:
-        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2025, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1060,19 +1060,33 @@ E3Read_3DMF_Shader_Texture(TQ3FileObject theFile)
 			}
 		}
 
-	// ============ Create the texture
-	if(theTexture){
-			
+	// ============ Create the shader
+	// Even if there is no diffuse color texture, we may want to create a
+	// shader if there is a specular or normal map texture.
+	if ( (theTexture != nullptr) ||
+		(
+			(elementSet != nullptr) &&
+			(
+				Q3Set_Contains( elementSet, kQ3ObjectTypeCustomElementNormalMap ) ||
+				Q3Set_Contains( elementSet, kQ3ObjectTypeCustomElementSpecularMap )
+			)
+		)
+	)
+	{
 		theObject = Q3TextureShader_New(theTexture);
-		if(theObject){
+		if ( theObject)
+		{
 			Q3Shader_SetUBoundary (theObject, uBoundary);
 			Q3Shader_SetVBoundary (theObject, vBoundary);
 			Q3Shader_SetUVTransform (theObject, &uvTransform);
-			// What I've to do with the shTransform????????
 			E3Read_3DMF_Shape_Apply_Element_Set( theObject, elementSet );
-			}
-		Q3Object_Dispose(theTexture);
 		}
+		
+		if (theTexture != nullptr)
+		{
+			Q3Object_Dispose(theTexture);
+		}
+	}
 	
 	if (elementSet != nullptr)
 	{

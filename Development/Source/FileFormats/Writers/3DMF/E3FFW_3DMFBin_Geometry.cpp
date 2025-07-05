@@ -5,7 +5,7 @@
         Quesa 3DMFBin writer geometry methods.
 
     COPYRIGHT:
-        Copyright (c) 1999-2021, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2025, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -855,7 +855,7 @@ e3ffw_3DMF_shader_texture_traverse(TQ3Object object,
 {	
 	TQ3Status qd3dstatus = kQ3Success;
 	
-	if(data == nullptr || *data == nullptr){
+	if(data == nullptr){
 		E3ErrorManager_PostWarning(kQ3WarningInvalidSubObjectForObject);
 		return qd3dstatus;
 		}
@@ -868,7 +868,10 @@ e3ffw_3DMF_shader_texture_traverse(TQ3Object object,
 	if(qd3dstatus != kQ3Success)
 		return qd3dstatus;
 	
-	qd3dstatus = Q3Object_Submit(*data, view);
+	if (*data != nullptr)
+	{
+		qd3dstatus = Q3Object_Submit(*data, view);
+	}
 	
 	return qd3dstatus;
 }
