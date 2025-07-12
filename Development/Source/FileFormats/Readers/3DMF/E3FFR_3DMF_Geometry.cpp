@@ -342,6 +342,32 @@ e3read_3dmf_group_subobjects( TQ3Object theGroup, TQ3FileObject theFile )
 
 
 //=============================================================================
+//      e3read_3dmf_elementset_is_nonempty : Check whether a set contains
+//											elements, not counting a name.
+//-----------------------------------------------------------------------------
+static bool e3read_3dmf_elementset_is_nonempty( TQ3SetObject inSet )
+{
+	bool isNonempty = false;
+	if (inSet != nullptr)
+	{
+		TQ3ElementType aType = kQ3ElementTypeNone;
+		Q3Set_GetNextElementType( inSet, &aType );
+		if (aType == kQ3ObjectTypeCustomElementName)
+		{
+			Q3Set_GetNextElementType( inSet, &aType );
+		}
+		if (aType != kQ3ElementTypeNone)
+		{
+			isNonempty = true;
+		}
+	}
+	
+	return isNonempty;
+}
+
+
+
+//=============================================================================
 //      Public functions
 //-----------------------------------------------------------------------------
 //      E3Read_3DMF_String_C : Creates and read a C string from a 3DMF.
@@ -1062,16 +1088,9 @@ E3Read_3DMF_Shader_Texture(TQ3FileObject theFile)
 
 	// ============ Create the shader
 	// Even if there is no diffuse color texture, we may want to create a
-	// shader if there is a specular or normal map texture.
-	if ( (theTexture != nullptr) ||
-		(
-			(elementSet != nullptr) &&
-			(
-				Q3Set_Contains( elementSet, kQ3ObjectTypeCustomElementNormalMap ) ||
-				Q3Set_Contains( elementSet, kQ3ObjectTypeCustomElementSpecularMap )
-			)
-		)
-	)
+	// shader if there are custom elements attached to it, except that a
+	// name element should probably be considered insignificant.
+	if ( (theTexture != nullptr) || e3read_3dmf_elementset_is_nonempty( elementSet ) )
 	{
 		theObject = Q3TextureShader_New(theTexture);
 		if ( theObject)
