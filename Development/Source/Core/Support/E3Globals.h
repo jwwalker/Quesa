@@ -295,6 +295,7 @@ extern "C" {
 #define kQ3ObjectTypeCustomElementWire				Q3_OBJECT_TYPE(0xF0, 'e', 'w', 'i')
 #define kQ3ObjectTypeCustomElementSpecularMap		Q3_OBJECT_TYPE(0xF0, 'e', 's', 'm')
 #define kQ3ObjectTypeCustomElementNormalMap			Q3_OBJECT_TYPE(0xF0, 'e', 'n', 'm')
+#define kQ3ObjectTypeCustomElementEmissiveMap		Q3_OBJECT_TYPE(0xF0, 'e', 'e', 'm')
 #define kQ3ObjectTypeSetElement						Q3_OBJECT_TYPE('s', 'e', 't', 'e')
 #define kQ3ObjectType3DMF							Q3_OBJECT_TYPE('3', 'D', 'M', 'F')
 

@@ -68,37 +68,37 @@ extern "C" {
 TQ3Status	E3CustomElements_RegisterClass(void);
 TQ3Status	E3CustomElements_UnregisterClass(void);
 
-TQ3Status	E3NameElement_SetData(TQ3Object object, const char *name);
-TQ3Status	E3NameElement_GetData(TQ3Object object, char **name);
-TQ3Status	E3NameElement_PeekData(TQ3Object object, const char **name);
-TQ3Status	E3NameElement_EmptyData(char **name);
-TQ3Status	E3UrlElement_SetData(TQ3Object object, TCEUrlData *urlData);
-TQ3Status	E3UrlElement_GetData(TQ3Object object, TCEUrlData **urlData);
-TQ3Status	E3UrlElement_EmptyData(TCEUrlData **urlData);
+TQ3Status	E3NameElement_SetData(TQ3Object _Nonnull object, const char * _Nullable name);
+TQ3Status	E3NameElement_GetData(TQ3Object _Nonnull object, char * _Nonnull * _Nonnull name);
+TQ3Status	E3NameElement_PeekData(TQ3Object _Nonnull object, const char * _Nullable * _Nonnull name);
+TQ3Status	E3NameElement_EmptyData(char * _Nonnull * _Nonnull name);
+TQ3Status	E3UrlElement_SetData(TQ3Object _Nonnull object, TCEUrlData * _Nonnull urlData);
+TQ3Status	E3UrlElement_GetData(TQ3Object _Nonnull object, TCEUrlData * _Nullable * _Nonnull urlData);
+TQ3Status	E3UrlElement_EmptyData(TCEUrlData * _Nullable * _Nonnull urlData);
 
 TQ3Status	E3TriangleStripElement_SetData(
-	TQ3Object ioObject,
+	TQ3Object _Nonnull ioObject,
 	TQ3Uns32 inNumIndices,
-	const TQ3Uns32* inIndices
+	const TQ3Uns32* _Nullable inIndices
 );
 TQ3Status	E3TriangleStripElement_GetData(
-	TQ3Object inObject,
-	TQ3Uns32* outNumIndices,
-	const TQ3Uns32** outIndices
+	TQ3Object _Nonnull inObject,
+	TQ3Uns32* _Nonnull outNumIndices,
+	const TQ3Uns32* _Nullable * _Nonnull outIndices
 );
-void		E3TriangleStripElement_Remove( TQ3Object ioObject );
+void		E3TriangleStripElement_Remove( TQ3Object _Nonnull ioObject );
 
-void		E3TextureFlippedRowsElement_Add( TQ3TextureObject inTexture );
-TQ3Boolean	E3TextureFlippedRowsElement_IsPresent( TQ3TextureObject inTexture );
-void		E3TextureFlippedRowsElement_Remove( TQ3TextureObject inTexture );
+void		E3TextureFlippedRowsElement_Add( TQ3TextureObject _Nonnull inTexture );
+TQ3Boolean	E3TextureFlippedRowsElement_IsPresent( TQ3TextureObject _Nonnull inTexture );
+void		E3TextureFlippedRowsElement_Remove( TQ3TextureObject _Nonnull inTexture );
 
-float		E3FogMaxElement_Get( TQ3StyleObject inFogStyle );
-void		E3FogMaxElement_Set( TQ3StyleObject ioFogStyle, float inMaxOpacity );
+float		E3FogMaxElement_Get( TQ3StyleObject _Nonnull inFogStyle );
+void		E3FogMaxElement_Set( TQ3StyleObject _Nonnull ioFogStyle, float inMaxOpacity );
 
-TQ3Status	E3HalfspaceFogElement_Get( TQ3StyleObject inFogStyle,
-										TCEHalfspaceFogData* outData );
-void		E3HalfspaceFogElement_Set( TQ3StyleObject inFogStyle,
-										const TCEHalfspaceFogData* inData );
+TQ3Status	E3HalfspaceFogElement_Get( TQ3StyleObject _Nonnull inFogStyle,
+										TCEHalfspaceFogData* _Nonnull outData );
+void		E3HalfspaceFogElement_Set( TQ3StyleObject _Nonnull inFogStyle,
+										const TCEHalfspaceFogData* _Nullable inData );
 
 
 /*!
@@ -107,7 +107,7 @@ void		E3HalfspaceFogElement_Set( TQ3StyleObject inFogStyle,
 	@param		shader		An object, normally a surface shader.
 	@result		A new reference to a texture, or nullptr.
 */
-TQ3TextureObject	E3SpecularMapElement_Copy( TQ3ShaderObject shader );
+TQ3TextureObject _Nullable	E3SpecularMapElement_Copy( TQ3ShaderObject _Nonnull shader );
 
 /*!
 	@function	E3SpecularMapElement_Set
@@ -115,7 +115,8 @@ TQ3TextureObject	E3SpecularMapElement_Copy( TQ3ShaderObject shader );
 	@param		shader		A surface shader.
 	@param		texture		A texture object, or nullptr to remove.
 */
-void				E3SpecularMapElement_Set( TQ3ShaderObject shader, TQ3TextureObject texture );
+void				E3SpecularMapElement_Set( TQ3ShaderObject _Nonnull shader,
+						TQ3TextureObject _Nullable texture );
 
 /*!
 	@function	E3NormalMapElement_Copy
@@ -123,7 +124,7 @@ void				E3SpecularMapElement_Set( TQ3ShaderObject shader, TQ3TextureObject textu
 	@param		inShader	A surface shader.
 	@result		A new reference to a texture, or NULL.
 */
-TQ3TextureObject E3NormalMapElement_Copy( TQ3ShaderObject inShader );
+TQ3TextureObject _Nullable E3NormalMapElement_Copy( TQ3ShaderObject _Nonnull inShader );
 
 /*!
 	@function	E3NormalMapElement_Set
@@ -131,18 +132,33 @@ TQ3TextureObject E3NormalMapElement_Copy( TQ3ShaderObject inShader );
 	@param		ioShader	A surface shader.
 	@param		inTexture	A texture object, or nullptr to remove.
 */
-void E3NormalMapElement_Set( TQ3ShaderObject ioShader,
-	TQ3TextureObject inTexture );
+void E3NormalMapElement_Set( TQ3ShaderObject _Nonnull ioShader,
+	TQ3TextureObject _Nullable inTexture );
 
+/*!
+	@function	E3EmissiveMapElement_Copy
+	@abstract	Retrieve a nemissive map texture from an object.
+	@param		shader		An object, normally a surface shader.
+	@result		A new reference to a texture, or nullptr.
+*/
+TQ3TextureObject _Nullable	E3EmissiveMapElement_Copy(
+		TQ3ShaderObject _Nonnull shader );
 
-const void*	E3Object_GetPropertyAddress( TQ3Object object,
-										TQ3ObjectType propType,
-										TQ3Uns32* actualSize );
-TQ3Status	E3Object_GetProperty( TQ3Object object, TQ3ObjectType propType,
-								TQ3Uns32 bufferSize, TQ3Uns32* actualSize, void* buffer );
-TQ3Status	E3Object_RemoveProperty( TQ3Object object, TQ3ObjectType propType );
-TQ3Status	E3Object_SetProperty( TQ3Object object, TQ3ObjectType propType,
-								TQ3Uns32 dataSize, const void* data );
+/*!
+	@function	E3EmissiveMapElement_Set
+	@abstract	Set or remove an emissive map.
+	@param		shader		A surface shader.
+	@param		texture		A texture object, or nullptr to remove.
+*/
+void	E3EmissiveMapElement_Set( TQ3ShaderObject _Nonnull shader,
+								TQ3TextureObject _Nullable texture );
+
+TQ3Status	E3Object_GetProperty( TQ3Object _Nonnull object, TQ3ObjectType propType,
+								TQ3Uns32 bufferSize, TQ3Uns32* _Nullable actualSize,
+								void* _Nullable buffer );
+TQ3Status	E3Object_RemoveProperty( TQ3Object _Nonnull object, TQ3ObjectType propType );
+TQ3Status	E3Object_SetProperty( TQ3Object _Nonnull object, TQ3ObjectType propType,
+								TQ3Uns32 dataSize, const void* _Nonnull data );
 
 //=============================================================================
 //		C++ postamble

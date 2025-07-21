@@ -148,6 +148,13 @@ public :
 	TQ3TextureObject							instanceData ;
 	} ;
 
+class E3EmissiveElement : public E3Element
+{
+Q3_CLASS_ENUMS ( kQ3ObjectTypeCustomElementEmissiveMap, E3EmissiveElement, E3Element )
+public :
+	TQ3TextureObject		instanceData;
+};
+
 
 
 
@@ -174,7 +181,7 @@ static TQ3ElementType	sHalfspaceFogElementType = 0;
 
 
 
-
+//MARK: -
 //=============================================================================
 //      Internal functions
 //-----------------------------------------------------------------------------
@@ -872,14 +879,15 @@ e3texture_flipped_rows_element_metahandler(TQ3XMethodType methodType)
 
 #pragma mark -
 
+//MARK: Common methods for an element owning one Quesa texture object
+
 static TQ3Status
-SpecularElement_delete( void *inParam )
+TextureElement_delete( void *inParam )
 {
 	TQ3TextureObject* textureOb = (TQ3TextureObject*) inParam;
 	
 	if (*textureOb != nullptr)
 	{
-		Q3_ASSERT( (*textureOb != nullptr) && (*textureOb)->IsObjectValid() );
 		Q3Object_Dispose(*textureOb);
 		*textureOb = nullptr;
 	}
@@ -888,7 +896,7 @@ SpecularElement_delete( void *inParam )
 }
 
 static TQ3Status
-SpecularElement_CopyAdd( const void* fromParam, void* toParam )
+TextureElement_CopyAdd( const void* fromParam, void* toParam )
 {
 	const TQ3TextureObject* inFromAPIElement = (const TQ3TextureObject*) fromParam;
 	TQ3TextureObject* ioToInternal = (TQ3TextureObject*) toParam;
@@ -899,12 +907,11 @@ SpecularElement_CopyAdd( const void* fromParam, void* toParam )
 }
 
 static TQ3Status
-SpecularElement_CopyReplace( const TQ3TextureObject* inFromAPIElement,
+TextureElement_CopyReplace( const TQ3TextureObject* inFromAPIElement,
 							TQ3TextureObject* ioToInternal )
 {
 	if (*ioToInternal != nullptr)
 	{
-		Q3_ASSERT( (*ioToInternal)->IsObjectValid() );
 		Q3Object_Dispose( *ioToInternal );
 	}
 	*ioToInternal = Q3Shared_GetReference( *inFromAPIElement );
@@ -913,8 +920,7 @@ SpecularElement_CopyReplace( const TQ3TextureObject* inFromAPIElement,
 }
 
 static TQ3Status
-SpecularElement_CopyGet( const void* src,
-	void* dst )
+TextureElement_CopyGet( const void* src, void* dst )
 {
 	const TQ3TextureObject* inFromInternal = (const TQ3TextureObject*) src;
 	TQ3TextureObject* ioToExternal = (TQ3TextureObject*) dst;
@@ -924,7 +930,7 @@ SpecularElement_CopyGet( const void* src,
 }
 
 static TQ3Status
-SpecularElement_CopyDuplicate( TQ3TextureObject *source, TQ3TextureObject *dest )
+TextureElement_CopyDuplicate( TQ3TextureObject *source, TQ3TextureObject *dest )
 {
 	*dest = Q3Object_Duplicate(*source);
 
@@ -932,7 +938,7 @@ SpecularElement_CopyDuplicate( TQ3TextureObject *source, TQ3TextureObject *dest 
 }
 
 static TQ3Status
-SpecularElement_traverse( TQ3Object object, TQ3TextureObject *texture, TQ3ViewObject view )
+TextureElement_traverse( TQ3Object object, TQ3TextureObject *texture, TQ3ViewObject view )
 {
 #pragma unused(object)
 
@@ -946,6 +952,48 @@ SpecularElement_traverse( TQ3Object object, TQ3TextureObject *texture, TQ3ViewOb
 	// submit child object
 	return Q3Object_Submit(*texture, view);
 }
+
+static TQ3XFunctionPointer TextureElementMetaHandler( TQ3XMethodType methodType )
+{
+	TQ3XFunctionPointer		theMethod = nullptr;
+	
+	switch (methodType)
+	{
+		case kQ3XMethodTypeElementCopyAdd:
+			theMethod = (TQ3XFunctionPointer) TextureElement_CopyAdd;
+			break;
+
+		case kQ3XMethodTypeElementCopyReplace:
+			theMethod = (TQ3XFunctionPointer) TextureElement_CopyReplace;
+			break;
+
+		case kQ3XMethodTypeElementCopyGet:
+			theMethod = (TQ3XFunctionPointer) TextureElement_CopyGet;
+			break;
+
+		case kQ3XMethodTypeElementCopyDuplicate:
+			theMethod = (TQ3XFunctionPointer) TextureElement_CopyDuplicate;
+			break;
+
+		case kQ3XMethodTypeElementDelete:
+			theMethod = (TQ3XFunctionPointer) TextureElement_delete;
+			break;
+
+		case kQ3XMethodTypeObjectClassVersion:
+			theMethod = (TQ3XFunctionPointer) 1;
+			break;
+
+		case kQ3XMethodTypeObjectTraverse:
+			theMethod = (TQ3XFunctionPointer) TextureElement_traverse;
+			break;
+	}
+	
+	return theMethod;
+}
+
+
+// MARK: -
+
 
 static TQ3Status
 SpecularElement_readdata( TQ3Object parentObject, TQ3FileObject file )
@@ -968,38 +1016,13 @@ static TQ3XFunctionPointer SpecularMetaHandler( TQ3XMethodType methodType )
 	
 	switch (methodType)
 	{
-		case kQ3XMethodTypeElementCopyAdd:
-			theMethod = (TQ3XFunctionPointer) SpecularElement_CopyAdd;
-			break;
-
-		case kQ3XMethodTypeElementCopyReplace:
-			theMethod = (TQ3XFunctionPointer) SpecularElement_CopyReplace;
-			break;
-
-		case kQ3XMethodTypeElementCopyGet:
-			theMethod = (TQ3XFunctionPointer) SpecularElement_CopyGet;
-			break;
-
-		case kQ3XMethodTypeElementCopyDuplicate:
-			theMethod = (TQ3XFunctionPointer) SpecularElement_CopyDuplicate;
-			break;
-
-		case kQ3XMethodTypeElementDelete:
-			theMethod = (TQ3XFunctionPointer) SpecularElement_delete;
-			break;
-
-		case kQ3XMethodTypeObjectClassVersion:
-			theMethod = (TQ3XFunctionPointer)0x01008000;
-			break;
-
-		case kQ3XMethodTypeObjectTraverse:
-			theMethod = (TQ3XFunctionPointer) SpecularElement_traverse;
+		default:
+			theMethod = TextureElementMetaHandler( methodType );
 			break;
 
 		case kQ3XMethodTypeObjectReadData:
 			theMethod = (TQ3XFunctionPointer) SpecularElement_readdata;
 			break;
-
 	}
 	
 	return theMethod;
@@ -1029,32 +1052,8 @@ static TQ3XFunctionPointer NormalMetaHandler( TQ3XMethodType methodType )
 	
 	switch (methodType)
 	{
-		case kQ3XMethodTypeElementCopyAdd:
-			theMethod = (TQ3XFunctionPointer) SpecularElement_CopyAdd;
-			break;
-
-		case kQ3XMethodTypeElementCopyReplace:
-			theMethod = (TQ3XFunctionPointer) SpecularElement_CopyReplace;
-			break;
-
-		case kQ3XMethodTypeElementCopyGet:
-			theMethod = (TQ3XFunctionPointer) SpecularElement_CopyGet;
-			break;
-
-		case kQ3XMethodTypeElementCopyDuplicate:
-			theMethod = (TQ3XFunctionPointer) SpecularElement_CopyDuplicate;
-			break;
-
-		case kQ3XMethodTypeElementDelete:
-			theMethod = (TQ3XFunctionPointer) SpecularElement_delete;
-			break;
-
-		case kQ3XMethodTypeObjectClassVersion:
-			theMethod = (TQ3XFunctionPointer)0x01008000;
-			break;
-
-		case kQ3XMethodTypeObjectTraverse:
-			theMethod = (TQ3XFunctionPointer) SpecularElement_traverse;
+		default:
+			theMethod = TextureElementMetaHandler( methodType );
 			break;
 
 		case kQ3XMethodTypeObjectReadData:
@@ -1067,6 +1066,41 @@ static TQ3XFunctionPointer NormalMetaHandler( TQ3XMethodType methodType )
 
 
 #pragma mark -
+
+static TQ3Status
+EmissiveMapElement_readdata( TQ3Object parentObject, TQ3FileObject file )
+{
+	TQ3TextureObject	texture;
+
+	texture = Q3File_ReadObject(file);
+	if (texture == nullptr) 
+		return kQ3Failure;
+
+	E3EmissiveMapElement_Set( parentObject, texture );
+	Q3Object_Dispose(texture);
+	
+	return kQ3Success;
+}
+
+static TQ3XFunctionPointer EmissiveMapMetaHandler( TQ3XMethodType methodType )
+{
+	TQ3XFunctionPointer		theMethod = nullptr;
+	
+	switch (methodType)
+	{
+		default:
+			theMethod = TextureElementMetaHandler( methodType );
+			break;
+
+		case kQ3XMethodTypeObjectReadData:
+			theMethod = (TQ3XFunctionPointer) EmissiveMapElement_readdata;
+			break;
+	}
+	
+	return theMethod;
+}
+
+//MARK: -
 
 static TQ3Status
 FogMax_traverse( TQ3Object object, void *inData, TQ3ViewObject view )
@@ -1318,6 +1352,14 @@ E3CustomElements_RegisterClass(void)
 
 	if (qd3dStatus == kQ3Success)
 	{
+		qd3dStatus = Q3_REGISTER_CLASS(
+					kQ3ClassNameCustomElementEmissiveMap,
+					EmissiveMapMetaHandler,
+					E3EmissiveElement );
+	}
+
+	if (qd3dStatus == kQ3Success)
+	{
 		if (nullptr == Q3XElementClass_Register( &sFlippedRowsElementType,
 			kQ3ClassNameCustomElementFlipRows,
 			0,
@@ -1349,6 +1391,8 @@ E3CustomElements_UnregisterClass(void)
 	E3ClassTree::UnregisterClass(kQ3ElementTypeDepthBits,  kQ3True);
 	E3ClassTree::UnregisterClass(kQ3ElementTypeTextureShaderAlphaTest,  kQ3True);
 	E3ClassTree::UnregisterClass(kQ3ObjectTypeCustomElementSpecularMap,  kQ3True);
+	E3ClassTree::UnregisterClass(kQ3ObjectTypeCustomElementNormalMap,  kQ3True);
+	E3ClassTree::UnregisterClass(kQ3ObjectTypeCustomElementEmissiveMap,  kQ3True);
 	E3ClassTree::UnregisterClass(sFlippedRowsElementType,  kQ3True);
 	E3ClassTree::UnregisterClass(sTriangleStripElementType,  kQ3True);
 	E3ClassTree::UnregisterClass(sFogMaxElementType,  kQ3True);
@@ -1784,7 +1828,8 @@ void		E3HalfspaceFogElement_Set( TQ3StyleObject inFogStyle,
 	}
 	else
 	{
-		Q3Object_AddElement( inFogStyle, sHalfspaceFogElementType, inData );
+		Q3Object_AddElement( inFogStyle, sHalfspaceFogElementType,
+			(const TCEHalfspaceFogData* _Nonnull) inData );
 	}
 }
 
@@ -1826,6 +1871,8 @@ void	E3SpecularMapElement_Set( TQ3ShaderObject shader, TQ3TextureObject texture 
 	}
 }
 
+//MARK: -
+
 /*!
 	@function	E3NormalMapElement_Copy
 	@abstract		Retrieve a normal map texture from an object.
@@ -1859,5 +1906,44 @@ void E3NormalMapElement_Set( TQ3ShaderObject ioShader,
 	else
 	{
 		Q3Object_AddElement( ioShader, kQ3ObjectTypeCustomElementNormalMap, &inTexture );
+	}
+}
+
+//MARK: -
+
+/*!
+	@function	E3EmissiveMapElement_Copy
+	@abstract	Retrieve a specular map texture from an object.
+	@param		shader		An object, normally a surface shader.
+	@result		A new reference to a texture, or nullptr.
+*/
+TQ3TextureObject	E3EmissiveMapElement_Copy( TQ3ShaderObject shader )
+{
+	TQ3TextureObject result = nullptr;
+	TQ3Status status = Q3Object_GetElement( shader,
+		kQ3ObjectTypeCustomElementEmissiveMap, &result );
+	if (status == kQ3Failure)
+	{
+		result = nullptr;
+	}
+	
+	return result;
+}
+
+/*!
+	@function	E3EmissiveMapElement_Set
+	@abstract	Set or remove an emissive map.
+	@param		shader		A surface shader.
+	@param		texture		A texture object, or nullptr to remove.
+*/
+void	E3EmissiveMapElement_Set( TQ3ShaderObject shader, TQ3TextureObject texture )
+{
+	if (texture == nullptr)
+	{
+		Q3Object_ClearElement( shader, kQ3ObjectTypeCustomElementEmissiveMap );
+	}
+	else
+	{
+		Q3Object_AddElement( shader, kQ3ObjectTypeCustomElementEmissiveMap, &texture );
 	}
 }

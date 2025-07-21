@@ -515,6 +515,46 @@ CENormalMapElement_Set( TQ3ShaderObject _Nonnull ioShader, TQ3TextureObject _Nul
 	E3NormalMapElement_Set( ioShader, inTexture );
 }
 
+/*!
+	@function	CEEmissiveMapElement_Copy
+	@abstract	Retrieve an emissive map texture from an object.
+	@param		shader		An object, normally a surface shader.
+	@result		A new reference to a texture, or nullptr.
+*/
+TQ3TextureObject _Nullable 
+CEEmissiveMapElement_Copy(
+		TQ3ShaderObject _Nonnull shader )
+{
+	Q3_REQUIRE_OR_RESULT( Q3_VALID_PTR(shader), nullptr );
+	Q3_REQUIRE_OR_RESULT( shader->IsObjectValid(), nullptr );
+	
+	// Call the bottleneck
+	E3System_Bottleneck();
+	
+	TQ3TextureObject theTexture = E3EmissiveMapElement_Copy( shader );
+	return theTexture;
+}
+
+/*!
+	@function	CEEmissiveMapElement_Set
+	@abstract	Set or remove an emissive map.
+	@param		shader		A surface shader.
+	@param		texture		A texture object, or nullptr to remove.
+*/
+void
+CEEmissiveMapElement_Set( TQ3ShaderObject _Nonnull shader,
+								TQ3TextureObject _Nullable texture )
+{
+	Q3_REQUIRE(Q3_VALID_PTR(shader));
+	Q3_REQUIRE( shader->IsObjectValid () );
+	Q3_REQUIRE( (texture == nullptr) || texture->IsObjectValid () );
+	
+	// Call the bottleneck
+	E3System_Bottleneck();
+	
+	E3EmissiveMapElement_Set( shader, texture );
+}
+
 #pragma mark -
 
 /*!
@@ -587,7 +627,7 @@ CEFogMaxElement_Get( TQ3StyleObject inFogStyle )
 
 		E3System_Bottleneck();
 
-		maxOpacity = E3FogMaxElement_Get(inFogStyle);
+		maxOpacity = E3FogMaxElement_Get( (TQ3StyleObject _Nonnull) inFogStyle );
 	}
 	return maxOpacity;
 }
@@ -637,7 +677,8 @@ CEHalfspaceFogElement_GetData( TQ3StyleObject inFogStyle,
 
 		E3System_Bottleneck();
 
-		success = E3HalfspaceFogElement_Get(inFogStyle, outData);
+		success = E3HalfspaceFogElement_Get( (TQ3StyleObject _Nonnull) inFogStyle,
+			outData);
 	}
 	return success;
 }
