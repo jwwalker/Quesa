@@ -13,7 +13,7 @@ ARCHS = $(ARCHS_STANDARD)
 
 // Minimum OS version supported:
 // -----------------------------
-MACOSX_DEPLOYMENT_TARGET = 10.9
+MACOSX_DEPLOYMENT_TARGET = 10.13
 
 
 // Mac OS SDK version:

@@ -1484,7 +1484,7 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 		completionHandler:
 		^(NSInteger result)
 		{
-			if ( (result == NSFileHandlingPanelOKButton) &&
+			if ( (result == NSModalResponseOK) &&
 				(mSceneGeometry != NULL) )
 			{
 				NSURL* theURL = [[panel URLs] objectAtIndex: 0];
@@ -1514,7 +1514,7 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 		completionHandler:
 		^(NSInteger result)
 		{
-			if (result == NSFileHandlingPanelOKButton)
+			if (result == NSModalResponseOK)
 			{
 				NSURL* theURL = [[panel URLs] objectAtIndex: 0];
 				TQ3Object theObject = createObjectFromFile( [theURL path] );
@@ -1538,7 +1538,7 @@ static void ApplyTextureToShape( TQ3ShaderObject inTextureShader, TQ3ShapeObject
 	[panel beginSheetModalForWindow: [quesa3dView window]
 		completionHandler:^(NSInteger result)
 		{
-			if (result == NSFileHandlingPanelOKButton)
+			if (result == NSModalResponseOK)
 			{
 				NSURL* theURL = [panel URL];
 				SaveObjectToFile( mSceneGeometry, theURL, [quesa3dView qd3dView] );
