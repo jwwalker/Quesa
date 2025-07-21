@@ -11,7 +11,7 @@
         Header for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2014-2021, Quesa Developers. All rights reserved.
+        Copyright (c) 2014-2025, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -168,11 +168,13 @@ struct ProgramRec
 	// Locations of shader uniform variables
 	GLint			mTextureUnit0UniformLoc;
 	GLint			mTextureUnit1UniformLoc;
+	GLint			mTextureUnit2UniformLoc;
 	GLint			mQuantizationUniformLoc;
 	GLint			mLightNearEdgeUniformLoc;
 	GLint			mSpotHotAngleUniformLoc;
 	GLint			mSpotCutoffAngleUniformLoc;
 	GLint			mIsSpecularMappingUniformLoc;
+	GLint			mIsEmissiveMappingUniformLoc;
 	GLint			mIsLayerShiftingUniformLoc;
 	GLint			mIsFlippingNormalsUniformLoc;
 	GLint			mClippingPlaneUniformLoc;

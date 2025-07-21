@@ -11,7 +11,7 @@
         Header for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2020, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2025, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -351,6 +351,13 @@ public:
 	void						UpdateSpecularMapping( bool inSpecularMapped );
 	
 	/*!
+		@function	UpdateEmissiveMapping
+		@abstract	Notification that there has been a change in whether we are using
+					an emissive color map.
+	*/
+	void						UpdateEmissiveMapping( bool inEmissiveMapped );
+	
+	/*!
 		@function	UpdateLighting
 		@abstract	Notification that there has been a change in which OpenGL
 					lights are on.
@@ -447,6 +454,7 @@ private:
 	int							mPassNumber;
 	bool						mMayNeedProgramChange;
 	bool						mIsSpecularMapped;
+	bool						mIsEmissiveMapped;
 	bool						mIsFlippingNormals;
 	bool						mCullBackFaces;
 	bool						mCullFrontFaces;

@@ -5,7 +5,7 @@
         Shading language functions for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2021, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2025, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -107,7 +107,9 @@ namespace
 
 	const char*	kTextureUnit0UniformName		= "tex0";
 	const char*	kTextureUnit1UniformName		= "tex1";
+	const char*	kTextureUnit2UniformName		= "tex2emissive";
 	const char* kSpecularMapFlagUniformName		= "isUsingSpecularMap";
+	const char* kEmissiveMapFlagUniformName		= "isUsingEmissiveMap";
 	const char*	kQuantizationUniformName		= "quantization";
 	const char*	kLightNearEdgeUniformName		= "lightNearEdge";
 	const char* kSpotHotAngleUniformName		= "hotAngle";
@@ -198,11 +200,13 @@ QORenderer::ProgramRec::ProgramRec( const ProgramRec& inOther )
 	, mCharacteristic( inOther.mCharacteristic )
 	, mTextureUnit0UniformLoc( inOther.mTextureUnit0UniformLoc )
 	, mTextureUnit1UniformLoc( inOther.mTextureUnit1UniformLoc )
+	, mTextureUnit2UniformLoc( inOther.mTextureUnit2UniformLoc )
 	, mQuantizationUniformLoc( inOther.mQuantizationUniformLoc )
 	, mLightNearEdgeUniformLoc( inOther.mLightNearEdgeUniformLoc )
 	, mSpotHotAngleUniformLoc( inOther.mSpotHotAngleUniformLoc )
 	, mSpotCutoffAngleUniformLoc( inOther.mSpotCutoffAngleUniformLoc )
 	, mIsSpecularMappingUniformLoc( inOther.mIsSpecularMappingUniformLoc )
+	, mIsEmissiveMappingUniformLoc( inOther.mIsEmissiveMappingUniformLoc )
 	, mIsLayerShiftingUniformLoc( inOther.mIsLayerShiftingUniformLoc )
 	, mIsFlippingNormalsUniformLoc( inOther.mIsFlippingNormalsUniformLoc )
 	, mClippingPlaneUniformLoc( inOther.mClippingPlaneUniformLoc )
@@ -251,11 +255,13 @@ void	QORenderer::ProgramRec::swap( ProgramRec& ioOther )
 	mCharacteristic.swap( ioOther.mCharacteristic );
 	std::swap( mTextureUnit0UniformLoc, ioOther.mTextureUnit0UniformLoc );
 	std::swap( mTextureUnit1UniformLoc, ioOther.mTextureUnit1UniformLoc );
+	std::swap( mTextureUnit2UniformLoc, ioOther.mTextureUnit2UniformLoc );
 	std::swap( mQuantizationUniformLoc, ioOther.mQuantizationUniformLoc );
 	std::swap( mLightNearEdgeUniformLoc, ioOther.mLightNearEdgeUniformLoc );
 	std::swap( mSpotHotAngleUniformLoc, ioOther.mSpotHotAngleUniformLoc );
 	std::swap( mSpotCutoffAngleUniformLoc, ioOther.mSpotCutoffAngleUniformLoc );
 	std::swap( mIsSpecularMappingUniformLoc, ioOther.mIsSpecularMappingUniformLoc );
+	std::swap( mIsEmissiveMappingUniformLoc, ioOther.mIsEmissiveMappingUniformLoc );
 	std::swap( mIsLayerShiftingUniformLoc, ioOther.mIsLayerShiftingUniformLoc );
 	std::swap( mIsFlippingNormalsUniformLoc, ioOther.mIsFlippingNormalsUniformLoc );
 	std::swap( mClippingPlaneUniformLoc, ioOther.mClippingPlaneUniformLoc );
@@ -455,6 +461,7 @@ QORenderer::PerPixelLighting::PerPixelLighting(
 	, mGLContext( inGLContext )
 	, mMayNeedProgramChange( true )
 	, mIsSpecularMapped( false )
+	, mIsEmissiveMapped( false )
 	, mIsFlippingNormals( true )
 	, mCullBackFaces( false )
 	, mCullFrontFaces( false )
@@ -1071,6 +1078,7 @@ void	QORenderer::PerPixelLighting::StartPass( TQ3CameraObject inCamera )
 	mMayNeedProgramChange = true;
 	mProgramCharacteristic.mIsCartoonish = (mQuantization > 0.0f);
 	mIsSpecularMapped = false;
+	mIsEmissiveMapped = false;
 	mCullBackFaces = mCullFrontFaces = false;
 	
 	mProgramCharacteristic.mIsUsingClippingPlane = false;
@@ -1182,6 +1190,7 @@ void	QORenderer::PerPixelLighting::ChooseProgram()
 			// Even if we didn't change the program, we need to update some
 			// uniforms.
 			mFuncs.glUniform1i( theProgram->mIsSpecularMappingUniformLoc, mIsSpecularMapped );
+			mFuncs.glUniform1i( theProgram->mIsEmissiveMappingUniformLoc, mIsEmissiveMapped );
 			mFuncs.glUniform1i( theProgram->mIsFlippingNormalsUniformLoc, mIsFlippingNormals );
 			if (mProgramCharacteristic.mFogModeCombined != kFogModeOff)
 			{
@@ -1235,6 +1244,7 @@ void	QORenderer::PerPixelLighting::SetUniformValues()
 	// Set texture units.
 	mFuncs.glUniform1i( mCurrentProgram->mTextureUnit0UniformLoc, 0 );
 	mFuncs.glUniform1i( mCurrentProgram->mTextureUnit1UniformLoc, 1 );
+	mFuncs.glUniform1i( mCurrentProgram->mTextureUnit2UniformLoc, 2 );
 
 	// Set the quantization uniform variables.
 	if (mCurrentProgram->mQuantizationUniformLoc != -1)
@@ -1316,8 +1326,14 @@ void	QORenderer::PerPixelLighting::InitUniformLocations( ProgramRec& ioProgram )
 	ioProgram.mTextureUnit1UniformLoc = mFuncs.glGetUniformLocation(
 		ioProgram.mProgram, kTextureUnit1UniformName );
 	CHECK_GL_ERROR;
+	ioProgram.mTextureUnit2UniformLoc = mFuncs.glGetUniformLocation(
+		ioProgram.mProgram, kTextureUnit2UniformName );
+	CHECK_GL_ERROR;
 	ioProgram.mIsSpecularMappingUniformLoc = mFuncs.glGetUniformLocation(
 		ioProgram.mProgram, kSpecularMapFlagUniformName );
+	CHECK_GL_ERROR;
+	ioProgram.mIsEmissiveMappingUniformLoc = mFuncs.glGetUniformLocation(
+		ioProgram.mProgram, kEmissiveMapFlagUniformName );
 	CHECK_GL_ERROR;
 	ioProgram.mIsLayerShiftingUniformLoc = mFuncs.glGetUniformLocation(
 		ioProgram.mProgram, kLayerShiftFlagUniformName );
@@ -2037,6 +2053,21 @@ void	QORenderer::PerPixelLighting::UpdateSpecularMapping( bool inSpecularMapped 
 	if (inSpecularMapped != mIsSpecularMapped)
 	{
 		mIsSpecularMapped = inSpecularMapped;
+		mMayNeedProgramChange = true;
+	}
+}
+
+
+/*!
+	@function	UpdateEmissiveMapping
+	@abstract	Notification that there has been a change in whether we are using
+				an emissive color map.
+*/
+void	QORenderer::PerPixelLighting::UpdateEmissiveMapping( bool inEmissiveMapped )
+{
+	if (inEmissiveMapped != mIsEmissiveMapped)
+	{
+		mIsEmissiveMapped = inEmissiveMapped;
 		mMayNeedProgramChange = true;
 	}
 }

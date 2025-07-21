@@ -5,7 +5,7 @@
         Header for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2018, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2025, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -169,6 +169,7 @@ private:
 									TQ3Float32& outAlphaTestThreshold );
 	void					FlushCache();
 	void					SetSpecularMap( TQ3ShaderObject inShader );
+	void					SetEmissiveMap( TQ3ShaderObject inShader );
 
 	Renderer&				mRenderer;
 	TQ3TextureCachePtr		mTextureCache;
@@ -176,6 +177,7 @@ private:
 	std::vector<TQ3Uns8>	mSrcImageData;
 	std::vector<GLubyte>	mGLFormatWork;
 	bool					mPendingTextureRemoval;
+	bool					mPendingEmissiveTextureRemoval;
 };
 
 }

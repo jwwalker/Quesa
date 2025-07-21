@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2021, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2025, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -181,6 +181,7 @@ Texture::Texture(
 	: mRenderer( inRenderer )
 	, mTextureCache( nullptr )
 	, mPendingTextureRemoval( true )
+	, mPendingEmissiveTextureRemoval( true )
 {
 	mState.Reset();
 }
@@ -327,6 +328,7 @@ void	Texture::StartPass()
 {
 	mState.Reset();
 	mPendingTextureRemoval = true;
+	mPendingEmissiveTextureRemoval = true;
 }
 
 
@@ -387,6 +389,19 @@ void	Texture::HandlePendingTextureRemoval()
 		
 		mPendingTextureRemoval = false;
 	}
+	
+	if (mPendingEmissiveTextureRemoval)
+	{
+		GLDrawContext_SetCurrent( mRenderer.GLContext(), kQ3False );
+		
+		(*mRenderer.Funcs().glActiveTexture)( GL_TEXTURE2_ARB );
+		glBindTexture( GL_TEXTURE_2D, 0 );
+		(*mRenderer.Funcs().glActiveTexture)( GL_TEXTURE0_ARB );
+
+		mRenderer.Shader().UpdateEmissiveMapping( false );
+		
+		mPendingEmissiveTextureRemoval = false;
+	}
 }
 
 /*!
@@ -437,6 +452,7 @@ void	Texture::SetCurrentTexture(
 				(pixelType == kQ3PixelTypeARGB16));
 			mState.mIsTextureMipmapped = IsTextureMipmapped( inTexture );
 			
+			(*mRenderer.Funcs().glActiveTexture)( GL_TEXTURE0_ARB );
 			glBindTexture( GL_TEXTURE_2D, mState.mGLTextureObject );
 			
 			mPendingTextureRemoval = false;
@@ -451,6 +467,8 @@ void	Texture::SetCurrentTexture(
 #if 0//WIN32
 	Q3_MESSAGE_FMT("      -Texture::SetCurrentTexture");
 #endif
+
+	SetEmissiveMap( inShader );
 }
 
 
@@ -491,3 +509,44 @@ void	Texture::SetSpecularMap( TQ3ShaderObject inShader )
 	}
 }
 
+/*!
+	@function	SetEmissiveMap
+	@abstract	If the shader has an emissive map attached to it, set it up
+				as a texture on the third (index 2) texture unit.
+*/
+void	Texture::SetEmissiveMap( TQ3ShaderObject inShader )
+{
+	if ( inShader != nullptr )
+	{
+		CQ3ObjectRef emissiveTexture( CEEmissiveMapElement_Copy( inShader ) );
+		if (emissiveTexture.isvalid())
+		{
+			TQ3CachedTexturePtr	cachedTexture = GLTextureMgr_FindCachedTexture(
+				mTextureCache, emissiveTexture.get() );
+			if (cachedTexture == nullptr)
+			{
+				(*mRenderer.Funcs().glActiveTexture)( GL_TEXTURE2_ARB );
+				cachedTexture = CacheTexture( emissiveTexture.get() );
+			}
+			if (cachedTexture != nullptr)
+			{
+				GLuint textureName = GLTextureMgr_GetOpenGLTexture( cachedTexture );
+				(*mRenderer.Funcs().glActiveTexture)( GL_TEXTURE2_ARB );
+				glBindTexture( GL_TEXTURE_2D, textureName );
+				(*mRenderer.Funcs().glActiveTexture)( GL_TEXTURE0_ARB );
+				mRenderer.Shader().UpdateEmissiveMapping( true );
+				mPendingEmissiveTextureRemoval = false;
+			}
+		}
+		else
+		{
+			mRenderer.Shader().UpdateEmissiveMapping( false );
+			mPendingEmissiveTextureRemoval = true;
+		}
+	}
+	else
+	{
+		mRenderer.Shader().UpdateEmissiveMapping( false );
+		mPendingEmissiveTextureRemoval = true;
+	}
+}

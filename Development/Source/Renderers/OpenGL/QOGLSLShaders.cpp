@@ -5,7 +5,7 @@
         Quesa OpenGL shaders.
 		    
     COPYRIGHT:
-        Copyright (c) 2020-2021, Quesa Developers. All rights reserved.
+        Copyright (c) 2020-2025, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -1168,6 +1168,9 @@ uniform vec3 ambientLight;
 // Specular map flag
 uniform bool isUsingSpecularMap;
 
+// emissive map flag
+uniform bool isUsingEmissiveMap;
+
 // Specularity, replacing gl_FrontMaterial.specular.rgb, gl_FrontMaterial.shininess
 uniform vec3 specularColor;
 uniform float shininess;
@@ -1202,6 +1205,7 @@ uniform float quesaAngleOfView;
 // Samplers for texture units
 uniform sampler2D tex0;
 uniform sampler2D tex1;
+uniform sampler2D tex2emissive;
 
 float FogSmooth( in float x )
 {
@@ -1673,7 +1677,9 @@ const char* kMainFragmentShaderStartFlat = R"(
 
 #pragma mark kColorCompForNULLIllumination
 const char* kColorCompForNULLIllumination = R"(
-	color = FSIN.interpolatedColor.rgb + quesaEmissiveColor;
+	color = FSIN.interpolatedColor.rgb + 
+		(isUsingEmissiveMap? texture( tex2emissive, FSIN.texCoord ).rgb :
+		quesaEmissiveColor);
 	alpha = FSIN.interpolatedColor.a;
 
 )";
@@ -1684,7 +1690,8 @@ const char* kColorCompForLambertAndPhong = R"(
 	// Start with emissive and global ambient color.
 	// I will assume that the only ambient light is global.
 	color = ambientLight * (1.0 - metallic) * FSIN.interpolatedColor.rgb +
-         quesaEmissiveColor;
+         (isUsingEmissiveMap? texture( tex2emissive, FSIN.texCoord ).rgb :
+			quesaEmissiveColor);
 
 	// Add diffuse color.
 	color += diff * (1.0 - metallic) * FSIN.interpolatedColor.rgb;
@@ -1699,7 +1706,8 @@ const char* kColorCompForLambertAndPhong_Cartoonish = R"(
 	// Start with emissive and global ambient color.
 	// I will assume that the only ambient light is global.
 	color = ambientLight * (1.0 - metallic) * FSIN.interpolatedColor.rgb +
-			quesaEmissiveColor;
+         (isUsingEmissiveMap? texture( tex2emissive, FSIN.texCoord ).rgb :
+			quesaEmissiveColor);
 
 	// Add diffuse color.
 	// Ordinarily we just add the diffuse light times the
