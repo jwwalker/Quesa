@@ -769,6 +769,8 @@ static void BuildFragmentShaderSource(	const QORenderer::ProgramCharacteristic& 
 		outSource += kAddSpecularColor;
 	}
 	
+	outSource += kAddEmissiveColor;
+	
 	if (inProgramRec.mFogModeCombined != QORenderer::kFogModeOff)
 	{
 		switch (inProgramRec.mFogModeCombined)

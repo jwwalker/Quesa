@@ -1677,9 +1677,7 @@ const char* kMainFragmentShaderStartFlat = R"(
 
 #pragma mark kColorCompForNULLIllumination
 const char* kColorCompForNULLIllumination = R"(
-	color = FSIN.interpolatedColor.rgb + 
-		(isUsingEmissiveMap? texture( tex2emissive, FSIN.texCoord ).rgb :
-		quesaEmissiveColor);
+	color = FSIN.interpolatedColor.rgb;
 	alpha = FSIN.interpolatedColor.a;
 
 )";
@@ -1689,9 +1687,7 @@ const char* kColorCompForNULLIllumination = R"(
 const char* kColorCompForLambertAndPhong = R"(
 	// Start with emissive and global ambient color.
 	// I will assume that the only ambient light is global.
-	color = ambientLight * (1.0 - metallic) * FSIN.interpolatedColor.rgb +
-         (isUsingEmissiveMap? texture( tex2emissive, FSIN.texCoord ).rgb :
-			quesaEmissiveColor);
+	color = ambientLight * (1.0 - metallic) * FSIN.interpolatedColor.rgb;
 
 	// Add diffuse color.
 	color += diff * (1.0 - metallic) * FSIN.interpolatedColor.rgb;
@@ -1705,9 +1701,7 @@ const char* kColorCompForLambertAndPhong = R"(
 const char* kColorCompForLambertAndPhong_Cartoonish = R"(
 	// Start with emissive and global ambient color.
 	// I will assume that the only ambient light is global.
-	color = ambientLight * (1.0 - metallic) * FSIN.interpolatedColor.rgb +
-         (isUsingEmissiveMap? texture( tex2emissive, FSIN.texCoord ).rgb :
-			quesaEmissiveColor);
+	color = ambientLight * (1.0 - metallic) * FSIN.interpolatedColor.rgb;
 
 	// Add diffuse color.
 	// Ordinarily we just add the diffuse light times the
@@ -1762,6 +1756,12 @@ const char* kAddSpecularColor = R"(
 
 )";
 
+
+#pragma mark kAddEmissiveColor
+const char* kAddEmissiveColor = R"(
+	color += (isUsingEmissiveMap? texture( tex2emissive, FSIN.texCoord ).rgb :
+		quesaEmissiveColor);
+)";
 
 #pragma mark kCalcFogLinear
 const char* kCalcFogLinear = R"(

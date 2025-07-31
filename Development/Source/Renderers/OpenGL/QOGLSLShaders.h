@@ -11,7 +11,7 @@
         Header for Quesa OpenGL shaders.
 		    
     COPYRIGHT:
-        Copyright (c) 2020, Quesa Developers. All rights reserved.
+        Copyright (c) 2020-2025, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -92,6 +92,7 @@ namespace QOGLSLShader
 	extern const char* kColorCompForLambertAndPhong;
 	extern const char* kColorCompForLambertAndPhong_Cartoonish;
 	extern const char* kTexturedColorComp;
+	extern const char* kAddEmissiveColor;
 	extern const char* kAddSpecularColor;
 	extern const char* kCalcFogLinear;
 	extern const char* kCalcFogExp;
