@@ -153,6 +153,26 @@ TQ3TextureObject _Nullable	E3EmissiveMapElement_Copy(
 void	E3EmissiveMapElement_Set( TQ3ShaderObject _Nonnull shader,
 								TQ3TextureObject _Nullable texture );
 
+/*!
+	@function	E3MetallicRoughMapElement_Copy
+	@abstract	Retrieve a metallic/roughness map texture from an object.
+	@param		shader		An object, normally a surface shader.
+	@result		A new reference to a texture, or nullptr.
+*/
+TQ3TextureObject _Nullable	E3MetallicRoughMapElement_Copy(
+		TQ3ShaderObject _Nonnull shader );
+
+/*!
+	@function	E3MetallicRoughMapElement_Set
+	@abstract	Set or remove a metallic/roughness map.
+	@param		shader		A surface shader.
+	@param		texture		A texture object, or nullptr to remove.
+*/
+void	E3MetallicRoughMapElement_Set( TQ3ShaderObject _Nonnull shader,
+								TQ3TextureObject _Nullable texture );
+
+
+
 TQ3Status	E3Object_GetProperty( TQ3Object _Nonnull object, TQ3ObjectType propType,
 								TQ3Uns32 bufferSize, TQ3Uns32* _Nullable actualSize,
 								void* _Nullable buffer );

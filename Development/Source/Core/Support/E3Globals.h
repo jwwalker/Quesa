@@ -2,7 +2,7 @@
         E3Globals.h
 
     DESCRIPTION:
-        Header file for E3Globals.c.
+        Header file for E3Globals.cpp.
 
     COPYRIGHT:
         Copyright (c) 1999-2025, Quesa Developers. All rights reserved.
@@ -296,6 +296,7 @@ extern "C" {
 #define kQ3ObjectTypeCustomElementSpecularMap		Q3_OBJECT_TYPE(0xF0, 'e', 's', 'm')
 #define kQ3ObjectTypeCustomElementNormalMap			Q3_OBJECT_TYPE(0xF0, 'e', 'n', 'm')
 #define kQ3ObjectTypeCustomElementEmissiveMap		Q3_OBJECT_TYPE(0xF0, 'e', 'e', 'm')
+#define kQ3ObjectTypeCustomElementMetalRoughMap		Q3_OBJECT_TYPE(0xF0, 'e', 'm', 'r')
 #define kQ3ObjectTypeSetElement						Q3_OBJECT_TYPE('s', 'e', 't', 'e')
 #define kQ3ObjectType3DMF							Q3_OBJECT_TYPE('3', 'D', 'M', 'F')
 

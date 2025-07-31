@@ -155,6 +155,12 @@ public :
 	TQ3TextureObject		instanceData;
 };
 
+class E3MetalRoughElement : public E3Element
+{
+Q3_CLASS_ENUMS ( kQ3ObjectTypeCustomElementMetalRoughMap, E3MetalRoughElement, E3Element )
+public :
+	TQ3TextureObject		instanceData;
+};
 
 
 
@@ -1103,6 +1109,41 @@ static TQ3XFunctionPointer EmissiveMapMetaHandler( TQ3XMethodType methodType )
 //MARK: -
 
 static TQ3Status
+MetalRoughMapElement_readdata( TQ3Object parentObject, TQ3FileObject file )
+{
+	TQ3TextureObject	texture;
+
+	texture = Q3File_ReadObject(file);
+	if (texture == nullptr) 
+		return kQ3Failure;
+
+	E3MetallicRoughMapElement_Set( parentObject, texture );
+	Q3Object_Dispose(texture);
+	
+	return kQ3Success;
+}
+
+static TQ3XFunctionPointer MetallicRoughMapMetaHandler( TQ3XMethodType methodType )
+{
+	TQ3XFunctionPointer		theMethod = nullptr;
+	
+	switch (methodType)
+	{
+		default:
+			theMethod = TextureElementMetaHandler( methodType );
+			break;
+
+		case kQ3XMethodTypeObjectReadData:
+			theMethod = (TQ3XFunctionPointer) MetalRoughMapElement_readdata;
+			break;
+	}
+	
+	return theMethod;
+}
+
+//MARK: -
+
+static TQ3Status
 FogMax_traverse( TQ3Object object, void *inData, TQ3ViewObject view )
 {
 #pragma unused(object)
@@ -1360,6 +1401,14 @@ E3CustomElements_RegisterClass(void)
 
 	if (qd3dStatus == kQ3Success)
 	{
+		qd3dStatus = Q3_REGISTER_CLASS(
+					kQ3ClassNameCustomElementMetalRoughMap,
+					MetallicRoughMapMetaHandler,
+					E3MetalRoughElement );
+	}
+
+	if (qd3dStatus == kQ3Success)
+	{
 		if (nullptr == Q3XElementClass_Register( &sFlippedRowsElementType,
 			kQ3ClassNameCustomElementFlipRows,
 			0,
@@ -1393,6 +1442,7 @@ E3CustomElements_UnregisterClass(void)
 	E3ClassTree::UnregisterClass(kQ3ObjectTypeCustomElementSpecularMap,  kQ3True);
 	E3ClassTree::UnregisterClass(kQ3ObjectTypeCustomElementNormalMap,  kQ3True);
 	E3ClassTree::UnregisterClass(kQ3ObjectTypeCustomElementEmissiveMap,  kQ3True);
+	E3ClassTree::UnregisterClass(kQ3ObjectTypeCustomElementMetalRoughMap,  kQ3True);
 	E3ClassTree::UnregisterClass(sFlippedRowsElementType,  kQ3True);
 	E3ClassTree::UnregisterClass(sTriangleStripElementType,  kQ3True);
 	E3ClassTree::UnregisterClass(sFogMaxElementType,  kQ3True);
@@ -1945,5 +1995,46 @@ void	E3EmissiveMapElement_Set( TQ3ShaderObject shader, TQ3TextureObject texture 
 	else
 	{
 		Q3Object_AddElement( shader, kQ3ObjectTypeCustomElementEmissiveMap, &texture );
+	}
+}
+
+//MARK: -
+
+/*!
+	@function	E3MetallicRoughMapElement_Copy
+	@abstract	Retrieve a metallic/roughness map texture from an object.
+	@param		shader		An object, normally a surface shader.
+	@result		A new reference to a texture, or nullptr.
+*/
+TQ3TextureObject _Nullable	E3MetallicRoughMapElement_Copy(
+		TQ3ShaderObject _Nonnull shader )
+{
+	TQ3TextureObject result = nullptr;
+	TQ3Status status = Q3Object_GetElement( shader,
+		kQ3ObjectTypeCustomElementMetalRoughMap, &result );
+	if (status == kQ3Failure)
+	{
+		result = nullptr;
+	}
+	
+	return result;
+}
+
+/*!
+	@function	E3MetallicRoughMapElement_Set
+	@abstract	Set or remove a metallic/roughness map.
+	@param		shader		A surface shader.
+	@param		texture		A texture object, or nullptr to remove.
+*/
+void	E3MetallicRoughMapElement_Set( TQ3ShaderObject _Nonnull shader,
+								TQ3TextureObject _Nullable texture )
+{
+	if (texture == nullptr)
+	{
+		Q3Object_ClearElement( shader, kQ3ObjectTypeCustomElementMetalRoughMap );
+	}
+	else
+	{
+		Q3Object_AddElement( shader, kQ3ObjectTypeCustomElementMetalRoughMap, &texture );
 	}
 }

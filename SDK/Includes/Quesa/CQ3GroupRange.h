@@ -61,7 +61,7 @@ class QuesaGroupIterator
 {
 public:
 	/*!
-		@method		QuesaGroupIterator
+		@function	QuesaGroupIterator
 		@abstract	Constructor.
 		@param		group	Group being iterated over.
 		@param		pos		A position in the group.  May be NULL.
@@ -73,7 +73,7 @@ public:
 								: _group( other._group ), _pos( other._pos ) {}
 	
 	/*!
-		@method		operator*
+		@function	operator*
 		@abstract		Dereference the iterator.
 	*/
 	CQ3ObjectRef			operator*() const
@@ -129,7 +129,7 @@ class CQ3GroupRange
 {
 public:
 	/*!
-		@method		CQ3GroupRange
+		@function	CQ3GroupRange
 		@abstract	Construct a range.
 	*/
 					CQ3GroupRange( TQ3GroupObject group )
@@ -138,7 +138,7 @@ public:
 					CQ3GroupRange( const CQ3GroupRange& other ) = delete;
 	
 	/*!
-		@method		begin
+		@function	begin
 		@abstract	Get the beginning iterator.
 	*/
 	QuesaGroupIterator<quesaType>	begin() const
@@ -149,7 +149,7 @@ public:
 					}
 	
 	/*!
-		@method		end
+		@function	end
 		@abstract	Get the past-end iterator.
 	*/
 	QuesaGroupIterator<quesaType>	end() const

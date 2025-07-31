@@ -555,6 +555,46 @@ CEEmissiveMapElement_Set( TQ3ShaderObject _Nonnull shader,
 	E3EmissiveMapElement_Set( shader, texture );
 }
 
+
+/*!
+	@function	CEMetallicRoughMapElement_Copy
+	@abstract	Retrieve a metallic/roughness map texture from an object.
+	@param		shader		An object, normally a surface shader.
+	@result		A new reference to a texture, or nullptr.
+*/
+TQ3TextureObject _Nullable
+CEMetallicRoughMapElement_Copy(
+		TQ3ShaderObject _Nonnull shader )
+{
+	Q3_REQUIRE_OR_RESULT( Q3_VALID_PTR(shader), nullptr );
+	Q3_REQUIRE_OR_RESULT( shader->IsObjectValid(), nullptr );
+	
+	// Call the bottleneck
+	E3System_Bottleneck();
+	
+	TQ3TextureObject theTexture = E3MetallicRoughMapElement_Copy( shader );
+	return theTexture;
+}
+
+/*!
+	@function	CEMetallicRoughMapElement_Set
+	@abstract	Set or remove a metallic/roughness map.
+	@param		shader		A surface shader.
+	@param		texture		A texture object, or nullptr to remove.
+*/
+void	CEMetallicRoughMapElement_Set( TQ3ShaderObject _Nonnull shader,
+								TQ3TextureObject _Nullable texture )
+{
+	Q3_REQUIRE(Q3_VALID_PTR(shader));
+	Q3_REQUIRE( shader->IsObjectValid () );
+	Q3_REQUIRE( (texture == nullptr) || texture->IsObjectValid () );
+	
+	// Call the bottleneck
+	E3System_Bottleneck();
+	
+	E3MetallicRoughMapElement_Set( shader, texture );
+}
+
 #pragma mark -
 
 /*!

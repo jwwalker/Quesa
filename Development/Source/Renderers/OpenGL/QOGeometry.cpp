@@ -5,7 +5,7 @@
         Source for Quesa OpenGL renderer class.
 		    
     COPYRIGHT:
-        Copyright (c) 2007-2021, Quesa Developers. All rights reserved.
+        Copyright (c) 2007-2025, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -59,6 +59,7 @@
 #include "E3Math_Intersect.h"
 #include "QOCalcTriMeshEdges.h"
 #include "QuesaMathOperators.hpp"
+#include "QuesaCustomElements.h"
 
 
 #if Q3_DEBUG && QUESA_OS_MACINTOSH && QUESA_UH_IN_FRAMEWORKS && QUESA_TRACE_GL
@@ -285,6 +286,24 @@ static void AdjustGeomState( TQ3AttributeSet inAttSet,
 		ioGeomState.highlightState = * (TQ3Switch *)
 			Q3XAttributeSet_GetPointer( inAttSet,
 				kQ3AttributeTypeHighlightState );
+	}
+	
+	// If the material has a metallic attribute but also a metallic/roughness
+	// texture, then it probably won't look right so long as we have not
+	// implemented the metallic/roughness texture.  Safer to skip metallic
+	// in that case.
+	if (ioGeomState.metallic > 0.0f)
+	{
+		CQ3ObjectRef textureShader( CQ3AttributeSet_GetTextureShader( inAttSet ) );
+		if (textureShader.isvalid())
+		{
+			CQ3ObjectRef metalRoughMap( CEMetallicRoughMapElement_Copy(
+				(TQ3ShaderObject _Nonnull) textureShader.get() ) );
+			if (metalRoughMap.isvalid())
+			{
+				ioGeomState.metallic = 0.0f;
+			}
+		}
 	}
 }
 
