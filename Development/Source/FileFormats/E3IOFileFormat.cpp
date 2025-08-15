@@ -5,7 +5,7 @@
         Implementation of Quesa Abstract FileFormat object.
         
     COPYRIGHT:
-        Copyright (c) 1999-2012, Quesa Developers. All rights reserved.
+        Copyright (c) 1999-2025, Quesa Developers. All rights reserved.
 
         For the current release of Quesa, please see:
 
@@ -767,7 +767,12 @@ E3FileFormat_GenericWriteBinary_Raw(TQ3FileFormatObject format,const unsigned ch
 							instanceData->currentStoragePosition,
 							length, (TQ3Uns8*)data, &sizeWrite);
 
-	Q3_ASSERT(sizeWrite == length);
+	if (sizeWrite != length)
+	{
+		// Probably result has already been set to kQ3Failure, best to be sure
+		result = kQ3Failure;
+	}
+
 	instanceData->currentStoragePosition += length;
 
 	return result;							 
