@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3CD762AF2E7F400600BB4422 /* MeshEdges.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CD762AE2E7F3FFD00BB4422 /* MeshEdges.cpp */; };
+		3CD762B02E7F400600BB4422 /* UnknownText.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CD762AB2E7F3FFD00BB4422 /* UnknownText.cpp */; };
+		3CD762B12E7F400600BB4422 /* MeshCorners.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3CD762AA2E7F3FFD00BB4422 /* MeshCorners.cpp */; };
 		8DD76F650486A84900D96B5E /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 08FB7796FE84155DC02AAC07 /* main.cpp */; settings = {ATTRIBUTES = (); }; };
 		BE03BAB715260A75008EF142 /* Matrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE03BAB615260A75008EF142 /* Matrix.cpp */; };
 		BE03BAF015260E0F008EF142 /* Line.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BE03BAEF15260E0F008EF142 /* Line.cpp */; };
@@ -134,6 +137,12 @@
 
 /* Begin PBXFileReference section */
 		08FB7796FE84155DC02AAC07 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		3CD762A92E7F3FFD00BB4422 /* MeshEdges.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MeshEdges.h; path = Source/TypeHandlers/Miscellaneous/MeshEdges.h; sourceTree = "<group>"; };
+		3CD762AA2E7F3FFD00BB4422 /* MeshCorners.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = MeshCorners.cpp; path = Source/TypeHandlers/Miscellaneous/MeshCorners.cpp; sourceTree = "<group>"; };
+		3CD762AB2E7F3FFD00BB4422 /* UnknownText.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = UnknownText.cpp; path = Source/TypeHandlers/Miscellaneous/UnknownText.cpp; sourceTree = "<group>"; };
+		3CD762AC2E7F3FFD00BB4422 /* MeshCorners.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = MeshCorners.h; path = Source/TypeHandlers/Miscellaneous/MeshCorners.h; sourceTree = "<group>"; };
+		3CD762AD2E7F3FFD00BB4422 /* UnknownText.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = UnknownText.h; path = Source/TypeHandlers/Miscellaneous/UnknownText.h; sourceTree = "<group>"; };
+		3CD762AE2E7F3FFD00BB4422 /* MeshEdges.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = MeshEdges.cpp; path = Source/TypeHandlers/Miscellaneous/MeshEdges.cpp; sourceTree = "<group>"; };
 		8DD76F6C0486A84900D96B5E /* Textify3DMF */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Textify3DMF; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE03BAB515260A75008EF142 /* Matrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Matrix.h; path = Source/TypeHandlers/Transforms/Matrix.h; sourceTree = "<group>"; };
 		BE03BAB615260A75008EF142 /* Matrix.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Matrix.cpp; path = Source/TypeHandlers/Transforms/Matrix.cpp; sourceTree = "<group>"; };
@@ -705,6 +714,12 @@
 				BE1122B21702634F009B685B /* SpecularMapElement.h */,
 				BE03C1AA15310C54008EF142 /* TableOfContents.cpp */,
 				BE03C1A915310C54008EF142 /* TableOfContents.h */,
+				3CD762AB2E7F3FFD00BB4422 /* UnknownText.cpp */,
+				3CD762AD2E7F3FFD00BB4422 /* UnknownText.h */,
+				3CD762AA2E7F3FFD00BB4422 /* MeshCorners.cpp */,
+				3CD762AC2E7F3FFD00BB4422 /* MeshCorners.h */,
+				3CD762AE2E7F3FFD00BB4422 /* MeshEdges.cpp */,
+				3CD762A92E7F3FFD00BB4422 /* MeshEdges.h */,
 			);
 			name = Miscellaneous;
 			sourceTree = "<group>";
@@ -812,6 +827,7 @@
 				BE03BBCC1526D9E4008EF142 /* DiffuseColor.cpp in Sources */,
 				BE03BC1B15276705008EF142 /* TextureShader.cpp in Sources */,
 				BE03BC27152767DF008EF142 /* GenericRenderer.cpp in Sources */,
+				3CD762B12E7F400600BB4422 /* MeshCorners.cpp in Sources */,
 				BE03BC2E15276864008EF142 /* BottomCapAttributeSet.cpp in Sources */,
 				BE03BC3715276941008EF142 /* TopCapAttributeSet.cpp in Sources */,
 				BE03BC401527699F008EF142 /* FaceCapAttributeSet.cpp in Sources */,
@@ -830,6 +846,7 @@
 				BE03BDE21528BDBE008EF142 /* Rotate.cpp in Sources */,
 				BE03BDFC1528C07B008EF142 /* Caps.cpp in Sources */,
 				BE03BE111528D678008EF142 /* Ellipsoid.cpp in Sources */,
+				3CD762B02E7F400600BB4422 /* UnknownText.cpp in Sources */,
 				BE03BE1E1528E05E008EF142 /* Torus.cpp in Sources */,
 				BE03BE311528E1B5008EF142 /* Cone.cpp in Sources */,
 				BE03BE7615292870008EF142 /* EndGroup.cpp in Sources */,
@@ -862,6 +879,7 @@
 				BE03C54E1539DC83008EF142 /* BackfacingStyle.cpp in Sources */,
 				BE03C5831539E5BD008EF142 /* OrientationStyle.cpp in Sources */,
 				BE03C59C153A31D5008EF142 /* AntialiasStyle.cpp in Sources */,
+				3CD762AF2E7F400600BB4422 /* MeshEdges.cpp in Sources */,
 				BE03C5B1153A3B28008EF142 /* FogStyle.cpp in Sources */,
 				BE03C5C3153A3F33008EF142 /* ShadingUV.cpp in Sources */,
 				BE03C5EF153A3FB0008EF142 /* SurfaceUV.cpp in Sources */,

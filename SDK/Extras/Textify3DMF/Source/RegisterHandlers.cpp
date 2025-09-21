@@ -139,6 +139,9 @@
 #include "SpecularMapElement.h"
 #include "TableOfContents.h"
 #include "Reference.h"
+#include "MeshCorners.h"
+#include "MeshEdges.h"
+#include "UnknownText.h"
 
 #include "VertexAttributeSetList.h"
 
@@ -271,4 +274,7 @@ void	RegisterHandlers( Controller* inController )
 	Register( NormalMapElement );
 	Register( TableOfContents );
 	Register( Reference );
+  Register( MeshCorners );
+  Register( MeshEdges );
+  Register( UnknownText );
 }
