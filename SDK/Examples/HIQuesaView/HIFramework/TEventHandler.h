@@ -10,7 +10,7 @@
 				please do not use, install, modify or redistribute this Apple software.
 
 				In consideration of your agreement to abide by the following terms, and subject
-				to these terms, Apple grants you a personal, non-exclusive license, under AppleÕs
+				to these terms, Apple grants you a personal, non-exclusive license, under Appleâ€™s
 				copyrights in this original Apple software (the "Apple Software"), to use,
 				reproduce, modify and redistribute the Apple Software, with or without
 				modifications, in source and/or binary forms; provided that if you redistribute
@@ -38,7 +38,7 @@
 				(INCLUDING NEGLIGENCE), STRICT LIABILITY OR OTHERWISE, EVEN IF APPLE HAS BEEN
 				ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-	Copyright © 2000-2005 Apple Computer, Inc., All Rights Reserved
+	Copyright Â© 2000-2005 Apple Computer, Inc., All Rights Reserved
 */
 
 #ifndef TEventHandler_H_
