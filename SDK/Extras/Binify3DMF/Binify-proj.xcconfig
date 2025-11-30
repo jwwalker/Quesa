@@ -7,7 +7,7 @@
 //
 
 // Architectures
-ARCHS = x86_64
+ARCHS = $(ARCHS_STANDARD)
 SDKROOT = macosx
 
 

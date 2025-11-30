@@ -47,10 +47,10 @@ bool	Write3DMF( const std::vector<CQ3ObjectRef>& inObjects,
 	bool didWrite = false;
 	
 	// Set up a dummy pixmap on which to base a draw context.
-	int width = 32;
-	int height = 32;
-	int rowBytes = width * 4;
-	int dataSize = height * rowBytes;
+	TQ3Uns32 width = 32;
+	TQ3Uns32 height = 32;
+	TQ3Uns32 rowBytes = width * 4;
+	TQ3Uns32 dataSize = height * rowBytes;
 	std::vector<char> dataBuf( dataSize );
 	TQ3Pixmap pixmap =
 	{

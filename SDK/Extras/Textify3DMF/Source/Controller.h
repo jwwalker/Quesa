@@ -82,5 +82,5 @@ private:
 					Controller();
 					~Controller();
 
-	std::auto_ptr<XControllerImp>	mImp;
+	std::unique_ptr<XControllerImp>	mImp;
 };

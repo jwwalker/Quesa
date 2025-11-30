@@ -11,7 +11,7 @@ SDKROOT = macosx
 
 
 // Deployment
-MACOSX_DEPLOYMENT_TARGET = 10.9
+MACOSX_DEPLOYMENT_TARGET = 11.0
 
 
 // Build Locations
