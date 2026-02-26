@@ -3826,7 +3826,11 @@ E3View_NewWithDefaults(TQ3ObjectType drawContextType, void *drawContextTarget)
 	// Create the objects we need for the view
 	theDrawContext = E3DrawContext_New(drawContextType, drawContextTarget);
 	theCamera      = e3view_default_camera(theDrawContext);
-	theRenderer    = Q3Renderer_NewFromType(kQ3RendererTypeInteractive);
+#if QUESA_BUILT_IN_OPENGL_RENDERER
+	theRenderer    = Q3Renderer_NewFromType(kQ3RendererTypeOpenGL);
+#else
+	theRenderer    = Q3Renderer_NewFromType(kQ3RendererTypeGeneric);
+#endif
 
 	if (theDrawContext == nullptr || theCamera == nullptr || theRenderer == nullptr)
 		{
