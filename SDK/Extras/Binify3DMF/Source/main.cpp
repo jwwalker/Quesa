@@ -26,23 +26,25 @@ int main (int argc, char * const argv[])
 		pathName = NULL;
 	}
 	
-	std::vector<CQ3ObjectRef> objects;
-	bool textForm;
-	
-	if (Read3DMF( pathName, objects, textForm ))
 	{
-		if (Write3DMF( objects, stdout ))
+		std::vector<CQ3ObjectRef> objects;
+		bool textForm;
+		
+		if (Read3DMF( pathName, objects, textForm ))
 		{
-			
+			if (Write3DMF( objects, stdout ))
+			{
+				
+			}
+			else
+			{
+				cerr << "Failed to write.\n";
+			}
 		}
 		else
 		{
-			cerr << "Failed to write.\n";
+			cerr << "Failed to read.\n";
 		}
-	}
-	else
-	{
-		cerr << "Failed to read.\n";
 	}
 	
 	Q3Exit();
